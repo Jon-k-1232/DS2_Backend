@@ -7,10 +7,10 @@ networks:
 services:
    ds2_backend:
       container_name: DS2-Backend
-      # image: marine1232/ds2-backend:latest
-      build:
-         context: .
-         dockerfile: Dockerfile
+      image: marine1232/ds2-backend:latest
+      # build:
+      #    context: .
+      #    dockerfile: Dockerfile
       environment:
          - TZ=America/Phoenix
       env_file:
