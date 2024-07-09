@@ -1,0 +1,43 @@
+{
+   "name": "ds2_backend",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "test": "mocha --require test/setup.js",
+      "dev": "NODE_ENV=development nodemon src/server.js",
+      "start": "NODE_ENV=production node src/server.js"
+   },
+   "keywords": [],
+   "author": "Jon Kimmel",
+   "license": "ISC",
+   "dependencies": {
+      "archiver": "^5.3.1",
+      "bcryptjs": "^2.4.3",
+      "cookie-parser": "^1.4.6",
+      "cors": "^2.8.5",
+      "dayjs": "^1.10.7",
+      "db": "^2.0.2",
+      "dotenv": "^8.6.0",
+      "express": "^4.17.1",
+      "fs": "^0.0.1-security",
+      "helmet": "^3.23.3",
+      "https": "^1.0.0",
+      "json-parser": "^3.1.2",
+      "jsonwebtoken": "^8.5.1",
+      "knex": "^2.5.1",
+      "morgan": "^1.10.0",
+      "os": "^0.1.2",
+      "pdfkit": "^0.13.0",
+      "pg": "^8.7.3",
+      "ping": "^0.4.4",
+      "systeminformation": "^5.21.8",
+      "xss": "^1.0.10"
+   },
+   "devDependencies": {
+      "chai": "^4.2.0",
+      "mocha": "^6.2.2",
+      "nodemon": "^2.0.2",
+      "supertest": "^4.0.2"
+   }
+}

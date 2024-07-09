@@ -1,0 +1,26 @@
+version: '3.9'
+
+networks:
+   ds2_network:
+      external: true
+
+services:
+   ds2_backend:
+      container_name: DS2-Backend
+      # image: marine1232/ds2-backend:latest
+      build:
+         context: .
+         dockerfile: Dockerfile
+      environment:
+         - TZ=America/Phoenix
+      env_file:
+         - .env
+      volumes:
+         - './:/app'
+         - '/app/node_modules'
+         - '/Users/jonkimmel/Desktop/DS2_Files:/DS2_Files'
+      ports:
+         - '8003:8003'
+      restart: always
+      networks:
+         - ds2_network
