@@ -1,26 +1,135 @@
-version: '3.9'
+name: Build and Deploy Docker Images
 
-networks:
-   ds2_network:
-      external: true
+on:
+   push:
+      branches:
+         - working_branch
 
-services:
-   ds2_backend:
-      container_name: DS2-Backend
-      image: marine1232/ds2-backend:latest
-      # build:
-      #    context: .
-      #    dockerfile: Dockerfile
-      environment:
-         - TZ=America/Phoenix
-      env_file:
-         - .env
-      volumes:
-         - './:/app'
-         - '/app/node_modules'
-         - '/Users/jonkimmel/Desktop/DS2_Files:/DS2_Files'
-      ports:
-         - '8003:8003'
-      restart: always
-      networks:
-         - ds2_network
+jobs:
+   build:
+      runs-on: ubuntu-latest
+
+      env:
+         DOCKER_USERNAME: marine1232
+         APP_NAME: ds2-backend # Ensure this is lowercase
+
+      steps:
+         - name: Checkout code
+           uses: actions/checkout@v2
+           with:
+              token: ${{ secrets.PAT_TOKEN }}
+
+         - name: Get current version
+           id: get_version
+           run: |
+              current_version=$(cat version.txt)
+              echo "Current version: $current_version"
+              echo "::set-output name=current_version::$current_version"
+
+         - name: Check for existing tag
+           id: check_tag
+           run: |
+              current_version="${{ steps.get_version.outputs.current_version }}"
+              TAG_EXISTS=$(git tag --list "v$current_version" | wc -l)
+              echo "Checking tag for version: v$current_version"
+              if [ "$TAG_EXISTS" -ne 0 ]; then
+                echo "Tag v$current_version already exists. Please manually update the version file."
+                exit 1
+              fi
+              echo "Tag does not exist. Proceeding with build."
+              echo "::set-output name=tag_exists::$TAG_EXISTS"
+
+         - name: Display versions for debugging
+           run: |
+              echo "Current version: ${{ steps.get_version.outputs.current_version }}"
+              echo "Tag exists: ${{ steps.check_tag.outputs.tag_exists }}"
+
+         - name: Configure Git user
+           run: |
+              git config --global user.name 'github-actions[bot]'
+              git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+         - name: Create and push tag
+           run: |
+              new_version="${{ steps.get_version.outputs.current_version }}"
+              echo "Creating and pushing tag: v$new_version"
+              git tag -a "v$new_version" -m "Release version $new_version"
+              git push origin "v$new_version"
+           env:
+              GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+         - name: Set up Docker Buildx
+           uses: docker/setup-buildx-action@v1
+
+         - name: Login to Docker Hub
+           uses: docker/login-action@v2
+           with:
+              username: ${{ secrets.DOCKER_USERNAME }}
+              password: ${{ secrets.DOCKER_PASSWORD }}
+
+         - name: Set environment variables for backend
+           run: |
+              echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+              echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
+              echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
+              echo "API_TOKEN=${{ secrets.API_TOKEN }}" >> .env
+              echo "JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}" >> .env
+              echo "NODE_PORT_PROD=${{ secrets.NODE_PORT_PROD }}" >> .env
+              echo "DB_PROD_HOST=${{ secrets.DB_PROD_HOST }}" >> .env
+              echo "FRONT_END_URL_PROD=${{ secrets.FRONT_END_URL_PROD }}" >> .env
+              echo "PRODUCTION_PDF_SAVE_LOCATION=${{ secrets.PRODUCTION_PDF_SAVE_LOCATION }}" >> .env
+              echo "HOST_IP_PROD=${{ secrets.HOST_IP_PROD }}" >> .env
+
+         - name: Build and push Docker images for backend
+           run: |
+              docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest .
+              docker tag ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ steps.get_version.outputs.current_version }}
+              docker push ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
+              docker push ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ steps.get_version.outputs.current_version }}
+
+   deploy:
+      needs: build
+      runs-on: self-hosted
+
+      env:
+         DOCKER_USERNAME: marine1232
+         APP_NAME: ds2-backend
+
+      steps:
+         - name: Checkout code
+           uses: actions/checkout@v2
+
+         - name: Set PATH for Docker
+           run: echo "PATH=/usr/local/bin:$PATH" >> $GITHUB_ENV
+
+         - name: Print PATH
+           run: echo $PATH
+
+         - name: Create .env file for backend
+           run: |
+              echo "NODE_ENV=${{ secrets.NODE_ENV }}" > .env
+              echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
+              echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
+              echo "API_TOKEN=${{ secrets.API_TOKEN }}" >> .env
+              echo "JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}" >> .env
+              echo "NODE_PORT_PROD=${{ secrets.NODE_PORT_PROD }}" >> .env
+              echo "DB_PROD_HOST=${{ secrets.DB_PROD_HOST }}" >> .env
+              echo "FRONT_END_URL_PROD=${{ secrets.FRONT_END_URL_PROD }}" >> .env
+              echo "PRODUCTION_PDF_SAVE_LOCATION=${{ secrets.PRODUCTION_PDF_SAVE_LOCATION }}" >> .env
+              echo "HOST_IP_PROD=${{ secrets.HOST_IP_PROD }}" >> .env
+
+         - name: Debug .env file for backend
+           run: cat .env
+
+         - name: Login to Docker Hub
+           run: |
+              echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+         - name: Pull latest Docker image for backend
+           run: |
+              docker pull ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
+
+         - name: Run Docker Compose
+           run: |
+              docker-compose -f docker-compose.backend.yml down
+              docker-compose -f docker-compose.backend.yml up -d
