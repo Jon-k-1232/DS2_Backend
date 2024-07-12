@@ -3,7 +3,7 @@ name: Build and Deploy Docker Images
 on:
    push:
       branches:
-         - master
+         - working_branch
 
 jobs:
    build:
@@ -86,3 +86,50 @@ jobs:
               docker tag ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ steps.get_version.outputs.current_version }}
               docker push ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
               docker push ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ steps.get_version.outputs.current_version }}
+
+   deploy:
+      needs: build
+      runs-on: self-hosted
+
+      env:
+         DOCKER_USERNAME: marine1232
+         APP_NAME: ds2-backend
+
+      steps:
+         - name: Checkout code
+           uses: actions/checkout@v2
+
+         - name: Set PATH for Docker
+           run: echo "PATH=/usr/local/bin:$PATH" >> $GITHUB_ENV
+
+         - name: Print PATH
+           run: echo $PATH
+
+         - name: Create .env file for backend
+           run: |
+              echo "NODE_ENV=${{ secrets.NODE_ENV }}" > .env
+              echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
+              echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
+              echo "API_TOKEN=${{ secrets.API_TOKEN }}" >> .env
+              echo "JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}" >> .env
+              echo "NODE_PORT_PROD=${{ secrets.NODE_PORT_PROD }}" >> .env
+              echo "DB_PROD_HOST=${{ secrets.DB_PROD_HOST }}" >> .env
+              echo "FRONT_END_URL_PROD=${{ secrets.FRONT_END_URL_PROD }}" >> .env
+              echo "PRODUCTION_PDF_SAVE_LOCATION=${{ secrets.PRODUCTION_PDF_SAVE_LOCATION }}" >> .env
+              echo "HOST_IP_PROD=${{ secrets.HOST_IP_PROD }}" >> .env
+
+         - name: Debug .env file for backend
+           run: cat .env
+
+         - name: Login to Docker Hub
+           run: |
+              echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+         - name: Pull latest Docker image for backend
+           run: |
+              docker pull ${{ env.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
+
+         - name: Run Docker Compose
+           run: |
+              docker-compose -f docker-compose.backend.yml down
+              docker-compose -f docker-compose.backend.yml up -d
