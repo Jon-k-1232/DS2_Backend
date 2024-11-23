@@ -5,6 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('../config');
 const app = express();
+const backgroundJobs = require('./backgroundJobs/backgroundJobs');
 const customerRouter = require('./endpoints/customer/customer-router');
 const transactions = require('./endpoints/transactions/transactions-router');
 const user = require('./endpoints/user/user-router');
@@ -48,11 +49,6 @@ app.use(
 );
 
 /* ///////////////////////////\\\\  USER ENDPOINTS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-app.get('/', (req, res) => {
-   console.log('HELLO WORLD');
-   res.send('Hello, world!');
-});
-
 app.use('/auth', authentication);
 app.use('/customer', requireAuth, customerRouter);
 app.use('/jobs', requireAuth, company);
@@ -72,8 +68,10 @@ app.use('/initialData', requireAuth, initialDataRouter);
 app.use('/workDescriptions', requireAuth, workDescriptionsRouter);
 app.use('/health', healthRouter);
 
-/* ///////////////////////////\\\\  ERROR HANDLER  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+/* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+backgroundJobs.startJobs();
 
+/* ///////////////////////////\\\\  ERROR HANDLER  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 app.use(function errorHandler(error, req, res, next) {
    let response;
    if (NODE_ENV === 'production') {
