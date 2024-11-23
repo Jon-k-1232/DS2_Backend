@@ -1,9 +1,9 @@
-const csvTimesheetProcessing = require('./csvTimesheetProcessing');
+const timesheetOrchestrator = require('./csvTimeSheetProcessing/timesheetOrchestrator');
 const schedule = require('node-schedule');
 
 const startJobs = async () => {
    console.log(`[${new Date().toISOString()}] Scheduled job triggered.`);
-   const timesheets = await csvTimesheetProcessing.processFiles();
+   const timesheets = await timesheetOrchestrator.processFiles();
    console.log(timesheets);
    // schedule.scheduleJob('59 23 * * 5', async () => {
    //    console.log(`[${new Date().toISOString()}] Scheduled job triggered.`);
