@@ -25,6 +25,7 @@ const workDescriptionsRouter = require('./endpoints/workDescriptions/workDescrip
 const { healthRouter } = require('./endpoints/health/health-router');
 const cookieParser = require('cookie-parser');
 const { requireAuth } = require('./endpoints/auth/jwt-auth');
+const timesheetsRouter = require('./endpoints/timesheets/timesheets-router');
 
 // Middleware
 app.use(cookieParser());
@@ -66,6 +67,7 @@ app.use('/retainers', requireAuth, retainerRouter);
 app.use('/writeOffs', requireAuth, writeOffsRouter);
 app.use('/initialData', requireAuth, initialDataRouter);
 app.use('/workDescriptions', requireAuth, workDescriptionsRouter);
+app.use('/timesheets', timesheetsRouter);
 app.use('/health', healthRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
