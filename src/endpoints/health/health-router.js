@@ -5,6 +5,7 @@ const si = require('systeminformation');
 const healthService = require('./health-service');
 const accountService = require('../account/account-service');
 const fs = require('fs');
+const { NODE_ENV } = require('../../../config');
 
 // Provide basic server status to front end.
 healthRouter.route('/status/:accountID/:userID').get(async (req, res) => {
@@ -43,11 +44,14 @@ healthRouter.route('/status/:accountID/:userID').get(async (req, res) => {
          message: fs.existsSync(filePath) ? 'UP' : 'DOWN'
       };
 
+      const backendEnvironmentName = NODE_ENV;
+
       res.send({
          memory,
          cpu,
          database,
          fileSystem,
+         backendEnvironmentName,
          message: 'UP',
          status: 200
       });

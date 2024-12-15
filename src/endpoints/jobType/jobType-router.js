@@ -2,9 +2,9 @@ const express = require('express');
 const jobTypeRouter = express.Router();
 const jobTypeService = require('./jobType-service');
 const jsonParser = express.json();
-const { sanitizeFields } = require('../../utils');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { restoreDataTypesJobTypeTableOnCreate, restoreDataTypesJobTypeTableOnUpdate } = require('./jobTypeObjects');
-const { createGrid } = require('../../helperFunctions/helperFunctions');
+const { createGrid } = require('../../utils/gridFunctions');
 const jobService = require('../job/job-service');
 
 // Create a new jobType

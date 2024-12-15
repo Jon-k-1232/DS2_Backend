@@ -2,9 +2,9 @@ const express = require('express');
 const workDescriptionsRouter = express.Router();
 const workDescriptionService = require('./workDescriptions-service');
 const jsonParser = express.json();
-const { sanitizeFields } = require('../../utils');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { restoreDataTypesWorkDescriptionTableOnCreate, restoreDataTypesWorkDescriptionTableOnUpdate } = require('./workDescriptionsObjects');
-const { createGrid } = require('../../helperFunctions/helperFunctions');
+const { createGrid } = require('../../utils/gridFunctions');
 
 // Create a new workDescription
 workDescriptionsRouter.route('/createWorkDescription/:accountID/:userID').post(jsonParser, async (req, res) => {

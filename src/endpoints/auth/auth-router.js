@@ -1,95 +1,98 @@
 const express = require('express');
 const authService = require('./auth-service');
+const asyncHandler = require('../../utils/asyncHandler');
 const authentication = express.Router();
 const jsonParser = express.json();
-const { sanitizeFields } = require('../../utils');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 
 // JWT Creation Endpoint
-authentication.post('/login', jsonParser, async (req, res, next) => {
-  const db = req.app.get('db');
-  const { suppliedUsername, suppliedPassword } = req.body;
-  const login_ip = req.ip;
+authentication.post(
+   '/login',
+   jsonParser,
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const { suppliedUsername, suppliedPassword } = req.body;
+      const login_ip = req.ip;
 
-  const sanitizedFields = sanitizeFields({ suppliedUsername, suppliedPassword });
-  const sanitizedUserName = sanitizedFields.suppliedUsername;
-  const sanitizedPassword = sanitizedFields.suppliedPassword;
+      // Sanitize input fields
+      const sanitizedFields = sanitizeFields({ suppliedUsername, suppliedPassword });
+      const sanitizedUserName = sanitizedFields.suppliedUsername;
+      const sanitizedPassword = sanitizedFields.suppliedPassword;
 
-  if (!sanitizedUserName || !sanitizedPassword) {
-    return res.status(400).json({
-      error: 'Missing username or password in request body',
-      status: 400
-    });
-  }
+      if (!sanitizedUserName || !sanitizedPassword) {
+         return res.status(400).json({
+            error: 'Missing username or password in request body',
+            status: 400
+         });
+      }
 
-  try {
-    // Looks up username in DB, DO NOT RETURN TO FRONT END
-    const [user] = await authService.getUserByUserName(db, sanitizedUserName);
+      // Retrieve user from DB
+      const [user] = await authService.getUserByUserName(db, sanitizedUserName);
+      if (!user) {
+         return res.status(401).json({
+            error: 'Incorrect username',
+            status: 401
+         });
+      }
 
-    if (!user) {
-      return res.status(400).json({
-        error: 'Incorrect username',
-        status: 401
+      const { user_id, user_name, password_hash, account_id } = user;
+
+      // Verify password
+      const isPasswordValid = await authService.comparePasswords(sanitizedPassword, password_hash);
+      if (!isPasswordValid) {
+         return res.status(401).json({
+            error: 'Incorrect password',
+            status: 401
+         });
+      }
+
+      // Retrieve user information
+      const [getUserInformation] = await authService.getUserInformation(db, account_id, user_id);
+
+      // Log user login
+      const userLog = { user_id, account_id, login_ip };
+      await authService.insertLoginLog(db, userLog);
+
+      // Generate JWT token
+      const sub = user_name;
+      const payload = { user_id };
+      const authToken = authService.createJwt(sub, payload);
+
+      res.status(200).json({
+         user: getUserInformation,
+         authToken,
+         status: 200
       });
-    }
+   })
+);
 
-    const { user_id, user_name, password_hash, account_id } = user;
+// JWT Renewal Endpoint
+authentication.post(
+   '/renew',
+   jsonParser,
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const { user_id, user_name } = req.body;
 
-    // comparePasswords should be used here instead of direct comparison
-    if (!(await authService.comparePasswords(sanitizedPassword, password_hash))) {
-      return res.status(400).json({
-        error: 'Incorrect password',
-        status: 401
+      // Check if the user is still active
+      const [user] = await authService.getUserByUserName(db, user_name);
+      if (!user || !user.is_login_active) {
+         return res.status(401).json({
+            error: 'Unauthorized request',
+            status: 401
+         });
+      }
+
+      // Generate new JWT token
+      const sub = user_name;
+      const payload = { user_id };
+      const authToken = authService.createJwt(sub, payload);
+
+      res.status(200).json({
+         authToken,
+         status: 200
       });
-    }
-
-    const [getUserInformation] = await authService.getUserInformation(db, account_id, user_id);
-
-    // Inserts login log into DB
-    const userLog = { user_id, account_id, login_ip };
-    await authService.insertLoginLog(db, userLog);
-
-    // Returns JWT token and user info to set front, so front end can then make another call for data
-    const sub = user_name;
-    const payload = { user_id };
-
-    // Create JWT token
-    const authToken = authService.createJwt(sub, payload);
-
-    res.send({
-      user: getUserInformation,
-      authToken,
-      status: 200
-    });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
-
-authentication.post('/renew', async (req, res, next) => {
-  const db = req.app.get('db');
-  const { user_id, user_name } = req.body;
-
-  try {
-    // Check if the user is still active
-    const [user] = await authService.getUserByUserName(db, user_name);
-    if (!user || !user.is_login_active) {
-      return res.status(401).json({ error: 'Unauthorized request' });
-    }
-
-    // Create a new JWT token
-    const sub = user_name;
-    const payload = { user_id };
-    const authToken = authService.createJwt(sub, payload);
-
-    res.send({
-      authToken,
-      status: 200
-    });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
+   })
+);
 
 module.exports = authentication;

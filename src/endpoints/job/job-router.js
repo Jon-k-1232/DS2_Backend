@@ -4,9 +4,9 @@ const jobService = require('./job-service');
 const transactionsService = require('../transactions/transactions-service');
 const writeOffsService = require('../writeOffs/writeOffs-service');
 const jsonParser = express.json();
-const { sanitizeFields } = require('../../utils');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { restoreDataTypesJobTableOnCreate, restoreDataTypesJobTableOnUpdate } = require('./jobObjects');
-const { createGrid, generateTreeGridData } = require('../../helperFunctions/helperFunctions');
+const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
 const dayjs = require('dayjs');
 
 // Create a new job

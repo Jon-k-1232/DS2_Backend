@@ -1,7 +1,7 @@
 const paymentsService = require('./payments-service');
 const invoiceService = require('../invoice/invoice-service');
 const retainersService = require('../retainer/retainer-service');
-const { createGrid, generateTreeGridData } = require('../../helperFunctions/helperFunctions');
+const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
 
 /**
  * Finds matching invoice and returns it

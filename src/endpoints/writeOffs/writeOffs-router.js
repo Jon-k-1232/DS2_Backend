@@ -1,11 +1,11 @@
 const express = require('express');
 const jsonParser = express.json();
-const { sanitizeFields } = require('../../utils');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 const writeOffsRouter = express.Router();
 const writeOffsService = require('./writeOffs-service');
 const invoiceService = require('../invoice/invoice-service');
 const { restoreDataTypesWriteOffsTableOnCreate, restoreDataTypesWriteOffsTableOnUpdate, convertWriteOffToPayment } = require('./writeOffsObjects');
-const { createGrid, generateTreeGridData } = require('../../helperFunctions/helperFunctions');
+const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
 const { unableToCompleteRequest } = require('../../serverResponses/errors');
 const { findInvoice, updateObjectsWithRemainingAmounts } = require('../payments/payment-logic');
 

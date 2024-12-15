@@ -1,5 +1,5 @@
 const app = require('./app');
-const db = require('./db');
+const db = require('./utils/db');
 const { NODE_PORT, HOST_IP } = require('../config');
 
 app.set('db', db);

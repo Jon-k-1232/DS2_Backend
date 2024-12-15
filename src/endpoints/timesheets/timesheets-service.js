@@ -1,9 +1,17 @@
 const timesheetsService = {
-   getOutstandingTimesheetEntries(db, accountID) {
+   getOutstandingTimesheetEntries(db, accountID, limit, offset) {
+      return db.select().from('timesheet_entries').where('account_id', accountID).andWhere('is_processed', false).andWhere('is_deleted', false).limit(limit).offset(offset);
+   },
+
+   getOutstandingTimesheetErrors(db, accountID, limit, offset) {
+      return db.select().from('timesheet_errors').where('account_id', accountID).andWhere('is_resolved', false).limit(limit).offset(offset);
+   },
+
+   getAllOutstandingTimesheetEntries(db, accountID) {
       return db.select().from('timesheet_entries').where('account_id', accountID).andWhere('is_processed', false).andWhere('is_deleted', false);
    },
 
-   getOutstandingTimesheetErrors(db, accountID) {
+   getAllOutstandingTimesheetErrors(db, accountID) {
       return db.select().from('timesheet_errors').where('account_id', accountID).andWhere('is_resolved', false);
    },
 
@@ -15,8 +23,35 @@ const timesheetsService = {
       return db.select().from('timesheet_errors').where('timesheet_error_id', timesheetErrorID).andWhere('account_id', accountID).first();
    },
 
+   getOutstandingTimesheetEntriesCount(db, accountID) {
+      return db
+         .select()
+         .from('timesheet_entries')
+         .where('account_id', accountID)
+         .andWhere('is_processed', false)
+         .andWhere('is_deleted', false)
+         .count('* as count')
+         .first()
+         .then(result => parseInt(result.count, 10));
+   },
+
+   getOutstandingTimesheetErrorsCount(db, accountID) {
+      return db
+         .select()
+         .from('timesheet_errors')
+         .where('account_id', accountID)
+         .andWhere('is_resolved', false)
+         .count('* as count')
+         .first()
+         .then(result => parseInt(result.count, 10));
+   },
+
    getUnresolvedErrorsByTimesheetNames(trx, accountID, timesheetNames) {
       return trx('timesheet_errors').where('account_id', accountID).whereIn('timesheet_name', timesheetNames).andWhere('is_resolved', false);
+   },
+
+   getUnresolvedInvalidTimesheetsByName(trx, accountID, timesheetNames) {
+      return trx('invalid_timesheets').where('account_id', accountID).whereIn('timesheet_name', timesheetNames).andWhere('is_resolved', false);
    },
 
    updateTimesheetEntry(db, timesheetEntry) {
@@ -37,9 +72,19 @@ const timesheetsService = {
       return trx('timesheet_errors').insert(errors).returning('*');
    },
 
+   insertInvalidTimesheetsWithTransaction(trx, invalidTimesheets) {
+      if (!invalidTimesheets.length) return Promise.resolve([]);
+      return trx('invalid_timesheets').insert(invalidTimesheets).returning('*');
+   },
+
    batchUpdateTimesheetErrors(trx, errorIds, updateFields) {
       if (!errorIds.length) return Promise.resolve([]);
       return trx('timesheet_errors').whereIn('timesheet_error_id', errorIds).update(updateFields);
+   },
+
+   batchUpdateInvalidTimesheets(trx, invalidIds, updateFields) {
+      if (!invalidIds.length) return Promise.resolve([]);
+      return trx('invalid_timesheets').whereIn('invalid_timesheet_id', invalidIds).update(updateFields);
    }
 };
 

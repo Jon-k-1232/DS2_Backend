@@ -8,8 +8,8 @@ const jobService = require('../job/job-service');
 const recurringCustomerService = require('../recurringCustomer/recurringCustomer-service');
 const retainerService = require('../retainer/retainer-service');
 const paymentsService = require('../payments/payments-service');
-const { createGrid, generateTreeGridData } = require('../../helperFunctions/helperFunctions');
-const { sanitizeFields } = require('../../utils');
+const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { requireManagerOrAdmin } = require('../auth/jwt-auth');
 const { restoreDataTypesRecurringCustomerTableOnCreate, restoreDataTypesRecurringCustomerTableOnUpdate } = require('../recurringCustomer/recurringCustomerObjects');
 const {

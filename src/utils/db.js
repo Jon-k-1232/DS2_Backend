@@ -1,5 +1,5 @@
 const knex = require('knex');
-const { DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST } = require('../config');
+const { DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST } = require('../../config');
 
 const db = knex({
    client: 'postgres',

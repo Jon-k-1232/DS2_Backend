@@ -1,10 +1,10 @@
 const express = require('express');
 const jsonParser = express.json();
-const { sanitizeFields } = require('../../utils');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 const retainerRouter = express.Router();
 const retainerService = require('./retainer-service');
 const { restoreDataTypesRetainersTableOnCreate, restoreDataTypesRetainersTableOnUpdate } = require('./retainerObjects');
-const { createGrid, generateTreeGridData } = require('../../helperFunctions/helperFunctions');
+const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
 const transactionsService = require('../transactions/transactions-service');
 
 // Create a new retainer

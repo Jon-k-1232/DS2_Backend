@@ -5,7 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('../config');
 const app = express();
-const backgroundJobs = require('./backgroundJobs/backgroundJobs');
+const automationOrchestrator = require('./automations/automationOrchestrator');
 const customerRouter = require('./endpoints/customer/customer-router');
 const transactions = require('./endpoints/transactions/transactions-router');
 const user = require('./endpoints/user/user-router');
@@ -71,18 +71,18 @@ app.use('/timesheets', timesheetsRouter);
 app.use('/health', healthRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-backgroundJobs.startJobs();
+automationOrchestrator.scheduledAutomations();
 
 /* ///////////////////////////\\\\  ERROR HANDLER  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-app.use(function errorHandler(error, req, res, next) {
-   let response;
-   if (NODE_ENV === 'production') {
-      response = { error: { message: 'server error' } };
-   } else {
-      console.error(error);
-      response = { message: error.message, error };
-   }
-   res.status(500).json(response);
+app.use((err, req, res, next) => {
+   const statusCode = err.status || 500;
+   const errorMessage = NODE_ENV === 'production' ? 'Server error' : err.message;
+
+   console.error(err.stack); // Log the error stack (only in development)
+   res.status(statusCode).json({
+      message: errorMessage,
+      ...(NODE_ENV !== 'production' && { error: err }) // Include full error details in development
+   });
 });
 
 module.exports = app;

@@ -3,7 +3,7 @@ const timesheetsService = require('./timesheets-service');
 /**
  * Inserts new timesheet entries into the database
  */
-const handleNewEntriesWithTransaction = async (trx, timesheetEntries) => {
+const saveValidTimesheets = async (trx, timesheetEntries) => {
    if (timesheetEntries.length > 0) {
       return timesheetsService.insertTimesheetEntriesWithTransaction(trx, timesheetEntries);
    }
@@ -13,9 +13,16 @@ const handleNewEntriesWithTransaction = async (trx, timesheetEntries) => {
 /**
  * Inserts new timesheet errors into the database
  */
-const handleNewErrorsWithTransaction = async (trx, timesheetErrors) => {
-   if (timesheetErrors.length > 0) {
-      return timesheetsService.insertTimesheetErrorsWithTransaction(trx, timesheetErrors);
+const saveValidTimesheetErrors = async (trx, timesheetsWithErrors) => {
+   if (timesheetsWithErrors.length > 0) {
+      return timesheetsService.insertTimesheetErrorsWithTransaction(trx, timesheetsWithErrors);
+   }
+   return [];
+};
+
+const saveInvalidTimesheetErrors = (trx, invalidTimesheets) => {
+   if (invalidTimesheets.length > 0) {
+      return timesheetsService.insertInvalidTimesheetsWithTransaction(trx, invalidTimesheets);
    }
    return [];
 };
@@ -23,33 +30,41 @@ const handleNewErrorsWithTransaction = async (trx, timesheetErrors) => {
 /**
  * Resolves timesheet errors with matching timesheet names
  */
-const resolveMatchingErrorsWithTransaction = async (trx, accountID, timesheetEntries) => {
-   if (timesheetEntries.length === 0) return;
+const markTimesheetErrorsResolved = async (trx, accountID, timesheetEntries = [], invalidTimesheets = []) => {
+   if (timesheetEntries.length === 0 && invalidTimesheets.length === 0) return;
+
    const uniqueTimesheetNames = Array.from(new Set(timesheetEntries.map(entry => entry.timesheet_name)));
-   // Query the database for matching unresolved errors
-   const matchingErrors = await timesheetsService.getUnresolvedErrorsByTimesheetNames(trx, accountID, uniqueTimesheetNames);
-   if (matchingErrors.length === 0) return;
+   const uniqueInvalidTimesheetNames = Array.from(new Set(invalidTimesheets.map(entry => entry.timesheet_name)));
+
+   // Combine unique names to ensure we query for all relevant timesheets
+   const combinedTimesheetNames = Array.from(new Set([...uniqueTimesheetNames, ...uniqueInvalidTimesheetNames]));
+
+   // Query the database for matching unresolved errors and invalid timesheets
+   const [matchingErrors, unresolvedInvalidTimesheets] = await Promise.all([
+      timesheetsService.getUnresolvedErrorsByTimesheetNames(trx, accountID, combinedTimesheetNames),
+      timesheetsService.getUnresolvedInvalidTimesheetsByName(trx, accountID, combinedTimesheetNames)
+   ]);
+
    const resolvedErrorIds = matchingErrors.map(error => error.timesheet_error_id);
-   // Batch update the matching errors to resolved
-   await timesheetsService.batchUpdateTimesheetErrors(trx, resolvedErrorIds, { is_resolved: true });
+   const resolvedInvalidIds = unresolvedInvalidTimesheets.map(invalid => invalid.invalid_timesheet_id);
+
+   // Batch update matching errors and invalid timesheets to resolved
+   if (resolvedErrorIds.length > 0) {
+      await timesheetsService.batchUpdateTimesheetErrors(trx, resolvedErrorIds, { is_resolved: true });
+      console.log(`[${new Date().toISOString()}] Marked ${resolvedErrorIds.length} timesheet errors as resolved.`);
+   }
+
+   if (resolvedInvalidIds.length > 0) {
+      await timesheetsService.batchUpdateInvalidTimesheets(trx, resolvedInvalidIds, { is_resolved: true });
+      console.log(`[${new Date().toISOString()}] Marked ${resolvedInvalidIds.length} invalid timesheets as resolved.`);
+   }
+
    return;
 };
 
-/**
- * Fetches outstanding timesheet entries and errors from the database
- */
-const fetchOutstandingData = async (db, accountID) => {
-   const [outstandingTimesheetEntries, outstandingTimesheetErrors] = await Promise.all([
-      timesheetsService.getOutstandingTimesheetEntries(db, accountID),
-      timesheetsService.getOutstandingTimesheetErrors(db, accountID)
-   ]);
-
-   return { outstandingTimesheetEntries, outstandingTimesheetErrors };
-};
-
 module.exports = {
-   handleNewEntriesWithTransaction,
-   handleNewErrorsWithTransaction,
-   resolveMatchingErrorsWithTransaction,
-   fetchOutstandingData
+   saveValidTimesheets,
+   saveValidTimesheetErrors,
+   markTimesheetErrorsResolved,
+   saveInvalidTimesheetErrors
 };

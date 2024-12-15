@@ -1,9 +1,9 @@
 const express = require('express');
 const jsonParser = express.json();
-const { sanitizeFields } = require('../../utils');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 const accountRouter = express.Router();
 const accountService = require('./account-service');
-const { createGrid } = require('../../helperFunctions/helperFunctions');
+const { createGrid } = require('../../utils/gridFunctions');
 const { requireAdmin } = require('../auth/jwt-auth');
 const { restoreDataTypesAccountOnCreate, restoreDataTypesAccountInformationOnCreate, restoreDataTypesAccountOnUpdate, restoreDataTypesAccountInformationOnUpdate } = require('./accountObjects');
 const fs = require('fs');

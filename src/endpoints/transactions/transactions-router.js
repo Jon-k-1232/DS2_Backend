@@ -1,6 +1,6 @@
 const express = require('express');
 const jsonParser = express.json();
-const { sanitizeFields } = require('../../utils');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 const transactionsRouter = express.Router();
 const transactionsService = require('./transactions-service');
 const accountUserService = require('../user/user-service');
@@ -8,7 +8,7 @@ const retainerService = require('../retainer/retainer-service');
 const paymentsService = require('../payments/payments-service');
 const jobService = require('../job/job-service');
 const { restoreDataTypesTransactionsTableOnCreate, restoreDataTypesTransactionsTableOnUpdate } = require('./transactionsObjects');
-const { createGrid, generateTreeGridData } = require('../../helperFunctions/helperFunctions');
+const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
 const { fetchUserTime } = require('./transactionLogic');
 const dayjs = require('dayjs');
 const { addNewTransaction, differenceBetweenOldAndNewTransaction, updateRecentJobTotal, handleRetainerUpdate } = require('./sharedTransactionFunctions');
@@ -18,14 +18,11 @@ transactionsRouter.route('/createTransaction/:accountID/:userID').post(jsonParse
    const db = req.app.get('db');
    try {
       const sanitizedNewTransaction = sanitizeFields(req.body.transaction);
+      const { accountID } = sanitizedNewTransaction;
 
-      // Create new object with sanitized fields
-      const transactionTableFields = restoreDataTypesTransactionsTableOnCreate(sanitizedNewTransaction);
-      const { account_id } = transactionTableFields;
+      await addNewTransaction(db, sanitizedNewTransaction);
 
-      await addNewTransaction(db, transactionTableFields, sanitizedNewTransaction);
-
-      return sendUpdatedTableWith200Response(db, res, account_id);
+      return sendUpdatedTableWith200Response(db, res, accountID);
    } catch (err) {
       console.log(err);
       res.send({

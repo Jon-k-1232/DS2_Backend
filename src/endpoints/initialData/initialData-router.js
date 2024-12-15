@@ -12,7 +12,7 @@ const jobTypeService = require('../jobType/jobType-service');
 const writeOffsService = require('../writeOffs/writeOffs-service');
 const paymentsService = require('../payments/payments-service');
 const workDescriptionService = require('../workDescriptions/workDescriptions-service');
-const { createGrid, generateTreeGridData } = require('../../helperFunctions/helperFunctions');
+const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
 
 // Initial data object on app load
 initialDataRouter.route('/initialBlob/:accountID/:userID').get(async (req, res) => {

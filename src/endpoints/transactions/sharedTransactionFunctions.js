@@ -3,6 +3,7 @@ const retainerService = require('../retainer/retainer-service');
 const jobService = require('../job/job-service');
 const paymentsService = require('../payments/payments-service');
 const { createPaymentObjectFromTransaction } = require('./transactionsObjects');
+const { restoreDataTypesTransactionsTableOnCreate } = require('./transactionsObjects');
 
 /**
  * Process a new transaction
@@ -10,7 +11,9 @@ const { createPaymentObjectFromTransaction } = require('./transactionsObjects');
  * @param {*} sanitizedNewTransaction - Sanitized fields for the transaction, used to create a payment if retainer is used
  * @returns - New transaction
  */
-const addNewTransaction = async (db, transactionTableFields, sanitizedNewTransaction) => {
+const addNewTransaction = async (db, sanitizedNewTransaction) => {
+   // Create new object with sanitized fields
+   const transactionTableFields = restoreDataTypesTransactionsTableOnCreate(sanitizedNewTransaction);
    const { total_transaction, retainer_id, customer_job_id, account_id } = transactionTableFields;
 
    // Update job total

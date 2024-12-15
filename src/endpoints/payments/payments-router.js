@@ -1,12 +1,12 @@
 const express = require('express');
 const jsonParser = express.json();
-const { sanitizeFields } = require('../../utils');
+const { sanitizeFields } = require('../../utils/sanitizeFields');
 const paymentsRouter = express.Router();
 const paymentsService = require('./payments-service');
 const invoiceService = require('../invoice/invoice-service');
 const retainersService = require('../retainer/retainer-service');
 const { restoreDataTypesPaymentsTableOnCreate, restoreDataTypesPaymentsTableOnUpdate } = require('./paymentsObjects');
-const { createGrid } = require('../../helperFunctions/helperFunctions');
+const { createGrid } = require('../../utils/gridFunctions');
 const { findInvoice, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse } = require('./payment-logic');
 const { findMatchingRetainer } = require('../retainer/retainer-logic');
 
