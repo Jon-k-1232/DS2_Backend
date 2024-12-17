@@ -1,38 +1,49 @@
 const SMB2 = require('smb2');
 const { FILE_SHARE_PATH, DOMAIN, USERNAME, PASSWORD } = require('../../../../../config');
 
-const fileClient = new SMB2({
-   share: FILE_SHARE_PATH,
-   username: USERNAME,
-   password: PASSWORD,
-   domain: DOMAIN
-});
+/**
+ * Creates a new SMB client instance
+ */
+const createSMBClient = () => {
+   return new SMB2({
+      share: FILE_SHARE_PATH,
+      username: USERNAME,
+      password: PASSWORD,
+      domain: DOMAIN,
+      timeout: 10000
+   });
+};
 
 /**
  * List files in a directory
- * @param {string} dirPath The path to the directory
- * @returns {Promise<string[]>} List of files in the directory
  */
 const listFiles = dirPath =>
-   new Promise((resolve, reject) => {
-      fileClient.readdir(dirPath, (err, files) => {
-         if (err) {
-            console.error(`[${new Date().toISOString()}] Error listing files in directory "${dirPath}": ${err.message}`);
-            return reject(err);
-         }
-         resolve(files);
-      });
-   });
+   withTimeout(
+      new Promise((resolve, reject) => {
+         const fileClient = createSMBClient();
+         console.log(`[${new Date().toISOString()}] Attempting to list files in directory: "${dirPath}"`);
+         fileClient.readdir(dirPath, (err, files) => {
+            fileClient.close();
+            if (err) {
+               console.error(`[${new Date().toISOString()}] Error listing files: ${err.message}`);
+               return reject(err);
+            }
+            console.log(`[${new Date().toISOString()}] Successfully listed ${files.length} file(s).`);
+            resolve(files);
+         });
+      }),
+      10000
+   );
 
 /**
  * Read a file from the directory
- * @param {string} filePath The full path to the file
- * @param {string} timesheetName The name of the timesheet
- * @returns {Promise<Buffer>} The file data as a buffer
  */
 const readFile = (filePath, timesheetName) =>
    new Promise((resolve, reject) => {
+      const fileClient = createSMBClient();
+      console.log(`[${new Date().toISOString()}] Reading file: "${timesheetName}"`);
       fileClient.readFile(filePath, (err, data) => {
+         fileClient.close();
          if (err) {
             console.error(`[${new Date().toISOString()}] Error reading file "${timesheetName}": ${err.message}`);
             return reject(err);
@@ -43,14 +54,13 @@ const readFile = (filePath, timesheetName) =>
 
 /**
  * Write a file to the directory
- * @param {string} filePath The full path to the file
- * @param {Buffer} data The file data to write
- * @param {string} timesheetName The name of the timesheet
- * @returns {Promise<void>} Resolves when the file is written successfully
  */
 const writeFile = (filePath, data, timesheetName) =>
    new Promise((resolve, reject) => {
+      const fileClient = createSMBClient();
+      console.log(`[${new Date().toISOString()}] Writing file: "${timesheetName}"`);
       fileClient.writeFile(filePath, data, err => {
+         fileClient.close();
          if (err) {
             console.error(`[${new Date().toISOString()}] Error writing file "${timesheetName}": ${err.message}`);
             return reject(err);
@@ -61,13 +71,13 @@ const writeFile = (filePath, data, timesheetName) =>
 
 /**
  * Delete a file from the directory
- * @param {string} filePath The full path to the file
- * @param {string} timesheetName The name of the timesheet
- * @returns {Promise<void>} Resolves when the file is deleted successfully
  */
 const deleteFile = (filePath, timesheetName) =>
    new Promise((resolve, reject) => {
+      const fileClient = createSMBClient();
+      console.log(`[${new Date().toISOString()}] Deleting file: "${timesheetName}"`);
       fileClient.unlink(filePath, err => {
+         fileClient.close();
          if (err) {
             console.error(`[${new Date().toISOString()}] Error deleting file "${timesheetName}": ${err.message}`);
             return reject(err);
@@ -78,10 +88,6 @@ const deleteFile = (filePath, timesheetName) =>
 
 /**
  * Move a file from one directory to another
- * @param {string} srcPath The source file path
- * @param {string} destPath The destination file path
- * @param {string} timesheetName The name of the timesheet
- * @returns {Promise<void>} Resolves when the file is moved successfully
  */
 const moveFile = async (srcPath, destPath, timesheetName) => {
    try {
@@ -107,11 +113,19 @@ const convertExcelDate = value => {
    return value;
 };
 
+/**
+ * Timeout Wrapper
+ */
+const withTimeout = (promise, ms) => {
+   return Promise.race([promise, new Promise((_, reject) => setTimeout(() => reject(new Error(`Operation timed out after ${ms} ms`)), ms))]);
+};
+
 module.exports = {
    listFiles,
    readFile,
    writeFile,
    deleteFile,
    moveFile,
-   convertExcelDate
+   convertExcelDate,
+   withTimeout
 };
