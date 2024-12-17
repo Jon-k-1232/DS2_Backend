@@ -9,9 +9,13 @@ const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { addNewTransaction } = require('../transactions/sharedTransactionFunctions');
 const { DS2_SUPPORT_EMAILS } = require('../../../config');
+const accountUserService = require('../user/user-service');
+const { createGrid } = require('../../utils/gridFunctions');
+const sendErrorNotificationForAutomation = require('../../utils/email/failureMessages');
 
 // Manually run timesheet processing job
-timesheetsRouter.route('/runManualJob/:accountID/:userID').get(
+timesheetsRouter.route('/runManualJob/:accountID/:userID').post(
+   jsonParser,
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const { accountID } = req.params;
@@ -73,11 +77,8 @@ timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
 
       try {
          const { page, limit, offset } = getPaginationParams(req.query);
-         const outstandingTimesheetEntries = await timesheetsService.getOutstandingTimesheetEntries(db, accountID, limit, offset);
-         const totalEntries = await timesheetsService.getOutstandingTimesheetEntriesCount(db, accountID);
-         const entriesMetadata = getPaginationMetadata(totalEntries, page, limit);
 
-         console.log(`[${new Date().toISOString()}] Retrieved ${outstandingTimesheetEntries.length} timesheet entries for account ${accountID}.`);
+         const { outstandingTimesheetEntries, entriesMetadata } = await fetchTimesheetEntries(db, accountID, page, limit, offset);
 
          res.status(200).json({
             outstandingTimesheetEntries,
@@ -91,6 +92,34 @@ timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
    })
 );
 
+timesheetsRouter.route('/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID').get(
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const { accountID, queryUserID } = req.params;
+
+      try {
+         const { page, limit, offset } = getPaginationParams(req.query);
+
+         const { outstandingTimesheetEntries, entriesMetadata } = await fetchTimesheetEntriesByUserID(db, accountID, queryUserID, page, limit, offset);
+
+         // put into grid format
+         const timesheetsByEmployeesData = {
+            outstandingTimesheetEntries,
+            grid: createGrid(outstandingTimesheetEntries)
+         };
+
+         res.status(200).json({
+            ...timesheetsByEmployeesData,
+            pagination: entriesMetadata,
+            message: 'Successfully retrieved timesheet entries.'
+         });
+      } catch (err) {
+         console.error(`[${new Date().toISOString()}] Error retrieving employee timesheet entries for account ${accountID}: ${err.message}`);
+         res.status(500).json({ message: `Error retrieving timesheet entries: ${err.message}` });
+      }
+   })
+);
+
 timesheetsRouter.route('/getTimesheetErrors/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
@@ -98,11 +127,8 @@ timesheetsRouter.route('/getTimesheetErrors/:accountID/:userID').get(
 
       try {
          const { page, limit, offset } = getPaginationParams(req.query);
-         const outstandingTimesheetErrors = await timesheetsService.getOutstandingTimesheetErrors(db, accountID, limit, offset);
-         const totalErrors = await timesheetsService.getOutstandingTimesheetErrorsCount(db, accountID);
-         const errorsMetadata = getPaginationMetadata(totalErrors, page, limit);
 
-         console.log(`[${new Date().toISOString()}] Retrieved ${outstandingTimesheetErrors.length} timesheet errors for account ${accountID}.`);
+         const { outstandingTimesheetErrors, errorsMetadata } = await fetchTimesheetErrors(db, accountID, page, limit, offset);
 
          res.status(200).json({
             outstandingTimesheetErrors,
@@ -112,6 +138,54 @@ timesheetsRouter.route('/getTimesheetErrors/:accountID/:userID').get(
       } catch (err) {
          console.error(`[${new Date().toISOString()}] Error retrieving timesheet errors for account ${accountID}: ${err.message}`);
          res.status(500).json({ message: `Error retrieving timesheet errors: ${err.message}` });
+      }
+   })
+);
+
+// get invalid timesheets
+timesheetsRouter.route('/getInvalidTimesheets/:accountID/:userID').get(
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const { accountID } = req.params;
+
+      try {
+         const { page, limit, offset } = getPaginationParams(req.query);
+
+         const { invalidTimesheets, errorsMetadata } = await fetchInvalidTimesheets(db, accountID, page, limit, offset);
+
+         res.status(200).json({
+            invalidTimesheets,
+            pagination: errorsMetadata,
+            message: 'Successfully retrieved invalid timesheets.'
+         });
+      } catch (err) {
+         console.error(`[${new Date().toISOString()}] Error retrieving invalid timesheets for account ${accountID}: ${err.message}`);
+         res.status(500).json({ message: `Error retrieving invalid timesheets: ${err.message}` });
+      }
+   })
+);
+
+timesheetsRouter.route('/countsByEmployee/:accountID/:userID').get(
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const { accountID } = req.params;
+
+      try {
+         const timesheetsByEmployees = await fetchEmployeeTimesheetCounts(db, accountID);
+
+         // put into grid format
+         const timesheetsByEmployeesData = {
+            timesheetsByEmployees,
+            grid: createGrid(timesheetsByEmployees)
+         };
+
+         res.status(200).json({
+            ...timesheetsByEmployeesData,
+            message: 'Successfully retrieved timesheet counts by employee.'
+         });
+      } catch (err) {
+         console.error(`[${new Date().toISOString()}] Error retrieving timesheet counts by employee for account ${accountID}: ${err.message}`);
+         res.status(500).json({ message: `Error retrieving timesheet counts by employee: ${err.message}` });
       }
    })
 );
@@ -189,3 +263,123 @@ timesheetsRouter.route('/deleteTimesheetError/:timesheetErrorID/:accountID/:user
 );
 
 module.exports = timesheetsRouter;
+
+/**
+ *
+ * @param {*} db
+ * @param {*} accountID
+ * @param {*} queryUserID
+ * @param {*} page
+ * @param {*} limit
+ * @param {*} offset
+ * @returns
+ */
+const fetchTimesheetEntriesByUserID = async (db, accountID, queryUserID, page, limit, offset) => {
+   const [outstandingTimesheetEntries, totalEntries] = await Promise.all([
+      timesheetsService.getPendingTimesheetEntriesByUserID(db, accountID, queryUserID, limit, offset),
+      timesheetsService.getOutstandingTimesheetEntriesCountByUserID(db, accountID, queryUserID)
+   ]);
+
+   const entriesMetadata = getPaginationMetadata(totalEntries, page, limit);
+
+   return { outstandingTimesheetEntries, entriesMetadata };
+};
+
+/**
+ * Send an error notification email to the DS2 Support team
+ * @param {*} db
+ * @param {*} accountID
+ * @returns {Promise} - Promise that resolves when the email is sent
+ */
+const fetchEmployeeTimesheetCounts = async (db, accountID) => {
+   // get employee list. This is used to get the employee name for each timesheet count
+   const employeesData = await accountUserService.getActiveAccountUsers(db, accountID);
+   const employees = employeesData.filter(employee => employee.display_name !== 'Jon Kimmel');
+
+   return Promise.all(
+      employees.map(async employee => {
+         const { display_name, user_id } = employee;
+         try {
+            const [timesheetCount, timesheetErrorCount] = await Promise.all([
+               timesheetsService.getTimesheetEntryCountsByEmployee(db, accountID, user_id),
+               timesheetsService.getTimesheetErrorCountsByEmployee(db, accountID, user_id)
+            ]);
+
+            return {
+               display_name,
+               user_id,
+               timesheet_count: timesheetCount,
+               error_count: timesheetErrorCount
+            };
+         } catch (err) {
+            console.error(`Error for User ID ${user_id}:`, err);
+            return {
+               display_name,
+               user_id,
+               timesheet_count: 0,
+               error_count: 0
+            };
+         }
+      })
+   );
+};
+
+/**
+ * Fetch timesheet entries and metadata for the given account
+ * @param {*} db
+ * @param {*} accountID
+ * @param {*} page
+ * @param {*} limit
+ * @param {*} offset
+ * @returns {Object} - {outstandingTimesheetEntries, entriesMetadata}
+ */
+const fetchTimesheetEntries = async (db, accountID, page, limit, offset) => {
+   const [outstandingTimesheetEntries, totalEntries] = await Promise.all([
+      timesheetsService.getOutstandingTimesheetEntries(db, accountID, limit, offset),
+      timesheetsService.getOutstandingTimesheetEntriesCount(db, accountID)
+   ]);
+
+   const entriesMetadata = getPaginationMetadata(totalEntries, page, limit);
+
+   return { outstandingTimesheetEntries, entriesMetadata };
+};
+
+/**
+ * Fetch timesheet errors and metadata for the given account
+ * @param {*} db
+ * @param {*} accountID
+ * @param {*} page
+ * @param {*} limit
+ * @param {*} offset
+ * @returns {Object} - {outstandingTimesheetErrors, errorsMetadata}
+ */
+const fetchTimesheetErrors = async (db, accountID, page, limit, offset) => {
+   const [outstandingTimesheetErrors, totalErrors] = await Promise.all([
+      timesheetsService.getOutstandingTimesheetErrors(db, accountID, limit, offset),
+      timesheetsService.getOutstandingTimesheetErrorsCount(db, accountID)
+   ]);
+
+   const errorsMetadata = getPaginationMetadata(totalErrors, page, limit);
+
+   return { outstandingTimesheetErrors, errorsMetadata };
+};
+
+/**
+ *
+ * @param {*} db
+ * @param {*} accountID
+ * @param {*} page
+ * @param {*} limit
+ * @param {*} offset
+ * @returns
+ */
+const fetchInvalidTimesheets = async (db, accountID, page, limit, offset) => {
+   const [invalidTimesheets, totalInvalidTimesheets] = await Promise.all([
+      timesheetsService.getInvalidTimesheets(db, accountID, limit, offset),
+      timesheetsService.getInvalidTimesheetsCount(db, accountID)
+   ]);
+
+   const errorsMetadata = getPaginationMetadata(totalInvalidTimesheets, page, limit);
+
+   return { invalidTimesheets, errorsMetadata };
+};

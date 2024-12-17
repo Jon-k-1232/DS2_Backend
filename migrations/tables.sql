@@ -314,7 +314,7 @@ CREATE TABLE timesheet_errors(
      timesheet_name text NOT NULL,
      time_tracker_start_date date NOT NULL,
      time_tracker_end_date date NOT NULL,
-     error_message text NOT NULL,
+     error_message jsonb NOT NULL,
      is_resolved boolean DEFAULT FALSE,
      created_at timestamp DEFAULT NOW(),
      notes text

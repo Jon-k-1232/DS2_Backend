@@ -11,7 +11,7 @@ const validateNameFields = (entry, rowIndex) => {
 
    // If Company Name is empty, validate First Name and Last Name
    if (!companyName && (!firstName || !lastName)) {
-      throw new Error(`Missing required "First Name" and "Last Name" when "Company Name" is empty at row ${rowIndex}`);
+      throw new Error(`Missing required 'First Name' and 'Last Name' when 'Company Name' is empty at row ${rowIndex}`);
    }
 };
 

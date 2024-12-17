@@ -66,7 +66,8 @@ const processSingleTimesheet = async (timesheetName, accountID, employeeLookup) 
             });
          } catch (timeBlockError) {
             entries.push({
-               error_message: timeBlockError.message,
+               // Serialize for input into database
+               error_message: JSON.stringify([timeBlockError.message]),
                timesheet_name: timesheetName,
                account_id: accountID,
                user_id: metadata?.userId || null,
