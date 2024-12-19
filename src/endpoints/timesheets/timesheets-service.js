@@ -47,6 +47,10 @@ const timesheetsService = {
          .offset(offset);
    },
 
+   getPendingTimesheetErrorsByUserID(db, accountID, queryUserID, limit, offset) {
+      return db.select().from('timesheet_errors').where('account_id', accountID).andWhere('user_id', queryUserID).andWhere('is_resolved', false).limit(limit).offset(offset);
+   },
+
    getOutstandingTimesheetEntriesCount(db, accountID) {
       return db
          .select()

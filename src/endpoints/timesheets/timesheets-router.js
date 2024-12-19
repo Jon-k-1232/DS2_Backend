@@ -120,6 +120,35 @@ timesheetsRouter.route('/getTimesheetEntriesByUserID/:queryUserID/:accountID/:us
    })
 );
 
+// get time sheet errors by employee id
+timesheetsRouter.route('/getTimesheetErrorsByUserID/:queryUserID/:accountID/:userID').get(
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const { accountID, queryUserID } = req.params;
+
+      try {
+         const { page, limit, offset } = getPaginationParams(req.query);
+
+         const { outstandingTimesheetErrors, errorsMetadata } = await fetchTimesheetErrorsByUserID(db, accountID, queryUserID, page, limit, offset);
+
+         // put into grid format
+         const timesheetsByEmployeesData = {
+            outstandingTimesheetErrors,
+            grid: createGrid(outstandingTimesheetErrors)
+         };
+
+         res.status(200).json({
+            ...timesheetsByEmployeesData,
+            pagination: errorsMetadata,
+            message: 'Successfully retrieved timesheet errors.'
+         });
+      } catch (err) {
+         console.error(`[${new Date().toISOString()}] Error retrieving employee timesheet errors for account ${accountID}: ${err.message}`);
+         res.status(500).json({ message: `Error retrieving timesheet errors: ${err.message}` });
+      }
+   })
+);
+
 timesheetsRouter.route('/getTimesheetErrors/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
@@ -263,6 +292,17 @@ timesheetsRouter.route('/deleteTimesheetError/:timesheetErrorID/:accountID/:user
 );
 
 module.exports = timesheetsRouter;
+
+const fetchTimesheetErrorsByUserID = async (db, accountID, queryUserID, page, limit, offset) => {
+   const [outstandingTimesheetErrors, totalErrors] = await Promise.all([
+      timesheetsService.getPendingTimesheetErrorsByUserID(db, accountID, queryUserID, limit, offset),
+      timesheetsService.getTimesheetErrorCountsByEmployee(db, accountID, queryUserID)
+   ]);
+
+   const errorsMetadata = getPaginationMetadata(totalErrors, page, limit);
+
+   return { outstandingTimesheetErrors, errorsMetadata };
+};
 
 /**
  *
