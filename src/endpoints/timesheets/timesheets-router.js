@@ -5,13 +5,16 @@ const processTimesheetBatch = require('./timesheetProcessingLogic/processTimeshe
 const { saveValidTimesheets, saveValidTimesheetErrors, saveInvalidTimesheetErrors, markTimesheetErrorsResolved } = require('./timesheetFunctions');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const timesheetsService = require('./timesheets-service');
+const transactionsService = require('../transactions/transactions-service');
+const accountUserService = require('../user/user-service');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { addNewTransaction } = require('../transactions/sharedTransactionFunctions');
 const { DS2_SUPPORT_EMAILS } = require('../../../config');
-const accountUserService = require('../user/user-service');
 const { createGrid } = require('../../utils/gridFunctions');
 const sendErrorNotificationForAutomation = require('../../utils/email/failureMessages');
+const { restoreDataTypesTransactionsTableOnCreate } = require('../transactions/transactionsObjects');
+const { updateRecentJobTotal } = require('../transactions/sharedTransactionFunctions');
 
 // Manually run timesheet processing job
 timesheetsRouter.route('/runManualJob/:accountID/:userID').post(
@@ -70,6 +73,7 @@ timesheetsRouter.route('/runManualJob/:accountID/:userID').post(
    })
 );
 
+// Get timesheet entries
 timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
@@ -92,6 +96,7 @@ timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
    })
 );
 
+// Get Timesheet Entries By User ID
 timesheetsRouter.route('/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
@@ -120,7 +125,7 @@ timesheetsRouter.route('/getTimesheetEntriesByUserID/:queryUserID/:accountID/:us
    })
 );
 
-// get time sheet errors by employee id
+// Get time sheet errors by employee id
 timesheetsRouter.route('/getTimesheetErrorsByUserID/:queryUserID/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
@@ -149,6 +154,7 @@ timesheetsRouter.route('/getTimesheetErrorsByUserID/:queryUserID/:accountID/:use
    })
 );
 
+// Get Timesheet Errors
 timesheetsRouter.route('/getTimesheetErrors/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
@@ -171,7 +177,7 @@ timesheetsRouter.route('/getTimesheetErrors/:accountID/:userID').get(
    })
 );
 
-// get invalid timesheets
+// Get invalid timesheets
 timesheetsRouter.route('/getInvalidTimesheets/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
@@ -194,6 +200,7 @@ timesheetsRouter.route('/getInvalidTimesheets/:accountID/:userID').get(
    })
 );
 
+// Counts By Employee
 timesheetsRouter.route('/countsByEmployee/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
@@ -219,25 +226,28 @@ timesheetsRouter.route('/countsByEmployee/:accountID/:userID').get(
    })
 );
 
+// Move To Transactions;
 timesheetsRouter.route('/moveToTransactions/:accountID/:userID').post(
    jsonParser,
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
-      const { accountID } = req.params;
       const { entry } = req.body;
 
       try {
          const sanitizedEntry = sanitizeFields(entry);
-         const transactionTableFields = restoreDataTypesTransactionsTableOnCreate(sanitizedEntry);
-         const timesheetEntry = restoreTimesheetEntryTypesOnUpdate(sanitizedEntry);
-         timesheetEntry.isProcessed = true;
+         const timesheetEntryID = sanitizedEntry.timesheetEntryID;
+         const newTransaction = restoreDataTypesTransactionsTableOnCreate(sanitizedEntry);
+         const { customer_job_id, account_id, total_transaction } = newTransaction;
 
-         await timesheetsService.updateTimesheetEntry(db, accountID, timesheetEntry);
-         await addNewTransaction(db, transactionTableFields, sanitizedEntry);
+         // Update job total
+         await updateRecentJobTotal(db, customer_job_id, account_id, total_transaction);
+         await transactionsService.createTransaction(db, newTransaction);
 
-         console.log(`[${new Date().toISOString()}] Successfully moved timesheet entry to transactions for account ${accountID}.`);
+         // Find timesheet entry and update the isProcessed column to indicate the entry has been processed
+         await timesheetsService.updateTimesheetEntryStatus(db, timesheetEntryID);
 
          res.status(200).json({
+            status: 200,
             message: 'Successfully moved timesheet entry to transactions.'
          });
       } catch (err) {

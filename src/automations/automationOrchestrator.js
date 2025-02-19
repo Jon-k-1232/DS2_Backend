@@ -5,13 +5,13 @@ const runTimesheetAutomation = require('./automationScripts/timeTrackerAutomatio
 const scheduledAutomations = () => {
    // Schedule the task to run at 03:29 PM every day
    // '07 23 * * *'  '0 04 * * 6'
-   schedule.scheduleJob('53 17 * * *', async () => {
+   schedule.scheduleJob('38 11 * * *', async () => {
       console.log(`[${new Date().toISOString()}] Starting scheduled timesheets automation...`);
 
       try {
          const { successfulAccounts, failedAccounts } = await runTimesheetAutomation();
 
-         console.log(`[${new Date().toISOString()}] Scheduled automation completed.`);
+         console.log(`[${new Date().toISOString()}] Scheduled timesheets automation completed.`);
          console.log(`- Successful Accounts: ${successfulAccounts}`);
          console.log(`- Failed Accounts: ${failedAccounts}`);
       } catch (err) {

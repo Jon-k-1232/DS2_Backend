@@ -1,3 +1,4 @@
+// sendEmail.js
 const nodemailer = require('nodemailer');
 const { FROM_EMAIL, FROM_EMAIL_PASSWORD, FROM_EMAIL_SMTP, SEND_TO_EMAILS } = require('../../../config');
 
@@ -17,17 +18,25 @@ const transporter = nodemailer.createTransport({
  * @param {Object} params - Email parameters
  * @param {Array<string>} params.recipientEmails - Array of email addresses
  * @param {string} params.subject - Email subject
- * @param {string} params.body - Email body
+ * @param {string} [params.body] - Plain text body
+ * @param {string} [params.html] - HTML body
  * @param {Array<Object>} [params.attachments] - Email attachments
+ * @returns {string} info.messageId - The message ID from the nodemailer response
  */
-const sendEmail = async ({ recipientEmails, subject, body, attachments = [] }) => {
+const sendEmail = async ({ recipientEmails, subject, body, html, attachments = [] }) => {
    try {
       console.log(`[${new Date().toISOString()}] Sending email...`);
+
+      // Build mailOptions:
+      // - 'text' will be the plain-text email body if provided.
+      // - 'html' will be the HTML email body if provided.
+      // Nodemailer automatically sends multipart/alternative if both are present.
       const mailOptions = {
          from: FROM_EMAIL,
          to: recipientEmails?.join(', ') || SEND_TO_EMAILS.split(','),
          subject: subject || 'A Message From DS2',
-         text: body,
+         text: body, // Plain-text fallback
+         html, // HTML body if available
          attachments
       };
 
@@ -35,7 +44,6 @@ const sendEmail = async ({ recipientEmails, subject, body, attachments = [] }) =
       const info = await transporter.sendMail(mailOptions);
 
       console.log(`[${new Date().toISOString()}] Successfully sent email.`);
-
       return info.messageId;
    } catch (error) {
       console.error('Error sending email:', error);

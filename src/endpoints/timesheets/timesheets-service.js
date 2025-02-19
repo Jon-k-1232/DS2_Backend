@@ -27,6 +27,10 @@ const timesheetsService = {
       return db.select().from('timesheet_entries').where('timesheet_entry_id', entryID).andWhere('account_id', accountID).first();
    },
 
+   updateTimesheetEntryStatus(db, timesheetID) {
+      return db.update({ is_processed: true }).into('timesheet_entries').where('timesheet_entry_id', timesheetID);
+   },
+
    getSingleTimesheetError(db, accountID, timesheetErrorID) {
       return db.select().from('timesheet_errors').where('timesheet_error_id', timesheetErrorID).andWhere('account_id', accountID).first();
    },
