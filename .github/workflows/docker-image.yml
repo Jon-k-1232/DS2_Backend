@@ -79,6 +79,20 @@ jobs:
               echo "FRONT_END_URL_PROD=${{ secrets.FRONT_END_URL_PROD }}" >> .env
               echo "PRODUCTION_PDF_SAVE_LOCATION=${{ secrets.PRODUCTION_PDF_SAVE_LOCATION }}" >> .env
               echo "HOST_IP_PROD=${{ secrets.HOST_IP_PROD }}" >> .env
+              echo "FILE_SHARE_PATH=${{ secrets.FILE_SHARE_PATH }}" >> .env
+              echo "TIMESHEETS_PENDING_DIR=${{ secrets.TIMESHEETS_PENDING_DIR }}" >> .env
+              echo "TIMESHEETS_PROCESSING_DIR=${{ secrets.TIMESHEETS_PROCESSING_DIR }}" >> .env
+              echo "TIMESHEETS_PROCESSED_DIR=${{ secrets.TIMESHEETS_PROCESSED_DIR }}" >> .env
+              echo "TIMESHEETS_ERROR_DIR=${{ secrets.TIMESHEETS_ERROR_DIR }}" >> .env
+              echo "USER_VERSION_TIMESHEETS_ERROR_DIR=${{ secrets.USER_VERSION_TIMESHEETS_ERROR_DIR }}" >> .env
+              echo "DOMAIN=${{ secrets.DOMAIN }}" >> .env
+              echo "FILE_SHARE_USERNAME=${{ secrets.FILE_SHARE_USERNAME }}" >> .env
+              echo "FILE_SHARE_PASSWORD=${{ secrets.FILE_SHARE_PASSWORD }}" >> .env
+              echo "FROM_EMAIL=${{ secrets.FROM_EMAIL }}" >> .env
+              echo "FROM_EMAIL_PASSWORD=${{ secrets.FROM_EMAIL_PASSWORD }}" >> .env
+              echo "FROM_EMAIL_SMTP=${{ secrets.FROM_EMAIL_SMTP }}" >> .env
+              echo "SEND_TO_EMAILS=${{ secrets.SEND_TO_EMAILS }}" >> .env
+              echo "DS2_SUPPORT_EMAILS=${{ secrets.DS2_SUPPORT_EMAILS }}" >> .env
 
          - name: Build and push Docker images for backend
            run: |
@@ -117,6 +131,20 @@ jobs:
               echo "FRONT_END_URL_PROD=${{ secrets.FRONT_END_URL_PROD }}" >> .env
               echo "PRODUCTION_PDF_SAVE_LOCATION=${{ secrets.PRODUCTION_PDF_SAVE_LOCATION }}" >> .env
               echo "HOST_IP_PROD=${{ secrets.HOST_IP_PROD }}" >> .env
+              echo "FILE_SHARE_PATH=${{ secrets.FILE_SHARE_PATH }}" >> .env
+              echo "TIMESHEETS_PENDING_DIR=${{ secrets.TIMESHEETS_PENDING_DIR }}" >> .env
+              echo "TIMESHEETS_PROCESSING_DIR=${{ secrets.TIMESHEETS_PROCESSING_DIR }}" >> .env
+              echo "TIMESHEETS_PROCESSED_DIR=${{ secrets.TIMESHEETS_PROCESSED_DIR }}" >> .env
+              echo "TIMESHEETS_ERROR_DIR=${{ secrets.TIMESHEETS_ERROR_DIR }}" >> .env
+              echo "USER_VERSION_TIMESHEETS_ERROR_DIR=${{ secrets.USER_VERSION_TIMESHEETS_ERROR_DIR }}" >> .env
+              echo "DOMAIN=${{ secrets.DOMAIN }}" >> .env
+              echo "FILE_SHARE_USERNAME=${{ secrets.FILE_SHARE_USERNAME }}" >> .env
+              echo "FILE_SHARE_PASSWORD=${{ secrets.FILE_SHARE_PASSWORD }}" >> .env
+              echo "FROM_EMAIL=${{ secrets.FROM_EMAIL }}" >> .env
+              echo "FROM_EMAIL_PASSWORD=${{ secrets.FROM_EMAIL_PASSWORD }}" >> .env
+              echo "FROM_EMAIL_SMTP=${{ secrets.FROM_EMAIL_SMTP }}" >> .env
+              echo "SEND_TO_EMAILS=${{ secrets.SEND_TO_EMAILS }}" >> .env
+              echo "DS2_SUPPORT_EMAILS=${{ secrets.DS2_SUPPORT_EMAILS }}" >> .env
 
          - name: Debug .env file for backend
            run: cat .env

@@ -5,7 +5,7 @@ const runTimesheetAutomation = require('./automationScripts/timeTrackerAutomatio
 const scheduledAutomations = () => {
    // Schedule the task to run at 03:29 PM every day
    // '07 23 * * *'  '0 04 * * 6'
-   schedule.scheduleJob('38 11 * * *', async () => {
+   schedule.scheduleJob('30 23 * * *', async () => {
       console.log(`[${new Date().toISOString()}] Starting scheduled timesheets automation...`);
 
       try {
