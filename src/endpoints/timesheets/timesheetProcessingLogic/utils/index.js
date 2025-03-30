@@ -14,6 +14,11 @@ const createSMBClient = () => {
    });
 };
 
+console.log(FILE_SHARE_PATH);
+console.log(DOMAIN);
+console.log(USERNAME);
+console.log(PASSWORD);
+
 /**
  * List files in a directory
  */
