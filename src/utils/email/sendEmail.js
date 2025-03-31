@@ -1,6 +1,6 @@
 // sendEmail.js
 const nodemailer = require('nodemailer');
-const { FROM_EMAIL, FROM_EMAIL_PASSWORD, FROM_EMAIL_SMTP, SEND_TO_EMAILS } = require('../../../config');
+const { FROM_EMAIL, FROM_EMAIL_PASSWORD, FROM_EMAIL_SMTP, SEND_TO_EMAILS, FROM_EMAIL_USERNAME } = require('../../../config');
 
 // Configure the nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -8,11 +8,10 @@ const transporter = nodemailer.createTransport({
    port: 465,
    secure: true,
    auth: {
-      user: FROM_EMAIL,
+      user: FROM_EMAIL_USERNAME,
       pass: FROM_EMAIL_PASSWORD
    }
 });
-
 /**
  * Sends an email using nodemailer
  * @param {Object} params - Email parameters
