@@ -1,19 +1,8 @@
-# docker‑compose.backend.yml
 version: '3.9'
 
 networks:
    ds2_network:
       external: true
-
-   # new “LAN” network so container lives on the same 192.168.0.0/24 subnet
-   ds2_lan:
-      driver: macvlan
-      driver_opts:
-         parent: en0 # <-- replace with your host’s primary LAN interface
-      ipam:
-         config:
-            - subnet: 192.168.0.0/24
-              gateway: 192.168.0.1
 
 services:
    ds2_backend:
@@ -34,7 +23,5 @@ services:
          - '8003:8003'
 
       restart: always
-
       networks:
          - ds2_network
-         - ds2_lan
