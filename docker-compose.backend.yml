@@ -8,6 +8,7 @@ services:
    ds2_backend:
       container_name: DS2-Backend
       image: marine1232/ds2-backend:latest
+      network_mode: host
       # build:
       #    context: .
       #    dockerfile: Dockerfile
