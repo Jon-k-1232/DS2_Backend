@@ -19,6 +19,7 @@ services:
          - './:/app'
          - '/app/node_modules'
          - '/Users/jonkimmel/Desktop/DS2_Files:/DS2_Files'
+         - '/Volumes/Staff:/mnt/share'
       ports:
          - '8003:8003'
       restart: always

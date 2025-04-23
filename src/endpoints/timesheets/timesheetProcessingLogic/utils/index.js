@@ -1,99 +1,80 @@
-const SMB2 = require('smb2');
-const { FILE_SHARE_PATH, DOMAIN, USERNAME, PASSWORD } = require('../../../../../config');
+const fs = require('fs/promises');
+const path = require('path');
+const { FILE_SHARE_PATH } = require('../../../../../config');
 
 /**
- * Creates a new SMB client instance
+ * Timeout Wrapper
  */
-const createSMBClient = () => {
-   return new SMB2({
-      share: FILE_SHARE_PATH,
-      username: USERNAME,
-      password: PASSWORD,
-      domain: DOMAIN,
-      timeout: 10000
-   });
+const withTimeout = (promise, ms) => Promise.race([promise, new Promise((_, reject) => setTimeout(() => reject(new Error(`Operation timed out after ${ms} ms`)), ms))]);
+
+/**
+ * List files in a subdirectory under the mounted volume
+ */
+const listFiles = async (subdir = '') => {
+   const dirPath = path.join(FILE_SHARE_PATH, subdir);
+   console.log(dirPath);
+   try {
+      console.log(`[${new Date().toISOString()}] Listing files in: "${dirPath}"`);
+      const files = await fs.readdir(dirPath);
+      console.log(`[${new Date().toISOString()}] Found ${files.length} file(s).`);
+      return files;
+   } catch (err) {
+      console.error(`[${new Date().toISOString()}] Error listing files: ${err.message}`);
+      throw err;
+   }
 };
 
 /**
- * List files in a directory
+ * Read a file
  */
-const listFiles = dirPath =>
-   withTimeout(
-      new Promise((resolve, reject) => {
-         const fileClient = createSMBClient();
-         console.log(`[${new Date().toISOString()}] Attempting to list files in directory: "${dirPath}"`);
-         fileClient.readdir(dirPath, (err, files) => {
-            fileClient.close();
-            if (err) {
-               console.error(`[${new Date().toISOString()}] Error listing files: ${err.message}`);
-               return reject(err);
-            }
-            console.log(`[${new Date().toISOString()}] Successfully listed ${files.length} file(s).`);
-            resolve(files);
-         });
-      }),
-      10000
-   );
-
-/**
- * Read a file from the directory
- */
-const readFile = (filePath, timesheetName) =>
-   new Promise((resolve, reject) => {
-      const fileClient = createSMBClient();
-      console.log(`[${new Date().toISOString()}] Reading file: "${timesheetName}"`);
-      fileClient.readFile(filePath, (err, data) => {
-         fileClient.close();
-         if (err) {
-            console.error(`[${new Date().toISOString()}] Error reading file "${timesheetName}": ${err.message}`);
-            return reject(err);
-         }
-         resolve(data);
-      });
-   });
-
-/**
- * Write a file to the directory
- */
-const writeFile = (filePath, data, timesheetName) =>
-   new Promise((resolve, reject) => {
-      const fileClient = createSMBClient();
-      console.log(`[${new Date().toISOString()}] Writing file: "${timesheetName}"`);
-      fileClient.writeFile(filePath, data, err => {
-         fileClient.close();
-         if (err) {
-            console.error(`[${new Date().toISOString()}] Error writing file "${timesheetName}": ${err.message}`);
-            return reject(err);
-         }
-         resolve();
-      });
-   });
-
-/**
- * Delete a file from the directory
- */
-const deleteFile = (filePath, timesheetName) =>
-   new Promise((resolve, reject) => {
-      const fileClient = createSMBClient();
-      console.log(`[${new Date().toISOString()}] Deleting file: "${timesheetName}"`);
-      fileClient.unlink(filePath, err => {
-         fileClient.close();
-         if (err) {
-            console.error(`[${new Date().toISOString()}] Error deleting file "${timesheetName}": ${err.message}`);
-            return reject(err);
-         }
-         resolve();
-      });
-   });
-
-/**
- * Move a file from one directory to another
- */
-const moveFile = async (srcPath, destPath, timesheetName) => {
+const readFile = async (relativePath, timesheetName) => {
+   const filePath = path.join(FILE_SHARE_PATH, relativePath);
    try {
-      const data = await readFile(srcPath, timesheetName);
-      await writeFile(destPath, data, timesheetName);
-      await deleteFile(srcPath, timesheetName);
+      console.log(`[${new Date().toISOString()}] Reading file: "${timesheetName}"`);
+      return await fs.readFile(filePath);
+   } catch (err) {
+      console.error(`[${new Date().toISOString()}] Error reading file "${timesheetName}": ${err.message}`);
+      throw err;
+   }
+};
+
+/**
+ * Write a file
+ */
+const writeFile = async (relativePath, data, timesheetName) => {
+   const filePath = path.join(FILE_SHARE_PATH, relativePath);
+   try {
+      console.log(`[${new Date().toISOString()}] Writing file: "${timesheetName}"`);
+      await fs.writeFile(filePath, data);
+   } catch (err) {
+      console.error(`[${new Date().toISOString()}] Error writing file "${timesheetName}": ${err.message}`);
+      throw err;
+   }
+};
+
+/**
+ * Delete a file
+ */
+const deleteFile = async (relativePath, timesheetName) => {
+   const filePath = path.join(FILE_SHARE_PATH, relativePath);
+   try {
+      console.log(`[${new Date().toISOString()}] Deleting file: "${timesheetName}"`);
+      await fs.unlink(filePath);
+   } catch (err) {
+      console.error(`[${new Date().toISOString()}] Error deleting file "${timesheetName}": ${err.message}`);
+      throw err;
+   }
+};
+
+/**
+ * Move a file from one relative path to another
+ */
+const moveFile = async (srcRelativePath, destRelativePath, timesheetName) => {
+   const srcPath = path.join(FILE_SHARE_PATH, srcRelativePath);
+   const destPath = path.join(FILE_SHARE_PATH, destRelativePath);
+   try {
+      console.log(`[${new Date().toISOString()}] Moving file "${timesheetName}"`);
+      await fs.rename(srcPath, destPath);
    } catch (err) {
       console.error(`[${new Date().toISOString()}] Error moving file "${timesheetName}": ${err.message}`);
       throw err;
@@ -101,23 +82,14 @@ const moveFile = async (srcPath, destPath, timesheetName) => {
 };
 
 /**
- * Convert serialized Excel dates to proper format
- * @param {*} value The value to convert
- * @returns {string | *} The formatted date as a string or the original value if not a number
+ * Convert serialized Excel dates to ISO format
  */
 const convertExcelDate = value => {
    if (typeof value === 'number') {
       const jsDate = new Date((value - 25569) * 86400 * 1000);
-      return jsDate.toISOString().split('T')[0]; // Return as YYYY-MM-DD
+      return jsDate.toISOString().split('T')[0];
    }
    return value;
-};
-
-/**
- * Timeout Wrapper
- */
-const withTimeout = (promise, ms) => {
-   return Promise.race([promise, new Promise((_, reject) => setTimeout(() => reject(new Error(`Operation timed out after ${ms} ms`)), ms))]);
 };
 
 module.exports = {
