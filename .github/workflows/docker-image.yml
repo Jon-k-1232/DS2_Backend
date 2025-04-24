@@ -143,6 +143,7 @@ jobs:
               echo "FILE_SHARE_USERNAME=${{ secrets.FILE_SHARE_USERNAME }}" >> .env
               echo "FILE_SHARE_PASSWORD=${{ secrets.FILE_SHARE_PASSWORD }}" >> .env
               echo "FROM_EMAIL=${{ secrets.FROM_EMAIL }}" >> .env
+              echo "FROM_EMAIL_USERNAME=${{ secrets.FROM_EMAIL_USERNAME }}" >> .env
               echo "FROM_EMAIL_PASSWORD=${{ secrets.FROM_EMAIL_PASSWORD }}" >> .env
               echo "FROM_EMAIL_SMTP=${{ secrets.FROM_EMAIL_SMTP }}" >> .env
               echo "SEND_TO_EMAILS=${{ secrets.SEND_TO_EMAILS }}" >> .env
