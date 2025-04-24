@@ -39,12 +39,6 @@ const sendEmail = async ({ recipientEmails, subject, body, html, attachments = [
          attachments
       };
 
-      console.log(FROM_EMAIL);
-      console.log(FROM_EMAIL_PASSWORD);
-      console.log(FROM_EMAIL_SMTP);
-      console.log(SEND_TO_EMAILS);
-      console.log(FROM_EMAIL_USERNAME);
-
       // Send the email
       const info = await transporter.sendMail(mailOptions);
 

@@ -12,7 +12,7 @@ const withTimeout = (promise, ms) => Promise.race([promise, new Promise((_, reje
  */
 const listFiles = async (subdir = '') => {
    const dirPath = path.join(FILE_SHARE_PATH, subdir);
-   console.log(dirPath);
+
    try {
       console.log(`[${new Date().toISOString()}] Listing files in: "${dirPath}"`);
       const files = await fs.readdir(dirPath);
