@@ -132,6 +132,8 @@ jobs:
               echo "PRODUCTION_PDF_SAVE_LOCATION=${{ secrets.PRODUCTION_PDF_SAVE_LOCATION }}" >> .env
               echo "HOST_IP_PROD=${{ secrets.HOST_IP_PROD }}" >> .env
               echo "FILE_SHARE_PATH=${{ secrets.FILE_SHARE_PATH }}" >> .env
+              echo "LOCAL_FILE_SHARE_PATH=${{ secrets.LOCAL_FILE_SHARE_PATH }}" >> .env
+              echo "DOCKER_FILE_SHARE_PATH=${{ secrets.DOCKER_FILE_SHARE_PATH }}" >> .env
               echo "TIMESHEETS_PENDING_DIR=${{ secrets.TIMESHEETS_PENDING_DIR }}" >> .env
               echo "TIMESHEETS_PROCESSING_DIR=${{ secrets.TIMESHEETS_PROCESSING_DIR }}" >> .env
               echo "TIMESHEETS_PROCESSED_DIR=${{ secrets.TIMESHEETS_PROCESSED_DIR }}" >> .env
