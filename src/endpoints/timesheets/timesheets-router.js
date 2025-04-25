@@ -15,6 +15,7 @@ const { createGrid } = require('../../utils/gridFunctions');
 const sendErrorNotificationForAutomation = require('../../utils/email/failureMessages');
 const { restoreDataTypesTransactionsTableOnCreate } = require('../transactions/transactionsObjects');
 const { updateRecentJobTotal } = require('../transactions/sharedTransactionFunctions');
+const dayjs = require('dayjs');
 
 // Manually run timesheet processing job
 timesheetsRouter.route('/runManualJob/:accountID/:userID').post(
@@ -150,6 +151,62 @@ timesheetsRouter.route('/getTimesheetErrorsByUserID/:queryUserID/:accountID/:use
       } catch (err) {
          console.error(`[${new Date().toISOString()}] Error retrieving employee timesheet errors for account ${accountID}: ${err.message}`);
          res.status(500).json({ message: `Error retrieving timesheet errors: ${err.message}` });
+      }
+   })
+);
+
+// getTimesheetEntriesByUserID
+timesheetsRouter.route('/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID').get(
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const { accountID, queryUserID } = req.params;
+      const { page, limit, offset } = getPaginationParams(req.query);
+      try {
+         const { allEmployeeTimesheets, entriesMetadata } = await fetchEmployeeTimesheets(db, accountID, queryUserID, page, limit, offset);
+         // put into grid format
+         const timesheetsByEmployeesData = {
+            allEmployeeTimesheets,
+            grid: createGrid(allEmployeeTimesheets)
+         };
+
+         res.status(200).json({
+            ...timesheetsByEmployeesData,
+            pagination: entriesMetadata,
+            message: 'Successfully retrieved employee timesheets.'
+         });
+      } catch (err) {
+         console.error(`[${new Date().toISOString()}] Error retrieving employee timesheet entries for account ${accountID}: ${err.message}`);
+         res.status(500).json({ message: `Error retrieving timesheet entries: ${err.message}` });
+      }
+   })
+);
+
+timesheetsRouter.route('/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID').get(
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const { accountID, queryUserID } = req.params;
+      const { page, limit, offset } = getPaginationParams(req.query);
+      const monthQuery = {
+         start: dayjs().startOf('month').toDate(),
+         end: dayjs().endOf('month').toDate()
+      };
+
+      try {
+         const { employeeTimesheetsForMonth, entriesMetadata } = await fetchEmployeeTimesheetForMonth(db, accountID, queryUserID, page, limit, offset, monthQuery);
+
+         // put into grid format
+         const timesheetsByEmployeesData = {
+            employeeTimesheetsForMonth,
+            grid: createGrid(employeeTimesheetsForMonth)
+         };
+         res.status(200).json({
+            ...timesheetsByEmployeesData,
+            pagination: entriesMetadata,
+            message: 'Successfully retrieved employee timesheets.'
+         });
+      } catch (err) {
+         console.error(`[${new Date().toISOString()}] Error retrieving employee timesheet entries for account ${accountID}: ${err.message}`);
+         res.status(500).json({ message: `Error retrieving timesheet entries: ${err.message}` });
       }
    })
 );
@@ -335,6 +392,29 @@ const fetchTimesheetEntriesByUserID = async (db, accountID, queryUserID, page, l
    return { outstandingTimesheetEntries, entriesMetadata };
 };
 
+// fetch employee timesheets
+const fetchEmployeeTimesheets = async (db, accountID, queryUserID, page, limit, offset) => {
+   const [allEmployeeTimesheets, totalEntries] = await Promise.all([
+      timesheetsService.getDistinctTimesheetNamesWithPagination(db, accountID, queryUserID, limit, offset),
+      timesheetsService.getEmployeeUniqueTimesheetCountsByUserID(db, accountID, queryUserID)
+   ]);
+
+   const entriesMetadata = getPaginationMetadata(totalEntries, page, limit);
+
+   return { allEmployeeTimesheets, entriesMetadata };
+};
+
+const fetchEmployeeTimesheetForMonth = async (db, accountID, queryUserID, page, limit, offset, monthQuery) => {
+   const [employeeTimesheetsForMonth, totalEntries] = await Promise.all([
+      timesheetsService.getDistinctTimesheetNamesByMonthWithPagination(db, accountID, queryUserID, monthQuery, limit, offset),
+      timesheetsService.getEmployeeUniqueTimesheetCountsByUserID(db, accountID, queryUserID)
+   ]);
+
+   const entriesMetadata = getPaginationMetadata(totalEntries, page, limit);
+
+   return { employeeTimesheetsForMonth, entriesMetadata };
+};
+
 /**
  * Send an error notification email to the DS2 Support team
  * @param {*} db
@@ -345,20 +425,31 @@ const fetchEmployeeTimesheetCounts = async (db, accountID) => {
    // get employee list. This is used to get the employee name for each timesheet count
    const employeesData = await accountUserService.getActiveAccountUsers(db, accountID);
    const employees = employeesData.filter(employee => employee.display_name !== 'Jon Kimmel');
+   const monthQuery = {
+      start: dayjs().startOf('month').toDate(),
+      end: dayjs().endOf('month').toDate()
+   };
+   const limit = Number.MAX_SAFE_INTEGER;
+   const offset = 0;
 
    return Promise.all(
       employees.map(async employee => {
          const { display_name, user_id } = employee;
+
          try {
-            const [timesheetCount, timesheetErrorCount] = await Promise.all([
+            const [transactionCount, timesheetErrorCount, timesheetsToDate, timeTrackersByMonth] = await Promise.all([
                timesheetsService.getTimesheetEntryCountsByEmployee(db, accountID, user_id),
-               timesheetsService.getTimesheetErrorCountsByEmployee(db, accountID, user_id)
+               timesheetsService.getTimesheetErrorCountsByEmployee(db, accountID, user_id),
+               timesheetsService.getUniqueTimesheetNamesByEmployee(db, accountID, user_id),
+               timesheetsService.getDistinctTimesheetNamesByMonthWithPagination(db, accountID, user_id, monthQuery, limit, offset)
             ]);
 
             return {
                display_name,
                user_id,
-               timesheet_count: timesheetCount,
+               transaction_count: transactionCount,
+               trackers_to_date: timesheetsToDate.length,
+               trackers_by_month: timeTrackersByMonth.length,
                error_count: timesheetErrorCount
             };
          } catch (err) {
@@ -366,7 +457,9 @@ const fetchEmployeeTimesheetCounts = async (db, accountID) => {
             return {
                display_name,
                user_id,
-               timesheet_count: 0,
+               transaction_count: 0,
+               trackers_to_date: 0,
+               trackers_by_month: 0,
                error_count: 0
             };
          }

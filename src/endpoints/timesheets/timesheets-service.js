@@ -110,6 +110,10 @@ const timesheetsService = {
          .then(result => (result && result.count ? parseInt(result.count, 10) : 0));
    },
 
+   getUniqueTimesheetNamesByEmployee(db, accountID, user_id) {
+      return db('timesheet_entries').where('account_id', accountID).andWhere('user_id', user_id).andWhere('is_deleted', false).distinct('timesheet_name').pluck('timesheet_name');
+   },
+
    getInvalidTimesheetCountsByEmployee(db, accountID) {
       return db('invalid_timesheets')
          .where('account_id', accountID)
@@ -128,6 +132,82 @@ const timesheetsService = {
          .andWhere('is_processed', false)
          .andWhere('is_deleted', false)
          .count('* as count')
+         .first()
+         .then(result => parseInt((result && result.count) || 0, 10));
+   },
+
+   getEmployeeTimesheetsByUserID(db, accountID, queryUserID, limit, offset) {
+      return db
+         .select()
+         .from('timesheet_entries')
+         .where('account_id', accountID)
+         .andWhere('user_id', queryUserID)
+         .andWhere('is_processed', false)
+         .andWhere('is_deleted', false)
+         .orderBy('timesheet_name')
+         .limit(limit)
+         .offset(offset);
+   },
+
+   getDistinctTimesheetNamesWithPagination(db, accountID, user_id, limit, offset) {
+      return db
+         .select('account_id', 'user_id', 'employee_name', 'timesheet_name', 'time_tracker_start_date', 'time_tracker_end_date', 'created_at')
+         .from(
+            db.raw(
+               `(SELECT DISTINCT ON (timesheet_name)
+            account_id,
+            created_at,
+            employee_name,
+            time_tracker_start_date,
+            time_tracker_end_date,
+            timesheet_name,
+            user_id
+          FROM timesheet_entries
+          WHERE account_id = ? AND user_id = ? AND is_deleted = false
+          ORDER BY timesheet_name, timesheet_entry_id) AS distinct_entries`,
+               [accountID, user_id]
+            )
+         )
+         .orderBy('timesheet_name')
+         .limit(limit)
+         .offset(offset);
+   },
+
+   getDistinctTimesheetNamesByMonthWithPagination(db, accountID, queryUserID, monthQuery, limit, offset) {
+      return db
+         .select('account_id', 'user_id', 'employee_name', 'timesheet_name', 'time_tracker_start_date', 'time_tracker_end_date', 'created_at')
+         .from(
+            db.raw(
+               `(SELECT DISTINCT ON (timesheet_name)
+            account_id,
+            created_at,
+            employee_name,
+            time_tracker_start_date,
+            time_tracker_end_date,
+            timesheet_name,
+            user_id
+          FROM timesheet_entries
+          WHERE account_id = ?
+            AND user_id = ?
+            AND is_deleted = false
+            AND time_tracker_start_date >= ?
+            AND time_tracker_end_date <= ?
+          ORDER BY timesheet_name, timesheet_entry_id) AS distinct_entries`,
+               [accountID, queryUserID, monthQuery.start, monthQuery.end]
+            )
+         )
+         .orderBy('timesheet_name')
+         .limit(limit)
+         .offset(offset);
+   },
+
+   getEmployeeUniqueTimesheetCountsByUserID(db, accountID, queryUserID) {
+      return db('timesheet_entries')
+         .where('account_id', accountID)
+         .andWhere('user_id', queryUserID)
+         .andWhere('is_deleted', false)
+         .groupBy('timesheet_name')
+         .countDistinct('timesheet_name as count')
          .first()
          .then(result => parseInt((result && result.count) || 0, 10));
    },
