@@ -4,7 +4,8 @@ const runTimesheetAutomation = require('./automationScripts/timeTrackerAutomatio
 // Start automations. List all scheduled automations here.
 const scheduledAutomations = () => {
    // Schedule the task to run at 10am, 12pm, 2pm, 4pm, 6pm, and 8pm everyday
-   schedule.scheduleJob('0 10,12,14,16,18,20 * * *', async () => runTimeTrackerAutomation());
+   // Turned off for now, manual run only
+   // schedule.scheduleJob('0 10,12,14,16,18,20 * * *', async () => runTimeTrackerAutomation());
 };
 
 module.exports = { scheduledAutomations };

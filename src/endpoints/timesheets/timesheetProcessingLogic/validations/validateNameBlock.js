@@ -34,8 +34,8 @@ const validateNameBlock = (rows, employeeLookup) => {
    }
 
    // Ensure Start Date is before End Date
-   if (!dayjs(startDate).isBefore(dayjs(endDate))) {
-      throw new Error('Time Tracker Start Date (B2) must be before Time Tracker End Date (B3).');
+   if (dayjs(endDate).isBefore(dayjs(startDate))) {
+      throw new Error('Time Tracker End Date (B3) cannot be before Time Tracker Start Date (B2).');
    }
 
    // Include employee email
