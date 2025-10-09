@@ -2,16 +2,20 @@
 # S3 Bucket and Objects
 #########
 resource "aws_s3_bucket" "app_bucket" {
-  bucket        = "ds2"
+  bucket        = local.bucket_name
   force_destroy = false
 
   tags = {
-    Name        = "ds2"
+    Name        = local.bucket_name
     Environment = "prod"
   }
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "app_bucket_versioning" {
+  bucket = aws_s3_bucket.app_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -45,12 +49,35 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "app_bucket_encryp
 #########
 data "aws_iam_policy_document" "bucket_policy" {
   statement {
+    sid    = "AllowBucketOwnerManagement"
+    effect = "Allow"
+    actions = [
+      "s3:DeleteBucket",
+      "s3:GetBucket*",
+      "s3:ListBucket",
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject",
+      "s3:PutObjectTagging",
+      "s3:GetObjectTagging",
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${var.account_id}:root"]
+    }
+    resources = [
+      aws_s3_bucket.app_bucket.arn,
+      "${aws_s3_bucket.app_bucket.arn}/*"
+    ]
+  }
+
+  statement {
     sid     = "DenyIfNotViaOurVPCE"
     effect  = "Deny"
-    actions = ["s3:*"]
-    principals {
-      type        = "*"
-      identifiers = ["*"]
+    actions = local.bucket_data_actions
+    not_principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${var.account_id}:root"]
     }
     resources = [
       aws_s3_bucket.app_bucket.arn,
@@ -64,13 +91,9 @@ data "aws_iam_policy_document" "bucket_policy" {
   }
 
   statement {
-    sid    = "AllowViaOurVPCE"
-    effect = "Allow"
-    actions = [
-      "s3:GetObject",
-      "s3:PutObject",
-      "s3:ListBucket"
-    ]
+    sid     = "AllowViaOurVPCE"
+    effect  = "Allow"
+    actions = local.bucket_data_actions
     principals {
       type        = "*"
       identifiers = ["*"]
