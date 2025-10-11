@@ -1,6 +1,3 @@
-#########
-# S3 Bucket and Objects
-#########
 resource "aws_s3_bucket" "app_bucket" {
   bucket        = local.bucket_name
   force_destroy = false
@@ -8,6 +5,14 @@ resource "aws_s3_bucket" "app_bucket" {
   tags = {
     Name        = local.bucket_name
     Environment = "prod"
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "app_bucket_ownership" {
+  bucket = aws_s3_bucket.app_bucket.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 
@@ -24,6 +29,14 @@ resource "aws_s3_object" "folder_prefixes" {
   bucket   = aws_s3_bucket.app_bucket.id
   key      = each.value
   content  = ""
+}
+
+resource "aws_s3_object" "app_logo" {
+  bucket       = aws_s3_bucket.app_bucket.id
+  key          = "app/assets/logo.png"
+  source       = "${path.module}/assets/logo.png"
+  etag         = filemd5("${path.module}/assets/logo.png")
+  content_type = "image/png"
 }
 
 resource "aws_s3_bucket_public_access_block" "app_bucket_block" {

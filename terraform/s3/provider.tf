@@ -1,6 +1,3 @@
-#########
-# Provider
-#########
 terraform {
   cloud {
     organization = "Jon_Kimmel"
