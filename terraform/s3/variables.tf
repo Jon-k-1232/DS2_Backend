@@ -1,5 +1,6 @@
 variable "region" {
   description = "AWS region for the DS2 resources."
+  type        = string
   default     = "us-west-2"
 }
 
@@ -24,8 +25,19 @@ variable "private_subnet_ids" {
   type        = list(string)
 }
 
-# Your on-prem/VLAN CIDRs that reach AWS over the VPN
+variable "private_route_table_ids" {
+  description = "Route table IDs associated with private subnets that require the S3 Gateway endpoint."
+  type        = list(string)
+  default     = []
+}
+
 variable "onprem_cidrs" {
   description = "CIDR blocks outside the VPC (VPN/DirectConnect) allowed through the endpoint."
   type        = list(string)
+}
+
+variable "private_zone_name" {
+  description = "Private DNS zone you control for publishing internal records."
+  type        = string
+  default     = "ds2.internal"
 }

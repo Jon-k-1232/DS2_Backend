@@ -3,8 +3,35 @@ data "aws_subnet" "ds2_private" {
   id       = each.value
 }
 
+data "aws_route_table" "private" {
+  for_each  = toset(var.private_subnet_ids)
+  subnet_id = each.value
+}
+
+data "aws_vpc_endpoint_service" "s3" {
+  service      = "s3"
+  service_type = "Interface"
+}
+
 locals {
-  ds2_private_subnet_cidrs = [for subnet in data.aws_subnet.ds2_private : subnet.cidr_block]
+  ds2_private_subnet_cidrs       = [for subnet in data.aws_subnet.ds2_private : subnet.cidr_block]
+  inferred_route_table_ids       = distinct([for rt in data.aws_route_table.private : rt.id])
+  target_private_route_table_ids = length(var.private_route_table_ids) > 0 ? var.private_route_table_ids : local.inferred_route_table_ids
+  supported_interface_subnet_ids = [
+    for subnet_id, subnet in data.aws_subnet.ds2_private : subnet_id
+    if contains(data.aws_vpc_endpoint_service.s3.availability_zones, subnet.availability_zone)
+  ]
+}
+
+resource "aws_vpc_endpoint" "s3_gateway" {
+  vpc_id            = var.vpc_id
+  service_name      = "com.amazonaws.${var.region}.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids   = local.target_private_route_table_ids
+
+  tags = {
+    Name = "s3-gateway-endpoint"
+  }
 }
 
 resource "aws_security_group" "ds2_to_s3" {
@@ -39,11 +66,10 @@ resource "aws_vpc_endpoint" "s3_interface" {
   vpc_id             = var.vpc_id
   service_name       = "com.amazonaws.${var.region}.s3"
   vpc_endpoint_type  = "Interface"
-  subnet_ids         = var.private_subnet_ids
+  subnet_ids         = local.supported_interface_subnet_ids
   security_group_ids = [aws_security_group.ds2_to_s3.id]
 
-  # If you do NOT have on-prem DNS forwarding into Route 53,
-  # leave Private DNS disabled and point your client at the VPCe DNS name.
+  # Keep this disabled and publish a custom record in your own private zone instead of shadowing amazonaws.com.
   private_dns_enabled = false
 
   tags = {
