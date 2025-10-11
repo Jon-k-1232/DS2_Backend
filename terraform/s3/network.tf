@@ -21,6 +21,11 @@ locals {
     for subnet_id, subnet in data.aws_subnet.ds2_private : subnet_id
     if contains(data.aws_vpc_endpoint_service.s3.availability_zones, subnet.availability_zone)
   ]
+  resolver_inbound_subnet_ids = slice(
+    local.supported_interface_subnet_ids,
+    0,
+    min(length(local.supported_interface_subnet_ids), 2)
+  )
 }
 
 resource "aws_vpc_endpoint" "s3_gateway" {
@@ -74,6 +79,65 @@ resource "aws_vpc_endpoint" "s3_interface" {
 
   tags = {
     Name = "s3-interface-endpoint"
+  }
+}
+
+resource "aws_security_group" "route53_inbound" {
+  name        = "ds2-route53-inbound"
+  description = "Allow on-prem DNS forwarders to query Route 53 resolver inbound endpoint"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Allow UDP DNS from approved on-prem networks"
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = var.onprem_cidrs
+  }
+
+  ingress {
+    description = "Allow TCP DNS from approved on-prem networks"
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = var.onprem_cidrs
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ds2-route53-inbound"
+  }
+}
+
+resource "aws_route53_resolver_endpoint" "ds2_inbound" {
+  name      = "ds2-inbound-resolver"
+  direction = "INBOUND"
+  security_group_ids = [
+    aws_security_group.route53_inbound.id
+  ]
+
+  dynamic "ip_address" {
+    for_each = local.resolver_inbound_subnet_ids
+    content {
+      subnet_id = ip_address.value
+    }
+  }
+
+  lifecycle {
+    precondition {
+      condition     = length(local.resolver_inbound_subnet_ids) >= 2
+      error_message = "Route 53 inbound endpoints require at least two supporting subnets. Provide two or more private subnets compatible with the S3 interface endpoint."
+    }
+  }
+
+  tags = {
+    Name = "ds2-inbound-resolver"
   }
 }
 

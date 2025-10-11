@@ -3,8 +3,7 @@ const healthRouter = express.Router();
 const os = require('os');
 const si = require('systeminformation');
 const healthService = require('./health-service');
-const accountService = require('../account/account-service');
-const fs = require('fs');
+const { checkConnectivity } = require('../../utils/s3');
 const { NODE_ENV } = require('../../../config');
 
 // Provide basic server status to front end.
@@ -22,8 +21,7 @@ healthRouter.route('/status/:accountID/:userID').get(async (req, res) => {
       const cpuLoad = cpuData.currentLoad;
 
       // for file system
-      const [data] = await accountService.getAccount(db, accountID);
-      const filePath = data?.account_company_logo;
+      const s3Connected = await checkConnectivity();
 
       const memory = {
          message: freeMemory > 100 ? 'UP' : 'DOWN',
@@ -41,7 +39,7 @@ healthRouter.route('/status/:accountID/:userID').get(async (req, res) => {
       };
 
       const fileSystem = {
-         message: fs.existsSync(filePath) ? 'UP' : 'DOWN'
+         message: s3Connected ? 'UP' : 'DOWN'
       };
 
       const backendEnvironmentName = NODE_ENV;

@@ -3,6 +3,7 @@ const {
   ListObjectsV2Command,
   GetObjectCommand,
   PutObjectCommand,
+  HeadBucketCommand,
 } = require("@aws-sdk/client-s3");
 
 const requiredEnv = [
@@ -93,8 +94,27 @@ const putObject = async (key, body, contentType = "application/octet-stream") =>
   await s3.send(command);
 };
 
+const checkConnectivity = async () => {
+  try {
+    const command = new HeadBucketCommand({
+      Bucket: bucketName,
+    });
+    await Promise.race([
+      s3.send(command),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("S3 connectivity check timed out after 10 seconds")), 10000)
+      ),
+    ]);
+    return true;
+  } catch (error) {
+    console.warn(`S3 connectivity check failed: ${error.message}`);
+    return false;
+  }
+};
+
 module.exports = {
   listObjects,
   getObject,
   putObject,
+  checkConnectivity,
 };

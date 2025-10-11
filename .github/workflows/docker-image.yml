@@ -93,6 +93,11 @@ jobs:
               echo "FROM_EMAIL_SMTP=${{ secrets.FROM_EMAIL_SMTP }}" >> .env
               echo "SEND_TO_EMAILS=${{ secrets.SEND_TO_EMAILS }}" >> .env
               echo "DS2_SUPPORT_EMAILS=${{ secrets.DS2_SUPPORT_EMAILS }}" >> .env
+              echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+              echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
+              echo "S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}" >> .env
+              echo "S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}" >> .env
+              echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
 
          - name: Build and push Docker images for backend
            run: |
@@ -148,6 +153,11 @@ jobs:
               echo "FROM_EMAIL_SMTP=${{ secrets.FROM_EMAIL_SMTP }}" >> .env
               echo "SEND_TO_EMAILS=${{ secrets.SEND_TO_EMAILS }}" >> .env
               echo "DS2_SUPPORT_EMAILS=${{ secrets.DS2_SUPPORT_EMAILS }}" >> .env
+              echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+              echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
+              echo "S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}" >> .env
+              echo "S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}" >> .env
+              echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
 
          - name: Debug .env file for backend
            run: cat .env
