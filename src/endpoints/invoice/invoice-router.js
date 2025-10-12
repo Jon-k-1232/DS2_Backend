@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 const invoiceRouter = express.Router();
 const invoiceService = require('./invoice-service');
 const accountService = require('../account/account-service');
@@ -20,9 +19,7 @@ const { createCsvData } = require('./createInvoiceCsv/createInvoiceCsv');
 const { createAndSaveZip } = require('../../pdfCreator/zipOrchestrator');
 const dataInsertionOrchestrator = require('./invoiceDataInsertions/dataInsertionOrchestrator');
 const { requireManagerOrAdmin } = require('../auth/jwt-auth');
-const config = require('../../../config');
 const { getObject } = require('../../utils/s3');
-const { normalizeInvoiceFileLocation } = require('../../utils/invoicePath');
 
 
 // GET all invoices
@@ -174,30 +171,31 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(jsonParser, async 
 
 invoiceRouter.route('/downloadFile/:accountID/:userID').get(async (req, res) => {
    try {
-      const { accountID } = req.params;
       const rawLocation = req.query.fileLocation;
 
       if (typeof rawLocation !== 'string' || rawLocation.trim().length === 0) {
          throw new Error('Invalid or no file path.');
       }
 
-      const db = req.app.get('db');
-      const [accountRecord] = await accountService.getAccount(db, accountID);
-      const normalizedKey = normalizeInvoiceFileLocation({
-         rawLocation,
-         accountName: accountRecord?.account_name || '',
-         bucketName: config.S3_BUCKET_NAME
-      });
+      let s3Key = rawLocation.trim();
 
-      if (normalizedKey) {
+      try {
+         s3Key = decodeURIComponent(s3Key);
+      } catch (error) {
+         // ignore decode errors, continue with trimmed value
+      }
+
+      s3Key = s3Key.replace(/\\/g, '/').replace(/^\/+/, '');
+
+      if (s3Key) {
          try {
-            const { body, metadata } = await getObject(normalizedKey);
+            const { body, metadata } = await getObject(s3Key);
 
             if (!body || !Buffer.isBuffer(body)) {
                throw new Error('File does not exist.');
             }
 
-            const filename = path.basename(normalizedKey);
+            const filename = path.basename(s3Key);
 
             if (metadata?.contentType) {
                res.set('Content-Type', metadata.contentType);
@@ -209,17 +207,8 @@ invoiceRouter.route('/downloadFile/:accountID/:userID').get(async (req, res) => 
 
             return res.status(200).attachment(filename).send(body);
          } catch (s3Error) {
-            console.warn(`Falling back to legacy invoice download for ${normalizedKey}: ${s3Error.message}`);
+            console.warn(`Unable to retrieve ${s3Key} from S3: ${s3Error.message}`);
          }
-      }
-
-      const localPath = rawLocation.startsWith('/') ? rawLocation : `/${rawLocation}`;
-      if (fs.existsSync(localPath)) {
-         return res.status(200).download(localPath, path.basename(localPath), err => {
-            if (err) {
-               return res.status(400).send({ message: `Couldn't download file`, error: err });
-            }
-         });
       }
 
       throw new Error('File does not exist.');

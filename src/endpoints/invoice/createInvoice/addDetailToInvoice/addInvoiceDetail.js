@@ -2,9 +2,8 @@ const { incrementAnInvoiceOrQuote } = require('../../sharedInvoiceFunctions');
 const fs = require('fs');
 const path = require('path');
 const dayjs = require('dayjs');
-const config = require('../../../../../config');
 const { getObject } = require('../../../../utils/s3');
-const { normalizeInvoiceFileLocation, sanitizeAccountName } = require('../../../../utils/invoicePath');
+const { sanitizeAccountName } = require('../../../../utils/invoicePath');
 
 const isSupportedImageBuffer = buffer => {
    if (!Buffer.isBuffer(buffer) || buffer.length < 4) return false;
@@ -46,17 +45,13 @@ const loadCompanyLogo = async accountBillingInformation => {
    const accountRoot = sanitizeAccountName(accountBillingInformation?.account_name || '');
    const fallbackS3Key = accountRoot ? `${accountRoot}/app/assets/logo.png` : null;
 
-   if (typeof rawLogoValue === 'string' && rawLogoValue.trim().length > 0) {
+   const logoKey = typeof rawLogoValue === 'string' ? rawLogoValue.trim() : '';
+
+   if (logoKey) {
       try {
-         const normalizedKey = normalizeInvoiceFileLocation({
-            rawLocation: rawLogoValue,
-            accountName: accountBillingInformation?.account_name || '',
-            bucketName: config.S3_BUCKET_NAME
-         });
+         let logoBuffer = await safeFetchS3LogoBuffer(logoKey);
 
-         let logoBuffer = await safeFetchS3LogoBuffer(normalizedKey);
-
-         if (!logoBuffer && fallbackS3Key && fallbackS3Key !== normalizedKey) {
+         if (!logoBuffer && fallbackS3Key && fallbackS3Key !== logoKey) {
             logoBuffer = await safeFetchS3LogoBuffer(fallbackS3Key);
          }
 
@@ -64,15 +59,7 @@ const loadCompanyLogo = async accountBillingInformation => {
             return logoBuffer;
          }
       } catch (error) {
-         console.warn(`Falling back to legacy logo path ${rawLogoValue}: ${error.message}`);
-      }
-
-      const legacyPath = rawLogoValue.startsWith('/') ? rawLogoValue : `/${rawLogoValue}`;
-      if (fs.existsSync(legacyPath)) {
-         const legacyBuffer = fs.readFileSync(legacyPath);
-         if (isSupportedImageBuffer(legacyBuffer)) {
-            return legacyBuffer;
-         }
+         console.warn(`Unable to load logo using key ${logoKey}: ${error.message}`);
       }
    }
 
