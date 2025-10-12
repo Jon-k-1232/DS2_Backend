@@ -41,3 +41,17 @@ variable "private_zone_name" {
   type        = string
   default     = "ds2.internal"
 }
+
+variable "AWS_ACCESS_KEY_ID" {
+  description = "Optional Access Key ID for Terraform runs (prefer workspace environment variables)."
+  type        = string
+  default     = null
+  sensitive   = true
+}
+
+variable "AWS_SECRET_ACCESS_KEY" {
+  description = "Optional Secret Access Key for Terraform runs (prefer workspace environment variables)."
+  type        = string
+  default     = null
+  sensitive   = true
+}

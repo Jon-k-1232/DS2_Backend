@@ -1,57 +1,63 @@
 const archiver = require('archiver');
-const fs = require('fs');
-const fsPromises = fs.promises;
+const { PassThrough } = require('stream');
 const dayjs = require('dayjs');
-const config = require('../../config');
+const { putObject } = require('../utils/s3');
+const { sanitizeAccountName } = require('../utils/invoicePath');
 
 /**
- * Creates a ZIP file from given buffers and metadata, and saves it to disk.
+ * Creates a ZIP file from given buffers and metadata, and saves it to S3.
  *
  * @param {Array} pdfBuffersWithMetadata Array of objects containing `buffer` and `metadata`.
  * @param {Object} accountBillingInformation Contains account name details.
  * @param {string} fileParentDirectoryName Name of the parent directory for the ZIP file.
  * @param {string} zippedFileName Name of the resulting ZIP file.
- * @returns {Promise<string>} Path to the created ZIP file.
+ * @returns {Promise<string>} S3 object key for the created ZIP file.
  */
 const createAndSaveZip = async (pdfBuffersWithMetadata, accountBillingInformation, fileParentDirectoryName, zippedFileName) => {
    const now = dayjs().format('MM-DD-YYYY_T_HH_mm_ss');
-   const accountName = accountBillingInformation.account_name.replace(/[^a-zA-Z0-9]/g, '_');
-   const fileLocation = `${config.DEFAULT_PDF_SAVE_LOCATION}/${accountName}/${fileParentDirectoryName}/${now}`;
+   const accountName = sanitizeAccountName(accountBillingInformation?.account_name);
+
+   if (!accountName) {
+      throw new Error('Account name is required to generate invoice storage path.');
+   }
+   const keySegments = [accountName, fileParentDirectoryName, now].filter(Boolean);
+   const directoryKey = keySegments.join('/');
+   const s3Key = `${directoryKey}/${zippedFileName}`;
 
    try {
-      // Ensure the directory exists
-      await fsPromises.mkdir(fileLocation, { recursive: true });
-
-      // Define the full path for the ZIP file
-      const zipFilePath = `${fileLocation}/${zippedFileName}`;
-
-      // Create a file stream for the ZIP file
-      const output = fs.createWriteStream(zipFilePath);
       const archive = archiver('zip', { zlib: { level: 9 } });
+      const passThrough = new PassThrough();
+      const chunks = [];
 
-      // Handle stream events
-      await new Promise((resolve, reject) => {
-         output.on('close', resolve);
-         archive.on('error', reject);
-
-         // Pipe archive data to the file stream
-         archive.pipe(output);
-
-         // Append files to the archive
-         pdfBuffersWithMetadata.forEach(({ buffer, metadata }) => {
-            if (Buffer.isBuffer(buffer) && metadata?.displayName && metadata?.type) {
-               const fileName = `${metadata.displayName}.${metadata.type}`;
-               archive.append(buffer, { name: fileName });
-            } else {
-               throw new Error(`Invalid buffer or metadata: ${JSON.stringify({ buffer, metadata })}`);
-            }
-         });
-
-         // Finalize the archive
-         archive.finalize();
+      passThrough.on('data', chunk => {
+         chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
       });
 
-      return zipFilePath;
+      const archiveCompleted = new Promise((resolve, reject) => {
+         passThrough.on('end', resolve);
+         passThrough.on('error', reject);
+         archive.on('error', reject);
+      });
+
+      archive.pipe(passThrough);
+
+      pdfBuffersWithMetadata.forEach(({ buffer, metadata }) => {
+         if (Buffer.isBuffer(buffer) && metadata?.displayName && metadata?.type) {
+            const fileName = `${metadata.displayName}.${metadata.type}`;
+            archive.append(buffer, { name: fileName });
+         } else {
+            throw new Error(`Invalid buffer or metadata: ${JSON.stringify({ buffer, metadata })}`);
+         }
+      });
+
+      archive.finalize();
+
+      await archiveCompleted;
+
+      const zipBuffer = Buffer.concat(chunks);
+      await putObject(s3Key, zipBuffer, 'application/zip');
+
+      return s3Key;
    } catch (error) {
       console.error(`Error creating ZIP file: ${error.message}`);
       throw error;

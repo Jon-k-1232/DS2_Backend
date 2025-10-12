@@ -5,31 +5,35 @@ const {
   PutObjectCommand,
   HeadBucketCommand,
 } = require("@aws-sdk/client-s3");
+const config = require("../../config");
 
-const requiredEnv = [
-  "S3_BUCKET_NAME",
-  "S3_REGION",
-  "S3_ACCESS_KEY_ID",
-  "S3_SECRET_ACCESS_KEY",
-  "S3_ENDPOINT",
-];
+const requiredConfig = {
+  S3_BUCKET_NAME: config.S3_BUCKET_NAME,
+  S3_REGION: config.S3_REGION,
+  S3_ACCESS_KEY_ID: config.S3_ACCESS_KEY_ID,
+  S3_SECRET_ACCESS_KEY: config.S3_SECRET_ACCESS_KEY,
+  S3_ENDPOINT: config.S3_ENDPOINT,
+};
 
-const missing = requiredEnv.filter((name) => !process.env[name]);
+const missing = Object.entries(requiredConfig)
+  .filter(([, value]) => !value)
+  .map(([key]) => key);
+
 if (missing.length) {
   throw new Error(
-    `Missing required S3 environment variables: ${missing.join(", ")}`
+    `Missing required S3 configuration values: ${missing.join(", ")}`
   );
 }
 
-const bucketName = process.env.S3_BUCKET_NAME;
+const bucketName = config.S3_BUCKET_NAME;
 
 const s3 = new S3Client({
-  region: process.env.S3_REGION,
-  endpoint: process.env.S3_ENDPOINT,
+  region: config.S3_REGION,
+  endpoint: config.S3_ENDPOINT,
   forcePathStyle: true,
   credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    accessKeyId: config.S3_ACCESS_KEY_ID,
+    secretAccessKey: config.S3_SECRET_ACCESS_KEY,
   },
 });
 

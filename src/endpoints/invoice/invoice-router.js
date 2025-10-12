@@ -21,6 +21,9 @@ const { createAndSaveZip } = require('../../pdfCreator/zipOrchestrator');
 const dataInsertionOrchestrator = require('./invoiceDataInsertions/dataInsertionOrchestrator');
 const { requireManagerOrAdmin } = require('../auth/jwt-auth');
 const config = require('../../../config');
+const { getObject } = require('../../utils/s3');
+const { normalizeInvoiceFileLocation } = require('../../utils/invoicePath');
+
 
 // GET all invoices
 invoiceRouter.route('/getInvoices/:accountID/:invoiceID').get(async (req, res) => {
@@ -122,7 +125,7 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(jsonParser, async 
       const [accountBillingInformation] = await accountService.getAccount(db, accountID);
       const invoiceQueryData = await fetchInitialQueryItems(db, invoicesToCreateMap, accountID);
       const calculatedInvoices = calculateInvoices(invoicesToCreate, invoiceQueryData);
-      const invoicesWithDetail = addInvoiceDetails(calculatedInvoices, invoiceQueryData, invoicesToCreateMap, accountBillingInformation, globalInvoiceNote, invoiceCreationSettings);
+      const invoicesWithDetail = await addInvoiceDetails(calculatedInvoices, invoiceQueryData, invoicesToCreateMap, accountBillingInformation, globalInvoiceNote);
 
       let fileLocation = '';
 
@@ -132,13 +135,13 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(jsonParser, async 
          const filesToZip = pdfBuffer.concat(csvBuffer);
 
          if (isCsvOnly && isRoughDraft) {
-            fileLocation = await createAndSaveZip(filesToZip, accountBillingInformation, 'monthly_files/csv_report_and_draft_invoices', 'zipped_files.zip');
+            fileLocation = await createAndSaveZip(filesToZip, accountBillingInformation, 'invoicing/csv_report_and_draft_invoices', 'zipped_files.zip');
          } else if (isCsvOnly) {
-            fileLocation = await createAndSaveZip([csvBuffer], accountBillingInformation, 'monthly_files/csv_report', 'zipped_files.zip');
+            fileLocation = await createAndSaveZip([csvBuffer], accountBillingInformation, 'invoicing/csv_report', 'zipped_files.zip');
          } else if (isRoughDraft) {
-            fileLocation = await createAndSaveZip(pdfBuffer, accountBillingInformation, 'monthly_files/draft_invoices', 'zipped_files.zip');
+            fileLocation = await createAndSaveZip(pdfBuffer, accountBillingInformation, 'invoicing/draft_invoices', 'zipped_files.zip');
          } else if (isFinalized) {
-            fileLocation = await createAndSaveZip(pdfBuffer, accountBillingInformation, 'monthly_files/final_invoices', 'zipped_files.zip');
+            fileLocation = await createAndSaveZip(pdfBuffer, accountBillingInformation, 'invoicing/final_invoices', 'zipped_files.zip');
             // Insert data into db
             await dataInsertionOrchestrator(db, invoicesWithDetail, accountBillingInformation, pdfBuffer, userID);
          }
@@ -171,28 +174,55 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(jsonParser, async 
 
 invoiceRouter.route('/downloadFile/:accountID/:userID').get(async (req, res) => {
    try {
-      const zipFilePath = req.query.fileLocation;
+      const { accountID } = req.params;
+      const rawLocation = req.query.fileLocation;
 
-      // Validate file path
-      if (zipFilePath === undefined || !zipFilePath || !zipFilePath.startsWith(`${config.DEFAULT_PDF_SAVE_LOCATION}`)) {
+      if (typeof rawLocation !== 'string' || rawLocation.trim().length === 0) {
          throw new Error('Invalid or no file path.');
       }
 
-      // Check if the file exists before attempting to download
-      const fileExists = await new Promise(resolve => {
-         fs.access(zipFilePath, fs.constants.F_OK, err => {
-            resolve(!err);
-         });
+      const db = req.app.get('db');
+      const [accountRecord] = await accountService.getAccount(db, accountID);
+      const normalizedKey = normalizeInvoiceFileLocation({
+         rawLocation,
+         accountName: accountRecord?.account_name || '',
+         bucketName: config.S3_BUCKET_NAME
       });
 
-      if (!fileExists) throw new Error('File does not exist.');
+      if (normalizedKey) {
+         try {
+            const { body, metadata } = await getObject(normalizedKey);
 
-      // File exists, proceed with the download
-      return res.status(200).download(zipFilePath, path.basename(zipFilePath), err => {
-         if (err) {
-            return res.status(400).send({ message: `Couldn't download file`, error: err });
+            if (!body || !Buffer.isBuffer(body)) {
+               throw new Error('File does not exist.');
+            }
+
+            const filename = path.basename(normalizedKey);
+
+            if (metadata?.contentType) {
+               res.set('Content-Type', metadata.contentType);
+            }
+
+            if (metadata?.contentLength) {
+               res.set('Content-Length', `${metadata.contentLength}`);
+            }
+
+            return res.status(200).attachment(filename).send(body);
+         } catch (s3Error) {
+            console.warn(`Falling back to legacy invoice download for ${normalizedKey}: ${s3Error.message}`);
          }
-      });
+      }
+
+      const localPath = rawLocation.startsWith('/') ? rawLocation : `/${rawLocation}`;
+      if (fs.existsSync(localPath)) {
+         return res.status(200).download(localPath, path.basename(localPath), err => {
+            if (err) {
+               return res.status(400).send({ message: `Couldn't download file`, error: err });
+            }
+         });
+      }
+
+      throw new Error('File does not exist.');
    } catch (error) {
       res.status(400).send({
          message: error.message

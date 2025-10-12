@@ -42,7 +42,7 @@ const resolveLogoKey = rawValue => {
 
 const fetchAccountLogo = async rawValue => {
    const derivedLogoKey = resolveLogoKey(rawValue);
-   const logoKey = derivedLogoKey || 'app/assets/logo.png';
+   const logoKey = derivedLogoKey || 'James_F__Kimmel___Associates/app/assets/logo.png';
 
    let base64 = null;
    let metadata = null;

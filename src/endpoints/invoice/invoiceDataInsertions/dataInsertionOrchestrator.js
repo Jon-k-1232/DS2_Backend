@@ -91,8 +91,8 @@ const updateAndValidateBillableObjects = (invoicesWithDetail, newInvoicesMap) =>
 };
 
 /**
- * Save pdf files to disk for db lookup.
- * Loop through pdfBuffer and create map of customerID as key and pdf file location as value. Convert from buffer to pdf and save on disk as zip.
+ * Save PDF files to S3 for db lookup.
+ * Loop through pdfBuffer and create map of customerID as key and S3 object key as value. Convert from buffer to PDF and save in S3 as zip.
  * @param {*} pdfBuffer
  * @param {*} accountBillingInformation
  * @returns
@@ -103,7 +103,7 @@ const saveInvoiceImagesForDatabase = async (pdfBuffer, accountBillingInformation
          const {
             metadata: { customerID, displayName }
          } = pdf;
-         const filePath = await createAndSaveZip([pdf], accountBillingInformation, 'program_files/invoice_images', `${displayName}.zip`);
+         const filePath = await createAndSaveZip([pdf], accountBillingInformation, 'invoicing/invoice_images', `${displayName}.zip`);
 
          return { customerID, filePath };
       })

@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "app_bucket" {
 
   tags = {
     Name        = local.bucket_name
-    Environment = "prod"
+    Environment = "dev"
   }
 }
 
@@ -24,16 +24,9 @@ resource "aws_s3_bucket_versioning" "app_bucket_versioning" {
   }
 }
 
-resource "aws_s3_object" "folder_prefixes" {
-  for_each = toset(local.s3_folder_keys)
-  bucket   = aws_s3_bucket.app_bucket.id
-  key      = each.value
-  content  = ""
-}
-
 resource "aws_s3_object" "app_logo" {
   bucket       = aws_s3_bucket.app_bucket.id
-  key          = "app/assets/logo.png"
+  key          = "James_F__Kimmel___Associates/app/assets/logo.png"
   source       = "${path.module}/assets/logo.png"
   etag         = filemd5("${path.module}/assets/logo.png")
   content_type = "image/png"

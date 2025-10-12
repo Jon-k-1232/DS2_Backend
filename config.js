@@ -11,7 +11,6 @@ const config = {
    TEST_DATABASE_URL: process.env.TEST_DATABASE_URL || 'postgresql://@localhost/ds_2',
    API_TOKEN: process.env.API_TOKEN,
    JWT_EXPIRATION: process.env.JWT_EXPIRATION,
-   DEFAULT_PDF_SAVE_LOCATION: process.env.NODE_ENV === 'production' ? process.env.PRODUCTION_PDF_SAVE_LOCATION : process.env.DEVELOPMENT_PDF_SAVE_LOCATION,
    DOMAIN: process.env.DOMAIN,
    USERNAME: process.env.FILE_SHARE_USERNAME,
    PASSWORD: process.env.FILE_SHARE_PASSWORD,
@@ -29,7 +28,7 @@ const config = {
    DS2_SUPPORT_EMAILS: process.env.DS2_SUPPORT_EMAILS,
    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
    S3_REGION: process.env.S3_REGION,
-   S3_ENDPOINT: process.env.S3_ENDPOINT,
+   S3_ENDPOINT: process.env.S3_ENDPOINT ? process.env.S3_ENDPOINT.replace(/\/+$/, '') : undefined,
    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY
 };
