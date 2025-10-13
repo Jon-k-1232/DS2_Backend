@@ -1,23 +1,73 @@
+const buildActiveTransactionsQuery = (db, accountID) => {
+   return db
+      .select(
+         'customer_transactions.*',
+         db.raw('customers.display_name as customer_name'),
+         db.raw('users.display_name as logged_for_user_name'),
+         'customer_general_work_descriptions.general_work_description',
+         'customer_jobs.job_type_id',
+         'customer_job_types.job_description'
+      )
+      .from('customer_transactions')
+      .join('customers', 'customer_transactions.customer_id', 'customers.customer_id')
+      .join('users', 'customer_transactions.logged_for_user_id', 'users.user_id')
+      .leftJoin('customer_general_work_descriptions', 'customer_transactions.general_work_description_id', 'customer_general_work_descriptions.general_work_description_id')
+      .join('customer_jobs', 'customer_transactions.customer_job_id', 'customer_jobs.customer_job_id')
+      .leftJoin('customer_job_types', 'customer_jobs.job_type_id', 'customer_job_types.job_type_id')
+      .where('customer_transactions.account_id', accountID);
+};
+
+const applyTransactionsSearchFilter = (query, searchTerm) => {
+   if (!searchTerm) return;
+
+   const normalized = searchTerm.trim().toLowerCase();
+   if (!normalized.length) return;
+
+   const likeTerm = `%${normalized}%`;
+   query.andWhere(builder => {
+      builder
+         .whereRaw('LOWER(customers.display_name) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customer_transactions.transaction_type) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customer_transactions.detailed_work_description) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customer_general_work_descriptions.general_work_description) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customer_job_types.job_description) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(users.display_name) LIKE ?', [likeTerm])
+         .orWhereRaw('CAST(customer_transactions.transaction_id AS TEXT) LIKE ?', [`%${searchTerm}%`])
+         .orWhereRaw('CAST(customer_transactions.customer_invoice_id AS TEXT) LIKE ?', [`%${searchTerm}%`])
+         .orWhereRaw('CAST(customer_transactions.customer_id AS TEXT) LIKE ?', [`%${searchTerm}%`])
+         .orWhereRaw('CAST(customer_transactions.customer_job_id AS TEXT) LIKE ?', [`%${searchTerm}%`])
+         .orWhereRaw('CAST(customer_transactions.total_transaction AS TEXT) LIKE ?', [`%${searchTerm}%`])
+         .orWhereRaw('CAST(customer_transactions.quantity AS TEXT) LIKE ?', [`%${searchTerm}%`])
+         .orWhereRaw("TO_CHAR(customer_transactions.transaction_date, 'YYYY-MM-DD') LIKE ?", [`%${searchTerm}%`]);
+   });
+};
+
 const transactionsService = {
    // Must stay desc, used in finding if an invoice has to be created
    getActiveTransactions(db, accountID) {
-      return db
-         .select(
-            'customer_transactions.*',
-            db.raw('customers.display_name as customer_name'),
-            db.raw('users.display_name as logged_for_user_name'),
-            'customer_general_work_descriptions.general_work_description',
-            'customer_jobs.job_type_id',
-            'customer_job_types.job_description'
-         )
-         .from('customer_transactions')
-         .join('customers', 'customer_transactions.customer_id', 'customers.customer_id')
-         .join('users', 'customer_transactions.logged_for_user_id', 'users.user_id')
-         .join('customer_general_work_descriptions', 'customer_transactions.general_work_description_id', 'customer_general_work_descriptions.general_work_description_id')
-         .join('customer_jobs', 'customer_transactions.customer_job_id', 'customer_jobs.customer_job_id')
-         .join('customer_job_types', 'customer_jobs.job_type_id', 'customer_job_types.job_type_id')
-         .where('customer_transactions.account_id', accountID)
-         .orderBy('customer_transactions.created_at', 'desc');
+      return buildActiveTransactionsQuery(db, accountID).orderBy('customer_transactions.created_at', 'desc');
+   },
+
+   async getActiveTransactionsPaginated(db, accountID, { limit, offset, searchTerm }) {
+      const baseQuery = buildActiveTransactionsQuery(db, accountID);
+      applyTransactionsSearchFilter(baseQuery, searchTerm);
+
+      const sortedQuery = baseQuery.clone().orderBy('customer_transactions.created_at', 'desc');
+
+      const dataQuery = sortedQuery.clone().limit(limit).offset(offset);
+
+      const countResult = await baseQuery.clone().clearSelect().count({ count: '*' }).first();
+
+      const transactions = await dataQuery;
+      const totalCount = Number(countResult?.count || 0);
+
+      return { transactions, totalCount };
+   },
+
+   async getActiveTransactionsForExport(db, accountID, searchTerm) {
+      const exportQuery = buildActiveTransactionsQuery(db, accountID);
+      applyTransactionsSearchFilter(exportQuery, searchTerm);
+      return exportQuery.orderBy('customer_transactions.created_at', 'desc');
    },
 
    getAllSpecificCustomerJobTransactions(db, accountID, customerJobID) {

@@ -12,6 +12,28 @@ const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions'
 const { fetchUserTime } = require('./transactionLogic');
 const dayjs = require('dayjs');
 const { addNewTransaction, differenceBetweenOldAndNewTransaction, updateRecentJobTotal, handleRetainerUpdate } = require('./sharedTransactionFunctions');
+const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
+
+const DEFAULT_TRANSACTIONS_PAGE_SIZE = 20;
+const TRANSACTION_EXPORT_COLUMNS = [
+   'transaction_id',
+   'customer_id',
+   'customer_name',
+   'transaction_type',
+   'quantity',
+   'unit_cost',
+   'total_transaction',
+   'customer_invoice_id',
+   'retainer_id',
+   'is_transaction_billable',
+   'is_excess_to_subscription',
+   'transaction_date',
+   'created_at',
+   'logged_for_user_name',
+   'job_description',
+   'general_work_description',
+   'detailed_work_description'
+];
 
 // Create a new transaction
 transactionsRouter.route('/createTransaction/:accountID/:userID').post(jsonParser, async (req, res) => {
@@ -110,6 +132,63 @@ transactionsRouter.route('/deleteTransaction/:accountID/:userID').delete(async (
    }
 });
 
+// Get paginated transactions
+transactionsRouter.route('/getTransactions/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   const { search = '' } = req.query;
+
+   try {
+      const { page, limit, offset } = getPaginationParams({
+         page: req.query.page || 1,
+         limit: req.query.limit || DEFAULT_TRANSACTIONS_PAGE_SIZE
+      });
+
+      const transactionsList = await buildActiveTransactionsList(db, accountID, {
+         page,
+         limit,
+         offset,
+         searchTerm: search
+      });
+
+      res.send({
+         transactionsList,
+         message: 'Successfully retrieved transactions.',
+         status: 200
+      });
+   } catch (error) {
+      console.log(error);
+      const isPaginationError = error.message && error.message.includes('Invalid pagination');
+      const statusCode = isPaginationError ? 400 : 500;
+      res.status(statusCode).send({
+         message: error.message || 'An error occurred while retrieving the transactions.',
+         status: statusCode
+      });
+   }
+});
+
+transactionsRouter.route('/exportTransactions/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   const { search = '' } = req.query;
+
+   try {
+      const transactions = await transactionsService.getActiveTransactionsForExport(db, accountID, search);
+      const csv = generateTransactionsCsv(transactions, TRANSACTION_EXPORT_COLUMNS);
+      const fileName = `transactions_${dayjs().format('YYYYMMDD_HHmmss')}.csv`;
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      res.status(200).send(csv);
+   } catch (error) {
+      console.log(error);
+      res.status(500).send({
+         message: error.message || 'An error occurred while exporting the transactions.',
+         status: 500
+      });
+   }
+});
+
 // Get a specific transaction
 transactionsRouter.route('/getSingleTransaction/:customerID/:transactionID/:accountID/:userID').get(async (req, res) => {
    const db = req.app.get('db');
@@ -164,10 +243,32 @@ module.exports = transactionsRouter;
  * @param {*} res
  * @param {*} accountID
  */
+async function buildActiveTransactionsList(db, accountID, { page = 1, limit = DEFAULT_TRANSACTIONS_PAGE_SIZE, offset, searchTerm = '' } = {}) {
+   const normalizedSearch = typeof searchTerm === 'string' ? searchTerm.trim() : '';
+   const derivedOffset = typeof offset === 'number' ? offset : (page - 1) * limit;
+
+   const { transactions, totalCount } = await transactionsService.getActiveTransactionsPaginated(db, accountID, {
+      limit,
+      offset: derivedOffset,
+      searchTerm: normalizedSearch
+   });
+
+   const grid = createGrid(transactions);
+   const pagination = getPaginationMetadata(totalCount, page, limit);
+
+   return {
+      activeTransactionsData: {
+         activeTransactions: transactions,
+         grid,
+         pagination,
+         searchTerm: normalizedSearch
+      }
+   };
+}
+
 const sendUpdatedTableWith200Response = async (db, res, accountID, additionalItems = {}) => {
-   // Get all transactions
-   const [activeTransactions, activeRetainers, activeJobs, activePayments] = await Promise.all([
-      transactionsService.getActiveTransactions(db, accountID),
+   const [transactionsList, activeRetainers, activeJobs, activePayments] = await Promise.all([
+      buildActiveTransactionsList(db, accountID),
       retainerService.getActiveRetainers(db, accountID),
       jobService.getActiveJobs(db, accountID),
       paymentsService.getActivePayments(db, accountID)
@@ -176,11 +277,6 @@ const sendUpdatedTableWith200Response = async (db, res, accountID, additionalIte
    const activePaymentsData = {
       activePayments,
       grid: createGrid(activePayments)
-   };
-
-   const activeTransactionsData = {
-      activeTransactions,
-      grid: createGrid(activeTransactions)
    };
 
    const activeRetainerData = {
@@ -197,11 +293,30 @@ const sendUpdatedTableWith200Response = async (db, res, accountID, additionalIte
 
    res.send({
       ...additionalItems,
-      transactionsList: { activeTransactionsData },
+      transactionsList,
       accountRetainersList: { activeRetainerData },
       accountJobsList: { activeJobData },
       paymentsList: { activePaymentsData },
       message: 'Successful.',
       status: 200
    });
+};
+
+const generateTransactionsCsv = (rows, columns) => {
+   const orderedColumns = Array.isArray(columns) && columns.length ? columns : Object.keys(rows[0] || {});
+   const header = orderedColumns.join(',');
+   const dataLines = rows.map(row => orderedColumns.map(column => escapeCsvValue(row[column])).join(','));
+   return [header, ...dataLines].join('\n');
+};
+
+const escapeCsvValue = value => {
+   if (value === null || value === undefined) return '';
+   if (value instanceof Date) return value.toISOString();
+
+   const stringValue = `${value}`;
+   if (/[",\n\r]/.test(stringValue)) {
+      return `"${stringValue.replace(/"/g, '""')}"`;
+   }
+
+   return stringValue;
 };

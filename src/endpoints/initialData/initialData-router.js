@@ -13,6 +13,8 @@ const writeOffsService = require('../writeOffs/writeOffs-service');
 const paymentsService = require('../payments/payments-service');
 const workDescriptionService = require('../workDescriptions/workDescriptions-service');
 const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
+const { getPaginationMetadata } = require('../../utils/pagination');
+const DEFAULT_TRANSACTIONS_PAGE_SIZE = 20;
 
 // Initial data object on app load
 initialDataRouter.route('/initialBlob/:accountID/:userID').get(async (req, res) => {
@@ -37,7 +39,7 @@ const initialData = async (db, res, accountID) => {
       activeCustomers,
       activeRecurringCustomers,
       activeUsers,
-      activeTransactions,
+      activeTransactionsPage,
       activeInvoices,
       activeJobs,
       activeJobCategories,
@@ -50,7 +52,11 @@ const initialData = async (db, res, accountID) => {
       customerService.getActiveCustomers(db, accountID),
       recurringCustomerService.getActiveRecurringCustomers(db, accountID),
       accountUserService.getActiveAccountUsers(db, accountID),
-      transactionsService.getActiveTransactions(db, accountID),
+      transactionsService.getActiveTransactionsPaginated(db, accountID, {
+         limit: DEFAULT_TRANSACTIONS_PAGE_SIZE,
+         offset: 0,
+         searchTerm: ''
+      }),
       invoiceService.getInvoices(db, accountID),
       jobService.getActiveJobs(db, accountID),
       jobCategoriesService.getActiveJobCategories(db, accountID),
@@ -76,9 +82,12 @@ const initialData = async (db, res, accountID) => {
       grid: createGrid(activeUsers)
    };
 
+   const { transactions: activeTransactions, totalCount: transactionsCount } = activeTransactionsPage;
+
    const activeTransactionsData = {
       activeTransactions,
-      grid: createGrid(activeTransactions)
+      grid: createGrid(activeTransactions),
+      pagination: getPaginationMetadata(transactionsCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 
    const activeInvoiceData = {

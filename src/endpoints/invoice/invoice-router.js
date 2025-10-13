@@ -21,7 +21,6 @@ const dataInsertionOrchestrator = require('./invoiceDataInsertions/dataInsertion
 const { requireManagerOrAdmin } = require('../auth/jwt-auth');
 const { getObject } = require('../../utils/s3');
 
-
 // GET all invoices
 invoiceRouter.route('/getInvoices/:accountID/:invoiceID').get(async (req, res) => {
    const db = req.app.get('db');
