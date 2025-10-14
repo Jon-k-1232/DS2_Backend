@@ -1,7 +1,7 @@
 locals {
   bucket_name = "ds2-dev-${var.account_id}"
 
-  s3_folder_keys = [
+   s3_folder_keys = [
     "James_F__Kimmel___Associates/",
     "James_F__Kimmel___Associates/app/",
     "James_F__Kimmel___Associates/app/assets/",
@@ -12,10 +12,8 @@ locals {
     "James_F__Kimmel___Associates/invoicing/final_invoices/",
     "James_F__Kimmel___Associates/invoicing/invoice_images/",
     "James_F__Kimmel___Associates/time_tracking/",
-    "James_F__Kimmel___Associates/time_tracking/Pending/",
-    "James_F__Kimmel___Associates/time_tracking/Processed/",
-    "James_F__Kimmel___Associates/time_tracking/Processing/",
-    "James_F__Kimmel___Associates/time_tracking/Timesheet_Errors/",
+    "James_F__Kimmel___Associates/time_tracking/processed/",
+    "James_F__Kimmel___Associates/time_tracking/tracker_versions/",
   ]
 
   bucket_data_actions = [

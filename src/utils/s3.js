@@ -3,6 +3,7 @@ const {
   ListObjectsV2Command,
   GetObjectCommand,
   PutObjectCommand,
+  DeleteObjectCommand,
   HeadBucketCommand,
 } = require("@aws-sdk/client-s3");
 const config = require("../../config");
@@ -69,7 +70,7 @@ const listObjects = async (prefix = "") => {
   return results;
 };
 
-const getObject = async (key) => {
+const getObject = async key => {
   const command = new GetObjectCommand({
     Bucket: bucketName,
     Key: key,
@@ -82,17 +83,28 @@ const getObject = async (key) => {
       contentLength: response.ContentLength,
       etag: response.ETag,
       lastModified: response.LastModified,
+      userMetadata: response.Metadata || {},
     },
     body: await streamToBuffer(response.Body),
   };
 };
 
-const putObject = async (key, body, contentType = "application/octet-stream") => {
+const putObject = async (key, body, contentType = "application/octet-stream", metadata = {}) => {
   const command = new PutObjectCommand({
     Bucket: bucketName,
     Key: key,
     Body: body,
     ContentType: contentType,
+    Metadata: metadata,
+  });
+
+  await s3.send(command);
+};
+
+const deleteObject = async key => {
+  const command = new DeleteObjectCommand({
+    Bucket: bucketName,
+    Key: key,
   });
 
   await s3.send(command);
@@ -120,5 +132,6 @@ module.exports = {
   listObjects,
   getObject,
   putObject,
+  deleteObject,
   checkConnectivity,
 };

@@ -44,7 +44,10 @@ const accountUserService = {
   },
 
   fetchUserLogin(db, user) {
-    return db.select('user_login_id').from('user_login').where('user_id', '=', user.user_id).returning('*');
+    return db
+      .select('user_login_id', 'user_name', 'is_login_active')
+      .from('user_login')
+      .where('user_id', '=', user.user_id);
   }
 };
 

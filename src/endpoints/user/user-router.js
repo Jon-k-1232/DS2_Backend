@@ -146,7 +146,11 @@ userRouter
       // Get user
       const [activeUser] = await accountUserService.fetchUser(db, accountID, userID);
       const [activeUserLogin] = await accountUserService.fetchUserLogin(db, activeUser);
-      activeUser.user_login_id = activeUserLogin.user_login_id;
+      if (activeUserLogin) {
+         activeUser.user_login_id = activeUserLogin.user_login_id;
+         activeUser.user_name = activeUserLogin.user_name;
+         activeUser.is_login_active = activeUserLogin.is_login_active;
+      }
 
       // Return Object
       const activeUserData = {

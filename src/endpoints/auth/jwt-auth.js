@@ -29,6 +29,13 @@ const requireAuth = async (req, res, next) => {
          });
       }
 
+      req.user = {
+         user_login_id: user.user_login_id,
+         user_id: user.user_id,
+         user_name: user.user_name,
+         account_id: user.account_id
+      };
+
       next();
    } catch (error) {
       console.error(`Authentication error: ${error}`);
