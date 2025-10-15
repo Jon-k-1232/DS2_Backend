@@ -149,64 +149,79 @@ const timesheetsService = {
          .offset(offset);
    },
 
-   getDistinctTimesheetNamesWithPagination(db, accountID, user_id, limit, offset) {
+   getTimesheetSummariesByUser(db, accountID, userId, limit, offset) {
       return db
-         .select('account_id', 'user_id', 'employee_name', 'timesheet_name', 'time_tracker_start_date', 'time_tracker_end_date', 'created_at')
-         .from(
-            db.raw(
-               `(SELECT DISTINCT ON (timesheet_name)
-            account_id,
-            created_at,
-            employee_name,
-            time_tracker_start_date,
-            time_tracker_end_date,
-            timesheet_name,
-            user_id
-          FROM timesheet_entries
-          WHERE account_id = ? AND user_id = ? AND is_deleted = false
-          ORDER BY timesheet_name, timesheet_entry_id) AS distinct_entries`,
-               [accountID, user_id]
+         .with('ranked_entries', qb => {
+            qb.select(
+               'te.timesheet_entry_id',
+               'te.account_id',
+               'te.user_id',
+               'te.employee_name',
+               'te.timesheet_name',
+               'te.time_tracker_start_date',
+               'te.time_tracker_end_date',
+               'te.created_at',
+               db.raw('ROW_NUMBER() OVER (PARTITION BY te.timesheet_name ORDER BY te.created_at DESC) as rn')
             )
-         )
-         .orderBy('timesheet_name')
+               .from('timesheet_entries as te')
+               .where('te.account_id', accountID)
+               .andWhere('te.user_id', userId)
+               .andWhere('te.is_deleted', false);
+         })
+         .select('*')
+         .from('ranked_entries')
+         .where('rn', 1)
+         .orderBy('created_at', 'desc')
          .limit(limit)
          .offset(offset);
    },
 
-   getDistinctTimesheetNamesByMonthWithPagination(db, accountID, queryUserID, monthQuery, limit, offset) {
-      return db
-         .select('account_id', 'user_id', 'employee_name', 'timesheet_name', 'time_tracker_start_date', 'time_tracker_end_date', 'created_at')
-         .from(
-            db.raw(
-               `(SELECT DISTINCT ON (timesheet_name)
-            account_id,
-            created_at,
-            employee_name,
-            time_tracker_start_date,
-            time_tracker_end_date,
-            timesheet_name,
-            user_id
-          FROM timesheet_entries
-          WHERE account_id = ?
-            AND user_id = ?
-            AND is_deleted = false
-            AND time_tracker_start_date >= ?
-            AND time_tracker_end_date <= ?
-          ORDER BY timesheet_name, timesheet_entry_id) AS distinct_entries`,
-               [accountID, queryUserID, monthQuery.start, monthQuery.end]
-            )
-         )
-         .orderBy('timesheet_name')
-         .limit(limit)
-         .offset(offset);
-   },
-
-   getEmployeeUniqueTimesheetCountsByUserID(db, accountID, queryUserID) {
+   getTimesheetSummariesCountByUser(db, accountID, userId) {
       return db('timesheet_entries')
          .where('account_id', accountID)
-         .andWhere('user_id', queryUserID)
+         .andWhere('user_id', userId)
          .andWhere('is_deleted', false)
-         .groupBy('timesheet_name')
+         .countDistinct('timesheet_name as count')
+         .first()
+         .then(result => parseInt((result && result.count) || 0, 10));
+   },
+
+   getTimesheetSummariesByUserAndMonth(db, accountID, userId, monthQuery, limit, offset) {
+      return db
+         .with('ranked_entries', qb => {
+            qb.select(
+               'te.timesheet_entry_id',
+               'te.account_id',
+               'te.user_id',
+               'te.employee_name',
+               'te.timesheet_name',
+               'te.time_tracker_start_date',
+               'te.time_tracker_end_date',
+               'te.created_at',
+               db.raw('ROW_NUMBER() OVER (PARTITION BY te.timesheet_name ORDER BY te.created_at DESC) as rn')
+            )
+               .from('timesheet_entries as te')
+               .where('te.account_id', accountID)
+               .andWhere('te.user_id', userId)
+               .andWhere('te.is_deleted', false)
+               .andWhere('te.time_tracker_start_date', '>=', monthQuery.start)
+               .andWhere('te.time_tracker_end_date', '<=', monthQuery.end);
+         })
+         .select('*')
+         .from('ranked_entries')
+         .where('rn', 1)
+         .orderBy('created_at', 'desc')
+         .limit(limit)
+         .offset(offset);
+   },
+
+   getTimesheetSummariesCountByUserAndMonth(db, accountID, userId, monthQuery) {
+      return db('timesheet_entries')
+         .where('account_id', accountID)
+         .andWhere('user_id', userId)
+         .andWhere('is_deleted', false)
+         .andWhere('time_tracker_start_date', '>=', monthQuery.start)
+         .andWhere('time_tracker_end_date', '<=', monthQuery.end)
          .countDistinct('timesheet_name as count')
          .first()
          .then(result => parseInt((result && result.count) || 0, 10));

@@ -1,6 +1,6 @@
 const app = require('./app');
 const db = require('./utils/db');
-const { NODE_PORT, HOST_IP, NODE_ENV, DATABASE_URL } = require('../config');
+const { NODE_PORT, HOST_IP, NODE_ENV, DATABASE_URL, S3_BUCKET_NAME } = require('../config');
 const { checkConnectivity } = require('./utils/s3');
 
 app.set('db', db);
@@ -12,6 +12,9 @@ app.listen(NODE_PORT, HOST_IP, () => {
    checkConnectivity()
       .then(isConnected => {
          console.log(`S3 Connectivity = ${isConnected}`);
+         if (isConnected) {
+            console.log(`S3 Bucket = ${S3_BUCKET_NAME || 'unknown'}`);
+         }
       })
       .catch(error => {
          console.warn(`S3 connectivity check encountered an error: ${error.message}`);

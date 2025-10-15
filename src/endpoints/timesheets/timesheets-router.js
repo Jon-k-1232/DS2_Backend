@@ -334,24 +334,34 @@ const fetchTimesheetEntriesByUserID = async (db, accountID, queryUserID, page, l
 // fetch employee timesheets
 const fetchEmployeeTimesheets = async (db, accountID, queryUserID, page, limit, offset) => {
    const [allEmployeeTimesheets, totalEntries] = await Promise.all([
-      timesheetsService.getDistinctTimesheetNamesWithPagination(db, accountID, queryUserID, limit, offset),
-      timesheetsService.getEmployeeUniqueTimesheetCountsByUserID(db, accountID, queryUserID)
+      timesheetsService.getTimesheetSummariesByUser(db, accountID, queryUserID, limit, offset),
+      timesheetsService.getTimesheetSummariesCountByUser(db, accountID, queryUserID)
    ]);
+
+   const sanitizedTimesheets = allEmployeeTimesheets.map(entry => {
+      const { timesheet_entry_id, account_id, user_id, rn, ...rest } = entry;
+      return rest;
+   });
 
    const entriesMetadata = getPaginationMetadata(totalEntries, page, limit);
 
-   return { allEmployeeTimesheets, entriesMetadata };
+    return { allEmployeeTimesheets: sanitizedTimesheets, entriesMetadata };
 };
 
 const fetchEmployeeTimesheetForMonth = async (db, accountID, queryUserID, page, limit, offset, monthQuery) => {
    const [employeeTimesheetsForMonth, totalEntries] = await Promise.all([
-      timesheetsService.getDistinctTimesheetNamesByMonthWithPagination(db, accountID, queryUserID, monthQuery, limit, offset),
-      timesheetsService.getEmployeeUniqueTimesheetCountsByUserID(db, accountID, queryUserID)
+      timesheetsService.getTimesheetSummariesByUserAndMonth(db, accountID, queryUserID, monthQuery, limit, offset),
+      timesheetsService.getTimesheetSummariesCountByUserAndMonth(db, accountID, queryUserID, monthQuery)
    ]);
+
+   const sanitizedTimesheets = employeeTimesheetsForMonth.map(entry => {
+      const { timesheet_entry_id, account_id, user_id, rn, ...rest } = entry;
+      return rest;
+   });
 
    const entriesMetadata = getPaginationMetadata(totalEntries, page, limit);
 
-   return { employeeTimesheetsForMonth, entriesMetadata };
+   return { employeeTimesheetsForMonth: sanitizedTimesheets, entriesMetadata };
 };
 
 /**
@@ -378,16 +388,16 @@ const fetchEmployeeTimesheetCounts = async (db, accountID) => {
          try {
             const [transactionCount, timesheetsToDate, timeTrackersByMonth] = await Promise.all([
                timesheetsService.getTimesheetEntryCountsByEmployee(db, accountID, user_id),
-               timesheetsService.getUniqueTimesheetNamesByEmployee(db, accountID, user_id),
-               timesheetsService.getDistinctTimesheetNamesByMonthWithPagination(db, accountID, user_id, monthQuery, limit, offset)
+               timesheetsService.getTimesheetSummariesCountByUser(db, accountID, user_id),
+               timesheetsService.getTimesheetSummariesCountByUserAndMonth(db, accountID, user_id, monthQuery)
             ]);
 
             return {
                display_name,
                user_id,
                transaction_count: transactionCount,
-               trackers_to_date: timesheetsToDate.length,
-               trackers_by_month: timeTrackersByMonth.length
+               trackers_to_date: timesheetsToDate,
+               trackers_by_month: timeTrackersByMonth
             };
          } catch (err) {
             console.error(`Error for User ID ${user_id}:`, err);

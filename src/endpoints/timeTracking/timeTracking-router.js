@@ -555,8 +555,8 @@ timeTrackingRouter.get(
          return res.status(400).json({ message: 'Both ownerUserID and timesheetName are required to download a tracker.' });
       }
 
-      const sanitizedName = path.basename(timesheetName);
-      if (!sanitizedName || sanitizedName !== timesheetName) {
+      const safeTimesheetName = path.basename(timesheetName);
+      if (!safeTimesheetName || safeTimesheetName !== timesheetName) {
          return res.status(400).json({ message: 'Invalid timesheet name provided.' });
       }
 
@@ -580,98 +580,47 @@ timeTrackingRouter.get(
       const accountFolder = buildAccountFolder(accountRecord, accountID);
       const { primaryPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, ownerFolder);
 
-      const candidateKeys = [
-         `${primaryPrefix}${timesheetName}.gz`,
-         `${legacyPrefix}${timesheetName}.gz`
-      ];
+      const evaluateCandidate = key => `${key.endsWith('.gz') ? key : `${key}.gz`}`;
 
-      let downloadKey = null;
-      let downloadedObject = null;
+      const baseName = path.basename(timesheetName);
+      const ext = path.extname(baseName);
+      const nameWithoutExt = ext ? baseName.slice(0, -ext.length) : baseName;
 
-      for (const key of candidateKeys) {
-         try {
-            const object = await getObject(key);
-            if (object?.body) {
-               downloadKey = key;
-               downloadedObject = object;
-               break;
-            }
-         } catch (error) {
-            if (error.name !== 'NoSuchKey') {
-               console.error(`[${new Date().toISOString()}] Error attempting to download "${key}": ${error.message}`);
-            }
+      const buildVariants = () => {
+         const variants = new Set();
+         const trimmed = nameWithoutExt.trim();
+         if (baseName) variants.add(baseName);
+         if (trimmed) {
+            variants.add(`${trimmed.replace(/\s+/g, '_')}${ext}`);
+            variants.add(`${trimmed.replace(/[^a-zA-Z0-9_-]/g, '_')}${ext}`);
+            variants.add(`${sanitizeSegment(trimmed)}${ext}`);
+            variants.add(`${trimmed.replace(/[^a-zA-Z0-9_-]/g, '')}${ext}`);
          }
-      }
+         return Array.from(variants).filter(Boolean);
+      };
 
-      if (!downloadKey || !downloadedObject) {
-         return res.status(404).json({ message: 'Unable to locate the requested time tracker in S3.' });
-      }
+      const candidateNames = buildVariants();
 
-      const metadata = downloadedObject?.metadata;
-      const metadataValues = metadata?.userMetadata || {};
-      const storedFileName = path.basename(downloadKey).replace(/\.gz$/, '');
-      const originalContentType = metadataValues['original-content-type'] || 'application/octet-stream';
-
-      res.set({
-         'Content-Type': originalContentType,
-         'Content-Disposition': `attachment; filename="${storedFileName}"`,
-         'X-Tracker-Filename': storedFileName
-      });
-
-      return res.status(200).send(await gunzip(downloadedObject.body));
-   })
-);
-
-timeTrackingRouter.get(
-   '/download/by-name/:accountID/:userID',
-   requireAuth,
-   asyncHandler(async (req, res) => {
-      const { accountID, userID } = req.params;
-      const { ownerUserID, timesheetName } = req.query;
-
-      if (!ownerUserID || !timesheetName) {
-         return res.status(400).json({ message: 'Both ownerUserID and timesheetName are required to download a tracker.' });
-      }
-
-      const sanitizedName = path.basename(timesheetName);
-      if (!sanitizedName || sanitizedName !== timesheetName) {
-         return res.status(400).json({ message: 'Invalid timesheet name provided.' });
-      }
-
-      const db = req.app.get('db');
-      const [requestingUserRecord, ownerUserRecord, accountRecord] = await Promise.all([
-         fetchUserRecord(db, accountID, userID),
-         fetchUserRecord(db, accountID, ownerUserID),
-         fetchAccountRecord(db, accountID)
+      const candidateKeys = candidateNames.flatMap(name => [
+         evaluateCandidate(`${primaryPrefix}${name}`),
+         evaluateCandidate(`${legacyPrefix}${name}`)
       ]);
 
-      const requesterRole = requestingUserRecord?.access_level?.toLowerCase();
-      const isSelfRequest = Number(userID) === Number(ownerUserID);
-      const allowedRoles = ['admin', 'manager'];
-
-      if (!isSelfRequest && !allowedRoles.includes(requesterRole)) {
-         return res.status(403).json({ message: 'You are not authorized to download this tracker.' });
-      }
-
-      const ownerFolder = buildUserFolder(ownerUserRecord);
-      const accountFolder = buildAccountFolder(accountRecord, accountID);
-      const { primaryPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, ownerFolder);
-      const candidateKeys = [
-         `${primaryPrefix}${timesheetName}.gz`,
-         `${legacyPrefix}${timesheetName}.gz`
-      ];
-
       let downloadKey = null;
       let downloadedObject = null;
 
+      const tryFetchObject = async key => {
+         const object = await getObject(key);
+         if (object?.body) {
+            downloadKey = key;
+            downloadedObject = object;
+         }
+      };
+
       for (const key of candidateKeys) {
+         if (downloadKey) break;
          try {
-            const object = await getObject(key);
-            if (object?.body) {
-               downloadKey = key;
-               downloadedObject = object;
-               break;
-            }
+            await tryFetchObject(key);
          } catch (error) {
             if (error.name !== 'NoSuchKey') {
                console.error(`[${new Date().toISOString()}] Error attempting to download "${key}": ${error.message}`);
@@ -680,13 +629,69 @@ timeTrackingRouter.get(
       }
 
       if (!downloadKey || !downloadedObject) {
-         return res.status(404).json({ message: 'Unable to locate the requested time tracker in S3.' });
+         const normalize = value => sanitizeSegment((value || '').replace(/\.gz$/i, '')).toLowerCase();
+         const targetVariants = Array.from(
+            new Set([...candidateNames, baseName, nameWithoutExt, safeTimesheetName].filter(Boolean))
+         ).map(normalize);
+
+         const prefixesToSearch = [primaryPrefix, legacyPrefix];
+
+         for (const prefix of prefixesToSearch) {
+            if (downloadKey) break;
+            try {
+               const objects = await listObjects(prefix);
+               for (const object of objects || []) {
+                  if (!object?.Key) continue;
+                  const base = path.basename(object.Key);
+                  if (targetVariants.includes(normalize(base))) {
+                     try {
+                        await tryFetchObject(object.Key);
+                        if (downloadKey) break;
+                     } catch (fetchError) {
+                        console.error(
+                           `[${new Date().toISOString()}] Error retrieving candidate key "${object.Key}": ${fetchError.message}`
+                        );
+                     }
+                  }
+               }
+            } catch (listError) {
+               console.error(
+                  `[${new Date().toISOString()}] Failed to list objects under "${prefix}": ${listError.message}`
+               );
+            }
+         }
+
+         if (!downloadKey || !downloadedObject) {
+            console.error(
+               `[${new Date().toISOString()}] Tracker download failed. Account ${accountID}, requester ${userID}, owner ${ownerUserID}, requested name "${timesheetName}".`
+            );
+            return res.status(404).json({
+               message: 'We could not locate that time tracker. It may have been archived or renamed.'
+            });
+         }
       }
 
       const metadata = downloadedObject?.metadata;
       const metadataValues = metadata?.userMetadata || {};
-      const storedFileName = path.basename(downloadKey).replace(/\.gz$/, '');
+      let storedFileName = path.basename(downloadKey);
       const originalContentType = metadataValues['original-content-type'] || 'application/octet-stream';
+
+      let fileBuffer;
+      const shouldGunzip = storedFileName.toLowerCase().endsWith('.gz');
+
+      try {
+         fileBuffer = shouldGunzip ? await gunzip(downloadedObject.body) : downloadedObject.body;
+         if (shouldGunzip) {
+            storedFileName = storedFileName.replace(/\.gz$/i, '');
+         }
+      } catch (decompressError) {
+         console.error(
+            `[${new Date().toISOString()}] Failed to decompress tracker "${downloadKey}": ${decompressError.message}`
+         );
+         return res.status(500).json({
+            message: 'We were unable to open that time tracker file. It may be corrupted. Please contact support if this continues.'
+         });
+      }
 
       res.set({
          'Content-Type': originalContentType,
@@ -694,7 +699,7 @@ timeTrackingRouter.get(
          'X-Tracker-Filename': storedFileName
       });
 
-      return res.status(200).send(await gunzip(downloadedObject.body));
+      return res.status(200).send(fileBuffer);
    })
 );
 
