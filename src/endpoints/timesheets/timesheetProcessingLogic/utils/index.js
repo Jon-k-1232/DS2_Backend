@@ -85,10 +85,20 @@ const moveFile = async (srcRelativePath, destRelativePath, timesheetName) => {
  * Convert serialized Excel dates to ISO format
  */
 const convertExcelDate = value => {
+   if (value === undefined || value === null) {
+      return null;
+   }
+
    if (typeof value === 'number') {
       const jsDate = new Date((value - 25569) * 86400 * 1000);
       return jsDate.toISOString().split('T')[0];
    }
+
+   if (typeof value === 'string') {
+      const trimmed = value.trim();
+      return trimmed ? trimmed : null;
+   }
+
    return value;
 };
 

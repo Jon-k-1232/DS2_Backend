@@ -1,8 +1,6 @@
 const express = require('express');
 const timesheetsRouter = express.Router();
 const asyncHandler = require('../../utils/asyncHandler');
-const processTimesheetBatch = require('./timesheetProcessingLogic/processTimesheetBatch');
-const { saveValidTimesheets, saveValidTimesheetErrors, saveInvalidTimesheetErrors, markTimesheetErrorsResolved } = require('./timesheetFunctions');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const timesheetsService = require('./timesheets-service');
 const transactionsService = require('../transactions/transactions-service');
@@ -10,69 +8,10 @@ const accountUserService = require('../user/user-service');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { addNewTransaction } = require('../transactions/sharedTransactionFunctions');
-const { DS2_SUPPORT_EMAILS } = require('../../../config');
 const { createGrid } = require('../../utils/gridFunctions');
-const sendErrorNotificationForAutomation = require('../../utils/email/failureMessages');
 const { restoreDataTypesTransactionsTableOnCreate } = require('../transactions/transactionsObjects');
 const { updateRecentJobTotal } = require('../transactions/sharedTransactionFunctions');
 const dayjs = require('dayjs');
-
-// Manually run timesheet processing job
-timesheetsRouter.route('/runManualJob/:accountID/:userID').post(
-   jsonParser,
-   asyncHandler(async (req, res) => {
-      const db = req.app.get('db');
-      const { accountID } = req.params;
-
-      const trx = await db.transaction();
-
-      try {
-         // Process all files
-         const { validSuccessEntries, invalidSuccessEntries, validErrorEntries, invalidErrorEntries, error } = await processTimesheetBatch(Number(accountID));
-
-         // Notify DS2 Support of the error
-         if (error) {
-            const processName = 'Manual Timesheet Processing';
-            await sendErrorNotificationForAutomation(accountID, error, processName, DS2_SUPPORT_EMAILS);
-            throw new Error(error);
-         }
-
-         const joinedInvalidTimesheets = invalidSuccessEntries.concat(invalidErrorEntries);
-         const invalidTimesheets = joinedInvalidTimesheets.map(timesheet => ({
-            account_id: accountID,
-            timesheet_name: timesheet.timesheet_name,
-            error_message: timesheet.error_message
-         }));
-
-         // Insert valid results into the database
-         await Promise.all([
-            saveValidTimesheets(trx, validSuccessEntries),
-            saveValidTimesheetErrors(trx, validErrorEntries),
-            saveInvalidTimesheetErrors(trx, invalidTimesheets),
-            markTimesheetErrorsResolved(trx, accountID, validSuccessEntries, invalidTimesheets)
-         ]);
-
-         await trx.commit();
-
-         const finalMessage = `Processed: ${validSuccessEntries.length} successfully, ${validErrorEntries.length} with errors requiring user fixes, and ${
-            invalidSuccessEntries.length + invalidErrorEntries.length
-         } with errors that could not be processed.`;
-
-         // Respond with full file information instead of counts
-         res.status(200).json({
-            message: finalMessage,
-            validSuccessEntries,
-            invalidSuccessEntries,
-            validErrorEntries,
-            invalidErrorEntries
-         });
-      } catch (err) {
-         await trx.rollback();
-         console.error(`[${new Date().toISOString()}] Error processing timesheets: ${err.message}`);
-         res.status(500).json({ message: `Error processing timesheets: ${err.message}` });
-      }
-   })
-);
 
 // Get timesheet entries
 timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
@@ -437,9 +376,8 @@ const fetchEmployeeTimesheetCounts = async (db, accountID) => {
          const { display_name, user_id } = employee;
 
          try {
-            const [transactionCount, timesheetErrorCount, timesheetsToDate, timeTrackersByMonth] = await Promise.all([
+            const [transactionCount, timesheetsToDate, timeTrackersByMonth] = await Promise.all([
                timesheetsService.getTimesheetEntryCountsByEmployee(db, accountID, user_id),
-               timesheetsService.getTimesheetErrorCountsByEmployee(db, accountID, user_id),
                timesheetsService.getUniqueTimesheetNamesByEmployee(db, accountID, user_id),
                timesheetsService.getDistinctTimesheetNamesByMonthWithPagination(db, accountID, user_id, monthQuery, limit, offset)
             ]);
@@ -449,8 +387,7 @@ const fetchEmployeeTimesheetCounts = async (db, accountID) => {
                user_id,
                transaction_count: transactionCount,
                trackers_to_date: timesheetsToDate.length,
-               trackers_by_month: timeTrackersByMonth.length,
-               error_count: timesheetErrorCount
+               trackers_by_month: timeTrackersByMonth.length
             };
          } catch (err) {
             console.error(`Error for User ID ${user_id}:`, err);
@@ -459,8 +396,7 @@ const fetchEmployeeTimesheetCounts = async (db, accountID) => {
                user_id,
                transaction_count: 0,
                trackers_to_date: 0,
-               trackers_by_month: 0,
-               error_count: 0
+               trackers_by_month: 0
             };
          }
       })

@@ -10,11 +10,13 @@ const { convertExcelDate } = require('../utils');
  */
 const validateNameBlock = (rows, employeeLookup) => {
    const employeeName = rows[0]?.[1]; // B1
-   const startDate = convertExcelDate(rows[1]?.[1]); // B2
-   const endDate = convertExcelDate(rows[2]?.[1]); // B3
+   const rawStartDate = rows[1]?.[1]; // B2
+   const rawEndDate = rows[2]?.[1]; // B3
+   const startDate = convertExcelDate(rawStartDate);
+   const endDate = convertExcelDate(rawEndDate);
 
    // Validate Employee Name
-   if (!employeeName || employeeName.trim() === '') {
+   if (!employeeName || employeeName.toString().trim() === '') {
       throw new Error('Employee Name (B1) is required.');
    }
 
@@ -29,7 +31,7 @@ const validateNameBlock = (rows, employeeLookup) => {
    }
 
    // Validate End Date
-   if (!endDate || !dayjs(endDate).isValid()) {
+    if (!endDate || !dayjs(endDate).isValid()) {
       throw new Error('Time Tracker End Date (B3) is invalid or missing.');
    }
 

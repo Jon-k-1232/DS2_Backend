@@ -27,6 +27,7 @@ const cookieParser = require('cookie-parser');
 const { requireAuth } = require('./endpoints/auth/jwt-auth');
 const timesheetsRouter = require('./endpoints/timesheets/timesheets-router');
 const timeTrackingRouter = require('./endpoints/timeTracking/timeTracking-router');
+const timeTrackerStaffRouter = require('./endpoints/timeTrackerStaff/timeTrackerStaff-router');
 
 // Middleware
 app.use(cookieParser());
@@ -70,6 +71,7 @@ app.use('/initialData', requireAuth, initialDataRouter);
 app.use('/workDescriptions', requireAuth, workDescriptionsRouter);
 app.use('/timesheets', timesheetsRouter);
 app.use('/time-tracking', timeTrackingRouter);
+app.use('/time-tracker-staff', requireAuth, timeTrackerStaffRouter);
 app.use('/health', healthRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

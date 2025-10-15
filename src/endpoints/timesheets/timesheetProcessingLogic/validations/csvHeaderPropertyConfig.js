@@ -6,7 +6,7 @@
  */
 const HEADER_CONFIG = {
    Date: { snakeCase: 'date', type: 'date', allowEmpty: false },
-   Entity: { snakeCase: 'entity', type: 'string', allowEmpty: true },
+   Entity: { snakeCase: 'entity', type: 'string', allowEmpty: false },
    Category: { snakeCase: 'category', type: 'string', allowEmpty: false },
    'Employee Name': { snakeCase: 'employee_name', type: 'string', allowEmpty: false },
    'Company Name': { snakeCase: 'company_name', type: 'string', allowEmpty: true },

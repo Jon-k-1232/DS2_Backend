@@ -94,9 +94,10 @@ const requireManagerOrAdmin = async (req, res, next) => {
    const payload = authService.verifyJwt(authToken);
    const [user] = await authService.getUserRoleByUserName(req.app.get('db'), payload.sub);
 
-   const lowerCaseUserAuth = user.access_level.toLowerCase();
+   const lowerCaseUserAuth = user.access_level?.toLowerCase();
+   const allowedRoles = ['manager', 'admin', 'owner'];
 
-   if (user && (lowerCaseUserAuth === 'manager' || lowerCaseUserAuth === 'admin')) {
+   if (user && allowedRoles.includes(lowerCaseUserAuth)) {
       next();
    } else {
       return res.send({

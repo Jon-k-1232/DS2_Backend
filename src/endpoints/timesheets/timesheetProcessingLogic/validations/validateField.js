@@ -19,18 +19,20 @@ const validateField = (header, value, rowIndex) => {
    }
 
    const { type, allowEmpty } = config;
+   const normalizedValue =
+      typeof value === 'string' ? value.trim() : value;
 
-   if (!allowEmpty && (value === undefined || value === null || value === '')) {
+   if (!allowEmpty && (normalizedValue === undefined || normalizedValue === null || normalizedValue === '')) {
       throw new Error(`Missing required value in column "${header}" at row ${rowIndex}`);
    }
 
    switch (type) {
       case 'date':
-         if (value) {
+         if (normalizedValue !== undefined && normalizedValue !== null && normalizedValue !== '') {
             // Handle both Excel serialized dates and regular date strings
-            const parsedDate = !isNaN(value)
-               ? dayjs.utc((value - 25569) * 86400 * 1000) // Treat Excel serialized date as UTC
-               : dayjs(value); // String or other date format
+            const parsedDate = !isNaN(normalizedValue)
+               ? dayjs.utc((normalizedValue - 25569) * 86400 * 1000) // Treat Excel serialized date as UTC
+               : dayjs(normalizedValue); // String or other date format
 
             if (!parsedDate.isValid()) {
                throw new Error(`Invalid date value in column "${header}" at row ${rowIndex}`);
@@ -40,8 +42,8 @@ const validateField = (header, value, rowIndex) => {
          break;
 
       case 'int':
-         if (value !== undefined && value !== null) {
-            const intValue = parseInt(value, 10);
+         if (normalizedValue !== undefined && normalizedValue !== null && normalizedValue !== '') {
+            const intValue = parseInt(normalizedValue, 10);
             if (isNaN(intValue)) {
                throw new Error(`Invalid integer value in column "${header}" at row ${rowIndex}`);
             }
@@ -53,7 +55,7 @@ const validateField = (header, value, rowIndex) => {
          if (value && typeof value !== 'string') {
             throw new Error(`Invalid string value in column "${header}" at row ${rowIndex}`);
          }
-         return value?.trim() || '';
+         return typeof value === 'string' ? value.trim() : value || '';
 
       default:
          throw new Error(`Unknown field type "${type}" for column "${header}" at row ${rowIndex}`);
