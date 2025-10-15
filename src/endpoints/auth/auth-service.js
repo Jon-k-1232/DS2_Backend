@@ -21,9 +21,7 @@ const authService = {
             'users.email',
             'users.display_name'
          )
-         .where(function () {
-            this.where('user_login.user_name', identifier).orWhere('users.email', identifier);
-         })
+         .where('user_login.user_name', identifier)
          .andWhere('user_login.is_login_active', true)
          .andWhere('users.is_user_active', true)
          .first();

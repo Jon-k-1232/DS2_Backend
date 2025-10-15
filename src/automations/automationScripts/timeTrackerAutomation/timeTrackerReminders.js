@@ -3,8 +3,10 @@ const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
 const db = require('../../../utils/db');
 const accountService = require('../../../endpoints/account/account-service');
+const automationSettingsService = require('../../../endpoints/account/automation-settings-service');
 const accountUserService = require('../../../endpoints/user/user-service');
 const { sendEmail } = require('../../../utils/email/sendEmail');
+const { AUTOMATION_KEY_MAP } = require('../../automationDefinitions');
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -174,16 +176,28 @@ const sendMissingTrackerRemindersForAccount = async accountID => {
    }
 };
 
-const iterateAccounts = async callback => {
-   const accountIDs = await accountService.fetchAllAccountIDs(db);
-   for (const accountID of accountIDs) {
-      await callback(accountID);
+const iterateAccountsForAutomation = async (automationKey, callback) => {
+   try {
+      const accountIDs = await automationSettingsService.getEnabledAccountIds(db, automationKey);
+
+      if (!accountIDs.length) {
+         console.log(`[${new Date().toISOString()}] No accounts enabled for automation "${automationKey}"; skipping.`);
+         return;
+      }
+
+      for (const accountID of accountIDs) {
+         await callback(accountID);
+      }
+   } catch (error) {
+      console.error(
+         `[${new Date().toISOString()}] Unable to resolve accounts for automation "${automationKey}": ${error.message}`
+      );
    }
 };
 
 const sendThursdayReminderEmails = async () => {
    console.log(`[${new Date().toISOString()}] Starting Thursday time tracker reminder automation...`);
-   await iterateAccounts(accountID =>
+   await iterateAccountsForAutomation(AUTOMATION_KEY_MAP.THURSDAY_REMINDER, accountID =>
       sendAccountWideReminder({
          accountID,
          subject: 'Reminder: Weekly time tracker is due tomorrow',
@@ -195,7 +209,7 @@ const sendThursdayReminderEmails = async () => {
 
 const sendFridayReminderEmails = async () => {
    console.log(`[${new Date().toISOString()}] Starting Friday afternoon time tracker reminder automation...`);
-   await iterateAccounts(accountID =>
+   await iterateAccountsForAutomation(AUTOMATION_KEY_MAP.FRIDAY_REMINDER, accountID =>
       sendAccountWideReminder({
          accountID,
          subject: 'Final reminder: Weekly time tracker is due today',
@@ -207,7 +221,7 @@ const sendFridayReminderEmails = async () => {
 
 const sendMissingTrackerReminderEmails = async () => {
    console.log(`[${new Date().toISOString()}] Starting daily missing time tracker reminder automation...`);
-   await iterateAccounts(sendMissingTrackerRemindersForAccount);
+   await iterateAccountsForAutomation(AUTOMATION_KEY_MAP.MISSING_TRACKER, sendMissingTrackerRemindersForAccount);
    console.log(`[${new Date().toISOString()}] Daily missing time tracker reminder automation complete.`);
 };
 

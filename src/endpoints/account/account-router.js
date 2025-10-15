@@ -5,6 +5,7 @@ const accountRouter = express.Router();
 const accountService = require('./account-service');
 const { createGrid } = require('../../utils/gridFunctions');
 const { requireAdmin } = require('../auth/jwt-auth');
+const automationSettingsService = require('./automation-settings-service');
 const {
    restoreDataTypesAccountOnCreate,
    restoreDataTypesAccountInformationOnCreate,
@@ -174,6 +175,74 @@ accountRouter
          res.status(500).send({
             message: 'Error retrieving account information.',
             status: 500
+         });
+      }
+   });
+
+accountRouter
+   .route('/automations/:accountID/:userID')
+   .all(requireAdmin)
+   .get(async (req, res) => {
+      const db = req.app.get('db');
+      const sanitizedParams = sanitizeFields(req.params);
+      const accountId = Number.parseInt(sanitizedParams.accountID, 10);
+
+      if (!Number.isInteger(accountId)) {
+         return res.status(400).json({
+            message: 'Invalid account identifier.',
+            status: 400
+         });
+      }
+
+      try {
+         const automations = await automationSettingsService.listAccountAutomations(db, accountId);
+
+         return res.status(200).json({
+            automations,
+            status: 200
+         });
+      } catch (error) {
+         console.error('Error fetching automation settings:', error);
+         const status = error.status || 500;
+         return res.status(status).json({
+            message: error.message || 'Unable to retrieve automation settings.',
+            status
+         });
+      }
+   })
+   .put(jsonParser, async (req, res) => {
+      const db = req.app.get('db');
+      const sanitizedParams = sanitizeFields(req.params);
+      const sanitizedBody = sanitizeFields(req.body || {});
+      const accountId = Number.parseInt(sanitizedParams.accountID, 10);
+      const { automationKey, isEnabled } = sanitizedBody;
+
+      if (!Number.isInteger(accountId)) {
+         return res.status(400).json({
+            message: 'Invalid account identifier.',
+            status: 400
+         });
+      }
+
+      if (typeof automationKey !== 'string' || typeof isEnabled !== 'boolean') {
+         return res.status(400).json({
+            message: 'Invalid automation payload.',
+            status: 400
+         });
+      }
+
+      try {
+         const automation = await automationSettingsService.updateAutomationSetting(db, accountId, automationKey, isEnabled);
+         return res.status(200).json({
+            automation,
+            status: 200
+         });
+      } catch (error) {
+         console.error('Error updating automation setting:', error);
+         const status = error.status || 500;
+         return res.status(status).json({
+            message: error.message || 'Unable to update automation setting.',
+            status
          });
       }
    });
