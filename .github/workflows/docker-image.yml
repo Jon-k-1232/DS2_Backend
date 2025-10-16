@@ -19,12 +19,26 @@ jobs:
            with:
               token: ${{ secrets.PAT_TOKEN }}
 
+         - name: Set up Node.js
+           uses: actions/setup-node@v3
+           with:
+              node-version: '18'
+              cache: 'npm'
+
+         - name: Install dependencies
+           run: npm ci
+
+         - name: Run unit tests
+           run: npm test
+           env:
+              CI: true
+
          - name: Get current version
            id: get_version
            run: |
-              current_version=$(cat version.txt)
+              current_version=$(node -p "require('./package.json').version")
               echo "Current version: $current_version"
-              echo "::set-output name=current_version::$current_version"
+              echo "current_version=$current_version" >> "$GITHUB_OUTPUT"
 
          - name: Check for existing tag
            id: check_tag
@@ -33,11 +47,11 @@ jobs:
               TAG_EXISTS=$(git tag --list "v$current_version" | wc -l)
               echo "Checking tag for version: v$current_version"
               if [ "$TAG_EXISTS" -ne 0 ]; then
-                echo "Tag v$current_version already exists. Please manually update the version file."
+                echo "Tag v$current_version already exists. Please bump the version in package.json."
                 exit 1
               fi
               echo "Tag does not exist. Proceeding with build."
-              echo "::set-output name=tag_exists::$TAG_EXISTS"
+              echo "tag_exists=$TAG_EXISTS" >> "$GITHUB_OUTPUT"
 
          - name: Display versions for debugging
            run: |
@@ -77,22 +91,11 @@ jobs:
               echo "NODE_PORT_PROD=${{ secrets.NODE_PORT_PROD }}" >> .env
               echo "DB_PROD_HOST=${{ secrets.DB_PROD_HOST }}" >> .env
               echo "FRONT_END_URL_PROD=${{ secrets.FRONT_END_URL_PROD }}" >> .env
-              echo "PRODUCTION_PDF_SAVE_LOCATION=${{ secrets.PRODUCTION_PDF_SAVE_LOCATION }}" >> .env
               echo "HOST_IP_PROD=${{ secrets.HOST_IP_PROD }}" >> .env
-              echo "FILE_SHARE_PATH=${{ secrets.FILE_SHARE_PATH }}" >> .env
-              echo "TIMESHEETS_PENDING_DIR=${{ secrets.TIMESHEETS_PENDING_DIR }}" >> .env
-              echo "TIMESHEETS_PROCESSING_DIR=${{ secrets.TIMESHEETS_PROCESSING_DIR }}" >> .env
-              echo "TIMESHEETS_PROCESSED_DIR=${{ secrets.TIMESHEETS_PROCESSED_DIR }}" >> .env
-              echo "TIMESHEETS_ERROR_DIR=${{ secrets.TIMESHEETS_ERROR_DIR }}" >> .env
-              echo "USER_VERSION_TIMESHEETS_ERROR_DIR=${{ secrets.USER_VERSION_TIMESHEETS_ERROR_DIR }}" >> .env
               echo "DOMAIN=${{ secrets.DOMAIN }}" >> .env
-              echo "FILE_SHARE_USERNAME=${{ secrets.FILE_SHARE_USERNAME }}" >> .env
-              echo "FILE_SHARE_PASSWORD=${{ secrets.FILE_SHARE_PASSWORD }}" >> .env
               echo "FROM_EMAIL=${{ secrets.FROM_EMAIL }}" >> .env
               echo "FROM_EMAIL_PASSWORD=${{ secrets.FROM_EMAIL_PASSWORD }}" >> .env
               echo "FROM_EMAIL_SMTP=${{ secrets.FROM_EMAIL_SMTP }}" >> .env
-              echo "SEND_TO_EMAILS=${{ secrets.SEND_TO_EMAILS }}" >> .env
-              echo "DS2_SUPPORT_EMAILS=${{ secrets.DS2_SUPPORT_EMAILS }}" >> .env
               echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
               echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
               echo "S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}" >> .env
@@ -134,25 +137,12 @@ jobs:
               echo "NODE_PORT_PROD=${{ secrets.NODE_PORT_PROD }}" >> .env
               echo "DB_PROD_HOST=${{ secrets.DB_PROD_HOST }}" >> .env
               echo "FRONT_END_URL_PROD=${{ secrets.FRONT_END_URL_PROD }}" >> .env
-              echo "PRODUCTION_PDF_SAVE_LOCATION=${{ secrets.PRODUCTION_PDF_SAVE_LOCATION }}" >> .env
               echo "HOST_IP_PROD=${{ secrets.HOST_IP_PROD }}" >> .env
-              echo "FILE_SHARE_PATH=${{ secrets.FILE_SHARE_PATH }}" >> .env
-              echo "LOCAL_FILE_SHARE_PATH=${{ secrets.LOCAL_FILE_SHARE_PATH }}" >> .env
-              echo "DOCKER_FILE_SHARE_PATH=${{ secrets.DOCKER_FILE_SHARE_PATH }}" >> .env
-              echo "TIMESHEETS_PENDING_DIR=${{ secrets.TIMESHEETS_PENDING_DIR }}" >> .env
-              echo "TIMESHEETS_PROCESSING_DIR=${{ secrets.TIMESHEETS_PROCESSING_DIR }}" >> .env
-              echo "TIMESHEETS_PROCESSED_DIR=${{ secrets.TIMESHEETS_PROCESSED_DIR }}" >> .env
-              echo "TIMESHEETS_ERROR_DIR=${{ secrets.TIMESHEETS_ERROR_DIR }}" >> .env
-              echo "USER_VERSION_TIMESHEETS_ERROR_DIR=${{ secrets.USER_VERSION_TIMESHEETS_ERROR_DIR }}" >> .env
               echo "DOMAIN=${{ secrets.DOMAIN }}" >> .env
-              echo "FILE_SHARE_USERNAME=${{ secrets.FILE_SHARE_USERNAME }}" >> .env
-              echo "FILE_SHARE_PASSWORD=${{ secrets.FILE_SHARE_PASSWORD }}" >> .env
               echo "FROM_EMAIL=${{ secrets.FROM_EMAIL }}" >> .env
               echo "FROM_EMAIL_USERNAME=${{ secrets.FROM_EMAIL_USERNAME }}" >> .env
               echo "FROM_EMAIL_PASSWORD=${{ secrets.FROM_EMAIL_PASSWORD }}" >> .env
               echo "FROM_EMAIL_SMTP=${{ secrets.FROM_EMAIL_SMTP }}" >> .env
-              echo "SEND_TO_EMAILS=${{ secrets.SEND_TO_EMAILS }}" >> .env
-              echo "DS2_SUPPORT_EMAILS=${{ secrets.DS2_SUPPORT_EMAILS }}" >> .env
               echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
               echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
               echo "S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}" >> .env

@@ -10,7 +10,13 @@ const accountService = require('../account/account-service');
 const { listObjects, getObject, putObject, deleteObject } = require('../../utils/s3');
 const { validateUploadedTracker } = require('../../timeTrackerValidation/validateUploadedTracker');
 const timeTrackerStaffService = require('../timeTrackerStaff/timeTrackerStaff-service');
-const { sendValidationSuccessEmail, sendSystemErrorEmail, getAdminRecipients } = require('../../timeTrackerValidation/notifications');
+const {
+   sendValidationSuccessEmail,
+   sendValidationFailureEmail,
+   sendSystemErrorEmail,
+   getAdminRecipients
+} = require('../../timeTrackerValidation/notifications');
+const sendSuccessEmail = require('../../utils/email/sendSuccessEmail');
 const timesheetsService = require('../timesheets/timesheets-service');
 
 const gzip = promisify(zlib.gzip);
@@ -155,7 +161,6 @@ timeTrackingRouter.post(
       const { accountID, userID } = req.params;
       const fileNameHeader = req.headers['x-file-name'];
       const fileTypeHeader = req.headers['x-file-type'] || 'application/octet-stream';
-      const adminRecipients = getAdminRecipients();
       const policyNote = 'Managers and admins can submit on behalf of team members; all other users may only submit their own time tracker files.';
 
       const accountIdNumber = Number(accountID);
@@ -210,6 +215,15 @@ timeTrackingRouter.post(
       }
 
       const db = req.app.get('db');
+      let adminRecipients = [];
+      try {
+         adminRecipients = await getAdminRecipients(db, accountIdNumber);
+      } catch (recipientError) {
+         console.warn(
+            `[${new Date().toISOString()}] Failed to resolve time tracker admin recipients for account ${accountIdNumber}: ${recipientError.message}`
+         );
+         adminRecipients = [];
+      }
       const decodedOriginalName = decodeURIComponent(fileNameHeader);
       const detectedExtension = path.extname(decodedOriginalName || '').toLowerCase();
       if (detectedExtension === '.numbers') {
@@ -272,6 +286,21 @@ timeTrackingRouter.post(
                   '; '
                )}`
             );
+
+            if (adminRecipients.length) {
+               await sendValidationFailureEmail({
+                  adminEmails: adminRecipients,
+                  userRecord,
+                  accountRecord,
+                  originalFileName: decodedOriginalName,
+                  errors: validationResult.errors
+               }).catch(emailError => {
+                  console.error(
+                     `[${new Date().toISOString()}] Failed to send validation failure email: ${emailError.message}`,
+                     emailError.stack
+                  );
+               });
+            }
 
             return res.status(400).json({
                message:
@@ -453,18 +482,67 @@ timeTrackingRouter.post(
          const staffRecords = await timeTrackerStaffService.listActiveEmailsByAccount(db, accountIdNumber);
          const billingStaffEmails = staffRecords.map(record => record.email).filter(Boolean);
 
-         await sendValidationSuccessEmail({
-            billingStaffEmails,
-            userRecord,
-            metadata: validationResult.metadata,
-            storedFileName,
-            entryCount: normalizedEntries.length
-         }).catch(emailError => {
+         let staffNotifiedCount = 0;
+         try {
+            const info = await sendValidationSuccessEmail({
+               billingStaffEmails,
+               userRecord,
+               metadata: validationResult.metadata,
+               storedFileName,
+               entryCount: normalizedEntries.length
+            });
+            if (info && info.accepted) {
+               staffNotifiedCount = info.accepted.length;
+            } else if (billingStaffEmails.length) {
+               staffNotifiedCount = billingStaffEmails.length;
+            }
+         } catch (emailError) {
             console.error(
                `[${new Date().toISOString()}] Failed to send validation success email: ${emailError.message}`,
                emailError.stack
             );
-         });
+         }
+
+         if (staffNotifiedCount) {
+            console.log(
+               `[${new Date().toISOString()}] Successfully notified ${staffNotifiedCount} time tracker staff member(s) of upload "${storedFileName}".`
+            );
+         }
+
+         const ownerEmail = validationResult.metadata?.submittedForEmail || userRecord?.email || null;
+         const submitterEmail = validationResult.metadata?.submittedByEmail || requestingUserRecord?.email || null;
+
+         const notifiedEmails = new Set();
+
+         if (ownerEmail) {
+            try {
+               await sendSuccessEmail(ownerEmail, storedFileName);
+               notifiedEmails.add(ownerEmail);
+            } catch (emailError) {
+               console.error(
+                  `[${new Date().toISOString()}] Failed to send success email to owner (${ownerEmail}): ${emailError.message}`,
+                  emailError.stack
+               );
+            }
+         }
+
+         if (submitterEmail && submitterEmail !== ownerEmail) {
+            try {
+               await sendSuccessEmail(submitterEmail, storedFileName);
+               notifiedEmails.add(submitterEmail);
+            } catch (emailError) {
+               console.error(
+                  `[${new Date().toISOString()}] Failed to send success email to submitter (${submitterEmail}): ${emailError.message}`,
+                  emailError.stack
+               );
+            }
+         }
+
+         if (notifiedEmails.size) {
+            console.log(
+               `[${new Date().toISOString()}] Sent confirmation email(s) to: ${Array.from(notifiedEmails).join(', ')}.`
+            );
+         }
 
          console.log(
             `[${new Date().toISOString()}] Tracker upload complete for "${decodedOriginalName}". Stored as "${storedFileName}". Submitted by user ${userIdNumber} for user ${ownerUserIdNumber}.`

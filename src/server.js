@@ -8,12 +8,12 @@ app.set('db', db);
 app.listen(NODE_PORT, HOST_IP, () => {
    console.log(`Server listening at http://${HOST_IP}:${NODE_PORT}`);
    console.log(`Environment = ${NODE_ENV || 'unknown'}`);
-   console.log(`Database = ${DATABASE_URL}`);
    checkConnectivity()
       .then(isConnected => {
-         console.log(`S3 Connectivity = ${isConnected}`);
          if (isConnected) {
-            console.log(`S3 Bucket = ${S3_BUCKET_NAME || 'unknown'}`);
+            console.log(`S3 Bucket = ${S3_BUCKET_NAME || 'unknown'} (connected)`);
+         } else {
+            console.log('S3 Connectivity = false');
          }
       })
       .catch(error => {
@@ -29,7 +29,7 @@ app.listen(NODE_PORT, HOST_IP, () => {
    db.raw('SELECT 1')
       .then(() => {
          clearTimeout(dbTimeout);
-         console.log('Database Connectivity = true');
+         console.log(`Database = ${DATABASE_URL} (connected)`);
       })
       .catch(error => {
          clearTimeout(dbTimeout);

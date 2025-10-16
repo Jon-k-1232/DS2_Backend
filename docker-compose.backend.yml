@@ -8,9 +8,6 @@ services:
    ds2_backend:
       container_name: DS2-Backend
       image: marine1232/ds2-backend:latest
-      # build:
-      #    context: .
-      #    dockerfile: Dockerfile
       environment:
          - TZ=America/Phoenix
       env_file:
@@ -18,7 +15,6 @@ services:
       volumes:
          - './:/app'
          - '/app/node_modules'
-         - '/Volumes/Staff:/mnt/share'
       ports:
          - '8003:8003'
       restart: always

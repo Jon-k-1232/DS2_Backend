@@ -2,7 +2,7 @@ const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
 const { sendEmail } = require('../utils/email/sendEmail');
-const { DS2_SUPPORT_EMAILS } = require('../../config');
+const timeTrackerStaffService = require('../endpoints/timeTrackerStaff/timeTrackerStaff-service');
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -28,8 +28,25 @@ const buildUserSummary = (userRecord, accountRecord) => {
    </ul>`;
 };
 
-const formatErrorList = errors =>
-   `<ol>${(errors || []).map(error => `<li>${error}</li>`).join('')}</ol>`;
+const formatErrorList = errors => `<ol>${(errors || []).map(error => `<li>${error}</li>`).join('')}</ol>`;
+
+const getAdminRecipients = async (db, accountID) => {
+   const fallbackEmails = dedupeEmails(parseEmailList(process.env.TIME_TRACKING_ADMIN_EMAILS || ''));
+
+   if (!db || !Number.isFinite(Number(accountID))) {
+      return fallbackEmails;
+   }
+
+   try {
+      const rows = await timeTrackerStaffService.listActiveEmailsByAccount(db, Number(accountID));
+      const emails = rows.map(row => row.email).filter(Boolean);
+      const deduped = dedupeEmails(emails);
+      return deduped.length ? deduped : fallbackEmails;
+   } catch (error) {
+      console.warn(`[${new Date().toISOString()}] Failed to load time tracker staff emails for account ${accountID}: ${error.message}`);
+      return fallbackEmails;
+   }
+};
 
 const sendValidationSuccessEmail = async ({ billingStaffEmails, userRecord, metadata, storedFileName, entryCount }) => {
    const recipients = dedupeEmails(billingStaffEmails);
@@ -39,21 +56,14 @@ const sendValidationSuccessEmail = async ({ billingStaffEmails, userRecord, meta
    const html = `
       <p>Hello Billing Team,</p>
       <p>The time tracker <strong>${storedFileName}</strong> for ${userRecord?.display_name || 'a user'} has been validated and a new timesheet record is now available.</p>
-      <p>The related transactions have been added to the processing queue for your review${
-         typeof entryCount === 'number' ? ` (${entryCount} entr${entryCount === 1 ? 'y' : 'ies'})` : ''
-      }.</p>
+      <p>The related transactions have been added to the processing queue for your review${typeof entryCount === 'number' ? ` (${entryCount} entr${entryCount === 1 ? 'y' : 'ies'})` : ''}.</p>
       <p><strong>Tracker Details:</strong></p>
       <ul>
          <li><strong>Upload Time:</strong> ${formatTimestamp()}</li>
          <li><strong>Start Date:</strong> ${metadata?.startDate || 'Unknown'}</li>
          <li><strong>End Date:</strong> ${metadata?.endDate || 'Unknown'}</li>
          <li><strong>Submitted For:</strong> ${metadata?.submittedForDisplayName || userRecord?.display_name || 'Unknown'}</li>
-         ${
-            metadata?.submittedByDisplayName &&
-            metadata?.submittedByUserId !== metadata?.submittedForUserId
-               ? `<li><strong>Submitted By:</strong> ${metadata.submittedByDisplayName}</li>`
-               : ''
-         }
+         ${metadata?.submittedByDisplayName && metadata?.submittedByUserId !== metadata?.submittedForUserId ? `<li><strong>Submitted By:</strong> ${metadata.submittedByDisplayName}</li>` : ''}
       </ul>
       <p>You are receiving this message because you are listed as time tracker staff.</p>
       <p>Thank you.</p>
@@ -66,13 +76,7 @@ const sendValidationSuccessEmail = async ({ billingStaffEmails, userRecord, meta
    });
 };
 
-const sendValidationFailureEmail = async ({
-   adminEmails,
-   userRecord,
-   accountRecord,
-   originalFileName,
-   errors
-}) => {
+const sendValidationFailureEmail = async ({ adminEmails, userRecord, accountRecord, originalFileName, errors }) => {
    const recipients = dedupeEmails(adminEmails);
    if (!recipients.length) return null;
 
@@ -95,13 +99,7 @@ const sendValidationFailureEmail = async ({
    });
 };
 
-const sendSystemErrorEmail = async ({
-   adminEmails,
-   userRecord,
-   accountRecord,
-   originalFileName,
-   error
-}) => {
+const sendSystemErrorEmail = async ({ adminEmails, userRecord, accountRecord, originalFileName, error }) => {
    const recipients = dedupeEmails(adminEmails);
    if (!recipients.length) return null;
 
@@ -123,8 +121,6 @@ const sendSystemErrorEmail = async ({
       html
    });
 };
-
-const getAdminRecipients = () => dedupeEmails(parseEmailList(DS2_SUPPORT_EMAILS));
 
 module.exports = {
    sendValidationSuccessEmail,

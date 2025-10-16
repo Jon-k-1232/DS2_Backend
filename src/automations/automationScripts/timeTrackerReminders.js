@@ -1,12 +1,12 @@
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
-const db = require('../../../utils/db');
-const accountService = require('../../../endpoints/account/account-service');
-const automationSettingsService = require('../../../endpoints/account/automation-settings-service');
-const accountUserService = require('../../../endpoints/user/user-service');
-const { sendEmail } = require('../../../utils/email/sendEmail');
-const { AUTOMATION_KEY_MAP } = require('../../automationDefinitions');
+const db = require('../../utils/db');
+const accountService = require('../../endpoints/account/account-service');
+const automationSettingsService = require('../../endpoints/account/automation-settings-service');
+const accountUserService = require('../../endpoints/user/user-service');
+const { sendEmail } = require('../../utils/email/sendEmail');
+const { AUTOMATION_KEY_MAP } = require('../automationDefinitions');
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -36,10 +36,7 @@ const fetchActiveUsersWithEmail = async (accountID, allowedUserIds = null) => {
 
 const sendAccountWideReminder = async ({ accountID, subject, buildHtml, recipientUserIds }) => {
    try {
-      const [{ accountName }, recipients] = await Promise.all([
-         getAccountDetails(accountID),
-         fetchActiveUsersWithEmail(accountID, recipientUserIds)
-      ]);
+      const [{ accountName }, recipients] = await Promise.all([getAccountDetails(accountID), fetchActiveUsersWithEmail(accountID, recipientUserIds)]);
 
       const recipientEmails = Array.from(new Set(recipients.map(user => user.email)));
       if (!recipientEmails.length) {
@@ -55,13 +52,9 @@ const sendAccountWideReminder = async ({ accountID, subject, buildHtml, recipien
          html
       });
 
-      console.log(
-         `[${new Date().toISOString()}] Sent "${subject}" reminder to account ${accountID} (${recipientEmails.length} recipients).`
-      );
+      console.log(`[${new Date().toISOString()}] Sent "${subject}" reminder to account ${accountID} (${recipientEmails.length} recipients).`);
    } catch (error) {
-      console.error(
-         `[${new Date().toISOString()}] Failed to send "${subject}" reminder for account ${accountID}: ${error.message}`
-      );
+      console.error(`[${new Date().toISOString()}] Failed to send "${subject}" reminder for account ${accountID}: ${error.message}`);
    }
 };
 
@@ -101,10 +94,7 @@ const getPreviousWeekRange = () => {
 
 const sendMissingTrackerRemindersForAccount = async (accountID, recipientUserIds) => {
    try {
-      const [accountInfo, activeUsers] = await Promise.all([
-         getAccountDetails(accountID),
-         fetchActiveUsersWithEmail(accountID, recipientUserIds)
-      ]);
+      const [accountInfo, activeUsers] = await Promise.all([getAccountDetails(accountID), fetchActiveUsersWithEmail(accountID, recipientUserIds)]);
 
       if (!activeUsers.length) {
          console.log(`[${new Date().toISOString()}] No active users with emails for account ${accountID}; skipping missing tracker reminders.`);
@@ -129,16 +119,12 @@ const sendMissingTrackerRemindersForAccount = async (accountID, recipientUserIds
                missingUsers.push(user);
             }
          } catch (userError) {
-            console.error(
-               `[${new Date().toISOString()}] Failed to evaluate tracker status for user ${user.userId} (account ${accountID}): ${userError.message}`
-            );
+            console.error(`[${new Date().toISOString()}] Failed to evaluate tracker status for user ${user.userId} (account ${accountID}): ${userError.message}`);
          }
       }
 
       if (!missingUsers.length) {
-         console.log(
-            `[${new Date().toISOString()}] All users for account ${accountID} submitted trackers for ${displayStart} – ${displayEnd}.`
-         );
+         console.log(`[${new Date().toISOString()}] All users for account ${accountID} submitted trackers for ${displayStart} – ${displayEnd}.`);
          return;
       }
 
@@ -163,20 +149,14 @@ const sendMissingTrackerRemindersForAccount = async (accountID, recipientUserIds
                   html
                });
                subjectsSent.add(`${user.email}-${subject}`);
-               console.log(
-                  `[${new Date().toISOString()}] Sent missing tracker reminder to ${user.email} for account ${accountID}.`
-               );
+               console.log(`[${new Date().toISOString()}] Sent missing tracker reminder to ${user.email} for account ${accountID}.`);
             } catch (emailError) {
-               console.error(
-                  `[${new Date().toISOString()}] Failed to send missing tracker reminder to ${user.email} (account ${accountID}): ${emailError.message}`
-               );
+               console.error(`[${new Date().toISOString()}] Failed to send missing tracker reminder to ${user.email} (account ${accountID}): ${emailError.message}`);
             }
          })
       );
    } catch (error) {
-      console.error(
-         `[${new Date().toISOString()}] Failed to evaluate missing trackers for account ${accountID}: ${error.message}`
-      );
+      console.error(`[${new Date().toISOString()}] Failed to evaluate missing trackers for account ${accountID}: ${error.message}`);
    }
 };
 
@@ -194,9 +174,7 @@ const iterateAccountsForAutomation = async (automationKey, callback) => {
          await callback(accountID, recipientUserIds);
       }
    } catch (error) {
-      console.error(
-         `[${new Date().toISOString()}] Unable to resolve accounts for automation "${automationKey}": ${error.message}`
-      );
+      console.error(`[${new Date().toISOString()}] Unable to resolve accounts for automation "${automationKey}": ${error.message}`);
    }
 };
 
