@@ -104,6 +104,16 @@ authentication.post(
 
       const userRecord = await authService.findUserForPasswordReset(db, identifier);
 
+      if (!userRecord) {
+         console.log(
+            `[${new Date().toISOString()}] Password reset requested for identifier "${identifier}" but no active user was found.`
+         );
+      } else {
+         console.log(
+            `[${new Date().toISOString()}] Password reset requested for user_id=${userRecord.user_id}, user_name=${userRecord.user_name}, account_id=${userRecord.account_id}.`
+         );
+      }
+
       if (userRecord) {
          let temporaryPasswordApplied = false;
          try {

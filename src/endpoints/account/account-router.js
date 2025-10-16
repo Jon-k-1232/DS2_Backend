@@ -6,6 +6,7 @@ const accountService = require('./account-service');
 const { createGrid } = require('../../utils/gridFunctions');
 const { requireAdmin } = require('../auth/jwt-auth');
 const automationSettingsService = require('./automation-settings-service');
+const accountUserService = require('../user/user-service');
 const {
    restoreDataTypesAccountOnCreate,
    restoreDataTypesAccountInformationOnCreate,
@@ -195,10 +196,36 @@ accountRouter
       }
 
       try {
-         const automations = await automationSettingsService.listAccountAutomations(db, accountId);
+         const [automations, activeUsers] = await Promise.all([
+            automationSettingsService.listAccountAutomations(db, accountId),
+            accountUserService.getActiveAccountUsers(db, accountId)
+         ]);
+
+         const activeUserMap = new Map((activeUsers || []).map(user => [user.user_id, user]));
+         const sanitizedAutomations = [];
+
+         for (const automation of automations) {
+            const filteredIds = (automation.recipientUserIds || []).filter(userId => activeUserMap.has(userId));
+
+            if (filteredIds.length !== (automation.recipientUserIds || []).length) {
+               await automationSettingsService.replaceAutomationRecipients(db, accountId, automation.key, filteredIds);
+            }
+
+            sanitizedAutomations.push({
+               ...automation,
+               recipientUserIds: filteredIds
+            });
+         }
+
+         const availableUsers = (activeUsers || []).map(user => ({
+            userId: user.user_id,
+            displayName: user.display_name,
+            email: user.email || ''
+         }));
 
          return res.status(200).json({
-            automations,
+            automations: sanitizedAutomations,
+            availableUsers,
             status: 200
          });
       } catch (error) {
@@ -215,7 +242,7 @@ accountRouter
       const sanitizedParams = sanitizeFields(req.params);
       const sanitizedBody = sanitizeFields(req.body || {});
       const accountId = Number.parseInt(sanitizedParams.accountID, 10);
-      const { automationKey, isEnabled } = sanitizedBody;
+      const { automationKey } = sanitizedBody;
 
       if (!Number.isInteger(accountId)) {
          return res.status(400).json({
@@ -224,15 +251,59 @@ accountRouter
          });
       }
 
-      if (typeof automationKey !== 'string' || typeof isEnabled !== 'boolean') {
+      if (typeof automationKey !== 'string' || !automationKey.length) {
          return res.status(400).json({
-            message: 'Invalid automation payload.',
+            message: 'Invalid automation key.',
             status: 400
          });
       }
 
+      const updates = {};
+      if (Object.prototype.hasOwnProperty.call(sanitizedBody, 'isEnabled')) {
+         const rawValue = sanitizedBody.isEnabled;
+         if (typeof rawValue === 'boolean') {
+            updates.isEnabled = rawValue;
+         } else if (typeof rawValue === 'string') {
+            const lowered = rawValue.trim().toLowerCase();
+            if (lowered === 'true') {
+               updates.isEnabled = true;
+            } else if (lowered === 'false') {
+               updates.isEnabled = false;
+            } else {
+               return res.status(400).json({
+                  message: 'Invalid value for isEnabled.',
+                  status: 400
+               });
+            }
+         } else if (typeof rawValue === 'number') {
+            updates.isEnabled = rawValue === 1;
+         } else {
+            return res.status(400).json({
+               message: 'Invalid value for isEnabled.',
+               status: 400
+            });
+         }
+      }
+
+      if (Object.prototype.hasOwnProperty.call(sanitizedBody, 'recipientUserIds')) {
+         if (!Array.isArray(sanitizedBody.recipientUserIds)) {
+            return res.status(400).json({
+               message: 'Invalid automation recipients payload.',
+               status: 400
+            });
+         }
+         updates.recipientUserIds = sanitizedBody.recipientUserIds.map(id => Number.parseInt(id, 10)).filter(id => Number.isInteger(id));
+      }
+
+      if (!Object.keys(updates).length) {
+        return res.status(400).json({
+           message: 'No automation updates provided.',
+           status: 400
+        });
+      }
+
       try {
-         const automation = await automationSettingsService.updateAutomationSetting(db, accountId, automationKey, isEnabled);
+         const automation = await automationSettingsService.updateAutomationSetting(db, accountId, automationKey, updates);
          return res.status(200).json({
             automation,
             status: 200

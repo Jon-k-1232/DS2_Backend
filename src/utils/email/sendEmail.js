@@ -24,7 +24,14 @@ const transporter = nodemailer.createTransport({
  */
 const sendEmail = async ({ recipientEmails, subject, body, html, attachments = [] }) => {
    try {
-      console.log(`[${new Date().toISOString()}] Sending email...`);
+      const resolvedRecipients = (Array.isArray(recipientEmails) && recipientEmails.length
+         ? recipientEmails
+         : SEND_TO_EMAILS.split(',')
+      )
+         .map(address => address.trim())
+         .filter(Boolean);
+
+      console.log(`[${new Date().toISOString()}] Sending email to: ${resolvedRecipients.join(', ')}...`);
 
       // Build mailOptions:
       // - 'text' will be the plain-text email body if provided.
@@ -32,7 +39,7 @@ const sendEmail = async ({ recipientEmails, subject, body, html, attachments = [
       // Nodemailer automatically sends multipart/alternative if both are present.
       const mailOptions = {
          from: FROM_EMAIL,
-         to: recipientEmails?.join(', ') || SEND_TO_EMAILS.split(','),
+         to: resolvedRecipients.join(', '),
          subject: subject || 'A Message From DS2',
          text: body, // Plain-text fallback
          html, // HTML body if available
@@ -42,7 +49,7 @@ const sendEmail = async ({ recipientEmails, subject, body, html, attachments = [
       // Send the email
       const info = await transporter.sendMail(mailOptions);
 
-      console.log(`[${new Date().toISOString()}] Successfully sent email.`);
+      console.log(`[${new Date().toISOString()}] Successfully sent email to: ${resolvedRecipients.join(', ')}`);
       return info.messageId;
    } catch (error) {
       console.error('Error sending email:', error);

@@ -21,20 +21,24 @@ const getAccountDetails = async accountID => {
    };
 };
 
-const fetchActiveUsersWithEmail = async accountID => {
+const fetchActiveUsersWithEmail = async (accountID, allowedUserIds = null) => {
    const users = await accountUserService.getActiveAccountUsers(db, accountID);
-   return (users || []).filter(user => user?.email).map(user => ({
-      userId: user.user_id,
-      name: user.display_name || 'Team Member',
-      email: user.email.trim()
-   }));
+   const allowedSet = Array.isArray(allowedUserIds) && allowedUserIds.length ? new Set(allowedUserIds) : null;
+   return (users || [])
+      .filter(user => user?.email)
+      .filter(user => (allowedSet ? allowedSet.has(user.user_id) : true))
+      .map(user => ({
+         userId: user.user_id,
+         name: user.display_name || 'Team Member',
+         email: user.email.trim()
+      }));
 };
 
-const sendAccountWideReminder = async ({ accountID, subject, buildHtml }) => {
+const sendAccountWideReminder = async ({ accountID, subject, buildHtml, recipientUserIds }) => {
    try {
       const [{ accountName }, recipients] = await Promise.all([
          getAccountDetails(accountID),
-         fetchActiveUsersWithEmail(accountID)
+         fetchActiveUsersWithEmail(accountID, recipientUserIds)
       ]);
 
       const recipientEmails = Array.from(new Set(recipients.map(user => user.email)));
@@ -95,11 +99,11 @@ const getPreviousWeekRange = () => {
    };
 };
 
-const sendMissingTrackerRemindersForAccount = async accountID => {
+const sendMissingTrackerRemindersForAccount = async (accountID, recipientUserIds) => {
    try {
       const [accountInfo, activeUsers] = await Promise.all([
          getAccountDetails(accountID),
-         fetchActiveUsersWithEmail(accountID)
+         fetchActiveUsersWithEmail(accountID, recipientUserIds)
       ]);
 
       if (!activeUsers.length) {
@@ -186,7 +190,8 @@ const iterateAccountsForAutomation = async (automationKey, callback) => {
       }
 
       for (const accountID of accountIDs) {
-         await callback(accountID);
+         const recipientUserIds = await automationSettingsService.getRecipientUserIds(db, accountID, automationKey);
+         await callback(accountID, recipientUserIds);
       }
    } catch (error) {
       console.error(
@@ -197,11 +202,12 @@ const iterateAccountsForAutomation = async (automationKey, callback) => {
 
 const sendThursdayReminderEmails = async () => {
    console.log(`[${new Date().toISOString()}] Starting Thursday time tracker reminder automation...`);
-   await iterateAccountsForAutomation(AUTOMATION_KEY_MAP.THURSDAY_REMINDER, accountID =>
+   await iterateAccountsForAutomation(AUTOMATION_KEY_MAP.THURSDAY_REMINDER, (accountID, recipientUserIds) =>
       sendAccountWideReminder({
          accountID,
          subject: 'Reminder: Weekly time tracker is due tomorrow',
-         buildHtml: buildThursdayReminder
+         buildHtml: buildThursdayReminder,
+         recipientUserIds
       })
    );
    console.log(`[${new Date().toISOString()}] Thursday time tracker reminder automation complete.`);
@@ -209,11 +215,12 @@ const sendThursdayReminderEmails = async () => {
 
 const sendFridayReminderEmails = async () => {
    console.log(`[${new Date().toISOString()}] Starting Friday afternoon time tracker reminder automation...`);
-   await iterateAccountsForAutomation(AUTOMATION_KEY_MAP.FRIDAY_REMINDER, accountID =>
+   await iterateAccountsForAutomation(AUTOMATION_KEY_MAP.FRIDAY_REMINDER, (accountID, recipientUserIds) =>
       sendAccountWideReminder({
          accountID,
          subject: 'Final reminder: Weekly time tracker is due today',
-         buildHtml: buildFridayReminder
+         buildHtml: buildFridayReminder,
+         recipientUserIds
       })
    );
    console.log(`[${new Date().toISOString()}] Friday afternoon time tracker reminder automation complete.`);

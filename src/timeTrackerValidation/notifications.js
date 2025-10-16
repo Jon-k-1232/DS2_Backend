@@ -47,6 +47,13 @@ const sendValidationSuccessEmail = async ({ billingStaffEmails, userRecord, meta
          <li><strong>Upload Time:</strong> ${formatTimestamp()}</li>
          <li><strong>Start Date:</strong> ${metadata?.startDate || 'Unknown'}</li>
          <li><strong>End Date:</strong> ${metadata?.endDate || 'Unknown'}</li>
+         <li><strong>Submitted For:</strong> ${metadata?.submittedForDisplayName || userRecord?.display_name || 'Unknown'}</li>
+         ${
+            metadata?.submittedByDisplayName &&
+            metadata?.submittedByUserId !== metadata?.submittedForUserId
+               ? `<li><strong>Submitted By:</strong> ${metadata.submittedByDisplayName}</li>`
+               : ''
+         }
       </ul>
       <p>You are receiving this message because you are listed as time tracker staff.</p>
       <p>Thank you.</p>

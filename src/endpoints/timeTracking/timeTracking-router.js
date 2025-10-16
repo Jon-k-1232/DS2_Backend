@@ -156,14 +156,34 @@ timeTrackingRouter.post(
       const fileNameHeader = req.headers['x-file-name'];
       const fileTypeHeader = req.headers['x-file-type'] || 'application/octet-stream';
       const adminRecipients = getAdminRecipients();
-      const policyNote = 'Users can only submit their own time tracker files.';
+      const policyNote = 'Managers and admins can submit on behalf of team members; all other users may only submit their own time tracker files.';
 
       const accountIdNumber = Number(accountID);
       const userIdNumber = Number(userID);
+      const ownerUserIdParam = req.query?.ownerUserID ?? req.query?.targetUserID ?? null;
+      const ownerUserIdNumber = ownerUserIdParam ? Number(ownerUserIdParam) : userIdNumber;
 
-      if (!Number.isFinite(accountIdNumber) || !Number.isFinite(userIdNumber)) {
+      if (
+         !Number.isFinite(accountIdNumber) ||
+         !Number.isFinite(userIdNumber) ||
+         !Number.isFinite(ownerUserIdNumber)
+      ) {
          return res.status(400).json({
             message: 'Invalid account or user information provided.',
+            note: policyNote
+         });
+      }
+
+      if (
+         !Number.isInteger(accountIdNumber) ||
+         !Number.isInteger(userIdNumber) ||
+         !Number.isInteger(ownerUserIdNumber) ||
+         accountIdNumber <= 0 ||
+         userIdNumber <= 0 ||
+         ownerUserIdNumber <= 0
+      ) {
+         return res.status(400).json({
+            message: 'Account and user identifiers must be positive integers.',
             note: policyNote
          });
       }
@@ -198,22 +218,46 @@ timeTrackingRouter.post(
             note: policyNote
          });
       }
+      let requestingUserRecord;
       let userRecord;
       let accountRecord;
 
       try {
-         [userRecord, accountRecord] = await Promise.all([
+         const [requesterRecord, ownerRecord, fetchedAccount] = await Promise.all([
             fetchUserRecord(db, accountIdNumber, userIdNumber),
+            fetchUserRecord(db, accountIdNumber, ownerUserIdNumber),
             fetchAccountRecord(db, accountIdNumber)
          ]);
 
+         requestingUserRecord = requesterRecord;
+         userRecord = ownerRecord;
+         accountRecord = fetchedAccount;
+
+         if (!userRecord?.is_user_active) {
+            return res.status(400).json({
+               message: 'The selected user is inactive and cannot receive time tracker uploads.',
+               note: policyNote
+            });
+         }
+
+         const requesterRole = requestingUserRecord?.access_level?.toLowerCase?.() || '';
+         const allowedOverrideRoles = ['admin', 'manager'];
+         const isSelfSubmission = ownerUserIdNumber === userIdNumber;
+
+         if (!isSelfSubmission && !allowedOverrideRoles.includes(requesterRole)) {
+            return res.status(403).json({
+               message: 'Only managers or admins can submit trackers for other users.',
+               note: policyNote
+            });
+         }
+
          console.log(
-            `[${new Date().toISOString()}] Starting tracker validation for account ${accountIdNumber}, user ${userIdNumber}, file "${decodedOriginalName}".`
+            `[${new Date().toISOString()}] Starting tracker validation for account ${accountIdNumber}, submitted by user ${userIdNumber} for user ${ownerUserIdNumber}, file "${decodedOriginalName}".`
          );
          const validationResult = await validateUploadedTracker({
             db,
             accountID: accountIdNumber,
-            userID: userIdNumber,
+            userID: ownerUserIdNumber,
             fileBuffer: req.body,
             originalFileName: decodedOriginalName
          });
@@ -237,7 +281,22 @@ timeTrackingRouter.post(
             });
          }
 
-         const metadata = validationResult.metadata || {};
+         const metadataFromValidation = validationResult.metadata || {};
+         const metadata = {
+            ...metadataFromValidation,
+            userId: ownerUserIdNumber,
+            submittedForUserId: ownerUserIdNumber,
+            submittedForDisplayName:
+               userRecord?.display_name || userRecord?.email || `User ${ownerUserIdNumber}`,
+            submittedForEmail: userRecord?.email || null,
+            submittedByUserId: userIdNumber,
+            submittedByDisplayName:
+               requestingUserRecord?.display_name ||
+               requestingUserRecord?.email ||
+               `User ${userIdNumber}`,
+            submittedByEmail: requestingUserRecord?.email || null
+         };
+         validationResult.metadata = metadata;
 
          console.log(
             `[${new Date().toISOString()}] Extracted metadata for "${decodedOriginalName}":`,
@@ -251,16 +310,11 @@ timeTrackingRouter.post(
             return trimmed === '' ? null : trimmed;
          };
 
-         const normalizedUserId = toNumeric(metadata.userId);
-
-         if (normalizedUserId === null) {
-            console.error(
-               `[${new Date().toISOString()}] Unable to determine a valid user ID for "${decodedOriginalName}".`
+         const metadataUserId = toNumeric(metadataFromValidation.userId);
+         if (metadataUserId !== null && metadataUserId !== ownerUserIdNumber) {
+            console.warn(
+               `[${new Date().toISOString()}] Tracker metadata user (${metadataUserId}) does not match selected user ${ownerUserIdNumber}; overriding to the selected user.`
             );
-            return res.status(400).json({
-               message: 'Unable to determine the user associated with this tracker. Please verify the Employee Name and try again.',
-               note: policyNote
-            });
          }
 
          if (!metadata.startDate || !metadata.endDate) {
@@ -274,9 +328,11 @@ timeTrackingRouter.post(
             });
          }
 
+         const effectiveUserId = ownerUserIdNumber;
+
          const normalizedEntries = (validationResult.entries || []).map(entry => ({
             account_id: accountIdNumber,
-            user_id: normalizedUserId,
+            user_id: effectiveUserId,
             employee_name: toNullableString(entry.employee_name),
             timesheet_name: null, // placeholder, set after storedFileName computed
             time_tracker_start_date: toISODate(metadata.startDate),
@@ -411,7 +467,7 @@ timeTrackingRouter.post(
          });
 
          console.log(
-            `[${new Date().toISOString()}] Tracker upload complete for "${decodedOriginalName}". Stored as "${storedFileName}".`
+            `[${new Date().toISOString()}] Tracker upload complete for "${decodedOriginalName}". Stored as "${storedFileName}". Submitted by user ${userIdNumber} for user ${ownerUserIdNumber}.`
          );
 
          return res.status(201).json({
@@ -450,6 +506,49 @@ timeTrackingRouter.post(
 
          return res.status(status).json({ message, note: policyNote });
       }
+   })
+);
+
+timeTrackingRouter.get(
+   '/users/:accountID/:userID',
+   requireAuth,
+   asyncHandler(async (req, res) => {
+      const { accountID, userID } = req.params;
+      const accountIdNumber = Number(accountID);
+      const userIdNumber = Number(userID);
+
+      if (!Number.isFinite(accountIdNumber) || !Number.isFinite(userIdNumber)) {
+         return res.status(400).json({
+            message: 'Invalid account or user information provided.',
+            status: 400
+         });
+      }
+
+      const db = req.app.get('db');
+      const [requestingUserRecord, activeUsers] = await Promise.all([
+         fetchUserRecord(db, accountIdNumber, userIdNumber),
+         accountUserService.getActiveAccountUsers(db, accountIdNumber)
+      ]);
+
+      const requesterRole = requestingUserRecord?.access_level?.toLowerCase?.() || '';
+      const allowedRoles = ['admin', 'manager'];
+      const canSeeAll = allowedRoles.includes(requesterRole);
+
+      const normalizedUsers = (activeUsers || []).map(user => ({
+         userId: user.user_id,
+         displayName: user.display_name || user.email || `User ${user.user_id}`,
+         email: user.email || '',
+         accessLevel: user.access_level || ''
+      }));
+
+      const filteredUsers = canSeeAll
+         ? normalizedUsers
+         : normalizedUsers.filter(user => user.userId === userIdNumber);
+
+      return res.status(200).json({
+         users: filteredUsers,
+         status: 200
+      });
    })
 );
 
