@@ -8,33 +8,35 @@ const {
 } = require("@aws-sdk/client-s3");
 const config = require("../../config");
 
+const isTestEnv = process.env.NODE_ENV === 'test';
+
 const requiredConfig = {
-  S3_BUCKET_NAME: config.S3_BUCKET_NAME,
-  S3_REGION: config.S3_REGION,
-  S3_ACCESS_KEY_ID: config.S3_ACCESS_KEY_ID,
-  S3_SECRET_ACCESS_KEY: config.S3_SECRET_ACCESS_KEY,
-  S3_ENDPOINT: config.S3_ENDPOINT,
+  S3_BUCKET_NAME: config.S3_BUCKET_NAME || (isTestEnv ? 'test-bucket' : undefined),
+  S3_REGION: config.S3_REGION || (isTestEnv ? 'us-east-1' : undefined),
+  S3_ACCESS_KEY_ID: config.S3_ACCESS_KEY_ID || (isTestEnv ? 'test-key' : undefined),
+  S3_SECRET_ACCESS_KEY: config.S3_SECRET_ACCESS_KEY || (isTestEnv ? 'test-secret' : undefined),
+  S3_ENDPOINT: config.S3_ENDPOINT || (isTestEnv ? 'http://localhost' : undefined),
 };
 
 const missing = Object.entries(requiredConfig)
   .filter(([, value]) => !value)
   .map(([key]) => key);
 
-if (missing.length) {
+if (missing.length && !isTestEnv) {
   throw new Error(
     `Missing required S3 configuration values: ${missing.join(", ")}`
   );
 }
 
-const bucketName = config.S3_BUCKET_NAME;
+const bucketName = requiredConfig.S3_BUCKET_NAME;
 
 const s3 = new S3Client({
-  region: config.S3_REGION,
-  endpoint: config.S3_ENDPOINT,
+  region: requiredConfig.S3_REGION,
+  endpoint: requiredConfig.S3_ENDPOINT,
   forcePathStyle: true,
   credentials: {
-    accessKeyId: config.S3_ACCESS_KEY_ID,
-    secretAccessKey: config.S3_SECRET_ACCESS_KEY,
+    accessKeyId: requiredConfig.S3_ACCESS_KEY_ID,
+    secretAccessKey: requiredConfig.S3_SECRET_ACCESS_KEY,
   },
 });
 

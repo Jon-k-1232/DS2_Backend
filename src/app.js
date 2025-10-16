@@ -75,7 +75,9 @@ app.use('/time-tracker-staff', requireAuth, timeTrackerStaffRouter);
 app.use('/health', healthRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-automationOrchestrator.scheduledAutomations();
+if (NODE_ENV !== 'test') {
+   automationOrchestrator.scheduledAutomations();
+}
 
 /* ///////////////////////////\\\\  ERROR HANDLER  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 app.use((err, req, res, next) => {

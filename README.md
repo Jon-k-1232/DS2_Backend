@@ -2,7 +2,7 @@
 
 DS2 Backend is the Node.js + PostgreSQL API that powers the DS2 time, billing, and invoicing platform. It handles authentication, customer and job management, time tracking ingestion, monthly invoice generation, and integration with email and S3 storage.
 
-Current package version: `0.1.0.34` (mirrors `package.json`).
+Current package version: `0.1.0.36` (mirrors `package.json`).
 
 Looking for the frontend? See [DS2_Frontend/README.md](../DS2_Frontend/README.md) for the React app details.
 
