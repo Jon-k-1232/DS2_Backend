@@ -1,5 +1,5 @@
-# Pull official base image
-FROM node:latest
+# Pull official base image (pin to an LTS release)
+FROM node:20.18.0-alpine
 
 # Set the time zone
 ENV TZ=America/Phoenix
