@@ -20,6 +20,7 @@ const { createAndSaveZip } = require('../../pdfCreator/zipOrchestrator');
 const dataInsertionOrchestrator = require('./invoiceDataInsertions/dataInsertionOrchestrator');
 const { requireManagerOrAdmin } = require('../auth/jwt-auth');
 const { getObject } = require('../../utils/s3');
+const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 
 // GET all invoices
 invoiceRouter.route('/getInvoices/:accountID/:invoiceID').get(async (req, res) => {
@@ -280,3 +281,47 @@ invoiceRouter.route('/getInvoiceDetails/:invoiceID/:accountID/:userID').get(asyn
 });
 
 module.exports = invoiceRouter;
+
+// Paginated invoices list
+invoiceRouter.route('/getInvoicesPaginated/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   const { search = '' } = req.query;
+
+   try {
+      const { page, limit, offset } = getPaginationParams({
+         page: req.query.page || 1,
+         limit: req.query.limit || 20
+      });
+
+      const { invoices, totalCount } = await invoiceService.getInvoicesPaginated(db, accountID, {
+         limit,
+         offset,
+         searchTerm: typeof search === 'string' ? search.trim() : ''
+      });
+
+      const grid = createGrid(invoices);
+      const pagination = getPaginationMetadata(totalCount, page, limit);
+
+      return res.status(200).send({
+         invoicesList: {
+            activeInvoiceData: {
+               activeInvoices: invoices,
+               grid,
+               pagination,
+               searchTerm: typeof search === 'string' ? search.trim() : ''
+            }
+         },
+         message: 'Successfully retrieved invoices.',
+         status: 200
+      });
+   } catch (error) {
+      console.error('Error fetching paginated invoices:', error);
+      const isPaginationError = error.message && error.message.includes('Invalid pagination');
+      const statusCode = isPaginationError ? 400 : 500;
+      res.status(statusCode).send({
+         message: error.message || 'An error occurred while retrieving invoices.',
+         status: statusCode
+      });
+   }
+});

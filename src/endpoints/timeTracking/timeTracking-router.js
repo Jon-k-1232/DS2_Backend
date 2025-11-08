@@ -10,14 +10,11 @@ const accountService = require('../account/account-service');
 const { listObjects, getObject, putObject, deleteObject } = require('../../utils/s3');
 const { validateUploadedTracker } = require('../../timeTrackerValidation/validateUploadedTracker');
 const timeTrackerStaffService = require('../timeTrackerStaff/timeTrackerStaff-service');
-const {
-   sendValidationSuccessEmail,
-   sendValidationFailureEmail,
-   sendSystemErrorEmail,
-   getAdminRecipients
-} = require('../../timeTrackerValidation/notifications');
+const { sendValidationSuccessEmail, sendSystemErrorEmail, getAdminRecipients } = require('../../timeTrackerValidation/notifications');
 const sendSuccessEmail = require('../../utils/email/sendSuccessEmail');
 const timesheetsService = require('../timesheets/timesheets-service');
+const { kickOffAiSuggestionsForEntryIds } = require('../timesheets/aiTimesheetJobRunner');
+const aiIntegrationService = require('../aiIntegration/aiIntegration-service');
 
 const gzip = promisify(zlib.gzip);
 const gunzip = promisify(zlib.gunzip);
@@ -153,6 +150,10 @@ const ensureAdminAccess = userRecord => {
    }
 };
 
+// POST /time-tracking/upload/:accountID/:userID
+// Upload a time tracker file for a user, validate/normalize entries, save the compressed file to S3,
+// insert entries into the holding table (timesheet_entries), send notification emails, and
+// kick off AI categorization in the background (non-blocking). Returns success immediately.
 timeTrackingRouter.post(
    '/upload/:accountID/:userID',
    requireAuth,
@@ -168,25 +169,14 @@ timeTrackingRouter.post(
       const ownerUserIdParam = req.query?.ownerUserID ?? req.query?.targetUserID ?? null;
       const ownerUserIdNumber = ownerUserIdParam ? Number(ownerUserIdParam) : userIdNumber;
 
-      if (
-         !Number.isFinite(accountIdNumber) ||
-         !Number.isFinite(userIdNumber) ||
-         !Number.isFinite(ownerUserIdNumber)
-      ) {
+      if (!Number.isFinite(accountIdNumber) || !Number.isFinite(userIdNumber) || !Number.isFinite(ownerUserIdNumber)) {
          return res.status(400).json({
             message: 'Invalid account or user information provided.',
             note: policyNote
          });
       }
 
-      if (
-         !Number.isInteger(accountIdNumber) ||
-         !Number.isInteger(userIdNumber) ||
-         !Number.isInteger(ownerUserIdNumber) ||
-         accountIdNumber <= 0 ||
-         userIdNumber <= 0 ||
-         ownerUserIdNumber <= 0
-      ) {
+      if (!Number.isInteger(accountIdNumber) || !Number.isInteger(userIdNumber) || !Number.isInteger(ownerUserIdNumber) || accountIdNumber <= 0 || userIdNumber <= 0 || ownerUserIdNumber <= 0) {
          return res.status(400).json({
             message: 'Account and user identifiers must be positive integers.',
             note: policyNote
@@ -219,9 +209,7 @@ timeTrackingRouter.post(
       try {
          adminRecipients = await getAdminRecipients(db, accountIdNumber);
       } catch (recipientError) {
-         console.warn(
-            `[${new Date().toISOString()}] Failed to resolve time tracker admin recipients for account ${accountIdNumber}: ${recipientError.message}`
-         );
+         console.warn(`[${new Date().toISOString()}] Failed to resolve time tracker admin recipients for account ${accountIdNumber}: ${recipientError.message}`);
          adminRecipients = [];
       }
       const decodedOriginalName = decodeURIComponent(fileNameHeader);
@@ -276,35 +264,13 @@ timeTrackingRouter.post(
             originalFileName: decodedOriginalName
          });
 
-         console.log(
-            `[${new Date().toISOString()}] Validation completed for "${decodedOriginalName}". Errors found: ${validationResult.errors.length}.`
-         );
+         console.log(`[${new Date().toISOString()}] Validation completed for "${decodedOriginalName}". Errors found: ${validationResult.errors.length}.`);
 
          if (validationResult.errors.length) {
-            console.warn(
-               `[${new Date().toISOString()}] Validation failed for "${decodedOriginalName}". Errors: ${validationResult.errors.join(
-                  '; '
-               )}`
-            );
-
-            if (adminRecipients.length) {
-               await sendValidationFailureEmail({
-                  adminEmails: adminRecipients,
-                  userRecord,
-                  accountRecord,
-                  originalFileName: decodedOriginalName,
-                  errors: validationResult.errors
-               }).catch(emailError => {
-                  console.error(
-                     `[${new Date().toISOString()}] Failed to send validation failure email: ${emailError.message}`,
-                     emailError.stack
-                  );
-               });
-            }
+            console.warn(`[${new Date().toISOString()}] Validation failed for "${decodedOriginalName}". Errors: ${validationResult.errors.join('; ')}`);
 
             return res.status(400).json({
-               message:
-                  'The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading.',
+               message: 'The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading.',
                errors: validationResult.errors,
                note: policyNote
             });
@@ -315,22 +281,15 @@ timeTrackingRouter.post(
             ...metadataFromValidation,
             userId: ownerUserIdNumber,
             submittedForUserId: ownerUserIdNumber,
-            submittedForDisplayName:
-               userRecord?.display_name || userRecord?.email || `User ${ownerUserIdNumber}`,
+            submittedForDisplayName: userRecord?.display_name || userRecord?.email || `User ${ownerUserIdNumber}`,
             submittedForEmail: userRecord?.email || null,
             submittedByUserId: userIdNumber,
-            submittedByDisplayName:
-               requestingUserRecord?.display_name ||
-               requestingUserRecord?.email ||
-               `User ${userIdNumber}`,
+            submittedByDisplayName: requestingUserRecord?.display_name || requestingUserRecord?.email || `User ${userIdNumber}`,
             submittedByEmail: requestingUserRecord?.email || null
          };
          validationResult.metadata = metadata;
 
-         console.log(
-            `[${new Date().toISOString()}] Extracted metadata for "${decodedOriginalName}":`,
-            metadata
-         );
+         console.log(`[${new Date().toISOString()}] Extracted tracker metadata for "${decodedOriginalName}".`);
 
          const toNumeric = value => (value === undefined || value === null || Number.isNaN(Number(value)) ? null : Number(value));
          const toNullableString = value => {
@@ -341,16 +300,11 @@ timeTrackingRouter.post(
 
          const metadataUserId = toNumeric(metadataFromValidation.userId);
          if (metadataUserId !== null && metadataUserId !== ownerUserIdNumber) {
-            console.warn(
-               `[${new Date().toISOString()}] Tracker metadata user (${metadataUserId}) does not match selected user ${ownerUserIdNumber}; overriding to the selected user.`
-            );
+            console.warn(`[${new Date().toISOString()}] Tracker metadata user (${metadataUserId}) does not match selected user ${ownerUserIdNumber}; overriding to the selected user.`);
          }
 
          if (!metadata.startDate || !metadata.endDate) {
-            console.error(
-               `[${new Date().toISOString()}] Missing tracker date range in metadata for "${decodedOriginalName}". Metadata:`,
-               metadata
-            );
+            console.error(`[${new Date().toISOString()}] Missing tracker date range in metadata for "${decodedOriginalName}". Metadata:`, metadata);
             return res.status(400).json({
                message: 'The tracker metadata is incomplete. Please ensure the start and end dates are provided.',
                note: policyNote
@@ -384,15 +338,10 @@ timeTrackingRouter.post(
             });
          }
 
-         console.log(
-            `[${new Date().toISOString()}] Normalized ${normalizedEntries.length} entries for "${decodedOriginalName}". Sample entry:`,
-            normalizedEntries[0]
-         );
+         console.log(`[${new Date().toISOString()}] Normalized entries for "${decodedOriginalName}".`);
 
          if (normalizedEntries.some(entry => !entry.time_tracker_start_date || !entry.time_tracker_end_date || !entry.date)) {
-            console.error(
-               `[${new Date().toISOString()}] One or more entries for "${decodedOriginalName}" contained invalid dates after normalization. Rolling back.`
-            );
+            console.error(`[${new Date().toISOString()}] One or more entries for "${decodedOriginalName}" contained invalid dates after normalization. Rolling back.`);
             return res.status(400).json({
                message: 'The tracker contains invalid dates. Please review the Date column and try again.',
                note: policyNote
@@ -400,9 +349,7 @@ timeTrackingRouter.post(
          }
 
          if (normalizedEntries.some(entry => entry.duration === null)) {
-            console.error(
-               `[${new Date().toISOString()}] One or more entries for "${decodedOriginalName}" contained invalid durations after normalization. Rolling back.`
-            );
+            console.error(`[${new Date().toISOString()}] One or more entries for "${decodedOriginalName}" contained invalid durations after normalization. Rolling back.`);
             return res.status(400).json({
                message: 'The tracker contains invalid duration values. Please review the Duration column and try again.',
                note: policyNote
@@ -421,41 +368,29 @@ timeTrackingRouter.post(
             entry.timesheet_name = storedFileName;
          });
 
-        console.log(
-            `[${new Date().toISOString()}] Validation passed for "${decodedOriginalName}". Saving compressed file to S3 key "${s3Key}".`
-         );
-        await putObject(s3Key, compressedFile, 'application/gzip', {
+         console.log(`[${new Date().toISOString()}] Validation passed for "${decodedOriginalName}". Saving compressed file to S3 key "${s3Key}".`);
+         await putObject(s3Key, compressedFile, 'application/gzip', {
             'original-filename': encodeURIComponent(storedFileName),
             'original-content-type': fileTypeHeader
          });
 
-         console.log(
-            `[${new Date().toISOString()}] Successfully saved tracker to S3 at "${s3Key}". Persisting entries to database...`
-         );
+         console.log(`[${new Date().toISOString()}] Successfully saved tracker to S3 at "${s3Key}". Persisting entries to database...`);
 
          const trx = await db.transaction();
+         let insertedEntries = [];
          try {
-            await timesheetsService.insertTimesheetEntriesWithTransaction(trx, normalizedEntries);
+            insertedEntries = await timesheetsService.insertTimesheetEntriesWithTransaction(trx, normalizedEntries);
             await trx.commit();
-            console.log(
-               `[${new Date().toISOString()}] Inserted ${normalizedEntries.length} entries into timesheet_entries for "${decodedOriginalName}".`
-            );
+            console.log(`[${new Date().toISOString()}] Inserted ${normalizedEntries.length} entries into timesheet_entries for "${decodedOriginalName}".`);
          } catch (dbError) {
             await trx.rollback();
-            console.error(
-               `[${new Date().toISOString()}] Failed to persist timesheet entries for "${decodedOriginalName}": ${dbError.message}`,
-               dbError.stack
-            );
+            console.error(`[${new Date().toISOString()}] Failed to persist timesheet entries for "${decodedOriginalName}": ${dbError.message}`, dbError.stack);
 
             try {
                await deleteObject(s3Key);
-               console.log(
-                  `[${new Date().toISOString()}] Removed S3 object "${s3Key}" after database insert failure.`
-               );
+               console.log(`[${new Date().toISOString()}] Removed S3 object "${s3Key}" after database insert failure.`);
             } catch (cleanupError) {
-               console.error(
-                  `[${new Date().toISOString()}] Failed to remove S3 object "${s3Key}" after database error: ${cleanupError.message}`
-               );
+               console.error(`[${new Date().toISOString()}] Failed to remove S3 object "${s3Key}" after database error: ${cleanupError.message}`);
             }
 
             if (adminRecipients.length) {
@@ -466,10 +401,7 @@ timeTrackingRouter.post(
                   originalFileName: decodedOriginalName,
                   error: dbError
                }).catch(emailError => {
-                  console.error(
-                     `[${new Date().toISOString()}] Failed to send system error email after DB error: ${emailError.message}`,
-                     emailError.stack
-                  );
+                  console.error(`[${new Date().toISOString()}] Failed to send system error email after DB error: ${emailError.message}`, emailError.stack);
                });
             }
 
@@ -477,6 +409,28 @@ timeTrackingRouter.post(
                message: 'An unexpected error occurred while saving the time tracker. Please try again later.',
                note: policyNote
             });
+         }
+
+         // Kick off AI categorization in the background if integration is enabled; do not block user response
+         if (insertedEntries.length) {
+            try {
+               const integration = await aiIntegrationService.getIntegrationByAccount(db, accountIdNumber);
+               if (integration && integration.is_enabled) {
+                  const insertedIds = insertedEntries.map(e => e?.timesheet_entry_id).filter(Boolean);
+                  if (insertedIds.length) {
+                     kickOffAiSuggestionsForEntryIds({
+                        db,
+                        accountId: accountIdNumber,
+                        userId: requestingUserRecord?.user_id || null,
+                        entryIds: insertedIds
+                     });
+                  }
+               } else {
+                  console.info(`[${new Date().toISOString()}] AI integration disabled for account ${accountIdNumber}; skipping background AI kickoff.`);
+               }
+            } catch (aiCheckError) {
+               console.warn(`[${new Date().toISOString()}] Failed to check AI integration for account ${accountIdNumber}: ${aiCheckError.message}`);
+            }
          }
 
          const staffRecords = await timeTrackerStaffService.listActiveEmailsByAccount(db, accountIdNumber);
@@ -497,51 +451,50 @@ timeTrackingRouter.post(
                staffNotifiedCount = billingStaffEmails.length;
             }
          } catch (emailError) {
-            console.error(
-               `[${new Date().toISOString()}] Failed to send validation success email: ${emailError.message}`,
-               emailError.stack
-            );
+            console.error(`[${new Date().toISOString()}] Failed to send validation success email: ${emailError.message}`, emailError.stack);
          }
 
          if (staffNotifiedCount) {
-            console.log(
-               `[${new Date().toISOString()}] Successfully notified ${staffNotifiedCount} time tracker staff member(s) of upload "${storedFileName}".`
-            );
+            console.log(`[${new Date().toISOString()}] Successfully notified ${staffNotifiedCount} time tracker staff member(s) of upload "${storedFileName}".`);
          }
 
+         // Optionally send user-facing success emails; disabled by default to avoid duplicate notices.
+         // Enable by setting TIME_TRACKER_SEND_USER_SUCCESS_EMAILS=1
+         const sendUserSuccessEmails = process.env.TIME_TRACKER_SEND_USER_SUCCESS_EMAILS === '1';
          const ownerEmail = validationResult.metadata?.submittedForEmail || userRecord?.email || null;
          const submitterEmail = validationResult.metadata?.submittedByEmail || requestingUserRecord?.email || null;
+         const staffEmailSet = new Set((billingStaffEmails || []).map(e => (e || '').toLowerCase()));
 
-         const notifiedEmails = new Set();
-
-         if (ownerEmail) {
-            try {
-               await sendSuccessEmail(ownerEmail, storedFileName);
-               notifiedEmails.add(ownerEmail);
-            } catch (emailError) {
-               console.error(
-                  `[${new Date().toISOString()}] Failed to send success email to owner (${ownerEmail}): ${emailError.message}`,
-                  emailError.stack
-               );
+         if (sendUserSuccessEmails) {
+            const notifiedEmails = new Set();
+            // Avoid emailing users who already receive the staff "ready for review" email
+            if (ownerEmail && !staffEmailSet.has(String(ownerEmail).toLowerCase())) {
+               try {
+                  await sendSuccessEmail(ownerEmail, storedFileName);
+                  notifiedEmails.add(ownerEmail);
+               } catch (emailError) {
+                  console.error(`[${new Date().toISOString()}] Failed to send success email to owner (${ownerEmail}): ${emailError.message}`, emailError.stack);
+               }
+            } else if (ownerEmail) {
+               console.info(`[${new Date().toISOString()}] Skipping duplicate success email to owner (${ownerEmail}); already notified as staff.`);
             }
-         }
 
-         if (submitterEmail && submitterEmail !== ownerEmail) {
-            try {
-               await sendSuccessEmail(submitterEmail, storedFileName);
-               notifiedEmails.add(submitterEmail);
-            } catch (emailError) {
-               console.error(
-                  `[${new Date().toISOString()}] Failed to send success email to submitter (${submitterEmail}): ${emailError.message}`,
-                  emailError.stack
-               );
+            if (submitterEmail && submitterEmail !== ownerEmail && !staffEmailSet.has(String(submitterEmail).toLowerCase())) {
+               try {
+                  await sendSuccessEmail(submitterEmail, storedFileName);
+                  notifiedEmails.add(submitterEmail);
+               } catch (emailError) {
+                  console.error(`[${new Date().toISOString()}] Failed to send success email to submitter (${submitterEmail}): ${emailError.message}`, emailError.stack);
+               }
+            } else if (submitterEmail && submitterEmail !== ownerEmail) {
+               console.info(`[${new Date().toISOString()}] Skipping duplicate success email to submitter (${submitterEmail}); already notified as staff.`);
             }
-         }
 
-         if (notifiedEmails.size) {
-            console.log(
-               `[${new Date().toISOString()}] Sent confirmation email(s) to: ${Array.from(notifiedEmails).join(', ')}.`
-            );
+            if (notifiedEmails.size) {
+               console.log(`[${new Date().toISOString()}] Sent confirmation email(s) to: ${Array.from(notifiedEmails).join(', ')}.`);
+            }
+         } else {
+            console.info(`[${new Date().toISOString()}] User success emails disabled; only "ready for review" notifications sent to staff.`);
          }
 
          console.log(
@@ -565,28 +518,21 @@ timeTrackingRouter.post(
                originalFileName: decodedOriginalName,
                error
             }).catch(emailError => {
-               console.error(
-                  `[${new Date().toISOString()}] Failed to send system error email: ${emailError.message}`,
-                  emailError.stack
-               );
+               console.error(`[${new Date().toISOString()}] Failed to send system error email: ${emailError.message}`, emailError.stack);
             });
          }
 
-         const message =
-            status >= 500
-               ? 'An unexpected error occurred while uploading the time tracker.'
-               : error.message;
+         const message = status >= 500 ? 'An unexpected error occurred while uploading the time tracker.' : error.message;
 
-         console.error(
-            `[${new Date().toISOString()}] Upload failed for "${decodedOriginalName}" with status ${status}: ${error.message}`,
-            error.stack
-         );
+         console.error(`[${new Date().toISOString()}] Upload failed for "${decodedOriginalName}" with status ${status}: ${error.message}`, error.stack);
 
          return res.status(status).json({ message, note: policyNote });
       }
    })
 );
 
+// GET /time-tracking/users/:accountID/:userID
+// Returns the list of active users the requester is allowed to see.
 timeTrackingRouter.get(
    '/users/:accountID/:userID',
    requireAuth,
@@ -603,10 +549,7 @@ timeTrackingRouter.get(
       }
 
       const db = req.app.get('db');
-      const [requestingUserRecord, activeUsers] = await Promise.all([
-         fetchUserRecord(db, accountIdNumber, userIdNumber),
-         accountUserService.getActiveAccountUsers(db, accountIdNumber)
-      ]);
+      const [requestingUserRecord, activeUsers] = await Promise.all([fetchUserRecord(db, accountIdNumber, userIdNumber), accountUserService.getActiveAccountUsers(db, accountIdNumber)]);
 
       const requesterRole = requestingUserRecord?.access_level?.toLowerCase?.() || '';
       const allowedRoles = ['admin', 'manager'];
@@ -619,9 +562,7 @@ timeTrackingRouter.get(
          accessLevel: user.access_level || ''
       }));
 
-      const filteredUsers = canSeeAll
-         ? normalizedUsers
-         : normalizedUsers.filter(user => user.userId === userIdNumber);
+      const filteredUsers = canSeeAll ? normalizedUsers : normalizedUsers.filter(user => user.userId === userIdNumber);
 
       return res.status(200).json({
          users: filteredUsers,
@@ -630,6 +571,8 @@ timeTrackingRouter.get(
    })
 );
 
+// GET /time-tracking/history/:accountID/:userID
+// Lists uploaded tracker files for the requesting user (supports legacy and new folder structures).
 timeTrackingRouter.get(
    '/history/:accountID/:userID',
    requireAuth,
@@ -651,12 +594,14 @@ timeTrackingRouter.get(
       }
 
       const uniqueObjects = Array.from(
-         mergedObjects.reduce((accumulator, object) => {
-            if (object?.Key && !accumulator.has(object.Key)) {
-               accumulator.set(object.Key, object);
-            }
-            return accumulator;
-         }, new Map()).values()
+         mergedObjects
+            .reduce((accumulator, object) => {
+               if (object?.Key && !accumulator.has(object.Key)) {
+                  accumulator.set(object.Key, object);
+               }
+               return accumulator;
+            }, new Map())
+            .values()
       );
 
       const history = uniqueObjects
@@ -682,6 +627,8 @@ timeTrackingRouter.get(
    })
 );
 
+// GET /time-tracking/history/download/:accountID/:userID?key=...
+// Downloads a specific uploaded tracker by S3 key.
 timeTrackingRouter.get(
    '/history/download/:accountID/:userID',
    requireAuth,
@@ -721,6 +668,8 @@ timeTrackingRouter.get(
    })
 );
 
+// GET /time-tracking/download/by-name/:accountID/:userID?ownerUserID=...&timesheetName=...
+// Attempts to resolve and download a tracker by its stored file name, with fallbacks for variants.
 timeTrackingRouter.get(
    '/download/by-name/:accountID/:userID',
    requireAuth,
@@ -743,7 +692,7 @@ timeTrackingRouter.get(
          fetchUserRecord(db, accountID, userID),
          fetchUserRecord(db, accountID, ownerUserID),
          fetchAccountRecord(db, accountID)
-         ]);
+      ]);
 
       const requesterRole = requestingUserRecord?.access_level?.toLowerCase();
       const isSelfRequest = Number(userID) === Number(ownerUserID);
@@ -778,10 +727,7 @@ timeTrackingRouter.get(
 
       const candidateNames = buildVariants();
 
-      const candidateKeys = candidateNames.flatMap(name => [
-         evaluateCandidate(`${primaryPrefix}${name}`),
-         evaluateCandidate(`${legacyPrefix}${name}`)
-      ]);
+      const candidateKeys = candidateNames.flatMap(name => [evaluateCandidate(`${primaryPrefix}${name}`), evaluateCandidate(`${legacyPrefix}${name}`)]);
 
       let downloadKey = null;
       let downloadedObject = null;
@@ -807,9 +753,7 @@ timeTrackingRouter.get(
 
       if (!downloadKey || !downloadedObject) {
          const normalize = value => sanitizeSegment((value || '').replace(/\.gz$/i, '')).toLowerCase();
-         const targetVariants = Array.from(
-            new Set([...candidateNames, baseName, nameWithoutExt, safeTimesheetName].filter(Boolean))
-         ).map(normalize);
+         const targetVariants = Array.from(new Set([...candidateNames, baseName, nameWithoutExt, safeTimesheetName].filter(Boolean))).map(normalize);
 
          const prefixesToSearch = [primaryPrefix, legacyPrefix];
 
@@ -825,23 +769,17 @@ timeTrackingRouter.get(
                         await tryFetchObject(object.Key);
                         if (downloadKey) break;
                      } catch (fetchError) {
-                        console.error(
-                           `[${new Date().toISOString()}] Error retrieving candidate key "${object.Key}": ${fetchError.message}`
-                        );
+                        console.error(`[${new Date().toISOString()}] Error retrieving candidate key "${object.Key}": ${fetchError.message}`);
                      }
                   }
                }
             } catch (listError) {
-               console.error(
-                  `[${new Date().toISOString()}] Failed to list objects under "${prefix}": ${listError.message}`
-               );
+               console.error(`[${new Date().toISOString()}] Failed to list objects under "${prefix}": ${listError.message}`);
             }
          }
 
          if (!downloadKey || !downloadedObject) {
-            console.error(
-               `[${new Date().toISOString()}] Tracker download failed. Account ${accountID}, requester ${userID}, owner ${ownerUserID}, requested name "${timesheetName}".`
-            );
+            console.error(`[${new Date().toISOString()}] Tracker download failed. Account ${accountID}, requester ${userID}, owner ${ownerUserID}, requested name "${timesheetName}".`);
             return res.status(404).json({
                message: 'We could not locate that time tracker. It may have been archived or renamed.'
             });
@@ -862,9 +800,7 @@ timeTrackingRouter.get(
             storedFileName = storedFileName.replace(/\.gz$/i, '');
          }
       } catch (decompressError) {
-         console.error(
-            `[${new Date().toISOString()}] Failed to decompress tracker "${downloadKey}": ${decompressError.message}`
-         );
+         console.error(`[${new Date().toISOString()}] Failed to decompress tracker "${downloadKey}": ${decompressError.message}`);
          return res.status(500).json({
             message: 'We were unable to open that time tracker file. It may be corrupted. Please contact support if this continues.'
          });
@@ -880,6 +816,8 @@ timeTrackingRouter.get(
    })
 );
 
+// GET /time-tracking/template/latest/:accountID/:userID
+// Admin: Fetch the latest tracker template from S3.
 timeTrackingRouter.get(
    '/template/latest/:accountID/:userID',
    requireAuth,
@@ -922,6 +860,8 @@ timeTrackingRouter.get(
    })
 );
 
+// POST /time-tracking/template/upload/:accountID/:userID
+// Admin: Upload a new tracker template to S3.
 timeTrackingRouter.post(
    '/template/upload/:accountID/:userID',
    requireAuth,
@@ -966,6 +906,8 @@ timeTrackingRouter.post(
    })
 );
 
+// GET /time-tracking/template/list/:accountID/:userID
+// Admin: List available tracker templates in S3.
 timeTrackingRouter.get(
    '/template/list/:accountID/:userID',
    requireAuth,
@@ -1005,6 +947,8 @@ timeTrackingRouter.get(
    })
 );
 
+// DELETE /time-tracking/template/delete/:accountID/:userID
+// Admin: Delete a specific tracker template from S3.
 timeTrackingRouter.delete(
    '/template/delete/:accountID/:userID',
    requireAuth,

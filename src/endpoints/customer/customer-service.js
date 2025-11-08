@@ -1,3 +1,30 @@
+const buildActiveCustomersQuery = (db, accountID) =>
+   db
+      .select()
+      .from('customers')
+      .where('customers.account_id', '=', accountID)
+      .andWhere('customers.is_customer_active', '=', true)
+      .join('customer_information', 'customers.customer_id', '=', 'customer_information.customer_id')
+      .andWhere('customer_information.is_this_address_active', '=', true)
+      .andWhere('customer_information.account_id', '=', accountID);
+
+const applyCustomersSearchFilter = (query, searchTerm) => {
+   if (!searchTerm) return;
+   const normalized = String(searchTerm).trim().toLowerCase();
+   if (!normalized.length) return;
+   const likeTerm = `%${normalized}%`;
+   query.andWhere(builder => {
+      builder
+         .whereRaw('LOWER(customers.display_name) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customers.business_name) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customers.customer_name) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customer_information.customer_city) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customer_information.customer_state) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customer_information.customer_email) LIKE ?', [likeTerm])
+         .orWhereRaw('CAST(customers.customer_id AS TEXT) LIKE ?', [`%${searchTerm}%`]);
+   });
+};
+
 const customerService = {
    getContactMailingInformation(db, accountID, customerID) {
       return db
@@ -23,15 +50,18 @@ const customerService = {
    },
 
    getActiveCustomers(db, accountID) {
-      return db
-         .select()
-         .from('customers')
-         .where('customers.account_id', '=', accountID)
-         .andWhere('customers.is_customer_active', '=', true)
-         .join('customer_information', 'customers.customer_id', '=', 'customer_information.customer_id')
-         .andWhere('customer_information.is_this_address_active', '=', true)
-         .andWhere('customer_information.account_id', '=', accountID)
-         .orderBy('customers.customer_name', 'asc');
+      return buildActiveCustomersQuery(db, accountID).orderBy('customers.customer_name', 'asc');
+   },
+
+   async getActiveCustomersPaginated(db, accountID, { limit, offset, searchTerm }) {
+      const baseQuery = buildActiveCustomersQuery(db, accountID);
+      applyCustomersSearchFilter(baseQuery, searchTerm);
+      const sortedQuery = baseQuery.clone().orderBy('customers.customer_name', 'asc');
+      const dataQuery = sortedQuery.clone().limit(limit).offset(offset);
+      const countResult = await baseQuery.clone().clearSelect().count({ count: '*' }).first();
+      const customers = await dataQuery;
+      const totalCount = Number(countResult?.count || 0);
+      return { customers, totalCount };
    },
 
    getCustomerByID(db, accountID, customerID) {

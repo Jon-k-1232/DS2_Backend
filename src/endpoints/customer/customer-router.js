@@ -19,6 +19,7 @@ const {
    restoreDataTypesCustomersInformationOnUpdate
 } = require('./customerObjects');
 const dayjs = require('dayjs');
+const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 
 // Create New Customer
 customerRouter.route('/createCustomer/:accountID/:userID').post(jsonParser, async (req, res) => {
@@ -247,3 +248,47 @@ customerRouter
    });
 
 module.exports = customerRouter;
+
+// Paginated active customers
+customerRouter.route('/activeCustomers/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   const { search = '' } = req.query;
+
+   try {
+      const { page, limit, offset } = getPaginationParams({
+         page: req.query.page || 1,
+         limit: req.query.limit || 20
+      });
+
+      const { customers, totalCount } = await customerService.getActiveCustomersPaginated(db, accountID, {
+         limit,
+         offset,
+         searchTerm: typeof search === 'string' ? search.trim() : ''
+      });
+
+      const grid = createGrid(customers);
+      const pagination = getPaginationMetadata(totalCount, page, limit);
+
+      return res.status(200).send({
+         customersList: {
+            activeCustomerData: {
+               activeCustomers: customers,
+               grid,
+               pagination,
+               searchTerm: typeof search === 'string' ? search.trim() : ''
+            }
+         },
+         message: 'Successfully retrieved customers.',
+         status: 200
+      });
+   } catch (error) {
+      console.error('Error fetching paginated customers:', error);
+      const isPaginationError = error.message && error.message.includes('Invalid pagination');
+      const statusCode = isPaginationError ? 400 : 500;
+      res.status(statusCode).send({
+         message: error.message || 'An error occurred while retrieving customers.',
+         status: statusCode
+      });
+   }
+});

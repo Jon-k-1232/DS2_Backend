@@ -84,6 +84,20 @@ Health checks (`GET /health/status/:accountID/:userID`) now mail the active `tim
 
 Automated tests for these schedules live in `test/automations.spec.js`; run `npm test` after installing dependencies to verify the cron wiring and ensure the Express app boots.
 
+## AI Time Tracker Suggestions
+
+Validated trackers now receive post-processing to recommend the best customer, category, and work description for each `timesheet_entries` row. The pipeline works as follows:
+
+- New table `ai_time_tracker_transaction_suggestions` stores one suggestion per entry (see `migrations/002.add_ai_time_tracker_transaction_suggestions.sql`). Run Postgrator after pulling this branch to apply the migration.
+- `timeTracking-router` persists entries inside a transaction and then calls `generateSuggestionsForEntries`, which:
+  - Redacts `company_name`, `first_name`, and `last_name` from `notes` before invoking the AI orchestrator.
+  - Collects active job categories, job types, work descriptions, and customers for context.
+  - Falls back to deterministic fuzzy matching when the AI provider is disabled/unavailable.
+- Suggestions are upserted via `timesheet-suggestions-service` and returned alongside pending entries. Fetchers now exclude `company_name`, `first_name`, and `last_name` columns to keep PII out of frontend grids.
+- When an entry is moved to `customer_transactions`, its suggestion status automatically flips to `applied`.
+
+The orchestrator remains reusable: additional AI-backed features can plug into `src/endpoints/timesheets/timesheet-suggestions-orchestrator.js` or call `executeAiRequest` directly with their own payload contracts.
+
 ## API Reference
 
 All routes live under `src/endpoints`. Most require JWT authentication plus role checks (`requireAuth`, `requireManagerOrAdmin`, `requireAdmin`).

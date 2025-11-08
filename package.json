@@ -1,12 +1,13 @@
 {
    "name": "ds2_backend",
-   "version": "0.1.0.38",
+   "version": "0.1.0.39",
    "description": "",
    "main": "index.js",
    "scripts": {
       "test": "mocha --require test/setup.js",
       "dev": "NODE_ENV=development NODE_OPTIONS=--openssl-legacy-provider nodemon src/server.js",
-      "start": "NODE_ENV=production node src/server.js"
+      "start": "NODE_ENV=production node src/server.js",
+      "migrate": "postgrator --config postgrator-config.js --migration-directory migrations"
    },
    "keywords": [],
    "author": "Jon Kimmel",
@@ -46,6 +47,7 @@
       "chai": "^4.2.0",
       "mocha": "^6.2.2",
       "nodemon": "^2.0.2",
+      "postgrator-cli": "^7.2.0",
       "supertest": "^4.0.2"
    }
 }

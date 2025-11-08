@@ -1,13 +1,43 @@
+const buildActiveInvoicesQuery = (db, accountID) =>
+   db
+      .select('customer_invoices.*', db.raw('customers.display_name as customer_name'), db.raw('users.display_name as created_by_user_name'))
+      .from('customer_invoices')
+      .join('customers', 'customer_invoices.customer_id', 'customers.customer_id')
+      .join('users', 'customer_invoices.created_by_user_id', 'users.user_id')
+      .where('customer_invoices.account_id', accountID);
+
+const applyInvoicesSearchFilter = (query, searchTerm) => {
+   if (!searchTerm) return;
+   const normalized = String(searchTerm).trim().toLowerCase();
+   if (!normalized.length) return;
+   const likeTerm = `%${normalized}%`;
+   query.andWhere(builder => {
+      builder
+         .whereRaw('LOWER(customers.display_name) LIKE ?', [likeTerm])
+         .orWhereRaw('LOWER(customer_invoices.invoice_number::text) LIKE ?', [`%${normalized}%`])
+         .orWhereRaw("TO_CHAR(customer_invoices.invoice_date, 'YYYY-MM-DD') LIKE ?", [`%${normalized}%`])
+         .orWhereRaw("TO_CHAR(customer_invoices.due_date, 'YYYY-MM-DD') LIKE ?", [`%${normalized}%`]);
+   });
+};
+
 const invoiceService = {
    // Must stay desc, used in finding if an invoice has to be created
    getInvoices(db, accountID) {
-      return db
-         .select('customer_invoices.*', db.raw('customers.display_name as customer_name'), db.raw('users.display_name as created_by_user_name'))
-         .from('customer_invoices')
-         .join('customers', 'customer_invoices.customer_id', 'customers.customer_id')
-         .join('users', 'customer_invoices.created_by_user_id', 'users.user_id')
-         .where('customer_invoices.account_id', accountID)
-         .orderBy('customer_invoices.invoice_date', 'desc');
+      return buildActiveInvoicesQuery(db, accountID).orderBy('customer_invoices.invoice_date', 'desc');
+   },
+
+   async getInvoicesPaginated(db, accountID, { limit, offset, searchTerm }) {
+      const baseQuery = buildActiveInvoicesQuery(db, accountID);
+      applyInvoicesSearchFilter(baseQuery, searchTerm);
+
+      const sortedQuery = baseQuery.clone().orderBy('customer_invoices.invoice_date', 'desc');
+      const dataQuery = sortedQuery.clone().limit(limit).offset(offset);
+
+      const countResult = await baseQuery.clone().clearSelect().count({ count: '*' }).first();
+      const invoices = await dataQuery;
+      const totalCount = Number(countResult?.count || 0);
+
+      return { invoices, totalCount };
    },
 
    deleteInvoice(db, customerInvoiceID) {

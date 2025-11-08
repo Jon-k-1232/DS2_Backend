@@ -44,8 +44,8 @@ const initialData = async (db, res, accountID) => {
       activeJobs,
       activeJobCategories,
       jobTypesData,
-      activeWriteOffs,
-      activePayments,
+      activeWriteOffsPage,
+      activePaymentsPage,
       activeRetainers,
       workDescriptions
    ] = await Promise.all([
@@ -61,8 +61,16 @@ const initialData = async (db, res, accountID) => {
       jobService.getActiveJobs(db, accountID),
       jobCategoriesService.getActiveJobCategories(db, accountID),
       jobTypeService.getActiveJobTypes(db, accountID),
-      writeOffsService.getActiveWriteOffs(db, accountID),
-      paymentsService.getActivePayments(db, accountID),
+      writeOffsService.getActiveWriteOffsPaginated(db, accountID, {
+         limit: DEFAULT_TRANSACTIONS_PAGE_SIZE,
+         offset: 0,
+         searchTerm: ''
+      }),
+      paymentsService.getActivePaymentsPaginated(db, accountID, {
+         limit: DEFAULT_TRANSACTIONS_PAGE_SIZE,
+         offset: 0,
+         searchTerm: ''
+      }),
       retainerService.getActiveRetainers(db, accountID),
       workDescriptionService.getActiveWorkDescriptions(db, accountID)
    ]);
@@ -112,14 +120,18 @@ const initialData = async (db, res, accountID) => {
       grid: createGrid(jobTypesData)
    };
 
+   const { writeoffs: activeWriteOffs, totalCount: writeoffsCount } = activeWriteOffsPage;
    const activeWriteOffsData = {
       activeWriteOffs,
-      grid: createGrid(activeWriteOffs)
+      grid: createGrid(activeWriteOffs),
+      pagination: getPaginationMetadata(writeoffsCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 
+   const { payments: activePayments, totalCount: paymentsCount } = activePaymentsPage;
    const activePaymentsData = {
       activePayments,
-      grid: createGrid(activePayments)
+      grid: createGrid(activePayments),
+      pagination: getPaginationMetadata(paymentsCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 
    const activeRetainerData = {

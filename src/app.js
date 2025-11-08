@@ -28,6 +28,7 @@ const { requireAuth } = require('./endpoints/auth/jwt-auth');
 const timesheetsRouter = require('./endpoints/timesheets/timesheets-router');
 const timeTrackingRouter = require('./endpoints/timeTracking/timeTracking-router');
 const timeTrackerStaffRouter = require('./endpoints/timeTrackerStaff/timeTrackerStaff-router');
+const aiIntegrationRouter = require('./endpoints/aiIntegration/aiIntegration-router');
 
 // Middleware
 app.use(cookieParser());
@@ -73,6 +74,7 @@ app.use('/timesheets', timesheetsRouter);
 app.use('/time-tracking', timeTrackingRouter);
 app.use('/time-tracker-staff', requireAuth, timeTrackerStaffRouter);
 app.use('/health', healthRouter);
+app.use('/ai-integration', requireAuth, aiIntegrationRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 if (NODE_ENV !== 'test') {

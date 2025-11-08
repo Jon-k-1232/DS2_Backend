@@ -58,39 +58,40 @@ healthRouter.route('/status/:accountID/:userID').get(async (req, res) => {
       const issues = serviceStatuses.filter(service => service.status.message !== 'UP');
 
       if (issues.length) {
+         const isProduction = NODE_ENV === 'production';
          const cacheKey = `${accountID}`;
          const now = Date.now();
          const signature = issues.map(issue => `${issue.name}:${issue.status.message}`).join('|');
          const lastEntry = HEALTH_ALERT_CACHE.get(cacheKey) || { timestamp: 0, signature: '' };
 
          if (now - lastEntry.timestamp > ALERT_COOLDOWN_MS || lastEntry.signature !== signature) {
-            try {
-               const staffRecords = await timeTrackerStaffService.listActiveEmailsByAccount(db, Number(accountID));
-               const recipientEmails = (staffRecords || []).map(record => record.email).filter(Boolean);
+            if (!isProduction) {
+               console.warn(`[${new Date().toISOString()}] Health issue(s) detected in ${NODE_ENV} for account ${accountID}. Skipping email alerts in non-production environments.`);
+            } else {
+               try {
+                  const staffRecords = await timeTrackerStaffService.listActiveEmailsByAccount(db, Number(accountID));
+                  const recipientEmails = (staffRecords || []).map(record => record.email).filter(Boolean);
 
-               if (recipientEmails.length) {
-                  const subject = `DS2 Health Alert: ${issues.map(issue => issue.name).join(', ')} issue(s) detected`;
-                  const bodyLines = [
-                     `The DS2 health check detected issue(s) for account ${accountID} at ${new Date().toLocaleString()}.`,
-                     '',
-                     'Status summary:',
-                     ...serviceStatuses.map(service => ` - ${service.name}: ${service.status.message}`)
-                  ];
+                  if (recipientEmails.length) {
+                     const subject = `DS2 Health Alert: ${issues.map(issue => issue.name).join(', ')} issue(s) detected`;
+                     const bodyLines = [
+                        `The DS2 health check detected issue(s) for account ${accountID} at ${new Date().toLocaleString()}.`,
+                        '',
+                        'Status summary:',
+                        ...serviceStatuses.map(service => ` - ${service.name}: ${service.status.message}`)
+                     ];
 
-                  await sendEmail({
-                     recipientEmails,
-                     subject,
-                     body: bodyLines.join('\n')
-                  });
-               } else {
-                  console.warn(
-                     `[${new Date().toISOString()}] Health alert detected for account ${accountID} but no active time tracker staff emails were found.`
-                  );
+                     await sendEmail({
+                        recipientEmails,
+                        subject,
+                        body: bodyLines.join('\n')
+                     });
+                  } else {
+                     console.warn(`[${new Date().toISOString()}] Health alert detected for account ${accountID} but no active time tracker staff emails were found.`);
+                  }
+               } catch (emailError) {
+                  console.error(`[${new Date().toISOString()}] Failed to send health alert email for account ${accountID}: ${emailError.message}`);
                }
-            } catch (emailError) {
-               console.error(
-                  `[${new Date().toISOString()}] Failed to send health alert email for account ${accountID}: ${emailError.message}`
-               );
             }
 
             HEALTH_ALERT_CACHE.set(cacheKey, { timestamp: now, signature });

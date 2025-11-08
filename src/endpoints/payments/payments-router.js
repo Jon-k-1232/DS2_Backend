@@ -7,6 +7,7 @@ const invoiceService = require('../invoice/invoice-service');
 const retainersService = require('../retainer/retainer-service');
 const { restoreDataTypesPaymentsTableOnCreate, restoreDataTypesPaymentsTableOnUpdate } = require('./paymentsObjects');
 const { createGrid } = require('../../utils/gridFunctions');
+const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const { findInvoice, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse } = require('./payment-logic');
 const { findMatchingRetainer } = require('../retainer/retainer-logic');
 
@@ -169,3 +170,47 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
 });
 
 module.exports = paymentsRouter;
+
+// Get paginated payments
+paymentsRouter.route('/getPayments/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   const { search = '' } = req.query;
+
+   try {
+      const { page, limit, offset } = getPaginationParams({
+         page: req.query.page || 1,
+         limit: req.query.limit || 20
+      });
+
+      const { payments, totalCount } = await paymentsService.getActivePaymentsPaginated(db, accountID, {
+         limit,
+         offset,
+         searchTerm: typeof search === 'string' ? search.trim() : ''
+      });
+
+      const grid = createGrid(payments);
+      const pagination = getPaginationMetadata(totalCount, page, limit);
+
+      return res.status(200).send({
+         paymentsList: {
+            activePaymentsData: {
+               activePayments: payments,
+               grid,
+               pagination,
+               searchTerm: typeof search === 'string' ? search.trim() : ''
+            }
+         },
+         message: 'Successfully retrieved payments.',
+         status: 200
+      });
+   } catch (error) {
+      console.error('Error fetching paginated payments:', error);
+      const isPaginationError = error.message && error.message.includes('Invalid pagination');
+      const statusCode = isPaginationError ? 400 : 500;
+      res.status(statusCode).send({
+         message: error.message || 'An error occurred while retrieving payments.',
+         status: statusCode
+      });
+   }
+});

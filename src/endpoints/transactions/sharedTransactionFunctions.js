@@ -4,6 +4,7 @@ const jobService = require('../job/job-service');
 const paymentsService = require('../payments/payments-service');
 const { createPaymentObjectFromTransaction } = require('./transactionsObjects');
 const { restoreDataTypesTransactionsTableOnCreate } = require('./transactionsObjects');
+const aiCategoryTrainingService = require('../aiIntegration/ai-category-training-service');
 
 /**
  * Process a new transaction
@@ -30,7 +31,44 @@ const addNewTransaction = async (db, sanitizedNewTransaction) => {
    }
 
    // Post new transaction, returns new transaction
-   return transactionsService.createTransaction(db, newTransaction);
+   const created = await transactionsService.createTransaction(db, newTransaction);
+
+   // If provided, record an AI category training example without PII
+   try {
+      const { timesheetEntryID, aiSuggestion } = sanitizedNewTransaction || {};
+
+      // Only log if there was an AI suggestion context and a final general work description selected
+      // Determine the final category. Prefer the created record; fallback to the incoming selection if present.
+      const finalGwdId = created?.general_work_description_id || Number(sanitizedNewTransaction?.selectedGeneralWorkDescriptionID) || null;
+      // Optionally capture the human-readable label if it was included on input
+      const finalGwdLabel = sanitizedNewTransaction?.selectedGeneralWorkDescription?.general_work_description || null;
+      if (created?.transaction_id && finalGwdId) {
+         const trainingExample = {
+            account_id: created.account_id,
+            timesheet_entry_id: Number(timesheetEntryID) || null,
+            transaction_id: created.transaction_id,
+            original_category: sanitizedNewTransaction?.category || null,
+            suggested_category: aiSuggestion?.suggested_category || null,
+            // Prefer label if available, else fall back to ID string
+            final_category: finalGwdLabel || String(finalGwdId),
+            ai_reason: aiSuggestion?.ai_reason || null,
+            ai_confidence: aiSuggestion?.ai_confidence ?? null,
+            ai_source: aiSuggestion?.source || 'ai',
+            original_notes: null, // do not store raw notes here
+            sanitized_notes: aiSuggestion?.sanitized_notes || null,
+            duration_minutes: Number(sanitizedNewTransaction?.minutes) || null,
+            entity: sanitizedNewTransaction?.entity || null,
+            uploaded_to_vector_store: false
+         };
+
+         await aiCategoryTrainingService.insert(db, trainingExample);
+      }
+   } catch (e) {
+      // Non-blocking: training example logging should not fail transaction creation
+      console.error(`[${new Date().toISOString()}] Failed to insert AI category training example: ${e.message}`);
+   }
+
+   return created;
 };
 
 /**

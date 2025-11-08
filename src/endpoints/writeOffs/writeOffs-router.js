@@ -7,6 +7,7 @@ const invoiceService = require('../invoice/invoice-service');
 const { restoreDataTypesWriteOffsTableOnCreate, restoreDataTypesWriteOffsTableOnUpdate, convertWriteOffToPayment } = require('./writeOffsObjects');
 const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
 const { unableToCompleteRequest } = require('../../serverResponses/errors');
+const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const { findInvoice, updateObjectsWithRemainingAmounts } = require('../payments/payment-logic');
 
 // Create a new WriteOff
@@ -133,6 +134,50 @@ writeOffsRouter.route('/deleteWriteOffs/:accountID/:userID').delete(async (req, 
 });
 
 module.exports = writeOffsRouter;
+
+// Paginated write-offs list
+writeOffsRouter.route('/getWriteOffs/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   const { search = '' } = req.query;
+
+   try {
+      const { page, limit, offset } = getPaginationParams({
+         page: req.query.page || 1,
+         limit: req.query.limit || 20
+      });
+
+      const { writeoffs, totalCount } = await writeOffsService.getActiveWriteOffsPaginated(db, accountID, {
+         limit,
+         offset,
+         searchTerm: typeof search === 'string' ? search.trim() : ''
+      });
+
+      const grid = createGrid(writeoffs);
+      const pagination = getPaginationMetadata(totalCount, page, limit);
+
+      return res.status(200).send({
+         writeOffsList: {
+            activeWriteOffsData: {
+               activeWriteOffs: writeoffs,
+               grid,
+               pagination,
+               searchTerm: typeof search === 'string' ? search.trim() : ''
+            }
+         },
+         message: 'Successfully retrieved write-offs.',
+         status: 200
+      });
+   } catch (error) {
+      console.error('Error fetching paginated write-offs:', error);
+      const isPaginationError = error.message && error.message.includes('Invalid pagination');
+      const statusCode = isPaginationError ? 400 : 500;
+      res.status(statusCode).send({
+         message: error.message || 'An error occurred while retrieving write-offs.',
+         status: statusCode
+      });
+   }
+});
 
 const sendUpdatedTableWith200Response = async (db, res, accountID) => {
    // Get all writeOff
