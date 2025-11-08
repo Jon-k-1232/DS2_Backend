@@ -49,13 +49,14 @@ describe('Automation orchestrator', () => {
    it('schedules the three time-tracker automations with the expected cron rules', async () => {
       scheduledAutomations();
 
-      expect(scheduledCalls).to.have.length(3);
+      expect(scheduledCalls).to.have.length(4);
 
-      const [thursdayJob, fridayJob, missingJob] = scheduledCalls;
+      const [thursdayJob, fridayJob, missingJob, aiTrainingJob] = scheduledCalls;
 
       expect(thursdayJob.rule).to.deep.equal({ rule: '0 9 * * 4', tz: 'America/Phoenix' });
       expect(fridayJob.rule).to.deep.equal({ rule: '0 30 15 * * 5', tz: 'America/Phoenix' });
       expect(missingJob.rule).to.deep.equal({ rule: '0 9 * * *', tz: 'America/Phoenix' });
+      expect(aiTrainingJob.rule).to.deep.equal({ rule: '0 4 * * 0', tz: 'America/Phoenix' });
 
       await thursdayJob.callback();
       await fridayJob.callback();
