@@ -9,11 +9,6 @@ output "ds2_bucket_access_key_id" {
   sensitive   = true
 }
 
-output "route53_inbound_resolver_ips" {
-  description = "IP addresses of the Route 53 inbound resolver endpoint for DNS forwarding."
-  value       = aws_route53_resolver_endpoint.ds2_inbound.ip_address[*].ip
-}
-
 output "s3_interface_dns_names" {
   description = "DNS names published by the S3 interface endpoint. Use a bucket.vpce-* hostname for TLS connections."
   value       = [for entry in aws_vpc_endpoint.s3_interface.dns_entry : entry.dns_name]
