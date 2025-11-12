@@ -98,12 +98,6 @@ variable "skip_final_snapshot" {
   default = true
 }
 
-variable "final_snapshot_identifier" {
-  type        = string
-  description = "Name of the final snapshot when destroying the database"
-  default     = null
-}
-
 variable "apply_immediately" {
   type    = bool
   default = true
@@ -160,7 +154,6 @@ resource "aws_db_instance" "this" {
   delete_automated_backups   = true
   deletion_protection        = var.deletion_protection
   skip_final_snapshot        = var.skip_final_snapshot
-  final_snapshot_identifier  = var.final_snapshot_identifier
   apply_immediately          = var.apply_immediately
   performance_insights_enabled = var.performance_insights_enabled
   auto_minor_version_upgrade = true

@@ -122,3 +122,40 @@ variable "db_password" {
   description = "Master password for RDS database"
   sensitive   = true
 }
+
+variable "db_final_snapshot_identifier" {
+  type        = string
+  description = "Final snapshot identifier when destroying the database"
+  default     = null
+}
+
+# Application secrets
+variable "api_token" {
+  type        = string
+  description = "API token for authentication"
+  sensitive   = true
+}
+
+variable "from_email_password" {
+  type        = string
+  description = "Password for FROM_EMAIL account"
+  sensitive   = true
+}
+
+variable "s3_access_key_id" {
+  type        = string
+  description = "AWS S3 access key ID"
+  sensitive   = true
+}
+
+variable "s3_secret_access_key" {
+  type        = string
+  description = "AWS S3 secret access key"
+  sensitive   = true
+}
+
+variable "enable_auto_shutdown" {
+  type        = bool
+  description = "Enable automatic shutdown from 11pm-6am PST to save costs"
+  default     = false
+}
