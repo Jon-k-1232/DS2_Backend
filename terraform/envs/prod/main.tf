@@ -703,6 +703,10 @@ resource "aws_route53_record" "ds2" {
   }
 }
 
+# Route53 record for ds2.app.local (redirects to ds2.kimmeloffice.com via nginx)
+# Note: ds2.app.local DNS record is manually managed in Route53 app.local hosted zone (Z081614915K65KZ7N4EXW)
+# It points to the same EC2 instance IP and nginx redirects it to ds2.kimmeloffice.com
+
 # TODO: Re-enable once ECR repository and pgdump image are built
 # module "lambda_pg_dump" {
 #   source             = "./modules/lambda_pg_dump"
