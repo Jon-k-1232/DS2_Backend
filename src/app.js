@@ -52,6 +52,11 @@ app.use(
    })
 );
 
+/* ///////////////////////////\\\\  HEALTH CHECK  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+app.get('/api/healthz', (req, res) => {
+   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 /* ///////////////////////////\\\\  USER ENDPOINTS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 app.use('/auth', authentication);
 app.use('/customer', requireAuth, customerRouter);
