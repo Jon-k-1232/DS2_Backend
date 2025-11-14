@@ -1,52 +1,16 @@
-const nodemailer = require('nodemailer');
+const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 const dayjs = require('dayjs');
-const { FROM_EMAIL, FROM_EMAIL_USERNAME, FROM_EMAIL_PASSWORD, FROM_EMAIL_SMTP, SEND_TO_EMAILS } = require('../../../config');
+const { FROM_EMAIL } = require('../../../config');
 
-const deriveBoolean = value => {
-   if (typeof value === 'string') {
-      const normalized = value.trim().toLowerCase();
-      if (['true', '1', 'yes', 'y'].includes(normalized)) return true;
-      if (['false', '0', 'no', 'n'].includes(normalized)) return false;
+const AWS_REGION = process.env.AWS_REGION || 'us-west-2';
+
+let cachedSESClient = null;
+
+const getSESClient = () => {
+   if (!cachedSESClient) {
+      cachedSESClient = new SESClient({ region: AWS_REGION });
    }
-   return undefined;
-};
-
-const SMTP_PORT = Number.parseInt(process.env.FROM_EMAIL_SMTP_PORT || '', 10) || 465;
-const explicitSecureFlag = deriveBoolean(process.env.FROM_EMAIL_SMTP_SECURE);
-const SMTP_SECURE = typeof explicitSecureFlag === 'boolean' ? explicitSecureFlag : SMTP_PORT === 465;
-const rejectUnauthorizedFlag = deriveBoolean(process.env.FROM_EMAIL_REJECT_UNAUTHORIZED);
-const REJECT_UNAUTHORIZED = typeof rejectUnauthorizedFlag === 'boolean' ? rejectUnauthorizedFlag : true;
-
-let cachedTransporter = null;
-
-const resolveTransporter = () => {
-   if (cachedTransporter) {
-      return cachedTransporter;
-   }
-
-   if (!FROM_EMAIL_SMTP) {
-      throw new Error('Missing SMTP host (FROM_EMAIL_SMTP). Unable to send email.');
-   }
-
-   const auth =
-      FROM_EMAIL_USERNAME && FROM_EMAIL_PASSWORD
-         ? {
-              user: FROM_EMAIL_USERNAME,
-              pass: FROM_EMAIL_PASSWORD
-           }
-         : undefined;
-
-   cachedTransporter = nodemailer.createTransport({
-      host: FROM_EMAIL_SMTP,
-      port: SMTP_PORT,
-      secure: SMTP_SECURE,
-      auth,
-      tls: {
-         rejectUnauthorized: REJECT_UNAUTHORIZED
-      }
-   });
-
-   return cachedTransporter;
+   return cachedSESClient;
 };
 
 const normalizeAddresses = value => {
@@ -67,7 +31,7 @@ const normalizeAddresses = value => {
 };
 
 /**
- * Send an email using the configured SMTP credentials.
+ * Send an email using AWS SES.
  * @param {Object} options
  * @param {string[]|string} options.recipientEmails - Primary recipients.
  * @param {string} options.subject - Email subject.
@@ -75,15 +39,10 @@ const normalizeAddresses = value => {
  * @param {string} [options.html] - HTML body.
  * @param {string[]|string} [options.cc] - CC recipients.
  * @param {string[]|string} [options.bcc] - BCC recipients.
- * @param {Array} [options.attachments] - Nodemailer attachments array.
+ * @param {Array} [options.attachments] - Note: Basic SES SendEmail doesn't support attachments. Use SendRawEmail for attachments.
  */
 const sendEmail = async ({ recipientEmails, subject, body, html, cc, bcc, attachments } = {}) => {
    const to = normalizeAddresses(recipientEmails);
-   const fallbackRecipients = normalizeAddresses(SEND_TO_EMAILS);
-
-   if (!to.length && fallbackRecipients.length) {
-      to.push(...fallbackRecipients);
-   }
 
    if (!to.length) {
       throw new Error('sendEmail called without any recipient emails.');
@@ -93,39 +52,63 @@ const sendEmail = async ({ recipientEmails, subject, body, html, cc, bcc, attach
       throw new Error('sendEmail called without a subject.');
    }
 
-   const transporter = resolveTransporter();
-
-   const fromAddress = FROM_EMAIL || FROM_EMAIL_USERNAME;
-   if (!fromAddress) {
-      throw new Error('Missing FROM_EMAIL or FROM_EMAIL_USERNAME configuration.');
+   if (!FROM_EMAIL) {
+      throw new Error('Missing FROM_EMAIL configuration.');
    }
 
    const ccList = normalizeAddresses(cc);
    const bccList = normalizeAddresses(bcc);
 
-   const mailOptions = {
-      from: fromAddress,
-      to,
-      subject,
-      text: body || undefined,
-      html: html || undefined,
-      cc: ccList.length ? ccList : undefined,
-      bcc: bccList.length ? bccList : undefined,
-      attachments: Array.isArray(attachments) && attachments.length ? attachments : undefined,
-      headers: {
-         'X-DS2-Sent-At': dayjs().toISOString()
+   // Note: attachments require SendRawEmail API which is more complex
+   if (attachments && attachments.length > 0) {
+      console.warn('[SES] Attachments are not supported with basic SendEmail. Use SendRawEmail for attachments.');
+   }
+
+   const emailParams = {
+      Source: FROM_EMAIL,
+      Destination: {
+         ToAddresses: to,
+         CcAddresses: ccList.length ? ccList : undefined,
+         BccAddresses: bccList.length ? bccList : undefined
+      },
+      Message: {
+         Subject: {
+            Data: subject,
+            Charset: 'UTF-8'
+         },
+         Body: {}
       }
    };
 
+   // Add text body if provided
+   if (body) {
+      emailParams.Message.Body.Text = {
+         Data: body,
+         Charset: 'UTF-8'
+      };
+   }
+
+   // Add HTML body if provided
+   if (html) {
+      emailParams.Message.Body.Html = {
+         Data: html,
+         Charset: 'UTF-8'
+      };
+   }
+
    try {
       console.log(
-         `[${new Date().toISOString()}] Attempting to send email: smtp=${FROM_EMAIL_SMTP}:${SMTP_PORT} (secure=${SMTP_SECURE}), subject="${subject}", to=${to.join(', ')}, cc=${
-            ccList.length ? ccList.join(', ') : 'none'
-         }, bcc=${bccList.length ? bccList.join(', ') : 'none'}`
+         `[${new Date().toISOString()}] Attempting to send email via SES: region=${AWS_REGION}, subject="${subject}", to=${to.join(', ')}, cc=${ccList.length ? ccList.join(', ') : 'none'}, bcc=${
+            bccList.length ? bccList.join(', ') : 'none'
+         }`
       );
-      const info = await transporter.sendMail(mailOptions);
-      console.log(`[${new Date().toISOString()}] Email "${subject}" delivered to ${to.join(', ')} (messageId=${info.messageId}).`);
-      return info;
+
+      const sesClient = getSESClient();
+      const command = new SendEmailCommand(emailParams);
+      const response = await sesClient.send(command);
+
+      console.log(`[${new Date().toISOString()}] Email "${subject}" delivered to ${to.join(', ')} via SES (messageId=${response.MessageId}).`);
+      return response;
    } catch (error) {
       console.error(`[${new Date().toISOString()}] Failed to send email "${subject}" to ${to.join(', ')}: ${error.message}`);
       throw error;

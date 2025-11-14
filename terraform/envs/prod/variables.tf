@@ -104,12 +104,6 @@ variable "api_token" {
   sensitive   = true
 }
 
-variable "from_email_password" {
-  type        = string
-  description = "Password for FROM_EMAIL account"
-  sensitive   = true
-}
-
 variable "s3_access_key_id" {
   type        = string
   description = "AWS S3 access key ID"
@@ -136,20 +130,8 @@ variable "node_env" {
 
 variable "from_email" {
   type        = string
-  description = "Email address for sending notifications"
+  description = "Email address for sending notifications via SES"
   default     = "NetworkNotifications@kimmelOffice.com"
-}
-
-variable "from_email_username" {
-  type        = string
-  description = "Email username for SMTP authentication"
-  default     = "UDM@KimmelOffice.com"
-}
-
-variable "from_email_smtp" {
-  type        = string
-  description = "SMTP server for sending emails"
-  default     = "smtp.mail.us-west-2.awsapps.com"
 }
 
 variable "s3_bucket_name" {
@@ -166,4 +148,22 @@ variable "s3_region" {
   type        = string
   description = "S3 bucket region"
   default     = "us-west-2"
+}
+
+variable "backend_image_version" {
+  type        = string
+  description = "Docker image version tag for backend"
+  default     = "v1.0.0"
+}
+
+variable "frontend_image_version" {
+  type        = string
+  description = "Docker image version tag for frontend"
+  default     = "v1.0.0"
+}
+
+variable "nginx_image_version" {
+  type        = string
+  description = "Docker image version tag for nginx"
+  default     = "v1.0.0"
 }

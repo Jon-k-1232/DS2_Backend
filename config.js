@@ -9,17 +9,12 @@ const config = {
    DATABASE_URL: process.env.DATABASE_NAME || (process.env.NODE_ENV === 'production' ? 'ds2_prod' : 'ds2_dev'),
    API_TOKEN: process.env.API_TOKEN,
    JWT_EXPIRATION: process.env.JWT_EXPIRATION,
-   DOMAIN: process.env.DOMAIN,
    FROM_EMAIL: process.env.FROM_EMAIL,
-   FROM_EMAIL_SMTP: process.env.FROM_EMAIL_SMTP,
-   FROM_EMAIL_USERNAME: process.env.FROM_EMAIL_USERNAME,
-   FROM_EMAIL_PASSWORD: process.env.FROM_EMAIL_PASSWORD,
    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
    S3_REGION: process.env.S3_REGION,
    S3_ENDPOINT: process.env.S3_ENDPOINT ? process.env.S3_ENDPOINT.replace(/\/+$/, '') : undefined,
    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
-   AI_INTEGRATION_SECRET: process.env.AI_INTEGRATION_SECRET,
    OPENAI_API_BASE_URL: process.env.OPENAI_API_BASE_URL || 'https://api.openai.com',
    // Optional: When set, the AI training uploader will submit sanitized examples
    // to this OpenAI Vector Store ID as files for retrieval-augmented generation.

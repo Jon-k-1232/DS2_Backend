@@ -170,12 +170,9 @@ locals {
     DATABASE_NAME           = "ds2_prod"
     FRONT_END_URL_PROD      = "https://${format("%s.%s", var.alb_record_name, var.route53_zone_name)}"
     HOST_IP_PROD            = "0.0.0.0"
-    DOMAIN                  = var.route53_zone_name
     JWT_EXPIRATION          = "11h"
     FROM_EMAIL              = var.from_email
-    FROM_EMAIL_USERNAME     = var.from_email_username
-    FROM_EMAIL_SMTP         = var.from_email_smtp
-    FROM_EMAIL_PASSWORD     = var.from_email_password
+    AWS_REGION              = var.aws_region
     API_TOKEN               = var.api_token
     S3_REGION               = var.s3_region
     S3_BUCKET_NAME          = var.s3_bucket_name
@@ -228,18 +225,18 @@ resource "aws_ecr_repository" "nginx" {
   }
 }
 
-# ECR Lifecycle Policy - Keep last 10 images
+# ECR Lifecycle Policy - Keep last 5 images
 resource "aws_ecr_lifecycle_policy" "backend" {
   repository = aws_ecr_repository.backend.name
   
   policy = jsonencode({
     rules = [{
       rulePriority = 1
-      description  = "Keep last 10 images"
+      description  = "Keep last 5 images"
       selection = {
         tagStatus     = "any"
         countType     = "imageCountMoreThan"
-        countNumber   = 10
+        countNumber   = 5
       }
       action = {
         type = "expire"
@@ -254,11 +251,11 @@ resource "aws_ecr_lifecycle_policy" "frontend" {
   policy = jsonencode({
     rules = [{
       rulePriority = 1
-      description  = "Keep last 10 images"
+      description  = "Keep last 5 images"
       selection = {
         tagStatus     = "any"
         countType     = "imageCountMoreThan"
-        countNumber   = 10
+        countNumber   = 5
       }
       action = {
         type = "expire"
@@ -273,11 +270,11 @@ resource "aws_ecr_lifecycle_policy" "nginx" {
   policy = jsonencode({
     rules = [{
       rulePriority = 1
-      description  = "Keep last 10 images"
+      description  = "Keep last 5 images"
       selection = {
         tagStatus     = "any"
         countType     = "imageCountMoreThan"
-        countNumber   = 10
+        countNumber   = 5
       }
       action = {
         type = "expire"
@@ -378,6 +375,25 @@ resource "aws_iam_role_policy" "ecs_task_s3" {
           "kms:GenerateDataKey"
         ]
         Resource = ["*"]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "ecs_task_ses" {
+  name = "${local.name_prefix}-ecs-task-ses"
+  role = aws_iam_role.ecs_task.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ses:SendEmail",
+          "ses:SendRawEmail"
+        ]
+        Resource = "*"
       }
     ]
   })
@@ -539,7 +555,7 @@ resource "aws_ecs_task_definition" "backend" {
   container_definitions = jsonencode([
     {
       name      = "backend"
-      image     = "${aws_ecr_repository.backend.repository_url}:latest"
+      image     = "${aws_ecr_repository.backend.repository_url}:${var.backend_image_version}"
       essential = true
       memory    = 512
       portMappings = [{
@@ -558,7 +574,7 @@ resource "aws_ecs_task_definition" "backend" {
         }
       }
       healthCheck = {
-        command     = ["CMD-SHELL", "curl -f http://localhost:8003/api/healthz || exit 1"]
+        command     = ["CMD-SHELL", "curl -f http://localhost:8003/api/health/check || exit 1"]
         interval    = 30
         timeout     = 5
         retries     = 3

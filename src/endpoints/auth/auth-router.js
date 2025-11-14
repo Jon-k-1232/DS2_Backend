@@ -12,6 +12,35 @@ const { sanitizeFields } = require('../../utils/sanitizeFields');
 const TEMP_PASSWORD_EXPIRATION_MINUTES = 20;
 const TEMP_PASSWORD_LENGTH = 12;
 
+/**
+ * Extract the real client IP address from the request.
+ * Prioritizes internal IPs (192.168.x.x, 172.31.x.x) from x-forwarded-for header.
+ * Falls back to req.ip if no suitable IP is found.
+ */
+const getClientIP = req => {
+   const forwardedFor = req.headers['x-forwarded-for'];
+
+   if (forwardedFor) {
+      // x-forwarded-for can be a comma-separated list of IPs
+      const ips = forwardedFor.split(',').map(ip => ip.trim());
+
+      // Look for internal IPs first (192.168.x.x or 172.31.x.x)
+      const internalIP = ips.find(ip => ip.startsWith('192.168.') || ip.startsWith('172.31.'));
+
+      if (internalIP) {
+         return internalIP;
+      }
+
+      // If no internal IP, return the first IP (client's real IP)
+      if (ips.length > 0 && ips[0]) {
+         return ips[0];
+      }
+   }
+
+   // Fallback to req.ip
+   return req.ip || 'unknown';
+};
+
 const generateTemporaryPassword = (length = TEMP_PASSWORD_LENGTH) => {
    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@$?';
    const bytes = crypto.randomBytes(length);
@@ -29,7 +58,7 @@ authentication.post(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const { suppliedUsername, suppliedPassword } = req.body;
-      const login_ip = req.ip;
+      const login_ip = getClientIP(req);
 
       // Sanitize input fields
       const sanitizedFields = sanitizeFields({ suppliedUsername, suppliedPassword });
@@ -105,14 +134,13 @@ authentication.post(
       const userRecord = await authService.findUserForPasswordReset(db, identifier);
 
       if (!userRecord) {
-         console.log(
-            `[${new Date().toISOString()}] Password reset requested for identifier "${identifier}" but no active user was found.`
-         );
-      } else {
-         console.log(
-            `[${new Date().toISOString()}] Password reset requested for user_id=${userRecord.user_id}, user_name=${userRecord.user_name}, account_id=${userRecord.account_id}.`
-         );
+         console.log(`[${new Date().toISOString()}] Password reset requested for identifier "${identifier}" but no active user was found.`);
+         return res.status(404).json({
+            message: 'No active user account found with that username or email address.'
+         });
       }
+
+      console.log(`[${new Date().toISOString()}] Password reset requested for user_id=${userRecord.user_id}, user_name=${userRecord.user_name}, account_id=${userRecord.account_id}.`);
 
       if (userRecord) {
          let temporaryPasswordApplied = false;

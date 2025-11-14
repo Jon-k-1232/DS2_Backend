@@ -52,11 +52,6 @@ app.use(
    })
 );
 
-/* ///////////////////////////\\\\  HEALTH CHECK  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-app.get('/api/healthz', (req, res) => {
-   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
-});
-
 /* ///////////////////////////\\\\  USER ENDPOINTS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 app.use('/auth', authentication);
 app.use('/customer', requireAuth, customerRouter);
@@ -78,7 +73,7 @@ app.use('/workDescriptions', requireAuth, workDescriptionsRouter);
 app.use('/timesheets', timesheetsRouter);
 app.use('/time-tracking', timeTrackingRouter);
 app.use('/time-tracker-staff', requireAuth, timeTrackerStaffRouter);
-app.use('/health', healthRouter);
+app.use('/api/health', healthRouter);
 app.use('/ai-integration', requireAuth, aiIntegrationRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

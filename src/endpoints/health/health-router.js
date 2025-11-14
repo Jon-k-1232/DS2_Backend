@@ -11,8 +11,13 @@ const { sendEmail } = require('../../utils/email/sendEmail');
 const ALERT_COOLDOWN_MS = 15 * 60 * 1000; // 15 minutes
 const HEALTH_ALERT_CACHE = new Map();
 
+// Simple health check for AWS ECS/ALB
+healthRouter.get('/check', (req, res) => {
+   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Provide basic server status to front end.
-healthRouter.route('/status/:accountID/:userID').get(async (req, res) => {
+healthRouter.route('/backend/stats/:accountID/:userID').get(async (req, res) => {
    const db = req.app.get('db');
    const { accountID } = req.params;
 
