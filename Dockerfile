@@ -1,6 +1,9 @@
 # Pull official base image (pin to an LTS release)
 FROM node:20.18.0-alpine
 
+# Install curl for health checks
+RUN apk add --no-cache curl
+
 # Set the time zone
 ENV TZ=America/Phoenix
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

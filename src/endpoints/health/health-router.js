@@ -7,7 +7,8 @@ healthRouter.get('/check', (req, res) => {
 });
 
 // Healthz endpoint for AWS health checks (no auth required)
-healthRouter.get('/healthz', (req, res) => {
+// Mounted at /healthz in app.js, so this responds to /healthz
+healthRouter.get('/', (req, res) => {
    res.status(200).json({ status: 'ok' });
 });
 
