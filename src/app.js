@@ -74,6 +74,7 @@ app.use('/timesheets', timesheetsRouter);
 app.use('/time-tracking', timeTrackingRouter);
 app.use('/time-tracker-staff', requireAuth, timeTrackerStaffRouter);
 app.use('/api/health', healthRouter);
+app.use('/healthz', healthRouter); // AWS health check endpoint (no auth)
 app.use('/ai-integration', requireAuth, aiIntegrationRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

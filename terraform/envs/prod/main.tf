@@ -431,6 +431,9 @@ resource "aws_launch_template" "ecs" {
   
   vpc_security_group_ids = [aws_security_group.ecs_tasks.id]
   
+  # Enable termination protection for EC2 instances
+  disable_api_termination = true
+  
   iam_instance_profile {
     name = aws_iam_instance_profile.ecs_instance.name
   }
@@ -574,7 +577,7 @@ resource "aws_ecs_task_definition" "backend" {
         }
       }
       healthCheck = {
-        command     = ["CMD-SHELL", "curl -f http://localhost:8003/api/health/check || exit 1"]
+        command     = ["CMD-SHELL", "curl -f http://localhost:8003/healthz || exit 1"]
         interval    = 30
         timeout     = 5
         retries     = 3
