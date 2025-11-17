@@ -23,9 +23,11 @@ variable "db_password" {
 variable "db_name" {
   description = "RDS database name"
   type        = string
+  default     = "ds2_prod"
 }
 
 variable "s3_bucket_name" {
   description = "S3 bucket for pg_dump backups"
   type        = string
+  default     = "ds2-pg-backups-prod"
 }

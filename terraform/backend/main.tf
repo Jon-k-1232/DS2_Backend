@@ -134,11 +134,6 @@ resource "aws_sns_topic_subscription" "email" {
   endpoint  = var.alert_email
 }
 
-# S3 backup bucket - data source for existing bucket
-data "aws_s3_bucket" "backup" {
-  bucket = "ds2-pg-backups-prod"
-}
-
 # Reference existing RDS instance instead of creating a new one
 data "aws_db_instance" "existing" {
   db_instance_identifier = "ds2-shared-db"
@@ -361,8 +356,6 @@ resource "aws_iam_role_policy" "ecs_task_s3" {
           "s3:ListBucket"
         ]
         Resource = [
-          data.aws_s3_bucket.backup.arn,
-          "${data.aws_s3_bucket.backup.arn}/*",
           data.aws_s3_bucket.assets.arn,
           "${data.aws_s3_bucket.assets.arn}/*"
         ]
