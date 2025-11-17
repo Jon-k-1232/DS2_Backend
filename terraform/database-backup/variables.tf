@@ -48,6 +48,18 @@ variable "db_secret_arn" {
 }
 
 variable "kms_key_id" {
-  description = "KMS key ARN for encryption"
+  description = "KMS key ID for encrypting S3 objects"
   type        = string
+}
+
+variable "notification_emails" {
+  description = "List of email addresses to notify on backup success/failure"
+  type        = list(string)
+  default     = ["aspire@jimkimmel.com", "jon.kimmel01@icloud.com"]
+}
+
+variable "image_tag" {
+  description = "Docker image tag to deploy to Lambda"
+  type        = string
+  default     = "v12"
 }

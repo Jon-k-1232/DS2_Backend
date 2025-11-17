@@ -141,6 +141,13 @@ resource "aws_iam_role_policy" "lambda" {
           "ec2:UnassignPrivateIpAddresses"
         ]
         Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "sns:Publish"
+        ]
+        Resource = [aws_sns_topic.backup_notifications.arn]
       }
     ]
   })
@@ -194,7 +201,7 @@ resource "aws_lambda_function" "backup" {
   function_name = "ds2-database-backup"
   role          = aws_iam_role.lambda.arn
   package_type  = "Image"
-  image_uri     = "${aws_ecr_repository.lambda.repository_url}:latest"
+  image_uri     = "${aws_ecr_repository.lambda.repository_url}:${var.image_tag}"
   timeout       = 900  # 15 minutes
   memory_size   = 2048 # 2GB for large databases
 
@@ -210,6 +217,7 @@ resource "aws_lambda_function" "backup" {
       DB_NAME       = var.db_name
       DB_SECRET_ARN = var.db_secret_arn
       S3_BUCKET     = aws_s3_bucket.backups.id
+      SNS_TOPIC_ARN = aws_sns_topic.backup_notifications.arn
     }
   }
 
@@ -218,15 +226,23 @@ resource "aws_lambda_function" "backup" {
   }
 }
 
-# CloudWatch Event Rule - Weekly on Sundays at 3 AM UTC
+# SNS Topic for backup notifications
+resource "aws_sns_topic" "backup_notifications" {
+  name = "ds2-database-backup-notifications"
+}
+
+resource "aws_sns_topic_subscription" "email_notifications" {
+  count     = length(var.notification_emails)
+  topic_arn = aws_sns_topic.backup_notifications.arn
+  protocol  = "email"
+  endpoint  = var.notification_emails[count.index]
+}
+
+# EventBridge rule for weekly backups (every Sunday at 3 AM UTC)
 resource "aws_cloudwatch_event_rule" "weekly" {
   name                = "ds2-database-backup-weekly"
-  description         = "Trigger database backup weekly on Sundays"
-  schedule_expression = "cron(0 3 ? * SUN *)"  # 3 AM UTC every Sunday
-
-  tags = {
-    Name = "ds2-database-backup-weekly"
-  }
+  description         = "Trigger database backup weekly"
+  schedule_expression = "cron(0 3 ? * SUN *)"
 }
 
 resource "aws_cloudwatch_event_target" "lambda" {
