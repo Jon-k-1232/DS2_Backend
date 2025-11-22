@@ -673,7 +673,7 @@ data "aws_route53_zone" "main" {
 data "aws_instances" "ds2_server" {
   filter {
     name   = "tag:Name"
-    values = ["DS2 Server"]
+    values = ["ds2-prod-ecs-instance"]
   }
   
   filter {
@@ -693,10 +693,6 @@ resource "aws_route53_record" "ds2" {
   
   # Use the private IP of the first (and only) instance
   records = length(data.aws_instances.ds2_server.private_ips) > 0 ? [data.aws_instances.ds2_server.private_ips[0]] : ["10.0.0.1"]
-  
-  lifecycle {
-    ignore_changes = [records]
-  }
 }
 
 # Route53 record for ds2.app.local (redirects to ds2.kimmeloffice.com via nginx)
