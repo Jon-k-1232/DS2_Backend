@@ -84,7 +84,8 @@ resource "aws_security_group" "ecs_tasks" {
   }
 
   tags = {
-    Name = "${local.name_prefix}-ecs-sg"
+    Name      = "${local.name_prefix}-ecs-sg - Managed by Terraform"
+    ManagedBy = "Terraform"
   }
 }
 
@@ -119,7 +120,8 @@ resource "aws_security_group" "db" {
   }
 
   tags = {
-    Name = "${local.name_prefix}-db"
+    Name      = "${local.name_prefix}-db - Managed by Terraform"
+    ManagedBy = "Terraform"
   }
 }
 
@@ -190,7 +192,8 @@ resource "aws_ecr_repository" "backend" {
   }
   
   tags = {
-    Name = "${local.name_prefix}-backend-ecr"
+    Name      = "${local.name_prefix}-backend-ecr"
+    ManagedBy = "Terraform"
   }
 }
 
@@ -203,7 +206,8 @@ resource "aws_ecr_repository" "frontend" {
   }
   
   tags = {
-    Name = "${local.name_prefix}-frontend-ecr"
+    Name      = "${local.name_prefix}-frontend-ecr"
+    ManagedBy = "Terraform"
   }
 }
 
@@ -216,7 +220,8 @@ resource "aws_ecr_repository" "nginx" {
   }
   
   tags = {
-    Name = "${local.name_prefix}-nginx-ecr"
+    Name      = "${local.name_prefix}-nginx-ecr"
+    ManagedBy = "Terraform"
   }
 }
 
@@ -402,7 +407,8 @@ resource "aws_ecs_cluster" "main" {
   }
 
   tags = {
-    Name = "${local.name_prefix}-ecs-cluster"
+    Name      = "${local.name_prefix}-ecs-cluster"
+    ManagedBy = "Terraform"
   }
 }
 
@@ -445,7 +451,7 @@ resource "aws_launch_template" "ecs" {
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name = "DS2 Server"
+      Name = "DS2 - Managed by Terraform"
     }
   }
 }
@@ -498,7 +504,7 @@ resource "aws_autoscaling_group" "ecs" {
   
   tag {
     key                 = "Name"
-    value               = "${local.name_prefix}-ecs-instance"
+    value               = "DS2 - Managed by Terraform"
     propagate_at_launch = true
   }
   
@@ -673,7 +679,7 @@ data "aws_route53_zone" "main" {
 data "aws_instances" "ds2_server" {
   filter {
     name   = "tag:Name"
-    values = ["ds2-prod-ecs-instance"]
+    values = ["DS2 - Managed by Terraform"]
   }
   
   filter {

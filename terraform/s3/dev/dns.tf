@@ -41,18 +41,7 @@ locals {
       )
   ) : null
 
-  vpce_entry = var.manage_dns ? tolist(aws_vpc_endpoint.s3_interface.dns_entry)[0] : null
+  # Interface endpoint removed - DNS alias no longer needed
 }
 
-resource "aws_route53_record" "ds2_bucket_alias" {
-  count  = var.manage_dns ? 1 : 0
-  zone_id = local.selected_zone_id
-  name    = "ds2-dev-bucket.${trimsuffix(local.selected_zone_name, ".")}"
-  type    = "A"
-
-  alias {
-    name                   = local.vpce_entry.dns_name
-    zone_id                = local.vpce_entry.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
+# DNS alias removed - applications use standard S3 endpoint instead

@@ -28,6 +28,7 @@ resource "aws_s3_bucket" "backups" {
     Name        = var.s3_bucket_name
     Environment = "production"
     Purpose     = "database-backups"
+    ManagedBy   = "Terraform"
   }
 }
 
@@ -87,7 +88,8 @@ resource "aws_iam_role" "lambda" {
   })
 
   tags = {
-    Name = "ds2-database-backup-lambda-role"
+    Name      = "ds2-database-backup-lambda-role"
+    ManagedBy = "Terraform"
   }
 }
 
@@ -167,7 +169,8 @@ resource "aws_security_group" "lambda" {
   }
 
   tags = {
-    Name = "ds2-database-backup-lambda-sg"
+    Name      = "ds2-database-backup-lambda-sg - Managed by Terraform"
+    ManagedBy = "Terraform"
   }
 }
 
@@ -192,7 +195,8 @@ resource "aws_ecr_repository" "lambda" {
   }
 
   tags = {
-    Name = "ds2-database-backup-lambda"
+    Name      = "ds2-database-backup-lambda"
+    ManagedBy = "Terraform"
   }
 }
 
@@ -222,7 +226,8 @@ resource "aws_lambda_function" "backup" {
   }
 
   tags = {
-    Name = "ds2-database-backup"
+    Name      = "ds2-database-backup"
+    ManagedBy = "Terraform"
   }
 }
 

@@ -9,29 +9,16 @@ output "ds2_bucket_access_key_id" {
   sensitive   = true
 }
 
-output "route53_inbound_resolver_ips" {
-  description = "IP addresses of the Route 53 inbound resolver endpoint for DNS forwarding."
-  value       = aws_route53_resolver_endpoint.ds2_inbound.ip_address[*].ip
-}
-
-output "s3_interface_dns_names" {
-  description = "DNS names published by the S3 interface endpoint. Use a bucket.vpce-* hostname for TLS connections."
-  value       = [for entry in aws_vpc_endpoint.s3_interface.dns_entry : entry.dns_name]
-}
+# Interface endpoint outputs removed - using Gateway endpoint
 
 output "bucket_name" {
   description = "Name of the DS2 dev bucket (use for S3_BUCKET_NAME)."
   value       = aws_s3_bucket.app_bucket.id
 }
 
-output "bucket_private_alias" {
-  description = "Internal Route53 alias pointing at the interface endpoint (use as S3_ENDPOINT if you prefer the friendly name)."
-  value       = var.manage_dns ? try(aws_route53_record.ds2_bucket_alias[0].fqdn, null) : null
-}
-
-output "bucket_interface_https_endpoint" {
-  description = "Interface endpoint URL suitable for S3_ENDPOINT when you need the direct VPCE host."
-  value       = "https://${tolist(aws_vpc_endpoint.s3_interface.dns_entry)[0].dns_name}"
+output "standard_s3_endpoint" {
+  description = "Standard S3 endpoint URL for the region (use for S3_ENDPOINT). Will automatically use Gateway endpoint."
+  value       = "https://s3.${var.region}.amazonaws.com"
 }
 
 output "s3_gateway_endpoint_id" {

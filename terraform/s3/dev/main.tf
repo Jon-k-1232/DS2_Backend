@@ -5,6 +5,7 @@ resource "aws_s3_bucket" "app_bucket" {
   tags = {
     Name        = local.bucket_name
     Environment = "dev"
+    ManagedBy   = "Terraform"
   }
 }
 
@@ -50,6 +51,47 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "app_bucket_encryp
   }
 }
 
+# Access logging bucket (stores access logs)
+resource "aws_s3_bucket" "access_logs" {
+  bucket        = "${local.bucket_name}-access-logs"
+  force_destroy = true
+
+  tags = {
+    Name        = "${local.bucket_name}-access-logs"
+    Environment = "dev"
+    ManagedBy   = "Terraform"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "access_logs_block" {
+  bucket                  = aws_s3_bucket.access_logs.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "access_logs_lifecycle" {
+  bucket = aws_s3_bucket.access_logs.id
+
+  rule {
+    id     = "delete-old-logs"
+    status = "Enabled"
+
+    expiration {
+      days = 90
+    }
+  }
+}
+
+# Enable access logging on main bucket
+resource "aws_s3_bucket_logging" "app_bucket_logging" {
+  bucket = aws_s3_bucket.app_bucket.id
+
+  target_bucket = aws_s3_bucket.access_logs.id
+  target_prefix = "ds2-dev/"
+}
+
 #########
 # S3 Bucket Policy
 #########
@@ -78,7 +120,7 @@ data "aws_iam_policy_document" "bucket_policy" {
   }
 
   statement {
-    sid     = "DenyIfNotViaOurVPCE"
+    sid     = "DenyIfNotViaVPCOrVPN"
     effect  = "Deny"
     actions = local.bucket_data_actions
     not_principals {
@@ -92,26 +134,17 @@ data "aws_iam_policy_document" "bucket_policy" {
     condition {
       test     = "StringNotEquals"
       variable = "aws:SourceVpce"
-      values   = [aws_vpc_endpoint.s3_interface.id]
+      values   = ["vpce-0576803a92a0574a9"]
     }
-  }
-
-  statement {
-    sid     = "AllowViaOurVPCE"
-    effect  = "Allow"
-    actions = local.bucket_data_actions
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
-    resources = [
-      aws_s3_bucket.app_bucket.arn,
-      "${aws_s3_bucket.app_bucket.arn}/*"
-    ]
     condition {
-      test     = "StringEquals"
-      variable = "aws:SourceVpce"
-      values   = [aws_vpc_endpoint.s3_interface.id]
+      test     = "NotIpAddress"
+      variable = "aws:SourceIp"
+      values   = [
+        "184.187.118.98/32",
+        "72.250.20.70/32",
+        "70.172.94.162/32",
+        "162.191.229.114/32"
+      ]
     }
   }
 }

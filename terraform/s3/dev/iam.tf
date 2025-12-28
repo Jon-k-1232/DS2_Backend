@@ -7,6 +7,7 @@ resource "aws_iam_user" "ds2_bucket_user" {
   tags = {
     Purpose     = "DS2 S3 bucket access"
     Environment = "dev"
+    ManagedBy   = "Terraform"
   }
 }
 

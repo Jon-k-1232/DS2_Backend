@@ -5,7 +5,8 @@ resource "aws_iam_user" "ds2_bucket_user" {
   name = var.iam_user_name
 
   tags = {
-    Purpose = "DS2 S3 bucket access"
+    Purpose   = "DS2 S3 bucket access"
+    ManagedBy = "Terraform"
   }
 }
 

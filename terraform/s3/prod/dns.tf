@@ -9,18 +9,6 @@ resource "aws_route53_zone" "internal" {
   }
 }
 
-locals {
-  vpce_entry = tolist(aws_vpc_endpoint.s3_interface.dns_entry)[0]
-}
+# Interface endpoint removed - DNS alias no longer needed
+# Applications use standard S3 endpoint which automatically routes through Gateway endpoint
 
-resource "aws_route53_record" "ds2_bucket_alias" {
-  zone_id = aws_route53_zone.internal.zone_id
-  name    = "ds2-bucket.${aws_route53_zone.internal.name}"
-  type    = "A"
-
-  alias {
-    name                   = local.vpce_entry.dns_name
-    zone_id                = local.vpce_entry.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
