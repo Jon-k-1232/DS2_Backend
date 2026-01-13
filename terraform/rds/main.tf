@@ -72,7 +72,7 @@ module "rds_postgres" {
   auto_minor_version_upgrade      = true
   apply_immediately               = true
   ca_cert_identifier              = "rds-ca-rsa2048-g1"
-  storage_type                    = "gp2"
+  storage_type                    = "gp3"
 }
 
 # Outputs

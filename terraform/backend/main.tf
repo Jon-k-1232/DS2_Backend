@@ -433,6 +433,16 @@ resource "aws_launch_template" "ecs" {
   # Enable termination protection for EC2 instances
   disable_api_termination = true
   
+  block_device_mappings {
+    device_name = "/dev/xvda"
+    ebs {
+      volume_type           = "gp3"
+      volume_size           = 30
+      delete_on_termination = true
+      encrypted             = true
+    }
+  }
+  
   iam_instance_profile {
     name = aws_iam_instance_profile.ecs_instance.name
   }
