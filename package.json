@@ -7,7 +7,7 @@
       "test": "mocha --require test/setup.js",
       "start:local:dev": "NODE_ENV=development NODE_OPTIONS=--openssl-legacy-provider node -r dotenv/config src/server.js dotenv_config_path=.env.dev",
       "start:local:prod": "NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider node -r dotenv/config src/server.js dotenv_config_path=.env.prod",
-      "start": "NODE_ENV=production node src/server.js",
+      "start": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=768 node src/server.js",
       "migrate": "postgrator --config postgrator-config.js --migration-directory migrations"
    },
    "keywords": [],

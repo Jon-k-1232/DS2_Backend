@@ -9,6 +9,13 @@ const db = knex({
       password: DATABASE_PASSWORD,
       database: DATABASE_URL,
       ssl: { rejectUnauthorized: false }
+   },
+   pool: {
+      min: 2,
+      max: 10,
+      acquireTimeoutMillis: 30000,
+      idleTimeoutMillis: 30000,
+      reapIntervalMillis: 1000
    }
 });
 

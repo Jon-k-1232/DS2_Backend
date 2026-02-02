@@ -569,7 +569,7 @@ resource "aws_ecs_task_definition" "backend" {
       name      = "backend"
       image     = "${aws_ecr_repository.backend.repository_url}:latest"
       essential = true
-      memory    = 512
+      memory    = 1024
       portMappings = [{
         containerPort = 8003
         hostPort      = 8003
