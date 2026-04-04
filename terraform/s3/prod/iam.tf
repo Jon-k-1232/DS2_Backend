@@ -18,7 +18,10 @@ data "aws_iam_policy_document" "ds2_bucket_access" {
       "s3:ListBucket",
       "s3:GetBucketLocation"
     ]
-    resources = [aws_s3_bucket.app_bucket.arn]
+    resources = [
+      aws_s3_bucket.app_bucket.arn,
+      aws_s3_bucket.llm_logs.arn,
+    ]
   }
 
   statement {
@@ -31,7 +34,10 @@ data "aws_iam_policy_document" "ds2_bucket_access" {
       "s3:DeleteObject",
       "s3:DeleteObjectVersion"
     ]
-    resources = ["${aws_s3_bucket.app_bucket.arn}/*"]
+    resources = [
+      "${aws_s3_bucket.app_bucket.arn}/*",
+      "${aws_s3_bucket.llm_logs.arn}/*",
+    ]
   }
 }
 

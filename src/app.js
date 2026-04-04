@@ -29,6 +29,7 @@ const timesheetsRouter = require('./endpoints/timesheets/timesheets-router');
 const timeTrackingRouter = require('./endpoints/timeTracking/timeTracking-router');
 const timeTrackerStaffRouter = require('./endpoints/timeTrackerStaff/timeTrackerStaff-router');
 const aiIntegrationRouter = require('./endpoints/aiIntegration/aiIntegration-router');
+const pendingPaymentsRouter = require('./endpoints/pendingPayments/pendingPayments-router');
 
 // Middleware
 app.use(cookieParser());
@@ -76,6 +77,7 @@ app.use('/time-tracker-staff', requireAuth, timeTrackerStaffRouter);
 app.use('/api/health', healthRouter);
 app.use('/healthz', healthRouter); // AWS health check endpoint (no auth)
 app.use('/ai-integration', requireAuth, aiIntegrationRouter);
+app.use('/pending-payments', requireAuth, pendingPaymentsRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 if (NODE_ENV !== 'test') {

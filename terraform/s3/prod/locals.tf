@@ -14,6 +14,9 @@ locals {
     "James_F__Kimmel___Associates/time_tracking/",
     "James_F__Kimmel___Associates/time_tracking/processed/",
     "James_F__Kimmel___Associates/time_tracking/tracker_versions/",
+    "James_F__Kimmel___Associates/payments/",
+    "James_F__Kimmel___Associates/payments/processing_pending/",
+    "James_F__Kimmel___Associates/payments/processed_payments/",
   ]
 
   bucket_data_actions = [
