@@ -5,10 +5,14 @@
  */
 const groupAndTotalPayments = (customer_id, invoiceQueryData) => {
    const customerPayments = invoiceQueryData.customerPayments[customer_id] || [];
-   const paymentTotal = customerPayments ? customerPayments.reduce((acc, payment) => acc + Number(payment.payment_amount), 0) : 0;
+
+   // Only include payments not already applied to an existing invoice to avoid double-counting
+   // (payments tied to invoices are already reflected in outstanding invoice remaining balances)
+   const uninvoicedPayments = customerPayments.filter(payment => !payment.customer_invoice_id);
+   const paymentTotal = uninvoicedPayments.reduce((acc, payment) => acc + Number(payment.payment_amount), 0);
 
    // for the customer payments, filter out payments that have a form_of_payment of 'Retainer' or 'Prepayment'
-   const retainerPayments = customerPayments.filter(payment => payment.form_of_payment === 'Retainer' || payment.form_of_payment === 'Prepayment');
+   const retainerPayments = uninvoicedPayments.filter(payment => payment.form_of_payment === 'Retainer' || payment.form_of_payment === 'Prepayment');
    const retainerPaymentTotal = retainerPayments.reduce((acc, payment) => acc + Number(payment.payment_amount), 0);
 
    if (isNaN(paymentTotal)) {

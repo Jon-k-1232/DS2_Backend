@@ -137,7 +137,7 @@ const invoiceService = {
    async getLastInvoiceDatesByCustomerID(db, accountID, customerIDs) {
       const data = await db
          .select('customer_id')
-         .max('created_at as last_invoice_date')
+         .max('invoice_date as last_invoice_date')
          .from('customer_invoices')
          .where('account_id', accountID)
          .whereIn('customer_id', customerIDs)
@@ -215,7 +215,7 @@ const invoiceService = {
       const data = await db('customer_payments')
          // switched to left join to include payments that are not attached to an invoice through a transaction. was just a 'join'.
          .leftJoin('customer_invoices', 'customer_invoices.customer_invoice_id', '=', 'customer_payments.customer_invoice_id')
-         .select('customer_payments.*', 'customer_invoices.*')
+         .select('customer_payments.*', db.raw('customer_invoices.invoice_number'))
          .where({
             'customer_payments.account_id': accountID
          })
@@ -334,8 +334,12 @@ const invoiceService = {
             return;
          }
 
-         // Include parent invoices along with all their children where a payment has been made after the last invoice date, regardless of the remaining balance
-         const paymentAfterLastBillDate = children.some(child => Number(child.remaining_balance_on_invoice) === 0 && new Date(child.created_at) > new Date(lastBillDate));
+         // Include parent invoices along with all their children where a payment has been made after the last invoice date, regardless of the remaining balance.
+         // Also include when this parent IS the most recent invoice (created_at === T_last) with fully-paid children — handles the edge case where
+         // a child invoice was created before the parent due to an inverted timestamp, causing paymentAfterLastBillDate to incorrectly be false.
+         // filterInvoices will still safely exclude this group if no payment is in scope (via discardedGroups).
+         const isCurrentInvoice = Boolean(lastBillDate) && new Date(parentInvoice.created_at) >= new Date(lastBillDate);
+         const paymentAfterLastBillDate = isCurrentInvoice || children.some(child => Number(child.remaining_balance_on_invoice) === 0 && new Date(child.created_at) > new Date(lastBillDate));
 
          if (paymentAfterLastBillDate) {
             outstandingInvoices[parentInvoice.customer_id].push(...children, parentInvoice);

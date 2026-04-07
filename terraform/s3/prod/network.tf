@@ -61,6 +61,41 @@ data "aws_iam_policy_document" "gateway_vpce_policy" {
     }
   }
 
+  # ECR pulls Docker image layers from AWS-managed S3 buckets (starport)
+  statement {
+    sid    = "AllowECRImagePull"
+    effect = "Allow"
+    actions = [
+      "s3:GetObject"
+    ]
+    resources = [
+      "arn:aws:s3:::prod-us-west-2-starport-layer-bucket/*"
+    ]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+
+  # LLM audit logs bucket
+  statement {
+    sid    = "AllowLLMLogBucket"
+    effect = "Allow"
+    actions = [
+      "s3:PutObject",
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    resources = [
+      "${aws_s3_bucket.llm_logs.arn}",
+      "${aws_s3_bucket.llm_logs.arn}/*"
+    ]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+
   statement {
     sid       = "DenyDangerousActions"
     effect    = "Deny"

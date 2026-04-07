@@ -13,7 +13,7 @@ const invoiceSchema = {
    total_write_offs: 'decimal',
    total_retainers: 'decimal',
    total_amount_due: 'decimal',
-   remaining_balance_on_invoice: 'int',
+   remaining_balance_on_invoice: 'decimal',
    is_invoice_paid_in_full: 'boolean',
    fully_paid_date: ['date', 'null'],
    created_by_user_id: 'int',

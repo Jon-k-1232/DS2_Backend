@@ -63,7 +63,7 @@ const incrementAnInvoiceOrQuote = (invoiceNumber, increment) => {
    if (year === currentYear) {
       incrementedNum = num + 1 + addOne;
    } else {
-      incrementedNum = 1;
+      incrementedNum = 1 + addOne;
    }
 
    // format number with leading zeros

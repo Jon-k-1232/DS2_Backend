@@ -47,31 +47,6 @@ const restoreDataTypesInvoiceOnUpdate = data => ({
    notes: data.notes
 });
 
-const createNewInvoiceObject = (invoice, userID) => {
-   const { customerContactInfo, invoiceNote, incrementedNextInvoiceNumber, dueDate, outstandingInvoices, payments, transactions, writeOffs, retainers, invoiceTotal } = invoice;
-   const { customer_id, account_id, customer_info_id } = customerContactInfo;
-   return {
-      account_id,
-      customer_id,
-      customer_info_id,
-      invoice_number: incrementedNextInvoiceNumber,
-      invoice_date: new Date(),
-      due_date: dueDate,
-      beginning_balance: outstandingInvoices?.outstandingBalanceTotalForInvoiceDisplay || 0.0,
-      total_payments: payments?.paymentTotal || 0.0,
-      total_charges: transactions?.transactionTotals || 0.0,
-      total_write_offs: writeOffs?.totalWriteOffs || 0.0,
-      total_retainers: retainers?.retainerTotal || 0.0,
-      total_amount_due: invoiceTotal || 0.0,
-      remaining_balance_on_invoice: invoiceTotal || 0.0,
-      is_invoice_paid_in_full: false,
-      fully_paid_date: null,
-      created_by_user_id: userID,
-      invoice_file_location: data.invoiceFileLocation || null,
-      notes: invoiceNote
-   };
-};
-
 /**
  * Calculates the amount that amount thats should remain on the retainer.
  * @param {*} invoice
@@ -119,7 +94,6 @@ const newPaymentObject = (retainer, invoiceID, userID) => ({
 module.exports = {
    restoreDataTypesInvoiceOnCreate,
    restoreDataTypesInvoiceOnUpdate,
-   createNewInvoiceObject,
    calculateRemainingRetainer,
    newPaymentObject
 };
