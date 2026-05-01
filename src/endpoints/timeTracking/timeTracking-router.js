@@ -15,6 +15,7 @@ const sendSuccessEmail = require('../../utils/email/sendSuccessEmail');
 const timesheetsService = require('../timesheets/timesheets-service');
 const { kickOffAiSuggestionsForEntryIds } = require('../timesheets/aiTimesheetJobRunner');
 const { kickOffAutoIngestForEntryIds, _isAccountAllowed: _isAutoIngestAllowed } = require('../timesheets/auto-ingest-runner');
+const { buildTemplate } = require('./template-builder');
 const aiIntegrationService = require('../aiIntegration/aiIntegration-service');
 
 const gzip = promisify(zlib.gzip);
@@ -863,6 +864,35 @@ timeTrackingRouter.get(
       const { body, metadata } = await getObject(latestTemplate.Key);
       const fileName = path.basename(latestTemplate.Key);
       const contentType = metadata?.contentType || 'application/octet-stream';
+
+      // When the new pipeline is enabled for this account, return a workbook
+      // with current customer / employee / category dropdowns injected.
+      // Otherwise fall through to the static S3 template.
+      const accountIdNumber = Number(req.params.accountID);
+      const userIdNumber = Number(req.params.userID);
+      if (_isAutoIngestAllowed(accountIdNumber)) {
+         try {
+            const db = req.app.get('db');
+            const { buffer, counts } = await buildTemplate({
+               db,
+               accountId: accountIdNumber,
+               userId: userIdNumber,
+               baseTemplateBuffer: body
+            });
+            res.set({
+               'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+               'Content-Disposition': `attachment; filename="${fileName}"`,
+               'X-Tracker-Filename': fileName,
+               'X-Tracker-Customers': String(counts.customers),
+               'X-Tracker-Employees': String(counts.employees),
+               'X-Tracker-Categories': String(counts.categories)
+            });
+            return res.status(200).send(buffer);
+         } catch (err) {
+            console.error(`[${new Date().toISOString()}] template-builder fallback to static: ${err.message}`);
+            // Fall through to the static template below as a safe fallback.
+         }
+      }
 
       res.set({
          'Content-Type': contentType,
