@@ -30,6 +30,8 @@ const timeTrackingRouter = require('./endpoints/timeTracking/timeTracking-router
 const timeTrackerStaffRouter = require('./endpoints/timeTrackerStaff/timeTrackerStaff-router');
 const aiIntegrationRouter = require('./endpoints/aiIntegration/aiIntegration-router');
 const pendingPaymentsRouter = require('./endpoints/pendingPayments/pendingPayments-router');
+const billingReviewRouter = require('./endpoints/billingReview/billingReview-router');
+const notificationsRouter = require('./endpoints/notifications/notifications-router');
 
 // Middleware
 app.use(cookieParser());
@@ -78,6 +80,8 @@ app.use('/api/health', healthRouter);
 app.use('/healthz', healthRouter); // AWS health check endpoint (no auth)
 app.use('/ai-integration', requireAuth, aiIntegrationRouter);
 app.use('/pending-payments', requireAuth, pendingPaymentsRouter);
+app.use('/billing-review', requireAuth, billingReviewRouter);
+app.use('/notifications', requireAuth, notificationsRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 if (NODE_ENV !== 'test') {
