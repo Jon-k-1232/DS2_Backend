@@ -12,7 +12,12 @@ const db = knex({
    },
    pool: {
       min: 2,
-      max: 10,
+      // Bumped from 10 to 20 to keep pace with auto-ingest concurrency.
+      // Each in-flight orchestrator row holds ~1 connection during its
+      // db.transaction; with AUTO_INGEST_CONCURRENCY=8 that leaves ~12
+      // connections free for normal request handling. Postgres
+      // max_connections=181 has plenty more headroom if we need to push.
+      max: Number(process.env.PG_POOL_MAX || 20),
       acquireTimeoutMillis: 30000,
       idleTimeoutMillis: 30000,
       reapIntervalMillis: 1000

@@ -7,7 +7,7 @@ const { addNewTransaction } = require('../transactions/sharedTransactionFunction
 
 const AUTO_INSERT_THRESHOLD = Number(process.env.AUTO_INSERT_CONFIDENCE_THRESHOLD || 0.85);
 const FUZZY_HIGH_THRESHOLD = Number(process.env.CUSTOMER_FUZZY_HIGH_THRESHOLD || 0.90);
-const CONCURRENCY = Number(process.env.AUTO_INGEST_CONCURRENCY || 4);
+const CONCURRENCY = Number(process.env.AUTO_INGEST_CONCURRENCY || 8);
 const FEW_SHOT_LIMIT = Number(process.env.FEW_SHOT_LIMIT || 5);
 
 const HOLD_REASONS = Object.freeze({

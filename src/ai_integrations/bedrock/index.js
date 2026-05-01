@@ -3,6 +3,7 @@ const { BedrockRuntimeClient, InvokeModelCommand } = require('@aws-sdk/client-be
 const { S3Client } = require('@aws-sdk/client-s3');
 const { estimateCost } = require('./cost');
 const { writeS3Log, writeDbLog } = require('./audit');
+const { acquireSlot } = require('./rateLimiter');
 
 const REGION = process.env.BEDROCK_REGION || 'us-west-2';
 const LLM_LOG_BUCKET = process.env.LLM_LOG_BUCKET || '';
@@ -102,12 +103,17 @@ const invokeBedrockClaude = async ({
    let status = 'ok';
    let errorMessage = null;
 
+   // Token-bucket gate: never exceed configured per-model RPM. Cheap when
+   // we're under the limit; backpressures the call when we're at the cap.
+   await acquireSlot(modelId);
+
    try {
       raw = await _invokeOnce({ client, modelId, system, messages, maxTokens, temperature });
    } catch (err) {
       const transient = err && (err.name === 'ThrottlingException' || err.$metadata?.httpStatusCode >= 500);
       if (transient) {
          await _sleep(500 + Math.floor(Math.random() * 250));
+         await acquireSlot(modelId);  // re-spend a token on the retry
          try {
             raw = await _invokeOnce({ client, modelId, system, messages, maxTokens, temperature });
          } catch (err2) {

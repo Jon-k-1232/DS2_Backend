@@ -121,6 +121,15 @@ const inferCategorization = async ({
       }
    } catch (err) {
       lastError = err;
+      // Don't escalate to Sonnet on auth / permission errors — Sonnet will
+      // fail the same way and we'd waste an InvokeModel call. Same for
+      // ResourceNotFound (model not enabled). Throttling DOES escalate
+      // because Haiku-specific throttle quotas can run out independently.
+      const msg = String(err && err.message || '');
+      const fatal = /AccessDeniedException|UnrecognizedClientException|InvalidSignatureException|not authorized|AuthFailure|ResourceNotFoundException|ValidationException/i.test(msg);
+      if (fatal) {
+         return { suggestion: null, modelUsed: HAIKU_MODEL, totalCost, escalated: false, error: err.message };
+      }
    }
 
    try {
