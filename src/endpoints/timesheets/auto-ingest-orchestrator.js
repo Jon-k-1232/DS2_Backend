@@ -156,7 +156,7 @@ const _writeSuggestion = async (db, { accountId, entryId, sanitizedNotes, sugges
       });
 };
 
-const _holdEntry = async (db, { entryId, accountId, holdReason, suggestion, suggestedCustomer, sanitizedNotes }) => {
+const _holdEntry = async (db, { entryId, accountId, holdReason, suggestion, suggestedCustomer, employeeMatch = null, sanitizedNotes }) => {
    await db.transaction(async trx => {
       await trx('timesheet_entries')
          .where({ timesheet_entry_id: entryId, account_id: accountId })
@@ -165,7 +165,7 @@ const _holdEntry = async (db, { entryId, accountId, holdReason, suggestion, sugg
             ai_attempted_at: new Date(),
             ai_payload: _safePayload(suggestion, suggestedCustomer),
             suggested_customer_id: suggestedCustomer ? suggestedCustomer.customerId : null,
-            matched_user_id: null
+            matched_user_id: employeeMatch ? employeeMatch.userId : null
          });
       await _writeSuggestion(trx, {
          accountId,
@@ -284,6 +284,7 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
          holdReason: HOLD_REASONS.AI_COST_CAP_REACHED,
          suggestion: null,
          suggestedCustomer: null,
+         employeeMatch,
          sanitizedNotes: ''
       });
       return { entryId: entry.timesheet_entry_id, decision: 'hold', reason: HOLD_REASONS.AI_COST_CAP_REACHED, costUsd: 0 };
@@ -360,6 +361,7 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
             holdReason: HOLD_REASONS.MISSING_REQUIRED_FIELD,
             suggestion,
             suggestedCustomer: customerMatch,
+            employeeMatch,
             sanitizedNotes
          });
          return { entryId: entry.timesheet_entry_id, decision: 'hold', reason: `auto_insert_failed:${err.message}`, costUsd: suggestionCost };
@@ -372,6 +374,7 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
       holdReason: decision.reason,
       suggestion,
       suggestedCustomer: customerMatch.customerId ? customerMatch : null,
+      employeeMatch,
       sanitizedNotes
    });
    return {

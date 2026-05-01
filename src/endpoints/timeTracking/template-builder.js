@@ -1,8 +1,41 @@
 const ExcelJS = require('exceljs');
+const JSZip = require('jszip');
 
 const COLLAPSE_WINDOW_MS = Number(process.env.TEMPLATE_COLLAPSE_WINDOW_MS || 60_000);
 const PROTECT_PASSWORD = process.env.TEMPLATE_PROTECT_PASSWORD || 'jka-internal';
 const MAX_DATA_ROWS = Number(process.env.TEMPLATE_MAX_DATA_ROWS || 1500);
+
+/**
+ * The prod tracker template (and others authored in Excel) often contains
+ * dataValidations with `sqref="D1:D1048576"` (entire column = 1,048,576 cells).
+ * ExcelJS's load() expands those ranges cell-by-cell into a Map, which
+ * pegs CPU at 100% for several minutes per such range — effectively a hang.
+ * Pre-process the buffer's sheet XML to cap those ranges at MAX_DATA_ROWS
+ * before handing it to ExcelJS. The user-visible result is identical: Excel
+ * still applies the validation to every relevant row.
+ */
+const _shrinkFullColumnSqrefs = async buffer => {
+   try {
+      const zip = await JSZip.loadAsync(buffer);
+      const sheetFiles = Object.keys(zip.files).filter(name => /^xl\/worksheets\/sheet\d+\.xml$/.test(name));
+      let modified = false;
+      for (const name of sheetFiles) {
+         const xml = await zip.files[name].async('string');
+         const replaced = xml.replace(/sqref="([^"]+)"/g, (match, sqref) => {
+            const tightened = sqref.replace(/(\$?[A-Z]+\$?\d+):(\$?[A-Z]+\$?)1048576/g, (_m, start, endCol) => `${start}:${endCol}${MAX_DATA_ROWS}`);
+            return `sqref="${tightened}"`;
+         });
+         if (replaced !== xml) {
+            zip.file(name, replaced);
+            modified = true;
+         }
+      }
+      if (!modified) return buffer;
+      return zip.generateAsync({ type: 'nodebuffer' });
+   } catch (e) {
+      return buffer;
+   }
+};
 
 const _cache = new Map();
 
@@ -49,45 +82,43 @@ const _addLookupSheet = (workbook, sheetName, header, items) => {
 };
 
 const _applyDataValidation = ({ sheet, customerCount, employeeCount, categoryCount }) => {
-   for (let r = 6; r <= MAX_DATA_ROWS; r++) {
-      sheet.getCell(`B${r}`).dataValidation = customerCount
-         ? {
-              type: 'list',
-              allowBlank: true,
-              formulae: [`__customers!$A$2:$A$${customerCount + 1}`],
-              showErrorMessage: true,
-              errorStyle: 'information',
-              errorTitle: 'Unknown customer',
-              error: 'This customer is not in our system. The row will be flagged for review.'
-           }
-         : undefined;
-
-      sheet.getCell(`C${r}`).dataValidation = categoryCount
-         ? {
-              type: 'list',
-              allowBlank: true,
-              formulae: [`__categories!$A$2:$A$${categoryCount + 1}`],
-              showErrorMessage: true,
-              errorStyle: 'information',
-              errorTitle: 'Unknown category'
-           }
-         : undefined;
-
-      sheet.getCell(`D${r}`).dataValidation = employeeCount
-         ? {
-              type: 'list',
-              allowBlank: false,
-              formulae: [`__employees!$A$2:$A$${employeeCount + 1}`],
-              showErrorMessage: true,
-              errorStyle: 'stop',
-              errorTitle: 'Unknown employee',
-              error: 'Employee Name must match an active DS2 user. Pick from the list.'
-           }
-         : undefined;
+   // Use ExcelJS's range-based dataValidations API. Setting one rule per
+   // range is O(1) per range; the previous per-cell loop with MAX_DATA_ROWS=1500
+   // and 3 columns hot-spun the worker (~99% CPU for several minutes per
+   // request) and never returned. Range syntax keeps the workbook produced
+   // identical from Excel's perspective while being instant to generate.
+   if (customerCount) {
+      sheet.dataValidations.add(`B6:B${MAX_DATA_ROWS}`, {
+         type: 'list',
+         allowBlank: true,
+         formulae: [`__customers!$A$2:$A$${customerCount + 1}`],
+         showErrorMessage: true,
+         errorStyle: 'information',
+         errorTitle: 'Unknown customer',
+         error: 'This customer is not in our system. The row will be flagged for review.'
+      });
    }
-
+   if (categoryCount) {
+      sheet.dataValidations.add(`C6:C${MAX_DATA_ROWS}`, {
+         type: 'list',
+         allowBlank: true,
+         formulae: [`__categories!$A$2:$A$${categoryCount + 1}`],
+         showErrorMessage: true,
+         errorStyle: 'information',
+         errorTitle: 'Unknown category'
+      });
+   }
    if (employeeCount) {
-      sheet.getCell('B1').dataValidation = {
+      sheet.dataValidations.add(`D6:D${MAX_DATA_ROWS}`, {
+         type: 'list',
+         allowBlank: false,
+         formulae: [`__employees!$A$2:$A$${employeeCount + 1}`],
+         showErrorMessage: true,
+         errorStyle: 'stop',
+         errorTitle: 'Unknown employee',
+         error: 'Employee Name must match an active DS2 user. Pick from the list.'
+      });
+      sheet.dataValidations.add('B1', {
          type: 'list',
          allowBlank: false,
          formulae: [`__employees!$A$2:$A$${employeeCount + 1}`],
@@ -95,7 +126,7 @@ const _applyDataValidation = ({ sheet, customerCount, employeeCount, categoryCou
          errorStyle: 'stop',
          errorTitle: 'Unknown employee',
          error: 'Pick your name from the list. Only active DS2 users may submit time.'
-      };
+      });
    }
 };
 
@@ -108,8 +139,9 @@ const buildTemplate = async ({ db, accountId, userId, baseTemplateBuffer, now = 
 
    const { customers, employees, categories } = await _readCatalogs(db, accountId);
 
+   const safeBuffer = await _shrinkFullColumnSqrefs(baseTemplateBuffer);
    const workbook = new ExcelJS.Workbook();
-   await workbook.xlsx.load(baseTemplateBuffer);
+   await workbook.xlsx.load(safeBuffer);
 
    _addLookupSheet(workbook, '__customers', 'Customer', customers);
    _addLookupSheet(workbook, '__employees', 'Employee', employees);

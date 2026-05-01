@@ -170,18 +170,22 @@ describe('template-builder', () => {
 });
 
 describe('template-builder _applyDataValidation', () => {
-   it('marks the employee dropdown as strict (errorStyle stop)', async () => {
+   it('marks the employee dropdown as strict (errorStyle stop) and uses range-based rules', async () => {
       const wb = new ExcelJS.Workbook();
       const sheet = wb.addWorksheet('Time');
       _applyDataValidation({ sheet, customerCount: 5, employeeCount: 3, categoryCount: 4 });
-      const employeeRule = sheet.getCell('B1').dataValidation;
-      const customerRule = sheet.getCell('B6').dataValidation;
-      const categoryRule = sheet.getCell('C6').dataValidation;
-      const dataEmployeeRule = sheet.getCell('D6').dataValidation;
-      expect(employeeRule).to.exist;
-      expect(employeeRule.errorStyle).to.equal('stop');
-      expect(customerRule.errorStyle).to.equal('information');
-      expect(categoryRule.errorStyle).to.equal('information');
-      expect(dataEmployeeRule.errorStyle).to.equal('stop');
+      // ExcelJS stores range-based rules in worksheet.dataValidations.model;
+      // each key is a sheet range like "B1" or "B6:B1500".
+      const rules = sheet.dataValidations.model || {};
+      const ranges = Object.keys(rules);
+      // The implementation registers four ranges total: B1 (name-block
+      // employee), B6:Bn (customers), C6:Cn (categories), D6:Dn (data-block
+      // employee). Don't pin the exact range bounds — that's the
+      // MAX_DATA_ROWS knob — but assert the ranges and their errorStyle.
+      const findRule = prefix => rules[ranges.find(r => r.startsWith(prefix))];
+      expect(findRule('B1').errorStyle).to.equal('stop');
+      expect(findRule('B6').errorStyle).to.equal('information');
+      expect(findRule('C6').errorStyle).to.equal('information');
+      expect(findRule('D6').errorStyle).to.equal('stop');
    });
 });
