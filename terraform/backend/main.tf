@@ -176,6 +176,20 @@ locals {
     S3_ENDPOINT             = var.s3_endpoint
     S3_ACCESS_KEY_ID        = var.s3_access_key_id
     S3_SECRET_ACCESS_KEY    = var.s3_secret_access_key
+
+    # Time-tracker AI pipeline (Phase 1 cutover). Defaults are safe — the
+    # feature flag is "off" out of the box; flip per-environment in
+    # *.auto.tfvars when ready to roll out.
+    BEDROCK_REGION                    = var.bedrock_region
+    BEDROCK_MODEL_TIMETRACKER         = var.bedrock_model_timetracker
+    BEDROCK_MODEL_TIMETRACKER_FAST    = var.bedrock_model_timetracker_fast
+    LLM_LOG_BUCKET                    = var.llm_log_bucket
+    TIME_TRACKER_AI_FEATURE_FLAG      = var.time_tracker_ai_feature_flag
+    TIME_TRACKER_AI_TEST_ACCOUNT_IDS  = var.time_tracker_ai_test_account_ids
+    AUTO_INSERT_CONFIDENCE_THRESHOLD  = var.auto_insert_confidence_threshold
+    # Force UTC on the runtime so JS Date serialization to Postgres date
+    # columns is stable regardless of host timezone.
+    TZ                                = "UTC"
   }
 }
 
@@ -366,6 +380,18 @@ resource "aws_iam_role_policy" "ecs_task_s3" {
         ]
       },
       {
+        # Phase 1 cutover: per-call audit log records for every Bedrock
+        # InvokeModel. Separate bucket from assets so audit data has its
+        # own lifecycle policy and access controls.
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject"
+        ]
+        Resource = [
+          "arn:aws:s3:::${var.llm_log_bucket}/*"
+        ]
+      },
+      {
         Effect = "Allow"
         Action = [
           "kms:Decrypt",
@@ -377,6 +403,68 @@ resource "aws_iam_role_policy" "ecs_task_s3" {
     ]
   })
 }
+
+# ------------------------------------------------------------------
+# Bedrock InvokeModel for the time-tracker auto-ingest pipeline.
+# Scoped to the two Claude model families used by the orchestrator
+# plus the cross-region inference profile ARN that wraps them.
+# Mirrors the grant on the payments Lambda role at
+# DS2_Lambdas/Process_Payment_Images/terraform/prod/main.tf:86-91
+# but tightened to specific model families.
+# ------------------------------------------------------------------
+resource "aws_iam_role_policy" "ecs_task_bedrock" {
+  name = "${local.name_prefix}-ecs-task-bedrock"
+  role = aws_iam_role.ecs_task.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "bedrock:InvokeModel",
+          "bedrock:InvokeModelWithResponseStream"
+        ]
+        Resource = [
+          # Foundation-model ARNs (same in every account; no account ID).
+          "arn:aws:bedrock:${var.bedrock_region}::foundation-model/anthropic.claude-haiku-*",
+          "arn:aws:bedrock:${var.bedrock_region}::foundation-model/anthropic.claude-sonnet-4-5-*",
+          # Cross-region inference-profile ARNs (account-scoped). Required
+          # in addition to the foundation-model ARNs because the model IDs
+          # we invoke are inference-profile IDs (us.anthropic.claude-...).
+          "arn:aws:bedrock:${var.bedrock_region}:${data.aws_caller_identity.current.account_id}:inference-profile/us.anthropic.claude-haiku-*",
+          "arn:aws:bedrock:${var.bedrock_region}:${data.aws_caller_identity.current.account_id}:inference-profile/us.anthropic.claude-sonnet-4-5-*"
+        ]
+      }
+    ]
+  })
+}
+
+# ------------------------------------------------------------------
+# Comprehend DetectPiiEntities for the notes-redaction layer in
+# src/utils/comprehend.js. Action-only grant; Resource is "*" because
+# Comprehend doesn't support resource-level scoping for these calls.
+# ------------------------------------------------------------------
+resource "aws_iam_role_policy" "ecs_task_comprehend" {
+  name = "${local.name_prefix}-ecs-task-comprehend"
+  role = aws_iam_role.ecs_task.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "comprehend:DetectPiiEntities",
+          "comprehend:ContainsPiiEntities"
+        ]
+        Resource = ["*"]
+      }
+    ]
+  })
+}
+
+data "aws_caller_identity" "current" {}
 
 resource "aws_iam_role_policy" "ecs_task_ses" {
   name = "${local.name_prefix}-ecs-task-ses"

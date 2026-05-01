@@ -126,6 +126,17 @@ BEGIN
    IF NOT EXISTS (SELECT 1 FROM time_tracker_staff WHERE user_id = 90013) THEN
       INSERT INTO time_tracker_staff(user_id, is_active) VALUES (90013, true);
    END IF;
+
+   -- Customer information rows (required for invoice generation; one per
+   -- test customer that participates in billing tests).
+   IF NOT EXISTS (SELECT 1 FROM customer_information WHERE customer_id = 900101) THEN
+      INSERT INTO customer_information(account_id, customer_id, customer_street, customer_city, customer_state, customer_zip, customer_email, customer_phone, is_this_address_active, is_customer_physical_address, is_customer_billing_address, is_customer_mailing_address, created_by_user_id)
+         VALUES (9001, 900101, '1 Acme Way', 'Phoenix', 'AZ', '85001', 'billing@acme-test.example', '5550100100', true, true, true, true, 90013);
+   END IF;
+   IF NOT EXISTS (SELECT 1 FROM customer_information WHERE customer_id = 900102) THEN
+      INSERT INTO customer_information(account_id, customer_id, customer_street, customer_city, customer_state, customer_zip, customer_email, customer_phone, is_this_address_active, is_customer_physical_address, is_customer_billing_address, is_customer_mailing_address, created_by_user_id)
+         VALUES (9001, 900102, '2 Globex Plaza', 'Phoenix', 'AZ', '85001', 'billing@globex-test.example', '5550100200', true, true, true, true, 90013);
+   END IF;
 END $$;
 
 -- Reset sequence floors for the IDENTITY columns so future inserts continue

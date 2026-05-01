@@ -88,22 +88,56 @@ const _findCustomerJobId = async (db, accountId, customerId) => {
    return row ? row.customer_job_id : null;
 };
 
+// Strip name/label fields before persisting. ai_payload must not contain
+// any PII strings — only opaque IDs, scores, and tiers.
+const _safeCustomerForPayload = customer => {
+   if (!customer) return null;
+   return {
+      customerId: customer.customerId,
+      score: customer.score,
+      tier: customer.tier,
+      reason: customer.reason
+      // intentionally omits: displayName, candidates[*].label
+   };
+};
+
+const _safeSuggestionForPayload = suggestion => {
+   if (!suggestion) return null;
+   return {
+      suggested_general_work_description_id: suggestion.suggested_general_work_description_id,
+      suggested_job_category_id: suggestion.suggested_job_category_id,
+      suggested_job_type_id: suggestion.suggested_job_type_id,
+      category_confidence: suggestion.category_confidence,
+      ai_reason: suggestion.ai_reason
+      // intentionally omits: suggested_category_label (could in theory echo a name)
+   };
+};
+
+const _safePayload = (suggestion, customer) => {
+   if (!suggestion && !customer) return null;
+   return JSON.stringify({
+      suggestion: _safeSuggestionForPayload(suggestion),
+      customer: _safeCustomerForPayload(customer)
+   });
+};
+
 const _writeSuggestion = async (db, { accountId, entryId, sanitizedNotes, suggestion, suggestedCustomer, status }) => {
+   const safe = _safePayload(suggestion, suggestedCustomer);
    await db('ai_time_tracker_transaction_suggestions')
       .insert({
          account_id: accountId,
          timesheet_entry_id: entryId,
          sanitized_notes: sanitizedNotes || '',
-         suggested_category: suggestion ? suggestion.suggested_category_label : null,
+         suggested_category: null,  // label could echo PII; surfaced only via FK ID lookups
          suggested_job_category_id: suggestion ? suggestion.suggested_job_category_id : null,
          suggested_job_type_id: suggestion ? suggestion.suggested_job_type_id : null,
          suggested_general_work_description_id: suggestion ? suggestion.suggested_general_work_description_id : null,
          suggested_entity: null,
          suggested_customer_id: suggestedCustomer ? suggestedCustomer.customerId : null,
-         suggested_customer_display_name: suggestedCustomer ? suggestedCustomer.displayName : null,
+         suggested_customer_display_name: null,  // resolved at read time via FK to customers.display_name
          ai_confidence: suggestion ? suggestion.category_confidence : null,
          ai_reason: suggestion ? suggestion.ai_reason : null,
-         ai_payload: suggestion ? JSON.stringify({ suggestion, customer: suggestedCustomer }) : null,
+         ai_payload: safe,
          status,
          source: 'ai',
          updated_at: new Date()
@@ -114,12 +148,11 @@ const _writeSuggestion = async (db, { accountId, entryId, sanitizedNotes, sugges
          updated_at: new Date(),
          ai_confidence: suggestion ? suggestion.category_confidence : null,
          ai_reason: suggestion ? suggestion.ai_reason : null,
-         ai_payload: suggestion ? JSON.stringify({ suggestion, customer: suggestedCustomer }) : null,
+         ai_payload: safe,
          suggested_general_work_description_id: suggestion ? suggestion.suggested_general_work_description_id : null,
          suggested_job_category_id: suggestion ? suggestion.suggested_job_category_id : null,
          suggested_job_type_id: suggestion ? suggestion.suggested_job_type_id : null,
-         suggested_customer_id: suggestedCustomer ? suggestedCustomer.customerId : null,
-         suggested_customer_display_name: suggestedCustomer ? suggestedCustomer.displayName : null
+         suggested_customer_id: suggestedCustomer ? suggestedCustomer.customerId : null
       });
 };
 
@@ -130,7 +163,7 @@ const _holdEntry = async (db, { entryId, accountId, holdReason, suggestion, sugg
          .update({
             hold_reason: holdReason,
             ai_attempted_at: new Date(),
-            ai_payload: suggestion || suggestedCustomer ? JSON.stringify({ suggestion, customer: suggestedCustomer }) : null,
+            ai_payload: _safePayload(suggestion, suggestedCustomer),
             suggested_customer_id: suggestedCustomer ? suggestedCustomer.customerId : null,
             matched_user_id: null
          });
@@ -143,6 +176,13 @@ const _holdEntry = async (db, { entryId, accountId, holdReason, suggestion, sugg
          status: 'pending_review'
       });
    });
+};
+
+const _toISODate = d => {
+   if (!d) return null;
+   if (typeof d === 'string') return d.length > 10 ? d.slice(0, 10) : d;
+   if (d instanceof Date) return d.toISOString().slice(0, 10);
+   return String(d).slice(0, 10);
 };
 
 const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, customerMatch, employeeMatch, sanitizedNotes }) => {
@@ -165,7 +205,7 @@ const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, cust
          loggedForUserID: employeeMatch.userId,
          selectedGeneralWorkDescriptionID: suggestion.suggested_general_work_description_id,
          detailedJobDescription: '',
-         transactionDate: entry.date,
+         transactionDate: _toISODate(entry.date),
          transactionType: 'time',
          quantity: hours,
          unitCost,

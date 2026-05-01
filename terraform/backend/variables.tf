@@ -168,3 +168,52 @@ variable "nginx_image_version" {
   description = "Docker image version tag for nginx"
   default     = "v1.0.0"
 }
+
+# ----------------------------------------------------------------------------
+# Time-tracker AI pipeline (Phase 1 cutover)
+# ----------------------------------------------------------------------------
+variable "bedrock_region" {
+  type        = string
+  description = "AWS region for Bedrock InvokeModel calls"
+  default     = "us-west-2"
+}
+
+variable "bedrock_model_timetracker" {
+  type        = string
+  description = "Bedrock model ID used for the precise/escalation tier of category inference and customer-name tiebreak"
+  default     = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+}
+
+variable "bedrock_model_timetracker_fast" {
+  type        = string
+  description = "Bedrock model ID used for the fast/cheap first-pass tier of category inference"
+  default     = "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+}
+
+variable "llm_log_bucket" {
+  type        = string
+  description = "S3 bucket name for LLM audit logs (one record per Bedrock InvokeModel call)"
+  default     = "ds2-llm-logs-561979538576"
+}
+
+variable "time_tracker_ai_feature_flag" {
+  type        = string
+  description = "Time-tracker AI rollout flag. Allowed: off | test | on"
+  default     = "off"
+  validation {
+    condition     = contains(["off", "test", "on"], var.time_tracker_ai_feature_flag)
+    error_message = "time_tracker_ai_feature_flag must be one of: off, test, on"
+  }
+}
+
+variable "time_tracker_ai_test_account_ids" {
+  type        = string
+  description = "Comma-separated list of account_ids allowed to run the AI pipeline when feature flag is 'test'"
+  default     = ""
+}
+
+variable "auto_insert_confidence_threshold" {
+  type        = string
+  description = "Combined-confidence threshold (0..1) at or above which a row is auto-inserted into customer_transactions"
+  default     = "0.85"
+}
