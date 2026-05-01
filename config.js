@@ -15,10 +15,13 @@ const config = {
    S3_ENDPOINT: process.env.S3_ENDPOINT ? process.env.S3_ENDPOINT.replace(/\/+$/, '') : undefined,
    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
-   OPENAI_API_BASE_URL: process.env.OPENAI_API_BASE_URL || 'https://api.openai.com',
-   // Optional: When set, the AI training uploader will submit sanitized examples
-   // to this OpenAI Vector Store ID as files for retrieval-augmented generation.
-   OPENAI_VECTOR_STORE_ID: process.env.OPENAI_VECTOR_STORE_ID || ''
+   BEDROCK_REGION: process.env.BEDROCK_REGION || 'us-west-2',
+   BEDROCK_MODEL_TIMETRACKER: process.env.BEDROCK_MODEL_TIMETRACKER || 'us.anthropic.claude-sonnet-4-5-20250929-v1:0',
+   BEDROCK_MODEL_TIMETRACKER_FAST: process.env.BEDROCK_MODEL_TIMETRACKER_FAST || 'us.anthropic.claude-haiku-4-5-20251001-v1:0',
+   LLM_LOG_BUCKET: process.env.LLM_LOG_BUCKET || '',
+   TIME_TRACKER_AI_FEATURE_FLAG: process.env.TIME_TRACKER_AI_FEATURE_FLAG || 'off',
+   TIME_TRACKER_AI_TEST_ACCOUNT_IDS: process.env.TIME_TRACKER_AI_TEST_ACCOUNT_IDS || '',
+   AUTO_INSERT_CONFIDENCE_THRESHOLD: Number(process.env.AUTO_INSERT_CONFIDENCE_THRESHOLD || 0.85)
 };
 
 module.exports = config;

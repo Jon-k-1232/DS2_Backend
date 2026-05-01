@@ -49,14 +49,16 @@ describe('Automation orchestrator', () => {
    it('schedules the three time-tracker automations with the expected cron rules', async () => {
       scheduledAutomations();
 
-      expect(scheduledCalls).to.have.length(4);
+      // Phase 1 cutover: AI training uploader cron was removed (its OpenAI
+      // Vector Store target no longer exists). Only the three reminder
+      // jobs remain.
+      expect(scheduledCalls).to.have.length(3);
 
-      const [thursdayJob, fridayJob, missingJob, aiTrainingJob] = scheduledCalls;
+      const [thursdayJob, fridayJob, missingJob] = scheduledCalls;
 
       expect(thursdayJob.rule).to.deep.equal({ rule: '0 9 * * 4', tz: 'America/Phoenix' });
       expect(fridayJob.rule).to.deep.equal({ rule: '0 30 15 * * 5', tz: 'America/Phoenix' });
       expect(missingJob.rule).to.deep.equal({ rule: '0 9 * * *', tz: 'America/Phoenix' });
-      expect(aiTrainingJob.rule).to.deep.equal({ rule: '0 4 * * 0', tz: 'America/Phoenix' });
 
       await thursdayJob.callback();
       await fridayJob.callback();

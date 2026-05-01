@@ -1,39 +1,24 @@
 const schedule = require('node-schedule');
 const timeTrackerReminders = require('./automationScripts/timeTrackerReminders');
-const { AUTOMATION_KEY_MAP } = require('./automationDefinitions');
-const automationSettingsService = require('../endpoints/account/automation-settings-service');
-const db = require('../utils/db');
-const { uploadWeeklyForAccount } = require('./automationScripts/aiTrainingUploader');
 
 // Start automations. List all scheduled automations here.
+// The legacy weekly AI-training upload (which sent sanitized examples to an
+// OpenAI Vector Store) was removed in the Phase 1 cutover. The new pipeline
+// closes the learning loop in-prompt via per-account few-shot examples
+// pulled from ai_category_training_examples, so no scheduled upload is
+// needed.
 const scheduledAutomations = () => {
-   // Thursday 9 AM AZ
+   // Thursday 9 AM AZ
    schedule.scheduleJob({ rule: '0 9 * * 4', tz: 'America/Phoenix' }, async () => {
       await timeTrackerReminders.sendThursdayReminderEmails();
    });
-   // Friday 3:30 PM AZ
+   // Friday 3:30 PM AZ
    schedule.scheduleJob({ rule: '0 30 15 * * 5', tz: 'America/Phoenix' }, async () => {
       await timeTrackerReminders.sendFridayReminderEmails();
    });
-   // Daily 9 AM AZ
+   // Daily 9 AM AZ
    schedule.scheduleJob({ rule: '0 9 * * *', tz: 'America/Phoenix' }, async () => {
       await timeTrackerReminders.sendMissingTrackerReminderEmails();
-   });
-
-   // Weekly AI training upload, Sunday 4 AM AZ
-   schedule.scheduleJob({ rule: '0 4 * * 0', tz: 'America/Phoenix' }, async () => {
-      try {
-         const accountIDs = await automationSettingsService.getEnabledAccountIds(db, AUTOMATION_KEY_MAP.AI_TRAINING_UPLOAD);
-         if (!accountIDs.length) {
-            console.log(`[${new Date().toISOString()}] No accounts enabled for AI training upload automation.`);
-            return;
-         }
-         for (const accountId of accountIDs) {
-            await uploadWeeklyForAccount(accountId);
-         }
-      } catch (err) {
-         console.error(`[${new Date().toISOString()}] AI training upload scheduler failed: ${err.message}`);
-      }
    });
 };
 

@@ -13,10 +13,8 @@ const timeTrackerStaffService = require('../timeTrackerStaff/timeTrackerStaff-se
 const { sendValidationSuccessEmail, sendSystemErrorEmail, getAdminRecipients } = require('../../timeTrackerValidation/notifications');
 const sendSuccessEmail = require('../../utils/email/sendSuccessEmail');
 const timesheetsService = require('../timesheets/timesheets-service');
-const { kickOffAiSuggestionsForEntryIds } = require('../timesheets/aiTimesheetJobRunner');
 const { kickOffAutoIngestForEntryIds, _isAccountAllowed: _isAutoIngestAllowed } = require('../timesheets/auto-ingest-runner');
 const { buildTemplate } = require('./template-builder');
-const aiIntegrationService = require('../aiIntegration/aiIntegration-service');
 
 const gzip = promisify(zlib.gzip);
 const gunzip = promisify(zlib.gunzip);
@@ -413,38 +411,20 @@ timeTrackingRouter.post(
             });
          }
 
-         // Kick off the AI pipeline in the background. Two paths:
-         // 1. Bedrock auto-ingest (new): when TIME_TRACKER_AI_FEATURE_FLAG allows it for this account.
-         // 2. Legacy OpenAI suggestions (deprecated, slated for removal in Phase 1 cutover):
-         //    only runs when the new flag does NOT cover the account, preserving today's behavior
-         //    on accounts that haven't been migrated yet.
-         if (insertedEntries.length) {
+         // Kick off the Bedrock auto-ingest pipeline in the background when the
+         // feature flag covers this account. When the flag is off the rows just
+         // sit in timesheet_entries until a human reviewer applies them — no
+         // external AI is contacted under any condition. (OpenAI integration
+         // was removed in the Phase 1 cutover; see migration 011.)
+         if (insertedEntries.length && _isAutoIngestAllowed(accountIdNumber)) {
             const insertedIds = insertedEntries.map(e => e?.timesheet_entry_id).filter(Boolean);
             if (insertedIds.length) {
-               if (_isAutoIngestAllowed(accountIdNumber)) {
-                  kickOffAutoIngestForEntryIds({
-                     db,
-                     accountId: accountIdNumber,
-                     userId: requestingUserRecord?.user_id || null,
-                     entryIds: insertedIds
-                  });
-               } else {
-                  try {
-                     const integration = await aiIntegrationService.getIntegrationByAccount(db, accountIdNumber);
-                     if (integration && integration.is_enabled) {
-                        kickOffAiSuggestionsForEntryIds({
-                           db,
-                           accountId: accountIdNumber,
-                           userId: requestingUserRecord?.user_id || null,
-                           entryIds: insertedIds
-                        });
-                     } else {
-                        console.info(`[${new Date().toISOString()}] AI integration disabled for account ${accountIdNumber}; skipping background AI kickoff.`);
-                     }
-                  } catch (aiCheckError) {
-                     console.warn(`[${new Date().toISOString()}] Failed to check AI integration for account ${accountIdNumber}: ${aiCheckError.message}`);
-                  }
-               }
+               kickOffAutoIngestForEntryIds({
+                  db,
+                  accountId: accountIdNumber,
+                  userId: requestingUserRecord?.user_id || null,
+                  entryIds: insertedIds
+               });
             }
          }
 

@@ -13,7 +13,8 @@ const { createGrid } = require('../../utils/gridFunctions');
 const { restoreDataTypesTransactionsTableOnCreate } = require('../transactions/transactionsObjects');
 const { updateRecentJobTotal } = require('../transactions/sharedTransactionFunctions');
 const dayjs = require('dayjs');
-const { kickOffAiSuggestionsForTimesheet, kickOffAiSuggestionsForEntryIds } = require('./aiTimesheetJobRunner');
+const { kickOffAutoIngestForEntryIds, _isAccountAllowed: _isAutoIngestAllowed } = require('./auto-ingest-runner');
+const timesheetsServiceLocal = require('./timesheets-service');
 
 // Get timesheet entries
 timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
@@ -38,27 +39,38 @@ timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
    })
 );
 
-// Kick off AI suggestions for a given timesheet name or set of entry IDs (non-blocking)
+// Kick off Bedrock auto-ingest for a given timesheet name or set of entry IDs.
+// (Replaces the legacy OpenAI suggestion kickoff; same path, new pipeline.)
 timesheetsRouter.route('/ai/kickoff/:accountID/:userID').post(
    jsonParser,
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const { accountID, userID } = req.params;
+      const accountIdNumber = Number(accountID);
+      const userIdNumber = Number(userID);
       const { timesheet_name, entry_ids } = req.body || {};
 
       if (!timesheet_name && (!Array.isArray(entry_ids) || !entry_ids.length)) {
-         return res.status(400).json({ status: 400, message: 'Provide timesheet_name or entry_ids to kick off AI suggestions.' });
+         return res.status(400).json({ status: 400, message: 'Provide timesheet_name or entry_ids to kick off auto-ingest.' });
       }
 
+      if (!_isAutoIngestAllowed(accountIdNumber)) {
+         return res.status(503).json({ status: 503, message: 'Auto-ingest is not enabled for this account (TIME_TRACKER_AI_FEATURE_FLAG).' });
+      }
+
+      let entryIds = [];
       if (timesheet_name) {
-         kickOffAiSuggestionsForTimesheet({ db, accountId: Number(accountID), userId: Number(userID), timesheetName: String(timesheet_name) });
+         const entries = await timesheetsServiceLocal.getEntriesByTimesheetName(db, accountIdNumber, userIdNumber, String(timesheet_name));
+         entryIds = (entries || []).map(e => e.timesheet_entry_id).filter(Boolean);
+      } else {
+         entryIds = entry_ids.map(Number).filter(Boolean);
       }
 
-      if (Array.isArray(entry_ids) && entry_ids.length) {
-         kickOffAiSuggestionsForEntryIds({ db, accountId: Number(accountID), userId: Number(userID), entryIds: entry_ids.map(Number) });
+      if (entryIds.length) {
+         kickOffAutoIngestForEntryIds({ db, accountId: accountIdNumber, userId: userIdNumber, entryIds });
       }
 
-      return res.status(202).json({ status: 202, message: 'AI suggestions job accepted and running in background.' });
+      return res.status(202).json({ status: 202, message: 'Auto-ingest job accepted and running in background.', entryIdsCount: entryIds.length });
    })
 );
 
