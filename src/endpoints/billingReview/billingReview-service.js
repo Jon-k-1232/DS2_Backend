@@ -136,6 +136,38 @@ const applyHeldEntry = async (db, accountId, entryId, edits, editingUserId) => {
    return createdTxn;
 };
 
+/**
+ * Lists timesheet_entry IDs that haven't yet been processed through the
+ * Bedrock orchestrator (legacy backlog from before the rewrite, plus any
+ * rows that errored out on a previous Bedrock attempt). Used by the
+ * "Process pending with AI" button on the Billing Review page so the
+ * billing person can clear the backlog without re-uploading every tracker.
+ *
+ * Modes:
+ *   'unprocessed' (default) — never been seen by AI. Picks up legacy_pre_ai,
+ *      and any row whose hold_reason was set without ai_attempted_at being
+ *      written.
+ *   'errored' — just rows that errored on Bedrock. Use after fixing IAM.
+ *   'all_held' — every still-held row regardless of why. Use sparingly.
+ */
+const listEntriesForReprocess = async (db, accountId, { mode = 'unprocessed', limit = 500 } = {}) => {
+   let query = db('timesheet_entries')
+      .where({ account_id: accountId, is_processed: false, is_deleted: false });
+
+   if (mode === 'unprocessed') {
+      query = query.whereNull('ai_attempted_at');
+   } else if (mode === 'errored') {
+      query = query.where('hold_reason', 'bedrock_error');
+   } else if (mode === 'all_held') {
+      query = query.whereNotNull('hold_reason');
+   } else {
+      throw new Error(`unknown reprocess mode: ${mode}`);
+   }
+
+   const rows = await query.orderBy('created_at', 'asc').limit(Math.min(Number(limit) || 500, 2000)).select('timesheet_entry_id');
+   return rows.map(r => r.timesheet_entry_id);
+};
+
 const invoiceAnomalyCheck = async (db, accountId, { customerId, periodStart, periodEnd, lookbackPeriods = 6 }) => {
    const periodStartDate = new Date(periodStart);
    const periodEndDate = new Date(periodEnd);
@@ -173,5 +205,6 @@ module.exports = {
    listPendingHeldEntries,
    listConsolidatedTransactions,
    applyHeldEntry,
-   invoiceAnomalyCheck
+   invoiceAnomalyCheck,
+   listEntriesForReprocess
 };

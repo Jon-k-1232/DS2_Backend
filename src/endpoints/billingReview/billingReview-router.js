@@ -4,6 +4,7 @@ const asyncHandler = require('../../utils/asyncHandler');
 const jsonParser = express.json();
 const billingReviewService = require('./billingReview-service');
 const { applyTransactionEdit, ERRORS } = require('./cascadeEdit');
+const { kickOffAutoIngestForEntryIds, _isAccountAllowed: _isAutoIngestAllowed } = require('../timesheets/auto-ingest-runner');
 
 const _statusCodeForCascadeError = code => {
    switch (code) {
@@ -97,6 +98,61 @@ billingReviewRouter.route('/pre-invoice/:accountID/:userID').get(
          periodEnd: end
       });
       res.status(200).json({ message: 'ok', ...list, anomaly });
+   })
+);
+
+// GET /billing-review/reprocess-count/:accountID/:userID?mode=unprocessed
+// Cheap pre-flight: how many held rows would the reprocess button cover?
+billingReviewRouter.route('/reprocess-count/:accountID/:userID').get(
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const accountId = Number(req.params.accountID);
+      const mode = req.query.mode || 'unprocessed';
+      try {
+         const ids = await billingReviewService.listEntriesForReprocess(db, accountId, { mode, limit: 2000 });
+         res.status(200).json({ message: 'ok', mode, count: ids.length, eligible: _isAutoIngestAllowed(accountId) });
+      } catch (err) {
+         res.status(400).json({ message: err.message });
+      }
+   })
+);
+
+// POST /billing-review/reprocess/:accountID/:userID
+// Body: { mode?: 'unprocessed' | 'errored' | 'all_held', batch_size?: 500 }
+// Fires the Bedrock orchestrator for held timesheet_entries that haven't
+// been through the new pipeline yet (legacy backlog or prior Bedrock errors).
+// Rows that auto-insert leave the holding pool; rows that hold for a real
+// reason remain visible in Needs Review. The endpoint returns immediately;
+// the orchestrator runs in setImmediate.
+billingReviewRouter.route('/reprocess/:accountID/:userID').post(
+   jsonParser,
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const accountId = Number(req.params.accountID);
+      const userId = Number(req.params.userID);
+      const mode = (req.body && req.body.mode) || 'unprocessed';
+      const batchSize = (req.body && Number(req.body.batch_size)) || 500;
+
+      if (!_isAutoIngestAllowed(accountId)) {
+         return res.status(503).json({
+            message: 'Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button.',
+            code: 'flag_off'
+         });
+      }
+
+      let entryIds;
+      try {
+         entryIds = await billingReviewService.listEntriesForReprocess(db, accountId, { mode, limit: batchSize });
+      } catch (err) {
+         return res.status(400).json({ message: err.message, code: 'bad_mode' });
+      }
+
+      if (!entryIds.length) {
+         return res.status(200).json({ message: 'no entries match the reprocess criteria', queued: 0, mode });
+      }
+
+      kickOffAutoIngestForEntryIds({ db, accountId, userId, entryIds });
+      return res.status(202).json({ message: 'reprocess job accepted', queued: entryIds.length, mode });
    })
 );
 
