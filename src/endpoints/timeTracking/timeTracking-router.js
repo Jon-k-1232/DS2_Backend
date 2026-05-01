@@ -14,6 +14,7 @@ const { sendValidationSuccessEmail, sendSystemErrorEmail, getAdminRecipients } =
 const sendSuccessEmail = require('../../utils/email/sendSuccessEmail');
 const timesheetsService = require('../timesheets/timesheets-service');
 const { kickOffAiSuggestionsForEntryIds } = require('../timesheets/aiTimesheetJobRunner');
+const { kickOffAutoIngestForEntryIds, _isAccountAllowed: _isAutoIngestAllowed } = require('../timesheets/auto-ingest-runner');
 const aiIntegrationService = require('../aiIntegration/aiIntegration-service');
 
 const gzip = promisify(zlib.gzip);
@@ -411,25 +412,38 @@ timeTrackingRouter.post(
             });
          }
 
-         // Kick off AI categorization in the background if integration is enabled; do not block user response
+         // Kick off the AI pipeline in the background. Two paths:
+         // 1. Bedrock auto-ingest (new): when TIME_TRACKER_AI_FEATURE_FLAG allows it for this account.
+         // 2. Legacy OpenAI suggestions (deprecated, slated for removal in Phase 1 cutover):
+         //    only runs when the new flag does NOT cover the account, preserving today's behavior
+         //    on accounts that haven't been migrated yet.
          if (insertedEntries.length) {
-            try {
-               const integration = await aiIntegrationService.getIntegrationByAccount(db, accountIdNumber);
-               if (integration && integration.is_enabled) {
-                  const insertedIds = insertedEntries.map(e => e?.timesheet_entry_id).filter(Boolean);
-                  if (insertedIds.length) {
-                     kickOffAiSuggestionsForEntryIds({
-                        db,
-                        accountId: accountIdNumber,
-                        userId: requestingUserRecord?.user_id || null,
-                        entryIds: insertedIds
-                     });
-                  }
+            const insertedIds = insertedEntries.map(e => e?.timesheet_entry_id).filter(Boolean);
+            if (insertedIds.length) {
+               if (_isAutoIngestAllowed(accountIdNumber)) {
+                  kickOffAutoIngestForEntryIds({
+                     db,
+                     accountId: accountIdNumber,
+                     userId: requestingUserRecord?.user_id || null,
+                     entryIds: insertedIds
+                  });
                } else {
-                  console.info(`[${new Date().toISOString()}] AI integration disabled for account ${accountIdNumber}; skipping background AI kickoff.`);
+                  try {
+                     const integration = await aiIntegrationService.getIntegrationByAccount(db, accountIdNumber);
+                     if (integration && integration.is_enabled) {
+                        kickOffAiSuggestionsForEntryIds({
+                           db,
+                           accountId: accountIdNumber,
+                           userId: requestingUserRecord?.user_id || null,
+                           entryIds: insertedIds
+                        });
+                     } else {
+                        console.info(`[${new Date().toISOString()}] AI integration disabled for account ${accountIdNumber}; skipping background AI kickoff.`);
+                     }
+                  } catch (aiCheckError) {
+                     console.warn(`[${new Date().toISOString()}] Failed to check AI integration for account ${accountIdNumber}: ${aiCheckError.message}`);
+                  }
                }
-            } catch (aiCheckError) {
-               console.warn(`[${new Date().toISOString()}] Failed to check AI integration for account ${accountIdNumber}: ${aiCheckError.message}`);
             }
          }
 
