@@ -186,8 +186,10 @@ const invokeBedrockClaude = async ({
    };
 };
 
-const smokeTest = async ({ modelId, accountId = 0, db = null } = {}) => {
+const smokeTest = async ({ modelId, accountId = null, db = null } = {}) => {
    const target = modelId || process.env.BEDROCK_MODEL_TIMETRACKER_FAST || 'us.anthropic.claude-haiku-4-5-20251001-v1:0';
+   // Smoke test must NOT write a DB audit row — accountId would be invalid
+   // FK on the accounts table at boot time. Pass db=null unconditionally.
    return invokeBedrockClaude({
       modelId: target,
       system: 'Reply with the JSON {"ok":true}.',
@@ -195,7 +197,7 @@ const smokeTest = async ({ modelId, accountId = 0, db = null } = {}) => {
       maxTokens: 32,
       accountId,
       feature: 'smoke_test',
-      db
+      db: null
    });
 };
 

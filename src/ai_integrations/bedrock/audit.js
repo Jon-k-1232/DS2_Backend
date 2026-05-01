@@ -28,6 +28,7 @@ const writeS3Log = async ({ s3Client, bucket, record }) => {
 };
 
 const writeDbLog = async (db, record) => {
+   if (!db || !record || record.account_id == null) return null;
    const [row] = await db('ai_call_log')
       .insert({
          request_id: record.request_id,
