@@ -11,6 +11,12 @@ const listPendingHeldEntries = async (
       trackerContains = null,
       notesContains = null,
       aiConfMin = null,
+      customerId = null,
+      employeeUserId = null,
+      workDescId = null,
+      entityEquals = null,
+      sortField = null,
+      sortDirection = 'desc',
       page = 1,
       limit = 50
    } = {}
@@ -26,19 +32,24 @@ const listPendingHeldEntries = async (
       if (dateStart) qb = qb.andWhere('te.date', '>=', dateStart);
       if (dateEnd) qb = qb.andWhere('te.date', '<=', dateEnd);
       if (entityContains) qb = qb.andWhere('te.entity', 'ilike', `%${entityContains}%`);
+      if (entityEquals) qb = qb.andWhere('te.entity', entityEquals);
       if (employeeContains) qb = qb.andWhere('te.employee_name', 'ilike', `%${employeeContains}%`);
       if (trackerContains) qb = qb.andWhere('te.timesheet_name', 'ilike', `%${trackerContains}%`);
       if (notesContains) qb = qb.andWhere('te.notes', 'ilike', `%${notesContains}%`);
       if (aiConfMin != null) qb = qb.andWhere('s.ai_confidence', '>=', Number(aiConfMin));
+      if (customerId) qb = qb.andWhere('te.suggested_customer_id', customerId);
+      if (employeeUserId) qb = qb.andWhere('te.matched_user_id', employeeUserId);
+      if (workDescId) qb = qb.andWhere('s.suggested_general_work_description_id', workDescId);
       return qb;
    };
 
    const baseFromJoin = qb => qb
       .from('timesheet_entries as te')
       .leftJoin('ai_time_tracker_transaction_suggestions as s', 's.timesheet_entry_id', 'te.timesheet_entry_id')
-      .leftJoin('customers as sc', 'sc.customer_id', 'te.suggested_customer_id');
+      .leftJoin('customers as sc', 'sc.customer_id', 'te.suggested_customer_id')
+      .leftJoin('customer_general_work_descriptions as g', 'g.general_work_description_id', 's.suggested_general_work_description_id');
 
-   const entries = await applyFilters(baseFromJoin(db.queryBuilder()))
+   const entries = applyFilters(baseFromJoin(db.queryBuilder()))
       .select(
          'te.*',
          's.suggested_general_work_description_id',
@@ -49,15 +60,29 @@ const listPendingHeldEntries = async (
          's.ai_reason',
          's.ai_payload as ai_payload_suggestion',
          's.suggested_customer_display_name',
-         'sc.display_name as suggested_customer_display'
-      )
-      .orderBy('te.created_at', 'desc')
-      .limit(limit)
-      .offset(offset);
+         'sc.display_name as suggested_customer_display',
+         'g.general_work_description as suggested_work_description'
+      );
+
+   const HELD_SORT_MAP = {
+      date: 'te.date',
+      entity: 'te.entity',
+      customer: 'sc.display_name',
+      work_description: 'g.general_work_description',
+      hold_reason: 'te.hold_reason',
+      hours: 'te.duration',
+      employee: 'te.employee_name',
+      timesheet_name: 'te.timesheet_name',
+      ai_confidence: 's.ai_confidence',
+      created_at: 'te.created_at'
+   };
+   const heldDir = sortDirection === 'asc' ? 'asc' : 'desc';
+   const heldOrderCol = HELD_SORT_MAP[sortField] || 'te.created_at';
+   const finalEntries = await entries.orderBy(heldOrderCol, heldDir).limit(limit).offset(offset);
 
    const [{ count }] = await applyFilters(baseFromJoin(db.queryBuilder())).count({ count: '*' });
 
-   return { entries, total: Number(count || 0), page: Number(page), limit: Number(limit) };
+   return { entries: finalEntries, total: Number(count || 0), page: Number(page), limit: Number(limit) };
 };
 
 const listConsolidatedTransactions = async (
@@ -71,10 +96,15 @@ const listConsolidatedTransactions = async (
       workDescId = null,
       jobContains = null,
       trackerContains = null,
+      noteContains = null,
+      entityContains = null,
+      entityEquals = null, // exact-match form for the entity dropdown
       aiConfMin = null,
       billableOnly = null, // null = both, true = billable, false = non-billable
       unbilledOnly = false,
       aiOnly = false,
+      sortField = null,
+      sortDirection = 'desc',
       page = 1,
       limit = 200
    } = {}
@@ -91,6 +121,11 @@ const listConsolidatedTransactions = async (
       if (workDescId) qq = qq.andWhere('t.general_work_description_id', workDescId);
       if (jobContains) qq = qq.andWhere('cjt.job_description', 'ilike', `%${jobContains}%`);
       if (trackerContains) qq = qq.andWhere('te.timesheet_name', 'ilike', `%${trackerContains}%`);
+      if (noteContains) qq = qq.andWhere(function () {
+         this.where('t.detailed_work_description', 'ilike', `%${noteContains}%`).orWhere('t.note', 'ilike', `%${noteContains}%`);
+      });
+      if (entityContains) qq = qq.andWhere('te.entity', 'ilike', `%${entityContains}%`);
+      if (entityEquals) qq = qq.andWhere('te.entity', entityEquals);
       if (aiConfMin != null) qq = qq.andWhere('s.ai_confidence', '>=', Number(aiConfMin));
       if (billableOnly === true) qq = qq.andWhere('t.is_transaction_billable', true);
       else if (billableOnly === false) qq = qq.andWhere('t.is_transaction_billable', false);
@@ -111,7 +146,7 @@ const listConsolidatedTransactions = async (
       .leftJoin('timesheet_entries as te', 'te.timesheet_entry_id', 'ex.timesheet_entry_id')
       .leftJoin('ai_time_tracker_transaction_suggestions as s', 's.timesheet_entry_id', 'ex.timesheet_entry_id');
 
-   const transactions = await applyFilters(baseFromJoin(db.queryBuilder()))
+   const transactionsQuery = applyFilters(baseFromJoin(db.queryBuilder()))
       .select(
          't.*',
          'c.display_name as customer_display_name',
@@ -136,15 +171,31 @@ const listConsolidatedTransactions = async (
          's.ai_reason',
          's.status as ai_status',
          'ex.ai_source'
-      )
-      .orderBy('t.transaction_date', 'desc')
-      .limit(limit)
-      .offset(offset);
+      );
+
+   // Map UI-friendly sort field names to actual SQL columns. Anything not in
+   // this map falls back to transaction_date desc (the previous default).
+   const SORT_MAP = {
+      transaction_date: 't.transaction_date',
+      customer: 'c.display_name',
+      entity: 'te.entity',
+      job: 'cjt.job_description',
+      work_description: 'g.general_work_description',
+      employee: 'u.display_name',
+      hours: 't.quantity',
+      total: 't.total_transaction',
+      billable: 't.is_transaction_billable',
+      ai_confidence: 's.ai_confidence',
+      timesheet_name: 'te.timesheet_name'
+   };
+   const dir = sortDirection === 'asc' ? 'asc' : 'desc';
+   const orderCol = SORT_MAP[sortField] || 't.transaction_date';
+   const finalTransactions = await transactionsQuery.orderBy(orderCol, dir).limit(limit).offset(offset);
 
    const [{ count: totalCount, sum: totalSumRaw }] = await applyFilters(baseFromJoin(db.queryBuilder())).count('* as count').sum('t.total_transaction as sum');
-   const pageSum = transactions.reduce((acc, t) => acc + Number(t.total_transaction || 0), 0);
+   const pageSum = finalTransactions.reduce((acc, t) => acc + Number(t.total_transaction || 0), 0);
    return {
-      transactions,
+      transactions: finalTransactions,
       totalSum: Math.round(Number(totalSumRaw || 0) * 100) / 100,
       pageSum: Math.round(pageSum * 100) / 100,
       totalCount: Number(totalCount || 0),
@@ -292,10 +343,65 @@ const invoiceAnomalyCheck = async (db, accountId, { customerId, periodStart, per
    return { current, lookbackAvg, ratio, flagged, reason: flagged ? (ratio > 2 ? 'spike' : 'drop') : 'normal' };
 };
 
+// Distinct entity values for the dropdowns. Source = timesheet_entries.entity
+// (the employer-of-record on each tracker line). Sorted alphabetically.
+const listDistinctEntities = async (db, accountId) => {
+   const rows = await db('timesheet_entries')
+      .where({ account_id: accountId, is_deleted: false })
+      .whereNotNull('entity')
+      .where('entity', '<>', '')
+      .distinct('entity')
+      .orderBy('entity', 'asc');
+   return rows.map(r => r.entity);
+};
+
+// Re-run the AI orchestrator on a single held entry, with reviewer overrides
+// for the fields the reviewer corrected. Used by the "Rerun AI Processing"
+// button in the held-entry dialog. Synchronous — returns the orchestrator's
+// outcome so the UI can show success or surface the new hold reason.
+const reprocessHeldEntryWithOverrides = async (db, accountId, entryId, overrides, editingUserId) => {
+   const { processEntries } = require('../timesheets/auto-ingest-orchestrator');
+
+   // Reset the held entry so the orchestrator picks it up. Keep matched_user_id
+   // and suggested_customer_id in case the reviewer doesn't override them — that
+   // way the orchestrator's existing customer/employee matching won't override
+   // a previously-applied reviewer pick from a prior reprocess.
+   await db('timesheet_entries')
+      .where({ timesheet_entry_id: entryId, account_id: accountId })
+      .update({
+         is_processed: false,
+         hold_reason: null,
+         ai_attempted_at: null
+      });
+
+   const result = await processEntries({
+      db,
+      accountId,
+      userId: editingUserId,
+      entryIds: [entryId],
+      overridesByEntryId: { [entryId]: overrides || {} }
+   });
+
+   const perEntry = (result.perEntry || [])[0] || null;
+   if (!perEntry) {
+      return { decision: 'unknown', reason: 'no_result_returned', autoInserted: 0, held: 0 };
+   }
+   return {
+      decision: perEntry.decision,
+      reason: perEntry.reason || null,
+      suggestionError: perEntry.suggestionError || null,
+      errorMessage: perEntry.errorMessage || null,
+      autoInserted: result.autoInserted,
+      held: result.held
+   };
+};
+
 module.exports = {
    listPendingHeldEntries,
    listConsolidatedTransactions,
    applyHeldEntry,
    invoiceAnomalyCheck,
-   listEntriesForReprocess
+   listEntriesForReprocess,
+   reprocessHeldEntryWithOverrides,
+   listDistinctEntities
 };

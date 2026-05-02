@@ -21,6 +21,18 @@ const _statusCodeForCascadeError = code => {
    }
 };
 
+// GET /billing-review/distinct-entities/:accountID/:userID
+// Returns the unique `entity` values (employer-of-record) for the account.
+// Powers the Entity dropdown filter on the Billing Review tabs.
+billingReviewRouter.route('/distinct-entities/:accountID/:userID').get(
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const accountId = Number(req.params.accountID);
+      const entities = await billingReviewService.listDistinctEntities(db, accountId);
+      res.status(200).json({ message: 'ok', entities });
+   })
+);
+
 // GET /billing-review/pending/:accountID/:userID — held rows + AI suggestions
 billingReviewRouter.route('/pending/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
@@ -29,8 +41,11 @@ billingReviewRouter.route('/pending/:accountID/:userID').get(
       const {
          hold_reason, timesheet_name,
          date_start, date_end,
-         entity_contains, employee_contains, tracker_contains, notes_contains,
+         entity_contains, entity_equals,
+         employee_contains, tracker_contains, notes_contains,
          ai_conf_min,
+         customerId, employeeUserId, workDescId,
+         sortField, sortDirection,
          page, limit
       } = req.query;
       const result = await billingReviewService.listPendingHeldEntries(db, accountId, {
@@ -39,10 +54,16 @@ billingReviewRouter.route('/pending/:accountID/:userID').get(
          dateStart: date_start || null,
          dateEnd: date_end || null,
          entityContains: entity_contains || null,
+         entityEquals: entity_equals || null,
          employeeContains: employee_contains || null,
          trackerContains: tracker_contains || null,
          notesContains: notes_contains || null,
          aiConfMin: ai_conf_min != null && ai_conf_min !== '' ? Number(ai_conf_min) : null,
+         customerId: customerId ? Number(customerId) : null,
+         employeeUserId: employeeUserId ? Number(employeeUserId) : null,
+         workDescId: workDescId ? Number(workDescId) : null,
+         sortField: sortField || null,
+         sortDirection: sortDirection || 'desc',
          page: page || 1,
          limit: limit || 50
       });
@@ -78,8 +99,11 @@ billingReviewRouter.route('/weekly/:accountID/:userID').get(
       const {
          start, end,
          customerId, employeeUserId, workDescId,
-         jobContains, trackerContains, aiConfMin, billableOnly,
-         unbilledOnly, aiOnly, page, limit
+         jobContains, trackerContains, noteContains, entityContains, entityEquals,
+         aiConfMin, billableOnly,
+         unbilledOnly, aiOnly,
+         sortField, sortDirection,
+         page, limit
       } = req.query;
       if (!start || !end) {
          return res.status(400).json({ message: 'start and end query params are required (YYYY-MM-DD)' });
@@ -96,10 +120,15 @@ billingReviewRouter.route('/weekly/:accountID/:userID').get(
          workDescId: workDescId ? Number(workDescId) : null,
          jobContains: jobContains || null,
          trackerContains: trackerContains || null,
+         noteContains: noteContains || null,
+         entityContains: entityContains || null,
+         entityEquals: entityEquals || null,
          aiConfMin: aiConfMin != null && aiConfMin !== '' ? Number(aiConfMin) : null,
          billableOnly: billableOnly === 'true' ? true : billableOnly === 'false' ? false : null,
          unbilledOnly: unbilledOnly === 'true' || unbilledOnly === true,
          aiOnly: aiOnly === 'true' || aiOnly === true,
+         sortField: sortField || null,
+         sortDirection: sortDirection || 'desc',
          page: page || 1,
          limit: limit || 200
       });
@@ -187,6 +216,38 @@ billingReviewRouter.route('/reprocess/:accountID/:userID').post(
 
       kickOffAutoIngestForEntryIds({ db, accountId, userId, entryIds });
       return res.status(202).json({ message: 'reprocess job accepted', queued: entryIds.length, mode: explicitIds ? 'explicit_ids' : mode });
+   })
+);
+
+// POST /billing-review/reprocess-with-overrides/:entryID/:accountID/:userID
+// Body: { overrides: { customer_id?, customer_job_id?, general_work_description_id?,
+//                      transaction_date?, logged_for_user_id?, duration_minutes? } }
+// Re-runs the AI orchestrator on this entry with the reviewer's manual edits as
+// trusted hints. Synchronous — returns the orchestrator outcome (auto_insert vs
+// hold + reason) so the UI can show success or surface the new hold reason.
+billingReviewRouter.route('/reprocess-with-overrides/:entryID/:accountID/:userID').post(
+   jsonParser,
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const accountId = Number(req.params.accountID);
+      const userId = Number(req.params.userID);
+      const entryId = Number(req.params.entryID);
+      const overrides = (req.body && req.body.overrides) || {};
+
+      if (!_isAutoIngestAllowed(accountId)) {
+         return res.status(503).json({
+            message: 'AI pipeline is not enabled for this account.',
+            code: 'flag_off'
+         });
+      }
+
+      try {
+         const result = await billingReviewService.reprocessHeldEntryWithOverrides(db, accountId, entryId, overrides, userId);
+         res.status(200).json({ message: 'ok', ...result });
+      } catch (err) {
+         console.error(`[${new Date().toISOString()}] reprocessWithOverrides failed: ${err.message}`);
+         res.status(500).json({ message: err.message, decision: 'error' });
+      }
    })
 );
 

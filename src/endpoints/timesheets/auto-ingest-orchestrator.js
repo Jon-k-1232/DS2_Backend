@@ -399,11 +399,15 @@ const _decideBillable = ({ entry, suggestion, customerPatterns }) => {
    return true;
 };
 
-const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, customerMatch, employeeMatch, sanitizedNotes, customerPatterns = null }) => {
-   const customerJobId = await _findCustomerJobId(db, accountId, customerMatch.customerId, entry, {
-      workDescId: suggestion && suggestion.suggested_general_work_description_id,
-      patterns: customerPatterns
-   });
+const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, customerMatch, employeeMatch, sanitizedNotes, customerPatterns = null, overrides = null }) => {
+   const ov = overrides || {};
+   // Reviewer overrides win when present — otherwise fall back to deterministic picker
+   const customerJobId = ov.customer_job_id
+      ? Number(ov.customer_job_id)
+      : await _findCustomerJobId(db, accountId, customerMatch.customerId, entry, {
+           workDescId: suggestion && suggestion.suggested_general_work_description_id,
+           patterns: customerPatterns
+        });
    if (!customerJobId) {
       // Distinguish "no jobs at all" from "stale-year, missing current-year same-family job".
       // The latter is the common case during early tax season: client doesn't have e.g. 2025
@@ -414,9 +418,11 @@ const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, cust
       throw err;
    }
    const employee = (await db('users').where({ user_id: employeeMatch.userId }).select('billing_rate').first()) || {};
-   const hours = Number(entry.duration || 0) / 60;
+   const minutesValue = ov.duration_minutes != null ? Number(ov.duration_minutes) : Number(entry.duration || 0);
+   const hours = minutesValue / 60;
    const unitCost = Number(employee.billing_rate || 0);
    const totalTransaction = Math.round(hours * unitCost * 100) / 100;
+   const txnDate = ov.transaction_date ? _toISODate(ov.transaction_date) : _toISODate(entry.date);
 
    await db.transaction(async trx => {
       await addNewTransaction(trx, {
@@ -428,7 +434,7 @@ const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, cust
          loggedForUserID: employeeMatch.userId,
          selectedGeneralWorkDescriptionID: suggestion.suggested_general_work_description_id,
          detailedJobDescription: entry.notes || '',
-         transactionDate: _toISODate(entry.date),
+         transactionDate: txnDate,
          transactionType: 'time',
          quantity: hours,
          unitCost,
@@ -438,7 +444,7 @@ const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, cust
          loggedByUserID: userId,
          note: '',
          category: entry.category,
-         minutes: entry.duration,
+         minutes: minutesValue,
          entity: null,
          timesheetEntryID: entry.timesheet_entry_id,
          aiSuggestion: {
@@ -496,8 +502,20 @@ const _gateDecision = ({ employeeMatch, customerMatch, suggestion }) => {
    return { action: 'auto_insert', reason: null };
 };
 
-const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, costSoFarUsd = 0 }) => {
-   const employeeMatch = matchEmployee(entry.employee_name, catalogs.employees);
+const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, costSoFarUsd = 0, overrides = null }) => {
+   // Reviewer overrides (from the "Rerun AI Processing" path) replace the AI's
+   // matching/inference for the fields the reviewer corrected. Fields not in
+   // overrides flow through normal AI logic. This lets the reviewer fix just
+   // the broken field instead of rebuilding the whole row by hand.
+   const ov = overrides || {};
+
+   let employeeMatch = null;
+   if (ov.logged_for_user_id) {
+      const emp = catalogs.employees.find(e => e.user_id === Number(ov.logged_for_user_id));
+      if (emp) employeeMatch = { userId: emp.user_id, displayName: emp.display_name };
+   } else {
+      employeeMatch = matchEmployee(entry.employee_name, catalogs.employees);
+   }
 
    const cap = catalogs.account && catalogs.account.ai_daily_cost_cap_usd ? Number(catalogs.account.ai_daily_cost_cap_usd) : null;
    if (cap && costSoFarUsd >= cap) {
@@ -514,7 +532,19 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
    }
 
    let customerMatch = { customerId: null, displayName: null, score: 0, tier: 'none', candidates: [], reason: 'not_attempted' };
-   if (employeeMatch) {
+   if (ov.customer_id) {
+      const cust = catalogs.customers.find(c => c.customer_id === Number(ov.customer_id));
+      if (cust) {
+         customerMatch = {
+            customerId: cust.customer_id,
+            displayName: cust.display_name,
+            score: 1.0,
+            tier: 'reviewer_override',
+            candidates: [],
+            reason: 'reviewer_override'
+         };
+      }
+   } else if (employeeMatch) {
       // Customer = company_name (business customer) OR first_name + last_name (individual customer).
       // entity is the EMPLOYER's business identity (which of the multi-business owner's entities the
       // employee was working FOR), NOT the customer. Don't ever look up customer from entity.
@@ -551,31 +581,44 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
       // the deterministic post-AI job assignment in _autoInsertEntry.
       customerPatterns = await loadCustomerHistoricalPatterns(db, accountId, customerMatch.customerId);
 
-      const { sanitized } = await redactRowForAi(entry, catalogs.customers, catalogs.employees, {
-         resolvedCustomerId: customerMatch.customerId,
-         resolvedUserId: employeeMatch.userId
-      });
-      try {
-         const inferred = await inferCategorization({
-            redactedRow: sanitized,
-            refData: catalogs.refData,
-            fewShots,
-            customerPatterns,
-            accountId,
-            userId,
-            timesheetEntryId: entry.timesheet_entry_id,
-            db
+      if (ov.general_work_description_id) {
+         // Reviewer hand-picked the work description — skip the AI call entirely.
+         const gwd = (catalogs.refData.general_work_descriptions || []).find(g => g.id === Number(ov.general_work_description_id));
+         suggestion = {
+            suggested_general_work_description_id: Number(ov.general_work_description_id),
+            suggested_job_category_id: null,
+            suggested_job_type_id: null,
+            suggested_category_label: gwd ? gwd.label : null,
+            category_confidence: 1.0,
+            ai_reason: 'reviewer override'
+         };
+      } else {
+         const { sanitized } = await redactRowForAi(entry, catalogs.customers, catalogs.employees, {
+            resolvedCustomerId: customerMatch.customerId,
+            resolvedUserId: employeeMatch.userId
          });
-         suggestion = inferred.suggestion;
-         suggestionCost = inferred.totalCost || 0;
-         suggestionError = inferred.error || null;
+         try {
+            const inferred = await inferCategorization({
+               redactedRow: sanitized,
+               refData: catalogs.refData,
+               fewShots,
+               customerPatterns,
+               accountId,
+               userId,
+               timesheetEntryId: entry.timesheet_entry_id,
+               db
+            });
+            suggestion = inferred.suggestion;
+            suggestionCost = inferred.totalCost || 0;
+            suggestionError = inferred.error || null;
 
-         if (suggestion && !suggestion.suggested_general_work_description_id && suggestion.suggested_category_label) {
-            const found = _findGwdByLabel(catalogs.refData, suggestion.suggested_category_label);
-            if (found) suggestion.suggested_general_work_description_id = found;
+            if (suggestion && !suggestion.suggested_general_work_description_id && suggestion.suggested_category_label) {
+               const found = _findGwdByLabel(catalogs.refData, suggestion.suggested_category_label);
+               if (found) suggestion.suggested_general_work_description_id = found;
+            }
+         } catch (err) {
+            suggestionError = err.message;
          }
-      } catch (err) {
-         suggestionError = err.message;
       }
    }
 
@@ -593,7 +636,8 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
             customerMatch,
             employeeMatch,
             sanitizedNotes,
-            customerPatterns
+            customerPatterns,
+            overrides: ov
          });
          return { entryId: entry.timesheet_entry_id, decision: 'auto_insert', reason: null, costUsd: suggestionCost };
       } catch (err) {
@@ -629,7 +673,7 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
    };
 };
 
-const processEntries = async ({ db, accountId, userId, entryIds }) => {
+const processEntries = async ({ db, accountId, userId, entryIds, overridesByEntryId = null }) => {
    if (!Array.isArray(entryIds) || !entryIds.length) {
       return { processed: 0, autoInserted: 0, held: 0, totalCostUsd: 0, perEntry: [] };
    }
@@ -650,7 +694,8 @@ const processEntries = async ({ db, accountId, userId, entryIds }) => {
       entries.map(entry =>
          limiter(async () => {
             try {
-               const result = await processEntry({ db, accountId, userId, entry, catalogs, fewShots, costSoFarUsd: costSoFar });
+               const overrides = overridesByEntryId ? overridesByEntryId[entry.timesheet_entry_id] || null : null;
+               const result = await processEntry({ db, accountId, userId, entry, catalogs, fewShots, costSoFarUsd: costSoFar, overrides });
                costSoFar += result.costUsd || 0;
                results.push(result);
             } catch (err) {
