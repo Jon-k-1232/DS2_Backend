@@ -426,12 +426,14 @@ resource "aws_iam_role_policy" "ecs_task_bedrock" {
           "bedrock:InvokeModelWithResponseStream"
         ]
         Resource = [
-          # Foundation-model ARNs (same in every account; no account ID).
-          "arn:aws:bedrock:${var.bedrock_region}::foundation-model/anthropic.claude-haiku-*",
-          "arn:aws:bedrock:${var.bedrock_region}::foundation-model/anthropic.claude-sonnet-4-5-*",
-          # Cross-region inference-profile ARNs (account-scoped). Required
-          # in addition to the foundation-model ARNs because the model IDs
-          # we invoke are inference-profile IDs (us.anthropic.claude-...).
+          # Cross-region inference profiles (us.*) fan out to us-east-1, us-east-2,
+          # us-west-2 for load balancing. Foundation-model ARNs (AWS-owned, no
+          # account ID) must use a wildcard region; regional scoping returns
+          # AccessDenied when Bedrock targets a non-home region. This matches
+          # the IAM-user grant in terraform/s3/prod/iam.tf.
+          "arn:aws:bedrock:*::foundation-model/anthropic.claude-haiku-*",
+          "arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-5-*",
+          # Inference-profile ARNs are account-scoped — region stays bedrock_region.
           "arn:aws:bedrock:${var.bedrock_region}:${data.aws_caller_identity.current.account_id}:inference-profile/us.anthropic.claude-haiku-*",
           "arn:aws:bedrock:${var.bedrock_region}:${data.aws_caller_identity.current.account_id}:inference-profile/us.anthropic.claude-sonnet-4-5-*"
         ]

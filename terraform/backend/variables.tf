@@ -192,8 +192,8 @@ variable "bedrock_model_timetracker_fast" {
 
 variable "llm_log_bucket" {
   type        = string
-  description = "S3 bucket name for LLM audit logs (one record per Bedrock InvokeModel call)"
-  default     = "ds2-llm-logs-561979538576"
+  description = "S3 bucket name for LLM audit logs (one record per Bedrock InvokeModel call). Matches the bucket created by terraform/s3/prod/main.tf."
+  default     = "ds2-561979538576-llm-logs"
 }
 
 variable "time_tracker_ai_feature_flag" {
