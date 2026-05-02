@@ -24,13 +24,25 @@ echo "[1/4] Logging into ECR..."
 /usr/local/aws-cli/aws ecr get-login-password --region $AWS_REGION --profile $AWS_PROFILE | \
   docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
 
+# Determine version tag — git SHA + UTC timestamp so we can revert by retargeting
+# the ECS task def to a prior tag. Both `:<version>` and `:latest` get pushed; ECS
+# tracks `:latest` but the immutable version tag stays in ECR for rollback.
+GIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo "nogit")
+TIMESTAMP=$(date -u +%Y%m%d-%H%M%S)
+VERSION_TAG="${TIMESTAMP}-${GIT_SHA}"
+echo "  Version:  $VERSION_TAG"
+echo ""
+
 # Build
 echo "[2/4] Building image..."
-docker build --platform linux/amd64 --no-cache -t ${ECR_REPO}:latest .
+docker build --platform linux/amd64 --no-cache -t ${ECR_REPO}:${VERSION_TAG} .
+docker tag ${ECR_REPO}:${VERSION_TAG} ${ECR_REPO}:latest
 
-# Push
+# Push (both tags so ECR keeps a versioned history for rollback)
 echo "[3/4] Pushing to ECR..."
+docker tag ${ECR_REPO}:${VERSION_TAG} ${ECR_URI}:${VERSION_TAG}
 docker tag ${ECR_REPO}:latest ${ECR_URI}:latest
+docker push ${ECR_URI}:${VERSION_TAG}
 docker push ${ECR_URI}:latest
 
 # Deploy
