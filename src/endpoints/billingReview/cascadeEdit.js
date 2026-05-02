@@ -1,4 +1,6 @@
 const aiCategoryTrainingService = require('../aiIntegration/ai-category-training-service');
+const aiReviewerCorrectionsService = require('../aiIntegration/ai-reviewer-corrections-service');
+const { detectAndRedact } = require('../../utils/comprehend');
 
 const EDITABLE_FIELDS = Object.freeze([
    'customer_id',
@@ -203,8 +205,79 @@ const applyTransactionEdit = async ({ db, accountId, transactionId, updates = {}
          if (recomputedNewJob) sideEffects.push({ type: 'new_job_recalculated', ...recomputedNewJob });
       }
 
+      // Capture every changed editable field as a reviewer correction so the AI can
+      // learn from manual edits to ANY field (customer, job, billable, work description).
+      // Run notes through PII redaction so the row is safe to surface in future prompts.
+      try {
+         const rawNotes = original.detailed_work_description || '';
+         let sanitizedNotes = null;
+         if (rawNotes) {
+            try {
+               const { redacted } = await detectAndRedact(rawNotes, { knownNames: [] });
+               sanitizedNotes = redacted;
+            } catch (redactErr) {
+               // Comprehend failed — skip notes rather than leak raw text
+               sanitizedNotes = null;
+            }
+         }
+
+         // Helper to look up display label for FK fields
+         const _labelForField = async (fieldName, value) => {
+            if (value == null) return null;
+            try {
+               if (fieldName === 'general_work_description_id') {
+                  const r = await trx('customer_general_work_descriptions').where({ general_work_description_id: value }).select('general_work_description').first();
+                  return r ? r.general_work_description : null;
+               }
+               if (fieldName === 'customer_id') {
+                  const r = await trx('customers').where({ customer_id: value }).select('display_name').first();
+                  return r ? r.display_name : null;
+               }
+               if (fieldName === 'customer_job_id') {
+                  const r = await trx('customer_jobs as cj').leftJoin('customer_job_types as cjt', 'cjt.job_type_id', 'cj.job_type_id').where({ 'cj.customer_job_id': value }).select('cjt.job_description').first();
+                  return r ? r.job_description : null;
+               }
+            } catch { /* label lookup failure is non-fatal */ }
+            return null;
+         };
+
+         // Capture each diffed field into ai_reviewer_corrections
+         for (const fieldName of Object.keys(diff)) {
+            const originalLabel = await _labelForField(fieldName, original[fieldName]);
+            const finalLabel = await _labelForField(fieldName, updated[fieldName]);
+            await aiReviewerCorrectionsService.insert(trx, {
+               accountId,
+               transactionId,
+               timesheetEntryId: null,
+               reviewerUserId: editingUserId || null,
+               fieldName,
+               originalValue: original[fieldName],
+               finalValue: updated[fieldName],
+               originalLabel,
+               finalLabel,
+               sanitizedNotes
+            });
+         }
+         sideEffects.push({ type: 'reviewer_corrections_written', transactionId, fields: Object.keys(diff) });
+      } catch (e) {
+         console.error('[cascadeEdit] reviewer corrections write failed:', e.message);
+      }
+
+      // Keep writing to the legacy ai_category_training_examples for work_desc changes —
+      // it still feeds _loadFewShots. Now with sanitized_notes captured so the row is
+      // actually usable as a few-shot.
       if ('general_work_description_id' in diff) {
          try {
+            const rawNotes = original.detailed_work_description || '';
+            let sanitizedNotes = null;
+            if (rawNotes) {
+               try {
+                  const { redacted } = await detectAndRedact(rawNotes, { knownNames: [] });
+                  sanitizedNotes = redacted;
+               } catch (redactErr) {
+                  sanitizedNotes = null;
+               }
+            }
             const newGwdLabel = await trx('customer_general_work_descriptions')
                .where({ general_work_description_id: updated.general_work_description_id })
                .select('general_work_description')
@@ -224,8 +297,8 @@ const applyTransactionEdit = async ({ db, accountId, transactionId, updates = {}
                ai_confidence: null,
                ai_source: 'reviewer_edit',
                original_notes: null,
-               sanitized_notes: null,
-               duration_minutes: null,
+               sanitized_notes: sanitizedNotes,
+               duration_minutes: original.minutes || null,
                entity: null,
                uploaded_to_vector_store: false
             });

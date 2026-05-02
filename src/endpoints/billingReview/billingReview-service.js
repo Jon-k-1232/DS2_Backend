@@ -1,10 +1,44 @@
-const listPendingHeldEntries = async (db, accountId, { holdReason = null, timesheetName = null, page = 1, limit = 50 } = {}) => {
+const listPendingHeldEntries = async (
+   db,
+   accountId,
+   {
+      holdReason = null,
+      timesheetName = null,
+      dateStart = null,
+      dateEnd = null,
+      entityContains = null,
+      employeeContains = null,
+      trackerContains = null,
+      notesContains = null,
+      aiConfMin = null,
+      page = 1,
+      limit = 50
+   } = {}
+) => {
    const offset = Math.max(0, (Number(page) - 1) * Number(limit));
-   let query = db('timesheet_entries as te')
+
+   const applyFilters = qb => {
+      qb = qb
+         .where({ 'te.account_id': accountId, 'te.is_processed': false, 'te.is_deleted': false })
+         .whereNotNull('te.hold_reason');
+      if (holdReason) qb = qb.andWhere('te.hold_reason', holdReason);
+      if (timesheetName) qb = qb.andWhere('te.timesheet_name', timesheetName);
+      if (dateStart) qb = qb.andWhere('te.date', '>=', dateStart);
+      if (dateEnd) qb = qb.andWhere('te.date', '<=', dateEnd);
+      if (entityContains) qb = qb.andWhere('te.entity', 'ilike', `%${entityContains}%`);
+      if (employeeContains) qb = qb.andWhere('te.employee_name', 'ilike', `%${employeeContains}%`);
+      if (trackerContains) qb = qb.andWhere('te.timesheet_name', 'ilike', `%${trackerContains}%`);
+      if (notesContains) qb = qb.andWhere('te.notes', 'ilike', `%${notesContains}%`);
+      if (aiConfMin != null) qb = qb.andWhere('s.ai_confidence', '>=', Number(aiConfMin));
+      return qb;
+   };
+
+   const baseFromJoin = qb => qb
+      .from('timesheet_entries as te')
       .leftJoin('ai_time_tracker_transaction_suggestions as s', 's.timesheet_entry_id', 'te.timesheet_entry_id')
-      .leftJoin('customers as sc', 'sc.customer_id', 'te.suggested_customer_id')
-      .where({ 'te.account_id': accountId, 'te.is_processed': false, 'te.is_deleted': false })
-      .whereNotNull('te.hold_reason')
+      .leftJoin('customers as sc', 'sc.customer_id', 'te.suggested_customer_id');
+
+   const entries = await applyFilters(baseFromJoin(db.queryBuilder()))
       .select(
          'te.*',
          's.suggested_general_work_description_id',
@@ -16,50 +50,107 @@ const listPendingHeldEntries = async (db, accountId, { holdReason = null, timesh
          's.ai_payload as ai_payload_suggestion',
          's.suggested_customer_display_name',
          'sc.display_name as suggested_customer_display'
-      );
+      )
+      .orderBy('te.created_at', 'desc')
+      .limit(limit)
+      .offset(offset);
 
-   if (holdReason) query = query.andWhere('te.hold_reason', holdReason);
-   if (timesheetName) query = query.andWhere('te.timesheet_name', timesheetName);
-
-   const [{ count }] = await db('timesheet_entries')
-      .where({ account_id: accountId, is_processed: false, is_deleted: false })
-      .whereNotNull('hold_reason')
-      .modify(qb => {
-         if (holdReason) qb.andWhere('hold_reason', holdReason);
-         if (timesheetName) qb.andWhere('timesheet_name', timesheetName);
-      })
-      .count({ count: '*' });
-
-   const entries = await query.orderBy('te.created_at', 'desc').limit(limit).offset(offset);
+   const [{ count }] = await applyFilters(baseFromJoin(db.queryBuilder())).count({ count: '*' });
 
    return { entries, total: Number(count || 0), page: Number(page), limit: Number(limit) };
 };
 
-const listConsolidatedTransactions = async (db, accountId, { startDate, endDate, customerId = null, employeeUserId = null, page = 1, limit = 200 } = {}) => {
+const listConsolidatedTransactions = async (
+   db,
+   accountId,
+   {
+      startDate,
+      endDate,
+      customerId = null,
+      employeeUserId = null,
+      workDescId = null,
+      jobContains = null,
+      trackerContains = null,
+      aiConfMin = null,
+      billableOnly = null, // null = both, true = billable, false = non-billable
+      unbilledOnly = false,
+      aiOnly = false,
+      page = 1,
+      limit = 200
+   } = {}
+) => {
    const offset = Math.max(0, (Number(page) - 1) * Number(limit));
-   let query = db('customer_transactions as t')
+
+   const applyFilters = q => {
+      let qq = q
+         .where({ 't.account_id': accountId })
+         .andWhere('t.transaction_date', '>=', startDate)
+         .andWhere('t.transaction_date', '<=', endDate);
+      if (customerId) qq = qq.andWhere('t.customer_id', customerId);
+      if (employeeUserId) qq = qq.andWhere('t.logged_for_user_id', employeeUserId);
+      if (workDescId) qq = qq.andWhere('t.general_work_description_id', workDescId);
+      if (jobContains) qq = qq.andWhere('cjt.job_description', 'ilike', `%${jobContains}%`);
+      if (trackerContains) qq = qq.andWhere('te.timesheet_name', 'ilike', `%${trackerContains}%`);
+      if (aiConfMin != null) qq = qq.andWhere('s.ai_confidence', '>=', Number(aiConfMin));
+      if (billableOnly === true) qq = qq.andWhere('t.is_transaction_billable', true);
+      else if (billableOnly === false) qq = qq.andWhere('t.is_transaction_billable', false);
+      if (unbilledOnly) qq = qq.whereNull('t.customer_invoice_id');
+      if (aiOnly) qq = qq.where('ex.ai_source', 'ai_auto_insert');
+      return qq;
+   };
+
+   const baseFromJoin = q => q
+      .from('customer_transactions as t')
       .innerJoin('customers as c', 'c.customer_id', 't.customer_id')
       .innerJoin('customer_general_work_descriptions as g', 'g.general_work_description_id', 't.general_work_description_id')
       .leftJoin('users as u', 'u.user_id', 't.logged_for_user_id')
       .leftJoin('customer_invoices as i', 'i.customer_invoice_id', 't.customer_invoice_id')
-      .where({ 't.account_id': accountId })
-      .andWhere('t.transaction_date', '>=', startDate)
-      .andWhere('t.transaction_date', '<=', endDate)
+      .leftJoin('customer_jobs as cj', 'cj.customer_job_id', 't.customer_job_id')
+      .leftJoin('customer_job_types as cjt', 'cjt.job_type_id', 'cj.job_type_id')
+      .leftJoin('ai_category_training_examples as ex', 'ex.transaction_id', 't.transaction_id')
+      .leftJoin('timesheet_entries as te', 'te.timesheet_entry_id', 'ex.timesheet_entry_id')
+      .leftJoin('ai_time_tracker_transaction_suggestions as s', 's.timesheet_entry_id', 'ex.timesheet_entry_id');
+
+   const transactions = await applyFilters(baseFromJoin(db.queryBuilder()))
       .select(
          't.*',
          'c.display_name as customer_display_name',
          'g.general_work_description',
          'u.display_name as logged_for_user_display_name',
          'i.invoice_number',
-         'i.is_invoice_paid_in_full'
-      );
+         'i.is_invoice_paid_in_full',
+         'cjt.job_description as customer_job_description',
+         'cj.parent_job_id as customer_job_parent_id',
+         'te.timesheet_entry_id as tracker_id',
+         'te.timesheet_name as tracker_filename',
+         'te.entity as tracker_entity',
+         'te.company_name as tracker_company_name',
+         'te.first_name as tracker_first_name',
+         'te.last_name as tracker_last_name',
+         'te.category as tracker_category',
+         'te.notes as tracker_notes',
+         'te.duration as tracker_duration_minutes',
+         'te.date as tracker_date',
+         'te.employee_name as tracker_employee_name',
+         's.ai_confidence',
+         's.ai_reason',
+         's.status as ai_status',
+         'ex.ai_source'
+      )
+      .orderBy('t.transaction_date', 'desc')
+      .limit(limit)
+      .offset(offset);
 
-   if (customerId) query = query.andWhere('t.customer_id', customerId);
-   if (employeeUserId) query = query.andWhere('t.logged_for_user_id', employeeUserId);
-
-   const transactions = await query.orderBy('t.transaction_date', 'desc').limit(limit).offset(offset);
-   const totalSum = transactions.reduce((acc, t) => acc + Number(t.total_transaction || 0), 0);
-   return { transactions, totalSum: Math.round(totalSum * 100) / 100, page: Number(page), limit: Number(limit) };
+   const [{ count: totalCount, sum: totalSumRaw }] = await applyFilters(baseFromJoin(db.queryBuilder())).count('* as count').sum('t.total_transaction as sum');
+   const pageSum = transactions.reduce((acc, t) => acc + Number(t.total_transaction || 0), 0);
+   return {
+      transactions,
+      totalSum: Math.round(Number(totalSumRaw || 0) * 100) / 100,
+      pageSum: Math.round(pageSum * 100) / 100,
+      totalCount: Number(totalCount || 0),
+      page: Number(page),
+      limit: Number(limit)
+   };
 };
 
 const applyHeldEntry = async (db, accountId, entryId, edits, editingUserId) => {

@@ -89,12 +89,13 @@ data "aws_iam_policy_document" "ds2_user_bedrock_comprehend" {
       "bedrock:InvokeModelWithResponseStream",
     ]
     resources = [
-      # Foundation-model ARNs (no account ID — same across all accounts).
-      "arn:aws:bedrock:${var.bedrock_region}::foundation-model/anthropic.claude-haiku-*",
-      "arn:aws:bedrock:${var.bedrock_region}::foundation-model/anthropic.claude-sonnet-4-5-*",
-      # Cross-region inference-profile ARNs (account-scoped). The model IDs
-      # we invoke are inference-profile IDs (us.anthropic.claude-...), so
-      # both ARN forms are required.
+      # Cross-region inference profiles (us.*) fan out to us-east-1, us-east-2, us-west-2.
+      # Foundation-model ARNs are AWS-owned (no account ID); allow all regions so the
+      # fan-out target regions are reachable. Without this, Bedrock returns AccessDenied
+      # for the regional foundation-model ARN even though the inference-profile ARN allows.
+      "arn:aws:bedrock:*::foundation-model/anthropic.claude-haiku-*",
+      "arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-5-*",
+      # Cross-region inference-profile ARNs (account-scoped).
       "arn:aws:bedrock:${var.bedrock_region}:${data.aws_caller_identity.current.account_id}:inference-profile/us.anthropic.claude-haiku-*",
       "arn:aws:bedrock:${var.bedrock_region}:${data.aws_caller_identity.current.account_id}:inference-profile/us.anthropic.claude-sonnet-4-5-*",
     ]

@@ -26,10 +26,23 @@ billingReviewRouter.route('/pending/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const accountId = Number(req.params.accountID);
-      const { hold_reason, timesheet_name, page, limit } = req.query;
+      const {
+         hold_reason, timesheet_name,
+         date_start, date_end,
+         entity_contains, employee_contains, tracker_contains, notes_contains,
+         ai_conf_min,
+         page, limit
+      } = req.query;
       const result = await billingReviewService.listPendingHeldEntries(db, accountId, {
          holdReason: hold_reason || null,
          timesheetName: timesheet_name || null,
+         dateStart: date_start || null,
+         dateEnd: date_end || null,
+         entityContains: entity_contains || null,
+         employeeContains: employee_contains || null,
+         trackerContains: tracker_contains || null,
+         notesContains: notes_contains || null,
+         aiConfMin: ai_conf_min != null && ai_conf_min !== '' ? Number(ai_conf_min) : null,
          page: page || 1,
          limit: limit || 50
       });
@@ -62,15 +75,31 @@ billingReviewRouter.route('/weekly/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const accountId = Number(req.params.accountID);
-      const { start, end, customerId, employeeUserId, page, limit } = req.query;
+      const {
+         start, end,
+         customerId, employeeUserId, workDescId,
+         jobContains, trackerContains, aiConfMin, billableOnly,
+         unbilledOnly, aiOnly, page, limit
+      } = req.query;
       if (!start || !end) {
          return res.status(400).json({ message: 'start and end query params are required (YYYY-MM-DD)' });
+      }
+      const isoRe = /^\d{4}-\d{2}-\d{2}$/;
+      if (!isoRe.test(start) || !isoRe.test(end)) {
+         return res.status(400).json({ message: 'start and end must be YYYY-MM-DD format' });
       }
       const result = await billingReviewService.listConsolidatedTransactions(db, accountId, {
          startDate: start,
          endDate: end,
          customerId: customerId ? Number(customerId) : null,
          employeeUserId: employeeUserId ? Number(employeeUserId) : null,
+         workDescId: workDescId ? Number(workDescId) : null,
+         jobContains: jobContains || null,
+         trackerContains: trackerContains || null,
+         aiConfMin: aiConfMin != null && aiConfMin !== '' ? Number(aiConfMin) : null,
+         billableOnly: billableOnly === 'true' ? true : billableOnly === 'false' ? false : null,
+         unbilledOnly: unbilledOnly === 'true' || unbilledOnly === true,
+         aiOnly: aiOnly === 'true' || aiOnly === true,
          page: page || 1,
          limit: limit || 200
       });
@@ -132,6 +161,7 @@ billingReviewRouter.route('/reprocess/:accountID/:userID').post(
       const userId = Number(req.params.userID);
       const mode = (req.body && req.body.mode) || 'unprocessed';
       const batchSize = (req.body && Number(req.body.batch_size)) || 500;
+      const explicitIds = Array.isArray(req.body?.ids) ? req.body.ids.map(n => Number(n)).filter(n => Number.isFinite(n)) : null;
 
       if (!_isAutoIngestAllowed(accountId)) {
          return res.status(503).json({
@@ -141,10 +171,14 @@ billingReviewRouter.route('/reprocess/:accountID/:userID').post(
       }
 
       let entryIds;
-      try {
-         entryIds = await billingReviewService.listEntriesForReprocess(db, accountId, { mode, limit: batchSize });
-      } catch (err) {
-         return res.status(400).json({ message: err.message, code: 'bad_mode' });
+      if (explicitIds && explicitIds.length) {
+         entryIds = explicitIds;
+      } else {
+         try {
+            entryIds = await billingReviewService.listEntriesForReprocess(db, accountId, { mode, limit: batchSize });
+         } catch (err) {
+            return res.status(400).json({ message: err.message, code: 'bad_mode' });
+         }
       }
 
       if (!entryIds.length) {
@@ -152,7 +186,7 @@ billingReviewRouter.route('/reprocess/:accountID/:userID').post(
       }
 
       kickOffAutoIngestForEntryIds({ db, accountId, userId, entryIds });
-      return res.status(202).json({ message: 'reprocess job accepted', queued: entryIds.length, mode });
+      return res.status(202).json({ message: 'reprocess job accepted', queued: entryIds.length, mode: explicitIds ? 'explicit_ids' : mode });
    })
 );
 

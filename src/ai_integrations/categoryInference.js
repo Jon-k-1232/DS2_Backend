@@ -17,6 +17,16 @@ const SYSTEM_PROMPT = [
    '}',
    'Rules:',
    '- Pick IDs ONLY from the provided reference arrays. NEVER invent an ID.',
+   '- The notes describe what the employee actually did. The category_freetext is the human\'s loose self-tag and is often inaccurate.',
+   '  When the notes describe a concrete activity (e.g. "Meeting with Jim", "Conference with Eliza", "Handover"), prefer the description',
+   '  that matches the notes over the description that matches the category_freetext. Treat synonyms ("meeting", "conference",',
+   '  "handover", "call") as the same kind of work.',
+   '- Two rows whose notes describe semantically equivalent work should receive the same suggested_general_work_description_id,',
+   '  even if their category_freetext differs.',
+   '- ADMIN/BACK-OFFICE WORK: when notes describe internal admin work — processing payments, depositing checks, verifying invoices,',
+   '  scanning + filing, emailing internal billing staff (Kati, Kasi, Jim, Marsha, Kennedy, Eliza), posting bank transactions —',
+   '  pick a generic "Administrative" or "Filing" or similar back-office work description. These are typically NOT client-facing',
+   '  deliverables; do NOT pick "Tax Return Preparation", "Phone Call", or "Client Meeting" for them.',
    '- If no acceptable match exists, return null IDs and category_confidence <= 0.4 with a reason that names the missing concept.',
    '- If notes are too sparse to decide, return null IDs and category_confidence <= 0.3.',
    '- Prefer returning a sensible general_work_description match for billable rows.',
@@ -32,7 +42,7 @@ const _truncateRefData = refData => {
    return out;
 };
 
-const _buildUserPrompt = ({ redactedRow, refData, fewShots }) => {
+const _buildUserPrompt = ({ redactedRow, refData, fewShots, customerPatterns }) => {
    const truncated = _truncateRefData(refData);
    const fewShotBlock =
       fewShots && fewShots.length
@@ -44,6 +54,27 @@ const _buildUserPrompt = ({ redactedRow, refData, fewShots }) => {
               )
               .join('\n')
          : '';
+
+   // Per-customer history: list the customer's actual parent jobs and their typical
+   // (notes, work_desc) patterns. This collapses the search space dramatically — JKA
+   // has 8 jobs, not the 150 in the account-wide catalog — and shows the AI what
+   // "looks like" billable work for THIS customer.
+   const customerBlock = customerPatterns ? (() => {
+      const lines = ['', 'For THIS customer specifically:'];
+      if (customerPatterns.parentJobs && customerPatterns.parentJobs.length) {
+         lines.push(`- Active parent jobs (prefer one of these for customer_job_id): ${
+            JSON.stringify(customerPatterns.parentJobs.map(pj => ({ id: pj.customer_job_id, label: pj.job_description })))
+         }`);
+      }
+      if (customerPatterns.fewShots && customerPatterns.fewShots.length) {
+         lines.push('- Past examples for this customer (notes → general_work_description that was actually billed):');
+         for (const ex of customerPatterns.fewShots) {
+            lines.push(`  - "${ex.dwd}" → "${ex.work_desc_label}"`);
+         }
+      }
+      return lines.join('\n');
+   })() : '';
+
    return [
       'Timesheet row (PII redacted; CUSTOMER_42 / EMPLOYEE_42 are opaque tokens):',
       JSON.stringify(redactedRow),
@@ -53,6 +84,7 @@ const _buildUserPrompt = ({ redactedRow, refData, fewShots }) => {
       `- job_categories: ${JSON.stringify(truncated.job_categories || [])}`,
       `- job_types: ${JSON.stringify(truncated.job_types || [])}`,
       fewShotBlock,
+      customerBlock,
       '',
       'Output the JSON object now.'
    ].join('\n');
@@ -88,13 +120,14 @@ const inferCategorization = async ({
    redactedRow,
    refData,
    fewShots = [],
+   customerPatterns = null,
    accountId,
    userId = null,
    timesheetEntryId = null,
    db = null,
    bedrockInvoker = invokeBedrockClaude
 }) => {
-   const userPrompt = _buildUserPrompt({ redactedRow, refData, fewShots });
+   const userPrompt = _buildUserPrompt({ redactedRow, refData, fewShots, customerPatterns });
    const messages = [{ role: 'user', content: [{ type: 'text', text: userPrompt }] }];
 
    let totalCost = 0;

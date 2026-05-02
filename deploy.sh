@@ -2,7 +2,7 @@
 set -e
 
 AWS_REGION="us-west-2"
-AWS_PROFILE="JKA_Main"
+AWS_PROFILE="JKA_JonKimmel_Admin"
 CLUSTER="ds2-prod-ecs-cluster"
 SERVICE="ds2-prod-backend-service"
 ECR_REPO="ds2-prod-backend"
