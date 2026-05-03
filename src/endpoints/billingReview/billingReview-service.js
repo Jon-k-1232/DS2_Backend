@@ -396,19 +396,31 @@ const reprocessHeldEntryWithOverrides = async (db, accountId, entryId, overrides
    };
 };
 
-// Earliest month with an unbilled transaction. Used by the Processed & Not
-// Billed tab to default the Start filter to the first of that month — so if
-// April hasn't been billed yet the user sees April 1 onward, but once April
-// is on invoices the default jumps forward to May 1. Falls back to first of
-// the current month when nothing is unbilled.
+// Default Start for the Processed & Not Billed tab: first of the "current
+// billing month". JKA bills monthly, so the active billing window is one of:
+//   - This month (if invoices for last month have already been sent)
+//   - Last month (if they haven't been sent yet)
+// Heuristic: look at the most recent invoice. If it was created in the
+// current calendar month, the user is now billing this month → start = 1st
+// of this month. Otherwise they're still catching up on last month → start
+// = 1st of last month. Falls back to 1st of this month when there are no
+// invoices at all.
 const earliestUnbilledMonth = async (db, accountId) => {
-   const row = await db('customer_transactions')
+   const row = await db('customer_invoices')
       .where({ account_id: accountId })
-      .whereNull('customer_invoice_id')
-      .min({ earliest: 'transaction_date' })
+      .max({ latestInvoice: 'invoice_date' })
       .first();
-   const earliest = row && row.earliest ? new Date(row.earliest) : new Date();
-   const monthStart = new Date(Date.UTC(earliest.getUTCFullYear(), earliest.getUTCMonth(), 1));
+   const today = new Date();
+   const todayY = today.getUTCFullYear();
+   const todayM = today.getUTCMonth();
+
+   const firstOfThisMonth = new Date(Date.UTC(todayY, todayM, 1));
+   const firstOfPrevMonth = new Date(Date.UTC(todayY, todayM - 1, 1));
+
+   const latest = row && row.latestInvoice ? new Date(row.latestInvoice) : null;
+   const latestInCurrentMonth = latest && latest.getUTCFullYear() === todayY && latest.getUTCMonth() === todayM;
+
+   const monthStart = latestInCurrentMonth || !latest ? firstOfThisMonth : firstOfPrevMonth;
    return monthStart.toISOString().slice(0, 10);
 };
 
