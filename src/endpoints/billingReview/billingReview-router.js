@@ -33,6 +33,19 @@ billingReviewRouter.route('/distinct-entities/:accountID/:userID').get(
    })
 );
 
+// GET /billing-review/earliest-unbilled-month/:accountID/:userID
+// First of the month containing the oldest unbilled transaction (or first of
+// current month if everything is billed). The Processed & Not Billed tab uses
+// this as the default Start so reviewers always see the full unbilled window.
+billingReviewRouter.route('/earliest-unbilled-month/:accountID/:userID').get(
+   asyncHandler(async (req, res) => {
+      const db = req.app.get('db');
+      const accountId = Number(req.params.accountID);
+      const start = await billingReviewService.earliestUnbilledMonth(db, accountId);
+      res.status(200).json({ message: 'ok', start });
+   })
+);
+
 // GET /billing-review/pending/:accountID/:userID — held rows + AI suggestions
 billingReviewRouter.route('/pending/:accountID/:userID').get(
    asyncHandler(async (req, res) => {
