@@ -3,13 +3,15 @@ const groupAndTotalWriteOffs = (customer_id, invoiceQueryData, showWriteOffs) =>
    const customerWriteOffRecords = invoiceQueryData.customerWriteOffs[customer_id] || [];
    const customerTransactions = invoiceQueryData.customerTransactions[customer_id] || [];
 
-   // Override showWriteOffs to true if transactions are empty but there are write-offs
-   if (!showWriteOffs && !customerTransactions.length && customerWriteOffRecords.length) {
-      showWriteOffs = true;
-   }
-
    // Filter write-offs by customer_invoice_id and customer_job_id
    const writeOffsByInvoice = customerWriteOffRecords.filter(writeOff => writeOff.customer_invoice_id);
+
+   // Override showWriteOffs to true if transactions are empty but invoice-linked write-offs exist.
+   // Job-only write-offs are excluded from this override — they were already consumed as billing
+   // adjustments when the original invoice amount was set, so showing them here creates a phantom credit.
+   if (!showWriteOffs && !customerTransactions.length && writeOffsByInvoice.length) {
+      showWriteOffs = true;
+   }
    const writeOffsByJob = customerWriteOffRecords.filter(writeOff => writeOff.customer_job_id);
 
    // Calculate the write-off total

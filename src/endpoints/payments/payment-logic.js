@@ -72,17 +72,10 @@ const updateObjectsWithRemainingAmounts = (matchingInvoice, paymentTableFields) 
    const { remaining_balance_on_invoice = 0, customer_invoice_id } = matchingInvoice;
    const paymentAmount = Number(paymentTableFields.payment_amount);
    const remainingBalance = Number(remaining_balance_on_invoice);
+   const remainingAmount = remainingBalance + paymentAmount;
 
-   let remainingAmount;
-   let invoiceInsertionObject = createInvoiceObject(matchingInvoice, null, customer_invoice_id);
-   let paymentInsertionObject = paymentTableFields;
-
-   if (remainingBalance === paymentAmount) {
-      remainingAmount = paymentAmount;
-   } else if (remainingBalance > paymentAmount) {
-      remainingAmount = remainingBalance + paymentAmount;
-      invoiceInsertionObject = createInvoiceObject(matchingInvoice, remainingAmount, customer_invoice_id);
-   }
+   const invoiceInsertionObject = createInvoiceObject(matchingInvoice, remainingAmount, customer_invoice_id);
+   const paymentInsertionObject = paymentTableFields;
 
    return { paymentInsertionObject, invoiceInsertionObject, remainingAmount };
 };

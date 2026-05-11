@@ -46,6 +46,18 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
       // Post the new payment
       await paymentsService.createPayment(db, paymentInsertionWithInvoiceID);
 
+      // Sync the parent invoice row so balance lookups don't see a phantom.
+      // The child snapshot we just inserted has the authoritative remaining/paid state;
+      // mirror it onto the original parent row that customer profile + AR queries read from.
+      const parentInvoiceID = invoiceInsertionObject.parent_invoice_id;
+      const [parentInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, parentInvoiceID);
+      if (parentInvoice && Object.keys(parentInvoice).length) {
+         parentInvoice.remaining_balance_on_invoice = invoiceInsertionObject.remaining_balance_on_invoice;
+         parentInvoice.is_invoice_paid_in_full = invoiceInsertionObject.is_invoice_paid_in_full;
+         parentInvoice.fully_paid_date = invoiceInsertionObject.fully_paid_date;
+         await invoiceService.updateInvoice(db, parentInvoice);
+      }
+
       const message = 'Successfully created payment.';
 
       return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
