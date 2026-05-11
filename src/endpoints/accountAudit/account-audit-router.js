@@ -151,13 +151,14 @@ accountAuditRouter.post('/run/:accountID/:userID', jsonParser, async (req, res) 
                results.push({ customer_id: customerId, status: 'failed', error: 'Customer not found.' });
                continue;
             }
-            const [invoices, payments, writeoffs, transactions] = await Promise.all([
+            const [invoices, payments, writeoffs, transactions, retainers] = await Promise.all([
                accountAuditService.getInvoices(db, accountId, customerId),
                accountAuditService.getPayments(db, accountId, customerId),
                accountAuditService.getWriteoffs(db, accountId, customerId),
-               accountAuditService.getTransactions(db, accountId, customerId)
+               accountAuditService.getTransactions(db, accountId, customerId),
+               accountAuditService.getRetainers(db, accountId, customerId)
             ]);
-            const result = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions });
+            const result = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers });
 
             // Run the app's own balance engine alongside our audit so we can
             // surface any divergence. Wrapped so an app-side bug doesn't
@@ -207,6 +208,7 @@ accountAuditRouter.post('/run/:accountID/:userID', jsonParser, async (req, res) 
                   customer: result.customer,
                   totals: result.totals,
                   invoice_breakdown: result.invoice_breakdown,
+                  retainers: result.retainers,
                   methodology: result.methodology,
                   generated_at: result.generated_at
                }),

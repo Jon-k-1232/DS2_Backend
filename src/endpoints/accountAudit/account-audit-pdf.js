@@ -111,6 +111,47 @@ const buildAuditPdf = ({ audit, summary }) => {
          row('Strict ledger balance (after pending writeoffs applied)', fmt(totals.strict_ledger_balance), true);
          doc.moveDown(0.5);
 
+         // Retainers section (only when the customer has any)
+         const retainerSummary = summary.retainers || { breakdown: [], total_chains: 0 };
+         if (retainerSummary.total_chains > 0) {
+            doc.fontSize(12).font('Helvetica-Bold').text('Retainers & deposits');
+            doc.moveDown(0.25);
+            doc.fontSize(10);
+            row('Total prepaid (lifetime)', fmt(totals.retainer_total_prepaid_lifetime));
+            row('Drawn down to date', fmt(totals.retainer_drawn));
+            row('Currently available (active retainers)', fmt(totals.retainer_available), true);
+            row('Audit balance', fmt(totals.audit_balance));
+            row('Net position after applying available retainer', fmt(totals.net_position_after_retainer), true);
+            doc.moveDown(0.5);
+
+            doc.fontSize(8).font('Helvetica');
+            const rh = ['Established', 'Name / Type', 'Form', 'Starting', 'Drawn', 'Current', 'Active'];
+            const rx = [36, 110, 230, 290, 355, 415, 480];
+            const rw = [72, 118, 58, 62, 58, 62, 50];
+            const yRH = doc.y;
+            doc.font('Helvetica-Bold');
+            rh.forEach((h, i) => {
+               const align = i >= 3 && i <= 5 ? 'right' : 'left';
+               doc.text(h, rx[i], yRH, { width: rw[i], align });
+            });
+            doc.moveTo(36, yRH + 11).lineTo(576, yRH + 11).stroke();
+            doc.font('Helvetica');
+            let ry = yRH + 14;
+            retainerSummary.breakdown.forEach(r => {
+               doc.text(r.created_at ? r.created_at.slice(0, 10) : '', rx[0], ry, { width: rw[0] });
+               doc.text((r.display_name || r.type_of_hold || 'Retainer').slice(0, 28), rx[1], ry, { width: rw[1] });
+               doc.text((r.form_of_payment || '').slice(0, 14), rx[2], ry, { width: rw[2] });
+               doc.text(fmt(r.starting_amount), rx[3], ry, { width: rw[3], align: 'right' });
+               doc.text(fmt(r.drawn_to_date), rx[4], ry, { width: rw[4], align: 'right' });
+               doc.text(fmt(r.current_amount), rx[5], ry, { width: rw[5], align: 'right' });
+               doc.text(r.is_active ? 'Yes' : 'No', rx[6], ry, { width: rw[6] });
+               ry += 12;
+               if (ry > 740) { doc.addPage(); ry = 50; }
+               doc.y = ry;
+            });
+            doc.moveDown(1);
+         }
+
          // Methodology
          doc.fontSize(11).font('Helvetica-Bold').text('Methodology');
          doc.fontSize(9).font('Helvetica').fillColor('#444');

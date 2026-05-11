@@ -29,6 +29,12 @@ const accountAuditService = {
          .orderBy([{ column: 'transaction_date', order: 'asc' }, { column: 'transaction_id', order: 'asc' }]);
    },
 
+   getRetainers(db, accountId, customerId) {
+      return db('customer_retainers_and_prepayments')
+         .where({ account_id: accountId, customer_id: customerId })
+         .orderBy([{ column: 'created_at', order: 'asc' }, { column: 'retainer_id', order: 'asc' }]);
+   },
+
    async getAuditableCustomers(db, accountId, { search = '', limit = 25, offset = 0 } = {}) {
       const trimmed = (search || '').trim();
       const base = db('customers as c')

@@ -30,6 +30,14 @@ const buildPrompt = result => {
          drift: Math.round((b.expected_remaining - b.actual_remaining_used) * 100) / 100,
          is_paid_in_full_db: b.is_paid_in_full_db
       })),
+      retainers: result.retainers && result.retainers.total_chains > 0
+         ? {
+              total_prepaid_lifetime: result.retainers.total_prepaid_lifetime,
+              retainer_available: result.retainers.retainer_available,
+              retainer_drawn: result.retainers.retainer_drawn,
+              breakdown: result.retainers.breakdown
+           }
+         : null,
       discrepancies: result.discrepancies
    };
    return JSON.stringify(compact);
@@ -38,7 +46,7 @@ const buildPrompt = result => {
 const SYSTEM = `You are an independent accounting auditor reviewing one customer's billing ledger.
 You will receive a JSON audit payload with totals, per-invoice breakdown, and detected discrepancies.
 
-Write a plain-English executive summary for the accounting team. Be specific with dollar amounts and invoice numbers when they matter. Do NOT speculate about causes you cannot see in the data.
+Write a plain-English executive summary for the accounting team. Be specific with dollar amounts and invoice numbers when they matter. Do NOT speculate about causes you cannot see in the data. If the customer has retainers or deposits on file, mention the currently-available retainer balance and the net position after retainer (audit_balance − retainer_available) when material.
 
 Return STRICT JSON only, no prose outside the object. Schema:
 {

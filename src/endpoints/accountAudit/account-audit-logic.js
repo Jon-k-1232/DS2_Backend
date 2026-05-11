@@ -203,7 +203,7 @@ const detectDiscrepancies = ({ invoiceBreakdown, payments, writeoffs, transactio
    return out;
 };
 
-const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions }) => {
+const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions, retainers = [] }) => {
    const events = [];
    const invoiceById = new Map();
    invoices.forEach(i => invoiceById.set(i.customer_invoice_id, i));
@@ -253,12 +253,32 @@ const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions 
          });
       });
 
+   // Retainer creation rows — informational only ($0 charge / $0 credit) so we
+   // don't double-count with retainer-funded payments that already appear in
+   // the payments stream. Each retainer root tells the auditor when the
+   // customer prepaid funds.
+   retainers
+      .filter(r => !r.parent_retainer_id)
+      .forEach(r => {
+         events.push({
+            date: fmtDate(r.created_at),
+            sort_ts: new Date(r.created_at).getTime(),
+            type: 'retainer_established',
+            description: `Retainer established: ${r.display_name || r.type_of_hold || 'Retainer'} — $${round2(abs(r.starting_amount)).toFixed(2)}${r.form_of_payment ? ` (${r.form_of_payment})` : ''}`,
+            charge: 0,
+            credit: 0,
+            reference_id: r.retainer_id,
+            note: r.note || null
+         });
+      });
+
    payments.forEach(p => {
+      const retainerNote = p.retainer_id ? ' [retainer-funded]' : '';
       events.push({
          date: fmtDate(p.payment_date),
          sort_ts: new Date(p.payment_date).getTime(),
-         type: 'payment',
-         description: `Payment${p.form_of_payment ? ` (${p.form_of_payment})` : ''}${p.payment_reference_number ? ` #${p.payment_reference_number}` : ''}`,
+         type: p.retainer_id ? 'payment_retainer' : 'payment',
+         description: `Payment${p.form_of_payment ? ` (${p.form_of_payment})` : ''}${p.payment_reference_number ? ` #${p.payment_reference_number}` : ''}${retainerNote}`,
          charge: 0,
          credit: round2(abs(p.payment_amount)),
          reference_id: p.payment_id,
@@ -285,11 +305,13 @@ const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions 
       // then payments land, then write-offs adjust. This order keeps the
       // running balance increasing-then-settling in a way that reads naturally.
       const order = {
+         retainer_established: -1,
          transaction_billed: 0,
          transaction_unbilled: 0,
          transaction_nonbillable: 0,
          invoice_issued: 1,
          payment: 2,
+         payment_retainer: 2,
          writeoff_invoice: 3,
          writeoff_job: 3
       };
@@ -306,7 +328,81 @@ const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions 
    return events;
 };
 
-const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transactions }) => {
+// Group retainer chains by root (parent_retainer_id IS NULL), then for each
+// chain pick the latest snapshot as the authoritative current_amount.
+// Retainer rows are stored negative (memory: customer_payments + writeoffs
+// + retainers are all negative in raw DB).
+const buildRetainerChains = retainers => {
+   if (!retainers || !retainers.length) return new Map();
+   const chains = new Map();
+   retainers.forEach(r => {
+      const rootId = r.parent_retainer_id || r.retainer_id;
+      if (!chains.has(rootId)) chains.set(rootId, { rootId, root: null, snapshots: [] });
+      const chain = chains.get(rootId);
+      if (!r.parent_retainer_id) chain.root = r;
+      else chain.snapshots.push(r);
+   });
+   chains.forEach(chain => {
+      chain.snapshots.sort((a, b) => {
+         const aT = new Date(a.created_at).getTime();
+         const bT = new Date(b.created_at).getTime();
+         if (aT !== bT) return aT - bT;
+         return a.retainer_id - b.retainer_id;
+      });
+      // Defensive: if the chain's root row was deleted but snapshots survive
+      // (orphan parent_retainer_id pointing to a non-existent retainer),
+      // promote the earliest snapshot to act as the root so we don't silently
+      // drop the retainer from the audit.
+      if (!chain.root && chain.snapshots.length) {
+         chain.root = chain.snapshots[0];
+         chain.snapshots = chain.snapshots.slice(1);
+         chain.orphan_root = true;
+      }
+   });
+   return chains;
+};
+
+const summarizeRetainers = retainers => {
+   const chains = buildRetainerChains(retainers);
+   const breakdown = [];
+   let total_prepaid_lifetime = 0;
+   let retainer_available = 0;
+   chains.forEach(chain => {
+      const root = chain.root;
+      if (!root) return;
+      const latest = chain.snapshots[chain.snapshots.length - 1] || root;
+      const startingAmt = round2(abs(root.starting_amount));
+      const currentAmt = round2(abs(latest.current_amount));
+      const drawn = round2(startingAmt - currentAmt);
+      const isActive = !!root.is_retainer_active;
+      total_prepaid_lifetime = round2(total_prepaid_lifetime + startingAmt);
+      if (isActive) retainer_available = round2(retainer_available + currentAmt);
+      breakdown.push({
+         retainer_id: root.retainer_id,
+         display_name: root.display_name || null,
+         type_of_hold: root.type_of_hold || null,
+         form_of_payment: root.form_of_payment || null,
+         created_at: fmtDateTime(root.created_at),
+         starting_amount: startingAmt,
+         current_amount: currentAmt,
+         drawn_to_date: drawn,
+         is_active: isActive,
+         snapshot_count: chain.snapshots.length,
+         orphan_root: !!chain.orphan_root
+      });
+   });
+   const retainer_drawn = round2(total_prepaid_lifetime - retainer_available);
+   return {
+      total_prepaid_lifetime,
+      retainer_available,
+      retainer_drawn,
+      active_chains: breakdown.filter(b => b.is_active).length,
+      total_chains: breakdown.length,
+      breakdown
+   };
+};
+
+const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transactions, retainers = [] }) => {
    const chains = buildInvoiceChains(invoices);
    const invoiceBreakdown = [];
    chains.forEach(chain => {
@@ -348,6 +444,14 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
    );
    const net_position_lifetime = round2(total_invoiced + unbilled_billable - total_paid - total_writeoffs);
 
+   // Retainer summary — purely informational alongside the balance. We do NOT
+   // subtract retainer_available from audit_balance because the app's own
+   // balance engine (calculateInvoices.invoiceTotal) doesn't either; retainers
+   // are tracked as a separate "current retainer/prepayment" figure on the
+   // customer profile, not netted into the displayed balance.
+   const retainerSummary = summarizeRetainers(retainers);
+   const net_position_after_retainer = round2(audit_balance - retainerSummary.retainer_available);
+
    const lastBillDate = parentInvoices.length
       ? parentInvoices.map(i => i.invoice_date).sort().slice(-1)[0]
       : null;
@@ -360,7 +464,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       lastBillDate
    });
 
-   const ledger = buildChronologicalLedger({ invoices, payments, writeoffs, transactions });
+   const ledger = buildChronologicalLedger({ invoices, payments, writeoffs, transactions, retainers });
 
    return {
       customer: {
@@ -383,15 +487,22 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          audit_balance,
          strict_ledger_balance,
          net_position_lifetime,
+         retainer_total_prepaid_lifetime: retainerSummary.total_prepaid_lifetime,
+         retainer_available: retainerSummary.retainer_available,
+         retainer_drawn: retainerSummary.retainer_drawn,
+         net_position_after_retainer,
          counts: {
             parent_invoices: parentInvoices.length,
             invoice_snapshots: invoices.length - parentInvoices.length,
             payments: payments.length,
             writeoffs: writeoffs.length,
-            transactions: transactions.length
+            transactions: transactions.length,
+            retainer_chains: retainerSummary.total_chains,
+            retainer_active_chains: retainerSummary.active_chains
          },
          last_bill_date: fmtDate(lastBillDate)
       },
+      retainers: retainerSummary,
       invoice_breakdown: invoiceBreakdown,
       discrepancies,
       ledger,
@@ -404,7 +515,9 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          net_position_formula:
             'total_invoiced + unbilled_billable - total_paid - total_writeoffs (lifetime net, ignores invoice linkage)',
          ledger_basis:
-            'Transaction-based — every billable transaction is a charge on its transaction_date (whether or not it was later invoiced). Invoices appear as informational markers and do NOT change the running balance, since the underlying transactions already did. The ledger therefore spans the customer\'s full history from their first transaction onward, and the final running balance reflects transactions − payments − writeoffs (not the audit_balance, which uses invoice-snapshot accounting).'
+            'Transaction-based — every billable transaction is a charge on its transaction_date (whether or not it was later invoiced). Invoices appear as informational markers and do NOT change the running balance, since the underlying transactions already did. Retainer creations also appear as informational markers (no ledger impact) — the cash inflow from a retainer is later reflected as a retainer-funded payment, so counting both would double-count. The ledger therefore spans the customer\'s full history from their first transaction onward, and the final running balance reflects transactions − payments − writeoffs (not the audit_balance, which uses invoice-snapshot accounting).',
+         retainer_basis:
+            'Retainer totals are surfaced as a separate section. retainer_available is the sum of |current_amount| across the latest snapshot of each active retainer chain. It is NOT subtracted from audit_balance — the app\'s balance display does not subtract it either. net_position_after_retainer is provided as a what-the-customer-effectively-owes figure (audit_balance − retainer_available).'
       },
       generated_at: fmtDateTime(new Date())
    };
