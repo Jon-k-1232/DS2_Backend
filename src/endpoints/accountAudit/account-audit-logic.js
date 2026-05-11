@@ -205,34 +205,51 @@ const detectDiscrepancies = ({ invoiceBreakdown, payments, writeoffs, transactio
 
 const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions }) => {
    const events = [];
+   const invoiceById = new Map();
+   invoices.forEach(i => invoiceById.set(i.customer_invoice_id, i));
 
+   // Transactions are the source of truth — the work itself creates the
+   // liability. We include every transaction (billed and unbilled) so the
+   // ledger reflects the full account history all the way back to the
+   // customer's earliest transaction, not just the first invoice.
+   transactions.forEach(t => {
+      const linkedInv = t.customer_invoice_id ? invoiceById.get(t.customer_invoice_id) : null;
+      const linkedInvNum = linkedInv?.invoice_number || null;
+      let desc = (t.detailed_work_description || t.note || 'Transaction').slice(0, 110);
+      if (linkedInvNum) desc += ` [billed on ${linkedInvNum}]`;
+      else desc += ' [unbilled]';
+      const type = t.is_transaction_billable
+         ? linkedInv
+            ? 'transaction_billed'
+            : 'transaction_unbilled'
+         : 'transaction_nonbillable';
+      events.push({
+         date: fmtDate(t.transaction_date),
+         sort_ts: new Date(t.transaction_date).getTime(),
+         type,
+         description: desc,
+         charge: t.is_transaction_billable ? round2(num(t.total_transaction)) : 0,
+         credit: 0,
+         reference_id: t.transaction_id,
+         note: null
+      });
+   });
+
+   // Invoices appear as informational rows on their billing date — they
+   // document when work was formally billed but do NOT change the running
+   // balance, because the underlying transactions already accounted for it.
    invoices
       .filter(i => !i.parent_invoice_id)
       .forEach(i => {
          events.push({
             date: fmtDate(i.invoice_date),
             sort_ts: new Date(i.invoice_date).getTime(),
-            type: 'invoice',
-            description: `Invoice ${i.invoice_number}`,
-            charge: round2(num(i.total_amount_due)),
+            type: 'invoice_issued',
+            description: `Invoice ${i.invoice_number} issued — total $${round2(num(i.total_amount_due)).toFixed(2)}`,
+            charge: 0,
             credit: 0,
             reference_id: i.customer_invoice_id,
             note: i.notes || null
-         });
-      });
-
-   transactions
-      .filter(t => !t.customer_invoice_id)
-      .forEach(t => {
-         events.push({
-            date: fmtDate(t.transaction_date),
-            sort_ts: new Date(t.transaction_date).getTime(),
-            type: t.is_transaction_billable ? 'unbilled_transaction' : 'unbilled_transaction_nonbillable',
-            description: (t.detailed_work_description || t.note || 'Transaction').slice(0, 120),
-            charge: t.is_transaction_billable ? round2(num(t.total_transaction)) : 0,
-            credit: 0,
-            reference_id: t.transaction_id,
-            note: null
          });
       });
 
@@ -264,7 +281,18 @@ const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions 
 
    events.sort((a, b) => {
       if (a.sort_ts !== b.sort_ts) return a.sort_ts - b.sort_ts;
-      const order = { invoice: 0, unbilled_transaction: 1, unbilled_transaction_nonbillable: 1, payment: 2, writeoff_invoice: 3, writeoff_job: 3 };
+      // On the same day: work happens, then the invoice is issued for it,
+      // then payments land, then write-offs adjust. This order keeps the
+      // running balance increasing-then-settling in a way that reads naturally.
+      const order = {
+         transaction_billed: 0,
+         transaction_unbilled: 0,
+         transaction_nonbillable: 0,
+         invoice_issued: 1,
+         payment: 2,
+         writeoff_invoice: 3,
+         writeoff_job: 3
+      };
       return (order[a.type] ?? 9) - (order[b.type] ?? 9);
    });
 
@@ -374,7 +402,9 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
             'outstanding_invoices (sum of latest-child remaining per invoice chain, floored at 0) + unbilled_billable_transactions - unbilled_payments',
          strict_ledger_formula: 'audit_balance - unbilled_writeoffs (treats job-level writeoffs as immediate credits)',
          net_position_formula:
-            'total_invoiced + unbilled_billable - total_paid - total_writeoffs (lifetime net, ignores invoice linkage)'
+            'total_invoiced + unbilled_billable - total_paid - total_writeoffs (lifetime net, ignores invoice linkage)',
+         ledger_basis:
+            'Transaction-based — every billable transaction is a charge on its transaction_date (whether or not it was later invoiced). Invoices appear as informational markers and do NOT change the running balance, since the underlying transactions already did. The ledger therefore spans the customer\'s full history from their first transaction onward, and the final running balance reflects transactions − payments − writeoffs (not the audit_balance, which uses invoice-snapshot accounting).'
       },
       generated_at: fmtDateTime(new Date())
    };

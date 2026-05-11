@@ -124,6 +124,10 @@ const buildAuditPdf = ({ audit, summary }) => {
          if (methodology.net_position_formula) {
             doc.text(`Net position: ${methodology.net_position_formula}`);
          }
+         if (methodology.ledger_basis) {
+            doc.moveDown(0.25);
+            doc.text(`Ledger basis: ${methodology.ledger_basis}`);
+         }
          doc.fillColor('#000');
          doc.moveDown(0.75);
 
