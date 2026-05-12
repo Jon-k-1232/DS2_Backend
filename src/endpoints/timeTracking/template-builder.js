@@ -37,6 +37,118 @@ const _shrinkFullColumnSqrefs = async buffer => {
    }
 };
 
+/**
+ * Strip baked-in validations on B2 (Start Date), B3 (End Date), and the
+ * A-column date column from the prod tracker XLSX. The base template
+ * has four overlapping date rules on A and uses operator="greaterThan"
+ * with a hardcoded serial 45292 (Jan 1 2024) on B2/B3, with no B3>B2
+ * cross-check. We re-author cleaner ones below in _applyDataValidation.
+ *
+ * Also strips the customer-list validation that was previously applied
+ * to column B by template-builder — it conflicted with the base
+ * template's Entity dropdown on column B; the correct target is column
+ * D (Company Name). We rebuild dropdowns from scratch below.
+ */
+const RANGES_TO_STRIP = new Set([
+   // Bad date validations on B2/B3 — replaced with cell-reference rules below.
+   'B2', 'B3',
+   // Overlapping A-column date validations — replaced with one A6:A<MAX> rule
+   // that enforces the entry date falls inside the tracker window.
+   'A5', 'A6', 'A7:A1500', 'A10:A1500',
+   `A6:A${MAX_DATA_ROWS}`, `A7:A${MAX_DATA_ROWS}`, `A10:A${MAX_DATA_ROWS}`,
+   // Static Category dropdowns (use the workbook's `Categories` named range)
+   // — replaced with the dynamic `__categories` lookup that always reflects
+   // the live customer_job_categories table.
+   'C5', 'C6:C1500', 'C10:C1500', `C6:C${MAX_DATA_ROWS}`, `C10:C${MAX_DATA_ROWS}`
+]);
+
+/**
+ * Inject B2 / B3 / A6:A<MAX> date validations directly into the worksheet
+ * XML after ExcelJS finishes writing. We can't use ExcelJS's data-validation
+ * API for these because it tries to coerce formula strings like
+ * `TODAY()-365` and `B2` to numbers (yielding NaN in the generated XML).
+ * The XML format is well-known; we just splice the new <dataValidation>
+ * elements into the existing <dataValidations> block.
+ */
+const _injectDateValidations = async buffer => {
+   try {
+      const zip = await JSZip.loadAsync(buffer);
+      const sheetFiles = Object.keys(zip.files).filter(name => /^xl\/worksheets\/sheet\d+\.xml$/.test(name));
+      let modified = false;
+      // We only want to inject into the primary data sheet, which is the
+      // first sheet that ISN'T one of our hidden lookup sheets. The lookup
+      // sheets are veryHidden and have no dataValidations block of interest.
+      // Heuristic: the first sheet that already has a dataValidations block
+      // we just edited (i.e., contains sqref="B1" with __employees lookup).
+      for (const name of sheetFiles) {
+         const xml = await zip.files[name].async('string');
+         if (!xml.includes('__employees!')) continue;
+         const dateTags =
+            `<dataValidation type="date" operator="greaterThanOrEqual" allowBlank="0" showInputMessage="1" showErrorMessage="1" errorStyle="stop" promptTitle="MM/DD/YYYY" prompt="Tracker period start. Must be within the last 365 days." errorTitle="Invalid start date" error="Start Date must be a real date within the last year (MM/DD/YYYY)." sqref="B2"><formula1>TODAY()-365</formula1></dataValidation>` +
+            `<dataValidation type="date" operator="greaterThan" allowBlank="0" showInputMessage="1" showErrorMessage="1" errorStyle="stop" promptTitle="MM/DD/YYYY" prompt="Tracker period end. Must be after the Start Date in B2." errorTitle="Invalid end date" error="End Date must be after the Start Date in B2 (MM/DD/YYYY)." sqref="B3"><formula1>B2</formula1></dataValidation>` +
+            `<dataValidation type="date" operator="between" allowBlank="1" showInputMessage="1" showErrorMessage="1" errorStyle="stop" promptTitle="MM/DD/YYYY" prompt="Date of this entry — must fall between the Start (B2) and End (B3) dates." errorTitle="Date outside tracker window" error="Entry date must be between the Start Date (B2) and End Date (B3)." sqref="A6:A${MAX_DATA_ROWS}"><formula1>B2</formula1><formula2>B3</formula2></dataValidation>`;
+         let next = xml;
+         if (xml.includes('<dataValidations')) {
+            // Splice into the existing block, bumping its count.
+            next = next.replace(/<dataValidations\s+count="(\d+)"(\s*[^>]*)>/, (m, c, rest) => {
+               const newCount = Number(c) + 3;
+               return `<dataValidations count="${newCount}"${rest || ''}>${dateTags}`;
+            });
+         } else {
+            // No existing block — add one just before <pageMargins> (or end of sheet).
+            const block = `<dataValidations count="3">${dateTags}</dataValidations>`;
+            if (next.includes('<pageMargins')) {
+               next = next.replace(/<pageMargins/, block + '<pageMargins');
+            } else {
+               next = next.replace(/<\/worksheet>/, block + '</worksheet>');
+            }
+         }
+         if (next !== xml) {
+            zip.file(name, next);
+            modified = true;
+         }
+      }
+      if (!modified) return buffer;
+      return zip.generateAsync({ type: 'nodebuffer' });
+   } catch (e) {
+      console.error('[template-builder] _injectDateValidations failed:', e.message);
+      return buffer;
+   }
+};
+
+const _stripBadValidations = async buffer => {
+   try {
+      const zip = await JSZip.loadAsync(buffer);
+      const sheetFiles = Object.keys(zip.files).filter(name => /^xl\/worksheets\/sheet\d+\.xml$/.test(name));
+      let modified = false;
+      const shouldStrip = (whole, sqref) => (RANGES_TO_STRIP.has(sqref.trim()) ? '' : whole);
+      // Two non-overlapping regexes:
+      //   - selfCloseRe: <dataValidation ... sqref="..." ... />
+      //   - contentRe:   <dataValidation ... sqref="..." ...>(formulae)</dataValidation>
+      // The content regex uses (?<!\/) before its `>` so it won't accidentally
+      // match a self-closing tag's `/>` and then greedily consume downstream
+      // tags. Quantifiers are lazy to keep each match tight.
+      const selfCloseRe = /<dataValidation\b[^>]*?\bsqref="([^"]+)"[^>]*?\/>/g;
+      const contentRe = /<dataValidation\b[^>]*?\bsqref="([^"]+)"[^>]*?(?<!\/)>[\s\S]*?<\/dataValidation>/g;
+      for (const name of sheetFiles) {
+         const xml = await zip.files[name].async('string');
+         const afterSelf = xml.replace(selfCloseRe, shouldStrip);
+         const cleaned = afterSelf.replace(contentRe, shouldStrip);
+         if (cleaned !== xml) {
+            // Fix up the dataValidations count attribute so Excel doesn't warn.
+            const newCount = (cleaned.match(/<dataValidation\b/g) || []).length;
+            const fixedCount = cleaned.replace(/<dataValidations\s+count="\d+"/, `<dataValidations count="${newCount}"`);
+            zip.file(name, fixedCount);
+            modified = true;
+         }
+      }
+      if (!modified) return buffer;
+      return zip.generateAsync({ type: 'nodebuffer' });
+   } catch (e) {
+      return buffer;
+   }
+};
+
 const _cache = new Map();
 
 const _cacheKey = ({ accountId, userId }) => `acct:${accountId}:user:${userId}`;
@@ -82,22 +194,35 @@ const _addLookupSheet = (workbook, sheetName, header, items) => {
 };
 
 const _applyDataValidation = ({ sheet, customerCount, employeeCount, categoryCount }) => {
-   // Use ExcelJS's range-based dataValidations API. Setting one rule per
-   // range is O(1) per range; the previous per-cell loop with MAX_DATA_ROWS=1500
-   // and 3 columns hot-spun the worker (~99% CPU for several minutes per
-   // request) and never returned. Range syntax keeps the workbook produced
-   // identical from Excel's perspective while being instant to generate.
-   if (customerCount) {
-      sheet.dataValidations.add(`B6:B${MAX_DATA_ROWS}`, {
+   // Column mapping per the base template header row (row 5):
+   //   A=Date, B=Entity, C=Category, D=Company Name (customer),
+   //   E=First Name, F=Last Name, G=Duration, H=Time Range
+   // The prior code mis-targeted the customer dropdown at column B (Entity)
+   // and the employee dropdown at column D (Company Name); both were wrong.
+   // Customer now goes on D. There is no per-row "employee" column — the
+   // employee is on B1 (single header cell), so the prior D-column
+   // employee dropdown is removed.
+
+   // B1: Employee header cell — must be an active DS2 user
+   if (employeeCount) {
+      sheet.dataValidations.add('B1', {
          type: 'list',
-         allowBlank: true,
-         formulae: [`__customers!$A$2:$A$${customerCount + 1}`],
+         allowBlank: false,
+         formulae: [`__employees!$A$2:$A$${employeeCount + 1}`],
          showErrorMessage: true,
-         errorStyle: 'information',
-         errorTitle: 'Unknown customer',
-         error: 'This customer is not in our system. The row will be flagged for review.'
+         errorStyle: 'stop',
+         errorTitle: 'Unknown employee',
+         error: 'Pick your name from the list. Only active DS2 users may submit time.'
       });
    }
+
+   // B2 / B3 / A6:A1500 date validations are injected via post-build XML
+   // (see _injectDateValidations). ExcelJS silently converts formula
+   // strings like 'TODAY()-365' and 'B2' to NaN when the validation type
+   // is 'date', so we bypass its API for those three.
+
+   // C6..end: Category dropdown (existing base template has C5/C10:C1500;
+   // we add C6:C1500 to cover the actual entry range used by the parser)
    if (categoryCount) {
       sheet.dataValidations.add(`C6:C${MAX_DATA_ROWS}`, {
          type: 'list',
@@ -108,24 +233,18 @@ const _applyDataValidation = ({ sheet, customerCount, employeeCount, categoryCou
          errorTitle: 'Unknown category'
       });
    }
-   if (employeeCount) {
+
+   // D6..end: Company Name (customer) dropdown — moved here from the
+   // wrong B column. allowBlank because some entries are internal/admin.
+   if (customerCount) {
       sheet.dataValidations.add(`D6:D${MAX_DATA_ROWS}`, {
          type: 'list',
-         allowBlank: false,
-         formulae: [`__employees!$A$2:$A$${employeeCount + 1}`],
+         allowBlank: true,
+         formulae: [`__customers!$A$2:$A$${customerCount + 1}`],
          showErrorMessage: true,
-         errorStyle: 'stop',
-         errorTitle: 'Unknown employee',
-         error: 'Employee Name must match an active DS2 user. Pick from the list.'
-      });
-      sheet.dataValidations.add('B1', {
-         type: 'list',
-         allowBlank: false,
-         formulae: [`__employees!$A$2:$A$${employeeCount + 1}`],
-         showErrorMessage: true,
-         errorStyle: 'stop',
-         errorTitle: 'Unknown employee',
-         error: 'Pick your name from the list. Only active DS2 users may submit time.'
+         errorStyle: 'information',
+         errorTitle: 'Unknown customer',
+         error: 'This customer is not in our system. The row will be flagged for review.'
       });
    }
 };
@@ -139,7 +258,8 @@ const buildTemplate = async ({ db, accountId, userId, baseTemplateBuffer, now = 
 
    const { customers, employees, categories } = await _readCatalogs(db, accountId);
 
-   const safeBuffer = await _shrinkFullColumnSqrefs(baseTemplateBuffer);
+   const shrunk = await _shrinkFullColumnSqrefs(baseTemplateBuffer);
+   const safeBuffer = await _stripBadValidations(shrunk);
    const workbook = new ExcelJS.Workbook();
    await workbook.xlsx.load(safeBuffer);
 
@@ -159,7 +279,8 @@ const buildTemplate = async ({ db, accountId, userId, baseTemplateBuffer, now = 
       categoryCount: categories.length
    });
 
-   const buffer = await workbook.xlsx.writeBuffer();
+   const rawBuffer = await workbook.xlsx.writeBuffer();
+   const buffer = await _injectDateValidations(Buffer.from(rawBuffer));
    try {
       await db('template_downloads').insert({
          account_id: accountId,
@@ -187,6 +308,7 @@ module.exports = {
    _resetCacheForTest,
    _readCatalogs,
    _addLookupSheet,
+   _stripBadValidations,
    _applyDataValidation,
    COLLAPSE_WINDOW_MS,
    MAX_DATA_ROWS
