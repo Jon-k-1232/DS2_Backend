@@ -63,6 +63,48 @@ const RANGES_TO_STRIP = new Set([
 ]);
 
 /**
+ * ExcelJS silently drops workbook-scope defined names (e.g. `EntityList`,
+ * `Categories`, `Employees`) that reference full-column ranges on save.
+ * The base template's Entity dropdown validation on B6:B<MAX> references
+ * `EntityList` by name — after ExcelJS round-trips the workbook, the name
+ * is gone and the dropdown shows up empty in Excel. We restore the names
+ * we care about by splicing them back into workbook.xml.
+ */
+const _restoreDefinedNames = async buffer => {
+   try {
+      const zip = await JSZip.loadAsync(buffer);
+      const wbPath = 'xl/workbook.xml';
+      if (!zip.files[wbPath]) return buffer;
+      let wb = await zip.files[wbPath].async('string');
+      const need = [
+         { name: 'EntityList', target: "Entity!$A:$A" },
+         { name: 'Categories', target: "Categories!$A:$A" },
+         { name: 'Employees', target: "'Employee Names'!$A:$A" }
+      ];
+      const missing = need.filter(n => !new RegExp(`<definedName\\s+name="${n.name}"`).test(wb));
+      if (missing.length === 0) return buffer;
+      const block = missing.map(n => `<definedName name="${n.name}">${n.target}</definedName>`).join('');
+      if (/<definedNames>/.test(wb)) {
+         wb = wb.replace(/<\/definedNames>/, block + '</definedNames>');
+      } else {
+         // Insert a new <definedNames>...</definedNames> block between
+         // </sheets> and <calcPr (or end of workbook).
+         const wrapped = `<definedNames>${block}</definedNames>`;
+         if (/<\/sheets>/.test(wb)) {
+            wb = wb.replace(/<\/sheets>/, '</sheets>' + wrapped);
+         } else {
+            wb = wb.replace(/<\/workbook>/, wrapped + '</workbook>');
+         }
+      }
+      zip.file(wbPath, wb);
+      return zip.generateAsync({ type: 'nodebuffer' });
+   } catch (e) {
+      console.error('[template-builder] _restoreDefinedNames failed:', e.message);
+      return buffer;
+   }
+};
+
+/**
  * Inject B2 / B3 / A6:A<MAX> date validations directly into the worksheet
  * XML after ExcelJS finishes writing. We can't use ExcelJS's data-validation
  * API for these because it tries to coerce formula strings like
@@ -155,6 +197,14 @@ const _cacheKey = ({ accountId, userId }) => `acct:${accountId}:user:${userId}`;
 const _now = () => Date.now();
 
 const _readCatalogs = async (db, accountId) => {
+   // The "Category" column on the time tracker historically meant a work-type
+   // descriptor like "Email", "Phone Call", "Tax Return Preparation" — those
+   // live in customer_general_work_descriptions (~49 active rows in prod),
+   // NOT customer_job_categories (4 business lines: Accounting / Insurance /
+   // Rental Property / Securities). The original dynamic builder mistakenly
+   // pulled the 4-row table, so the dropdown was effectively empty compared
+   // to the static list users were used to. This now matches the historical
+   // base template content + what the AI ingest actually expects.
    const [customers, employees, categories] = await Promise.all([
       db('customers')
          .where({ account_id: accountId, is_customer_active: true })
@@ -164,15 +214,15 @@ const _readCatalogs = async (db, accountId) => {
          .where({ account_id: accountId, is_user_active: true })
          .orderBy('display_name')
          .select('user_id', 'display_name'),
-      db('customer_job_categories')
-         .where({ account_id: accountId, is_job_category_active: true })
-         .orderBy('customer_job_category')
-         .select('customer_job_category_id', 'customer_job_category')
+      db('customer_general_work_descriptions')
+         .where({ account_id: accountId, is_general_work_description_active: true })
+         .orderBy('general_work_description')
+         .select('general_work_description_id', 'general_work_description')
    ]);
    return {
       customers: customers.map(c => c.display_name).filter(Boolean),
       employees: employees.map(e => e.display_name).filter(Boolean),
-      categories: categories.map(c => c.customer_job_category).filter(Boolean)
+      categories: categories.map(c => c.general_work_description).filter(Boolean)
    };
 };
 
@@ -280,7 +330,8 @@ const buildTemplate = async ({ db, accountId, userId, baseTemplateBuffer, now = 
    });
 
    const rawBuffer = await workbook.xlsx.writeBuffer();
-   const buffer = await _injectDateValidations(Buffer.from(rawBuffer));
+   const withDates = await _injectDateValidations(Buffer.from(rawBuffer));
+   const buffer = await _restoreDefinedNames(withDates);
    try {
       await db('template_downloads').insert({
          account_id: accountId,
