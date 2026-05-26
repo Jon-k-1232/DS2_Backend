@@ -91,12 +91,70 @@ invoiceRouter.route('/createInvoice/AccountsWithBalance/:accountID/:invoiceID').
 
    const activeOutstandingBalances = await findCustomersNeedingInvoices(db, accountID);
 
-   const fullGrid = createGrid(activeOutstandingBalances);
+   // Run the same invoice calculation engine used at submission time so the
+   // frontend can show — and accurately filter on — the real invoice total for
+   // each customer (retainers, write-offs, etc. all applied).
+   let invoiceTotalMap = {};
+   try {
+      const invoicesToCreate = activeOutstandingBalances.map(c => ({ customer_id: c.customer_id, showWriteOffs: false }));
+      const invoicesToCreateMap = invoicesToCreate.reduce((map, obj) => ({ ...map, [obj.customer_id]: obj }), {});
+      const invoiceQueryData = await fetchInitialQueryItems(db, invoicesToCreateMap, accountID);
+      const calculated = calculateInvoices(invoicesToCreate, invoiceQueryData);
+      invoiceTotalMap = calculated.reduce((map, inv) => ({ ...map, [inv.customer_id]: Number(inv.invoiceTotal || 0) }), {});
+   } catch (e) {
+      console.warn('[AccountsWithBalance] invoice pre-calc failed, totals will be 0:', e.message);
+   }
 
-   // Return Object
+   // Merge the real invoice_total into each eligibility row
+   const balancesWithTotals = activeOutstandingBalances.map(c => ({
+      ...c,
+      invoice_total: invoiceTotalMap[c.customer_id] ?? 0
+   }));
+
+   // Most recent audit per customer — only counts as "passed" if the audit's
+   // independently-recomputed balance matched the app's invoice total.  If the
+   // most recent audit FAILED (mismatch), last_audit_at stays null so the grid
+   // renders blank instead of a misleading green check.
+   const customerIds = balancesWithTotals.map(c => c.customer_id);
+   let lastAuditMap = {};
+   try {
+      const latestAudits = await db('account_audits')
+         .select(db.raw('DISTINCT ON (customer_id) customer_id, created_at AS last_audit_at, audit_balance AS last_audit_balance, app_invoice_total AS last_app_invoice_total'))
+         .where('account_id', accountID)
+         .whereIn('customer_id', customerIds)
+         .where('status', 'completed')
+         .orderByRaw('customer_id, created_at DESC');
+      lastAuditMap = latestAudits.reduce((map, a) => ({ ...map, [a.customer_id]: a }), {});
+   } catch (e) {
+      console.warn('[AccountsWithBalance] audit lookup failed:', e.message);
+   }
+
+   const balancesWithAudits = balancesWithTotals.map(c => {
+      const a = lastAuditMap[c.customer_id];
+      const passed =
+         a &&
+         a.last_app_invoice_total != null &&
+         a.last_audit_balance != null &&
+         Math.abs(Number(a.last_audit_balance) - Number(a.last_app_invoice_total)) < 0.01;
+      return {
+         ...c,
+         last_audit_at: passed ? a.last_audit_at : null
+      };
+   });
+
+   const fullGrid = createGrid(balancesWithAudits);
+
+   // Columns kept in the row payload:
+   //   customer_id      — hidden in UI, needed for submission
+   //   write_off_count  — hidden in UI, needed by Write Offs Present indicator
+   // Count columns (retainer/transaction/invoice) are dropped entirely.
    const activeOutstandingBalancesData = {
-      activeOutstandingBalances,
-      grid: filterGridByColumnName(fullGrid, ['customer_id', 'business_name', 'customer_name', 'display_name', 'retainer_count', 'transaction_count', 'invoice_count', 'write_off_count'])
+      activeOutstandingBalances: balancesWithAudits,
+      grid: filterGridByColumnName(fullGrid, [
+         'customer_id', 'business_name', 'customer_name', 'display_name',
+         'write_off_count', 'outstanding_invoice_total', 'billable_transactions_total',
+         'invoice_total', 'last_audit_at'
+      ])
    };
 
    res.send({

@@ -1,10 +1,13 @@
 const knex = require('knex');
 const { DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST } = require('../../config');
 
+const DATABASE_PORT = Number(process.env.DB_DEV_PORT || 5432);
+
 const db = knex({
    client: 'postgres',
    connection: {
       host: DATABASE_HOST,
+      port: DATABASE_PORT,
       user: DATABASE_USER,
       password: DATABASE_PASSWORD,
       database: DATABASE_URL,

@@ -55,6 +55,7 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
          parentInvoice.remaining_balance_on_invoice = invoiceInsertionObject.remaining_balance_on_invoice;
          parentInvoice.is_invoice_paid_in_full = invoiceInsertionObject.is_invoice_paid_in_full;
          parentInvoice.fully_paid_date = invoiceInsertionObject.fully_paid_date;
+         parentInvoice.total_payments = Number(parentInvoice.total_payments) + Math.abs(Number(payment_amount));
          await invoiceService.updateInvoice(db, parentInvoice);
       }
 

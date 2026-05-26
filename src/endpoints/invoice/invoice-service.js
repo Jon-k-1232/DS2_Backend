@@ -177,31 +177,36 @@ const invoiceService = {
       return data.reduce((result, { customer_id, ...info }) => ({ ...result, [customer_id]: info }), {});
    },
 
-   // Based off the last date, finds all transactions
-   async getTransactionsByCustomerID(db, accountID, customerIDs, lastBillDateLookup) {
+   // Fetch the unbilled transactions that should appear on the customer's next
+   // invoice.  Previously this filtered to `created_at >= lastBillDate` for
+   // customers with a prior invoice, which silently dropped stale missed
+   // billings (e.g. Wild West Jeep Tours tx#24719 — a $320 tax notice from
+   // 2025-12-04 that was never picked up by the 2026-04-07 invoice).
+   //
+   // New behavior: pull EVERY unbilled transaction for the customer, regardless
+   // of date.  The date filter was acting as a stealth bug: if a transaction
+   // got missed in one billing cycle, it would never bill at all because
+   // every subsequent lastBillDate moved further ahead of its created_at.
+   //
+   // Non-billable transactions are still ignored downstream by
+   // groupAndTotalTransactions (filters on is_transaction_billable), so this
+   // change cannot cause non-billable work to start charging.
+   async getTransactionsByCustomerID(db, accountID, customerIDs /* lastBillDateLookup unused */) {
+      // IMPORTANT column ordering: customer_transactions.* must come LAST so
+      // its customer_id wins the duplicate-column race against customer_jobs.*.
+      // Without this, a transaction linked to a job that belongs to a DIFFERENT
+      // customer (data-entry artifact — e.g. KFP transaction pointing at a
+      // JFK&A job) gets bucketed under the JOB's customer_id and silently
+      // drops out of the original customer's invoice.  Found while reconciling
+      // Kimmel Financial Partners: 5 transactions totaling $179 of billable
+      // work were vanishing because their jobs lived under JFK&A.
       const data = await db('customer_transactions')
          .join('customer_jobs', 'customer_jobs.customer_job_id', '=', 'customer_transactions.customer_job_id')
          .join('customer_job_types', 'customer_job_types.job_type_id', '=', 'customer_jobs.job_type_id')
-         .select('customer_transactions.*', 'customer_jobs.*', 'customer_job_types.*')
-         .where({
-            'customer_transactions.account_id': accountID
-         })
-         .andWhere(builder => {
-            customerIDs.forEach(id => {
-               // Handles query if there is a id in the lastBillDateLookup
-               if (lastBillDateLookup[id]) {
-                  builder.orWhere(subQuery => {
-                     subQuery
-                        .where('customer_transactions.customer_id', id)
-                        .andWhere('customer_transactions.created_at', '>=', lastBillDateLookup[id])
-                        .whereNull('customer_transactions.customer_invoice_id');
-                  });
-                  // Handles query if there is no id in the lastBillDateLookup
-               } else {
-                  builder.orWhere('customer_transactions.customer_id', id);
-               }
-            });
-         });
+         .select('customer_jobs.*', 'customer_job_types.*', 'customer_transactions.*')
+         .where('customer_transactions.account_id', accountID)
+         .whereIn('customer_transactions.customer_id', customerIDs)
+         .whereNull('customer_transactions.customer_invoice_id');
 
       return data.reduce((result, transaction) => {
          const { customer_id } = transaction;
@@ -322,9 +327,31 @@ const invoiceService = {
 
          if (!outstandingInvoices[parentInvoice.customer_id]) outstandingInvoices[parentInvoice.customer_id] = [];
 
+         // ROLLING-BALANCE DATE GATE.  When a new monthly invoice is created its
+         // beginning_balance absorbs the prior outstanding amount, but the older
+         // parent's remaining_balance_on_invoice is never zeroed.  If we keep
+         // counting that older parent (or its child snapshots) as outstanding we
+         // double-count the same dollars.  lastBillDate is the date of the most
+         // recent parent invoice for this customer — any parent older than that
+         // has already been rolled forward and must be skipped here, regardless
+         // of whether it has child snapshots from later partial-payment events.
+         if (lastBillDate) {
+            const billDate = new Date(lastBillDate);
+            const invoiceDate = new Date(parentInvoice.invoice_date);
+            if (invoiceDate < billDate) return;
+         }
+
          // Include parent invoices that do not have children and have a remaining balance
          if (Number(parentInvoice.remaining_balance_on_invoice) > 0 && !children.length) {
             outstandingInvoices[parentInvoice.customer_id].push(parentInvoice);
+            return;
+         }
+
+         // If the most recent child has already fully closed this chain (remaining=0, paid=true),
+         // skip the whole group — older intermediate snapshots may still show remaining > 0
+         // from partial payments, but the chain is done. Including them inflates the outstanding total.
+         const mostRecentChild = children[0]; // sorted created_at DESC
+         if (mostRecentChild && Number(mostRecentChild.remaining_balance_on_invoice) === 0 && mostRecentChild.is_invoice_paid_in_full) {
             return;
          }
 
@@ -350,6 +377,23 @@ const invoiceService = {
       await Promise.all(parentInvoices.map(handleChildren));
 
       return outstandingInvoices;
+   },
+
+   // Update an existing invoice row. Strips joined/derived fields before writing.
+   updateInvoice(db, invoice) {
+      const {
+         customer_invoice_id,
+         customer_name,
+         customer_street,
+         customer_city,
+         customer_state,
+         customer_zip,
+         customer_email,
+         customer_phone,
+         created_by_user_name,
+         ...invoiceData
+      } = invoice;
+      return db('customer_invoices').where('customer_invoice_id', customer_invoice_id).update(invoiceData);
    }
 };
 

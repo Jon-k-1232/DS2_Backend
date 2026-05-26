@@ -128,13 +128,22 @@ const newInvoiceObject = (invoice, pdfFileLocationsMap, userID) => {
       writeOffs: { writeOffTotal } = {}
    } = invoice;
 
-   /* 
-   Adding this in for condition where customer had original bill, did not pay, got invoiced again.
-   The bug was that the invoice remaining_balance was showing the outstanding.
-   Therefore duplicating the original bill and the current bill when the customer was billed a third time.
-   - The remaining_amount should only be the total of what this current bill is, not of the previous bills. 
+   /*
+   remaining_balance_on_invoice must include the full outstanding amount — both the
+   beginning_balance (prior-period balance rolled forward) and the current-period charges,
+   minus any write-offs and payments already collected at billing time.
+
+   Write-offs (writeOffTotal) are stored as negative numbers, so adding writeOffTotal
+   naturally subtracts from the remaining balance. This mirrors how total_amount_due is
+   computed: beginning + charges + retainers + writeoffs (negative) = invoiceTotal.
+
+   Historical note: a prior fix here set remaining = transactionsTotal only (ignoring
+   beginning_balance) to avoid "double-counting" when a third invoice rolled up a chain.
+   That approach lost the beginning_balance entirely once current charges were paid.
+   The correct fix for double-counting is to zero out the prior invoice's remaining when a
+   new invoice absorbs it as beginning_balance — not to drop it from remaining here.
    */
-   const remainingBalance = transactionsTotal + retainerTotal;
+   const remainingBalance = (outstandingInvoiceTotal || 0) + transactionsTotal + retainerTotal + (writeOffTotal || 0) - Math.abs(paymentTotal || 0);
 
    return restoreDataTypesInvoiceOnCreate({
       account_id,

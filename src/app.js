@@ -33,6 +33,7 @@ const pendingPaymentsRouter = require('./endpoints/pendingPayments/pendingPaymen
 const billingReviewRouter = require('./endpoints/billingReview/billingReview-router');
 const notificationsRouter = require('./endpoints/notifications/notifications-router');
 const accountAuditRouter = require('./endpoints/accountAudit/account-audit-router');
+const accountsReceivableRouter = require('./endpoints/accountsReceivable/accounts-receivable-router');
 
 // Middleware
 app.use(cookieParser());
@@ -84,6 +85,7 @@ app.use('/pending-payments', requireAuth, pendingPaymentsRouter);
 app.use('/billing-review', requireAuth, billingReviewRouter);
 app.use('/notifications', requireAuth, notificationsRouter);
 app.use('/accountAudit', requireAuth, accountAuditRouter);
+app.use('/accountsReceivable', requireAuth, accountsReceivableRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 if (NODE_ENV !== 'test') {

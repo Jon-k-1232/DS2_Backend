@@ -125,10 +125,27 @@ customerRouter.route('/activeCustomers/customerByID/:accountID/:userID/:customer
       grid: createGrid(customerTransactions)
    };
 
+   // Build job tree, then set each parent's current_job_total from its most recently
+   // created child.  Child jobs follow a rolling-balance pattern (like invoices): each
+   // new child carries the cumulative running total, so summing all children would
+   // double-count.  The correct current total is the last child's value.
+   // getActiveCustomerJobs sorts by created_at ASC so the last element in each
+   // children array is the most recently created (highest customer_job_id).
+   const jobTreeGrid = generateTreeGridData(customerJobs, 'customer_job_id', 'parent_job_id');
+   jobTreeGrid.rows.forEach(parentRow => {
+      if (parentRow.children && parentRow.children.length > 0) {
+         const mostRecent = parentRow.children.reduce(
+            (latest, child) => child.customer_job_id > latest.customer_job_id ? child : latest,
+            parentRow.children[0]
+         );
+         parentRow.current_job_total = parseFloat(mostRecent.current_job_total) || 0;
+      }
+   });
+
    const customerJobData = {
       customerJobs,
       grid: createGrid(customerJobs),
-      treeGrid: generateTreeGridData(customerJobs, 'customer_job_id', 'parent_job_id')
+      treeGrid: jobTreeGrid
    };
 
    res.send({

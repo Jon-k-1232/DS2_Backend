@@ -80,12 +80,20 @@ const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactio
          const customerWriteOffs = writeOffsByCustomer[customer_id] || [];
          const customerActiveWriteOffs = customerWriteOffs && customerWriteOffs?.filter(writeOff => Number(writeOff.writeoff_amount) < 0);
 
+         // Dollar totals — used by the frontend filter to hide zero-balance rows without
+         // running the full invoice calculation for every customer.
+         const billableTransactionsTotal = recentCustomerTransactions
+            .filter(t => t.is_transaction_billable)
+            .reduce((acc, t) => acc + Number(t.total_transaction || 0), 0);
+
          return {
             ...customer,
             retainer_count: customerActiveRetainers.length,
             transaction_count: recentCustomerTransactions.length,
             invoice_count: outstandingInvoices.length,
-            write_off_count: customerActiveWriteOffs.length
+            write_off_count: customerActiveWriteOffs.length,
+            outstanding_invoice_total: outstandingInvoicesTotal,
+            billable_transactions_total: billableTransactionsTotal
          };
       })
       .filter(Boolean); // Removes null entries

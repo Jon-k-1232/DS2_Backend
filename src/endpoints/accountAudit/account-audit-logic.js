@@ -97,8 +97,71 @@ const driftSeverity = absD => {
    return 'high';
 };
 
-const detectDiscrepancies = ({ invoiceBreakdown, payments, writeoffs, transactions, lastBillDate }) => {
+const detectDiscrepancies = ({ invoices = [], invoiceBreakdown, payments, writeoffs, transactions, lastBillDate, staleRolledForward = [], duplicateSameDayParents = [] }) => {
    const out = [];
+
+   // Multiple parent invoices issued on the same date — likely a duplicate
+   // from a billing batch.  Both/all are summed into outstanding_invoices
+   // (matching the engine), but the user should review and delete the dupes.
+   if (duplicateSameDayParents.length > 1) {
+      const totalDup = duplicateSameDayParents.reduce((s, d) => s + d.remaining, 0);
+      const list = duplicateSameDayParents.map(d => `${d.invoice_number} ($${d.remaining.toFixed(2)})`).join(', ');
+      out.push({
+         kind: 'duplicate_same_day_parent_invoices',
+         severity: 'medium',
+         detail: `${duplicateSameDayParents.length} parent invoices issued on ${fmtDate(duplicateSameDayParents[0].invoice_date)}: ${list}. Combined remaining $${totalDup.toFixed(2)} is being treated as the customer's outstanding. If these are duplicates, delete the extras to avoid over-billing.`,
+         invoice_numbers: duplicateSameDayParents.map(d => d.invoice_number),
+         diff_amount: totalDup
+      });
+   }
+
+   // Older parents whose remaining_balance was absorbed by a newer invoice's
+   // beginning_balance but never zeroed. Informational only — these don't
+   // change what the customer owes (already counted in the newest invoice's
+   // rolling balance), but the rows are misleading in raw SQL reports and
+   // should be reconciled.
+   staleRolledForward.forEach(r => {
+      out.push({
+         kind: 'stale_rolled_forward_balance',
+         severity: 'info',
+         invoice_number: r.invoice_number,
+         parent_invoice_id: r.parent_invoice_id,
+         detail: `Invoice ${r.invoice_number} (${fmtDate(r.invoice_date)}) still shows $${r.stale_remaining.toFixed(2)} remaining, but a newer invoice has rolled this balance forward via beginning_balance. Not double-counted in audit_balance, but the row should be zeroed for clean exports.`,
+         diff_amount: r.stale_remaining
+      });
+   });
+
+   // Writeoffs linked to invoices that are already paid in full = "phantom
+   // credits" on the customer's account.  The billing engine treats these as
+   // credits on the NEXT bill (reducing what the customer is charged), but
+   // accounting-wise they're often data corrections that shouldn't change
+   // current debt.  Flag each one so the user can decide whether it's a real
+   // credit or a bookkeeping artifact to clean up.
+   const lastBillDateMs = lastBillDate ? new Date(lastBillDate).getTime() : null;
+   const isPostLastBill = w => {
+      if (!lastBillDateMs) return true;
+      const c = w.created_at;
+      return c && new Date(c).getTime() >= lastBillDateMs;
+   };
+   const invoiceById = new Map();
+   invoices.forEach(i => invoiceById.set(i.customer_invoice_id, i));
+   writeoffs
+      .filter(w => w.customer_invoice_id)
+      .filter(isPostLastBill)
+      .forEach(w => {
+         const linked = invoiceById.get(w.customer_invoice_id);
+         if (linked && linked.is_invoice_paid_in_full) {
+            const amt = abs(w.writeoff_amount);
+            out.push({
+               kind: 'writeoff_on_paid_invoice',
+               severity: 'info',
+               invoice_number: linked.invoice_number,
+               writeoff_id: w.writeoff_id,
+               detail: `Writeoff of $${amt.toFixed(2)} (entered ${fmtDate(w.created_at)}, reason: "${w.writeoff_reason || '—'}") is linked to ${linked.invoice_number} which is already paid in full. The billing engine treats this as a credit on the customer's next invoice. If that was intentional (refund/credit), no action needed. If it was meant to retroactively adjust a paid invoice, the customer will be under-billed by $${amt.toFixed(2)} on their next statement.`,
+               diff_amount: amt
+            });
+         }
+      });
 
    // Credit pool: unbilled job-level write-offs that haven't been linked to an
    // invoice yet. For monthly-retainer customers these are billing adjustments
@@ -415,6 +478,19 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
    });
 
    const parentInvoices = invoices.filter(i => !i.parent_invoice_id);
+
+   // Compute last bill date early — needed for write-off netting below.
+   // Use a numeric comparator so this works whether invoice_date comes back from
+   // node-postgres as a 'YYYY-MM-DD' string or as a JavaScript Date object.
+   // The default .sort() stringifies Date objects as "Mon Feb 10 2026 …" and sorts
+   // alphabetically by day-name, giving a wrong result.
+   const lastBillDate = parentInvoices.length
+      ? parentInvoices
+           .map(i => i.invoice_date)
+           .sort((a, b) => new Date(a) - new Date(b))
+           .slice(-1)[0]
+      : null;
+
    const total_invoiced = round2(parentInvoices.reduce((a, i) => a + num(i.total_amount_due), 0));
    const total_paid = round2(payments.reduce((a, p) => a + abs(p.payment_amount), 0));
    const total_writeoffs = round2(writeoffs.reduce((a, w) => a + abs(w.writeoff_amount), 0));
@@ -423,9 +499,78 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       transactions.filter(t => t.is_transaction_billable).reduce((a, t) => a + num(t.total_transaction), 0)
    );
 
-   const outstanding_invoices = round2(
-      invoiceBreakdown.reduce((a, r) => a + Math.max(0, r.actual_remaining_used), 0)
-   );
+   // ROLLING-BALANCE INTERPRETATION of outstanding_invoices.
+   //
+   // The billing system is built around a rolling statement: each new parent
+   // invoice's beginning_balance absorbs the prior period's outstanding, so
+   // the customer's true current debt equals the remaining_balance on the
+   // NEWEST parent invoice (paid or not).  Older parents whose remaining
+   // is non-zero are stale ledger artifacts that should have been zeroed when
+   // a newer invoice absorbed their balance.
+   //
+   // Sort chains by parent invoice_date DESC, then customer_invoice_id DESC.
+   // The first chain (newest) is authoritative — if paid, customer owes 0; if
+   // unpaid, the remaining is the outstanding.  Any older chain with rem > 0
+   // is flagged stale and NOT counted (its balance is already inside the
+   // newest invoice's beginning_balance or has been settled by payments
+   // against the newest invoice).
+   //
+   // This deliberately mirrors getOutstandingInvoices in the app's invoice-
+   // service.  An earlier version skipped paid chains and used the next-newest
+   // UNPAID chain, which double-counted balances after the rolling invoice was
+   // settled (e.g. Chris Poorten: Nov 2024 invoice rem=$225 was absorbed into
+   // Dec 2025 invoice's bb=$990 and paid in full → customer owes $0, not $225).
+   const chainsByDateDesc = invoiceBreakdown.slice().sort((a, b) => {
+      const aD = new Date(a.invoice_date || 0).getTime();
+      const bD = new Date(b.invoice_date || 0).getTime();
+      if (aD !== bD) return bD - aD;
+      return (b.parent_invoice_id || 0) - (a.parent_invoice_id || 0);
+   });
+
+   // Multiple parent invoices can share the same invoice_date (duplicate-issue
+   // bug in earlier billing runs).  Treat all parents on the newest date as
+   // one logical statement and sum their remainders — this matches the engine's
+   // getOutstandingInvoices, which lets every parent whose invoice_date >=
+   // lastBillDate through the date gate.  Each duplicate is flagged as an
+   // info-level discrepancy so the user can clean them up.
+   let outstanding_invoices = 0;
+   const staleRolledForward = [];
+   const duplicateSameDayParents = [];
+   if (chainsByDateDesc.length) {
+      const newestDate = chainsByDateDesc[0].invoice_date;
+      const isSameDate = d => {
+         if (!d || !newestDate) return false;
+         return new Date(d).toISOString().slice(0, 10) === new Date(newestDate).toISOString().slice(0, 10);
+      };
+      const newestGroup = chainsByDateDesc.filter(c => isSameDate(c.invoice_date));
+      outstanding_invoices = round2(
+         newestGroup.reduce((s, c) => s + Math.max(0, c.actual_remaining_used), 0)
+      );
+      if (newestGroup.length > 1) {
+         newestGroup.forEach(g => {
+            duplicateSameDayParents.push({
+               invoice_number: g.invoice_number,
+               parent_invoice_id: g.parent_invoice_id,
+               invoice_date: g.invoice_date,
+               remaining: round2(Math.max(0, g.actual_remaining_used))
+            });
+         });
+      }
+      // Any chain dated older than the newest date that still has remaining > 0
+      // is stale — its balance has been absorbed by the newest invoice's bb.
+      for (let i = newestGroup.length; i < chainsByDateDesc.length; i++) {
+         const row = chainsByDateDesc[i];
+         const rem = Math.max(0, row.actual_remaining_used);
+         if (rem > 0.009) {
+            staleRolledForward.push({
+               invoice_number: row.invoice_number,
+               parent_invoice_id: row.parent_invoice_id,
+               invoice_date: row.invoice_date,
+               stale_remaining: rem
+            });
+         }
+      }
+   }
    const unbilled_billable = round2(
       transactions
          .filter(t => !t.customer_invoice_id && t.is_transaction_billable)
@@ -438,7 +583,64 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       writeoffs.filter(w => !w.customer_invoice_id).reduce((a, w) => a + abs(w.writeoff_amount), 0)
    );
 
-   const audit_balance = round2(outstanding_invoices + unbilled_billable - unbilled_payments);
+   // Net job-level write-offs against their job's unbilled transactions, mirroring the billing
+   // engine's groupAndTotalTransactions behavior (showWriteOffs=false path).
+   //
+   // Key rules matching the billing engine:
+   // 1. Jobs are initialized from ALL unbilled transactions (billable AND non-billable), because
+   //    the billing engine processes every transaction to allow write-offs on jobs with only
+   //    non-billable work to net against the overall total (e.g. a discount job).
+   // 2. Only billable transaction amounts contribute to the job's running total.
+   // 3. Only write-offs created AFTER the last invoice are included — the billing engine applies
+   //    the same date gate via SQL (`created_at >= lastBillDate` on customer_writeoffs).  Using
+   //    writeoff_date here was a bug: a writeoff dated retroactively (writeoff_date pre-lastBill)
+   //    but ENTERED post-lastBill would be excluded by the audit but included by the engine.
+   // 4. Only write-offs on jobs that have at least one unbilled transaction are netted, to avoid
+   //    applying old "credit pool" write-offs on fully-billed jobs.
+   const lastBillDateMs = lastBillDate ? new Date(lastBillDate).getTime() : null;
+   const isPostLastBill = w => {
+      if (!lastBillDateMs) return true; // no prior invoice — include all
+      const c = w.created_at;
+      return c && new Date(c).getTime() >= lastBillDateMs;
+   };
+   const unbilledByJob = {};
+   transactions
+      .filter(t => !t.customer_invoice_id && t.customer_job_id)
+      .forEach(t => {
+         if (!(t.customer_job_id in unbilledByJob)) unbilledByJob[t.customer_job_id] = 0;
+         if (t.is_transaction_billable) {
+            unbilledByJob[t.customer_job_id] = round2(unbilledByJob[t.customer_job_id] + num(t.total_transaction));
+         }
+      });
+   writeoffs
+      .filter(w => !w.customer_invoice_id && w.customer_job_id)
+      .filter(isPostLastBill)
+      .forEach(w => {
+         if (Object.prototype.hasOwnProperty.call(unbilledByJob, w.customer_job_id)) {
+            unbilledByJob[w.customer_job_id] = round2(unbilledByJob[w.customer_job_id] - abs(w.writeoff_amount));
+         }
+      });
+   const unbilled_billable_net = round2(Object.values(unbilledByJob).reduce((a, v) => a + v, 0));
+
+   // Invoice-linked write-offs since lastBillDate: the engine treats these as
+   // credits on the next bill (they represent the customer either overpaying a
+   // prior invoice that we later wrote off, or Jon entering a credit adjustment
+   // and tagging it to a specific old invoice).  Audit subtracts them so the
+   // balance matches what the engine would charge.  Each one is also flagged as
+   // an info-level discrepancy when its linked invoice is already paid_in_full,
+   // so the user can see exactly which old paid invoices are generating credits.
+   const invoiceLinkedWriteoffsRecent = writeoffs
+      .filter(w => w.customer_invoice_id)
+      .filter(isPostLastBill);
+   const invoice_linked_writeoffs_recent = round2(
+      invoiceLinkedWriteoffsRecent.reduce((a, w) => a + abs(w.writeoff_amount), 0)
+   );
+
+   // audit_balance now matches the engine's invoiceTotal formula:
+   //   outstanding + unbilled_billable_net - unbilled_payments - invoice_linked_writeoffs_recent
+   const audit_balance = round2(
+      outstanding_invoices + unbilled_billable_net - unbilled_payments - invoice_linked_writeoffs_recent
+   );
    const strict_ledger_balance = round2(
       outstanding_invoices + unbilled_billable - unbilled_payments - unbilled_writeoffs
    );
@@ -452,16 +654,15 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
    const retainerSummary = summarizeRetainers(retainers);
    const net_position_after_retainer = round2(audit_balance - retainerSummary.retainer_available);
 
-   const lastBillDate = parentInvoices.length
-      ? parentInvoices.map(i => i.invoice_date).sort().slice(-1)[0]
-      : null;
-
    const discrepancies = detectDiscrepancies({
+      invoices,
       invoiceBreakdown,
       payments,
       writeoffs,
       transactions,
-      lastBillDate
+      lastBillDate,
+      staleRolledForward,
+      duplicateSameDayParents
    });
 
    const ledger = buildChronologicalLedger({ invoices, payments, writeoffs, transactions, retainers });
@@ -482,6 +683,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          total_billable_transactions,
          outstanding_invoices,
          unbilled_billable,
+         unbilled_billable_net,
          unbilled_payments,
          unbilled_writeoffs,
          audit_balance,
@@ -510,7 +712,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          description:
             'Independent recomputation from raw customer_invoices, customer_payments, customer_writeoffs, and customer_transactions rows. Does not share code with the app balance engine.',
          audit_balance_formula:
-            'outstanding_invoices (sum of latest-child remaining per invoice chain, floored at 0) + unbilled_billable_transactions - unbilled_payments',
+            'outstanding_invoices (newest unpaid parent chain\'s latest-snapshot remaining — the rolling-balance view; older parents whose balance was absorbed by a newer invoice\'s beginning_balance are flagged as stale_rolled_forward_balance discrepancies and NOT double-counted) + unbilled_billable_transactions - unbilled_payments',
          strict_ledger_formula: 'audit_balance - unbilled_writeoffs (treats job-level writeoffs as immediate credits)',
          net_position_formula:
             'total_invoiced + unbilled_billable - total_paid - total_writeoffs (lifetime net, ignores invoice linkage)',
