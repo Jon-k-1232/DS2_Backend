@@ -3,7 +3,8 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
-const { NODE_ENV } = require('../config');
+const rateLimit = require('express-rate-limit');
+const { NODE_ENV, CORS_ORIGIN } = require('../config');
 const app = express();
 const automationOrchestrator = require('./automations/automationOrchestrator');
 const customerRouter = require('./endpoints/customer/customer-router');
@@ -51,14 +52,24 @@ app.use(
 );
 app.use(helmet());
 app.use(express.json());
+const corsOrigins = (CORS_ORIGIN || '').split(',').map(s => s.trim()).filter(Boolean);
 app.use(
    cors({
-      origin: '*'
+      origin: corsOrigins.length ? corsOrigins : false,
+      credentials: true
    })
 );
 
 /* ///////////////////////////\\\\  USER ENDPOINTS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-app.use('/auth', authentication);
+// Auth endpoints are rate-limited to mitigate brute-force credential probing.
+const authLimiter = rateLimit({
+   windowMs: 15 * 60 * 1000,
+   max: 30,
+   standardHeaders: true,
+   legacyHeaders: false,
+   message: { error: 'Too many auth requests, please try again later.', status: 429 }
+});
+app.use('/auth', authLimiter, authentication);
 app.use('/customer', requireAuth, customerRouter);
 app.use('/jobs', requireAuth, company);
 app.use('/transactions', requireAuth, transactions);
@@ -75,8 +86,8 @@ app.use('/retainers', requireAuth, retainerRouter);
 app.use('/writeOffs', requireAuth, writeOffsRouter);
 app.use('/initialData', requireAuth, initialDataRouter);
 app.use('/workDescriptions', requireAuth, workDescriptionsRouter);
-app.use('/timesheets', timesheetsRouter);
-app.use('/time-tracking', timeTrackingRouter);
+app.use('/timesheets', requireAuth, timesheetsRouter);
+app.use('/time-tracking', requireAuth, timeTrackingRouter);
 app.use('/time-tracker-staff', requireAuth, timeTrackerStaffRouter);
 app.use('/api/health', healthRouter);
 app.use('/healthz', healthRouter); // AWS health check endpoint (no auth)
@@ -97,10 +108,16 @@ app.use((err, req, res, next) => {
    const statusCode = err.status || 500;
    const errorMessage = NODE_ENV === 'production' ? 'Server error' : err.message;
 
-   console.error(err.stack); // Log the error stack (only in development)
+   if (NODE_ENV === 'production') {
+      // Log compact info in prod to avoid leaking implementation details into shared logs
+      console.error(`[${new Date().toISOString()}] ${req.method} ${req.path} -> ${statusCode}: ${err.message || 'unknown'}`);
+   } else {
+      console.error(err.stack);
+   }
+
    res.status(statusCode).json({
       message: errorMessage,
-      ...(NODE_ENV !== 'production' && { error: err }) // Include full error details in development
+      ...(NODE_ENV !== 'production' && { error: err })
    });
 });
 

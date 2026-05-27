@@ -1,13 +1,12 @@
 const jwt = require('jsonwebtoken');
 const authService = require('./auth-service');
 
-// JWT Authentication Middleware
 const requireAuth = async (req, res, next) => {
    const authToken = req.get('Authorization') || '';
    let bearerToken;
 
    if (!authToken.toLowerCase().startsWith('bearer ')) {
-      return res.send({
+      return res.status(401).json({
          message: 'Missing bearer token',
          status: 401
       });
@@ -16,36 +15,34 @@ const requireAuth = async (req, res, next) => {
    }
 
    try {
-      // Check JWT token, and check if modified or expired
       const payload = authService.verifyJwt(bearerToken);
+      const user = await authService.getUserByEmail(req.app.get('db'), payload.sub);
 
-      const [user] = await authService.getUserByUserName(req.app.get('db'), payload.sub);
-
-      // Check if user exists and is active
-      if (!user || !user.is_login_active) {
-         return res.send({
+      if (!user) {
+         return res.status(401).json({
             message: 'Unauthorized request',
             status: 401
          });
       }
 
       req.user = {
-         user_login_id: user.user_login_id,
          user_id: user.user_id,
-         user_name: user.user_name,
-         account_id: user.account_id
+         email: user.email,
+         display_name: user.display_name,
+         account_id: user.account_id,
+         access_level: user.access_level
       };
 
       next();
    } catch (error) {
       console.error(`Authentication error: ${error}`);
       if (error instanceof jwt.TokenExpiredError) {
-         return res.send({
+         return res.status(401).json({
             message: 'Expired token',
             status: 401
          });
       } else {
-         return res.send({
+         return res.status(401).json({
             message: 'Unauthorized request',
             status: 401
          });
@@ -53,58 +50,36 @@ const requireAuth = async (req, res, next) => {
    }
 };
 
-const requireAdmin = async (req, res, next) => {
-   // Assuming `getUserByUserName` returns roles as part of user object
-   const authToken = req.get('Authorization').slice(7);
-   const payload = authService.verifyJwt(authToken);
-   const [user] = await authService.getUserRoleByUserName(req.app.get('db'), payload.sub);
+const checkRole = allowedRoles => async (req, res, next) => {
+   const authHeader = req.get('Authorization') || '';
+   if (!authHeader.toLowerCase().startsWith('bearer ')) {
+      return res.status(401).json({ message: 'Missing bearer token', status: 401 });
+   }
 
-   const lowerCaseUserAuth = user.access_level.toLowerCase();
+   let payload;
+   try {
+      payload = authService.verifyJwt(authHeader.slice(7));
+   } catch (err) {
+      return res.status(401).json({ message: 'Invalid token', status: 401 });
+   }
 
-   if (user && lowerCaseUserAuth === 'admin') {
+   const user = await authService.getUserRoleByEmail(req.app.get('db'), payload.sub);
+   const role = user && user.access_level ? user.access_level.toLowerCase() : '';
+
+   if (user && allowedRoles.includes(role)) {
       next();
    } else {
-      return res.send({
+      return res.status(403).json({
          message: 'Unauthorized',
          status: 403
       });
    }
 };
 
-const requireManager = async (req, res, next) => {
-   // Assuming `getUserByUserName` returns roles as part of user object
-   const authToken = req.get('Authorization').slice(7);
-   const payload = authService.verifyJwt(authToken);
-   const [user] = await authService.getUserRoleByUserName(req.app.get('db'), payload.sub);
+// Role hierarchy: super admin > admin > manager > user. Higher roles satisfy lower checks.
+const requireSuperAdmin = checkRole(['super admin']);
+const requireAdmin = checkRole(['admin', 'super admin']);
+const requireManager = checkRole(['manager']);
+const requireManagerOrAdmin = checkRole(['manager', 'admin', 'super admin', 'owner']);
 
-   const lowerCaseUserAuth = user.access_level.toLowerCase();
-
-   if (user && lowerCaseUserAuth === 'manager') {
-      next();
-   } else {
-      return res.send({
-         message: 'Unauthorized',
-         status: 403
-      });
-   }
-};
-
-const requireManagerOrAdmin = async (req, res, next) => {
-   const authToken = req.get('Authorization').slice(7);
-   const payload = authService.verifyJwt(authToken);
-   const [user] = await authService.getUserRoleByUserName(req.app.get('db'), payload.sub);
-
-   const lowerCaseUserAuth = user.access_level?.toLowerCase();
-   const allowedRoles = ['manager', 'admin', 'owner'];
-
-   if (user && allowedRoles.includes(lowerCaseUserAuth)) {
-      next();
-   } else {
-      return res.send({
-         message: 'Unauthorized',
-         status: 403
-      });
-   }
-};
-
-module.exports = { requireAuth, requireAdmin, requireManager, requireManagerOrAdmin };
+module.exports = { requireAuth, requireSuperAdmin, requireAdmin, requireManager, requireManagerOrAdmin };

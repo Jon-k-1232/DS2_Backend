@@ -2,10 +2,9 @@ const express = require('express');
 const jsonParser = express.json();
 const accountAuditRouter = express.Router();
 
-const authService = require('../auth/auth-service');
+const { requireAuth, requireSuperAdmin } = require('../auth/jwt-auth');
 const accountAuditService = require('./account-audit-service');
 const { auditCustomerLedger } = require('./account-audit-logic');
-const { isAllowedAuditor, ACCOUNT_AUDIT_ALLOWED_NAMES } = require('./auditAllowlist');
 const { generateAuditNarrative } = require('./account-audit-narrative');
 const { buildAuditPdf } = require('./account-audit-pdf');
 const { putObject, getObject } = require('../../utils/s3');
@@ -32,52 +31,17 @@ const computeAppBalance = async (db, accountId, customerId) => {
    };
 };
 
-const requireAdminAuditor = async (req, res, next) => {
-   try {
-      const authHeader = req.get('Authorization') || '';
-      if (!authHeader.toLowerCase().startsWith('bearer ')) {
-         return res.status(401).send({ message: 'Missing bearer token', status: 401 });
-      }
-      const token = authHeader.slice(7);
-      const payload = authService.verifyJwt(token);
+accountAuditRouter.use(requireAuth, requireSuperAdmin);
 
-      const [userRow] = await req.app
-         .get('db')('user_login')
-         .join('users', 'user_login.user_id', '=', 'users.user_id')
-         .where({
-            'user_login.user_name': payload.sub,
-            'user_login.is_login_active': true,
-            'users.is_user_active': true
-         })
-         .select('users.user_id', 'users.display_name', 'users.access_level', 'users.account_id');
-
-      if (!userRow) {
-         return res.status(403).send({ message: 'Unauthorized', status: 403 });
-      }
-      const isAdmin = (userRow.access_level || '').toLowerCase() === 'admin';
-      if (!isAdmin || !isAllowedAuditor(userRow.display_name)) {
-         return res.status(403).send({ message: 'Unauthorized', status: 403 });
-      }
-      req.auditUser = userRow;
-      next();
-   } catch (err) {
-      console.error('Account audit auth error:', err.message);
-      return res.status(401).send({ message: 'Unauthorized', status: 401 });
-   }
-};
-
-accountAuditRouter.use(requireAdminAuditor);
-
-// GET /accountAudit/whoami — lets the frontend confirm access without leaking the allowlist
+// GET /accountAudit/whoami — lets the frontend confirm access
 accountAuditRouter.get('/whoami/:accountID/:userID', (req, res) => {
    res.send({
       status: 200,
       auditor: {
-         user_id: req.auditUser.user_id,
-         display_name: req.auditUser.display_name,
-         access_level: req.auditUser.access_level
-      },
-      allowlist_size: ACCOUNT_AUDIT_ALLOWED_NAMES.length
+         user_id: req.user.user_id,
+         display_name: req.user.display_name,
+         access_level: req.user.access_level
+      }
    });
 });
 
@@ -323,7 +287,7 @@ accountAuditRouter.post('/run/:accountID/:userID', jsonParser, async (req, res) 
       });
 
       // Fire-and-forget — the loop runs after this response is sent.
-      runAuditBatch(db, accountId, ids, notes, req.auditUser, jobId).catch(err => {
+      runAuditBatch(db, accountId, ids, notes, req.user, jobId).catch(err => {
          console.error('[audit-job] fatal background error:', err);
          const job = auditJobs.get(jobId);
          if (job) { job.status = 'failed'; job.error = err.message; job.completedAt = new Date().toISOString(); }
