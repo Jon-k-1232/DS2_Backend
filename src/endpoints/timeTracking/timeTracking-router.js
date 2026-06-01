@@ -5,6 +5,7 @@ const { promisify } = require('util');
 const dayjs = require('dayjs');
 const asyncHandler = require('../../utils/asyncHandler');
 const { requireAuth } = require('../auth/jwt-auth');
+const { requireSuperAdmin } = require('../superAdmin/requireSuperAdmin');
 const accountUserService = require('../user/user-service');
 const accountService = require('../account/account-service');
 const { listObjects, getObject, putObject, deleteObject } = require('../../utils/s3');
@@ -885,10 +886,10 @@ timeTrackingRouter.get(
 );
 
 // POST /time-tracking/template/upload/:accountID/:userID
-// Admin: Upload a new tracker template to S3.
+// Super admin only (Kasi/Jon): Upload a new tracker template to S3.
 timeTrackingRouter.post(
    '/template/upload/:accountID/:userID',
-   requireAuth,
+   requireSuperAdmin,
    rawUploadParser,
    asyncHandler(async (req, res) => {
       const { accountID, userID } = req.params;
@@ -908,8 +909,6 @@ timeTrackingRouter.post(
       }
 
       const db = req.app.get('db');
-      const userRecord = await fetchUserRecord(db, accountID, userID);
-      ensureAdminAccess(userRecord);
 
       const decodedOriginalName = decodeURIComponent(fileNameHeader);
       const extension = resolveExtension(decodedOriginalName, fileTypeHeader) || '.xlsx';

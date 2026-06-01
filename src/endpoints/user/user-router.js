@@ -5,12 +5,13 @@ const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { createGrid } = require('../../utils/gridFunctions');
 const { requireManagerOrAdmin } = require('../auth/jwt-auth');
+const { requireSuperAdmin } = require('../superAdmin/requireSuperAdmin');
 const { restoreDataTypesUserOnCreate, restoreDataTypesUserOnUpdate } = require('./userObjects');
 
-// Create a new user
+// Create a new user — super admin only (Kasi/Jon)
 userRouter
    .route('/createUser/:accountID/:userID')
-   .all(requireManagerOrAdmin)
+   .all(requireSuperAdmin)
    .post(jsonParser, async (req, res) => {
       const db = req.app.get('db');
       const { accountID } = req.params;
@@ -33,10 +34,10 @@ userRouter
       }
    });
 
-// Edit User
+// Edit User — super admin only (Kasi/Jon)
 userRouter
    .route('/updateUser/:accountID/:userID')
-   .all(requireManagerOrAdmin)
+   .all(requireSuperAdmin)
    .put(jsonParser, async (req, res) => {
       const db = req.app.get('db');
       const { accountID } = req.params;
@@ -57,10 +58,10 @@ userRouter
       }
    });
 
-// Delete user
+// Delete user — super admin only (Kasi/Jon)
 userRouter
    .route('/deleteUser/:accountID/:userID')
-   .all(requireManagerOrAdmin)
+   .all(requireSuperAdmin)
    .delete(async (req, res) => {
       const db = req.app.get('db');
       const { userID, accountID } = req.params;
