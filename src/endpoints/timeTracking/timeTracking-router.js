@@ -246,7 +246,7 @@ timeTrackingRouter.post(
          }
 
          const requesterRole = requestingUserRecord?.access_level?.toLowerCase?.() || '';
-         const allowedOverrideRoles = ['admin', 'manager'];
+         const allowedOverrideRoles = ['super admin', 'admin', 'manager'];
          const isSelfSubmission = ownerUserIdNumber === userIdNumber;
 
          if (!isSelfSubmission && !allowedOverrideRoles.includes(requesterRole)) {
@@ -550,7 +550,7 @@ timeTrackingRouter.get(
       const [requestingUserRecord, activeUsers] = await Promise.all([fetchUserRecord(db, accountIdNumber, userIdNumber), accountUserService.getActiveAccountUsers(db, accountIdNumber)]);
 
       const requesterRole = requestingUserRecord?.access_level?.toLowerCase?.() || '';
-      const allowedRoles = ['admin', 'manager'];
+      const allowedRoles = ['super admin', 'admin', 'manager'];
       const canSeeAll = allowedRoles.includes(requesterRole);
 
       const normalizedUsers = (activeUsers || []).map(user => ({
@@ -694,7 +694,7 @@ timeTrackingRouter.get(
 
       const requesterRole = requestingUserRecord?.access_level?.toLowerCase();
       const isSelfRequest = Number(userID) === Number(ownerUserID);
-      const allowedRoles = ['admin', 'manager'];
+      const allowedRoles = ['super admin', 'admin', 'manager'];
 
       if (!isSelfRequest && !allowedRoles.includes(requesterRole)) {
          return res.status(403).json({ message: 'You are not authorized to download this tracker.' });
