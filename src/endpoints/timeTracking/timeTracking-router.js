@@ -142,8 +142,11 @@ const buildProcessedPrefixes = (accountFolder, userFolder) => {
 };
 
 const ensureAdminAccess = userRecord => {
+   // Super admin sits above admin in the role hierarchy and must satisfy any
+   // admin-level check. Accept both so Super Admins aren't 403'd on
+   // admin-gated reads like the template list.
    const accessLevel = userRecord?.access_level?.toLowerCase();
-   if (accessLevel !== 'admin') {
+   if (accessLevel !== 'admin' && accessLevel !== 'super admin') {
       const error = new Error('Admin access required.');
       error.status = 403;
       throw error;
