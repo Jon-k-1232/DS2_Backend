@@ -4,8 +4,7 @@ const accountUserService = require('./user-service');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { createGrid } = require('../../utils/gridFunctions');
-const { requireManagerOrAdmin } = require('../auth/jwt-auth');
-const { requireSuperAdmin } = require('../superAdmin/requireSuperAdmin');
+const { requireManagerOrAdmin, requireSuperAdmin } = require('../auth/jwt-auth');
 const { restoreDataTypesUserOnCreate, restoreDataTypesUserOnUpdate } = require('./userObjects');
 
 // Create a new user — super admin only (Kasi/Jon)
