@@ -10,10 +10,13 @@
  */
 require('dotenv').config({ path: '.env.dev', override: false });
 
+const fs = require('fs');
+const path = require('path');
 const knex = require('knex');
 
 const TEST_ACCOUNT_ID = 9001;
 const TEST_ADMIN_USER_ID = 90013;
+const SEED_PATH = path.join(__dirname, '..', 'fixtures', 'seed.sql');
 
 let _db = null;
 const _connect = () => {
@@ -36,6 +39,13 @@ const requireDb = async function requireDb() {
    const db = _connect();
    try {
       await db.raw('SELECT 1');
+      // A prod→dev restore wipes the fixture account and every integration
+      // test then fails on FK violations. The seed is idempotent — re-apply
+      // it whenever the account is missing.
+      const { rows } = await db.raw('SELECT 1 FROM accounts WHERE account_id = ?', [TEST_ACCOUNT_ID]);
+      if (!rows.length) {
+         await db.raw(fs.readFileSync(SEED_PATH, 'utf8'));
+      }
    } catch (e) {
       this.skip();
    }

@@ -110,16 +110,16 @@ BEGIN
 
    -- One customer_job per customer (for FK satisfaction during transaction inserts).
    IF NOT EXISTS (SELECT 1 FROM customer_jobs WHERE customer_job_id = 9001001) THEN
-      INSERT INTO customer_jobs(customer_job_id, account_id, customer_id, job_type_id, current_job_total, is_quote, created_by_user_id)
-         VALUES (9001001, 9001, 900101, 900201, 0, false, 90013);
+      INSERT INTO customer_jobs(customer_job_id, account_id, customer_id, job_type_id, current_job_total, is_quote, is_job_complete, created_by_user_id)
+         VALUES (9001001, 9001, 900101, 900201, 0, false, false, 90013);
    END IF;
    IF NOT EXISTS (SELECT 1 FROM customer_jobs WHERE customer_job_id = 9001002) THEN
-      INSERT INTO customer_jobs(customer_job_id, account_id, customer_id, job_type_id, current_job_total, is_quote, created_by_user_id)
-         VALUES (9001002, 9001, 900102, 900202, 0, false, 90013);
+      INSERT INTO customer_jobs(customer_job_id, account_id, customer_id, job_type_id, current_job_total, is_quote, is_job_complete, created_by_user_id)
+         VALUES (9001002, 9001, 900102, 900202, 0, false, false, 90013);
    END IF;
    IF NOT EXISTS (SELECT 1 FROM customer_jobs WHERE customer_job_id = 9001003) THEN
-      INSERT INTO customer_jobs(customer_job_id, account_id, customer_id, job_type_id, current_job_total, is_quote, created_by_user_id)
-         VALUES (9001003, 9001, 900103, 900201, 0, false, 90013);
+      INSERT INTO customer_jobs(customer_job_id, account_id, customer_id, job_type_id, current_job_total, is_quote, is_job_complete, created_by_user_id)
+         VALUES (9001003, 9001, 900103, 900201, 0, false, false, 90013);
    END IF;
 
    -- Time tracker staff (users who get notified).

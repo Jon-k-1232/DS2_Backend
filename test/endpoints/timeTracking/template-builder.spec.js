@@ -21,9 +21,11 @@ const buildStubDb = () => {
       { user_id: 7, account_id: 9001, display_name: 'Eliza Smith', is_user_active: true },
       { user_id: 8, account_id: 9001, display_name: 'Bob Jones', is_user_active: true }
    ];
+   // The Category dropdown pulls customer_general_work_descriptions (work-type
+   // descriptors), NOT customer_job_categories — see _readCatalogs.
    const categories = [
-      { customer_job_category_id: 90001, account_id: 9001, customer_job_category: 'Tax Compliance', is_job_category_active: true },
-      { customer_job_category_id: 90002, account_id: 9001, customer_job_category: 'Bookkeeping', is_job_category_active: true }
+      { general_work_description_id: 90001, account_id: 9001, general_work_description: 'Tax Compliance', is_general_work_description_active: true },
+      { general_work_description_id: 90002, account_id: 9001, general_work_description: 'Bookkeeping', is_general_work_description_active: true }
    ];
    const downloads = [];
 
@@ -175,17 +177,17 @@ describe('template-builder _applyDataValidation', () => {
       const sheet = wb.addWorksheet('Time');
       _applyDataValidation({ sheet, customerCount: 5, employeeCount: 3, categoryCount: 4 });
       // ExcelJS stores range-based rules in worksheet.dataValidations.model;
-      // each key is a sheet range like "B1" or "B6:B1500".
+      // each key is a sheet range like "B1" or "C6:C1500".
       const rules = sheet.dataValidations.model || {};
       const ranges = Object.keys(rules);
-      // The implementation registers four ranges total: B1 (name-block
-      // employee), B6:Bn (customers), C6:Cn (categories), D6:Dn (data-block
-      // employee). Don't pin the exact range bounds — that's the
-      // MAX_DATA_ROWS knob — but assert the ranges and their errorStyle.
+      // Current layout (column mapping fixed 2026-05): B1 employee header
+      // (strict), C6:Cn categories, D6:Dn customers (both advisory). There is
+      // no per-row employee column anymore, so nothing registers on B6.
+      // Don't pin exact range bounds — that's the MAX_DATA_ROWS knob.
       const findRule = prefix => rules[ranges.find(r => r.startsWith(prefix))];
       expect(findRule('B1').errorStyle).to.equal('stop');
-      expect(findRule('B6').errorStyle).to.equal('information');
+      expect(ranges.find(r => r.startsWith('B6'))).to.equal(undefined);
       expect(findRule('C6').errorStyle).to.equal('information');
-      expect(findRule('D6').errorStyle).to.equal('stop');
+      expect(findRule('D6').errorStyle).to.equal('information');
    });
 });

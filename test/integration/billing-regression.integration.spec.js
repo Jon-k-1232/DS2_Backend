@@ -43,10 +43,14 @@ describe('integration: billing-correctness regression', function () {
       const employee = await db('users').where({ user_id: 90011 }).first();
       const billingRate = Number(employee.billing_rate);
 
+      // The customer is matched from company_name (or first/last name for
+      // individuals) — `entity` is the EMPLOYER's business identity and is
+      // deliberately never used for customer lookup (see the orchestrator's
+      // customer-match block). This spec used to put the customer in entity.
       const seedRows = [
-         { date: '2026-04-27', entity: 'Acme Corp', category: 'Tax Compliance', employee_name: 'Eliza Smith', duration: 60, notes: 'prepared 1040' },
-         { date: '2026-04-27', entity: 'Acme Corp', category: 'Tax Compliance', employee_name: 'Eliza Smith', duration: 90, notes: 'prepared 1040' },
-         { date: '2026-04-28', entity: 'Acme Corp', category: 'Tax Compliance', employee_name: 'Eliza Smith', duration: 30, notes: 'prepared 1040' }
+         { date: '2026-04-27', company_name: 'Acme Corp', category: 'Tax Compliance', employee_name: 'Eliza Smith', duration: 60, notes: 'prepared 1040' },
+         { date: '2026-04-27', company_name: 'Acme Corp', category: 'Tax Compliance', employee_name: 'Eliza Smith', duration: 90, notes: 'prepared 1040' },
+         { date: '2026-04-28', company_name: 'Acme Corp', category: 'Tax Compliance', employee_name: 'Eliza Smith', duration: 30, notes: 'prepared 1040' }
       ];
       const inserted = [];
       for (const r of seedRows) {
@@ -54,7 +58,7 @@ describe('integration: billing-correctness regression', function () {
             account_id: TEST_ACCOUNT_ID, user_id: TEST_ADMIN_USER_ID,
             employee_name: r.employee_name, timesheet_name: 'billing_regression.xlsx',
             time_tracker_start_date: '2026-04-27', time_tracker_end_date: '2026-05-03',
-            date: r.date, entity: r.entity, category: r.category, duration: r.duration, notes: r.notes,
+            date: r.date, entity: 'JFK&A', company_name: r.company_name, category: r.category, duration: r.duration, notes: r.notes,
             is_processed: false, is_deleted: false
          }).returning('timesheet_entry_id');
          inserted.push(row.timesheet_entry_id || row);
