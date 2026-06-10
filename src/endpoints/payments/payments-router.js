@@ -166,14 +166,32 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
       const { payment_id, account_id } = paymentTableFields;
 
       const records = await checkIfPaymentIsAttachedToInvoice(db, paymentTableFields);
-      const { retainerRecord, paymentInvoiceRecord } = records;
+      const { paymentRecord, retainerRecord, paymentInvoiceRecord } = records;
 
       // Retainer used on payment, delete retainer
       if (Object.keys(retainerRecord).length) {
          await retainersService.deleteRetainer(db, retainerRecord.retainer_id, account_id);
       }
 
-      // Delete the payment and the invoice
+      // Reverse the parent-invoice sync that createPayment applied. Creating a
+      // payment adds a child snapshot AND mirrors the reduced balance onto the
+      // parent row (the one AR/profile read), incrementing total_payments.
+      // Deleting must undo that, otherwise a create→delete cycle permanently
+      // lowers the customer's balance by the payment amount.
+      const parentInvoiceID = paymentInvoiceRecord?.parent_invoice_id;
+      if (parentInvoiceID) {
+         const [parentInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, parentInvoiceID);
+         if (parentInvoice && Object.keys(parentInvoice).length) {
+            const reversedAmount = Math.abs(Number(paymentRecord.payment_amount));
+            parentInvoice.remaining_balance_on_invoice = Number(parentInvoice.remaining_balance_on_invoice) + reversedAmount;
+            parentInvoice.is_invoice_paid_in_full = false;
+            parentInvoice.fully_paid_date = null;
+            parentInvoice.total_payments = Math.max(0, Number(parentInvoice.total_payments) - reversedAmount);
+            await invoiceService.updateInvoice(db, parentInvoice);
+         }
+      }
+
+      // Delete the payment and the child snapshot invoice
       await invoiceService.deleteInvoice(db, paymentInvoiceRecord.customer_invoice_id, account_id);
       await paymentsService.deletePayment(db, payment_id, account_id);
 
