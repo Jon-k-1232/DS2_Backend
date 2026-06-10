@@ -22,6 +22,7 @@ const {
 } = require('./customerObjects');
 const dayjs = require('dayjs');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
+const { buildStatementData, renderStatementPdf } = require('./customer-statement');
 
 // Create New Customer
 customerRouter.route('/createCustomer/:accountID/:userID').post(jsonParser, async (req, res) => {
@@ -170,6 +171,30 @@ customerRouter.route('/activeCustomers/customerByID/:accountID/:userID/:customer
       console.log(err);
       res.send({
          message: err.message || 'An error occurred while retrieving the customer profile.',
+         status: 500
+      });
+   }
+});
+
+// Customer statement PDF — opening balance, activity in range, closing balance.
+customerRouter.route('/statement/:accountID/:userID/:customerID').get(async (req, res) => {
+   const db = req.app.get('db');
+   try {
+      const { accountID, customerID } = req.params;
+      const { start, end } = req.query;
+
+      const statementData = await buildStatementData(db, accountID, customerID, { start, end });
+      const accountInfo = await invoiceService.getAccountPayToInfo(db, accountID);
+      const pdfBuffer = await renderStatementPdf(statementData, accountInfo || {});
+
+      const safeName = String(statementData.customer.display_name || customerID).replace(/[^a-z0-9]+/gi, '_');
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="statement_${safeName}_${new Date().toISOString().slice(0, 10)}.pdf"`);
+      return res.status(200).send(pdfBuffer);
+   } catch (err) {
+      console.log(err);
+      res.status(500).send({
+         message: err.message || 'An error occurred while generating the statement.',
          status: 500
       });
    }
