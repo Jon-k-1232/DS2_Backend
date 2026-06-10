@@ -42,7 +42,7 @@ const initialData = async (db, res, accountID) => {
       activeRecurringCustomers,
       activeUsers,
       activeTransactionsPage,
-      activeInvoices,
+      activeInvoicesPage,
       activeJobs,
       activeJobCategories,
       jobTypesData,
@@ -59,7 +59,15 @@ const initialData = async (db, res, accountID) => {
          offset: 0,
          searchTerm: ''
       }),
-      invoiceService.getInvoices(db, accountID),
+      // First page only. The full table (parents + every payment/write-off
+      // snapshot, growing monotonically under the rolling-balance model) was
+      // serialized three ways into every app load; the Invoices grid pages and
+      // searches server-side anyway (fetchInvoices → getInvoicesPaginated).
+      invoiceService.getInvoicesPaginated(db, accountID, {
+         limit: DEFAULT_TRANSACTIONS_PAGE_SIZE,
+         offset: 0,
+         searchTerm: ''
+      }),
       jobService.getActiveJobs(db, accountID),
       jobCategoriesService.getActiveJobCategories(db, accountID),
       jobTypeService.getActiveJobTypes(db, accountID),
@@ -100,10 +108,12 @@ const initialData = async (db, res, accountID) => {
       pagination: getPaginationMetadata(transactionsCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 
+   const { invoices: activeInvoices, totalCount: invoicesCount } = activeInvoicesPage;
    const activeInvoiceData = {
       activeInvoices,
       grid: createGrid(activeInvoices),
-      treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id')
+      treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id'),
+      pagination: getPaginationMetadata(invoicesCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 
    const activeJobData = {
