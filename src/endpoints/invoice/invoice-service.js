@@ -249,10 +249,17 @@ const invoiceService = {
 
    async getWriteOffsByCustomerID(db, accountID, customerIDs, lastBillDateLookup) {
       const data = await db('customer_writeoffs')
-         .leftJoin('customer_invoices', 'customer_invoices.customer_invoice_id', '=', 'customer_writeoffs.customer_invoice_id')
+         .leftJoin('customer_invoices as linked_invoice', 'linked_invoice.customer_invoice_id', '=', 'customer_writeoffs.customer_invoice_id')
+         // The chain root of the linked row — its invoice_date tells the engine
+         // whether this write-off touches the CURRENT chain (already reflected in
+         // the outstanding remaining via its snapshot) or an absorbed one (acts
+         // as a credit on the next bill).
+         .joinRaw(
+            'LEFT JOIN customer_invoices AS linked_chain_root ON linked_chain_root.customer_invoice_id = COALESCE(linked_invoice.parent_invoice_id, linked_invoice.customer_invoice_id)'
+         )
          .leftJoin('customer_jobs', 'customer_jobs.customer_job_id', '=', 'customer_writeoffs.customer_job_id')
          .leftJoin('customer_job_types', 'customer_job_types.job_type_id', '=', 'customer_jobs.job_type_id')
-         .select('customer_writeoffs.*', 'customer_jobs.job_type_id', 'customer_job_types.job_description')
+         .select('customer_writeoffs.*', 'customer_jobs.job_type_id', 'customer_job_types.job_description', db.raw('linked_chain_root.invoice_date as linked_chain_invoice_date'))
          .where({
             'customer_writeoffs.account_id': accountID
          })
@@ -388,6 +395,46 @@ const invoiceService = {
          ...invoiceData
       } = invoice;
       return db('customer_invoices').where('customer_invoice_id', customer_invoice_id).andWhere('account_id', invoiceData.account_id).update(invoiceData);
+   },
+
+   // Most recent snapshot on a chain — the row carrying the authoritative
+   // remaining balance after the latest payment/write-off event.
+   getLatestChildInvoice(db, accountID, parentInvoiceID) {
+      return db
+         .select('*')
+         .from('customer_invoices')
+         .where('account_id', accountID)
+         .andWhere('parent_invoice_id', parentInvoiceID)
+         .orderBy('created_at', 'desc')
+         .first();
+   },
+
+   /**
+    * ROLLING-BALANCE ZERO-OUT. When a new parent invoice absorbs the prior
+    * outstanding amount as its beginning_balance, the absorbed rows must stop
+    * carrying a remaining balance — otherwise they keep appearing as payable
+    * invoices in the payment pickers and payments get tagged to chains the
+    * billing engine's date gate ignores (money paid but never reflected on a
+    * bill). Zeroes every prior-dated row (parents AND their snapshots) that
+    * still shows remaining > 0, and stamps notes with an `absorbed_by:` marker
+    * so the audit engine can tell deliberate absorption from ledger drift.
+    *
+    * Strictly older dates only: same-day duplicate parents are summed by the
+    * engine and must keep their remaining.
+    * Negative remainders (credit memos) are left alone — they were never
+    * absorbed into the new beginning_balance.
+    */
+   zeroOutAbsorbedInvoices(db, accountID, customerID, newInvoiceDate, newInvoiceNumber) {
+      const marker = `[absorbed_by:${newInvoiceNumber}@${new Date(newInvoiceDate).toISOString().slice(0, 10)}]`;
+      return db('customer_invoices')
+         .where('account_id', accountID)
+         .andWhere('customer_id', customerID)
+         .andWhere('invoice_date', '<', newInvoiceDate)
+         .andWhere('remaining_balance_on_invoice', '>', 0)
+         .update({
+            remaining_balance_on_invoice: 0,
+            notes: db.raw(`CASE WHEN notes IS NULL OR notes = '' THEN ? ELSE notes || ' ' || ? END`, [marker, marker])
+         });
    }
 };
 

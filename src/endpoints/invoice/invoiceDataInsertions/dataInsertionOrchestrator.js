@@ -27,6 +27,15 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
    const newInvoicesArray = await Promise.all(arrayOfAreInvoicesValidated.map(invoice => invoiceService.createInvoice(db, invoice)));
    const newInvoicesMap = newInvoicesArray.reduce((acc, { customer_id, customer_invoice_id }) => ({ ...acc, [customer_id]: customer_invoice_id }), {});
 
+   // The new parent's beginning_balance has absorbed each customer's prior
+   // outstanding — zero the absorbed rows so they stop offering themselves as
+   // payable invoices (see zeroOutAbsorbedInvoices for the full contract).
+   await Promise.all(
+      newInvoicesArray.map(({ account_id, customer_id, invoice_date, invoice_number }) =>
+         invoiceService.zeroOutAbsorbedInvoices(db, account_id, customer_id, invoice_date, invoice_number)
+      )
+   );
+
    // Create Transaction, Write Off, and Payment objects.
    const validatedBillableItems = updateAndValidateBillableObjects(invoicesWithDetail, newInvoicesMap);
    return insertInvoiceWorkItems(db, validatedBillableItems);
@@ -141,7 +150,8 @@ const newInvoiceObject = (invoice, pdfFileLocationsMap, userID) => {
    beginning_balance) to avoid "double-counting" when a third invoice rolled up a chain.
    That approach lost the beginning_balance entirely once current charges were paid.
    The correct fix for double-counting is to zero out the prior invoice's remaining when a
-   new invoice absorbs it as beginning_balance — not to drop it from remaining here.
+   new invoice absorbs it as beginning_balance — which dataInsertionOrchestrator now does
+   via invoiceService.zeroOutAbsorbedInvoices after the new parents are inserted.
    */
    const remainingBalance = (outstandingInvoiceTotal || 0) + transactionsTotal + retainerTotal + (writeOffTotal || 0) - Math.abs(paymentTotal || 0);
 

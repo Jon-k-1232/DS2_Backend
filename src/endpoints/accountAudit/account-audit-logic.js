@@ -65,7 +65,13 @@ const computePerInvoice = ({ chain, payments, writeoffs, transactions }) => {
    const actualRemaining = round2(num(latest?.remaining_balance_on_invoice));
    const expectedRemaining = round2(parentTotal - paidSum - writeoffSum);
 
+   // Stamped by invoiceService.zeroOutAbsorbedInvoices when a newer invoice
+   // absorbed this chain's remaining into its beginning_balance. A zeroed
+   // remaining on these chains is deliberate bookkeeping, not drift.
+   const wasAbsorbed = /absorbed_by:/.test(parent?.notes || '') || /absorbed_by:/.test(latest?.notes || '');
+
    return {
+      was_absorbed: wasAbsorbed,
       root_id: chain.rootId,
       parent_invoice_id: parent?.customer_invoice_id ?? null,
       invoice_number: parent?.invoice_number ?? null,
@@ -176,9 +182,16 @@ const detectDiscrepancies = ({ invoices = [], invoiceBreakdown, payments, writeo
    );
 
    invoiceBreakdown.forEach(row => {
+      // Chains zeroed by rolling-balance absorption are deliberate: remaining
+      // was moved into a newer invoice's beginning_balance, so drift /
+      // stale-parent / paid-flag checks against the raw chain math would all
+      // false-alarm. The absorbed_by note on the row documents the move.
+      // (writeoff_exceeds_invoice still runs — corruption is corruption.)
+      const deliberatelyAbsorbed = row.was_absorbed && row.actual_remaining_used === 0;
+
       const drift = round2(row.expected_remaining - row.actual_remaining_used);
       const absDrift = Math.abs(drift);
-      if (absDrift >= 0.01) {
+      if (absDrift >= 0.01 && !deliberatelyAbsorbed) {
          let absorbedBy = 0;
          if (drift > 0 && creditPool > 0) {
             absorbedBy = round2(Math.min(creditPool, drift));
@@ -201,7 +214,7 @@ const detectDiscrepancies = ({ invoices = [], invoiceBreakdown, payments, writeo
             uncovered_amount: uncovered
          });
       }
-      if (row.parent_total_amount_due > 0 && Math.abs(row.parent_remaining_in_db - row.actual_remaining_used) >= 0.01) {
+      if (row.parent_total_amount_due > 0 && Math.abs(row.parent_remaining_in_db - row.actual_remaining_used) >= 0.01 && !deliberatelyAbsorbed) {
          out.push({
             kind: 'stale_parent_remaining',
             severity: 'medium',
@@ -220,7 +233,7 @@ const detectDiscrepancies = ({ invoices = [], invoiceBreakdown, payments, writeo
             detail: `is_invoice_paid_in_full = true but $${row.actual_remaining_used.toFixed(2)} remains.`
          });
       }
-      if (!row.is_paid_in_full_db && row.actual_remaining_used <= 0.009 && row.parent_total_amount_due > 0) {
+      if (!row.is_paid_in_full_db && row.actual_remaining_used <= 0.009 && row.parent_total_amount_due > 0 && !deliberatelyAbsorbed) {
          out.push({
             kind: 'paid_flag_mismatch_closed',
             severity: 'low',
@@ -629,9 +642,24 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
    // balance matches what the engine would charge.  Each one is also flagged as
    // an info-level discrepancy when its linked invoice is already paid_in_full,
    // so the user can see exactly which old paid invoices are generating credits.
+   //
+   // SINGLE-COUNT RULE (mirrors groupAndTotalWriteOffs): a write-off linked to
+   // the CURRENT chain already reduced outstanding_invoices via its snapshot —
+   // only write-offs on chains absorbed by the last bill act as credits here.
+   const rowById = new Map(invoices.map(i => [i.customer_invoice_id, i]));
+   const isAbsorbedChainCredit = w => {
+      if (!lastBillDateMs) return true;
+      const row = rowById.get(w.customer_invoice_id);
+      if (!row) return true;
+      const root = row.parent_invoice_id ? rowById.get(row.parent_invoice_id) : row;
+      const rootDate = root?.invoice_date || row.invoice_date;
+      if (!rootDate) return true;
+      return new Date(rootDate).getTime() < lastBillDateMs;
+   };
    const invoiceLinkedWriteoffsRecent = writeoffs
       .filter(w => w.customer_invoice_id)
-      .filter(isPostLastBill);
+      .filter(isPostLastBill)
+      .filter(isAbsorbedChainCredit);
    const invoice_linked_writeoffs_recent = round2(
       invoiceLinkedWriteoffsRecent.reduce((a, w) => a + abs(w.writeoff_amount), 0)
    );
