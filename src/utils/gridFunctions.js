@@ -72,9 +72,21 @@ const generateTreeGridData = (data, rowID, parentProperty) => {
 
    const rootItem = [];
    map.forEach(item => {
-      if (item[parentProperty]) {
-         const parentItem = map.get(item[parentProperty]);
-         parentItem && parentItem.children.push(item);
+      const parentKey = item[parentProperty];
+      if (parentKey) {
+         const parentItem = map.get(parentKey);
+         if (parentItem) {
+            parentItem.children.push(item);
+         } else {
+            // Orphan: the row points to a parent that no longer exists in this
+            // dataset (e.g. a retainer whose parent_retainer_id references a
+            // deleted parent row). Promote it to a root row instead of silently
+            // dropping it — otherwise the customer profile under-reports
+            // (an orphaned retainer/invoice/job would vanish from the grid
+            // entirely even though it still exists in the DB and counts toward
+            // the customer's real balance).
+            rootItem.push(item);
+         }
       } else {
          rootItem.push(item);
       }
