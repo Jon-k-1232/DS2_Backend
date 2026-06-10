@@ -35,6 +35,7 @@ const billingReviewRouter = require('./endpoints/billingReview/billingReview-rou
 const notificationsRouter = require('./endpoints/notifications/notifications-router');
 const accountAuditRouter = require('./endpoints/accountAudit/account-audit-router');
 const accountsReceivableRouter = require('./endpoints/accountsReceivable/accounts-receivable-router');
+const analyticsRouter = require('./endpoints/analytics/analytics-router');
 
 // Behind one reverse proxy (nginx). Trusting exactly one hop lets express-rate-limit
 // and req.ip see the real client IP from X-Forwarded-For without being spoofable
@@ -127,6 +128,7 @@ app.use('/billing-review', requireAuth, expensiveLimiter, billingReviewRouter);
 app.use('/notifications', requireAuth, notificationsRouter);
 app.use('/accountAudit', requireAuth, expensiveLimiter, accountAuditRouter);
 app.use('/accountsReceivable', requireAuth, accountsReceivableRouter);
+app.use('/analytics', requireAuth, analyticsRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 if (NODE_ENV !== 'test') {
