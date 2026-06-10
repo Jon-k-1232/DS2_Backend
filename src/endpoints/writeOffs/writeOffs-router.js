@@ -38,6 +38,19 @@ writeOffsRouter.route('/createWriteOffs/:accountID/:userID').post(jsonParser, as
          const newInvoiceID = newInvoiceRecord?.customer_invoice_id;
          // Update the write off object with the new invoice id. We need the updated invoice number for if an edit or deletion to the write off is completed.
          writeOffTableFields.customer_invoice_id = newInvoiceID;
+
+         // Mirror the reduced balance onto the parent row, same as createPayment —
+         // AR/profile/payment pickers read the parent, and without this every
+         // invoice write-off leaves the parent telling a stale balance.
+         const parentInvoiceID = invoiceInsertionObject.parent_invoice_id;
+         const [parentInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, parentInvoiceID);
+         if (parentInvoice && Object.keys(parentInvoice).length) {
+            parentInvoice.remaining_balance_on_invoice = invoiceInsertionObject.remaining_balance_on_invoice;
+            parentInvoice.is_invoice_paid_in_full = invoiceInsertionObject.is_invoice_paid_in_full;
+            parentInvoice.fully_paid_date = invoiceInsertionObject.fully_paid_date;
+            parentInvoice.total_write_offs = Number(parentInvoice.total_write_offs) + Math.abs(Number(writeoff_amount));
+            await invoiceService.updateInvoice(db, parentInvoice);
+         }
       }
 
       // Post new writeOff
@@ -114,16 +127,50 @@ writeOffsRouter.route('/deleteWriteOffs/:accountID/:userID').delete(async (req, 
 
       // Create new object with sanitized fields
       const writeOffTableFields = restoreDataTypesWriteOffsTableOnUpdate(sanitizedUpdatedWriteOffs);
-      const { customer_invoice_id, writeoff_id, account_id } = writeOffTableFields;
+      writeOffTableFields.account_id = Number(req.params.accountID);
+      const { writeoff_id, account_id } = writeOffTableFields;
 
-      // find the invoice record to check it exists
-      const invoiceRecord = await writeOffsService.getSingleWriteOff(db, writeoff_id, account_id);
-      if (!invoiceRecord.length) {
-         throw new Error('Unable to find invoice record.');
+      // Use the stored linkage, never the id the client sends — deleting an
+      // arbitrary invoice row via this route was possible otherwise.
+      const [writeOffRecord] = await writeOffsService.getSingleWriteOff(db, writeoff_id, account_id);
+      if (!writeOffRecord) {
+         throw new Error('Unable to find write-off record.');
       }
 
-      // Delete invoice record
-      await invoiceService.deleteInvoice(db, customer_invoice_id, account_id);
+      // Once a write-off has been counted on a bill, deleting it would silently
+      // un-credit a statement the customer already received.
+      const lastInvoiceDates = await invoiceService.getLastInvoiceDatesByCustomerID(db, account_id, [writeOffRecord.customer_id]);
+      const lastInvoiceDate = lastInvoiceDates[writeOffRecord.customer_id];
+      if (lastInvoiceDate && writeOffRecord.created_at <= new Date(lastInvoiceDate)) {
+         throw new Error('Write-off is attached to an invoice that has already been billed and cannot be deleted or modified.');
+      }
+
+      if (writeOffRecord.customer_invoice_id) {
+         const [linkedRow] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, writeOffRecord.customer_invoice_id);
+
+         if (linkedRow && linkedRow.parent_invoice_id) {
+            // Same ordering rule as payments: later snapshots bake this
+            // write-off's reduction into their remaining.
+            const latestChild = await invoiceService.getLatestChildInvoice(db, account_id, linkedRow.parent_invoice_id);
+            if (latestChild && latestChild.customer_invoice_id !== linkedRow.customer_invoice_id) {
+               throw new Error('A newer payment or write-off has been applied to this invoice since this write-off. Delete the newer entries first, then retry.');
+            }
+
+            // Reverse the parent mirror before removing the snapshot.
+            const [parentInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, linkedRow.parent_invoice_id);
+            if (parentInvoice && Object.keys(parentInvoice).length) {
+               const reversedAmount = Math.abs(Number(writeOffRecord.writeoff_amount));
+               parentInvoice.remaining_balance_on_invoice = Number(parentInvoice.remaining_balance_on_invoice) + reversedAmount;
+               parentInvoice.is_invoice_paid_in_full = false;
+               parentInvoice.fully_paid_date = null;
+               parentInvoice.total_write_offs = Math.max(0, Number(parentInvoice.total_write_offs) - reversedAmount);
+               await invoiceService.updateInvoice(db, parentInvoice);
+            }
+
+            await invoiceService.deleteInvoice(db, linkedRow.customer_invoice_id, account_id);
+         }
+         // Legacy write-offs may point directly at the parent row — never delete it.
+      }
 
       // Delete writeOff
       await writeOffsService.deleteWriteOff(db, writeoff_id, account_id);
