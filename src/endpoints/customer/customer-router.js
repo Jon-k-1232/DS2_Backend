@@ -93,12 +93,14 @@ customerRouter.route('/activeCustomers/customerByID/:accountID/:userID/:customer
    const db = req.app.get('db');
    const { accountID, customerID } = req.params;
 
-   const [customerContactData] = await customerService.getCustomerByID(db, accountID, customerID);
-   const customerRetainers = await retainerService.getCustomerRetainersByID(db, accountID, customerID);
-   const customerPayments = await paymentsService.getActivePaymentsForCustomer(db, accountID, customerID);
-   const customerInvoices = await invoiceService.getCustomerInvoiceByID(db, accountID, customerID);
-   const customerTransactions = await transactionsService.getCustomerTransactionsByID(db, accountID, customerID);
-   const customerJobs = await jobService.getActiveCustomerJobs(db, accountID, customerID);
+   const [[customerContactData], customerRetainers, customerPayments, customerInvoices, customerTransactions, customerJobs] = await Promise.all([
+      customerService.getCustomerByID(db, accountID, customerID),
+      retainerService.getCustomerRetainersByID(db, accountID, customerID),
+      paymentsService.getActivePaymentsForCustomer(db, accountID, customerID),
+      invoiceService.getCustomerInvoiceByID(db, accountID, customerID),
+      transactionsService.getCustomerTransactionsByID(db, accountID, customerID),
+      jobService.getActiveCustomerJobs(db, accountID, customerID)
+   ]);
 
    const customerData = {
       customerData: customerContactData,

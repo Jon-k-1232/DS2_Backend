@@ -321,9 +321,21 @@ const invoiceService = {
          .andWhere('parent_invoice_id', null)
          .orderBy('created_at', 'desc');
 
+      // One query for every child snapshot, grouped in memory. This used to be
+      // one query per parent — N+1 across each billed customer's full history
+      // on every Create Invoice run.
+      const parentIDs = parentInvoices.map(parent => parent.customer_invoice_id);
+      const allChildren = parentIDs.length
+         ? await db.select('*').from('customer_invoices').whereIn('parent_invoice_id', parentIDs).orderBy('created_at', 'desc')
+         : [];
+      const childrenByParent = allChildren.reduce((acc, child) => {
+         (acc[child.parent_invoice_id] = acc[child.parent_invoice_id] || []).push(child);
+         return acc;
+      }, {});
+
       // Function to handle the children of each parent
-      const handleChildren = async parentInvoice => {
-         const children = await db.select('*').from('customer_invoices').where('parent_invoice_id', parentInvoice.customer_invoice_id).orderBy('created_at', 'desc');
+      const handleChildren = parentInvoice => {
+         const children = childrenByParent[parentInvoice.customer_invoice_id] || [];
          const lastBillDate = lastBillDateLookup[parentInvoice.customer_id];
 
          if (!outstandingInvoices[parentInvoice.customer_id]) outstandingInvoices[parentInvoice.customer_id] = [];
@@ -375,7 +387,7 @@ const invoiceService = {
          }
       };
 
-      await Promise.all(parentInvoices.map(handleChildren));
+      parentInvoices.forEach(handleChildren);
 
       return outstandingInvoices;
    },
