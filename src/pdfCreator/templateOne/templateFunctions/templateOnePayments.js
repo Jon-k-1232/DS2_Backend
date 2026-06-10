@@ -44,9 +44,16 @@ const createPaymentsSection = (doc, invoiceDetails, preferenceSettings) => {
             .lineTo(pageWidth - rightMargin, yHeight + lineHeight)
             .stroke();
 
+         // Print the sum of the rows listed above. Invoice-applied payments are
+         // already reflected in the Beginning Balance, so when any exist we say
+         // so — printing the engine's uninvoiced-only total here (almost always
+         // 0.00) made customers believe their payment was never recorded.
+         const receivedTotal = Number(payments.paymentsReceivedTotal ?? payments.paymentTotal);
+         const appliedToBalance = Math.abs(receivedTotal - payments.paymentTotal) > 0.009;
+         const totalLine = `Total Payments Received: ${receivedTotal.toFixed(2)}${appliedToBalance ? ' (reflected in Beginning Balance above)' : ''}`;
          doc.font(normalFont)
             .fontSize(12)
-            .text(`Total Payments: ${payments.paymentTotal.toFixed(2)}`, alignRight(`Total Payments: ${payments.paymentTotal.toFixed(2)}`, 1), yHeight + lineHeight * 1.5);
+            .text(totalLine, alignRight(totalLine, 1), yHeight + lineHeight * 1.5);
 
          preferenceSettings.endOfGroupingHeight = yHeight + lineHeight * 1.5;
       }
@@ -62,7 +69,7 @@ const createPaymentsSection = (doc, invoiceDetails, preferenceSettings) => {
 
       doc.font(normalFont)
          .fontSize(12)
-         .text('Total Payments: 0.00', alignRight('Total Payments: 0.00', 0), loopHeight + lineHeight);
+         .text('Total Payments Received: 0.00', alignRight('Total Payments Received: 0.00', 0), loopHeight + lineHeight);
 
       preferenceSettings.endOfGroupingHeight = loopHeight + lineHeight;
    }

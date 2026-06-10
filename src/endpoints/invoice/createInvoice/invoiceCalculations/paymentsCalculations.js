@@ -11,6 +11,13 @@ const groupAndTotalPayments = (customer_id, invoiceQueryData) => {
    const uninvoicedPayments = customerPayments.filter(payment => !payment.customer_invoice_id);
    const paymentTotal = uninvoicedPayments.reduce((acc, payment) => acc + Number(payment.payment_amount), 0);
 
+   // Everything received this period, invoice-applied or not. Display-only:
+   // the bill lists every payment record, so its printed total must match the
+   // listed rows — paymentTotal alone prints "0.00" under a column of real
+   // payments (every payment is invoice-tagged) and reads as "payment not
+   // registered". The invoice math still uses paymentTotal.
+   const paymentsReceivedTotal = customerPayments.reduce((acc, payment) => acc + Number(payment.payment_amount), 0);
+
    // for the customer payments, filter out payments that have a form_of_payment of 'Retainer' or 'Prepayment'
    const retainerPayments = uninvoicedPayments.filter(payment => payment.form_of_payment === 'Retainer' || payment.form_of_payment === 'Prepayment');
    const retainerPaymentTotal = retainerPayments.reduce((acc, payment) => acc + Number(payment.payment_amount), 0);
@@ -28,7 +35,7 @@ const groupAndTotalPayments = (customer_id, invoiceQueryData) => {
       throw new Error(`Payment Total on customerID:${customer_id} is not a number`);
    }
 
-   return { paymentTotal, retainerPaymentTotal, paymentRecords: customerPayments, allPaymentRecords: customerPayments };
+   return { paymentTotal, paymentsReceivedTotal, retainerPaymentTotal, paymentRecords: customerPayments, allPaymentRecords: customerPayments };
 };
 
 module.exports = { groupAndTotalPayments };

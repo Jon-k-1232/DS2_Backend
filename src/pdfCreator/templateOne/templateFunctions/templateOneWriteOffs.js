@@ -36,9 +36,15 @@ const createWriteOffsSection = (doc, invoiceDetails, preferenceSettings) => {
             .lineTo(pageWidth - rightMargin, yHeight + lineHeight)
             .stroke();
 
+         // Print the sum of the rows listed above. Current-chain write-offs are
+         // already reflected in the invoice balance, so when any exist the
+         // engine total differs from the listed sum — say so.
+         const listedTotal = Number(writeOffs.writeOffsListedTotal ?? writeOffs.writeOffTotal);
+         const reflectedInBalance = Math.abs(listedTotal - writeOffs.writeOffTotal) > 0.009;
+         const totalLine = `Total Revisions: ${listedTotal.toFixed(2)}${reflectedInBalance ? ' (reflected in invoice balance)' : ''}`;
          doc.font(normalFont)
             .fontSize(12)
-            .text(`Total Revisions: ${writeOffs.writeOffTotal.toFixed(2)}`, alignRight(`Total Revisions: ${writeOffs.writeOffTotal.toFixed(2)}`, 1), yHeight + lineHeight * 1.5);
+            .text(totalLine, alignRight(totalLine, 1), yHeight + lineHeight * 1.5);
 
          preferenceSettings.endOfGroupingHeight = yHeight + lineHeight * 1.5;
       }
