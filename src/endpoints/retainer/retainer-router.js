@@ -64,9 +64,9 @@ retainerRouter.route('/deleteRetainer/:retainerID/:accountID/:userID').delete(js
 
    try {
       // Check transactions table for retainerID. If transactions exist it mean the reatiner is linked to a transaction and cannot be deleted
-      const linkedTransactions = await transactionsService.getTransactionsByRetainerID(db, retainerID);
+      const linkedTransactions = await transactionsService.getTransactionsByRetainerID(db, accountID, retainerID);
 
-      if (linkedTransactions.length) throw new Error('Transactions are linked to retainer: ' + error.message);
+      if (linkedTransactions.length) throw new Error('Transactions are linked to this retainer; it cannot be deleted.');
 
       // Delete retainer
       await retainerService.deleteRetainer(db, retainerID, accountID);
@@ -88,7 +88,7 @@ retainerRouter.route('/getSingleRetainer/:retainerID/:accountID/:userID').get(as
       const { retainerID, accountID } = req.params;
       const activeRetainer = await retainerService.getSingleRetainer(db, accountID, retainerID);
 
-      if (!activeRetainer.length) throw new Error('Error no retainer found: ' + error.message);
+      if (!activeRetainer.length) throw new Error('No matching retainer record found.');
 
       const activeRetainerData = {
          activeRetainer,

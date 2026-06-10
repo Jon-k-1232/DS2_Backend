@@ -17,6 +17,9 @@ recurringCustomerRouter.route('/createRecurringCustomer/:accountID/:userID').pos
 
    // Create new object with sanitized fields
    const recurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnCreate(sanitizedNewRecurringCustomer);
+   // Trust the account from the (guard-verified) URL, never the request body —
+   // same rule the update route applies.
+   recurringCustomerTableFields.account_id = Number(accountID);
 
    const { customerID } = sanitizedNewRecurringCustomer;
    // update customer table

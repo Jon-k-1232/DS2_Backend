@@ -74,7 +74,8 @@ userRouter
       try {
          await accountUserService.deleteUser(db, userID, accountID);
          await sendUpdatedTableWith200Response(db, res, accountID);
-      } catch {
+      } catch (err) {
+         console.log(err);
          res.send({
             message: 'The user cannot be deleted because data tied to this user exists.',
             status: 500

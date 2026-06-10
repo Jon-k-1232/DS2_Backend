@@ -133,8 +133,8 @@ const transactionsService = {
       return db.select().from('customer_transactions').where('account_id', accountID).andWhere('customer_id', customerID).andWhere('transaction_id', transactionID);
    },
 
-   getTransactionsByRetainerID(db, retainerID) {
-      return db.select().from('customer_transactions').where('retainer_id', retainerID);
+   getTransactionsByRetainerID(db, accountID, retainerID) {
+      return db.select().from('customer_transactions').where('account_id', accountID).andWhere('retainer_id', retainerID);
    },
 
    getTransactionsByJobID(db, accountID, jobID) {

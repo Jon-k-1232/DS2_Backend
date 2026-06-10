@@ -122,10 +122,10 @@ jobRouter.route('/deleteJob/:jobID/:accountID/:userID').delete(jsonParser, async
 
    try {
       const linkedTransactions = await transactionsService.getTransactionsByJobID(db, accountID, jobID);
-      if (linkedTransactions.length) throw new Error('Transactions are linked to job: ' + error.message);
+      if (linkedTransactions.length) throw new Error('Transactions are linked to this job; it cannot be deleted.');
 
       const linkedWriteOffs = await writeOffsService.getWriteOffsByJobID(db, accountID, jobID);
-      if (linkedWriteOffs.length) throw new Error('Write offs are linked to job: ' + error.message);
+      if (linkedWriteOffs.length) throw new Error('Write offs are linked to this job; it cannot be deleted.');
 
       // Delete job
       await jobService.deleteJob(db, jobID, accountID);
