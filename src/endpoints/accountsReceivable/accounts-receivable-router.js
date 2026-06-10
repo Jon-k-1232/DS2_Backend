@@ -1,6 +1,8 @@
 const express = require('express');
 const dayjs = require('dayjs');
+const { enforceAccountId } = require('../auth/account-scope');
 const accountsReceivableRouter = express.Router();
+accountsReceivableRouter.param('accountID', enforceAccountId);
 const accountsReceivableService = require('./accounts-receivable-service');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 

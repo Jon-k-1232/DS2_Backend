@@ -8,6 +8,9 @@ const config = {
    DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
    DATABASE_URL: process.env.DATABASE_NAME || (process.env.NODE_ENV === 'production' ? 'ds2_prod' : 'ds2_dev'),
    API_TOKEN: process.env.API_TOKEN,
+   // JWT signing secret. Prefer JWT_SECRET (delivered via Secrets Manager);
+   // fall back to the legacy API_TOKEN env for backward compatibility.
+   JWT_SECRET: process.env.JWT_SECRET || process.env.API_TOKEN,
    JWT_EXPIRATION: process.env.JWT_EXPIRATION,
    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
    GOOGLE_WORKSPACE_DOMAIN: process.env.GOOGLE_WORKSPACE_DOMAIN,
@@ -27,4 +30,20 @@ const config = {
    AUTO_INSERT_CONFIDENCE_THRESHOLD: Number(process.env.AUTO_INSERT_CONFIDENCE_THRESHOLD || 0.85)
 };
 
+// Fail fast on a missing/weak JWT signing secret. A short, low-entropy secret
+// makes HS256 tokens forgeable (full auth bypass), so in production we refuse
+// to boot. In dev/test we only warn so local runs aren't blocked.
+const validateSecurityConfig = () => {
+   const secret = config.JWT_SECRET || '';
+   const tooWeak = secret.length < 32;
+   if (tooWeak) {
+      const message = `JWT signing secret is missing or too weak (length ${secret.length}; require >= 32 random chars). Set JWT_SECRET to a cryptographically-random value.`;
+      if (config.NODE_ENV === 'production') {
+         throw new Error(message);
+      }
+      console.warn(`[config] WARNING: ${message}`);
+   }
+};
+
 module.exports = config;
+module.exports.validateSecurityConfig = validateSecurityConfig;

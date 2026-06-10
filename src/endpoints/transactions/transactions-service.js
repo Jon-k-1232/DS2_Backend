@@ -141,12 +141,16 @@ const transactionsService = {
       return db.select().from('customer_transactions').where('account_id', accountID).andWhere('customer_job_id', jobID);
    },
 
-   updateTransaction(db, updatedTransaction) {
-      return db.update(updatedTransaction).into('customer_transactions').where('transaction_id', updatedTransaction.transaction_id);
+   updateTransaction(db, updatedTransaction, accountId) {
+      return db
+         .update(updatedTransaction)
+         .into('customer_transactions')
+         .where('transaction_id', updatedTransaction.transaction_id)
+         .andWhere('account_id', accountId);
    },
 
-   deleteTransaction(db, transactionID) {
-      return db.delete().from('customer_transactions').where('transaction_id', '=', transactionID);
+   deleteTransaction(db, transactionID, accountId) {
+      return db.delete().from('customer_transactions').where('transaction_id', '=', transactionID).andWhere('account_id', accountId);
    },
 
    createTransaction(db, newTransaction) {

@@ -1,5 +1,7 @@
 const express = require('express');
+const { enforceAccountId } = require('../auth/account-scope');
 const jobRouter = express.Router();
+jobRouter.param('accountID', enforceAccountId);
 const jobService = require('./job-service');
 const transactionsService = require('../transactions/transactions-service');
 const writeOffsService = require('../writeOffs/writeOffs-service');
@@ -38,9 +40,9 @@ jobRouter.route('/createJob/:accountID/:userID').post(jsonParser, async (req, re
 // Get job for a company
 jobRouter.route('/getSingleJob/:customerJobID/:accountID/:userID').get(async (req, res) => {
    const db = req.app.get('db');
-   const { customerJobID } = req.params;
+   const { customerJobID, accountID } = req.params;
 
-   const activeJobs = await jobService.getSingleJob(db, customerJobID);
+   const activeJobs = await jobService.getSingleJob(db, customerJobID, accountID);
 
    const activeJobData = {
       activeJobs,
@@ -90,16 +92,19 @@ jobRouter.route('/updateJob/:accountID/:userID').put(jsonParser, async (req, res
       const sanitizedUpdatedJob = sanitizeFields(req.body.job);
       // Create new object with sanitized fields
       const jobTableFields = restoreDataTypesJobTableOnUpdate(sanitizedUpdatedJob);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      jobTableFields.account_id = Number(accountID);
 
-      const [jobRowBeforeEdits] = await jobService.getSingleJob(db, jobTableFields.customer_job_id);
+      const [jobRowBeforeEdits] = await jobService.getSingleJob(db, jobTableFields.customer_job_id, accountID);
+      if (!jobRowBeforeEdits) throw new Error('Job not found.');
 
       if (jobTableFields.is_job_complete !== jobRowBeforeEdits.is_job_complete) {
          // Toggle job completion
-         await jobService.toggleJobCompletion(db, jobTableFields);
+         await jobService.toggleJobCompletion(db, jobTableFields, accountID);
       }
 
       // Update job
-      await jobService.updateJob(db, jobTableFields);
+      await jobService.updateJob(db, jobTableFields, accountID);
       await sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.log(error);
@@ -123,7 +128,7 @@ jobRouter.route('/deleteJob/:jobID/:accountID/:userID').delete(jsonParser, async
       if (linkedWriteOffs.length) throw new Error('Write offs are linked to job: ' + error.message);
 
       // Delete job
-      await jobService.deleteJob(db, jobID);
+      await jobService.deleteJob(db, jobID, accountID);
       await sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.log(error);

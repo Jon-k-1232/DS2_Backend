@@ -40,8 +40,8 @@ const invoiceService = {
       return { invoices, totalCount };
    },
 
-   deleteInvoice(db, customerInvoiceID) {
-      return db('customer_invoices').where('customer_invoice_id', customerInvoiceID).del();
+   deleteInvoice(db, customerInvoiceID, accountId) {
+      return db('customer_invoices').where('customer_invoice_id', customerInvoiceID).andWhere('account_id', accountId).del();
    },
 
    // find most recent invoice and return the remaining balance
@@ -284,13 +284,7 @@ const invoiceService = {
          .where('customer_retainers_and_prepayments.account_id', accountID)
          .andWhere(builder => {
             customerIDs.forEach(id => {
-               if (lastBillDateLookup[id]) {
-                  builder.orWhere(subQuery => {
-                     subQuery.where('customer_retainers_and_prepayments.customer_id', id).andWhere('customer_retainers_and_prepayments.created_at', '>=', lastBillDateLookup[id]);
-                  });
-               } else {
-                  builder.orWhere('customer_retainers_and_prepayments.customer_id', id);
-               }
+               builder.orWhere('customer_retainers_and_prepayments.customer_id', id);
             });
          });
 
@@ -393,7 +387,7 @@ const invoiceService = {
          created_by_user_name,
          ...invoiceData
       } = invoice;
-      return db('customer_invoices').where('customer_invoice_id', customer_invoice_id).update(invoiceData);
+      return db('customer_invoices').where('customer_invoice_id', customer_invoice_id).andWhere('account_id', invoiceData.account_id).update(invoiceData);
    }
 };
 

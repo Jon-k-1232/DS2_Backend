@@ -7,7 +7,9 @@ const { putObject, getObject, deleteObject } = require('../../utils/s3');
 const { pendingPaymentsService, PAYMENTS_PENDING_PREFIX } = require('./pendingPayments-service');
 const { validatePendingPaymentExists, validateCanApprove, validateCanDelete } = require('./pendingPayments-logic');
 
+const { enforceAccountId } = require('../auth/account-scope');
 const pendingPaymentsRouter = express.Router();
+pendingPaymentsRouter.param('accountID', enforceAccountId);
 const jsonParser = express.json();
 const rawUploadParser = express.raw({ type: () => true, limit: '25mb' });
 

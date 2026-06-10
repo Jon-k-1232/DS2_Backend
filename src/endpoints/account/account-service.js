@@ -38,6 +38,7 @@ const accountService = {
    updateAccountInformation(db, accountInformationData) {
       return db('account_information')
          .where('account_info_id', accountInformationData.account_info_id)
+         .andWhere('account_id', accountInformationData.account_id)
          .update(accountInformationData)
          .returning('*')
          .then(rows => rows[0]);

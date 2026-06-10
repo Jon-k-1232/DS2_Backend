@@ -1,7 +1,9 @@
 const express = require('express');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
+const { enforceAccountId } = require('../auth/account-scope');
 const paymentsRouter = express.Router();
+paymentsRouter.param('accountID', enforceAccountId);
 const paymentsService = require('./payments-service');
 const invoiceService = require('../invoice/invoice-service');
 const retainersService = require('../retainer/retainer-service');
@@ -109,6 +111,8 @@ paymentsRouter.route('/updatePayment/:accountID/:userID').put(jsonParser, async 
 
       // Create new object with sanitized fields
       const paymentTableFields = restoreDataTypesPaymentsTableOnUpdate(sanitizedUpdatedPayment);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      paymentTableFields.account_id = Number(req.params.accountID);
       const { customer_invoice_id, account_id, payment_amount, payment_id } = paymentTableFields;
 
       // If payment is invoiced, do not allow update
@@ -136,7 +140,7 @@ paymentsRouter.route('/updatePayment/:accountID/:userID').put(jsonParser, async 
       }
 
       // Update payment
-      await paymentsService.updatePayment(db, paymentTableFields);
+      await paymentsService.updatePayment(db, paymentTableFields, account_id);
 
       const message = 'Successfully updated payment.';
       return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
@@ -157,6 +161,8 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
 
       // Create new object with sanitized fields
       const paymentTableFields = restoreDataTypesPaymentsTableOnUpdate(sanitizedUpdatedPayment);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      paymentTableFields.account_id = Number(req.params.accountID);
       const { payment_id, account_id } = paymentTableFields;
 
       const records = await checkIfPaymentIsAttachedToInvoice(db, paymentTableFields);
@@ -168,8 +174,8 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
       }
 
       // Delete the payment and the invoice
-      await invoiceService.deleteInvoice(db, paymentInvoiceRecord.customer_invoice_id);
-      await paymentsService.deletePayment(db, payment_id);
+      await invoiceService.deleteInvoice(db, paymentInvoiceRecord.customer_invoice_id, account_id);
+      await paymentsService.deletePayment(db, payment_id, account_id);
 
       const message = 'Successfully deleted payment.';
       return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);

@@ -1,7 +1,9 @@
 const express = require('express');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
+const { enforceAccountId } = require('../auth/account-scope');
 const accountRouter = express.Router();
+accountRouter.param('accountID', enforceAccountId);
 const accountService = require('./account-service');
 const { createGrid } = require('../../utils/gridFunctions');
 const { requireAdmin } = require('../auth/jwt-auth');
@@ -119,6 +121,10 @@ accountRouter
       // Create new object with sanitized fields
       const accountTableFields = restoreDataTypesAccountOnUpdate(sanitizedAccount);
       const accountInfoTableFields = restoreDataTypesAccountInformationOnUpdate(sanitizedAccount);
+      // No :accountID in the path — scope to the authenticated user's account so
+      // an admin can only modify their own account, not an arbitrary one.
+      accountTableFields.account_id = req.user.account_id;
+      accountInfoTableFields.account_id = req.user.account_id;
 
       const accountData = await accountService.updateAccount(db, accountTableFields);
       const accountInfoData = await accountService.updateAccountInformation(db, accountInfoTableFields);

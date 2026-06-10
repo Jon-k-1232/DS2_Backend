@@ -63,27 +63,29 @@ const paymentsService = {
    },
 
    getSinglePayment(db, paymentID, accountID) {
-      return db.select().from('customer_payments').andWhere('payment_id', Number(paymentID));
+      return db.select().from('customer_payments').where('account_id', accountID).andWhere('payment_id', Number(paymentID));
    },
 
    getPaymentsForInvoice(db, accountID, invoiceID) {
       return db.select().from('customer_payments').where('account_id', accountID).andWhere('customer_invoice_id', invoiceID);
    },
 
-   updatePayment(db, updatedPayment) {
+   updatePayment(db, updatedPayment, accountId) {
       return db
          .update(updatedPayment)
          .into('customer_payments')
          .where('payment_id', '=', updatedPayment.payment_id)
+         .andWhere('account_id', accountId)
          .returning('*')
          .then(rows => rows[0]);
    },
 
-   deletePayment(db, paymentID) {
+   deletePayment(db, paymentID, accountId) {
       return db
          .delete()
          .from('customer_payments')
          .where('payment_id', '=', paymentID)
+         .andWhere('account_id', accountId)
          .returning('*')
          .then(rows => rows[0]);
    },

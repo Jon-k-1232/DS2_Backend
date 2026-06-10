@@ -111,6 +111,7 @@ const customerService = {
    updateCustomer(db, customer) {
       return db('customers')
          .where({ customer_id: customer.customer_id })
+         .andWhere('account_id', customer.account_id)
          .update(customer)
          .returning('*')
          .then(([customer]) => customer);
@@ -121,11 +122,15 @@ const customerService = {
    },
 
    updateCustomerInformation(db, customerInformation) {
-      return db('customer_information').where('customer_id', customerInformation.customer_id).where('customer_info_id', customerInformation.customer_info_id).update(customerInformation);
+      return db('customer_information')
+         .where('customer_id', customerInformation.customer_id)
+         .where('customer_info_id', customerInformation.customer_info_id)
+         .andWhere('account_id', customerInformation.account_id)
+         .update(customerInformation);
    },
 
-   deleteCustomer(db, customer_id) {
-      return db('customers').where({ customer_id }).del();
+   deleteCustomer(db, customer_id, accountId) {
+      return db('customers').where({ customer_id }).andWhere('account_id', accountId).del();
    }
 };
 

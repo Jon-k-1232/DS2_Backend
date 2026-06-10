@@ -1,5 +1,7 @@
 const express = require('express');
+const { enforceAccountId } = require('../auth/account-scope');
 const userRouter = express.Router();
+userRouter.param('accountID', enforceAccountId);
 const accountUserService = require('./user-service');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
@@ -20,6 +22,8 @@ userRouter
          const sanitizedNewUser = sanitizeFields(userWithAccountID);
 
          const userDataTypes = restoreDataTypesUserOnCreate(sanitizedNewUser);
+         // Trust the account from the (guard-verified) URL, never the request body.
+         userDataTypes.account_id = Number(accountID);
          const userData = await accountUserService.createUser(db, userDataTypes);
          const { account_id } = userData;
 
@@ -44,8 +48,10 @@ userRouter
       try {
          const sanitizedUpdatedUser = sanitizeFields(req.body.user);
          const userDataTypes = restoreDataTypesUserOnUpdate(sanitizedUpdatedUser);
+         // Trust the account from the (guard-verified) URL, never the request body.
+         userDataTypes.account_id = Number(accountID);
 
-         await accountUserService.updateUser(db, userDataTypes);
+         await accountUserService.updateUser(db, userDataTypes, accountID);
 
          await sendUpdatedTableWith200Response(db, res, accountID);
       } catch (err) {
@@ -66,7 +72,7 @@ userRouter
       const { userID, accountID } = req.params;
 
       try {
-         await accountUserService.deleteUser(db, userID);
+         await accountUserService.deleteUser(db, userID, accountID);
          await sendUpdatedTableWith200Response(db, res, accountID);
       } catch {
          res.send({

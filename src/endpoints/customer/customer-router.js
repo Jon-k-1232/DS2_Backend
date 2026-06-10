@@ -1,6 +1,8 @@
 const express = require('express');
 const jsonParser = express.json();
+const { enforceAccountId } = require('../auth/account-scope');
 const customerRouter = express.Router();
+customerRouter.param('accountID', enforceAccountId);
 const customerService = require('./customer-service');
 const invoiceService = require('../invoice/invoice-service');
 const transactionsService = require('../transactions/transactions-service');
@@ -170,8 +172,14 @@ customerRouter.route('/updateCustomer/:accountID/:userID').put(jsonParser, async
       // Restore data types and map to DB fields
       const customerTableFields = restoreDataTypesCustomersOnUpdate(sanitizedUpdatedCustomer);
       const customerInfoTableFields = restoreDataTypesCustomersInformationOnUpdate(sanitizedUpdatedCustomer);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      const trustedAccountId = Number(req.params.accountID);
+      customerTableFields.account_id = trustedAccountId;
+      customerInfoTableFields.account_id = trustedAccountId;
       const createRecurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnCreate(sanitizedUpdatedCustomer, customerID);
       const updateRecurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnUpdate(sanitizedUpdatedCustomer, customerID);
+      createRecurringCustomerTableFields.account_id = trustedAccountId;
+      updateRecurringCustomerTableFields.account_id = trustedAccountId;
 
       // Post new customer information
       await customerService.updateCustomer(db, customerTableFields);
@@ -240,7 +248,7 @@ customerRouter
          }
 
          // delete customer
-         await customerService.deleteCustomer(db, customerID);
+         await customerService.deleteCustomer(db, customerID, accountID);
 
          // call active customers
          const activeCustomers = await customerService.getActiveCustomers(db, accountID);

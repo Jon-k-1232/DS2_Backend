@@ -1,21 +1,32 @@
 const jwt = require('jsonwebtoken');
 const authService = require('./auth-service');
+const { AUTH_COOKIE_NAME } = require('./auth-cookie');
+
+// Resolve the session token from the httpOnly cookie (primary) or, for
+// non-browser API clients, the Authorization: Bearer header (fallback).
+const extractToken = req => {
+   const cookieToken = req.cookies && req.cookies[AUTH_COOKIE_NAME];
+   if (cookieToken) return cookieToken;
+
+   const authHeader = req.get('Authorization') || '';
+   if (authHeader.toLowerCase().startsWith('bearer ')) {
+      return authHeader.slice(7);
+   }
+   return null;
+};
 
 const requireAuth = async (req, res, next) => {
-   const authToken = req.get('Authorization') || '';
-   let bearerToken;
+   const token = extractToken(req);
 
-   if (!authToken.toLowerCase().startsWith('bearer ')) {
+   if (!token) {
       return res.status(401).json({
-         message: 'Missing bearer token',
+         message: 'Missing authentication token',
          status: 401
       });
-   } else {
-      bearerToken = authToken.slice(7, authToken.length);
    }
 
    try {
-      const payload = authService.verifyJwt(bearerToken);
+      const payload = authService.verifyJwt(token);
       const user = await authService.getUserByEmail(req.app.get('db'), payload.sub);
 
       if (!user) {
@@ -51,14 +62,14 @@ const requireAuth = async (req, res, next) => {
 };
 
 const checkRole = allowedRoles => async (req, res, next) => {
-   const authHeader = req.get('Authorization') || '';
-   if (!authHeader.toLowerCase().startsWith('bearer ')) {
-      return res.status(401).json({ message: 'Missing bearer token', status: 401 });
+   const token = extractToken(req);
+   if (!token) {
+      return res.status(401).json({ message: 'Missing authentication token', status: 401 });
    }
 
    let payload;
    try {
-      payload = authService.verifyJwt(authHeader.slice(7));
+      payload = authService.verifyJwt(token);
    } catch (err) {
       return res.status(401).json({ message: 'Invalid token', status: 401 });
    }

@@ -36,6 +36,11 @@ const notificationsRouter = require('./endpoints/notifications/notifications-rou
 const accountAuditRouter = require('./endpoints/accountAudit/account-audit-router');
 const accountsReceivableRouter = require('./endpoints/accountsReceivable/accounts-receivable-router');
 
+// Behind one reverse proxy (nginx). Trusting exactly one hop lets express-rate-limit
+// and req.ip see the real client IP from X-Forwarded-For without being spoofable
+// beyond the proxy.
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(cookieParser());
 app.use(
@@ -69,6 +74,31 @@ const authLimiter = rateLimit({
    legacyHeaders: false,
    message: { error: 'Too many auth requests, please try again later.', status: 429 }
 });
+
+// General throttle for all authenticated API traffic. Generous enough not to
+// affect normal use, but caps abuse/scraping by a single client. Disabled under
+// test so the suite isn't rate-limited.
+const apiLimiter = rateLimit({
+   windowMs: 60 * 1000,
+   max: 300,
+   standardHeaders: true,
+   legacyHeaders: false,
+   skip: () => NODE_ENV === 'test',
+   message: { error: 'Too many requests, please slow down.', status: 429 }
+});
+
+// Tighter cap for endpoints that trigger Bedrock/Comprehend (real $ cost) or
+// other heavy work, to bound cost-abuse and DoS from a single authenticated user.
+const expensiveLimiter = rateLimit({
+   windowMs: 60 * 1000,
+   max: 30,
+   standardHeaders: true,
+   legacyHeaders: false,
+   skip: () => NODE_ENV === 'test',
+   message: { error: 'Too many requests for this resource, please slow down.', status: 429 }
+});
+
+app.use(apiLimiter);
 app.use('/auth', authLimiter, authentication);
 app.use('/customer', requireAuth, customerRouter);
 app.use('/jobs', requireAuth, company);
@@ -91,11 +121,11 @@ app.use('/time-tracking', requireAuth, timeTrackingRouter);
 app.use('/time-tracker-staff', requireAuth, timeTrackerStaffRouter);
 app.use('/api/health', healthRouter);
 app.use('/healthz', healthRouter); // AWS health check endpoint (no auth)
-app.use('/ai-integration', requireAuth, aiIntegrationRouter);
+app.use('/ai-integration', requireAuth, expensiveLimiter, aiIntegrationRouter);
 app.use('/pending-payments', requireAuth, pendingPaymentsRouter);
-app.use('/billing-review', requireAuth, billingReviewRouter);
+app.use('/billing-review', requireAuth, expensiveLimiter, billingReviewRouter);
 app.use('/notifications', requireAuth, notificationsRouter);
-app.use('/accountAudit', requireAuth, accountAuditRouter);
+app.use('/accountAudit', requireAuth, expensiveLimiter, accountAuditRouter);
 app.use('/accountsReceivable', requireAuth, accountsReceivableRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

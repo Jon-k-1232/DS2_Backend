@@ -1,7 +1,9 @@
 const express = require('express');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
+const { enforceAccountId } = require('../auth/account-scope');
 const retainerRouter = express.Router();
+retainerRouter.param('accountID', enforceAccountId);
 const retainerService = require('./retainer-service');
 const { restoreDataTypesRetainersTableOnCreate, restoreDataTypesRetainersTableOnUpdate } = require('./retainerObjects');
 const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
@@ -40,9 +42,11 @@ retainerRouter.route('/updateRetainer/:accountID/:userID').put(jsonParser, async
 
       // Create new object with sanitized fields
       const retainerTableFields = restoreDataTypesRetainersTableOnUpdate(sanitizedUpdatedRetainer);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      retainerTableFields.account_id = Number(accountID);
 
       // Update retainer
-      await retainerService.updateRetainer(db, retainerTableFields);
+      await retainerService.updateRetainer(db, retainerTableFields, accountID);
       await sendUpdatedTableWith200Response(db, res, accountID);
    } catch (err) {
       console.log(err);

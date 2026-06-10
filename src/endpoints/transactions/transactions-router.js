@@ -1,7 +1,9 @@
 const express = require('express');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
+const { enforceAccountId } = require('../auth/account-scope');
 const transactionsRouter = express.Router();
+transactionsRouter.param('accountID', enforceAccountId);
 const transactionsService = require('./transactions-service');
 const accountUserService = require('../user/user-service');
 const retainerService = require('../retainer/retainer-service');
@@ -40,7 +42,9 @@ transactionsRouter.route('/createTransaction/:accountID/:userID').post(jsonParse
    const db = req.app.get('db');
    try {
       const sanitizedNewTransaction = sanitizeFields(req.body.transaction);
-      const { accountID } = sanitizedNewTransaction;
+      // Trust the account from the (guard-verified) URL, never the request body.
+      const accountID = Number(req.params.accountID);
+      sanitizedNewTransaction.account_id = accountID;
 
       await addNewTransaction(db, sanitizedNewTransaction);
 
@@ -62,6 +66,8 @@ transactionsRouter.route('/updateTransaction/:accountID/:userID').put(jsonParser
 
       // Create new object with sanitized fields
       const transactionTableFields = restoreDataTypesTransactionsTableOnUpdate(sanitizedUpdatedTransaction);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      transactionTableFields.account_id = Number(req.params.accountID);
       const { account_id, customer_job_id, customer_invoice_id } = transactionTableFields;
 
       // If transaction is attached to an invoice, do not allow update
@@ -84,7 +90,7 @@ transactionsRouter.route('/updateTransaction/:accountID/:userID').put(jsonParser
       }
 
       // Update transaction
-      await transactionsService.updateTransaction(db, newTransaction);
+      await transactionsService.updateTransaction(db, newTransaction, account_id);
 
       await sendUpdatedTableWith200Response(db, res, account_id);
    } catch (error) {
@@ -105,6 +111,8 @@ transactionsRouter.route('/deleteTransaction/:accountID/:userID').delete(async (
 
       // Create new object with sanitized fields
       const transactionTableFields = restoreDataTypesTransactionsTableOnUpdate(sanitizedUpdatedTransaction);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      transactionTableFields.account_id = Number(req.params.accountID);
       const { customer_job_id, transaction_id, account_id, customer_invoice_id, retainer_id } = transactionTableFields;
 
       // If transaction is attached to an invoice, do not allow delete
@@ -121,7 +129,7 @@ transactionsRouter.route('/deleteTransaction/:accountID/:userID').delete(async (
       await updateRecentJobTotal(db, customer_job_id, account_id, transactionTotalDifference);
 
       // Delete transaction
-      await transactionsService.deleteTransaction(db, transaction_id);
+      await transactionsService.deleteTransaction(db, transaction_id, account_id);
       await sendUpdatedTableWith200Response(db, res, account_id);
    } catch (error) {
       console.log(error);

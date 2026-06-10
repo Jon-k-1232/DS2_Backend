@@ -1,5 +1,8 @@
 const express = require('express');
+const { clientSafeMessage } = require('../../utils/clientError');
+const { enforceAccountId } = require('../auth/account-scope');
 const billingReviewRouter = express.Router();
+billingReviewRouter.param('accountID', enforceAccountId);
 const asyncHandler = require('../../utils/asyncHandler');
 const jsonParser = express.json();
 const billingReviewService = require('./billingReview-service');
@@ -259,7 +262,7 @@ billingReviewRouter.route('/reprocess-with-overrides/:entryID/:accountID/:userID
          res.status(200).json({ message: 'ok', ...result });
       } catch (err) {
          console.error(`[${new Date().toISOString()}] reprocessWithOverrides failed: ${err.message}`);
-         res.status(500).json({ message: err.message, decision: 'error' });
+         res.status(500).json({ message: clientSafeMessage(err, 'An unexpected error occurred.'), decision: 'error' });
       }
    })
 );

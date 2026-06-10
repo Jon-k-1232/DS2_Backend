@@ -11,8 +11,8 @@ const jobService = {
       return db.select().from('customer_jobs').where('job_type_id', jobTableFields.job_type_id).andWhere('customer_id', jobTableFields.customer_id).andWhere('account_id', jobTableFields.account_id);
    },
 
-   getSingleJob(db, customerJobID) {
-      return db.select().from('customer_jobs').where('customer_job_id', customerJobID);
+   getSingleJob(db, customerJobID, accountID) {
+      return db.select().from('customer_jobs').where('customer_job_id', customerJobID).andWhere('account_id', accountID);
    },
 
    getSingleJobType(db, jobTypeID, accountID) {
@@ -49,22 +49,25 @@ const jobService = {
          .orderBy('customer_jobs.created_at', 'asc');
    },
 
-   updateJob(db, updatedJob) {
-      return db.update(updatedJob).into('customer_jobs').where('customer_job_id', '=', updatedJob.customer_job_id);
+   updateJob(db, updatedJob, accountId) {
+      return db.update(updatedJob).into('customer_jobs').where('customer_job_id', '=', updatedJob.customer_job_id).andWhere('account_id', accountId);
    },
 
    // Toggle job family completion status
-   toggleJobCompletion(db, jobTableFields) {
+   toggleJobCompletion(db, jobTableFields, accountId) {
       const { is_job_complete, customer_job_id, parent_job_id } = jobTableFields;
       const familyId = parent_job_id || customer_job_id;
-      return db('customer_jobs').where('customer_job_id', familyId).orWhere('parent_job_id', familyId).update({ is_job_complete });
+      return db('customer_jobs')
+         .where('account_id', accountId)
+         .andWhere(builder => builder.where('customer_job_id', familyId).orWhere('parent_job_id', familyId))
+         .update({ is_job_complete });
    },
 
-   deleteJob(db, jobID) {
+   deleteJob(db, jobID, accountId) {
       return db.transaction(async trx => {
-         await trx('customer_transactions').where('customer_job_id', jobID).del();
+         await trx('customer_transactions').where('customer_job_id', jobID).andWhere('account_id', accountId).del();
 
-         return trx('customer_jobs').where('customer_job_id', jobID).del();
+         return trx('customer_jobs').where('customer_job_id', jobID).andWhere('account_id', accountId).del();
       });
    },
 
@@ -75,7 +78,7 @@ const jobService = {
     * @param {*} jobId
     * @returns
     */
-   getRecentJob(db, jobId) {
+   getRecentJob(db, jobId, accountID) {
       return db
          .select(
             'parent_job_id',
@@ -93,6 +96,7 @@ const jobService = {
          )
          .from('customer_jobs')
          .where('customer_job_id', jobId)
+         .andWhere('account_id', accountID)
          .orderBy('created_at', 'desc')
          .limit(1)
          .first();

@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
+const { enforceAccountId } = require('../auth/account-scope');
 const invoiceRouter = express.Router();
+invoiceRouter.param('accountID', enforceAccountId);
 const invoiceService = require('./invoice-service');
 const accountService = require('../account/account-service');
 const transactionsService = require('../transactions/transactions-service');
@@ -61,7 +63,7 @@ invoiceRouter
             throw new Error('Cannot delete invoice with transactions, retainers, payments, or writeoffs.');
          }
 
-         await invoiceService.deleteInvoice(db, invoiceID);
+         await invoiceService.deleteInvoice(db, invoiceID, accountID);
          const activeInvoices = await invoiceService.getInvoices(db, accountID);
 
          // Return Object

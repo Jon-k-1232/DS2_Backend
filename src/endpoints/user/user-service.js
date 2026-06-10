@@ -11,12 +11,12 @@ const accountUserService = {
       .then(rows => rows[0]);
   },
 
-  updateUser(db, userFields) {
-    return db.update(userFields).into('users').where('user_id', '=', userFields.user_id);
+  updateUser(db, userFields, accountId) {
+    return db.update(userFields).into('users').where('user_id', '=', userFields.user_id).andWhere('account_id', accountId);
   },
 
-  deleteUser(db, userID) {
-    return db.delete().from('users').where('user_id', '=', userID);
+  deleteUser(db, userID, accountId) {
+    return db.delete().from('users').where('user_id', '=', userID).andWhere('account_id', accountId);
   },
 
   fetchUser(db, accountID, userID) {

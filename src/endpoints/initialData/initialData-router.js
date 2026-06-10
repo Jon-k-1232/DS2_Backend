@@ -1,5 +1,7 @@
 const express = require('express');
+const { enforceAccountId } = require('../auth/account-scope');
 const initialDataRouter = express.Router();
+initialDataRouter.param('accountID', enforceAccountId);
 const customerService = require('../customer/customer-service');
 const invoiceService = require('../invoice/invoice-service');
 const transactionsService = require('../transactions/transactions-service');

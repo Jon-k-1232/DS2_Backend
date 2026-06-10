@@ -1,5 +1,7 @@
 const express = require('express');
+const { enforceAccountId } = require('../auth/account-scope');
 const quotesRouter = express.Router();
+quotesRouter.param('accountID', enforceAccountId);
 const quotesService = require('./quotes-service');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
@@ -13,6 +15,8 @@ quotesRouter.route('/createQuote').post(jsonParser, async (req, res) => {
 
    // Create new object with sanitized fields
    const quoteTableFields = restoreDataTypesQuotesTableOnCreate(sanitizedNewQuote);
+   // No :accountID in the path — scope to the authenticated user's account.
+   quoteTableFields.account_id = req.user.account_id;
 
    // Post new quotes
    await quotesService.createQuote(db, quoteTableFields);
@@ -65,9 +69,11 @@ quotesRouter.route('/updateQuote').put(jsonParser, async (req, res) => {
 
    // Create new object with sanitized fields
    const quoteTableFields = restoreDataTypesQuotesTableOnUpdate(sanitizedUpdatedQuote);
+   // No :accountID in the path — scope to the authenticated user's account.
+   quoteTableFields.account_id = req.user.account_id;
 
    // Update quote
-   await quotesService.updateQuote(db, quoteTableFields);
+   await quotesService.updateQuote(db, quoteTableFields, quoteTableFields.account_id);
 
    // Get all quote
    const quotesData = await quotesService.getActiveQuotes(db, quoteTableFields.account_id);
@@ -93,7 +99,7 @@ quotesRouter.route('/deleteQuote/:accountID/:quoteID').delete(async (req, res) =
    const { accountID, quoteID } = req.params;
 
    // Delete quote
-   await quotesService.deleteQuote(db, quoteID);
+   await quotesService.deleteQuote(db, quoteID, accountID);
 
    // Get all quotes
    const quotesData = await quotesService.getActiveQuotes(db, accountID);

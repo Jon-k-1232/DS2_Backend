@@ -1,8 +1,12 @@
 const app = require('./app');
 const db = require('./utils/db');
-const { NODE_PORT, HOST_IP, NODE_ENV, DATABASE_URL, S3_BUCKET_NAME, TIME_TRACKER_AI_FEATURE_FLAG } = require('../config');
+const config = require('../config');
+const { NODE_PORT, HOST_IP, NODE_ENV, DATABASE_URL, S3_BUCKET_NAME, TIME_TRACKER_AI_FEATURE_FLAG } = config;
 const { checkConnectivity } = require('./utils/s3');
 const { smokeTest: bedrockSmokeTest } = require('./ai_integrations/bedrock');
+
+// Refuse to boot in production on a missing/weak JWT signing secret.
+config.validateSecurityConfig();
 
 app.set('db', db);
 

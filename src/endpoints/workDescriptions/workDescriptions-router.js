@@ -1,5 +1,7 @@
 const express = require('express');
+const { enforceAccountId } = require('../auth/account-scope');
 const workDescriptionsRouter = express.Router();
+workDescriptionsRouter.param('accountID', enforceAccountId);
 const workDescriptionService = require('./workDescriptions-service');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');

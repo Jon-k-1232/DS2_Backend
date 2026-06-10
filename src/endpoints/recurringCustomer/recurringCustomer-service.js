@@ -27,6 +27,7 @@ const recurringCustomerService = {
     return db
       .from('recurring_customers')
       .where('recurring_customer_id', recurringCustomerTableFields.recurring_customer_id)
+      .andWhere('account_id', recurringCustomerTableFields.account_id)
       .update(recurringCustomerTableFields);
   },
 
@@ -35,7 +36,8 @@ const recurringCustomerService = {
     return db
       .from('recurring_customers')
       .update(recurringCustomerTableFields)
-      .where('recurring_customer_id', recurringCustomerTableFields.recurring_customer_id);
+      .where('recurring_customer_id', recurringCustomerTableFields.recurring_customer_id)
+      .andWhere('account_id', recurringCustomerTableFields.account_id);
   }
 };
 

@@ -4,7 +4,9 @@ const accountUserService = require('../user/user-service');
 const { requireManagerOrAdmin } = require('../auth/jwt-auth');
 const timeTrackerStaffService = require('./timeTrackerStaff-service');
 
+const { enforceAccountId } = require('../auth/account-scope');
 const timeTrackerStaffRouter = express.Router({ mergeParams: true });
+timeTrackerStaffRouter.param('accountID', enforceAccountId);
 const jsonParser = express.json();
 
 const buildResponse = (staff, users) => {

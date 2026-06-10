@@ -1,5 +1,8 @@
 const express = require('express');
+const { clientSafeMessage } = require('../../utils/clientError');
+const { enforceAccountId } = require('../auth/account-scope');
 const timesheetsRouter = express.Router();
+timesheetsRouter.param('accountID', enforceAccountId);
 const asyncHandler = require('../../utils/asyncHandler');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const timesheetsService = require('./timesheets-service');
@@ -34,7 +37,7 @@ timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
          });
       } catch (err) {
          console.error(`[${new Date().toISOString()}] Error retrieving timesheet entries for account ${accountID}: ${err.message}`);
-         res.status(500).json({ message: `Error retrieving timesheet entries: ${err.message}` });
+         res.status(500).json({ message: clientSafeMessage(err, 'Error retrieving timesheet entries.') });
       }
    })
 );
@@ -104,7 +107,7 @@ timesheetsRouter.route('/getTimesheetEntriesByUserID/:queryUserID/:accountID/:us
          });
       } catch (err) {
          console.error(`[${new Date().toISOString()}] Error retrieving employee timesheet entries for account ${accountID}: ${err.message}`);
-         res.status(500).json({ message: `Error retrieving timesheet entries: ${err.message}` });
+         res.status(500).json({ message: clientSafeMessage(err, 'Error retrieving timesheet entries.') });
       }
    })
 );
@@ -130,7 +133,7 @@ timesheetsRouter.route('/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accou
          });
       } catch (err) {
          console.error(`[${new Date().toISOString()}] Error retrieving employee timesheet entries for account ${accountID}: ${err.message}`);
-         res.status(500).json({ message: `Error retrieving timesheet entries: ${err.message}` });
+         res.status(500).json({ message: clientSafeMessage(err, 'Error retrieving timesheet entries.') });
       }
    })
 );
@@ -160,7 +163,7 @@ timesheetsRouter.route('/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID'
          });
       } catch (err) {
          console.error(`[${new Date().toISOString()}] Error retrieving employee timesheet entries for account ${accountID}: ${err.message}`);
-         res.status(500).json({ message: `Error retrieving timesheet entries: ${err.message}` });
+         res.status(500).json({ message: clientSafeMessage(err, 'Error retrieving timesheet entries.') });
       }
    })
 );
@@ -186,7 +189,7 @@ timesheetsRouter.route('/countsByEmployee/:accountID/:userID').get(
          });
       } catch (err) {
          console.error(`[${new Date().toISOString()}] Error retrieving timesheet counts by employee for account ${accountID}: ${err.message}`);
-         res.status(500).json({ message: `Error retrieving timesheet counts by employee: ${err.message}` });
+         res.status(500).json({ message: clientSafeMessage(err, 'Error retrieving timesheet counts by employee.') });
       }
    })
 );
@@ -238,7 +241,7 @@ timesheetsRouter.route('/moveToTransactions/:accountID/:userID').post(
          });
       } catch (err) {
          console.error(`[${new Date().toISOString()}] Error moving timesheet entry to transactions: ${err.message}`);
-         res.status(500).json({ message: `Error moving timesheet entry to transactions: ${err.message}` });
+         res.status(500).json({ message: clientSafeMessage(err, 'Error moving timesheet entry to transactions.') });
       }
    })
 );
@@ -260,7 +263,7 @@ timesheetsRouter.route('/deleteTimesheetEntry/:timesheetEntryID/:accountID/:user
          });
       } catch (err) {
          console.error(`[${new Date().toISOString()}] Error deleting timesheet entry: ${err.message}`);
-         res.status(500).json({ message: `Error deleting timesheet entry: ${err.message}` });
+         res.status(500).json({ message: clientSafeMessage(err, 'Error deleting timesheet entry.') });
       }
    })
 );

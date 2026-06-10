@@ -1,7 +1,9 @@
 const express = require('express');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
+const { enforceAccountId } = require('../auth/account-scope');
 const recurringCustomerRouter = express.Router();
+recurringCustomerRouter.param('accountID', enforceAccountId);
 const recurringCustomerService = require('./recurringCustomer-service');
 const customerService = require('../customer/customer-service');
 const { restoreDataTypesRecurringCustomerTableOnCreate, restoreDataTypesRecurringCustomerTableOnUpdate } = require('./recurringCustomerObjects');
@@ -67,6 +69,9 @@ recurringCustomerRouter.route('/updateRecurringCustomer').put(jsonParser, async 
 
    // Create new object with sanitized fields
    const recurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnUpdate(sanitizedUpdatedRecurringCustomer);
+   // This route has no :accountID in the path, so scope to the authenticated
+   // user's account rather than trusting the request body.
+   recurringCustomerTableFields.account_id = req.user.account_id;
 
    // Update recurring customer
    await recurringCustomerService.updateRecurringCustomer(db, recurringCustomerTableFields);
@@ -94,8 +99,12 @@ recurringCustomerRouter.route('/deleteRecurringCustomer/:accountID/:recurringCus
    const db = req.app.get('db');
    const { accountID, recurringCustomerId } = req.params;
 
-   // Delete recurring customer
-   await recurringCustomerService.deleteRecurringCustomer(db, recurringCustomerId);
+   // Soft-delete, scoped to the (guard-verified) URL account.
+   await recurringCustomerService.deleteRecurringCustomer(db, {
+      recurring_customer_id: Number(recurringCustomerId),
+      account_id: Number(accountID),
+      is_recurring_customer_active: false
+   });
 
    // Get all recurring customers
    const recurringCustomersData = await recurringCustomerService.getActiveRecurringCustomers(db, accountID);

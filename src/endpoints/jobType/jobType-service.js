@@ -24,12 +24,12 @@ const jobTypeService = {
          .orderBy('job_description', 'asc');
    },
 
-   updateJobType(db, updatedJobType) {
-      return db.update(updatedJobType).into('customer_job_types').where('job_type_id', '=', updatedJobType.job_type_id);
+   updateJobType(db, updatedJobType, accountId) {
+      return db.update(updatedJobType).into('customer_job_types').where('job_type_id', '=', updatedJobType.job_type_id).andWhere('account_id', accountId);
    },
 
-   deleteJobType(db, jobTypeID) {
-      return db.del().from('customer_job_types').where('job_type_id', '=', jobTypeID);
+   deleteJobType(db, jobTypeID, accountId) {
+      return db.del().from('customer_job_types').where('job_type_id', '=', jobTypeID).andWhere('account_id', accountId);
    }
 };
 

@@ -13,9 +13,15 @@ const isTestEnv = process.env.NODE_ENV === 'test';
 const requiredConfig = {
   S3_BUCKET_NAME: config.S3_BUCKET_NAME || (isTestEnv ? 'test-bucket' : undefined),
   S3_REGION: config.S3_REGION || (isTestEnv ? 'us-east-1' : undefined),
-  S3_ACCESS_KEY_ID: config.S3_ACCESS_KEY_ID || (isTestEnv ? 'test-key' : undefined),
-  S3_SECRET_ACCESS_KEY: config.S3_SECRET_ACCESS_KEY || (isTestEnv ? 'test-secret' : undefined),
   S3_ENDPOINT: config.S3_ENDPOINT || (isTestEnv ? 'http://localhost' : undefined),
+};
+
+// Static keys are now OPTIONAL. When present (local/dev) we use them; when
+// absent (deployed) the SDK falls back to the default provider chain — i.e. the
+// ECS task role — so we don't ship long-lived static credentials in the task def.
+const explicitCredentials = {
+  accessKeyId: config.S3_ACCESS_KEY_ID || (isTestEnv ? 'test-key' : undefined),
+  secretAccessKey: config.S3_SECRET_ACCESS_KEY || (isTestEnv ? 'test-secret' : undefined),
 };
 
 const missing = Object.entries(requiredConfig)
@@ -30,15 +36,16 @@ if (missing.length && !isTestEnv) {
 
 const bucketName = requiredConfig.S3_BUCKET_NAME;
 
-const s3 = new S3Client({
+const s3Options = {
   region: requiredConfig.S3_REGION,
   endpoint: requiredConfig.S3_ENDPOINT,
   forcePathStyle: true,
-  credentials: {
-    accessKeyId: requiredConfig.S3_ACCESS_KEY_ID,
-    secretAccessKey: requiredConfig.S3_SECRET_ACCESS_KEY,
-  },
-});
+};
+if (explicitCredentials.accessKeyId && explicitCredentials.secretAccessKey) {
+  s3Options.credentials = explicitCredentials;
+}
+
+const s3 = new S3Client(s3Options);
 
 const streamToBuffer = async (stream) => {
   const chunks = [];

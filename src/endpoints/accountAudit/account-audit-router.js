@@ -1,6 +1,9 @@
 const express = require('express');
+const { clientSafeMessage } = require('../../utils/clientError');
 const jsonParser = express.json();
+const { enforceAccountId } = require('../auth/account-scope');
 const accountAuditRouter = express.Router();
+accountAuditRouter.param('accountID', enforceAccountId);
 
 const { requireAuth, requireSuperAdmin } = require('../auth/jwt-auth');
 const accountAuditService = require('./account-audit-service');
@@ -102,7 +105,7 @@ accountAuditRouter.get('/customers/:accountID/:userID', async (req, res) => {
       });
    } catch (err) {
       console.error('Account audit list error:', err);
-      res.status(500).send({ message: err.message || 'Error listing customers.', status: 500 });
+      res.status(500).send({ message: clientSafeMessage(err, 'Error listing customers.'), status: 500 });
    }
 });
 
@@ -297,7 +300,7 @@ accountAuditRouter.post('/run/:accountID/:userID', jsonParser, async (req, res) 
       res.send({ status: 200, job_id: jobId, total: ids.length });
    } catch (err) {
       console.error('Account audit run error:', err);
-      res.status(500).send({ message: err.message || 'Error running audits.', status: 500 });
+      res.status(500).send({ message: clientSafeMessage(err, 'Error running audits.'), status: 500 });
    }
 });
 
@@ -357,7 +360,7 @@ accountAuditRouter.get('/audit/:auditID/:accountID/:userID', async (req, res) =>
       });
    } catch (err) {
       console.error('Account audit detail error:', err);
-      res.status(500).send({ message: err.message || 'Error fetching audit.', status: 500 });
+      res.status(500).send({ message: clientSafeMessage(err, 'Error fetching audit.'), status: 500 });
    }
 });
 
@@ -400,7 +403,7 @@ accountAuditRouter.get('/audit/:auditID/pdf/:accountID/:userID', async (req, res
       return res.end(pdf);
    } catch (err) {
       console.error('Account audit pdf error:', err);
-      res.status(500).send({ message: err.message || 'Error returning PDF.', status: 500 });
+      res.status(500).send({ message: clientSafeMessage(err, 'Error returning PDF.'), status: 500 });
    }
 });
 
@@ -440,7 +443,7 @@ accountAuditRouter.get('/customer/:customerID/:accountID/:userID', async (req, r
       });
    } catch (err) {
       console.error('Account audit customer-list error:', err);
-      res.status(500).send({ message: err.message || 'Error fetching customer audits.', status: 500 });
+      res.status(500).send({ message: clientSafeMessage(err, 'Error fetching customer audits.'), status: 500 });
    }
 });
 

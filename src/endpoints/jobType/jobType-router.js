@@ -1,5 +1,7 @@
 const express = require('express');
+const { enforceAccountId } = require('../auth/account-scope');
 const jobTypeRouter = express.Router();
+jobTypeRouter.param('accountID', enforceAccountId);
 const jobTypeService = require('./jobType-service');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
@@ -32,13 +34,13 @@ jobTypeRouter.route('/createJobType/:accountID/:userID').post(jsonParser, async 
 
 // Get single jobType
 jobTypeRouter
-   .route('/getSingleJobType/:jobTypeID/:account/:userID')
+   .route('/getSingleJobType/:jobTypeID/:accountID/:userID')
    // .all( requireAuth )
    .get(async (req, res) => {
       const db = req.app.get('db');
-      const { jobTypeID, account } = req.params;
+      const { jobTypeID, accountID } = req.params;
 
-      const activeJobs = await jobTypeService.getSingleJobType(db, jobTypeID, account);
+      const activeJobs = await jobTypeService.getSingleJobType(db, jobTypeID, accountID);
 
       const activeJobData = {
          activeJobs,
@@ -61,9 +63,11 @@ jobTypeRouter.route('/updateJobType/:accountID/:userID').put(jsonParser, async (
       const sanitizedUpdatedJobType = sanitizeFields(req.body.jobType);
       // Create new object with sanitized fields
       const jobTypeTableFields = restoreDataTypesJobTypeTableOnUpdate(sanitizedUpdatedJobType);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      jobTypeTableFields.account_id = Number(accountID);
 
       // Update jobType
-      await jobTypeService.updateJobType(db, jobTypeTableFields);
+      await jobTypeService.updateJobType(db, jobTypeTableFields, accountID);
       sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.error(error.message);
@@ -84,7 +88,7 @@ jobTypeRouter.route('/deleteJobType/:jobTypeID/:accountID/:userID').delete(async
       if (foundJobs.length) throw new Error('Cannot delete jobType that is in use.');
 
       // Delete jobType
-      await jobTypeService.deleteJobType(db, jobTypeID);
+      await jobTypeService.deleteJobType(db, jobTypeID, accountID);
       sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.error(error.message);

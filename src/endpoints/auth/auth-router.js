@@ -1,6 +1,7 @@
 const express = require('express');
 const authService = require('./auth-service');
 const { requireAuth } = require('./jwt-auth');
+const { setAuthCookie, clearAuthCookie } = require('./auth-cookie');
 const asyncHandler = require('../../utils/asyncHandler');
 const authentication = express.Router();
 const jsonParser = express.json();
@@ -62,9 +63,13 @@ authentication.post(
 
       const authToken = authService.createJwt(email, { user_id });
 
+      // Deliver the session token as an httpOnly cookie so client-side JS (and
+      // therefore any XSS) cannot read it. The token is intentionally NOT echoed
+      // back in the JSON body anymore.
+      setAuthCookie(res, authToken);
+
       res.status(200).json({
          user,
-         authToken,
          status: 200
       });
    })
@@ -77,10 +82,19 @@ authentication.post(
    requireAuth,
    asyncHandler(async (req, res) => {
       const authToken = authService.createJwt(req.user.email, { user_id: req.user.user_id });
+      setAuthCookie(res, authToken);
       res.status(200).json({
-         authToken,
          status: 200
       });
+   })
+);
+
+// Logout - clear the session cookie.
+authentication.post(
+   '/logout',
+   asyncHandler(async (req, res) => {
+      clearAuthCookie(res);
+      res.status(200).json({ status: 200 });
    })
 );
 

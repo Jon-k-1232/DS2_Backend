@@ -1,5 +1,7 @@
 const express = require('express');
+const { enforceAccountId } = require('../auth/account-scope');
 const notificationsRouter = express.Router();
+notificationsRouter.param('accountID', enforceAccountId);
 const asyncHandler = require('../../utils/asyncHandler');
 const jsonParser = express.json();
 const notificationsService = require('./notifications-service');

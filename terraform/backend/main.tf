@@ -170,12 +170,15 @@ locals {
     JWT_EXPIRATION          = "11h"
     FROM_EMAIL              = var.from_email
     AWS_REGION              = var.aws_region
-    API_TOKEN               = var.api_token
+    # JWT signing secret is injected from Secrets Manager as JWT_SECRET (see
+    # ecs_secrets above); the app reads JWT_SECRET. The plaintext API_TOKEN env
+    # was removed so the signing secret is no longer exposed in the task definition.
     S3_REGION               = var.s3_region
     S3_BUCKET_NAME          = var.s3_bucket_name
     S3_ENDPOINT             = var.s3_endpoint
-    S3_ACCESS_KEY_ID        = var.s3_access_key_id
-    S3_SECRET_ACCESS_KEY    = var.s3_secret_access_key
+    # S3 access keys removed: the ECS task role (aws_iam_role_policy.ecs_task_s3)
+    # already grants S3 access, and src/utils/s3.js falls back to that role when
+    # no static keys are present — no long-lived keys in the task definition.
 
     # Time-tracker AI pipeline (Phase 1 cutover). Defaults are safe — the
     # feature flag is "off" out of the box; flip per-environment in
@@ -392,13 +395,18 @@ resource "aws_iam_role_policy" "ecs_task_s3" {
         ]
       },
       {
+        # Scoped to the account RDS/encryption CMK instead of "*". The assets and
+        # llm-log buckets use SSE-S3 (AES256), so no KMS grant is needed for S3;
+        # this statement covers the CMK used for encrypted data at rest.
         Effect = "Allow"
         Action = [
           "kms:Decrypt",
           "kms:Encrypt",
           "kms:GenerateDataKey"
         ]
-        Resource = ["*"]
+        Resource = [
+          "arn:aws:kms:us-west-2:561979538576:key/ec003257-4dfb-41fa-8a6f-a5dd9580129b"
+        ]
       }
     ]
   })

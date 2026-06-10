@@ -67,8 +67,8 @@ const writeOffsService = {
       return db.select().from('customer_writeoffs').where('account_id', accountID).andWhere('customer_job_id', jobID);
    },
 
-   updateWriteOff(db, updatedWriteOff) {
-      return db.update(updatedWriteOff).into('customer_writeoffs').where('writeoff_id', '=', updatedWriteOff.writeoff_id);
+   updateWriteOff(db, updatedWriteOff, accountId) {
+      return db.update(updatedWriteOff).into('customer_writeoffs').where('writeoff_id', '=', updatedWriteOff.writeoff_id).andWhere('account_id', accountId);
    },
 
    deleteWriteOff(db, writeOffID, accountID) {

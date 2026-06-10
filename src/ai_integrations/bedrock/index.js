@@ -4,9 +4,15 @@ const { S3Client } = require('@aws-sdk/client-s3');
 const { estimateCost } = require('./cost');
 const { writeS3Log, writeDbLog } = require('./audit');
 const { acquireSlot } = require('./rateLimiter');
+const { _stringFallbackRedact } = require('../../utils/comprehend');
 
 const REGION = process.env.BEDROCK_REGION || 'us-west-2';
 const LLM_LOG_BUCKET = process.env.LLM_LOG_BUCKET || '';
+// Off by default: the prompts/responses can contain client PII (names, notes,
+// ledger detail). When false we persist only metadata + a content hash to the
+// durable S3 log. When explicitly enabled (debugging), content is PII-redacted
+// first. The DB log (ai_call_log) never stores raw content regardless.
+const LLM_LOG_RAW = String(process.env.LLM_LOG_RAW).toLowerCase() === 'true';
 
 let cachedBedrockClient = null;
 let cachedS3Client = null;
@@ -132,6 +138,7 @@ const invokeBedrockClaude = async ({
    const outputTokens = parsed ? parsed.outputTokens : 0;
    const costUsd = estimateCost(modelId, inputTokens, outputTokens);
 
+   const promptText = JSON.stringify({ system, messages });
    const auditRecord = {
       request_id: requestId,
       account_id: accountId,
@@ -147,9 +154,22 @@ const invokeBedrockClaude = async ({
       status,
       error_message: errorMessage,
       created_at: new Date().toISOString(),
-      raw_response: raw,
-      request: { system, messages, maxTokens, temperature }
+      // Content hash + sizes let us correlate/debug without persisting PII.
+      prompt_sha256: crypto.createHash('sha256').update(promptText).digest('hex'),
+      prompt_chars: promptText.length,
+      response_chars: raw ? String(raw).length : 0
    };
+
+   // Only persist raw prompt/response when explicitly enabled, and redact PII first.
+   if (LLM_LOG_RAW) {
+      auditRecord.raw_response = raw ? _stringFallbackRedact(String(raw)) : raw;
+      auditRecord.request = {
+         system: system ? _stringFallbackRedact(String(system)) : system,
+         messages: _stringFallbackRedact(JSON.stringify(messages)),
+         maxTokens,
+         temperature
+      };
+   }
 
    let s3LogKey = null;
    try {

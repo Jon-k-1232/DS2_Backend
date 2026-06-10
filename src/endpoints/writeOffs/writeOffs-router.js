@@ -1,7 +1,9 @@
 const express = require('express');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
+const { enforceAccountId } = require('../auth/account-scope');
 const writeOffsRouter = express.Router();
+writeOffsRouter.param('accountID', enforceAccountId);
 const writeOffsService = require('./writeOffs-service');
 const invoiceService = require('../invoice/invoice-service');
 const { restoreDataTypesWriteOffsTableOnCreate, restoreDataTypesWriteOffsTableOnUpdate, convertWriteOffToPayment } = require('./writeOffsObjects');
@@ -79,6 +81,8 @@ writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(jsonParser, asy
 
       // Create new object with sanitized fields
       const writeOffTableFields = restoreDataTypesWriteOffsTableOnUpdate(sanitizedUpdatedWriteOffs);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      writeOffTableFields.account_id = Number(req.params.accountID);
       const { customer_invoice_id, account_id } = writeOffTableFields;
 
       // If payment is attached to an invoice, do not allow delete
@@ -89,7 +93,7 @@ writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(jsonParser, asy
       }
 
       // Update writeOff
-      await writeOffsService.updateWriteOff(db, writeOffTableFields);
+      await writeOffsService.updateWriteOff(db, writeOffTableFields, account_id);
 
       sendUpdatedTableWith200Response(db, res, account_id);
    } catch (err) {

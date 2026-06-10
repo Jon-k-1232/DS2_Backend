@@ -19,7 +19,13 @@ const { buildTemplate } = require('./template-builder');
 const gzip = promisify(zlib.gzip);
 const gunzip = promisify(zlib.gunzip);
 
+const { enforceAccountId, enforceSelfOrPrivileged } = require('../auth/account-scope');
 const timeTrackingRouter = express.Router();
+timeTrackingRouter.param('accountID', enforceAccountId);
+// :userID on this router identifies the OWNER of the uploaded tracker files,
+// so a non-privileged user may only address their own id. requireAuth must run
+// first (it does, at the app mount) so req.user is populated.
+timeTrackingRouter.param('userID', enforceSelfOrPrivileged);
 const rawUploadParser = express.raw({ type: () => true, limit: '25mb' });
 const jsonParser = express.json();
 

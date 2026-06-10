@@ -62,8 +62,8 @@ const retainersService = {
          .limit(1);
    },
 
-   updateRetainer(db, updatedRetainer) {
-      return db.update(updatedRetainer).into('customer_retainers_and_prepayments').where('retainer_id', '=', updatedRetainer.retainer_id);
+   updateRetainer(db, updatedRetainer, accountId) {
+      return db.update(updatedRetainer).into('customer_retainers_and_prepayments').where('retainer_id', '=', updatedRetainer.retainer_id).andWhere('account_id', accountId);
    },
 
    deleteRetainer(db, retainerID, accountID) {
