@@ -28,6 +28,48 @@ const findInvoice = async (db, customer_invoice_id, account_id, payment_amount) 
 };
 
 /**
+ * Resolve the customer's CURRENT invoice chain — the only chain a new payment
+ * may be applied to under the rolling-balance model (the newest parent's
+ * remaining IS the customer's debt; every older chain has been absorbed into a
+ * newer beginning_balance and is invisible to the billing engine's date gate).
+ *
+ * Returns the latest row of the current chain (the row that carries the
+ * authoritative remaining balance) for every parent sharing the newest
+ * invoice_date — duplicate same-day parents are all live, so the caller picks
+ * among them. Returns [] when the customer has no parent invoices.
+ */
+const getCurrentChainTargets = async (db, account_id, customer_id) => {
+   const parents = await db
+      .select('*')
+      .from('customer_invoices')
+      .where('account_id', account_id)
+      .andWhere('customer_id', customer_id)
+      .whereNull('parent_invoice_id')
+      .orderBy([
+         { column: 'invoice_date', order: 'desc' },
+         { column: 'customer_invoice_id', order: 'desc' }
+      ]);
+
+   if (!parents.length) return [];
+
+   const newestDate = new Date(parents[0].invoice_date).toISOString().slice(0, 10);
+   const currentParents = parents.filter(p => new Date(p.invoice_date).toISOString().slice(0, 10) === newestDate);
+
+   return Promise.all(
+      currentParents.map(async parent => {
+         const [latestChild] = await db
+            .select('*')
+            .from('customer_invoices')
+            .where('parent_invoice_id', parent.customer_invoice_id)
+            .orderBy('created_at', 'desc')
+            .limit(1);
+         const latestRow = latestChild || parent;
+         return { parent, latestRow, remaining: Number(latestRow.remaining_balance_on_invoice) || 0 };
+      })
+   );
+};
+
+/**
  * Check if the payment has been invoiced or not by checking the last invoice date against the payment created_at date.
  * @param {*} db
  * @param {*} paymentTableFields
@@ -150,4 +192,4 @@ const createInvoiceObject = (matchingInvoice, remainingAmount, customerInvoiceID
    };
 };
 
-module.exports = { findInvoice, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse };
+module.exports = { findInvoice, getCurrentChainTargets, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse };

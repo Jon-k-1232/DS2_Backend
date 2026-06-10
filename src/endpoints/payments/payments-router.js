@@ -10,7 +10,7 @@ const retainersService = require('../retainer/retainer-service');
 const { restoreDataTypesPaymentsTableOnCreate, restoreDataTypesPaymentsTableOnUpdate } = require('./paymentsObjects');
 const { createGrid } = require('../../utils/gridFunctions');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
-const { findInvoice, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse } = require('./payment-logic');
+const { getCurrentChainTargets, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse } = require('./payment-logic');
 const { findMatchingRetainer } = require('../retainer/retainer-logic');
 
 // Create a new payment
@@ -19,14 +19,62 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
    try {
       const sanitizedNewPayment = sanitizeFields(req.body.payment);
       const paymentTableFields = restoreDataTypesPaymentsTableOnCreate(sanitizedNewPayment);
-      const { customer_invoice_id, account_id, payment_amount, retainer_id } = paymentTableFields;
+      // Trust the account from the (guard-verified) URL, never the request body.
+      paymentTableFields.account_id = Number(req.params.accountID);
+      const { customer_invoice_id, customer_id, account_id, payment_amount, retainer_id } = paymentTableFields;
 
       if (!customer_invoice_id) {
-         throw new Error('No invoice ID provided for this payment.');
+         throw new Error('No invoice ID provided for this payment. If the customer has no open invoice, record the funds as a retainer/prepayment instead.');
       }
 
-      // Need to find the invoice that the payment is being applied to
-      const matchingInvoice = await findInvoice(db, customer_invoice_id, account_id, payment_amount);
+      // The row the user picked — existence and ownership checks only; the
+      // amount is validated against the customer's CURRENT chain below.
+      const [requestedInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, customer_invoice_id);
+      if (!requestedInvoice || !Object.keys(requestedInvoice).length) {
+         throw new Error('No matching invoice record found for this payment.');
+      }
+      if (Number(requestedInvoice.customer_id) !== Number(customer_id)) {
+         throw new Error(`Invoice ${requestedInvoice.invoice_number} belongs to a different customer than this payment. Re-select the invoice.`);
+      }
+
+      // ROLLING-BALANCE GUARD. A payment may only reduce the customer's
+      // current chain — older chains have been absorbed into a newer
+      // beginning_balance and the billing engine's date gate never reads them,
+      // so money applied there silently vanishes from every future bill.
+      // If the user referenced an absorbed invoice, remap to the current chain
+      // and record both numbers on the payment.
+      const targets = await getCurrentChainTargets(db, account_id, customer_id);
+      if (!targets.length) {
+         throw new Error('This customer has no invoices to apply a payment to. Record the funds as a retainer/prepayment instead.');
+      }
+
+      const requestedRootID = requestedInvoice.parent_invoice_id || requestedInvoice.customer_invoice_id;
+      let target = targets.find(t => t.parent.customer_invoice_id === requestedRootID);
+      let remapMessage = '';
+
+      if (!target) {
+         target = targets.reduce((best, t) => (t.remaining > best.remaining ? t : best), targets[0]);
+         if (target.remaining <= 0) {
+            throw new Error(
+               `Invoice ${requestedInvoice.invoice_number} was already rolled into a newer statement, and the current invoice ${target.parent.invoice_number} shows $0 remaining. ` +
+                  'Record the funds as a retainer/prepayment, or run an account audit to reconcile the balance.'
+            );
+         }
+         remapMessage = `Applied to current invoice ${target.parent.invoice_number} — the referenced invoice ${requestedInvoice.invoice_number} was already rolled into it.`;
+         const marker = `[applied to ${target.parent.invoice_number}; customer referenced ${requestedInvoice.invoice_number}]`;
+         paymentTableFields.note = paymentTableFields.note ? `${paymentTableFields.note} ${marker}` : marker;
+      }
+
+      if (Math.abs(target.remaining) < Math.abs(payment_amount)) {
+         throw new Error(
+            `Payment amount exceeds remaining balance on invoice ${target.parent.invoice_number}. Max amount that can be applied to this invoice is $${Math.abs(target.remaining)}.`
+         );
+      }
+
+      // The chain's latest row carries the authoritative remaining balance —
+      // never the row the user happened to pick (it may be the parent or an
+      // intermediate snapshot with a stale remaining).
+      const matchingInvoice = target.latestRow;
       const insertionObjects = updateObjectsWithRemainingAmounts(matchingInvoice, paymentTableFields);
       const { paymentInsertionObject, invoiceInsertionObject } = insertionObjects;
 
@@ -61,7 +109,7 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
          await invoiceService.updateInvoice(db, parentInvoice);
       }
 
-      const message = 'Successfully created payment.';
+      const message = remapMessage ? `Successfully created payment. ${remapMessage}` : 'Successfully created payment.';
 
       return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
    } catch (err) {
@@ -120,23 +168,52 @@ paymentsRouter.route('/updatePayment/:accountID/:userID').put(jsonParser, async 
 
       // Get payment record
       const [matchingPayment] = await paymentsService.getSinglePayment(db, payment_id, account_id);
-      const { payment_amount: DbPaymentAmount, customer_invoice_id: DbCustomerInvoiceID } = matchingPayment || {};
+      if (!matchingPayment) throw new Error('No matching payment record found.');
+      const { payment_amount: DbPaymentAmount, customer_invoice_id: DbCustomerInvoiceID } = matchingPayment;
 
-      // ToDo - re write this if block to update the invoice object with whatever new values need to be insert. factors = customerID change, invoiceID change, amount change, invoice Number change
-      if (DbPaymentAmount !== payment_amount || DbCustomerInvoiceID !== customer_invoice_id) {
-         // Get invoice record, update invoice, update payment
-         const [matchingInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, customer_invoice_id);
-         const { remaining_balance_on_invoice } = matchingInvoice || {};
-         const preOriginalPaymentInvoiceAmount = Math.abs(DbPaymentAmount) + remaining_balance_on_invoice;
-         const newInvoiceRemaining = preOriginalPaymentInvoiceAmount + payment_amount;
+      // Reassigning a payment to a different invoice cannot be expressed as a
+      // balance edit (two chains would need correcting) — delete and re-enter.
+      if (customer_invoice_id && DbCustomerInvoiceID && Number(customer_invoice_id) !== Number(DbCustomerInvoiceID)) {
+         throw new Error('Moving a payment to a different invoice is not supported. Delete the payment and re-enter it against the correct invoice.');
+      }
+      paymentTableFields.customer_invoice_id = DbCustomerInvoiceID;
 
-         // update Invoice Object
-         matchingInvoice.remaining_balance_on_invoice = newInvoiceRemaining;
-         matchingInvoice.is_invoice_paid_in_full = newInvoiceRemaining === 0 ? true : false;
-         matchingInvoice.fully_paid_date = newInvoiceRemaining === 0 ? new Date() : null;
+      const amountDelta = Math.abs(Number(payment_amount)) - Math.abs(Number(DbPaymentAmount));
+      if (amountDelta !== 0) {
+         // The payment's snapshot row carries the chain's remaining as of this
+         // payment. Only the latest snapshot may be re-priced — later snapshots
+         // already build on this one.
+         const [snapshotRow] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, DbCustomerInvoiceID);
+         if (!snapshotRow || !Object.keys(snapshotRow).length) throw new Error('No matching invoice record found for this payment.');
 
-         // Update invoice
-         await invoiceService.updateInvoice(db, matchingInvoice);
+         if (snapshotRow.parent_invoice_id) {
+            const latestChild = await invoiceService.getLatestChildInvoice(db, account_id, snapshotRow.parent_invoice_id);
+            if (latestChild && latestChild.customer_invoice_id !== snapshotRow.customer_invoice_id) {
+               throw new Error('A newer payment or write-off has been applied to this invoice since this payment. Edit or delete the newer entries first.');
+            }
+         }
+
+         const newRemaining = Number(snapshotRow.remaining_balance_on_invoice) - amountDelta;
+         if (newRemaining < 0) {
+            throw new Error(`Payment amount exceeds remaining balance on invoice ${snapshotRow.invoice_number}. Max increase is $${Number(snapshotRow.remaining_balance_on_invoice)}.`);
+         }
+
+         snapshotRow.remaining_balance_on_invoice = newRemaining;
+         snapshotRow.is_invoice_paid_in_full = newRemaining === 0;
+         snapshotRow.fully_paid_date = newRemaining === 0 ? new Date() : null;
+         await invoiceService.updateInvoice(db, snapshotRow);
+
+         // Mirror the corrected balance onto the parent row (AR/profile reads).
+         if (snapshotRow.parent_invoice_id) {
+            const [parentInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, snapshotRow.parent_invoice_id);
+            if (parentInvoice && Object.keys(parentInvoice).length) {
+               parentInvoice.remaining_balance_on_invoice = newRemaining;
+               parentInvoice.is_invoice_paid_in_full = newRemaining === 0;
+               parentInvoice.fully_paid_date = newRemaining === 0 ? new Date() : null;
+               parentInvoice.total_payments = Math.max(0, Number(parentInvoice.total_payments) + amountDelta);
+               await invoiceService.updateInvoice(db, parentInvoice);
+            }
+         }
       }
 
       // Update payment
@@ -168,6 +245,16 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
       const records = await checkIfPaymentIsAttachedToInvoice(db, paymentTableFields);
       const { paymentRecord, retainerRecord, paymentInvoiceRecord } = records;
 
+      // Refuse out-of-order deletion: snapshots created after this payment
+      // already bake its reduction into their remaining balance, so removing
+      // an earlier payment would leave the chain telling two different stories.
+      if (paymentInvoiceRecord?.parent_invoice_id) {
+         const latestChild = await invoiceService.getLatestChildInvoice(db, account_id, paymentInvoiceRecord.parent_invoice_id);
+         if (latestChild && latestChild.customer_invoice_id !== paymentInvoiceRecord.customer_invoice_id) {
+            throw new Error('A newer payment or write-off has been applied to this invoice since this payment. Delete the newer entries first, then retry.');
+         }
+      }
+
       // Retainer used on payment, delete retainer
       if (Object.keys(retainerRecord).length) {
          await retainersService.deleteRetainer(db, retainerRecord.retainer_id, account_id);
@@ -191,8 +278,12 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
          }
       }
 
-      // Delete the payment and the child snapshot invoice
-      await invoiceService.deleteInvoice(db, paymentInvoiceRecord.customer_invoice_id, account_id);
+      // Delete the payment and its child snapshot. Legacy payments (pre-snapshot
+      // era) point directly at the PARENT invoice row — never delete that row,
+      // it IS the customer's invoice; remove only the payment record.
+      if (paymentInvoiceRecord?.parent_invoice_id) {
+         await invoiceService.deleteInvoice(db, paymentInvoiceRecord.customer_invoice_id, account_id);
+      }
       await paymentsService.deletePayment(db, payment_id, account_id);
 
       const message = 'Successfully deleted payment.';
