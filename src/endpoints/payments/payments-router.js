@@ -10,8 +10,10 @@ const retainersService = require('../retainer/retainer-service');
 const { restoreDataTypesPaymentsTableOnCreate, restoreDataTypesPaymentsTableOnUpdate } = require('./paymentsObjects');
 const { createGrid } = require('../../utils/gridFunctions');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
-const { getCurrentChainTargets, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse } = require('./payment-logic');
+const { getCurrentChainTargets, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse, reversePayment } = require('./payment-logic');
 const { findMatchingRetainer } = require('../retainer/retainer-logic');
+
+const round2 = n => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
 
 // Create a new payment
 paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async (req, res) => {
@@ -23,7 +25,35 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
       paymentTableFields.account_id = Number(req.params.accountID);
       const { customer_invoice_id, customer_id, account_id, payment_amount, retainer_id } = paymentTableFields;
 
+      // Opt-in escape hatches from the Payment form (see helpText there):
+      //  - holdAsPrepayment: customer has no open invoice — bank the funds as a
+      //    prepayment retainer instead of rejecting the entry.
+      //  - captureOverpayment: amount exceeds the current remaining — apply the
+      //    remaining and bank the excess as a prepayment retainer.
+      const holdAsPrepayment = sanitizedNewPayment.holdAsPrepayment === true || sanitizedNewPayment.holdAsPrepayment === 'true';
+      const captureOverpayment = sanitizedNewPayment.captureOverpayment === true || sanitizedNewPayment.captureOverpayment === 'true';
+
+      const createPrepaymentRetainer = (amountNegative, noteSuffix) =>
+         retainersService.createRetainer(db, {
+            parent_retainer_id: null,
+            customer_id,
+            account_id,
+            display_name: `Prepayment ${new Date().toISOString().slice(0, 10)}`,
+            type_of_hold: 'Prepayment',
+            starting_amount: amountNegative,
+            current_amount: amountNegative,
+            form_of_payment: paymentTableFields.form_of_payment,
+            payment_reference_number: paymentTableFields.payment_reference_number,
+            is_retainer_active: true,
+            created_by_user_id: paymentTableFields.created_by_user_id,
+            note: paymentTableFields.note ? `${paymentTableFields.note} ${noteSuffix}` : noteSuffix
+         });
+
       if (!customer_invoice_id) {
+         if (holdAsPrepayment) {
+            await createPrepaymentRetainer(payment_amount, '[prepayment — no open invoice at entry]');
+            return returnTablesWithSuccessResponse(db, res, paymentTableFields, `Recorded $${Math.abs(payment_amount).toFixed(2)} as a prepayment retainer — no open invoice.`);
+         }
          throw new Error('No invoice ID provided for this payment. If the customer has no open invoice, record the funds as a retainer/prepayment instead.');
       }
 
@@ -65,10 +95,19 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
          paymentTableFields.note = paymentTableFields.note ? `${paymentTableFields.note} ${marker}` : marker;
       }
 
+      let excessToRetainer = 0;
       if (Math.abs(target.remaining) < Math.abs(payment_amount)) {
-         throw new Error(
-            `Payment amount exceeds remaining balance on invoice ${target.parent.invoice_number}. Max amount that can be applied to this invoice is $${Math.abs(target.remaining)}.`
-         );
+         if (captureOverpayment && target.remaining > 0) {
+            excessToRetainer = round2(Math.abs(payment_amount) - target.remaining);
+            paymentTableFields.payment_amount = -target.remaining;
+            const marker = `[overpayment split: $${target.remaining.toFixed(2)} to ${target.parent.invoice_number}, $${excessToRetainer.toFixed(2)} to prepayment]`;
+            paymentTableFields.note = paymentTableFields.note ? `${paymentTableFields.note} ${marker}` : marker;
+            remapMessage = `${remapMessage ? `${remapMessage} ` : ''}Applied $${target.remaining.toFixed(2)} to ${target.parent.invoice_number}; $${excessToRetainer.toFixed(2)} held as a prepayment retainer.`;
+         } else {
+            throw new Error(
+               `Payment amount exceeds remaining balance on invoice ${target.parent.invoice_number}. Max amount that can be applied to this invoice is $${Math.abs(target.remaining)}.`
+            );
+         }
       }
 
       // The chain's latest row carries the authoritative remaining balance —
@@ -105,8 +144,14 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
          parentInvoice.remaining_balance_on_invoice = invoiceInsertionObject.remaining_balance_on_invoice;
          parentInvoice.is_invoice_paid_in_full = invoiceInsertionObject.is_invoice_paid_in_full;
          parentInvoice.fully_paid_date = invoiceInsertionObject.fully_paid_date;
-         parentInvoice.total_payments = Number(parentInvoice.total_payments) + Math.abs(Number(payment_amount));
+         // paymentTableFields.payment_amount, not the destructured original —
+         // an overpayment split reduces the applied amount before this point.
+         parentInvoice.total_payments = Number(parentInvoice.total_payments) + Math.abs(Number(paymentTableFields.payment_amount));
          await invoiceService.updateInvoice(db, parentInvoice);
+      }
+
+      if (excessToRetainer > 0) {
+         await createPrepaymentRetainer(-excessToRetainer, `[overpayment excess from payment on ${target.parent.invoice_number}]`);
       }
 
       const message = remapMessage ? `Successfully created payment. ${remapMessage}` : 'Successfully created payment.';
@@ -116,6 +161,31 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
       console.log(err);
       res.send({
          message: err.message || 'An error occurred while creating the Payment.',
+         status: 500
+      });
+   }
+});
+
+// Reverse a payment (NSF / bounced check). Billed payments are immutable by
+// design, so reversal is a NEW ledger event: a positive payment row that
+// restores the debt on the customer's CURRENT chain (snapshot + parent
+// mirror), with both rows cross-annotated. The audit engine understands
+// positive payment rows as reversals (sign-aware paid sums).
+paymentsRouter.route('/reversePayment/:accountID/:userID').post(jsonParser, async (req, res) => {
+   const db = req.app.get('db');
+   try {
+      const sanitized = sanitizeFields(req.body.payment || {});
+      const { message, reversalFields } = await reversePayment(db, {
+         accountId: Number(req.params.accountID),
+         userId: Number(req.params.userID),
+         paymentId: Number(sanitized.paymentID),
+         reason: (sanitized.reason || '').trim()
+      });
+      return returnTablesWithSuccessResponse(db, res, reversalFields, message);
+   } catch (err) {
+      console.log(err);
+      res.send({
+         message: err.message || 'An error occurred while reversing the payment.',
          status: 500
       });
    }
@@ -170,6 +240,10 @@ paymentsRouter.route('/updatePayment/:accountID/:userID').put(jsonParser, async 
       const [matchingPayment] = await paymentsService.getSinglePayment(db, payment_id, account_id);
       if (!matchingPayment) throw new Error('No matching payment record found.');
       const { payment_amount: DbPaymentAmount, customer_invoice_id: DbCustomerInvoiceID } = matchingPayment;
+
+      if (Number(DbPaymentAmount) >= 0) {
+         throw new Error('Reversal entries cannot be edited. Delete the reversal and re-enter it if the amount or reason was wrong.');
+      }
 
       // Reassigning a payment to a different invoice cannot be expressed as a
       // balance edit (two chains would need correcting) — delete and re-enter.
@@ -269,11 +343,17 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
       if (parentInvoiceID) {
          const [parentInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, account_id, parentInvoiceID);
          if (parentInvoice && Object.keys(parentInvoice).length) {
-            const reversedAmount = Math.abs(Number(paymentRecord.payment_amount));
-            parentInvoice.remaining_balance_on_invoice = Number(parentInvoice.remaining_balance_on_invoice) + reversedAmount;
-            parentInvoice.is_invoice_paid_in_full = false;
-            parentInvoice.fully_paid_date = null;
-            parentInvoice.total_payments = Math.max(0, Number(parentInvoice.total_payments) - reversedAmount);
+            // Sign-aware: a normal payment (negative) lowered the balance, so
+            // deleting it adds the amount back; a reversal row (positive)
+            // raised the balance, so deleting it subtracts again.
+            const balanceRestore = -Number(paymentRecord.payment_amount);
+            const newRemaining = Number(parentInvoice.remaining_balance_on_invoice) + balanceRestore;
+            parentInvoice.remaining_balance_on_invoice = newRemaining;
+            parentInvoice.is_invoice_paid_in_full = newRemaining === 0;
+            parentInvoice.fully_paid_date = newRemaining === 0 ? new Date() : null;
+            // total_payments tracked net: creation added -amount, so deletion
+            // adds +amount back (works for both signs).
+            parentInvoice.total_payments = Math.max(0, Number(parentInvoice.total_payments) + Number(paymentRecord.payment_amount));
             await invoiceService.updateInvoice(db, parentInvoice);
          }
       }

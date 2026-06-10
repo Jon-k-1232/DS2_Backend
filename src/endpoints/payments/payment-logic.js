@@ -181,15 +181,83 @@ const createInvoiceObject = (matchingInvoice, remainingAmount, customerInvoiceID
    delete matchingInvoice.customer_zip;
    delete matchingInvoice.customer_email;
    delete matchingInvoice.customer_phone;
+   // created_at must come from the DB default (now()), same clock as every
+   // other row. Client-stamping it with the Node process's LOCAL time made
+   // snapshots sort hours before rows stamped by the (UTC) DB server — the
+   // "inverted timestamp" ordering bug the engine had to special-case around.
+   delete matchingInvoice.created_at;
 
    return {
       ...matchingInvoice,
       parent_invoice_id: parent_invoice_id > 0 ? parent_invoice_id : customerInvoiceID,
       remaining_balance_on_invoice: remainingAmount || 0,
       is_invoice_paid_in_full: remainingAmount === 0 ? true : false,
-      fully_paid_date: remainingAmount === 0 ? new Date() : null,
-      created_at: new Date()
+      fully_paid_date: remainingAmount === 0 ? new Date() : null
    };
 };
 
-module.exports = { findInvoice, getCurrentChainTargets, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse };
+/**
+ * Reverse a payment (NSF / bounced check). Billed payments are immutable, so a
+ * reversal is a NEW ledger event: a POSITIVE payment row restoring the debt on
+ * the customer's CURRENT chain via snapshot + parent mirror, with both rows
+ * cross-annotated. The audit engine sums payments sign-aware, so positive rows
+ * un-pay. No overpayment cap — restoring debt has no ceiling.
+ */
+const reversePayment = async (db, { accountId, userId, paymentId, reason }) => {
+   if (!paymentId) throw new Error('No payment ID provided for the reversal.');
+   if (!reason) throw new Error('A reversal reason is required (e.g. "NSF — check #1234 returned").');
+
+   const [original] = await paymentsService.getSinglePayment(db, paymentId, accountId);
+   if (!original) throw new Error('No matching payment record found.');
+   if (Number(original.payment_amount) >= 0) throw new Error('This entry is already a reversal and cannot be reversed.');
+   if ((original.note || '').includes('[reversed ')) throw new Error('This payment has already been reversed.');
+   if (original.retainer_id) throw new Error('Retainer-funded payments cannot be reversed here — adjust the retainer instead.');
+
+   const amount = Math.round(Math.abs(Number(original.payment_amount)) * 100) / 100;
+
+   const targets = await getCurrentChainTargets(db, accountId, original.customer_id);
+   if (!targets.length) throw new Error('This customer has no invoices; the reversal has nowhere to restore the balance.');
+   const target = targets.reduce((best, t) => (t.remaining > best.remaining ? t : best), targets[0]);
+
+   const reversalFields = {
+      customer_id: original.customer_id,
+      account_id: accountId,
+      customer_job_id: original.customer_job_id || null,
+      retainer_id: null,
+      payment_date: new Date(),
+      payment_amount: amount, // POSITIVE: restores debt
+      form_of_payment: 'Reversal',
+      payment_reference_number: original.payment_reference_number || null,
+      is_transaction_billable: true,
+      created_by_user_id: userId,
+      note: `[reversal of payment #${paymentId}] ${reason}`
+   };
+
+   const { paymentInsertionObject, invoiceInsertionObject } = updateObjectsWithRemainingAmounts(target.latestRow, reversalFields);
+   const newInvoiceRecord = await invoiceService.createInvoice(db, invoiceInsertionObject);
+   await paymentsService.createPayment(db, { ...paymentInsertionObject, customer_invoice_id: newInvoiceRecord.customer_invoice_id });
+
+   // Parent mirror: balance went UP; net payments went DOWN.
+   const [parentInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, accountId, invoiceInsertionObject.parent_invoice_id);
+   if (parentInvoice && Object.keys(parentInvoice).length) {
+      parentInvoice.remaining_balance_on_invoice = invoiceInsertionObject.remaining_balance_on_invoice;
+      parentInvoice.is_invoice_paid_in_full = false;
+      parentInvoice.fully_paid_date = null;
+      parentInvoice.total_payments = Math.max(0, Number(parentInvoice.total_payments) - amount);
+      await invoiceService.updateInvoice(db, parentInvoice);
+   }
+
+   // Cross-annotate the original so it can't be reversed twice.
+   await paymentsService.updatePayment(
+      db,
+      { payment_id: paymentId, note: `${original.note ? `${original.note} ` : ''}[reversed ${new Date().toISOString().slice(0, 10)}: ${reason}]` },
+      accountId
+   );
+
+   return {
+      message: `Reversed payment #${paymentId}: $${amount.toFixed(2)} restored to ${target.parent.invoice_number}.`,
+      reversalFields
+   };
+};
+
+module.exports = { findInvoice, getCurrentChainTargets, updateObjectsWithRemainingAmounts, checkIfPaymentIsAttachedToInvoice, returnTablesWithSuccessResponse, reversePayment };

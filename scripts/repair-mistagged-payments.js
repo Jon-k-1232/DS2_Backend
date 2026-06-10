@@ -115,7 +115,7 @@ const applyFix = async payment => {
    snapshot.remaining_balance_on_invoice = newRemaining;
    snapshot.is_invoice_paid_in_full = newRemaining === 0;
    snapshot.fully_paid_date = newRemaining === 0 ? new Date() : null;
-   snapshot.created_at = new Date();
+   delete snapshot.created_at; // DB clock, same as every other row
    snapshot.notes = `[reconciliation: payment #${payment.payment_id} re-applied from ${payment.tagged_chain_invoice}]`;
 
    const [inserted] = await knex('customer_invoices').insert(snapshot).returning('*');

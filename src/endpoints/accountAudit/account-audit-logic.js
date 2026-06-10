@@ -56,7 +56,10 @@ const computePerInvoice = ({ chain, payments, writeoffs, transactions }) => {
    const linkedWriteoffs = writeoffs.filter(w => chainIds.has(w.customer_invoice_id));
    const linkedTransactions = transactions.filter(t => chainIds.has(t.customer_invoice_id));
 
-   const paidSum = round2(linkedPayments.reduce((a, p) => a + abs(p.payment_amount), 0));
+   // Sign-aware, not abs(): payments are stored negative; NSF reversals are
+   // POSITIVE payment rows that un-pay. Negating each amount makes payments
+   // add to paidSum and reversals subtract.
+   const paidSum = round2(linkedPayments.reduce((a, p) => a + -num(p.payment_amount), 0));
    const writeoffSum = round2(linkedWriteoffs.reduce((a, w) => a + abs(w.writeoff_amount), 0));
    const transactionSum = round2(linkedTransactions.reduce((a, t) => a + num(t.total_transaction), 0));
 
@@ -258,7 +261,7 @@ const detectDiscrepancies = ({ invoices = [], invoiceBreakdown, payments, writeo
       out.push({
          kind: 'unlinked_payments',
          severity: orphanPayments.length > 1 ? 'medium' : 'low',
-         detail: `${orphanPayments.length} payment(s) not attached to any invoice (total $${round2(orphanPayments.reduce((a, p) => a + abs(p.payment_amount), 0)).toFixed(2)}).`,
+         detail: `${orphanPayments.length} payment(s) not attached to any invoice (total $${round2(orphanPayments.reduce((a, p) => a + -num(p.payment_amount), 0)).toFixed(2)}).`,
          payment_ids: orphanPayments.map(p => p.payment_id)
       });
    }
@@ -350,13 +353,19 @@ const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions,
 
    payments.forEach(p => {
       const retainerNote = p.retainer_id ? ' [retainer-funded]' : '';
+      // Stored negative = money in (credit). A POSITIVE row is an NSF
+      // reversal: the debt comes back, so it lands on the charge side.
+      const signed = -num(p.payment_amount);
+      const isReversal = signed < 0;
       events.push({
          date: fmtDate(p.payment_date),
          sort_ts: new Date(p.payment_date).getTime(),
-         type: p.retainer_id ? 'payment_retainer' : 'payment',
-         description: `Payment${p.form_of_payment ? ` (${p.form_of_payment})` : ''}${p.payment_reference_number ? ` #${p.payment_reference_number}` : ''}${retainerNote}`,
-         charge: 0,
-         credit: round2(abs(p.payment_amount)),
+         type: isReversal ? 'payment_reversal' : p.retainer_id ? 'payment_retainer' : 'payment',
+         description: isReversal
+            ? `Payment reversal${p.payment_reference_number ? ` #${p.payment_reference_number}` : ''}`
+            : `Payment${p.form_of_payment ? ` (${p.form_of_payment})` : ''}${p.payment_reference_number ? ` #${p.payment_reference_number}` : ''}${retainerNote}`,
+         charge: isReversal ? round2(-signed) : 0,
+         credit: isReversal ? 0 : round2(signed),
          reference_id: p.payment_id,
          note: p.note || null
       });
@@ -388,6 +397,7 @@ const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions,
          invoice_issued: 1,
          payment: 2,
          payment_retainer: 2,
+         payment_reversal: 2,
          writeoff_invoice: 3,
          writeoff_job: 3
       };
@@ -505,7 +515,8 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       : null;
 
    const total_invoiced = round2(parentInvoices.reduce((a, i) => a + num(i.total_amount_due), 0));
-   const total_paid = round2(payments.reduce((a, p) => a + abs(p.payment_amount), 0));
+   // Net of NSF reversals (positive payment rows subtract).
+   const total_paid = round2(payments.reduce((a, p) => a + -num(p.payment_amount), 0));
    const total_writeoffs = round2(writeoffs.reduce((a, w) => a + abs(w.writeoff_amount), 0));
    const total_transactions = round2(transactions.reduce((a, t) => a + num(t.total_transaction), 0));
    const total_billable_transactions = round2(
@@ -590,7 +601,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          .reduce((a, t) => a + num(t.total_transaction), 0)
    );
    const unbilled_payments = round2(
-      payments.filter(p => !p.customer_invoice_id).reduce((a, p) => a + abs(p.payment_amount), 0)
+      payments.filter(p => !p.customer_invoice_id).reduce((a, p) => a + -num(p.payment_amount), 0)
    );
    const unbilled_writeoffs = round2(
       writeoffs.filter(w => !w.customer_invoice_id).reduce((a, w) => a + abs(w.writeoff_amount), 0)

@@ -121,4 +121,68 @@ analyticsRouter.route('/timeAllocation/:accountID/:userID/export').get(async (re
    }
 });
 
+// Record/update the agreed rate for a client-year (rate card).
+analyticsRouter.route('/rateAgreement/:accountID/:userID').post(express.json(), async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID, userID } = req.params;
+   try {
+      const { customerId, year, agreedRate, notes } = req.body || {};
+      const numericRate = Number(agreedRate);
+      const numericYear = Number(year);
+      if (!Number(customerId) || !numericYear || numericYear < 2000 || numericYear > 2100 || !(numericRate > 0)) {
+         throw new Error('A customer, a year, and a positive agreed rate are required.');
+      }
+      const agreement = await analyticsService.upsertRateAgreement(db, accountID, {
+         customerId: Number(customerId),
+         year: numericYear,
+         agreedRate: numericRate,
+         notes,
+         userId: Number(userID)
+      });
+      res.send({ agreement, message: 'Successfully saved rate agreement.', status: 200 });
+   } catch (err) {
+      console.log(err);
+      res.send({ message: err.message || 'An error occurred while saving the rate agreement.', status: 500 });
+   }
+});
+
+// Unbilled work aged from transaction date.
+analyticsRouter.route('/wipAging/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   try {
+      const wipAging = await analyticsService.getWipAging(db, accountID);
+      res.send({ wipAging, message: 'Successfully retrieved WIP aging.', status: 200 });
+   } catch (err) {
+      console.log(err);
+      res.send({ message: err.message || 'An error occurred while retrieving WIP aging.', status: 500 });
+   }
+});
+
+// Budget vs actual for parent jobs with an agreed amount.
+analyticsRouter.route('/jobBudgets/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   try {
+      const jobBudgets = await analyticsService.getJobBudgets(db, accountID);
+      res.send({ jobBudgets, message: 'Successfully retrieved job budgets.', status: 200 });
+   } catch (err) {
+      console.log(err);
+      res.send({ message: err.message || 'An error occurred while retrieving job budgets.', status: 500 });
+   }
+});
+
+// Tax-season hours per employee per week, this year vs last.
+analyticsRouter.route('/taxSeasonCapacity/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   try {
+      const taxSeasonCapacity = await analyticsService.getTaxSeasonCapacity(db, accountID, { year: req.query.year });
+      res.send({ taxSeasonCapacity, message: 'Successfully retrieved tax season capacity.', status: 200 });
+   } catch (err) {
+      console.log(err);
+      res.send({ message: err.message || 'An error occurred while retrieving tax season capacity.', status: 500 });
+   }
+});
+
 module.exports = analyticsRouter;

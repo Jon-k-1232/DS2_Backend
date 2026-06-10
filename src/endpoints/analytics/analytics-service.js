@@ -31,41 +31,58 @@ const analyticsService = {
       const currentYear = new Date().getFullYear();
       const startYear = currentYear - Math.max(1, Math.min(yearsBack, 15)) + 1;
 
-      const { rows } = await db.raw(
-         `
-         WITH yearly AS (
-            SELECT ct.customer_id,
-                   EXTRACT(YEAR FROM ct.transaction_date)::int AS year,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS hours,
-                   COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS time_billed,
-                   COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.transaction_type <> 'Time'), 0) AS charges_billed,
-                   COALESCE(SUM(ct.total_transaction), 0) AS total_billed,
-                   COUNT(*)::int AS entries
-            FROM customer_transactions ct
-            WHERE ct.account_id = :accountId
-              AND ct.is_transaction_billable = true
-              AND ct.transaction_date >= make_date(:startYear, 1, 1)
-            GROUP BY 1, 2
+      const [{ rows }, { rows: agreementRows }] = await Promise.all([
+         db.raw(
+            `
+            WITH yearly AS (
+               SELECT ct.customer_id,
+                      EXTRACT(YEAR FROM ct.transaction_date)::int AS year,
+                      COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS hours,
+                      COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS time_billed,
+                      COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.transaction_type <> 'Time'), 0) AS charges_billed,
+                      COALESCE(SUM(ct.total_transaction), 0) AS total_billed,
+                      -- What the time cost the firm: hours × the employee's cost_rate.
+                      COALESCE(SUM(ct.quantity * COALESCE(u.cost_rate, 0)) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS labor_cost,
+                      COUNT(*)::int AS entries
+               FROM customer_transactions ct
+               LEFT JOIN users u ON u.user_id = ct.logged_for_user_id
+               WHERE ct.account_id = :accountId
+                 AND ct.is_transaction_billable = true
+                 AND ct.transaction_date >= make_date(:startYear, 1, 1)
+               GROUP BY 1, 2
+            ),
+            wo AS (
+               SELECT customer_id,
+                      EXTRACT(YEAR FROM writeoff_date)::int AS year,
+                      SUM(ABS(writeoff_amount)) AS writeoffs
+               FROM customer_writeoffs
+               WHERE account_id = :accountId
+                 AND writeoff_date >= make_date(:startYear, 1, 1)
+               GROUP BY 1, 2
+            )
+            SELECT y.customer_id, y.year, y.hours, y.time_billed, y.charges_billed, y.total_billed, y.labor_cost, y.entries,
+                   COALESCE(w.writeoffs, 0) AS writeoffs,
+                   c.display_name, c.is_commercial_customer, c.is_customer_active
+            FROM yearly y
+            LEFT JOIN wo w ON w.customer_id = y.customer_id AND w.year = y.year
+            JOIN customers c ON c.customer_id = y.customer_id
+            ORDER BY c.display_name, y.year
+            `,
+            { accountId, startYear }
          ),
-         wo AS (
-            SELECT customer_id,
-                   EXTRACT(YEAR FROM writeoff_date)::int AS year,
-                   SUM(ABS(writeoff_amount)) AS writeoffs
-            FROM customer_writeoffs
-            WHERE account_id = :accountId
-              AND writeoff_date >= make_date(:startYear, 1, 1)
-            GROUP BY 1, 2
+         db.raw(
+            `SELECT customer_id, agreement_year, agreed_rate, notes
+             FROM customer_rate_agreements
+             WHERE account_id = :accountId AND agreement_year >= :startYear`,
+            { accountId, startYear }
          )
-         SELECT y.customer_id, y.year, y.hours, y.time_billed, y.charges_billed, y.total_billed, y.entries,
-                COALESCE(w.writeoffs, 0) AS writeoffs,
-                c.display_name, c.is_commercial_customer, c.is_customer_active
-         FROM yearly y
-         LEFT JOIN wo w ON w.customer_id = y.customer_id AND w.year = y.year
-         JOIN customers c ON c.customer_id = y.customer_id
-         ORDER BY c.display_name, y.year
-         `,
-         { accountId, startYear }
-      );
+      ]);
+
+      const agreementsByCustomer = new Map();
+      agreementRows.forEach(a => {
+         if (!agreementsByCustomer.has(a.customer_id)) agreementsByCustomer.set(a.customer_id, {});
+         agreementsByCustomer.get(a.customer_id)[a.agreement_year] = { agreed_rate: round2(num(a.agreed_rate)), notes: a.notes };
+      });
 
       const clientsById = new Map();
       const ratesByYear = new Map(); // year -> [{customer_id, rate}]
@@ -84,7 +101,12 @@ const analyticsService = {
          const timeBilled = round2(num(r.time_billed));
          const totalBilled = round2(num(r.total_billed));
          const writeoffs = round2(num(r.writeoffs));
+         const laborCost = round2(num(r.labor_cost));
          const effectiveRate = hours > 0 ? round2(timeBilled / hours) : null;
+         const agreement = agreementsByCustomer.get(r.customer_id)?.[r.year] || null;
+         // Margin: what the client paid (net of write-offs) minus what the time
+         // cost the firm. Fixed charges count as revenue with no labor cost here.
+         const margin = round2(totalBilled - writeoffs - laborCost);
 
          clientsById.get(r.customer_id).years[r.year] = {
             hours,
@@ -94,7 +116,12 @@ const analyticsService = {
             writeoffs,
             realization_pct: totalBilled > 0 ? round2(((totalBilled - writeoffs) / totalBilled) * 100) : null,
             entries: r.entries,
-            effective_rate: effectiveRate
+            effective_rate: effectiveRate,
+            labor_cost: laborCost,
+            margin,
+            margin_pct: totalBilled > 0 ? round2((margin / totalBilled) * 100) : null,
+            agreed_rate: agreement?.agreed_rate ?? null,
+            rate_variance: agreement && effectiveRate !== null ? round2(effectiveRate - agreement.agreed_rate) : null
          };
 
          // Require a meaningful sample before a client's rate shapes firm stats.
@@ -317,6 +344,137 @@ const analyticsService = {
             entries: r.entries
          }))
       };
+   },
+
+   /** Record (or update) the agreed rate for a client-year. One row per pair. */
+   upsertRateAgreement(db, accountId, { customerId, year, agreedRate, notes, userId }) {
+      return db.raw(
+         `
+         INSERT INTO customer_rate_agreements (account_id, customer_id, agreement_year, agreed_rate, notes, created_by_user_id)
+         VALUES (:accountId, :customerId, :year, :agreedRate, :notes, :userId)
+         ON CONFLICT (account_id, customer_id, agreement_year)
+         DO UPDATE SET agreed_rate = EXCLUDED.agreed_rate, notes = EXCLUDED.notes
+         RETURNING *
+         `,
+         { accountId, customerId, year, agreedRate, notes: notes || null, userId }
+      ).then(r => r.rows[0]);
+   },
+
+   /**
+    * Work performed but never billed, aged from the transaction date. The
+    * billing engine bills every unbilled transaction regardless of age (the
+    * Wild West fix), so anything old here is money waiting on a billing run —
+    * or a candidate for write-off.
+    */
+   async getWipAging(db, accountId) {
+      const { rows } = await db.raw(
+         `
+         SELECT c.customer_id, c.display_name, c.is_customer_active,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) AS unbilled_amount,
+                COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time' AND ct.is_transaction_billable), 0) AS unbilled_hours,
+                COUNT(*) FILTER (WHERE ct.is_transaction_billable)::int AS entries,
+                MIN(ct.transaction_date) FILTER (WHERE ct.is_transaction_billable) AS oldest_date,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable AND ct.transaction_date >= CURRENT_DATE - 30), 0) AS bucket_0_30,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable AND ct.transaction_date < CURRENT_DATE - 30 AND ct.transaction_date >= CURRENT_DATE - 60), 0) AS bucket_31_60,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable AND ct.transaction_date < CURRENT_DATE - 60 AND ct.transaction_date >= CURRENT_DATE - 90), 0) AS bucket_61_90,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable AND ct.transaction_date < CURRENT_DATE - 90), 0) AS bucket_over_90
+         FROM customer_transactions ct
+         JOIN customers c ON c.customer_id = ct.customer_id
+         WHERE ct.account_id = :accountId
+           AND ct.customer_invoice_id IS NULL
+         GROUP BY c.customer_id, c.display_name, c.is_customer_active
+         HAVING COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) > 0
+         ORDER BY oldest_date ASC
+         `,
+         { accountId }
+      );
+      return rows.map(r => ({
+         customer_id: r.customer_id,
+         display_name: r.display_name,
+         is_active: r.is_customer_active,
+         unbilled_amount: round2(num(r.unbilled_amount)),
+         unbilled_hours: round2(num(r.unbilled_hours)),
+         entries: r.entries,
+         oldest_date: r.oldest_date,
+         days_old: r.oldest_date ? Math.floor((Date.now() - new Date(r.oldest_date).getTime()) / 86400000) : null,
+         bucket_0_30: round2(num(r.bucket_0_30)),
+         bucket_31_60: round2(num(r.bucket_31_60)),
+         bucket_61_90: round2(num(r.bucket_61_90)),
+         bucket_over_90: round2(num(r.bucket_over_90))
+      }));
+   },
+
+   /**
+    * Budget vs actual per parent job. Actual = the latest child's running
+    * total (rolling-job pattern) or the parent's own when no children exist.
+    */
+   async getJobBudgets(db, accountId) {
+      const { rows } = await db.raw(
+         `
+         SELECT cj.customer_job_id, cj.agreed_job_amount, cj.is_job_complete,
+                c.customer_id, c.display_name AS customer_name,
+                cjt.job_description,
+                COALESCE(latest_child.current_job_total, cj.current_job_total, 0) AS actual_total
+         FROM customer_jobs cj
+         JOIN customers c ON c.customer_id = cj.customer_id
+         LEFT JOIN customer_job_types cjt ON cjt.job_type_id = cj.job_type_id
+         LEFT JOIN LATERAL (
+            SELECT current_job_total
+            FROM customer_jobs child
+            WHERE child.parent_job_id = cj.customer_job_id
+            ORDER BY child.customer_job_id DESC
+            LIMIT 1
+         ) latest_child ON true
+         WHERE cj.account_id = :accountId
+           AND cj.parent_job_id IS NULL
+           AND cj.agreed_job_amount IS NOT NULL
+           AND cj.agreed_job_amount > 0
+         ORDER BY c.display_name, cjt.job_description
+         `,
+         { accountId }
+      );
+      return rows.map(r => {
+         const budget = round2(num(r.agreed_job_amount));
+         const actual = round2(num(r.actual_total));
+         return {
+            customer_job_id: r.customer_job_id,
+            customer_id: r.customer_id,
+            customer_name: r.customer_name,
+            job_description: r.job_description,
+            budget,
+            actual,
+            consumed_pct: budget > 0 ? round2((actual / budget) * 100) : null,
+            remaining: round2(budget - actual),
+            is_complete: !!r.is_job_complete
+         };
+      });
+   },
+
+   /**
+    * Tax-season staffing view: hours per employee per ISO week for Jan 1 –
+    * Apr 15 of the requested year and the prior year, side by side.
+    */
+   async getTaxSeasonCapacity(db, accountId, { year } = {}) {
+      const y = Number(year) || new Date().getFullYear();
+      const seasonFor = async seasonYear => {
+         const { rows } = await db.raw(
+            `
+            SELECT u.display_name AS employee,
+                   EXTRACT(WEEK FROM ct.transaction_date)::int AS week,
+                   COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS hours
+            FROM customer_transactions ct
+            JOIN users u ON u.user_id = ct.logged_for_user_id
+            WHERE ct.account_id = :accountId
+              AND ct.transaction_date BETWEEN make_date(:seasonYear, 1, 1) AND make_date(:seasonYear, 4, 15)
+            GROUP BY 1, 2
+            ORDER BY 1, 2
+            `,
+            { accountId, seasonYear }
+         );
+         return rows.map(r => ({ employee: r.employee, week: r.week, hours: round2(num(r.hours)) }));
+      };
+      const [current, prior] = await Promise.all([seasonFor(y), seasonFor(y - 1)]);
+      return { year: y, current, prior };
    }
 };
 
