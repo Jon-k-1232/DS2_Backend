@@ -65,6 +65,9 @@ const findMistaggedPayments = async () => {
          WHERE parent_invoice_id IS NULL AND account_id = :accountId
          ORDER BY customer_id, invoice_date DESC, customer_invoice_id DESC
       )
+      -- Mis-tagged = the chain was ALREADY absorbed when the payment was
+      -- entered (a newer parent existed). Payments correctly applied to the
+      -- then-current chain that was later rolled forward are healthy history.
       SELECT pay.payment_id, pay.customer_id, c.display_name, pay.payment_amount, pay.note,
              pay.created_at, root.invoice_number AS tagged_chain_invoice, root.invoice_date AS chain_date,
              np.invoice_number AS current_invoice, np.invoice_date AS last_bill_date,
@@ -73,7 +76,14 @@ const findMistaggedPayments = async () => {
       JOIN newest_parent np ON np.customer_id = pay.customer_id
       JOIN customer_invoices root ON root.customer_invoice_id = pay.chain_root
       JOIN customers c ON c.customer_id = pay.customer_id
-      WHERE root.invoice_date < np.invoice_date
+      JOIN LATERAL (
+         SELECT max(invoice_date) AS max_parent_date
+         FROM customer_invoices at_entry
+         WHERE at_entry.customer_id = pay.customer_id
+           AND at_entry.parent_invoice_id IS NULL
+           AND at_entry.created_at <= pay.created_at
+      ) at_entry ON true
+      WHERE root.invoice_date < at_entry.max_parent_date
         AND (pay.note IS NULL OR pay.note NOT LIKE '%[reconciled to %')
       ORDER BY pay.customer_id, pay.created_at
       `,
