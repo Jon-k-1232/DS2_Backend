@@ -18,8 +18,9 @@ const escapeCsvValue = value => {
 const parseExclude = req =>
    String(req.query.exclude || '')
       .split(',')
+      .filter(Boolean)
       .map(Number)
-      .filter(Number.isInteger);
+      .filter(n => Number.isInteger(n) && n > 0);
 
 const sendCsv = (res, fileName, lines) => {
    res.setHeader('Content-Type', 'text/csv');
@@ -210,7 +211,7 @@ analyticsRouter.route('/yearEndPacket/:accountID/:userID').get(async (req, res) 
          analyticsService.getClientRates(db, accountID, { yearsBack: 6, excludeIds }),
          analyticsService.getTimeAllocation(db, accountID, { year, excludeIds }),
          analyticsService.getWipAging(db, accountID, { excludeIds }),
-         accountsReceivableService.getAging(db, accountID, { limit: 10000, offset: 0 })
+         accountsReceivableService.getAging(db, accountID, { limit: 10000, offset: 0, excludeIds })
       ]);
 
       const arLines = [

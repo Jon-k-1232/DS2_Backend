@@ -18,7 +18,9 @@ const num = v => Number(v) || 0;
 // Ids are coerced to integers and non-integers dropped, so the values are safe
 // to inline (no injection surface). Empty list → no clause.
 const excludeFrag = (excludeIds, column) => {
-   const clean = (excludeIds || []).map(Number).filter(Number.isInteger);
+   // Positive integers only — drops 0 (from an empty '' segment) and out-of-range
+   // values so a stray param never appends a no-op or invalid NOT IN clause.
+   const clean = (excludeIds || []).map(Number).filter(n => Number.isInteger(n) && n > 0 && n < 2147483647);
    return clean.length ? ` AND ${column} NOT IN (${clean.join(',')})` : '';
 };
 
@@ -286,7 +288,7 @@ const analyticsService = {
             `
             SELECT DISTINCT EXTRACT(YEAR FROM transaction_date)::int AS year
             FROM customer_transactions
-            WHERE account_id = :accountId
+            WHERE account_id = :accountId${exTxn}
             ORDER BY year DESC
             `,
             { accountId }

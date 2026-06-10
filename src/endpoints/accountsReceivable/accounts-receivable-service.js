@@ -51,10 +51,16 @@ const ageFilterFragment = filter => {
 };
 
 const accountsReceivableService = {
-   async getAging(db, accountId, { search = '', limit = 50, offset = 0, filter = null, sort = null, direction = 'desc' } = {}) {
+   async getAging(db, accountId, { search = '', limit = 50, offset = 0, filter = null, sort = null, direction = 'desc', excludeIds = [] } = {}) {
       const trimmed = (search || '').trim();
       const hasSearch = trimmed.length > 0;
       const term = hasSearch ? `%${trimmed.toLowerCase()}%` : null;
+
+      // Exclude customers (firm's own entities) — same injection-safe integer
+      // inline used by the analytics service, so the year-end packet's AR CSV
+      // matches the other three reports.
+      const cleanExclude = (excludeIds || []).map(Number).filter(n => Number.isInteger(n) && n > 0 && n < 2147483647);
+      const excludeFragment = cleanExclude.length ? `AND customer_id NOT IN (${cleanExclude.join(',')})` : '';
 
       const searchSqlFragment = hasSearch
          ? `AND (
@@ -88,6 +94,7 @@ const accountsReceivableService = {
             FROM customer_invoices
             WHERE account_id = :accountId
               AND parent_invoice_id IS NULL
+              ${excludeFragment}
             ORDER BY customer_id, invoice_date DESC, customer_invoice_id DESC
          ),
          customer_aging AS (
@@ -156,6 +163,7 @@ const accountsReceivableService = {
             FROM customer_invoices
             WHERE account_id = :accountId
               AND parent_invoice_id IS NULL
+              ${excludeFragment}
             ORDER BY customer_id, invoice_date DESC, customer_invoice_id DESC
          ),
          customer_aging AS (
