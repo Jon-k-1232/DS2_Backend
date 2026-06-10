@@ -109,10 +109,13 @@ const initialData = async (db, res, accountID) => {
    };
 
    const { invoices: activeInvoices, totalCount: invoicesCount } = activeInvoicesPage;
+   // No treeGrid here: a tree built from one page promotes children whose
+   // parents fell outside the page to fake roots, and nothing renders the
+   // blob's invoice treeGrid anyway (the Invoices grid reads .grid and pages
+   // server-side; per-customer trees come from the profile endpoint).
    const activeInvoiceData = {
       activeInvoices,
       grid: createGrid(activeInvoices),
-      treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id'),
       pagination: getPaginationMetadata(invoicesCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 

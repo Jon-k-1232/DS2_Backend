@@ -91,6 +91,7 @@ customerRouter.route('/createCustomer/:accountID/:userID').post(jsonParser, asyn
 // Get customer by ID, and all associated data for customer profile
 customerRouter.route('/activeCustomers/customerByID/:accountID/:userID/:customerID').get(async (req, res) => {
    const db = req.app.get('db');
+   try {
    const { accountID, customerID } = req.params;
 
    const [[customerContactData], customerRetainers, customerPayments, customerInvoices, customerTransactions, customerJobs] = await Promise.all([
@@ -162,6 +163,16 @@ customerRouter.route('/activeCustomers/customerByID/:accountID/:userID/:customer
       message: 'Successfully Retrieved Data.',
       status: 200
    });
+   } catch (err) {
+      // Express 4 never forwards awaited rejections — without this, a single
+      // failed query (e.g. a non-numeric customerID reaching knex) escapes as
+      // an unhandled rejection and kills the process on Node 20.
+      console.log(err);
+      res.send({
+         message: err.message || 'An error occurred while retrieving the customer profile.',
+         status: 500
+      });
+   }
 });
 
 // Update Customer
