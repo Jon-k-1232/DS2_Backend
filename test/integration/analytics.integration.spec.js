@@ -58,11 +58,27 @@ describe('integration: analytics service', function () {
       expect(ta.summary.billable_hours).to.equal(3);
       expect(ta.summary.nonbillable_hours).to.equal(1.5);
       expect(ta.summary.billed_amount).to.equal(350);
-      expect(ta.byEmployee[0]).to.include({ employee: 'Eliza Smith' });
+      expect(ta).to.not.have.property('byEmployee'); // removed per request
       expect(ta.byWorkDescription[0].hours).to.equal(4.5);
       const march = ta.monthly.find(m => m.month === 3);
       expect(march.billable_hours).to.equal(2);
       expect(ta).to.have.property('trackerByCategory').that.is.an('array');
       expect(ta.availableYears).to.be.an('array');
+   });
+
+   it('getTimeAllocation: excludeIds removes a customer from the totals', async () => {
+      const full = await analyticsService.getTimeAllocation(db, TEST_ACCOUNT_ID, { year: 2025 });
+      const excluded = await analyticsService.getTimeAllocation(db, TEST_ACCOUNT_ID, { year: 2025, excludeIds: [900101] });
+      // 900101 (Acme) is the only customer in the fixture, so excluding it
+      // drops the transaction-based totals to zero (tracker is separate).
+      expect(full.summary.total_hours).to.equal(4.5);
+      expect(excluded.summary.total_hours).to.equal(0);
+      expect(excluded.byCustomer).to.have.lengthOf(0);
+   });
+
+   it('getExcludableCustomers: returns the customer list and default-excluded ids', async () => {
+      const { customers, defaultExcludedIds } = await analyticsService.getExcludableCustomers(db, TEST_ACCOUNT_ID);
+      expect(customers).to.be.an('array');
+      expect(defaultExcludedIds).to.be.an('array'); // none in the fixture account, but the shape is the contract
    });
 });

@@ -14,6 +14,19 @@
 const round2 = n => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
 const num = v => Number(v) || 0;
 
+// Build a SQL "NOT IN (...)" fragment from a list of customer ids to exclude.
+// Ids are coerced to integers and non-integers dropped, so the values are safe
+// to inline (no injection surface). Empty list → no clause.
+const excludeFrag = (excludeIds, column) => {
+   const clean = (excludeIds || []).map(Number).filter(Number.isInteger);
+   return clean.length ? ` AND ${column} NOT IN (${clean.join(',')})` : '';
+};
+
+// Customers the firm filters out of analytics by default — its own related
+// entities, whose internal bookkeeping would otherwise swamp client metrics.
+// Matched by display-name pattern so new same-family customers are caught too.
+const DEFAULT_EXCLUDE_NAME_PATTERNS = ['LTDFH%', 'James F%Kimmel%Associate%', 'Kimmel Financial Partner%', 'Jim Kimmel Insurance Agenc%'];
+
 const median = values => {
    if (!values.length) return null;
    const sorted = [...values].sort((a, b) => a - b);
@@ -27,7 +40,7 @@ const analyticsService = {
     * Returns every client that had billable activity in the window — the page
     * itself is the cross-client comparison.
     */
-   async getClientRates(db, accountId, { yearsBack = 6 } = {}) {
+   async getClientRates(db, accountId, { yearsBack = 6, excludeIds = [] } = {}) {
       const currentYear = new Date().getFullYear();
       const startYear = currentYear - Math.max(1, Math.min(yearsBack, 15)) + 1;
 
@@ -48,7 +61,7 @@ const analyticsService = {
                LEFT JOIN users u ON u.user_id = ct.logged_for_user_id
                WHERE ct.account_id = :accountId
                  AND ct.is_transaction_billable = true
-                 AND ct.transaction_date >= make_date(:startYear, 1, 1)
+                 AND ct.transaction_date >= make_date(:startYear, 1, 1)${excludeFrag(excludeIds, 'ct.customer_id')}
                GROUP BY 1, 2
             ),
             wo AS (
@@ -196,11 +209,13 @@ const analyticsService = {
     * customer, and month. Includes the raw tracker view (timesheet_entries)
     * so held/unprocessed rows still show up in the end-of-year picture.
     */
-   async getTimeAllocation(db, accountId, { year } = {}) {
+   async getTimeAllocation(db, accountId, { year, excludeIds = [] } = {}) {
       const y = Number(year) || new Date().getFullYear();
       const bounds = { accountId, start: `${y}-01-01`, end: `${y}-12-31` };
+      const exTxn = excludeFrag(excludeIds, 'customer_id');
+      const exCt = excludeFrag(excludeIds, 'ct.customer_id');
 
-      const [summaryRes, byWorkDescRes, byEmployeeRes, byCustomerRes, monthlyRes, trackerRes, yearsRes] = await Promise.all([
+      const [summaryRes, byWorkDescRes, byCustomerRes, monthlyRes, trackerRes, yearsRes] = await Promise.all([
          db.raw(
             `
             SELECT COALESCE(SUM(quantity) FILTER (WHERE transaction_type = 'Time'), 0) AS total_hours,
@@ -209,7 +224,7 @@ const analyticsService = {
                    COALESCE(SUM(total_transaction) FILTER (WHERE is_transaction_billable), 0) AS billed_amount,
                    COUNT(*)::int AS entries
             FROM customer_transactions
-            WHERE account_id = :accountId AND transaction_date BETWEEN :start AND :end
+            WHERE account_id = :accountId AND transaction_date BETWEEN :start AND :end${exTxn}
             `,
             bounds
          ),
@@ -222,23 +237,9 @@ const analyticsService = {
                    COUNT(*)::int AS entries
             FROM customer_transactions ct
             JOIN customer_general_work_descriptions gwd ON gwd.general_work_description_id = ct.general_work_description_id
-            WHERE ct.account_id = :accountId AND ct.transaction_date BETWEEN :start AND :end
+            WHERE ct.account_id = :accountId AND ct.transaction_date BETWEEN :start AND :end${exCt}
             GROUP BY 1
             ORDER BY hours DESC, billed_amount DESC
-            `,
-            bounds
-         ),
-         db.raw(
-            `
-            SELECT u.display_name AS employee,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS hours,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time' AND ct.is_transaction_billable), 0) AS billable_hours,
-                   COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) AS billed_amount
-            FROM customer_transactions ct
-            JOIN users u ON u.user_id = ct.logged_for_user_id
-            WHERE ct.account_id = :accountId AND ct.transaction_date BETWEEN :start AND :end
-            GROUP BY 1
-            ORDER BY hours DESC
             `,
             bounds
          ),
@@ -249,7 +250,7 @@ const analyticsService = {
                    COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) AS billed_amount
             FROM customer_transactions ct
             JOIN customers c ON c.customer_id = ct.customer_id
-            WHERE ct.account_id = :accountId AND ct.transaction_date BETWEEN :start AND :end
+            WHERE ct.account_id = :accountId AND ct.transaction_date BETWEEN :start AND :end${exCt}
             GROUP BY 1
             ORDER BY hours DESC
             LIMIT 20
@@ -263,7 +264,7 @@ const analyticsService = {
                    COALESCE(SUM(quantity) FILTER (WHERE transaction_type = 'Time' AND NOT is_transaction_billable), 0) AS nonbillable_hours,
                    COALESCE(SUM(total_transaction) FILTER (WHERE is_transaction_billable), 0) AS billed_amount
             FROM customer_transactions
-            WHERE account_id = :accountId AND transaction_date BETWEEN :start AND :end
+            WHERE account_id = :accountId AND transaction_date BETWEEN :start AND :end${exTxn}
             GROUP BY 1
             ORDER BY 1
             `,
@@ -320,13 +321,6 @@ const analyticsService = {
             billed_amount: round2(num(r.billed_amount)),
             entries: r.entries
          })),
-         byEmployee: byEmployeeRes.rows.map(r => ({
-            employee: r.employee,
-            hours: round2(num(r.hours)),
-            billable_hours: round2(num(r.billable_hours)),
-            utilization_pct: num(r.hours) > 0 ? round2((num(r.billable_hours) / num(r.hours)) * 100) : null,
-            billed_amount: round2(num(r.billed_amount))
-         })),
          byCustomer: byCustomerRes.rows.map(r => ({
             customer: r.customer,
             hours: round2(num(r.hours)),
@@ -366,7 +360,7 @@ const analyticsService = {
     * Wild West fix), so anything old here is money waiting on a billing run —
     * or a candidate for write-off.
     */
-   async getWipAging(db, accountId) {
+   async getWipAging(db, accountId, { excludeIds = [] } = {}) {
       const { rows } = await db.raw(
          `
          SELECT c.customer_id, c.display_name, c.is_customer_active,
@@ -381,7 +375,7 @@ const analyticsService = {
          FROM customer_transactions ct
          JOIN customers c ON c.customer_id = ct.customer_id
          WHERE ct.account_id = :accountId
-           AND ct.customer_invoice_id IS NULL
+           AND ct.customer_invoice_id IS NULL${excludeFrag(excludeIds, 'ct.customer_id')}
          GROUP BY c.customer_id, c.display_name, c.is_customer_active
          HAVING COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) > 0
          ORDER BY oldest_date ASC
@@ -408,7 +402,7 @@ const analyticsService = {
     * Budget vs actual per parent job. Actual = the latest child's running
     * total (rolling-job pattern) or the parent's own when no children exist.
     */
-   async getJobBudgets(db, accountId) {
+   async getJobBudgets(db, accountId, { excludeIds = [] } = {}) {
       const { rows } = await db.raw(
          `
          SELECT cj.customer_job_id, cj.agreed_job_amount, cj.is_job_complete,
@@ -428,7 +422,7 @@ const analyticsService = {
          WHERE cj.account_id = :accountId
            AND cj.parent_job_id IS NULL
            AND cj.agreed_job_amount IS NOT NULL
-           AND cj.agreed_job_amount > 0
+           AND cj.agreed_job_amount > 0${excludeFrag(excludeIds, 'c.customer_id')}
          ORDER BY c.display_name, cjt.job_description
          `,
          { accountId }
@@ -454,8 +448,9 @@ const analyticsService = {
     * Tax-season staffing view: hours per employee per ISO week for Jan 1 –
     * Apr 15 of the requested year and the prior year, side by side.
     */
-   async getTaxSeasonCapacity(db, accountId, { year } = {}) {
+   async getTaxSeasonCapacity(db, accountId, { year, excludeIds = [] } = {}) {
       const y = Number(year) || new Date().getFullYear();
+      const exCt = excludeFrag(excludeIds, 'ct.customer_id');
       const seasonFor = async seasonYear => {
          const { rows } = await db.raw(
             `
@@ -465,7 +460,7 @@ const analyticsService = {
             FROM customer_transactions ct
             JOIN users u ON u.user_id = ct.logged_for_user_id
             WHERE ct.account_id = :accountId
-              AND ct.transaction_date BETWEEN make_date(:seasonYear, 1, 1) AND make_date(:seasonYear, 4, 15)
+              AND ct.transaction_date BETWEEN make_date(:seasonYear, 1, 1) AND make_date(:seasonYear, 4, 15)${exCt}
             GROUP BY 1, 2
             ORDER BY 1, 2
             `,
@@ -475,6 +470,32 @@ const analyticsService = {
       };
       const [current, prior] = await Promise.all([seasonFor(y), seasonFor(y - 1)]);
       return { year: y, current, prior };
+   },
+
+   /**
+    * The customer list for the analytics exclude filter, plus the ids excluded
+    * by default (the firm's own related entities, matched by name pattern).
+    */
+   async getExcludableCustomers(db, accountId) {
+      const likeClauses = DEFAULT_EXCLUDE_NAME_PATTERNS.map((_, i) => `display_name ILIKE :p${i}`).join(' OR ');
+      const patternBindings = DEFAULT_EXCLUDE_NAME_PATTERNS.reduce((acc, p, i) => ({ ...acc, [`p${i}`]: p }), {});
+
+      const [{ rows: customers }, { rows: defaults }] = await Promise.all([
+         // Active customers plus any default-excluded entity (which may be
+         // inactive) — so every pre-selected default is a valid picker option.
+         db.raw(
+            `SELECT customer_id, display_name FROM customers
+             WHERE account_id = :accountId AND (is_customer_active = true OR ${likeClauses})
+             ORDER BY display_name`,
+            { accountId, ...patternBindings }
+         ),
+         db.raw(`SELECT customer_id FROM customers WHERE account_id = :accountId AND (${likeClauses})`, { accountId, ...patternBindings })
+      ]);
+
+      return {
+         customers: customers.map(c => ({ customer_id: c.customer_id, display_name: c.display_name })),
+         defaultExcludedIds: defaults.map(r => r.customer_id)
+      };
    }
 };
 

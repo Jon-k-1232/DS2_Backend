@@ -14,6 +14,13 @@ const escapeCsvValue = value => {
    return s;
 };
 
+// Customer ids to exclude from analytics, from the ?exclude=1,2,3 query param.
+const parseExclude = req =>
+   String(req.query.exclude || '')
+      .split(',')
+      .map(Number)
+      .filter(Number.isInteger);
+
 const sendCsv = (res, fileName, lines) => {
    res.setHeader('Content-Type', 'text/csv');
    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
@@ -61,10 +68,6 @@ const buildTimeAllocationCsvLines = data => {
       lines.push([escapeCsvValue(r.work_description), r.hours, r.billable_hours, r.nonbillable_hours, r.billed_amount, r.entries].join(','))
    );
    lines.push('');
-   lines.push('By Employee');
-   lines.push(['Employee', 'Hours', 'Billable Hours', 'Utilization %', 'Billed Amount'].map(escapeCsvValue).join(','));
-   data.byEmployee.forEach(r => lines.push([escapeCsvValue(r.employee), r.hours, r.billable_hours, r.utilization_pct ?? '', r.billed_amount].join(',')));
-   lines.push('');
    lines.push('By Customer (top 20 by hours)');
    lines.push(['Customer', 'Hours', 'Billed Amount'].map(escapeCsvValue).join(','));
    data.byCustomer.forEach(r => lines.push([escapeCsvValue(r.customer), r.hours, r.billed_amount].join(',')));
@@ -96,7 +99,7 @@ analyticsRouter.route('/clientRates/:accountID/:userID').get(async (req, res) =>
    const { accountID } = req.params;
    try {
       const yearsBack = Number(req.query.yearsBack) || 6;
-      const clientRates = await analyticsService.getClientRates(db, accountID, { yearsBack });
+      const clientRates = await analyticsService.getClientRates(db, accountID, { yearsBack, excludeIds: parseExclude(req) });
       res.send({ clientRates, message: 'Successfully retrieved client rates.', status: 200 });
    } catch (err) {
       console.log(err);
@@ -109,7 +112,7 @@ analyticsRouter.route('/clientRates/:accountID/:userID/export').get(async (req, 
    const { accountID } = req.params;
    try {
       const yearsBack = Number(req.query.yearsBack) || 6;
-      const { clients, years } = await analyticsService.getClientRates(db, accountID, { yearsBack });
+      const { clients, years } = await analyticsService.getClientRates(db, accountID, { yearsBack, excludeIds: parseExclude(req) });
       return sendCsv(res, `client_rates_${dayjs().format('YYYYMMDD_HHmmss')}.csv`, buildClientRatesCsvLines(clients, years));
    } catch (err) {
       console.log(err);
@@ -123,7 +126,7 @@ analyticsRouter.route('/timeAllocation/:accountID/:userID').get(async (req, res)
    const db = req.app.get('db');
    const { accountID } = req.params;
    try {
-      const timeAllocation = await analyticsService.getTimeAllocation(db, accountID, { year: req.query.year });
+      const timeAllocation = await analyticsService.getTimeAllocation(db, accountID, { year: req.query.year, excludeIds: parseExclude(req) });
       res.send({ timeAllocation, message: 'Successfully retrieved time allocation.', status: 200 });
    } catch (err) {
       console.log(err);
@@ -135,7 +138,7 @@ analyticsRouter.route('/timeAllocation/:accountID/:userID/export').get(async (re
    const db = req.app.get('db');
    const { accountID } = req.params;
    try {
-      const data = await analyticsService.getTimeAllocation(db, accountID, { year: req.query.year });
+      const data = await analyticsService.getTimeAllocation(db, accountID, { year: req.query.year, excludeIds: parseExclude(req) });
       return sendCsv(res, `time_allocation_${data.year}_${dayjs().format('YYYYMMDD_HHmmss')}.csv`, buildTimeAllocationCsvLines(data));
    } catch (err) {
       console.log(err);
@@ -173,7 +176,7 @@ analyticsRouter.route('/wipAging/:accountID/:userID').get(async (req, res) => {
    const db = req.app.get('db');
    const { accountID } = req.params;
    try {
-      const wipAging = await analyticsService.getWipAging(db, accountID);
+      const wipAging = await analyticsService.getWipAging(db, accountID, { excludeIds: parseExclude(req) });
       res.send({ wipAging, message: 'Successfully retrieved WIP aging.', status: 200 });
    } catch (err) {
       console.log(err);
@@ -186,7 +189,7 @@ analyticsRouter.route('/jobBudgets/:accountID/:userID').get(async (req, res) => 
    const db = req.app.get('db');
    const { accountID } = req.params;
    try {
-      const jobBudgets = await analyticsService.getJobBudgets(db, accountID);
+      const jobBudgets = await analyticsService.getJobBudgets(db, accountID, { excludeIds: parseExclude(req) });
       res.send({ jobBudgets, message: 'Successfully retrieved job budgets.', status: 200 });
    } catch (err) {
       console.log(err);
@@ -201,11 +204,12 @@ analyticsRouter.route('/yearEndPacket/:accountID/:userID').get(async (req, res) 
    const { accountID } = req.params;
    try {
       const year = Number(req.query.year) || new Date().getFullYear() - 1;
+      const excludeIds = parseExclude(req);
 
       const [clientRates, timeAllocation, wipRows, arResult] = await Promise.all([
-         analyticsService.getClientRates(db, accountID, { yearsBack: 6 }),
-         analyticsService.getTimeAllocation(db, accountID, { year }),
-         analyticsService.getWipAging(db, accountID),
+         analyticsService.getClientRates(db, accountID, { yearsBack: 6, excludeIds }),
+         analyticsService.getTimeAllocation(db, accountID, { year, excludeIds }),
+         analyticsService.getWipAging(db, accountID, { excludeIds }),
          accountsReceivableService.getAging(db, accountID, { limit: 10000, offset: 0 })
       ]);
 
@@ -254,11 +258,24 @@ analyticsRouter.route('/taxSeasonCapacity/:accountID/:userID').get(async (req, r
    const db = req.app.get('db');
    const { accountID } = req.params;
    try {
-      const taxSeasonCapacity = await analyticsService.getTaxSeasonCapacity(db, accountID, { year: req.query.year });
+      const taxSeasonCapacity = await analyticsService.getTaxSeasonCapacity(db, accountID, { year: req.query.year, excludeIds: parseExclude(req) });
       res.send({ taxSeasonCapacity, message: 'Successfully retrieved tax season capacity.', status: 200 });
    } catch (err) {
       console.log(err);
       res.send({ message: err.message || 'An error occurred while retrieving tax season capacity.', status: 500 });
+   }
+});
+
+// Customer list + default-excluded ids for the analytics "filter out" picker.
+analyticsRouter.route('/exclusions/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
+   const { accountID } = req.params;
+   try {
+      const exclusions = await analyticsService.getExcludableCustomers(db, accountID);
+      res.send({ exclusions, message: 'Successfully retrieved exclusion options.', status: 200 });
+   } catch (err) {
+      console.log(err);
+      res.send({ message: err.message || 'An error occurred while retrieving exclusion options.', status: 500 });
    }
 });
 
