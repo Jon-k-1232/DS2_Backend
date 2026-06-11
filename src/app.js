@@ -25,7 +25,7 @@ const initialDataRouter = require('./endpoints/initialData/initialData-router');
 const workDescriptionsRouter = require('./endpoints/workDescriptions/workDescriptions-router');
 const { healthRouter } = require('./endpoints/health/health-router');
 const cookieParser = require('cookie-parser');
-const { requireAuth } = require('./endpoints/auth/jwt-auth');
+const { requireAuth, requireSuperAdmin } = require('./endpoints/auth/jwt-auth');
 const timesheetsRouter = require('./endpoints/timesheets/timesheets-router');
 const timeTrackingRouter = require('./endpoints/timeTracking/timeTracking-router');
 const timeTrackerStaffRouter = require('./endpoints/timeTrackerStaff/timeTrackerStaff-router');
@@ -128,7 +128,7 @@ app.use('/billing-review', requireAuth, expensiveLimiter, billingReviewRouter);
 app.use('/notifications', requireAuth, notificationsRouter);
 app.use('/accountAudit', requireAuth, expensiveLimiter, accountAuditRouter);
 app.use('/accountsReceivable', requireAuth, accountsReceivableRouter);
-app.use('/analytics', requireAuth, analyticsRouter);
+app.use('/analytics', requireAuth, requireSuperAdmin, analyticsRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 if (NODE_ENV !== 'test') {
