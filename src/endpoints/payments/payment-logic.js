@@ -15,7 +15,7 @@ const findInvoice = async (db, customer_invoice_id, account_id, payment_amount) 
    const { remaining_balance_on_invoice } = matchingInvoice || {};
 
    // If no matching invoice return error
-   if (!Object.keys(matchingInvoice).length) {
+   if (!matchingInvoice || !Object.keys(matchingInvoice).length) {
       throw new Error('No matching invoice record found for this payment.');
    }
 
@@ -243,7 +243,8 @@ const reversePayment = async (db, { accountId, userId, paymentId, reason }) => {
       parentInvoice.remaining_balance_on_invoice = invoiceInsertionObject.remaining_balance_on_invoice;
       parentInvoice.is_invoice_paid_in_full = false;
       parentInvoice.fully_paid_date = null;
-      parentInvoice.total_payments = Math.max(0, Number(parentInvoice.total_payments) - amount);
+      // Negative net: the positive reversal shrinks the magnitude of payments received.
+      parentInvoice.total_payments = Number(parentInvoice.total_payments) + amount;
       await invoiceService.updateInvoice(db, parentInvoice);
    }
 

@@ -107,7 +107,9 @@ describe('integration: payment reversal (NSF)', function () {
 
       await db('customer_invoices')
          .where({ customer_invoice_id: parentInvoiceId })
-         .update({ remaining_balance_on_invoice: 0, is_invoice_paid_in_full: true, fully_paid_date: '2026-06-05', total_payments: 500 });
+         // total_payments uses the same negative-net sign convention as the
+         // customer_payments rows: -500 = $500 received against this invoice.
+         .update({ remaining_balance_on_invoice: 0, is_invoice_paid_in_full: true, fully_paid_date: '2026-06-05', total_payments: -500 });
    });
 
    after(async () => {

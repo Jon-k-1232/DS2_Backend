@@ -146,7 +146,10 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
          parentInvoice.fully_paid_date = invoiceInsertionObject.fully_paid_date;
          // paymentTableFields.payment_amount, not the destructured original —
          // an overpayment split reduces the applied amount before this point.
-         parentInvoice.total_payments = Number(parentInvoice.total_payments) + Math.abs(Number(paymentTableFields.payment_amount));
+         // total_payments is a NEGATIVE net (same sign convention as the
+         // customer_payments rows and the billing engine's paymentTotal), so
+         // adding the negative payment amount grows its magnitude.
+         parentInvoice.total_payments = Number(parentInvoice.total_payments) + Number(paymentTableFields.payment_amount);
          await invoiceService.updateInvoice(db, parentInvoice);
       }
 
@@ -284,7 +287,9 @@ paymentsRouter.route('/updatePayment/:accountID/:userID').put(jsonParser, async 
                parentInvoice.remaining_balance_on_invoice = newRemaining;
                parentInvoice.is_invoice_paid_in_full = newRemaining === 0;
                parentInvoice.fully_paid_date = newRemaining === 0 ? new Date() : null;
-               parentInvoice.total_payments = Math.max(0, Number(parentInvoice.total_payments) + amountDelta);
+               // Negative net: growing the payment (amountDelta > 0) makes
+               // total_payments more negative, shrinking it less negative.
+               parentInvoice.total_payments = Number(parentInvoice.total_payments) - amountDelta;
                await invoiceService.updateInvoice(db, parentInvoice);
             }
          }
@@ -329,8 +334,10 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
          }
       }
 
-      // Retainer used on payment, delete retainer
-      if (Object.keys(retainerRecord).length) {
+      // Retainer used on payment, delete retainer. getRetainerBySameTime
+      // matches nothing for non-retainer payments (retainer_id null), so the
+      // destructured record is undefined for the common case.
+      if (retainerRecord && Object.keys(retainerRecord).length) {
          await retainersService.deleteRetainer(db, retainerRecord.retainer_id, account_id);
       }
 
@@ -351,9 +358,10 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
             parentInvoice.remaining_balance_on_invoice = newRemaining;
             parentInvoice.is_invoice_paid_in_full = newRemaining === 0;
             parentInvoice.fully_paid_date = newRemaining === 0 ? new Date() : null;
-            // total_payments tracked net: creation added -amount, so deletion
-            // adds +amount back (works for both signs).
-            parentInvoice.total_payments = Math.max(0, Number(parentInvoice.total_payments) + Number(paymentRecord.payment_amount));
+            // total_payments is a negative net: creation added the (negative)
+            // payment amount, so deletion subtracts it back out. Works for both
+            // signs — deleting a positive reversal row restores its effect too.
+            parentInvoice.total_payments = Number(parentInvoice.total_payments) - Number(paymentRecord.payment_amount);
             await invoiceService.updateInvoice(db, parentInvoice);
          }
       }

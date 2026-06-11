@@ -48,7 +48,9 @@ writeOffsRouter.route('/createWriteOffs/:accountID/:userID').post(jsonParser, as
             parentInvoice.remaining_balance_on_invoice = invoiceInsertionObject.remaining_balance_on_invoice;
             parentInvoice.is_invoice_paid_in_full = invoiceInsertionObject.is_invoice_paid_in_full;
             parentInvoice.fully_paid_date = invoiceInsertionObject.fully_paid_date;
-            parentInvoice.total_write_offs = Number(parentInvoice.total_write_offs) + Math.abs(Number(writeoff_amount));
+            // total_write_offs is a NEGATIVE net (same convention as the
+            // customer_writeOffs rows and the billing engine's writeOffTotal).
+            parentInvoice.total_write_offs = Number(parentInvoice.total_write_offs) + Number(writeoff_amount);
             await invoiceService.updateInvoice(db, parentInvoice);
          }
       }
@@ -96,14 +98,22 @@ writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(jsonParser, asy
       const writeOffTableFields = restoreDataTypesWriteOffsTableOnUpdate(sanitizedUpdatedWriteOffs);
       // Trust the account from the (guard-verified) URL, never the request body.
       writeOffTableFields.account_id = Number(req.params.accountID);
-      const { customer_invoice_id, account_id } = writeOffTableFields;
+      const { account_id } = writeOffTableFields;
 
-      // If payment is attached to an invoice, do not allow delete
-      if (customer_invoice_id) {
+      // Guard on the STORED linkage, never the client-sent field — a request
+      // that omits or misnames customerInvoiceID would otherwise slip past the
+      // check AND null out the write-off's link to its invoice snapshot.
+      const [storedWriteOff] = await writeOffsService.getSingleWriteOff(db, writeOffTableFields.writeoff_id, account_id);
+      if (!storedWriteOff) {
+         throw new Error('Unable to find write-off record.');
+      }
+      if (storedWriteOff.customer_invoice_id || writeOffTableFields.customer_invoice_id) {
          const reason = 'Record is attached to an invoice and cannot be deleted or modified.';
          unableToCompleteRequest(res, reason, 423);
          return;
       }
+      // Linkage is server-owned; never let an update rewrite it.
+      writeOffTableFields.customer_invoice_id = storedWriteOff.customer_invoice_id;
 
       // Update writeOff
       await writeOffsService.updateWriteOff(db, writeOffTableFields, account_id);
@@ -163,7 +173,9 @@ writeOffsRouter.route('/deleteWriteOffs/:accountID/:userID').delete(async (req, 
                parentInvoice.remaining_balance_on_invoice = Number(parentInvoice.remaining_balance_on_invoice) + reversedAmount;
                parentInvoice.is_invoice_paid_in_full = false;
                parentInvoice.fully_paid_date = null;
-               parentInvoice.total_write_offs = Math.max(0, Number(parentInvoice.total_write_offs) - reversedAmount);
+               // Negative net: creation added the (negative) amount, deletion
+               // subtracts it back out.
+               parentInvoice.total_write_offs = Number(parentInvoice.total_write_offs) - Number(writeOffRecord.writeoff_amount);
                await invoiceService.updateInvoice(db, parentInvoice);
             }
 
