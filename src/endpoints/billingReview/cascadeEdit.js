@@ -59,8 +59,13 @@ const _recomputeInvoiceTotals = async (trx, accountId, invoiceId) => {
    const totalPayments = Number(invoice.total_payments || 0);
    const totalWriteOffs = Number(invoice.total_write_offs || 0);
    const totalRetainers = Number(invoice.total_retainers || 0);
-   const totalAmountDue = beginningBalance + totalCharges - totalWriteOffs - totalRetainers;
-   const remainingBalance = totalAmountDue - totalPayments;
+   // total_payments / total_write_offs / total_retainers are stored as NEGATIVE
+   // nets (same sign as the raw customer_payments / customer_writeoffs rows and
+   // the billing engine's totals) — ADDING them reduces the balance. The old
+   // subtraction form assumed positive values and inflated the remaining
+   // balance (due − (−903) = due + 903) whenever this recompute ran.
+   const totalAmountDue = Math.round((beginningBalance + totalCharges + totalWriteOffs + totalRetainers) * 100) / 100;
+   const remainingBalance = Math.round((totalAmountDue + totalPayments) * 100) / 100;
 
    await trx('customer_invoices')
       .where({ customer_invoice_id: invoiceId })
