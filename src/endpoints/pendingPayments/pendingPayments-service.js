@@ -91,15 +91,31 @@ const pendingPaymentsService = {
          .then(rows => rows[0]);
    },
 
-   markAsProcessed(db, paymentID, accountID) {
+   // `extra` lets the one-step approval record which ledger row it posted.
+   markAsProcessed(db, paymentID, accountID, extra = {}) {
       return db('customer_payments_processed')
          .where({ payment_id: paymentID, account_id: accountID })
          .update({
+            ...extra,
             is_payment_processed: true,
             date_processed: db.fn.now()
          })
          .returning('*')
          .then(rows => rows[0]);
+   },
+
+   /** Pending row locked FOR UPDATE — serializes concurrent approvals of the same row. */
+   getPendingPaymentForUpdate(trx, paymentID, accountID) {
+      return trx('customer_payments_processed').where({ payment_id: paymentID, account_id: accountID }).forUpdate().first();
+   },
+
+   /** Ledger payment already posted from this pending row (note marker written by the approval). */
+   findPostedPaymentForPending(db, pendingPaymentID, accountID) {
+      return db('customer_payments')
+         .select('payment_id')
+         .where('account_id', accountID)
+         .andWhere('note', 'like', `%[pending_payment:${Number(pendingPaymentID)}]%`)
+         .first();
    },
 
    softDeleteBySourceFile(db, sourceFile, accountID) {

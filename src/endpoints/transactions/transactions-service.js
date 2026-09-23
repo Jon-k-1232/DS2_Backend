@@ -137,8 +137,16 @@ const transactionsService = {
       return db.select().from('customer_transactions').where('account_id', accountID).andWhere('retainer_id', retainerID);
    },
 
+   // jobID may be a single id or an array of ids (e.g. every row in a job's
+   // version family — see job-service.getJobFamilyIds) so callers can check
+   // "is anything linked to any row in this family" in one query.
    getTransactionsByJobID(db, accountID, jobID) {
-      return db.select().from('customer_transactions').where('account_id', accountID).andWhere('customer_job_id', jobID);
+      const query = db.select().from('customer_transactions').where('account_id', accountID);
+      return Array.isArray(jobID) ? query.whereIn('customer_job_id', jobID) : query.andWhere('customer_job_id', jobID);
+   },
+
+   getTransactionsByGeneralWorkDescriptionID(db, accountID, generalWorkDescriptionID) {
+      return db.select().from('customer_transactions').where('account_id', accountID).andWhere('general_work_description_id', generalWorkDescriptionID);
    },
 
    updateTransaction(db, updatedTransaction, accountId) {

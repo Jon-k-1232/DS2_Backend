@@ -2,6 +2,7 @@ const xlsx = require('xlsx');
 const accountUserService = require('../endpoints/user/user-service');
 const validateNameBlock = require('../endpoints/timesheets/timesheetProcessingLogic/validations/validateNameBlock');
 const validateTimeBlock = require('../endpoints/timesheets/timesheetProcessingLogic/validations/validateTimeBlock');
+const { describeHeaderProblems } = require('../endpoints/timesheets/timesheetProcessingLogic/validations/csvHeaderPropertyConfig');
 
 const normalizeRow = row => {
    if (!Array.isArray(row)) return [];
@@ -10,31 +11,27 @@ const normalizeRow = row => {
 
 const isRowBlank = row => normalizeRow(row).every(cell => cell.toString().trim() === '');
 
-const blankRowAtIndex = (rows, index) =>
-   rows.map((row, idx) => (idx === index ? normalizeRow(row).map(() => '') : row));
-
-const extractRowIndex = errorMessage => {
-   const match = errorMessage.match(/row\s+(\d+)/i);
-   if (!match) return null;
-   const parsed = Number(match[1]);
-   return Number.isFinite(parsed) ? parsed - 6 : null;
-};
-
-const gatherTimeBlockValidation = (rows, originalHeaders, metadata, visited = new Set()) => {
-   try {
-      const validatedEntries = validateTimeBlock(rows, originalHeaders, metadata) || [];
-      return { entries: validatedEntries, errors: [] };
-   } catch (error) {
-      const invalidIndex = extractRowIndex(error.message);
-      if (invalidIndex === null || visited.has(invalidIndex)) {
-         return { entries: [], errors: [error.message] };
+// Validate every data row, collecting one error per bad row, in a single
+// forward pass — one call to validateTimeBlock per row, each row numbered via
+// `firstRow` exactly as it would be validated in place within the full sheet.
+// (Previously: on a row error the offending row was blanked and the WHOLE
+// array re-validated recursively. That re-validated every earlier row again
+// on every new error — O(n^2) — and grew the call stack by one frame per
+// invalid row, so a large tracker with thousands of bad rows in a row
+// exhausted the stack ("Maximum call stack size exceeded") before every error
+// was collected. A flat loop is O(n) time and O(1) stack depth regardless of
+// how many rows are invalid.)
+const gatherTimeBlockValidation = (rows, originalHeaders, metadata, options) => {
+   const entries = [];
+   const errors = [];
+   rows.forEach((row, index) => {
+      try {
+         entries.push(...validateTimeBlock([row], originalHeaders, metadata, { ...options, firstRow: index + 6 }));
+      } catch (error) {
+         errors.push(error.message);
       }
-
-      const updatedVisited = new Set(visited).add(invalidIndex);
-      const sanitizedRows = blankRowAtIndex(rows, invalidIndex);
-      const { entries, errors } = gatherTimeBlockValidation(sanitizedRows, originalHeaders, metadata, updatedVisited);
-      return { entries, errors: [error.message, ...errors] };
-   }
+   });
+   return { entries, errors };
 };
 
 const buildEmployeeLookup = employeeList =>
@@ -42,7 +39,13 @@ const buildEmployeeLookup = employeeList =>
       (employeeList || []).map(employee => [employee.display_name, employee]).filter(([name]) => !!name)
    );
 
-const validateUploadedTracker = async ({ db, accountID, userID, fileBuffer, originalFileName }) => {
+/**
+ * Parse + validate an uploaded tracker workbook.
+ * @param {{ db, accountID, userID, fileBuffer: Buffer, originalFileName?: string, today?: Date }} args
+ *   `today` bounds entry dates (defaults to now; injectable for tests).
+ * @returns {Promise<{ errors: string[], metadata: object|null, entries: object[] }>}
+ */
+const validateUploadedTracker = async ({ db, accountID, userID, fileBuffer, originalFileName, today = new Date() }) => {
    if (!fileBuffer || !Buffer.isBuffer(fileBuffer) || !fileBuffer.length) {
       return {
          errors: ['The uploaded file is empty or unreadable.'],
@@ -51,7 +54,16 @@ const validateUploadedTracker = async ({ db, accountID, userID, fileBuffer, orig
       };
    }
 
-   const workbook = xlsx.read(fileBuffer, { type: 'buffer' });
+   let workbook;
+   try {
+      workbook = xlsx.read(fileBuffer, { type: 'buffer' });
+   } catch (parseError) {
+      return {
+         errors: ['The uploaded workbook is corrupt or unsupported. Please re-save it as XLSX/XLS and try again.'],
+         metadata: null,
+         entries: []
+      };
+   }
    const sheetName = workbook.SheetNames?.[0];
 
    if (!sheetName) {
@@ -74,7 +86,16 @@ const validateUploadedTracker = async ({ db, accountID, userID, fileBuffer, orig
    }
 
    const employeeList = await accountUserService.getActiveAccountUsers(db, accountID);
-   const employeeLookup = buildEmployeeLookup(employeeList);
+   // Scope the B1 name->record lookup to the tracker's OWNER (the validated
+   // :userID/ownerUserID the upload is being saved under) rather than the
+   // whole account's active roster. Two employees can share a display name
+   // ("Alex Jones" hired twice at different rates); buildEmployeeLookup keys
+   // by display_name and the LAST equal-named entry silently wins, which used
+   // to let a tracker validate against — and later be priced from — the WRONG
+   // "Alex Jones" record whenever the wrong one happened to sort later.
+   // Filtering to just the intended owner makes the match (and therefore
+   // metadata.userId, and every entry's user_id) unambiguous by construction.
+   const employeeLookup = buildEmployeeLookup((employeeList || []).filter(employee => Number(employee.user_id) === Number(userID)));
 
    const validationErrors = [];
    let metadata = null;
@@ -97,6 +118,12 @@ const validateUploadedTracker = async ({ db, accountID, userID, fileBuffer, orig
       validationErrors.push('Time tracker is missing the time entry header row.');
    }
 
+   // A misspelled / missing required header used to silently drop the whole
+   // column (e.g. every row's Notes or Category vanished). Fail loudly instead.
+   if (!validationErrors.length) {
+      validationErrors.push(...describeHeaderProblems(originalHeaders));
+   }
+
    let entries = [];
    if (!validationErrors.length) {
       const nonBlankRows = timeEntryRows.filter(row => !isRowBlank(row));
@@ -104,11 +131,7 @@ const validateUploadedTracker = async ({ db, accountID, userID, fileBuffer, orig
       if (!nonBlankRows.length) {
          validationErrors.push('Time tracker does not contain any time entry rows.');
       } else {
-         const { entries: timeEntries, errors } = gatherTimeBlockValidation(
-            timeEntryRows,
-            originalHeaders,
-            metadata
-         );
+         const { entries: timeEntries, errors } = gatherTimeBlockValidation(timeEntryRows, originalHeaders, metadata, { today });
          if (errors.length) {
             validationErrors.push(...errors);
          } else {

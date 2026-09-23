@@ -149,4 +149,22 @@ SELECT pg_catalog.setval(pg_get_serial_sequence('customer_job_types','job_type_i
 SELECT pg_catalog.setval(pg_get_serial_sequence('customer_general_work_descriptions','general_work_description_id'), GREATEST((SELECT MAX(general_work_description_id) FROM customer_general_work_descriptions), 90034), true);
 SELECT pg_catalog.setval(pg_get_serial_sequence('customer_jobs','customer_job_id'), GREATEST((SELECT MAX(customer_job_id) FROM customer_jobs), 9001003), true);
 
-\echo 'Test fixture seed applied. Account 9001 ready.'
+
+-- Account details the app needs for finalize (PDF footer text), Account Settings,
+-- Automations and time-tracker uploads. Idempotent.
+DO $$
+BEGIN
+   UPDATE accounts
+      SET account_statement = COALESCE(account_statement, 'Please reference invoice number on payment.'),
+          account_interest_statement = COALESCE(account_interest_statement, 'Balances unpaid for 30 days accrue interest at the rate of 1.5% per month.'),
+          account_invoice_interest_rate = COALESCE(account_invoice_interest_rate, 1.5)
+    WHERE account_id = 9001;
+
+   IF NOT EXISTS (SELECT 1 FROM account_information WHERE account_id = 9001) THEN
+      INSERT INTO account_information(account_id, account_street, account_city, account_state, account_zip, account_email, account_phone,
+                                      is_this_address_active, is_account_physical_address, is_account_billing_address, is_account_mailing_address)
+         VALUES (9001, '100 Test Fixture Way', 'Phoenix', 'AZ', '85001', 'fixture@example.com', '480-555-0100', true, true, true, true);
+   END IF;
+END $$;
+
+-- (seed applied; psql meta-commands removed so the file can also be run through db.raw())

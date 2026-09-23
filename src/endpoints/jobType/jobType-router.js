@@ -19,6 +19,8 @@ jobTypeRouter.route('/createJobType/:accountID/:userID').post(jsonParser, async 
 
       // Create new object with sanitized fields
       const jobTypeTableFields = restoreDataTypesJobTypeTableOnCreate(sanitizedNewJobType);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      jobTypeTableFields.account_id = Number(accountID);
 
       // Post new jobType
       await jobTypeService.createJobType(db, jobTypeTableFields);
@@ -67,7 +69,10 @@ jobTypeRouter.route('/updateJobType/:accountID/:userID').put(jsonParser, async (
       jobTypeTableFields.account_id = Number(accountID);
 
       // Update jobType
-      await jobTypeService.updateJobType(db, jobTypeTableFields, accountID);
+      const affectedRows = await jobTypeService.updateJobType(db, jobTypeTableFields, accountID);
+      if (!affectedRows) {
+         return res.status(404).send({ message: 'Job type not found.', status: 404 });
+      }
       sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.error(error.message);
@@ -88,7 +93,10 @@ jobTypeRouter.route('/deleteJobType/:jobTypeID/:accountID/:userID').delete(async
       if (foundJobs.length) throw new Error('Cannot delete jobType that is in use.');
 
       // Delete jobType
-      await jobTypeService.deleteJobType(db, jobTypeID, accountID);
+      const affectedRows = await jobTypeService.deleteJobType(db, jobTypeID, accountID);
+      if (!affectedRows) {
+         return res.status(404).send({ message: 'Job type not found.', status: 404 });
+      }
       sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.error(error.message);

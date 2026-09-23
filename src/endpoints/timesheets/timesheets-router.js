@@ -1,8 +1,14 @@
 const express = require('express');
 const { clientSafeMessage } = require('../../utils/clientError');
-const { enforceAccountId } = require('../auth/account-scope');
+const { enforceAccountId, enforceSelfOrPrivileged, PRIVILEGED_ROLES } = require('../auth/account-scope');
 const timesheetsRouter = express.Router();
 timesheetsRouter.param('accountID', enforceAccountId);
+// :queryUserID identifies the OWNER of the rows being read (getTimesheetEntriesByUserID,
+// getAllTimesheetsForEmployeeByUserID, fetchTimesheetsByMonth) — a non-privileged
+// caller may only address their own id, same rule timeTracking-router.js applies to
+// its :userID. requireAuth runs first (app.js mounts this router with it), so
+// req.user is already populated by the time this param handler fires.
+timesheetsRouter.param('queryUserID', enforceSelfOrPrivileged);
 const asyncHandler = require('../../utils/asyncHandler');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const timesheetsService = require('./timesheets-service');
@@ -14,10 +20,39 @@ const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { addNewTransaction } = require('../transactions/sharedTransactionFunctions');
 const { createGrid } = require('../../utils/gridFunctions');
 const { restoreDataTypesTransactionsTableOnCreate } = require('../transactions/transactionsObjects');
-const { updateRecentJobTotal } = require('../transactions/sharedTransactionFunctions');
 const dayjs = require('dayjs');
 const { kickOffAutoIngestForEntryIds, _isAccountAllowed: _isAutoIngestAllowed } = require('./auto-ingest-runner');
 const timesheetsServiceLocal = require('./timesheets-service');
+const { isInternalCustomer } = require('./internal-customers');
+const { isNonWorkEntry } = require('../../timeTrackerValidation/nonWorkEntries');
+const { _computeTimeAmounts } = require('./auto-ingest-orchestrator');
+
+// Firm-wide reads (every employee's pending entries / counts) and the two
+// billing-affecting actions (moveToTransactions, deleteTimesheetEntry) are
+// manager-and-up only — the only UI that calls this router (Tracking
+// Administration) is itself wrapped in ManagerAndAdminProtectedAccessRoute on
+// the frontend, but the API had no matching server-side gate.
+const isPrivilegedRole = req => PRIVILEGED_ROLES.includes(String((req.user && req.user.access_level) || '').toLowerCase());
+const requireManagerOrAbove = (req, res) => {
+   if (!req.user || !isPrivilegedRole(req)) {
+      res.status(403).json({ status: 403, message: 'Manager, admin or super admin access required.' });
+      return false;
+   }
+   return true;
+};
+
+// getPaginationParams (utils/pagination.js) throws a plain, unannotated Error
+// on invalid page/limit rather than one carrying a .status — call it through
+// here so every route answers 400 (a client input error) instead of letting
+// it fall into the generic catch below, which used to answer 500.
+const parsePagination = (req, res) => {
+   try {
+      return { ok: true, params: getPaginationParams(req.query) };
+   } catch (err) {
+      res.status(400).json({ status: 400, message: clientSafeMessage(err, 'Invalid pagination parameters. Page and limit must be positive integers.') });
+      return { ok: false };
+   }
+};
 
 // Get timesheet entries
 timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
@@ -25,8 +60,14 @@ timesheetsRouter.route('/getTimesheetEntries/:accountID/:userID').get(
       const db = req.app.get('db');
       const { accountID } = req.params;
 
+      // Firm-wide read: every employee's pending entries.
+      if (!requireManagerOrAbove(req, res)) return;
+
+      const pagination = parsePagination(req, res);
+      if (!pagination.ok) return;
+
       try {
-         const { page, limit, offset } = getPaginationParams(req.query);
+         const { page, limit, offset } = pagination.params;
 
          const { outstandingTimesheetEntries, entriesMetadata } = await fetchTimesheetEntries(db, accountID, page, limit, offset);
 
@@ -48,9 +89,15 @@ timesheetsRouter.route('/ai/kickoff/:accountID/:userID').post(
    jsonParser,
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
-      const { accountID, userID } = req.params;
+      const { accountID } = req.params;
       const accountIdNumber = Number(accountID);
-      const userIdNumber = Number(userID);
+      // The ACTOR is always the authenticated caller — never the URL :userID
+      // (unauthenticated-by-itself; this route never registered
+      // enforceSelfOrPrivileged on :userID at all) or anything from the body.
+      // Otherwise any authenticated account member could pass any other
+      // employee's id as :userID and have their name recorded as the one who
+      // triggered the AI/billing work.
+      const userIdNumber = Number(req.user.user_id);
       const { timesheet_name, entry_ids } = req.body || {};
 
       if (!timesheet_name && (!Array.isArray(entry_ids) || !entry_ids.length)) {
@@ -61,12 +108,33 @@ timesheetsRouter.route('/ai/kickoff/:accountID/:userID').post(
          return res.status(503).json({ status: 503, message: 'Auto-ingest is not enabled for this account (TIME_TRACKER_AI_FEATURE_FLAG).' });
       }
 
+      const privileged = isPrivilegedRole(req);
       let entryIds = [];
       if (timesheet_name) {
-         const entries = await timesheetsServiceLocal.getEntriesByTimesheetName(db, accountIdNumber, userIdNumber, String(timesheet_name));
+         // Resolve entries from the TRACKER's own owner, not the caller (:userID).
+         // A timesheet_name is unique per upload and every row under it already
+         // carries its real owner's user_id, so no separate owner lookup is
+         // needed — filtering by (account, timesheet_name) alone is correct and
+         // lets a manager/admin kick off an employee's tracker by name.
+         const entries = await timesheetsServiceLocal.getEntriesByTimesheetName(db, accountIdNumber, String(timesheet_name));
+         // A non-privileged caller may only name their OWN tracker — otherwise
+         // any employee could kick off (and appear as the actor for) another
+         // employee's tracker just by knowing its stored file name.
+         if (!privileged && entries.some(e => Number(e.user_id) !== userIdNumber)) {
+            return res.status(403).json({ status: 403, message: 'Access denied for this tracker.' });
+         }
          entryIds = (entries || []).map(e => e.timesheet_entry_id).filter(Boolean);
       } else {
          entryIds = entry_ids.map(Number).filter(Boolean);
+         if (!privileged && entryIds.length) {
+            const owned = await db('timesheet_entries')
+               .where({ account_id: accountIdNumber, user_id: userIdNumber })
+               .whereIn('timesheet_entry_id', entryIds)
+               .pluck('timesheet_entry_id');
+            if (entryIds.some(id => !owned.includes(id))) {
+               return res.status(403).json({ status: 403, message: 'Access denied for this tracker.' });
+            }
+         }
       }
 
       if (entryIds.length) {
@@ -83,8 +151,11 @@ timesheetsRouter.route('/getTimesheetEntriesByUserID/:queryUserID/:accountID/:us
       const db = req.app.get('db');
       const { accountID, queryUserID } = req.params;
 
+      const pagination = parsePagination(req, res);
+      if (!pagination.ok) return;
+
       try {
-         const { page, limit, offset } = getPaginationParams(req.query);
+         const { page, limit, offset } = pagination.params;
 
          const { outstandingTimesheetEntries, entriesMetadata } = await fetchTimesheetEntriesByUserID(db, accountID, queryUserID, page, limit, offset);
 
@@ -117,7 +188,9 @@ timesheetsRouter.route('/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accou
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const { accountID, queryUserID } = req.params;
-      const { page, limit, offset } = getPaginationParams(req.query);
+      const pagination = parsePagination(req, res);
+      if (!pagination.ok) return;
+      const { page, limit, offset } = pagination.params;
       try {
          const { allEmployeeTimesheets, entriesMetadata } = await fetchEmployeeTimesheets(db, accountID, queryUserID, page, limit, offset);
          // put into grid format
@@ -142,7 +215,9 @@ timesheetsRouter.route('/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID'
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const { accountID, queryUserID } = req.params;
-      const { page, limit, offset } = getPaginationParams(req.query);
+      const pagination = parsePagination(req, res);
+      if (!pagination.ok) return;
+      const { page, limit, offset } = pagination.params;
       const monthQuery = {
          start: dayjs().startOf('month').toDate(),
          end: dayjs().endOf('month').toDate()
@@ -174,6 +249,9 @@ timesheetsRouter.route('/countsByEmployee/:accountID/:userID').get(
       const db = req.app.get('db');
       const { accountID } = req.params;
 
+      // Firm-wide read: every employee's counts.
+      if (!requireManagerOrAbove(req, res)) return;
+
       try {
          const timesheetsByEmployees = await fetchEmployeeTimesheetCounts(db, accountID);
 
@@ -194,52 +272,132 @@ timesheetsRouter.route('/countsByEmployee/:accountID/:userID').get(
    })
 );
 
-// Move To Transactions;
+// Move To Transactions (legacy manual apply).
+// The entry is claimed (`is_processed = false` -> true) inside the SAME
+// transaction as the insert, so a double-click / retry can't create a second
+// transaction for one tracker line (prod had three entries billed twice,
+// 0.2-4s apart). account_id comes from the enforced :accountID param, never
+// from the request body.
 timesheetsRouter.route('/moveToTransactions/:accountID/:userID').post(
    jsonParser,
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
-      const { entry } = req.body;
+      const { entry } = req.body || {};
+      const accountIdNumber = Number(req.params.accountID);
+
+      // The manual-apply UI (Tracking Administration) is Manager/Admin only.
+      if (!requireManagerOrAbove(req, res)) return;
+
+      if (!entry || typeof entry !== 'object' || Array.isArray(entry)) {
+         return res.status(400).json({ status: 400, message: 'A valid timesheetEntryID is required to move a timesheet entry to transactions.' });
+      }
 
       try {
          const sanitizedEntry = sanitizeFields(entry);
-         const timesheetEntryID = sanitizedEntry.timesheetEntryID;
-         const newTransaction = restoreDataTypesTransactionsTableOnCreate(sanitizedEntry);
-         const { customer_job_id, account_id, total_transaction } = newTransaction;
+         const timesheetEntryID = Number(sanitizedEntry?.timesheetEntryID || sanitizedEntry?.timesheet_entry_id);
+         if (!Number.isInteger(timesheetEntryID) || timesheetEntryID <= 0) {
+            return res.status(400).json({ status: 400, message: 'A valid timesheetEntryID is required to move a timesheet entry to transactions.' });
+         }
 
-         // Update job total
-         await updateRecentJobTotal(db, customer_job_id, account_id, total_transaction);
+         const newTransaction = restoreDataTypesTransactionsTableOnCreate({ ...sanitizedEntry, account_id: accountIdNumber });
 
-         // Reuse central addNewTransaction to ensure consistent side-effects (payments, AI training insert, etc.)
-         // Merge provenance fields to enable AI training logging
+         // The actor who applied this entry is always the authenticated
+         // caller — never whatever loggedByUserID the client's request body
+         // happened to carry.
+         sanitizedEntry.loggedByUserID = Number(req.user.user_id);
+
+         // The firm's own entities are never billed (hours are still recorded).
+         const internalCustomer = await isInternalCustomer(db, accountIdNumber, newTransaction.customer_id);
+
+         // Reuse central addNewTransaction to ensure consistent side-effects (job total,
+         // retainer draw-down, AI training insert, ...). It already updates the job total,
+         // so the router no longer does it a second time.
          const mergedForCreate = {
             ...sanitizedEntry,
-            accountID: account_id,
+            account_id: accountIdNumber,
+            accountID: accountIdNumber,
             customerID: newTransaction.customer_id,
             customerJobID: newTransaction.customer_job_id,
             selectedGeneralWorkDescriptionID: newTransaction.general_work_description_id,
             loggedForUserID: newTransaction.logged_for_user_id,
             totalTransaction: newTransaction.total_transaction,
-            isTransactionBillable: newTransaction.is_transaction_billable,
+            isTransactionBillable: internalCustomer ? false : newTransaction.is_transaction_billable,
             isInAdditionToMonthlyCharge: newTransaction.is_excess_to_subscription,
             minutes: sanitizedEntry?.minutes || null,
-            timesheetEntryID: timesheetEntryID || sanitizedEntry?.timesheet_entry_id || null,
+            timesheetEntryID,
             aiSuggestion: sanitizedEntry?.aiSuggestion || sanitizedEntry?.ai_suggestion || null,
             entity: sanitizedEntry?.entity || null,
             category: sanitizedEntry?.category || null
          };
 
-         await addNewTransaction(db, mergedForCreate);
+         await db.transaction(async trx => {
+            const claimed = await trx('timesheet_entries')
+               .where({ timesheet_entry_id: timesheetEntryID, account_id: accountIdNumber, is_processed: false, is_deleted: false })
+               .update({ is_processed: true, hold_reason: null })
+               .returning('*');
+            if (!claimed.length) {
+               const alreadyDone = new Error('This timesheet entry was already moved to transactions (or was deleted).');
+               alreadyDone.status = 409;
+               throw alreadyDone;
+            }
 
-         // Find timesheet entry and update the isProcessed column to indicate the entry has been processed
-         await timesheetsService.updateTimesheetEntryStatus(db, timesheetEntryID);
-         await timesheetSuggestionsService.updateSuggestion(db, timesheetEntryID, { status: 'applied' });
+            // A valid FK does not establish tenant ownership: both the employee
+            // and the work description must belong to THIS account, not merely
+            // exist somewhere in the database (a client could send another
+            // tenant's row id for either). Checked AFTER the claim so it runs
+            // inside the same transaction — a refusal here rolls the claim back
+            // too, so nothing is written.
+            const [employeeRecord, gwdRecord] = await Promise.all([
+               trx('users').where({ account_id: accountIdNumber, user_id: newTransaction.logged_for_user_id }).first(),
+               trx('customer_general_work_descriptions').where({ account_id: accountIdNumber, general_work_description_id: newTransaction.general_work_description_id }).first()
+            ]);
+            if (!employeeRecord || !gwdRecord) {
+               const badTenancy = new Error('Employee and work description must belong to this account.');
+               badTenancy.status = 400;
+               throw badTenancy;
+            }
+
+            // A Time row's quantity/total are ALWAYS recomputed server-side
+            // from the STORED minutes (a reviewer's explicit minute override
+            // wins if sent) and the account-scoped employee's rate (a
+            // reviewer's explicit rate override wins if sent) — never taken
+            // from the request's quantity/unitCost/totalTransaction, which
+            // let a client persist stale hundredth-hour pricing (or a
+            // sub-cent rate) even after the AI/held-apply paths were fixed to
+            // price in 6-minute increments. 'Charge' rows are flat amounts,
+            // not time-derived, and are unaffected.
+            if (newTransaction.transaction_type === 'Time') {
+               const minutes = Number(sanitizedEntry.minutes ?? claimed[0].duration);
+               const rawRate = sanitizedEntry.unitCost ?? employeeRecord.billing_rate;
+               const rateIsWellFormed = /^\d+(?:\.\d{1,2})?$/.test(String(rawRate ?? '').trim()) && Number.isFinite(Number(rawRate));
+               if (!Number.isFinite(minutes) || minutes <= 0 || !rateIsWellFormed) {
+                  const invalidTime = new Error('Time requires positive minutes and a rate of zero or more with at most 2 decimal places.');
+                  invalidTime.status = 400;
+                  throw invalidTime;
+               }
+               Object.assign(mergedForCreate, _computeTimeAmounts(minutes, rawRate), { minutes });
+            }
+
+            // Non-work time (vacation / PTO / holiday / sick / lunch / personal /
+            // doctor's appointment / ...) is never billable — decided from the
+            // STORED entry (the row just claimed), never the request's editable
+            // category/notes text, which a client can send differently from what
+            // was actually uploaded.
+            if (isNonWorkEntry(claimed[0])) {
+               mergedForCreate.isTransactionBillable = false;
+            }
+            await addNewTransaction(trx, mergedForCreate);
+            await timesheetSuggestionsService.updateSuggestion(trx, timesheetEntryID, { status: 'applied' });
+         });
 
          res.status(200).json({
             status: 200,
             message: 'Successfully moved timesheet entry to transactions.'
          });
       } catch (err) {
+         if (err.status === 409 || err.status === 400) {
+            return res.status(err.status).json({ status: err.status, message: err.message });
+         }
          console.error(`[${new Date().toISOString()}] Error moving timesheet entry to transactions: ${err.message}`);
          res.status(500).json({ message: clientSafeMessage(err, 'Error moving timesheet entry to transactions.') });
       }
@@ -251,10 +409,49 @@ timesheetsRouter.route('/deleteTimesheetEntry/:timesheetEntryID/:accountID/:user
       const db = req.app.get('db');
       const { timesheetEntryID, accountID } = req.params;
 
+      // Same bar as moveToTransactions: Manager/Admin only.
+      if (!requireManagerOrAbove(req, res)) return;
+
+      const entryIdNumber = Number(timesheetEntryID);
+      if (!Number.isInteger(entryIdNumber) || entryIdNumber <= 0) {
+         return res.status(400).json({ status: 400, message: 'A valid timesheetEntryID is required to delete a timesheet entry.' });
+      }
+
       try {
          const foundEntry = await timesheetsService.getSingleTimesheetEntry(db, accountID, timesheetEntryID);
-         foundEntry.is_deleted = true;
-         await timesheetsService.updateTimesheetEntry(db, foundEntry);
+         if (!foundEntry) {
+            return res.status(404).json({ status: 404, message: 'Timesheet entry not found.' });
+         }
+         // Ledger rule: an entry that has already been turned into a transaction
+         // (auto-ingest or moveToTransactions, either of which sets is_processed
+         // = true in the SAME transaction as the transaction insert) must not be
+         // soft-deleted — the transaction would stay billed while the entry
+         // silently vanished from the review queue, and trackerDuplicates would
+         // then let a re-upload of the same tracker re-insert and re-bill that
+         // exact line (see trackerDuplicates.js's module doc comment).
+         if (foundEntry.is_processed) {
+            return res.status(409).json({
+               status: 409,
+               message: 'This timesheet entry has already been processed into a transaction and cannot be deleted. Reverse or delete the transaction first.'
+            });
+         }
+         // Delete with a conditional UPDATE ... WHERE is_processed = false AND
+         // is_deleted = false ... RETURNING — never write the `foundEntry`
+         // object read above. A concurrent apply (auto-ingest OR a reviewer's
+         // manual apply) can claim this exact entry — setting is_processed =
+         // true — in the gap between that read and this write; blindly writing
+         // the stale, already-false is_processed value back would silently
+         // resurrect the row as unprocessed WHILE ALSO marking it deleted
+         // ({is_processed:false, is_deleted:true}) even though a live billed
+         // transaction now exists for it. The atomic predicate makes this
+         // write a no-op (0 rows) in that case instead.
+         const deleted = await timesheetsService.deleteTimesheetEntryIfPending(db, accountID, entryIdNumber);
+         if (!deleted.length) {
+            return res.status(409).json({
+               status: 409,
+               message: 'This timesheet entry was processed or deleted by someone else; refresh before retrying.'
+            });
+         }
 
          console.log(`[${new Date().toISOString()}] Successfully deleted timesheet entry ID ${timesheetEntryID} for account ${accountID}.`);
 

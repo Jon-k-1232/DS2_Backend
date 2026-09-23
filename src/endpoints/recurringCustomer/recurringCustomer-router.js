@@ -1,9 +1,16 @@
 const express = require('express');
+const dayjs = require('dayjs');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { enforceAccountId } = require('../auth/account-scope');
+const { requireManagerOrAdmin } = require('../auth/jwt-auth');
 const recurringCustomerRouter = express.Router();
 recurringCustomerRouter.param('accountID', enforceAccountId);
+// The Recurring Customers page lives at /customers/recurringCustomers in the
+// frontend, nested inside the same ManagerAndAdminProtectedAccessRoute that
+// gates all of /customers/*. Mirror that on every route here — none of these
+// were previously gated at all.
+recurringCustomerRouter.use(requireManagerOrAdmin);
 const recurringCustomerService = require('./recurringCustomer-service');
 const customerService = require('../customer/customer-service');
 const { restoreDataTypesRecurringCustomerTableOnCreate, restoreDataTypesRecurringCustomerTableOnUpdate } = require('./recurringCustomerObjects');
@@ -69,12 +76,25 @@ recurringCustomerRouter.route('/getActiveRecurringCustomers/:accountID/:userID')
 recurringCustomerRouter.route('/updateRecurringCustomer').put(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    const sanitizedUpdatedRecurringCustomer = sanitizeFields(req.body.recurringCustomer);
-
-   // Create new object with sanitized fields
-   const recurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnUpdate(sanitizedUpdatedRecurringCustomer);
    // This route has no :accountID in the path, so scope to the authenticated
    // user's account rather than trusting the request body.
-   recurringCustomerTableFields.account_id = req.user.account_id;
+   const accountID = req.user.account_id;
+
+   // restoreDataTypesRecurringCustomerTableOnUpdate needs the row's
+   // customer_id as a second argument (it is not part of the update payload's
+   // own identity - recurringCustomerID is), so look the existing row up
+   // first. Previously this was called with only one argument, so
+   // customer_id was always NaN and Postgres rejected every update; looking
+   // the row up first also lets us 404 cleanly instead of running an UPDATE
+   // that silently matches zero rows.
+   const [existingRecurringCustomer] = await recurringCustomerService.getRecurringCustomerByID(db, accountID, sanitizedUpdatedRecurringCustomer.recurringCustomerID);
+   if (!existingRecurringCustomer) {
+      return res.status(404).send({ message: 'Recurring customer not found.', status: 404 });
+   }
+
+   // Create new object with sanitized fields
+   const recurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnUpdate(sanitizedUpdatedRecurringCustomer, existingRecurringCustomer.customer_id);
+   recurringCustomerTableFields.account_id = accountID;
 
    // Update recurring customer
    await recurringCustomerService.updateRecurringCustomer(db, recurringCustomerTableFields);
@@ -102,11 +122,21 @@ recurringCustomerRouter.route('/deleteRecurringCustomer/:accountID/:recurringCus
    const db = req.app.get('db');
    const { accountID, recurringCustomerId } = req.params;
 
-   // Soft-delete, scoped to the (guard-verified) URL account.
+   const [existingRecurringCustomer] = await recurringCustomerService.getRecurringCustomerByID(db, accountID, recurringCustomerId);
+   if (!existingRecurringCustomer) {
+      return res.status(404).send({ message: 'Recurring customer not found.', status: 404 });
+   }
+
+   // Soft-delete, scoped to the (guard-verified) URL account. Also stamp
+   // end_date, mirroring customer-router.js's updateCustomer deactivation
+   // path (turning recurring off there sets end_date: dayjs().format()) -
+   // this dedicated delete route previously only flipped the active flag and
+   // left end_date untouched.
    await recurringCustomerService.deleteRecurringCustomer(db, {
       recurring_customer_id: Number(recurringCustomerId),
       account_id: Number(accountID),
-      is_recurring_customer_active: false
+      is_recurring_customer_active: false,
+      end_date: dayjs().format()
    });
 
    // Get all recurring customers

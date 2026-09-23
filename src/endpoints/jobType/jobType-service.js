@@ -21,6 +21,7 @@ const jobTypeService = {
          .from('customer_job_types')
          .leftJoin('customer_job_categories', 'customer_job_types.customer_job_category_id', 'customer_job_categories.customer_job_category_id')
          .where('customer_job_types.account_id', accountID)
+         .andWhere('customer_job_types.is_job_type_active', true)
          .orderBy('job_description', 'asc');
    },
 

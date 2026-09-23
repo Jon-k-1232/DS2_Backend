@@ -28,7 +28,7 @@ const invoiceValidators = {
    int: n => Number.isInteger(n),
    string: str => typeof str === 'string',
    date: d => !isNaN(new Date(d).getTime()),
-   decimal: n => typeof n === 'number',
+   decimal: n => typeof n === 'number' && Number.isFinite(n),
    boolean: b => typeof b === 'boolean',
    timestamp: ts => !isNaN(new Date(ts).getTime()),
    null: n => n === null
@@ -39,7 +39,10 @@ const correctType = (value, expectedType) => {
       case 'int':
          return Number.isNaN(parseInt(value)) ? null : parseInt(value);
       case 'string':
-         return value.toString();
+         return value == null ? null : value.toString();
+      case 'decimal':
+         // Whole numeric strings only (Postgres NUMERIC arrives as '18.75'); never parseFloat('18.75junk').
+         return typeof value === 'string' && /^-?\d+(?:\.\d+)?$/.test(value.trim()) && Number.isFinite(Number(value)) ? Number(value) : null;
       default:
          return null;
    }

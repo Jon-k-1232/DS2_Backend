@@ -1,11 +1,18 @@
 const { pendingPaymentsService } = require('./pendingPayments-service');
 
-const validatePendingPaymentExists = async (db, paymentID, accountID) => {
-   const record = await pendingPaymentsService.getSinglePendingPayment(db, paymentID, accountID);
+const pendingPaymentNotFound = () => Object.assign(new Error('Pending payment record not found.'), { statusCode: 404 });
 
-   if (!record) {
-      throw new Error('Pending payment record not found.');
-   }
+/**
+ * The account's pending row for `paymentID`. A malformed id is answered exactly
+ * like a missing one (404) and never reaches Postgres, whose driver error would
+ * echo the SQL back to the client.
+ */
+const validatePendingPaymentExists = async (db, paymentID, accountID) => {
+   const id = Number(paymentID);
+   if (!Number.isInteger(id) || id <= 0) throw pendingPaymentNotFound();
+
+   const record = await pendingPaymentsService.getSinglePendingPayment(db, id, accountID);
+   if (!record) throw pendingPaymentNotFound();
 
    return record;
 };

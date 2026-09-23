@@ -10,6 +10,8 @@
 // IMPORTANT: detailed_work_description is the real notes column on
 // customer_transactions. The `note` column is empty legacy.
 
+const { detectAndRedact } = require('../utils/comprehend');
+
 const FEW_SHOT_LIMIT = Number(process.env.CUSTOMER_FEWSHOT_LIMIT || 8);
 const HISTORICAL_LOOKBACK_DAYS = Number(process.env.CUSTOMER_HISTORY_LOOKBACK_DAYS || 365);
 const MIN_DETERMINISTIC_COUNT = Number(process.env.MIN_DETERMINISTIC_JOB_COUNT || 5);
@@ -79,7 +81,14 @@ const _loadWorkDescToBillableMap = async (db, accountId, customerId) => {
 // Pull the most recent N (detailed_work_description, work_desc) examples for
 // this customer. These get injected as customer-scoped few-shots in the AI
 // prompt to bias the AI toward this customer's actual patterns.
-const _loadCustomerFewShots = async (db, accountId, customerId, gwdMap) => {
+//
+// detailed_work_description is the RAW human note (names, emails, phone
+// numbers, SSNs, street addresses...). It gets exactly the redaction the
+// current row's notes get in redactRowForAi — Comprehend PII detection plus the
+// known-name / email / phone / SSN / card fallback — BEFORE it can reach a
+// model prompt. Redaction runs before truncation so a name cut at the 200-char
+// boundary can't survive.
+const _loadCustomerFewShots = async (db, accountId, customerId, gwdMap, knownNames = []) => {
    const cutoff = new Date();
    cutoff.setUTCDate(cutoff.getUTCDate() - HISTORICAL_LOOKBACK_DAYS);
    const rows = await db('customer_transactions as t')
@@ -97,28 +106,35 @@ const _loadCustomerFewShots = async (db, accountId, customerId, gwdMap) => {
 
    // Dedupe by (work_desc_id) so the AI sees variety, not 8 copies of "Administrative"
    const seen = new Set();
-   const out = [];
+   const picked = [];
    for (const r of rows) {
       if (!_isRealText(r.detailed_work_description)) continue;
       const key = r.general_work_description_id;
       if (seen.has(key)) continue;
       seen.add(key);
-      out.push({
-         dwd: r.detailed_work_description.slice(0, 200),
-         work_desc_label: r.work_desc_label
-      });
-      if (out.length >= FEW_SHOT_LIMIT) break;
+      picked.push(r);
+      if (picked.length >= FEW_SHOT_LIMIT) break;
    }
-   return out;
+   return Promise.all(
+      picked.map(async r => {
+         const { redacted } = await detectAndRedact(r.detailed_work_description, { knownNames });
+         return { dwd: String(redacted || '').slice(0, 200), work_desc_label: r.work_desc_label };
+      })
+   );
 };
 
-const loadCustomerHistoricalPatterns = async (db, accountId, customerId, { gwdMap = null } = {}) => {
+/**
+ * @param {{ gwdMap?: *, knownNames?: string[] }} [options]
+ *   knownNames — customer / employee names to redact from the few-shot notes
+ *   (the orchestrator passes the account's full catalog).
+ */
+const loadCustomerHistoricalPatterns = async (db, accountId, customerId, { gwdMap = null, knownNames = [] } = {}) => {
    if (!customerId) return null;
    const [parentJobs, workDescToJobMap, workDescToBillableMap, fewShots] = await Promise.all([
       _loadParentJobs(db, accountId, customerId),
       _loadWorkDescToJobMap(db, accountId, customerId),
       _loadWorkDescToBillableMap(db, accountId, customerId),
-      _loadCustomerFewShots(db, accountId, customerId, gwdMap)
+      _loadCustomerFewShots(db, accountId, customerId, gwdMap, knownNames)
    ]);
    return { parentJobs, workDescToJobMap, workDescToBillableMap, fewShots };
 };

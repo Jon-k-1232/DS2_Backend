@@ -50,8 +50,13 @@ const restoreDataTypesCustomersInformationOnUpdate = customerInformation => ({
   is_this_address_active: Boolean(customerInformation.isCustomerAddressActive),
   is_customer_physical_address: Boolean(customerInformation.isCustomerPhysicalAddress),
   is_customer_billing_address: Boolean(customerInformation.isCustomerBillingAddress),
-  is_customer_mailing_address: Boolean(customerInformation.isCustomerMailingAddress),
-  created_by_user_id: Number(customerInformation.userID)
+  is_customer_mailing_address: Boolean(customerInformation.isCustomerMailingAddress)
+  // NOTE: created_by_user_id intentionally omitted. This is an UPDATE mapper —
+  // it used to set created_by_user_id: Number(customerInformation.userID),
+  // which is the user submitting THIS edit, not the customer's original
+  // creator. Since customer-service.updateCustomerInformation does a plain
+  // knex .update(customerInformation), including that key overwrote the audit
+  // trail (who originally created the record) on every single edit.
 });
 
 module.exports = {

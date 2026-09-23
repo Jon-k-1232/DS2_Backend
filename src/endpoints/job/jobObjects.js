@@ -10,7 +10,9 @@ const restoreDataTypesJobTableOnCreate = job => ({
    is_job_complete: Boolean(job.isJobComplete) || false,
    is_quote: Boolean(job.isQuote) || false,
    created_by_user_id: Number(job.userID),
-   notes: job.note || null
+   // The New Job form sends `notes`; older callers may send `note`. Accept
+   // either instead of silently dropping the value when only one is sent.
+   notes: job.note ?? job.notes ?? null
 });
 
 const restoreDataTypesJobTableOnUpdate = job => ({
@@ -26,7 +28,7 @@ const restoreDataTypesJobTableOnUpdate = job => ({
    is_job_complete: Boolean(job.isJobComplete) || false,
    is_quote: Boolean(job.isQuote) || false,
    created_by_user_id: Number(job.userID),
-   notes: job.notes || null
+   notes: job.note ?? job.notes ?? null
 });
 
 module.exports = {

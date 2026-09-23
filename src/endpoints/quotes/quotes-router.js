@@ -90,7 +90,10 @@ quotesRouter.route('/updateQuote').put(jsonParser, async (req, res) => {
       quoteTableFields.account_id = req.user.account_id;
 
       // Update quote
-      await quotesService.updateQuote(db, quoteTableFields, quoteTableFields.account_id);
+      const updatedQuoteRow = await quotesService.updateQuote(db, quoteTableFields, quoteTableFields.account_id);
+      if (!updatedQuoteRow) {
+         return res.status(404).send({ message: 'Quote not found.', status: 404 });
+      }
 
       // Get all quote
       const quotesData = await quotesService.getActiveQuotes(db, quoteTableFields.account_id);
@@ -124,7 +127,10 @@ quotesRouter.route('/deleteQuote/:accountID/:quoteID').delete(async (req, res) =
       const { accountID, quoteID } = req.params;
 
       // Delete quote
-      await quotesService.deleteQuote(db, quoteID, accountID);
+      const deletedQuoteRow = await quotesService.deleteQuote(db, quoteID, accountID);
+      if (!deletedQuoteRow) {
+         return res.status(404).send({ message: 'Quote not found.', status: 404 });
+      }
 
       // Get all quotes
       const quotesData = await quotesService.getActiveQuotes(db, accountID);

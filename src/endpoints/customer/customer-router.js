@@ -25,44 +25,68 @@ const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagi
 const { buildStatementData, renderStatementPdf } = require('./customer-statement');
 
 // Create New Customer
-customerRouter.route('/createCustomer/:accountID/:userID').post(jsonParser, async (req, res) => {
+customerRouter
+   .route('/createCustomer/:accountID/:userID')
+   .all(requireManagerOrAdmin)
+   .post(jsonParser, async (req, res) => {
    const db = req.app.get('db');
-   const { accountID } = req.params;
+   // Trust account_id / created_by_user_id from the authenticated request —
+   // the URL account (already guard-verified by enforceAccountId against
+   // req.user.account_id) and the session user — never from the request
+   // body. The body previously supplied accountID directly (and userID for
+   // created_by_user_id on customer_information), so any caller reaching this
+   // route could write a customer into an arbitrary account_id / attribute
+   // creation to an arbitrary user_id.
+   const trustedAccountId = Number(req.params.accountID);
+   const trustedUserId = Number(req.user.user_id);
    const sanitizedNewCustomer = sanitizeFields(req.body.customer);
 
    try {
       // Create new object with sanitized fields
       const customerTableFields = restoreDataTypesCustomersOnCreate(sanitizedNewCustomer);
+      customerTableFields.account_id = trustedAccountId;
 
       // Check for duplicate customer
-      const customers = await customerService.getActiveCustomers(db, accountID);
+      const customers = await customerService.getActiveCustomers(db, trustedAccountId);
       const duplicateCustomerDisplay = customers.find(customer => customer.display_name === customerTableFields.display_name);
       if (duplicateCustomerDisplay) throw new Error('Customer already exists with that name.');
 
-      // Post new customer
-      const customerData = await customerService.createCustomer(db, customerTableFields);
+      // customers + customer_information (+ recurring_customers, when the new
+      // customer is flagged recurring) are inserted atomically. Previously
+      // each insert ran independently against the plain `db` connection, so a
+      // failure on customer_information (or the recurring insert) left a real,
+      // permanent customers row behind with no contact record and no normal
+      // way to reach it — getActiveCustomers/getCustomerByID both INNER JOIN
+      // customer_information, so the orphan wouldn't even show up to fix.
+      await db.transaction(async trx => {
+         // Post new customer
+         const customerData = await customerService.createCustomer(trx, customerTableFields);
+         if (!Object.keys(customerData).length) throw new Error('Error Inserting Customer Into Customer Table.');
 
-      if (!Object.keys(customerData).length) throw new Error('Error Inserting Customer Into Customer Table.');
+         // Need the customer number to post to customer_information table, then merge customer to sanitizedData, then insert
+         const { customer_id } = customerData;
+         const updatedWithCustomerID = { ...sanitizedNewCustomer, customer_id };
+         const customerInfoTableFields = restoreDataTypesCustomersInformationOnCreate(updatedWithCustomerID);
+         customerInfoTableFields.account_id = trustedAccountId;
+         customerInfoTableFields.created_by_user_id = trustedUserId;
 
-      // Need the customer number to post to customer_information table, then merge customer to sanitizedData, then insert
-      const { customer_id, account_id } = customerData;
-      const updatedWithCustomerID = { ...sanitizedNewCustomer, customer_id };
-      const customerInfoTableFields = restoreDataTypesCustomersInformationOnCreate(updatedWithCustomerID);
+         // Post new customer information
+         const customerInfo = await customerService.createCustomerInformation(trx, customerInfoTableFields);
+         if (!Object.keys(customerInfo).length) throw new Error('Error Inserting Customer Into Customer Information Table.');
 
-      // Post new customer information
-      const customerInfo = await customerService.createCustomerInformation(db, customerInfoTableFields);
-      if (!Object.keys(customerInfo).length) throw new Error('Error Inserting Customer Into Customer Information Table.');
-
-      // Check for recurring customer
-      if (customerTableFields.is_recurring) {
-         const recurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnCreate(sanitizedNewCustomer, customer_id);
-         const recurringCustomer = await recurringCustomerService.createRecurringCustomer(db, recurringCustomerTableFields);
-         if (!Object.keys(recurringCustomer).length) throw new Error('Error Inserting Customer Into Recurring Customer Table.');
-      }
+         // Check for recurring customer
+         if (customerTableFields.is_recurring) {
+            const recurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnCreate(sanitizedNewCustomer, customer_id);
+            recurringCustomerTableFields.account_id = trustedAccountId;
+            recurringCustomerTableFields.created_by_user_id = trustedUserId;
+            const recurringCustomer = await recurringCustomerService.createRecurringCustomer(trx, recurringCustomerTableFields);
+            if (!Object.keys(recurringCustomer).length) throw new Error('Error Inserting Customer Into Recurring Customer Table.');
+         }
+      });
 
       // call active customers
-      const activeCustomers = await customerService.getActiveCustomers(db, account_id);
-      const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, account_id);
+      const activeCustomers = await customerService.getActiveCustomers(db, trustedAccountId);
+      const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, trustedAccountId);
 
       const activeCustomerData = {
          activeCustomers,
@@ -83,14 +107,17 @@ customerRouter.route('/createCustomer/:accountID/:userID').post(jsonParser, asyn
    } catch (err) {
       console.log(err);
       res.send({
-         message: err.message || 'An error occurred while creating the Retainer.',
+         message: err.message || 'An error occurred while creating the customer.',
          status: 500
       });
    }
 });
 
 // Get customer by ID, and all associated data for customer profile
-customerRouter.route('/activeCustomers/customerByID/:accountID/:userID/:customerID').get(async (req, res) => {
+customerRouter
+   .route('/activeCustomers/customerByID/:accountID/:userID/:customerID')
+   .all(requireManagerOrAdmin)
+   .get(async (req, res) => {
    const db = req.app.get('db');
    try {
    const { accountID, customerID } = req.params;
@@ -103,6 +130,10 @@ customerRouter.route('/activeCustomers/customerByID/:accountID/:userID/:customer
       transactionsService.getCustomerTransactionsByID(db, accountID, customerID),
       jobService.getActiveCustomerJobs(db, accountID, customerID)
    ]);
+
+   if (!customerContactData) {
+      return res.status(404).send({ message: 'Customer not found.', status: 404 });
+   }
 
    const customerData = {
       customerData: customerContactData,
@@ -177,7 +208,10 @@ customerRouter.route('/activeCustomers/customerByID/:accountID/:userID/:customer
 });
 
 // Customer statement PDF — opening balance, activity in range, closing balance.
-customerRouter.route('/statement/:accountID/:userID/:customerID').get(async (req, res) => {
+customerRouter
+   .route('/statement/:accountID/:userID/:customerID')
+   .all(requireManagerOrAdmin)
+   .get(async (req, res) => {
    const db = req.app.get('db');
    try {
       const { accountID, customerID } = req.params;
@@ -201,7 +235,10 @@ customerRouter.route('/statement/:accountID/:userID/:customerID').get(async (req
 });
 
 // Update Customer
-customerRouter.route('/updateCustomer/:accountID/:userID').put(jsonParser, async (req, res) => {
+customerRouter
+   .route('/updateCustomer/:accountID/:userID')
+   .all(requireManagerOrAdmin)
+   .put(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    try {
       const sanitizedUpdatedCustomer = sanitizeFields(req.body.customer);
@@ -249,16 +286,26 @@ customerRouter.route('/updateCustomer/:accountID/:userID').put(jsonParser, async
          grid: createGrid(activeRecurringCustomers)
       };
 
+      // Deactivating a customer (is_customer_active -> false) is the supported
+      // alternative to deleteCustomer's hard-delete-with-no-related-records
+      // rule, so it must NOT be blocked by an open balance or unbilled
+      // billable work — but the caller should be warned rather than have it
+      // happen silently and the debt/hours fall out of the active lists.
+      const warnings = customerTableFields.is_customer_active === false
+         ? await customerService.getDeactivationWarnings(db, trustedAccountId, customerTableFields.customer_id)
+         : [];
+
       res.send({
          customersList: { activeCustomerData },
          recurringCustomersList: { activeRecurringCustomersData },
+         warnings,
          message: 'Successfully updated customer.',
          status: 200
       });
    } catch (err) {
       console.log(err);
       res.send({
-         message: err.message || 'An error occurred while creating the Retainer.',
+         message: err.message || 'An error occurred while updating the customer.',
          status: 500
       });
    }
@@ -273,16 +320,36 @@ customerRouter
       const { customerID, accountID } = req.params;
 
       try {
-         // check for Jobs, Retainers, Invoices, Payments, Transactions, Recurring Customers. if any exist, throw error
+         const customerId = Number(customerID);
+         const existing = Number.isInteger(customerId) && customerId > 0
+            ? await db('customers').select('customer_id').where({ account_id: Number(accountID), customer_id: customerId }).first()
+            : null;
+         if (!existing) {
+            return res.send({ message: 'No matching customer record found.', status: 404 });
+         }
+
+         // check for Jobs, Retainers, Invoices, Payments, Write-Offs, Transactions, Recurring Customers. if any exist, throw error
          const customerJobs = await jobService.getActiveCustomerJobs(db, accountID, customerID);
          const customerRetainers = await retainerService.getCustomerRetainersByID(db, accountID, customerID);
          const customerInvoices = await invoiceService.getCustomerInvoiceByID(db, accountID, customerID);
          const customerPayments = await paymentsService.getActivePaymentsForCustomer(db, accountID, customerID);
+         const customerWriteOffs = await customerService.getWriteOffsForCustomer(db, accountID, customerID);
          const customerTransactions = await transactionsService.getCustomerTransactionsByID(db, accountID, customerID);
-         const customerRecurring = await recurringCustomerService.getRecurringCustomerByID(db, accountID, customerID);
+         // Guard by the customer's id, not by recurring_customer_id: the old lookup
+         // matched only when the two ids happened to coincide (5 of 11 recurring
+         // customers in the prod copy could have been hard-deleted).
+         const customerRecurring = await recurringCustomerService.getRecurringCustomersForCustomer(db, accountID, customerID);
 
-         if (customerJobs.length || customerRetainers.length || customerInvoices.length || customerPayments.length || customerTransactions.length || customerRecurring.length) {
-            throw new Error('Cannot delete customer with associated jobs, retainers, invoices, payments, transactions, or recurring customers. Please disable customer instead.');
+         if (
+            customerJobs.length ||
+            customerRetainers.length ||
+            customerInvoices.length ||
+            customerPayments.length ||
+            customerWriteOffs.length ||
+            customerTransactions.length ||
+            customerRecurring.length
+         ) {
+            throw new Error('Cannot delete customer with associated jobs, retainers, invoices, payments, write-offs, transactions, or recurring customers. Please disable customer instead.');
          }
 
          // delete customer
@@ -313,7 +380,10 @@ customerRouter
 module.exports = customerRouter;
 
 // Paginated active customers
-customerRouter.route('/activeCustomers/:accountID/:userID').get(async (req, res) => {
+customerRouter
+   .route('/activeCustomers/:accountID/:userID')
+   .all(requireManagerOrAdmin)
+   .get(async (req, res) => {
    const db = req.app.get('db');
    const { accountID } = req.params;
    const { search = '' } = req.query;

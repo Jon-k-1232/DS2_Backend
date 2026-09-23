@@ -1,28 +1,48 @@
 /**
  * Accounts Receivable aging.
  *
- * Rolling-balance view: each customer's outstanding = the remaining_balance on
- * their MOST RECENT unpaid parent invoice.  This is the same interpretation
- * the Create Invoice page and the Account Audit use, so all three views agree
- * on what each customer owes.  Older parent invoices whose balance was
- * absorbed via beginning_balance on a newer invoice are NOT double-counted.
+ * Rolling-balance view: each customer's outstanding = the latest-snapshot
+ * remaining of EVERY parent chain dated on their newest statement date,
+ * summed (each chain clamped at $0).  That is exactly the Create Invoice
+ * engine's outstandingInvoiceTotal and the Account Audit's
+ * outstanding_invoices, so all three views agree on what each customer owes:
+ *   - latest snapshot, not the parent row: payments / write-offs insert child
+ *     snapshots and only MIRROR remaining onto the parent, so a stale mirror
+ *     must not decide the balance (the audit reports it as stale_parent_remaining);
+ *     a chain with no snapshots falls back to the parent row;
+ *   - all newest-date parents, not DISTINCT ON one: legacy same-day duplicate
+ *     statements are summed as one statement by the engine and the audit.
+ * Older parent invoices whose balance was absorbed via beginning_balance on a
+ * newer invoice are NOT counted.
  *
- * Bucket = age of that most-recent unpaid parent invoice:
+ * AGE / BUCKETS = STATEMENT AGE: days since the newest statement date
+ * (`statement_date`, also returned as `most_recent_invoice_date`):
  *   - 0–30:   billed within last 30 days
  *   - 31–60:  billed 31–60 days ago
  *   - 61–90:  billed 61–90 days ago
  *   - >90:    billed > 90 days ago
+ * On balance-forward statements that is NOT the age of the debt — a customer
+ * who has not paid for six months still gets a fresh statement every month.
+ * `oldest_open_charge_date` / `oldest_open_charge_days` give the real receivable
+ * age (best effort): the oldest billed charge still unpaid when credits are
+ * applied oldest-first (FIFO, the balance-forward convention) — i.e. walking the
+ * customer's billed billable charges newest-first, the charge at which they
+ * cover the outstanding balance.  If the billed charges on file do not cover the
+ * balance (opening balances, pre-DS2 history) it is the oldest charge on file,
+ * a lower bound on the true age; NULL when no billed charge exists.
  *
- * Customers whose most recent parent invoice is paid in full are excluded —
- * they owe nothing per the system of record.
+ * Customers whose current statement(s) carry no positive remaining are
+ * excluded — they owe nothing per the system of record.  Inactive customers
+ * who still owe money ARE included (flagged by `is_customer_active`).
  *
  * Sort: whitelisted column → SQL expression.  Default sort is by oldest_days
  * DESC (most overdue first) — kept as the resting state when no sort selected.
  *
- * Age filter: keyed off the customer's single bucket (days since last invoice).
+ * Age filter: keyed off the customer's statement-age bucket.
  *   - '30'        → 0–30 day bucket
  *   - '60'        → 31–60 day bucket
- *   - '90_plus'   → 61+ days (61–90 and >90 columns combined)
+ *   - '90'        → 61–90 day bucket
+ *   - 'over_90'   → >90 day bucket
  */
 
 // Whitelist sort columns to SQL expressions to prevent injection.
@@ -39,7 +59,10 @@ const SORT_MAP = {
    total_outstanding: { expr: 'ca.total_outstanding', nulls: false },
    last_payment_date: { expr: 'lp.payment_date', nulls: true },
    has_work_since_last_payment: { expr: 'has_work_since_last_payment', nulls: false },
-   oldest_days: { expr: 'ca.oldest_days', nulls: false }
+   oldest_days: { expr: 'ca.oldest_days', nulls: false },
+   statement_date: { expr: 'ca.statement_date', nulls: false },
+   oldest_open_charge_date: { expr: 'oo.oldest_open_charge_date', nulls: true },
+   is_customer_active: { expr: 'c.is_customer_active', nulls: false }
 };
 
 const ageFilterFragment = filter => {
@@ -49,6 +72,62 @@ const ageFilterFragment = filter => {
    if (filter === 'over_90') return 'AND ca.oldest_days > 90';
    return '';
 };
+
+/**
+ * CTEs shared by the data and count queries: one row per customer that owes
+ * money on their current statement(s), with the statement-age buckets.
+ */
+const customerAgingCtes = excludeFragment => `
+         current_chains AS (
+            -- Every parent dated on the customer's newest statement date, with
+            -- the chain's LATEST snapshot remaining (parent row when no snapshots).
+            SELECT sp.customer_id,
+                   sp.statement_date,
+                   COALESCE(latest_child.remaining_balance_on_invoice, sp.remaining_balance_on_invoice)::numeric AS remaining
+            FROM (
+               SELECT ci.customer_id,
+                      ci.customer_invoice_id,
+                      ci.invoice_date,
+                      ci.remaining_balance_on_invoice,
+                      MAX(ci.invoice_date) OVER (PARTITION BY ci.customer_id) AS statement_date
+               FROM customer_invoices ci
+               WHERE ci.account_id = :accountId
+                 AND ci.parent_invoice_id IS NULL
+                 ${excludeFragment}
+            ) sp
+            LEFT JOIN LATERAL (
+               SELECT ch.remaining_balance_on_invoice
+               FROM customer_invoices ch
+               WHERE ch.account_id = :accountId
+                 AND ch.parent_invoice_id = sp.customer_invoice_id
+               ORDER BY ch.created_at DESC, ch.customer_invoice_id DESC
+               LIMIT 1
+            ) latest_child ON true
+            WHERE sp.invoice_date = sp.statement_date
+         ),
+         customer_balance AS (
+            SELECT customer_id,
+                   statement_date,
+                   SUM(GREATEST(remaining, 0)) AS total_outstanding,
+                   COUNT(*)::int AS statement_count,
+                   EXTRACT(DAY FROM (NOW() - statement_date))::int AS days_old
+            FROM current_chains
+            GROUP BY customer_id, statement_date
+            HAVING SUM(GREATEST(remaining, 0)) > 0
+         ),
+         customer_aging AS (
+            SELECT
+               customer_id,
+               total_outstanding,
+               CASE WHEN days_old <= 30 THEN total_outstanding ELSE 0 END AS bucket_0_30,
+               CASE WHEN days_old BETWEEN 31 AND 60 THEN total_outstanding ELSE 0 END AS bucket_31_60,
+               CASE WHEN days_old BETWEEN 61 AND 90 THEN total_outstanding ELSE 0 END AS bucket_61_90,
+               CASE WHEN days_old > 90 THEN total_outstanding ELSE 0 END AS bucket_over_90,
+               days_old AS oldest_days,
+               statement_date,
+               statement_count
+            FROM customer_balance
+         )`;
 
 const accountsReceivableService = {
    async getAging(db, accountId, { search = '', limit = 50, offset = 0, filter = null, sort = null, direction = 'desc', excludeIds = [] } = {}) {
@@ -60,7 +139,7 @@ const accountsReceivableService = {
       // inline used by the analytics service, so the year-end packet's AR CSV
       // matches the other three reports.
       const cleanExclude = (excludeIds || []).map(Number).filter(n => Number.isInteger(n) && n > 0 && n < 2147483647);
-      const excludeFragment = cleanExclude.length ? `AND customer_id NOT IN (${cleanExclude.join(',')})` : '';
+      const excludeFragment = cleanExclude.length ? `AND ci.customer_id NOT IN (${cleanExclude.join(',')})` : '';
 
       const searchSqlFragment = hasSearch
          ? `AND (
@@ -81,35 +160,36 @@ const accountsReceivableService = {
          ? sortConfig.nulls
             ? `${sortConfig.expr} ${dir} NULLS LAST, c.customer_id ASC`
             : `${sortConfig.expr} ${dir}, c.customer_id ASC`
-         : 'ca.oldest_days DESC NULLS LAST, ca.total_outstanding DESC';
+         : 'ca.oldest_days DESC NULLS LAST, ca.total_outstanding DESC, c.customer_id ASC';
 
       const dataSql = `
-         WITH latest_parent AS (
-            SELECT DISTINCT ON (customer_id)
-               customer_id,
-               invoice_date,
-               remaining_balance_on_invoice::numeric AS remaining,
-               is_invoice_paid_in_full,
-               EXTRACT(DAY FROM (NOW() - invoice_date))::int AS days_old
-            FROM customer_invoices
-            WHERE account_id = :accountId
-              AND parent_invoice_id IS NULL
-              ${excludeFragment}
-            ORDER BY customer_id, invoice_date DESC, customer_invoice_id DESC
+         WITH ${customerAgingCtes(excludeFragment)},
+         billed_charges AS (
+            -- Billed billable charges, newest first, with the running total of
+            -- this charge and every newer one (FIFO walk for the real age).
+            SELECT ct.customer_id,
+                   ct.transaction_date,
+                   ct.total_transaction::numeric AS amount,
+                   SUM(ct.total_transaction::numeric) OVER (
+                      PARTITION BY ct.customer_id
+                      ORDER BY ct.transaction_date DESC, ct.transaction_id DESC
+                      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+                   ) AS this_and_newer
+            FROM customer_transactions ct
+            JOIN customer_aging ca0 ON ca0.customer_id = ct.customer_id
+            WHERE ct.account_id = :accountId
+              AND ct.customer_invoice_id IS NOT NULL
+              AND ct.is_transaction_billable = true
+              AND ct.total_transaction > 0
          ),
-         customer_aging AS (
-            SELECT
-               customer_id,
-               remaining AS total_outstanding,
-               CASE WHEN days_old <= 30 THEN remaining ELSE 0 END AS bucket_0_30,
-               CASE WHEN days_old BETWEEN 31 AND 60 THEN remaining ELSE 0 END AS bucket_31_60,
-               CASE WHEN days_old BETWEEN 61 AND 90 THEN remaining ELSE 0 END AS bucket_61_90,
-               CASE WHEN days_old > 90 THEN remaining ELSE 0 END AS bucket_over_90,
-               days_old AS oldest_days,
-               invoice_date AS most_recent_invoice_date
-            FROM latest_parent
-            WHERE is_invoice_paid_in_full = false
-              AND remaining > 0
+         oldest_open AS (
+            -- A charge is still (partly) unpaid under FIFO when the charges
+            -- newer than it do not yet cover the outstanding balance.
+            SELECT bc.customer_id, MIN(bc.transaction_date) AS oldest_open_charge_date
+            FROM billed_charges bc
+            JOIN customer_aging ca1 ON ca1.customer_id = bc.customer_id
+            WHERE bc.this_and_newer - bc.amount < ca1.total_outstanding
+            GROUP BY bc.customer_id
          ),
          last_payment AS (
             SELECT DISTINCT ON (customer_id)
@@ -126,13 +206,20 @@ const accountsReceivableService = {
             c.business_name,
             c.customer_name,
             c.is_commercial_customer,
+            c.is_customer_active,
             ca.total_outstanding::numeric AS total_outstanding,
             ca.bucket_0_30::numeric AS bucket_0_30,
             ca.bucket_31_60::numeric AS bucket_31_60,
             ca.bucket_61_90::numeric AS bucket_61_90,
             ca.bucket_over_90::numeric AS bucket_over_90,
             ca.oldest_days,
-            ca.most_recent_invoice_date,
+            ca.statement_date AS most_recent_invoice_date,
+            ca.statement_date,
+            ca.statement_count,
+            oo.oldest_open_charge_date,
+            CASE WHEN oo.oldest_open_charge_date IS NULL THEN NULL
+                 ELSE EXTRACT(DAY FROM (NOW() - oo.oldest_open_charge_date))::int
+            END AS oldest_open_charge_days,
             lp.payment_date AS last_payment_date,
             lp.payment_amount AS last_payment_amount,
             EXISTS (
@@ -144,9 +231,9 @@ const accountsReceivableService = {
             ) AS has_work_since_last_payment
          FROM customers c
          JOIN customer_aging ca ON ca.customer_id = c.customer_id
+         LEFT JOIN oldest_open oo ON oo.customer_id = c.customer_id
          LEFT JOIN last_payment lp ON lp.customer_id = c.customer_id
          WHERE c.account_id = :accountId
-           AND c.is_customer_active = true
            ${searchSqlFragment}
            ${filterFragment}
          ORDER BY ${orderClause}
@@ -154,29 +241,11 @@ const accountsReceivableService = {
       `;
 
       const countSql = `
-         WITH latest_parent AS (
-            SELECT DISTINCT ON (customer_id)
-               customer_id,
-               is_invoice_paid_in_full,
-               remaining_balance_on_invoice::numeric AS remaining,
-               EXTRACT(DAY FROM (NOW() - invoice_date))::int AS days_old
-            FROM customer_invoices
-            WHERE account_id = :accountId
-              AND parent_invoice_id IS NULL
-              ${excludeFragment}
-            ORDER BY customer_id, invoice_date DESC, customer_invoice_id DESC
-         ),
-         customer_aging AS (
-            SELECT customer_id, days_old AS oldest_days
-            FROM latest_parent
-            WHERE is_invoice_paid_in_full = false
-              AND remaining > 0
-         )
+         WITH ${customerAgingCtes(excludeFragment)}
          SELECT COUNT(*)::int AS count
          FROM customers c
          JOIN customer_aging ca ON ca.customer_id = c.customer_id
          WHERE c.account_id = :accountId
-           AND c.is_customer_active = true
            ${searchSqlFragment}
            ${filterFragment}
       `;
@@ -201,6 +270,7 @@ const accountsReceivableService = {
          bucket_31_60: Number(r.bucket_31_60 || 0),
          bucket_61_90: Number(r.bucket_61_90 || 0),
          bucket_over_90: Number(r.bucket_over_90 || 0),
+         statement_count: Number(r.statement_count || 0),
          last_payment_amount: r.last_payment_amount == null ? null : Number(r.last_payment_amount)
       }));
 

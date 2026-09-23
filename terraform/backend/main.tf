@@ -193,6 +193,14 @@ locals {
     # Force UTC on the runtime so JS Date serialization to Postgres date
     # columns is stable regardless of host timezone.
     TZ                                = "UTC"
+
+    # Google Workspace auth (src/endpoints/auth/auth-service.js) + CORS
+    # (src/app.js). These existed on the live task definition but were never
+    # captured here, so a from-scratch `terraform apply` would have stripped
+    # them and broken sign-in / cross-origin requests.
+    GOOGLE_CLIENT_ID                  = var.google_client_id
+    GOOGLE_WORKSPACE_DOMAIN           = var.google_workspace_domain
+    CORS_ORIGIN                       = var.cors_origin
   }
 }
 

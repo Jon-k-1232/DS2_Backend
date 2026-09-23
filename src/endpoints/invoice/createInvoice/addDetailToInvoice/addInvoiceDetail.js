@@ -77,19 +77,27 @@ const loadCompanyLogo = async accountBillingInformation => {
    return fs.readFileSync(noImagePath);
 };
 
-const addInvoiceDetails = async (calculatedInvoices, invoiceQueryData, invoicesToCreateMap, accountBillingInformation, globalInvoiceNote) => {
+const addInvoiceDetails = async (calculatedInvoices, invoiceQueryData, invoicesToCreateMap, accountBillingInformation, globalInvoiceNote, billingDate) => {
    const companyLogo = await loadCompanyLogo(accountBillingInformation);
+   // One firm-local billing date for the whole batch (numbering year, invoice
+   // date, due date) — never re-read the clock per customer.
+   const statementDate = billingDate ? dayjs(billingDate) : dayjs();
+   const billingYear = invoiceQueryData.billingYear || statementDate.year();
 
    return calculatedInvoices.map((invoiceCalculation, i) => {
       const { customer_id, invoiceNote } = invoicesToCreateMap[invoiceCalculation.customer_id];
       const { lastInvoiceNumber, customerInformation } = invoiceQueryData;
-      const startingInvoiceNumber = lastInvoiceNumber?.invoice_number || 'INV-2024-00000';
+      // No conforming statement yet for this year → the sequence restarts at 00001.
+      const startingInvoiceNumber = lastInvoiceNumber?.invoice_number || `INV-${billingYear}-00000`;
 
       const customerContactInformation = customerInformation[customer_id];
-      const invoiceNumber = incrementAnInvoiceOrQuote(startingInvoiceNumber, i);
-      const dueDate = dayjs().add(16, 'day').format('MM/DD/YYYY');
+      if (!customerContactInformation) {
+         throw new Error(`Customer ${customer_id} has no active mailing address on file; add one before invoicing.`);
+      }
+      const invoiceNumber = incrementAnInvoiceOrQuote(startingInvoiceNumber, i, billingYear);
+      const dueDate = statementDate.add(16, 'day').format('MM/DD/YYYY');
 
-      return { invoiceNumber, dueDate, globalInvoiceNote, invoiceNote, accountBillingInformation, customerContactInformation, companyLogo, ...invoiceCalculation };
+      return { invoiceNumber, dueDate, billingDate: statementDate.format('YYYY-MM-DD'), globalInvoiceNote, invoiceNote, accountBillingInformation, customerContactInformation, companyLogo, ...invoiceCalculation };
    });
 };
 

@@ -63,12 +63,37 @@ const jobService = {
          .update({ is_job_complete });
    },
 
-   deleteJob(db, jobID, accountId) {
-      return db.transaction(async trx => {
-         await trx('customer_transactions').where('customer_job_id', jobID).andWhere('account_id', accountId).del();
+   /**
+    * Resolves every customer_job_id in a job's version family: the root
+    * (parent_job_id IS NULL) plus every version row updateRecentJobTotal
+    * inserted on a total change (parent_job_id = root). Works whether jobID
+    * passed in IS the root or a later version's id. Returns [] when jobID
+    * isn't found for this account.
+    * @param {*} db
+    * @param {*} jobID
+    * @param {*} accountID
+    * @returns {Promise<number[]>}
+    */
+   async getJobFamilyIds(db, jobID, accountID) {
+      const target = await db.select('customer_job_id', 'parent_job_id').from('customer_jobs').where('customer_job_id', jobID).andWhere('account_id', accountID).first();
+      if (!target) return [];
 
-         return trx('customer_jobs').where('customer_job_id', jobID).andWhere('account_id', accountId).del();
-      });
+      const rootId = target.parent_job_id || target.customer_job_id;
+      const family = await db
+         .select('customer_job_id')
+         .from('customer_jobs')
+         .where('account_id', accountID)
+         .andWhere(builder => builder.where('customer_job_id', rootId).orWhere('parent_job_id', rootId));
+
+      return family.map(row => row.customer_job_id);
+   },
+
+   // Deletes every row in a job's version family (root + prior versions).
+   // Callers must confirm nothing references ANY row in the family first -
+   // see getJobFamilyIds and the deleteJob route handler.
+   deleteJobFamily(db, jobIDs, accountId) {
+      if (!jobIDs || !jobIDs.length) return Promise.resolve(0);
+      return db('customer_jobs').where('account_id', accountId).whereIn('customer_job_id', jobIDs).del();
    },
 
    /**

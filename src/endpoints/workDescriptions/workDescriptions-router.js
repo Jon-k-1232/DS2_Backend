@@ -7,6 +7,7 @@ const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { restoreDataTypesWorkDescriptionTableOnCreate, restoreDataTypesWorkDescriptionTableOnUpdate } = require('./workDescriptionsObjects');
 const { createGrid } = require('../../utils/gridFunctions');
+const transactionsService = require('../transactions/transactions-service');
 
 // Create a new workDescription
 workDescriptionsRouter.route('/createWorkDescription/:accountID/:userID').post(jsonParser, async (req, res) => {
@@ -37,7 +38,7 @@ workDescriptionsRouter.route('/getSingleWorkDescription/:workDescriptionID/:acco
 
    try {
       // Get single work description
-      const workDescriptionData = await workDescriptionService.getSingleWorkDescription(db, workDescriptionID);
+      const workDescriptionData = await workDescriptionService.getSingleWorkDescription(db, workDescriptionID, accountID);
 
       const activeWorkDescriptionData = {
          workDescriptionData,
@@ -68,9 +69,14 @@ workDescriptionsRouter.route('/updateWorkDescription/:accountID/:userID').put(js
 
       // Create new object with sanitized fields
       const workDescriptionTableFields = restoreDataTypesWorkDescriptionTableOnUpdate(sanitizedUpdatedWorkDescription);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      workDescriptionTableFields.account_id = Number(accountID);
 
       // Update workDescription
-      await workDescriptionService.updateWorkDescription(db, workDescriptionTableFields);
+      const affectedRows = await workDescriptionService.updateWorkDescription(db, workDescriptionTableFields, accountID);
+      if (!affectedRows) {
+         return res.status(404).send({ message: 'Work description not found.', status: 404 });
+      }
       await sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.error(error.message);
@@ -87,8 +93,19 @@ workDescriptionsRouter.route('/deleteWorkDescription/:workDescriptionID/:account
    const { workDescriptionID, accountID } = req.params;
 
    try {
+      // Refuse with a clear message instead of letting a raw FK constraint
+      // violation (general_work_description_id is NOT NULL on
+      // customer_transactions) bubble up to the client.
+      const linkedTransactions = await transactionsService.getTransactionsByGeneralWorkDescriptionID(db, accountID, workDescriptionID);
+      if (linkedTransactions.length) {
+         throw new Error('This work description is in use by one or more transactions and cannot be deleted.');
+      }
+
       // Delete workDescription
-      await workDescriptionService.deleteWorkDescription(db, workDescriptionID);
+      const affectedRows = await workDescriptionService.deleteWorkDescription(db, workDescriptionID, accountID);
+      if (!affectedRows) {
+         return res.status(404).send({ message: 'Work description not found.', status: 404 });
+      }
       await sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.error(error.message);

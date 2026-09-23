@@ -35,7 +35,13 @@ describe('integration: billing-correctness regression', function () {
    });
 
    after(async () => {
-      if (db) await cleanupTestData(db);
+      if (db) {
+         // The spec's fixture statement is not covered by cleanupTestData; a
+         // leftover non-conforming invoice_number used to break every later
+         // finalize on the fixture account.
+         await db('customer_invoices').where({ account_id: TEST_ACCOUNT_ID, invoice_number: 'TEST-REG-001' }).del();
+         await cleanupTestData(db);
+      }
       await closeDb();
    });
 
@@ -54,8 +60,15 @@ describe('integration: billing-correctness regression', function () {
       ];
       const inserted = [];
       for (const r of seedRows) {
+         // user_id is the row's OWNER (Eliza, matching employee_name below) —
+         // never the submitting admin. A validated real upload always sets
+         // user_id to whoever employee_name (B1) names; auto-ingest now
+         // resolves the billed employee from this validated user_id FIRST
+         // (see auto-ingest-orchestrator.js _resolveEmployeeMatch), so a row
+         // whose user_id/employee_name disagree no longer silently falls back
+         // to matching the name string alone.
          const [row] = await db('timesheet_entries').insert({
-            account_id: TEST_ACCOUNT_ID, user_id: TEST_ADMIN_USER_ID,
+            account_id: TEST_ACCOUNT_ID, user_id: employee.user_id,
             employee_name: r.employee_name, timesheet_name: 'billing_regression.xlsx',
             time_tracker_start_date: '2026-04-27', time_tracker_end_date: '2026-05-03',
             date: r.date, entity: 'JFK&A', company_name: r.company_name, category: r.category, duration: r.duration, notes: r.notes,
@@ -77,8 +90,13 @@ describe('integration: billing-correctness regression', function () {
          expect(Number(t.total_transaction)).to.equal(expected);
       }
 
+      // Billing rounds UP to 6-minute increments (ceil(minutes/6)/10 hours; see
+      // auto-ingest-orchestrator.js _computeTimeAmounts). Every seed duration
+      // here (60, 90, 30) is already an exact 6-minute multiple, so plain
+      // duration/60 coincidentally equals the ceiling-rounded hours for this
+      // fixture — this is NOT a general oracle for non-multiple-of-6 durations.
       const total = txns.reduce((a, t) => a + Number(t.total_transaction), 0);
-      const hours = seedRows.reduce((a, r) => a + r.duration / 60, 0);
+      const hours = seedRows.reduce((a, r) => a + Math.ceil(r.duration / 6) / 10, 0);
       const expectedTotal = Math.round(hours * billingRate * 100) / 100;
       expect(Math.abs(total - expectedTotal)).to.be.lessThan(0.05);
    });

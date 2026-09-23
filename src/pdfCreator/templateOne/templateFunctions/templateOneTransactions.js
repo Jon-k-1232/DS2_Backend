@@ -1,63 +1,22 @@
+const { renderTableSection } = require('./pdfLayoutHelpers');
+
 const createChargesSection = (doc, invoiceDetails, preferenceSettings) => {
    const { transactions } = invoiceDetails;
-   const { boldFont, normalFont, lineHeight, rightMargin, leftMargin, pageWidth, alignRight, endOfGroupingHeight } = preferenceSettings;
+   const { leftMargin, rightMargin, pageWidth } = preferenceSettings;
+   const right = pageWidth - rightMargin;
+   const amountX = right - 100;
 
-   const groupHeight = endOfGroupingHeight + 25;
-
-   doc.font(boldFont).fontSize(14).text('Professional Services', leftMargin, groupHeight);
-
-   doc.font(normalFont)
-      .fontSize(12)
-      .text('Job', leftMargin + 10, groupHeight + lineHeight)
-      .text('Job Description', 200, groupHeight + lineHeight)
-      .text('Charge', alignRight('Charge', 1), groupHeight + lineHeight);
-
-   doc.lineCap('butt')
-      .lineWidth(1)
-      .moveTo(leftMargin, groupHeight + lineHeight * 2)
-      .lineTo(pageWidth - rightMargin, groupHeight + lineHeight * 2)
-      .stroke();
-
-   const loopHeight = groupHeight + lineHeight * 2 + 10;
-
-   transactions.transactionRecords.forEach((record, index) => {
-      const yHeight = loopHeight + lineHeight * index;
-
-      doc.font(normalFont)
-         .fontSize(12)
-         .text(record.jobID, leftMargin + 10, yHeight)
-         .text(record.jobDescription, 200, yHeight)
-         .text(record.jobTotal.toFixed(2), alignRight(`${record.jobTotal.toFixed(2)}`, 1), yHeight);
-
-      if (index === transactions.transactionRecords.length - 1) {
-         doc.lineCap('butt')
-            .lineWidth(1)
-            .moveTo(leftMargin, yHeight + lineHeight)
-            .lineTo(pageWidth - rightMargin, yHeight + lineHeight)
-            .stroke();
-
-         doc.font(normalFont)
-            .fontSize(12)
-            .text(`Total New Charges: ${transactions.transactionsTotal.toFixed(2)}`, alignRight(`Total New Charges: ${transactions.transactionsTotal.toFixed(2)}`, 1), yHeight + lineHeight * 1.5);
-
-         preferenceSettings.endOfGroupingHeight = yHeight + lineHeight * 1.5;
-      }
+   renderTableSection(doc, invoiceDetails, preferenceSettings, {
+      title: 'Professional Services',
+      columns: [
+         { header: 'Job', x: leftMargin + 10, width: 110, cell: row => `${row.jobID}` },
+         { header: 'Job Description', x: 200, width: amountX - 200 - 12, cell: row => `${row.jobDescription}` },
+         { header: 'Charge', x: amountX, width: 100, align: 'right', cell: row => Number(row.jobTotal).toFixed(2) }
+      ],
+      rows: transactions.transactionRecords,
+      subtotalLines: [`Total New Charges: ${Number(transactions.transactionsTotal).toFixed(2)}`],
+      describeRow: row => `job ${row.jobID ?? ''}`
    });
-
-   // Condition for if there are no jobs
-   if (!transactions.transactionRecords.length) {
-      doc.lineCap('butt')
-         .lineWidth(1)
-         .moveTo(leftMargin, loopHeight + 10)
-         .lineTo(pageWidth - rightMargin, loopHeight + 10)
-         .stroke();
-
-      doc.font(normalFont)
-         .fontSize(12)
-         .text('Total New Charges: 0.00', alignRight('Total New Charges: 0.00', 1), loopHeight + lineHeight);
-
-      preferenceSettings.endOfGroupingHeight = loopHeight + lineHeight;
-   }
 };
 
 module.exports = { createChargesSection };

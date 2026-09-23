@@ -16,13 +16,33 @@ const _statusCodeForCascadeError = code => {
       case ERRORS.INVOICE_LOCKED:
       case ERRORS.DATE_OUTSIDE_INVOICE:
       case ERRORS.RETAINER_NOT_EDITABLE_HERE:
-         return 409;
       case ERRORS.CUSTOMER_CHANGE_NEEDS_CONFIRM:
+      case ERRORS.EDIT_WOULD_CREATE_CREDIT:
+      case ERRORS.CONCURRENT_EDIT:
          return 409;
+      case ERRORS.JOB_REQUIRED_FOR_CUSTOMER_CHANGE:
+      case ERRORS.INVALID_FIELD_VALUE:
+         return 400;
       default:
          return 500;
    }
 };
+
+// Service-level error codes thrown by billingReview-service.
+const SERVICE_ERROR_STATUS = Object.freeze({
+   NOT_FOUND: 404,
+   MISSING_FIELD: 400,
+   INVALID_FIELD: 400,
+   BAD_MODE: 400,
+   ENTRY_ALREADY_APPLIED: 409
+});
+
+// Known (coded) errors carry messages we wrote for the reviewer; anything else
+// is unexpected (knex/pg/driver) and must never reach the client verbatim.
+const _errorBody = (err, status, fallback) =>
+   status >= 500 ? { message: clientSafeMessage(err, fallback) } : { message: err.message, code: err.code };
+
+const _logUnexpected = (label, err) => console.error(`[${new Date().toISOString()}] ${label} failed: ${err && err.message}`);
 
 // GET /billing-review/distinct-entities/:accountID/:userID
 // Returns the unique `entity` values (employer-of-record) for the account.
@@ -64,6 +84,13 @@ billingReviewRouter.route('/pending/:accountID/:userID').get(
          sortField, sortDirection,
          page, limit
       } = req.query;
+      // Validate pagination before it reaches SQL: `page=abc&limit=-3` used to
+      // surface as a 500 from the driver instead of a 400.
+      const pageNumber = page === undefined || page === '' ? 1 : Number(page);
+      const limitNumber = limit === undefined || limit === '' ? 50 : Number(limit);
+      if (!Number.isInteger(pageNumber) || pageNumber < 1 || !Number.isInteger(limitNumber) || limitNumber < 1 || limitNumber > 500) {
+         return res.status(400).json({ message: 'Invalid pagination parameters. page and limit must be positive integers (limit at most 500).' });
+      }
       const result = await billingReviewService.listPendingHeldEntries(db, accountId, {
          holdReason: hold_reason || null,
          timesheetName: timesheet_name || null,
@@ -80,8 +107,8 @@ billingReviewRouter.route('/pending/:accountID/:userID').get(
          workDescId: workDescId ? Number(workDescId) : null,
          sortField: sortField || null,
          sortDirection: sortDirection || 'desc',
-         page: page || 1,
-         limit: limit || 50
+         page: pageNumber,
+         limit: limitNumber
       });
       res.status(200).json({ message: 'ok', ...result });
    })
@@ -93,16 +120,21 @@ billingReviewRouter.route('/:entryID/:accountID/:userID').put(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const accountId = Number(req.params.accountID);
-      const userId = Number(req.params.userID);
+      // The actor is always the authenticated caller — never the URL
+      // :userID, which a manager/admin can legitimately address as someone
+      // else's id (enforceSelfOrPrivileged is not even registered on this
+      // router's :userID) — so trusting it let the poster forge who applied
+      // the entry.
+      const userId = Number(req.user.user_id);
       const entryId = Number(req.params.entryID);
 
       try {
          const created = await billingReviewService.applyHeldEntry(db, accountId, entryId, req.body || {}, userId);
          res.status(200).json({ message: 'ok', transaction: created });
       } catch (err) {
-         const status = err.code === 'NOT_FOUND' ? 404 : err.code === 'MISSING_FIELD' ? 400 : 500;
-         console.error(`[${new Date().toISOString()}] applyHeldEntry failed: ${err.message}`);
-         res.status(status).json({ message: err.message, code: err.code, field: err.field });
+         const status = SERVICE_ERROR_STATUS[err.code] || 500;
+         if (status >= 500) _logUnexpected('applyHeldEntry', err);
+         res.status(status).json({ ..._errorBody(err, status, 'The held entry could not be applied.'), field: err.field });
       }
    })
 );
@@ -186,7 +218,9 @@ billingReviewRouter.route('/reprocess-count/:accountID/:userID').get(
          const ids = await billingReviewService.listEntriesForReprocess(db, accountId, { mode, limit: 2000 });
          res.status(200).json({ message: 'ok', mode, count: ids.length, eligible: _isAutoIngestAllowed(accountId) });
       } catch (err) {
-         res.status(400).json({ message: err.message });
+         const status = SERVICE_ERROR_STATUS[err.code] || 500;
+         if (status >= 500) _logUnexpected('reprocess-count', err);
+         res.status(status).json(_errorBody(err, status, 'Could not count entries to reprocess.'));
       }
    })
 );
@@ -203,7 +237,7 @@ billingReviewRouter.route('/reprocess/:accountID/:userID').post(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const accountId = Number(req.params.accountID);
-      const userId = Number(req.params.userID);
+      const userId = Number(req.user.user_id); // authenticated actor, never the URL :userID
       const mode = (req.body && req.body.mode) || 'unprocessed';
       const batchSize = (req.body && Number(req.body.batch_size)) || 500;
       const explicitIds = Array.isArray(req.body?.ids) ? req.body.ids.map(n => Number(n)).filter(n => Number.isFinite(n)) : null;
@@ -222,7 +256,9 @@ billingReviewRouter.route('/reprocess/:accountID/:userID').post(
          try {
             entryIds = await billingReviewService.listEntriesForReprocess(db, accountId, { mode, limit: batchSize });
          } catch (err) {
-            return res.status(400).json({ message: err.message, code: 'bad_mode' });
+            if (err.code === 'BAD_MODE') return res.status(400).json({ message: err.message, code: 'bad_mode' });
+            _logUnexpected('reprocess', err);
+            return res.status(500).json({ message: clientSafeMessage(err, 'Could not queue the reprocess job.') });
          }
       }
 
@@ -246,7 +282,7 @@ billingReviewRouter.route('/reprocess-with-overrides/:entryID/:accountID/:userID
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const accountId = Number(req.params.accountID);
-      const userId = Number(req.params.userID);
+      const userId = Number(req.user.user_id); // authenticated actor, never the URL :userID
       const entryId = Number(req.params.entryID);
       const overrides = (req.body && req.body.overrides) || {};
 
@@ -261,8 +297,13 @@ billingReviewRouter.route('/reprocess-with-overrides/:entryID/:accountID/:userID
          const result = await billingReviewService.reprocessHeldEntryWithOverrides(db, accountId, entryId, overrides, userId);
          res.status(200).json({ message: 'ok', ...result });
       } catch (err) {
-         console.error(`[${new Date().toISOString()}] reprocessWithOverrides failed: ${err.message}`);
-         res.status(500).json({ message: clientSafeMessage(err, 'An unexpected error occurred.'), decision: 'error' });
+         const status = SERVICE_ERROR_STATUS[err.code] || 500;
+         if (status >= 500) _logUnexpected('reprocessWithOverrides', err);
+         res.status(status).json({
+            ..._errorBody(err, status, 'An unexpected error occurred.'),
+            ...(err.transactionId ? { transactionId: err.transactionId } : {}),
+            decision: 'error'
+         });
       }
    })
 );
@@ -273,7 +314,7 @@ billingReviewRouter.route('/transaction/:transactionID/:accountID/:userID').put(
    asyncHandler(async (req, res) => {
       const db = req.app.get('db');
       const accountId = Number(req.params.accountID);
-      const userId = Number(req.params.userID);
+      const userId = Number(req.user.user_id); // authenticated actor, never the URL :userID
       const transactionId = Number(req.params.transactionID);
       const { updates = {}, confirmCustomerChange = false } = req.body || {};
       try {
@@ -282,13 +323,19 @@ billingReviewRouter.route('/transaction/:transactionID/:accountID/:userID').put(
             accountId,
             transactionId,
             updates,
-            confirmCustomerChange,
+            confirmCustomerChange: confirmCustomerChange === true || confirmCustomerChange === 'true',
             editingUserId: userId
          });
          res.status(200).json({ message: 'ok', ...result });
       } catch (err) {
          const status = _statusCodeForCascadeError(err.code);
-         res.status(status).json({ message: err.message, code: err.code, invoiceId: err.invoiceId });
+         if (status >= 500) _logUnexpected('cascade transaction edit', err);
+         res.status(status).json({
+            ..._errorBody(err, status, 'The transaction could not be updated.'),
+            invoiceId: err.invoiceId,
+            ...(err.invoiceNumber ? { invoiceNumber: err.invoiceNumber } : {}),
+            ...(err.field ? { field: err.field } : {})
+         });
       }
    })
 );

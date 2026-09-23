@@ -8,27 +8,49 @@
  * unit-test loop independent of network access while still letting the
  * integration suite run end-to-end against the dev DB locally.
  */
-require('dotenv').config({ path: '.env.dev', override: false });
-
+// DS2_ENV_FILE lets the suite target a different env file without editing this
+// bootstrap. Default: the local Docker sandbox (.env.local) when it exists;
+// otherwise .env.dev. Tests NEVER connect to a non-local database host unless
+// DS2_TEST_ALLOW_REMOTE_DB=1 is set explicitly — the unit command only excludes
+// test/integration/**, so the *.integration.spec.js files under test/endpoints
+// used to reach the real dev RDS (and seed/delete fixture rows there) whenever
+// DS2_ENV_FILE was unset.
 const fs = require('fs');
 const path = require('path');
 const knex = require('knex');
+
+const ENV_FILE = process.env.DS2_ENV_FILE || (fs.existsSync(path.join(__dirname, '..', '..', '.env.local')) ? '.env.local' : '.env.dev');
+require('dotenv').config({ path: ENV_FILE, override: false });
 
 const TEST_ACCOUNT_ID = 9001;
 const TEST_ADMIN_USER_ID = 90013;
 const SEED_PATH = path.join(__dirname, '..', 'fixtures', 'seed.sql');
 
+const LOCAL_HOSTS = new Set(['127.0.0.1', 'localhost', '::1', 'host.docker.internal']);
+const isLocalHost = host => LOCAL_HOSTS.has(String(host || '').trim().toLowerCase());
+const remoteDbAllowed = () => process.env.DS2_TEST_ALLOW_REMOTE_DB === '1';
+
 let _db = null;
+let _refusedOnce = false;
 const _connect = () => {
    if (_db) return _db;
+   if (!isLocalHost(process.env.DB_DEV_HOST) && !remoteDbAllowed()) {
+      if (!_refusedOnce) {
+         _refusedOnce = true;
+         console.warn(`[test/_setup] refusing to connect to non-local DB host from ${ENV_FILE} (set DS2_ENV_FILE=.env.local for the sandbox, or DS2_TEST_ALLOW_REMOTE_DB=1 to override); DB-backed specs are skipped.`);
+      }
+      return null;
+   }
    _db = knex({
       client: 'postgres',
       connection: {
          host: process.env.DB_DEV_HOST,
+         port: Number(process.env.DB_DEV_PORT || 5432),
          user: process.env.DATABASE_USER,
          password: process.env.DATABASE_PASSWORD,
          database: process.env.DATABASE_NAME || 'ds2_dev',
-         ssl: { rejectUnauthorized: false }
+         // Plain local Postgres (sandbox) has no TLS; RDS does.
+         ssl: String(process.env.DB_SSL_DISABLE).toLowerCase() === 'true' ? false : { rejectUnauthorized: false }
       },
       pool: { min: 0, max: 4, acquireTimeoutMillis: 5_000, idleTimeoutMillis: 1_000 }
    });
@@ -37,6 +59,10 @@ const _connect = () => {
 
 const requireDb = async function requireDb() {
    const db = _connect();
+   if (!db) {
+      this.skip();
+      return null;
+   }
    try {
       await db.raw('SELECT 1');
       // A prod→dev restore wipes the fixture account and every integration

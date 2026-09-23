@@ -6,10 +6,16 @@ const totalInvoice = (customer_id, invoiceInformation, showWriteOffs, hideRetain
    const writeOffsTotal = writeOffs.writeOffTotal;
    const retainerTotal = hideRetainers ? 0 : retainers.retainerTotal;
 
-   const preRetainerInvoiceTotal = invoiceTotalHidingWriteOffs + writeOffsTotal;
    // These are payments that were applied at the time of the transaction charge/time and linked to a retainer.
    const retainerAppliedToInvoice = payments.retainerPaymentTotal;
-   const remainingRetainer = retainerTotal + Math.abs(retainerAppliedToInvoice);
+   // What the statement would ask for before the retainer-funded payments of the
+   // period were applied (those payments are negative, so subtracting adds back).
+   const preRetainerInvoiceTotal = invoiceTotalHidingWriteOffs + writeOffsTotal - retainerAppliedToInvoice;
+   // retainerTotal is the sum of each chain's LATEST snapshot, i.e. the balance
+   // that already reflects every draw (retainer-funded work reduces the chain when
+   // the transaction is entered). Adding the period's draws back on top of it — as
+   // the old formula did against the ORIGINAL balance — double counted them.
+   const remainingRetainer = retainerTotal;
    const invoiceTotal = invoiceTotalHidingWriteOffs + writeOffsTotal;
 
    if (isNaN(invoiceTotal)) {

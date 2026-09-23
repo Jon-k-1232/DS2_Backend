@@ -217,3 +217,25 @@ variable "auto_insert_confidence_threshold" {
   description = "Combined-confidence threshold (0..1) at or above which a row is auto-inserted into customer_transactions"
   default     = "0.85"
 }
+
+# ----------------------------------------------------------------------------
+# Google Workspace auth + CORS (2026-09-22: added — task def env had drifted
+# from what src/endpoints/auth/auth-service.js and src/app.js actually read,
+# so a from-scratch apply would have silently broken Google sign-in and CORS)
+# ----------------------------------------------------------------------------
+variable "google_client_id" {
+  type        = string
+  description = "Google OAuth 2.0 client ID (audience for ID-token verification in auth-service.js). Not secret — it is embedded in the frontend's OAuth flow — but no real value is safe to default here; supply per-environment via *.auto.tfvars."
+}
+
+variable "google_workspace_domain" {
+  type        = string
+  description = "Google Workspace hosted-domain restriction for sign-in (auth-service.js rejects any ID token whose hd claim doesn't match)."
+  default     = "jimkimmel.com"
+}
+
+variable "cors_origin" {
+  type        = string
+  description = "Comma-separated list of allowed CORS origins (src/app.js). Should include the deployed frontend URL; keep in sync with FRONT_END_URL_PROD (alb_record_name.route53_zone_name)."
+  default     = "https://ds2.kimmeloffice.com"
+}

@@ -1,7 +1,10 @@
 const dayjs = require('dayjs');
 
 const createBillToSection = (doc, invoiceDetails, preferenceSettings) => {
-   const { dueDate, customerContactInformation } = invoiceDetails;
+   const { dueDate, customerContactInformation, billingDate } = invoiceDetails;
+   // The statement date is the firm's billing day chosen by the route (America/Phoenix),
+   // not the server clock — an evening run on a UTC host must not print tomorrow.
+   const statementDate = billingDate ? dayjs(billingDate).format('MM/DD/YYYY') : dayjs().format('MM/DD/YYYY');
    const { customer_street, customer_city, customer_state, customer_zip, customer_phone, business_name, customer_name } = customerContactInformation;
    const { normalFont, headerHeight, leftMargin, alignRight } = preferenceSettings;
    const invoiceRecipientName = business_name || customer_name;
@@ -14,7 +17,7 @@ const createBillToSection = (doc, invoiceDetails, preferenceSettings) => {
       .text(customer_street, 120, headerHeight + 135)
       .text(`${customer_city}, ${customer_state} ${customer_zip}`, 120, headerHeight + 155)
       .text(customer_phone, 120, headerHeight + 175)
-      .text(`Statement Date:     ${dayjs().format('MM/DD/YYYY')}`, alignRight(`Payment Due Date: ${dueDate}`, +3), headerHeight + 115)
+      .text(`Statement Date:     ${statementDate}`, alignRight(`Payment Due Date: ${dueDate}`, +3), headerHeight + 115)
       .text(`Payment Due Date:     ${dueDate}`, alignRight(`Payment Due Date:      ${dueDate}`, +3), headerHeight + 135);
 };
 

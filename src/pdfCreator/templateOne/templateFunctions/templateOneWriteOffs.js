@@ -1,69 +1,29 @@
+const { renderTableSection } = require('./pdfLayoutHelpers');
+
 const createWriteOffsSection = (doc, invoiceDetails, preferenceSettings) => {
    const { writeOffs } = invoiceDetails;
-   const { boldFont, normalFont, lineHeight, rightMargin, leftMargin, pageWidth, alignRight, endOfGroupingHeight } = preferenceSettings;
+   const { leftMargin, rightMargin, pageWidth } = preferenceSettings;
+   const right = pageWidth - rightMargin;
+   const amountX = right - 100;
 
-   const groupHeight = endOfGroupingHeight + 25;
+   // Print the sum of the rows listed below. Current-chain write-offs are
+   // already reflected in the invoice balance, so when any exist the engine
+   // total differs from the listed sum — say so.
+   const listedTotal = Number(writeOffs.writeOffsListedTotal ?? writeOffs.writeOffTotal);
+   const reflectedInBalance = Math.abs(listedTotal - writeOffs.writeOffTotal) > 0.009;
+   const totalLine = `Total Revisions: ${listedTotal.toFixed(2)}${reflectedInBalance ? ' (reflected in invoice balance)' : ''}`;
 
-   doc.font(boldFont).fontSize(14).text('Revisions', leftMargin, groupHeight);
-
-   doc.font(normalFont)
-      .fontSize(12)
-      .text('Type', leftMargin + 10, groupHeight + lineHeight)
-      .text('Reason', 200, groupHeight + lineHeight)
-      .text('Amount', alignRight('Amount', 1), groupHeight + lineHeight);
-
-   doc.lineCap('butt')
-      .lineWidth(1)
-      .moveTo(leftMargin, groupHeight + lineHeight * 2)
-      .lineTo(pageWidth - rightMargin, groupHeight + lineHeight * 2)
-      .stroke();
-
-   const loopHeight = groupHeight + lineHeight * 2 + 10;
-
-   writeOffs.writeOffRecords.forEach((record, index) => {
-      const yHeight = loopHeight + lineHeight * index;
-
-      doc.font(normalFont)
-         .fontSize(12)
-         .text(record.transaction_type, leftMargin + 10, yHeight)
-         .text(record.writeoff_reason, 200, yHeight)
-         .text(record.writeoff_amount, alignRight(record.writeoff_amount, 1), yHeight);
-
-      if (index === writeOffs.writeOffRecords.length - 1) {
-         doc.lineCap('butt')
-            .lineWidth(1)
-            .moveTo(leftMargin, yHeight + lineHeight)
-            .lineTo(pageWidth - rightMargin, yHeight + lineHeight)
-            .stroke();
-
-         // Print the sum of the rows listed above. Current-chain write-offs are
-         // already reflected in the invoice balance, so when any exist the
-         // engine total differs from the listed sum — say so.
-         const listedTotal = Number(writeOffs.writeOffsListedTotal ?? writeOffs.writeOffTotal);
-         const reflectedInBalance = Math.abs(listedTotal - writeOffs.writeOffTotal) > 0.009;
-         const totalLine = `Total Revisions: ${listedTotal.toFixed(2)}${reflectedInBalance ? ' (reflected in invoice balance)' : ''}`;
-         doc.font(normalFont)
-            .fontSize(12)
-            .text(totalLine, alignRight(totalLine, 1), yHeight + lineHeight * 1.5);
-
-         preferenceSettings.endOfGroupingHeight = yHeight + lineHeight * 1.5;
-      }
+   renderTableSection(doc, invoiceDetails, preferenceSettings, {
+      title: 'Revisions',
+      columns: [
+         { header: 'Type', x: leftMargin + 10, width: 110, cell: row => `${row.transaction_type}` },
+         { header: 'Reason', x: 200, width: amountX - 200 - 12, cell: row => `${row.writeoff_reason}` },
+         { header: 'Amount', x: amountX, width: 100, align: 'right', cell: row => `${row.writeoff_amount}` }
+      ],
+      rows: writeOffs.writeOffRecords,
+      subtotalLines: [totalLine],
+      describeRow: row => `write-off ${row.writeoff_id ?? ''}`
    });
-
-   // Condition for if there are no jobs
-   if (!writeOffs.writeOffRecords.length) {
-      doc.lineCap('butt')
-         .lineWidth(1)
-         .moveTo(leftMargin, loopHeight + 10)
-         .lineTo(pageWidth - rightMargin, loopHeight + 10)
-         .stroke();
-
-      doc.font(normalFont)
-         .fontSize(12)
-         .text('Total Revisions: 0.00', alignRight('Total Revisions: 0.00', 1), loopHeight + lineHeight);
-
-      preferenceSettings.endOfGroupingHeight = loopHeight + lineHeight;
-   }
 };
 
 module.exports = { createWriteOffsSection };

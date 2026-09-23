@@ -4,6 +4,11 @@
  * @returns  - Object with columns and rows for Mui Grid
  */
 const createGrid = data => {
+   // Defense in depth: a caller occasionally passes through an undefined/null
+   // row (e.g. a lookup by id that found nothing) instead of pre-checking
+   // first. `data[0]` on undefined/null throws a TypeError; tolerate it the
+   // same way an empty array already falls through to an empty grid below.
+   if (!data) return { columns: [], rows: [] };
    if (data[0]) {
       const headers = Object.keys(data[0]);
 

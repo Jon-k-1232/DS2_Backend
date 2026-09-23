@@ -9,12 +9,12 @@ const accountUserService = require('../user/user-service');
 const retainerService = require('../retainer/retainer-service');
 const paymentsService = require('../payments/payments-service');
 const jobService = require('../job/job-service');
-const { restoreDataTypesTransactionsTableOnCreate, restoreDataTypesTransactionsTableOnUpdate } = require('./transactionsObjects');
 const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
 const { fetchUserTime } = require('./transactionLogic');
 const dayjs = require('dayjs');
-const { addNewTransaction, differenceBetweenOldAndNewTransaction, updateRecentJobTotal, handleRetainerUpdate } = require('./sharedTransactionFunctions');
+const { addNewTransaction, updateTransactionCore, deleteTransactionCore } = require('./sharedTransactionFunctions');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
+const { csvRow } = require('../analytics/csv-util');
 
 const DEFAULT_TRANSACTIONS_PAGE_SIZE = 20;
 const TRANSACTION_EXPORT_COLUMNS = [
@@ -37,14 +37,25 @@ const TRANSACTION_EXPORT_COLUMNS = [
    'detailed_work_description'
 ];
 
+// Create, update and delete run through the ledger cores in
+// sharedTransactionFunctions: ONE knex transaction under the customer's ledger
+// lock (the customer-row lock payments / write-offs / retainers / finalize
+// take; see lockTransactionLedger for why it is FOR NO KEY UPDATE). The
+// stored row is re-read after locking and decides billed status, amounts and
+// retainer funding; job totals, the retainer draw, the auto 'Retainer' payment
+// and the transaction row commit or roll back together.
+
 // Create a new transaction
 transactionsRouter.route('/createTransaction/:accountID/:userID').post(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    try {
-      const sanitizedNewTransaction = sanitizeFields(req.body.transaction);
+      const sanitizedNewTransaction = sanitizeFields(req.body.transaction || {});
       // Trust the account from the (guard-verified) URL, never the request body.
       const accountID = Number(req.params.accountID);
       sanitizedNewTransaction.account_id = accountID;
+      // The AUTHENTICATED user is always the recorded creator — loggedByUserID
+      // in the body is caller-supplied and would make the audit trail spoofable.
+      sanitizedNewTransaction.loggedByUserID = Number(req.user.user_id);
 
       await addNewTransaction(db, sanitizedNewTransaction);
 
@@ -62,37 +73,15 @@ transactionsRouter.route('/createTransaction/:accountID/:userID').post(jsonParse
 transactionsRouter.route('/updateTransaction/:accountID/:userID').put(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    try {
-      const sanitizedUpdatedTransaction = sanitizeFields(req.body.transaction);
-
-      // Create new object with sanitized fields
-      const transactionTableFields = restoreDataTypesTransactionsTableOnUpdate(sanitizedUpdatedTransaction);
       // Trust the account from the (guard-verified) URL, never the request body.
-      transactionTableFields.account_id = Number(req.params.accountID);
-      const { account_id, customer_job_id, customer_invoice_id } = transactionTableFields;
+      const accountID = Number(req.params.accountID);
+      const { warning } = await updateTransactionCore(db, {
+         accountId: accountID,
+         actorId: Number(req.user.user_id),
+         transaction: sanitizeFields(req.body.transaction || {})
+      });
 
-      // If transaction is attached to an invoice, do not allow update
-      if (customer_invoice_id) {
-         throw new Error('Transaction is attached to an invoice and cannot be updated.');
-      }
-
-      // Get original transaction and decide if a positive or negative change in order to update the job record
-      const transactionDifferences = await differenceBetweenOldAndNewTransaction(db, transactionTableFields);
-      const { areAmountsDifferent, transactionTotalDifference } = transactionDifferences;
-
-      // Update the retainer if there is one
-      const newRetainer = await handleRetainerUpdate(db, transactionDifferences, transactionTableFields);
-      const newRetainerID = newRetainer?.retainer_id || null;
-      const newTransaction = { ...transactionTableFields, retainer_id: newRetainerID };
-
-      // Update job total
-      if (areAmountsDifferent) {
-         await updateRecentJobTotal(db, customer_job_id, account_id, transactionTotalDifference);
-      }
-
-      // Update transaction
-      await transactionsService.updateTransaction(db, newTransaction, account_id);
-
-      await sendUpdatedTableWith200Response(db, res, account_id);
+      await sendUpdatedTableWith200Response(db, res, accountID, warning ? { warning } : {});
    } catch (error) {
       console.log(error);
       res.send({
@@ -105,32 +94,16 @@ transactionsRouter.route('/updateTransaction/:accountID/:userID').put(jsonParser
 // Delete a transaction
 transactionsRouter.route('/deleteTransaction/:accountID/:userID').delete(async (req, res) => {
    const db = req.app.get('db');
-
    try {
-      const sanitizedUpdatedTransaction = sanitizeFields(req.body.transaction);
-
-      // Create new object with sanitized fields
-      const transactionTableFields = restoreDataTypesTransactionsTableOnUpdate(sanitizedUpdatedTransaction);
       // Trust the account from the (guard-verified) URL, never the request body.
-      transactionTableFields.account_id = Number(req.params.accountID);
-      const { customer_job_id, transaction_id, account_id, customer_invoice_id, retainer_id } = transactionTableFields;
+      const accountID = Number(req.params.accountID);
+      const { warning } = await deleteTransactionCore(db, {
+         accountId: accountID,
+         actorId: Number(req.user.user_id),
+         transaction: sanitizeFields(req.body.transaction || {})
+      });
 
-      // If transaction is attached to an invoice, do not allow delete
-      if (customer_invoice_id) throw new Error('Transaction is attached to an invoice and cannot be deleted.');
-
-      // Get original transaction and decide if a positive or negative change in order to update the job record
-      const transactionDifferences = await differenceBetweenOldAndNewTransaction(db, transactionTableFields, 'delete');
-      const { transactionTotalDifference } = transactionDifferences;
-
-      // Update the retainer if there is one - puts the amount to be deleted back on the retainer.
-      await handleRetainerUpdate(db, transactionDifferences, transactionTableFields);
-
-      // Update job total
-      await updateRecentJobTotal(db, customer_job_id, account_id, transactionTotalDifference);
-
-      // Delete transaction
-      await transactionsService.deleteTransaction(db, transaction_id, account_id);
-      await sendUpdatedTableWith200Response(db, res, account_id);
+      await sendUpdatedTableWith200Response(db, res, accountID, warning ? { warning } : {});
    } catch (error) {
       console.log(error);
       res.send({
@@ -197,24 +170,39 @@ transactionsRouter.route('/exportTransactions/:accountID/:userID').get(async (re
    }
 });
 
-// Get a specific transaction
+// Get a specific transaction. A non-numeric or unknown id is a clean refusal
+// in the app's envelope (like getSingleRetainer), never an empty success or a
+// raw 500 from Postgres rejecting the cast.
 transactionsRouter.route('/getSingleTransaction/:customerID/:transactionID/:accountID/:userID').get(async (req, res) => {
    const db = req.app.get('db');
-   const { customerID, transactionID, accountID } = req.params;
+   const { accountID } = req.params;
+   const customerID = Number(req.params.customerID);
+   const transactionID = Number(req.params.transactionID);
 
-   // Get specific transaction
-   const transactionData = await transactionsService.getSingleTransaction(db, accountID, customerID, transactionID);
+   try {
+      const isId = value => Number.isSafeInteger(value) && value > 0;
+      const transactionData = isId(customerID) && isId(transactionID) ? await transactionsService.getSingleTransaction(db, accountID, customerID, transactionID) : [];
+      if (!transactionData.length) {
+         return res.send({ message: 'No matching transaction record found.', status: 404 });
+      }
 
-   const activeTransactionsData = {
-      transactionData,
-      grid: createGrid(transactionData)
-   };
+      const activeTransactionsData = {
+         transactionData,
+         grid: createGrid(transactionData)
+      };
 
-   res.send({
-      activeTransactionsData,
-      message: 'Successfully retrieved specific transaction.',
-      status: 200
-   });
+      res.send({
+         activeTransactionsData,
+         message: 'Successfully retrieved specific transaction.',
+         status: 200
+      });
+   } catch (error) {
+      console.log(error);
+      res.send({
+         message: 'Failure to retrieve single transaction.',
+         status: 500
+      });
+   }
 });
 
 // Get all employee transactions
@@ -310,21 +298,13 @@ const sendUpdatedTableWith200Response = async (db, res, accountID, additionalIte
    });
 };
 
+// Cells go through the shared csv-util: user-entered text that a spreadsheet
+// would run as a formula (leading = + - @ TAB CR) is neutralised with a leading
+// apostrophe, numeric strings such as '-225.00' stay numbers, and dates keep
+// their ISO timestamp.
 const generateTransactionsCsv = (rows, columns) => {
    const orderedColumns = Array.isArray(columns) && columns.length ? columns : Object.keys(rows[0] || {});
    const header = orderedColumns.join(',');
-   const dataLines = rows.map(row => orderedColumns.map(column => escapeCsvValue(row[column])).join(','));
+   const dataLines = rows.map(row => csvRow(orderedColumns.map(column => row[column])));
    return [header, ...dataLines].join('\n');
-};
-
-const escapeCsvValue = value => {
-   if (value === null || value === undefined) return '';
-   if (value instanceof Date) return value.toISOString();
-
-   const stringValue = `${value}`;
-   if (/[",\n\r]/.test(stringValue)) {
-      return `"${stringValue.replace(/"/g, '""')}"`;
-   }
-
-   return stringValue;
 };

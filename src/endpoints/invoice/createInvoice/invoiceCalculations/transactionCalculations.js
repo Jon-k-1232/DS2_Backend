@@ -6,7 +6,33 @@ const groupAndTotalTransactions = (customer_id, invoiceQueryData, showWriteOffs)
    const groupedWriteOffs = groupWriteOffsByJob(customerWriteOffRecords, showWriteOffs);
 
    const transactionsGroupedByJob = groupAndTotalTransactionsByJob(customerTransactions, groupedWriteOffs);
+   addAdjustmentOnlyJobGroups(transactionsGroupedByJob, groupedWriteOffs);
    return totalGroupedJobsByCustomer(transactionsGroupedByJob, customerTransactions);
+};
+
+/**
+ * A job-level write-down entered for a job that has NO unbilled time this cycle
+ * must still credit the customer: previously it only ever reached the bill by
+ * riding along with a transaction group, so with "Show Write Offs" unchecked it
+ * was silently dropped and, once the statement gate moved on, lost for good.
+ * Invoice-linked write-offs are excluded here (writeOffCalculations owns them).
+ */
+const addAdjustmentOnlyJobGroups = (transactionsGroupedByJob, groupedWriteOffs) => {
+   Object.entries(groupedWriteOffs).forEach(([jobID, records]) => {
+      if (transactionsGroupedByJob[jobID]) return;
+      const creditRows = records.filter(writeOff => !writeOff.customer_invoice_id);
+      if (!creditRows.length) return;
+      const total = creditRows.reduce((acc, writeOff) => acc + Number(writeOff.writeoff_amount), 0);
+      transactionsGroupedByJob[jobID] = {
+         jobDescription: creditRows[0].job_description || (jobID === UNASSIGNED_JOB_KEY ? 'General credit' : 'Adjustment'),
+         customerID: creditRows[0].customer_id,
+         jobID: jobID === UNASSIGNED_JOB_KEY ? null : Number(jobID),
+         jobTotal: total,
+         jobWriteOffTotal: total,
+         jobWriteOffRecords: creditRows,
+         transactionRecords: []
+      };
+   });
 };
 
 // NOTE: if transactions is empty, but writeoffs exists..... condition to be handled in write offs calculation. this excludes if an invoice is written off. If a invoice is written off is already addressed in the outstanding invoice calculation.
@@ -19,9 +45,16 @@ module.exports = { groupAndTotalTransactions };
  * @param {*} customerWriteOffRecords
  * @returns
  */
+// Write-offs with neither a job nor an invoice link are general credits; they are
+// grouped under an explicit key instead of the string "null".
+const UNASSIGNED_JOB_KEY = 'unassigned';
+
 const groupWriteOffsByJob = (customerWriteOffRecords, showWriteOffs) => {
    if (!customerWriteOffRecords.length || showWriteOffs) return {};
-   return customerWriteOffRecords.reduce((acc, curr) => ({ ...acc, [curr.customer_job_id]: [...(acc[curr.customer_job_id] || []), curr] }), {});
+   return customerWriteOffRecords.reduce((acc, curr) => {
+      const key = curr.customer_job_id == null ? UNASSIGNED_JOB_KEY : curr.customer_job_id;
+      return { ...acc, [key]: [...(acc[key] || []), curr] };
+   }, {});
 };
 
 /**

@@ -125,29 +125,40 @@ async function runAuditBatch(db, accountId, ids, notes, auditUser, jobId) {
 
    for (const customerId of ids) {
       try {
-         const customer = await accountAuditService.getCustomer(db, accountId, customerId);
-         if (!customer) {
+         // Read the raw ledger AND the engine's balance from ONE repeatable-read
+         // snapshot. Independent reads let a payment posted between the invoice
+         // query and the engine read manufacture a discrepancy (audit $400 vs
+         // app $350) that no ledger state ever had. The transaction is read-only
+         // and released before the narrative / PDF / persistence work.
+         const snapshot = await db.transaction(async readTrx => {
+            await readTrx.raw('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY');
+            const customer = await accountAuditService.getCustomer(readTrx, accountId, customerId);
+            if (!customer) return null;
+            const [invoices, payments, writeoffs, transactions, retainers] = await Promise.all([
+               accountAuditService.getInvoices(readTrx, accountId, customerId),
+               accountAuditService.getPayments(readTrx, accountId, customerId),
+               accountAuditService.getWriteoffs(readTrx, accountId, customerId),
+               accountAuditService.getTransactions(readTrx, accountId, customerId),
+               accountAuditService.getRetainers(readTrx, accountId, customerId)
+            ]);
+            const result = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers });
+            let appBalance = null;
+            let appBalanceError = null;
+            try {
+               // A savepoint keeps the read transaction usable if an engine query fails.
+               appBalance = await readTrx.transaction(sp => computeAppBalance(sp, accountId, customerId));
+            } catch (e) {
+               appBalanceError = (e.message || String(e)).slice(0, 500);
+               console.warn(`[audit-job] app balance failed for ${customerId}: ${appBalanceError}`);
+            }
+            return { result, appBalance, appBalanceError };
+         });
+         if (!snapshot) {
             job.results.push({ customer_id: customerId, status: 'failed', error: 'Customer not found.' });
             job.done++;
             continue;
          }
-         const [invoices, payments, writeoffs, transactions, retainers] = await Promise.all([
-            accountAuditService.getInvoices(db, accountId, customerId),
-            accountAuditService.getPayments(db, accountId, customerId),
-            accountAuditService.getWriteoffs(db, accountId, customerId),
-            accountAuditService.getTransactions(db, accountId, customerId),
-            accountAuditService.getRetainers(db, accountId, customerId)
-         ]);
-         const result = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers });
-
-         let appBalance = null;
-         let appBalanceError = null;
-         try {
-            appBalance = await computeAppBalance(db, accountId, customerId);
-         } catch (e) {
-            appBalanceError = (e.message || String(e)).slice(0, 500);
-            console.warn(`[audit-job] app balance failed for ${customerId}: ${appBalanceError}`);
-         }
+         const { result, appBalance, appBalanceError } = snapshot;
 
          let narrative = null;
          try {
@@ -281,6 +292,8 @@ accountAuditRouter.post('/run/:accountID/:userID', jsonParser, async (req, res) 
       const jobId = makeJobId();
       auditJobs.set(jobId, {
          jobId,
+         // Jobs are tenant-scoped: the poll route refuses ids from other accounts.
+         accountId,
          status: 'processing',
          total: ids.length,
          done: 0,
@@ -307,7 +320,8 @@ accountAuditRouter.post('/run/:accountID/:userID', jsonParser, async (req, res) 
 // GET /accountAudit/job/:jobId/:accountID/:userID — poll batch job progress
 accountAuditRouter.get('/job/:jobId/:accountID/:userID', (req, res) => {
    const job = auditJobs.get(req.params.jobId);
-   if (!job) return res.status(404).send({ message: 'Job not found or expired.', status: 404 });
+   // Same 404 for "unknown" and "another tenant's job" so ids cannot be probed.
+   if (!job || Number(job.accountId) !== Number(req.params.accountID)) return res.status(404).send({ message: 'Job not found or expired.', status: 404 });
    res.send({
       status: 200,
       job_id: job.jobId,

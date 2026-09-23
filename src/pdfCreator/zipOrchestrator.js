@@ -1,6 +1,7 @@
 const archiver = require('archiver');
 const { PassThrough } = require('stream');
 const dayjs = require('dayjs');
+const { randomUUID } = require('crypto');
 const { putObject } = require('../utils/s3');
 const { sanitizeAccountName } = require('../utils/invoicePath');
 
@@ -13,14 +14,20 @@ const { sanitizeAccountName } = require('../utils/invoicePath');
  * @param {string} zippedFileName Name of the resulting ZIP file.
  * @returns {Promise<string>} S3 object key for the created ZIP file.
  */
-const createAndSaveZip = async (pdfBuffersWithMetadata, accountBillingInformation, fileParentDirectoryName, zippedFileName) => {
+const createAndSaveZip = async (pdfBuffersWithMetadata, accountBillingInformation, fileParentDirectoryName, zippedFileName, options = {}) => {
    const now = dayjs().format('MM-DD-YYYY_T_HH_mm_ss');
    const accountName = sanitizeAccountName(accountBillingInformation?.account_name);
 
    if (!accountName) {
       throw new Error('Account name is required to generate invoice storage path.');
    }
-   const keySegments = [accountName, fileParentDirectoryName, now].filter(Boolean);
+   // Keys used to be second-resolution + display name only, so two runs in the
+   // same second (or two customers sharing a display name) overwrote each other's
+   // statement ZIP — including a failed run replacing a committed one. Every key
+   // now carries a per-run id and, for per-customer files, the customer id.
+   const runID = options.runID || randomUUID();
+   const customerSegment = options.customerID != null ? `customer_${options.customerID}` : null;
+   const keySegments = [accountName, fileParentDirectoryName, `${now}_${runID}`, customerSegment].filter(Boolean);
    const directoryKey = keySegments.join('/');
    const s3Key = `${directoryKey}/${zippedFileName}`;
 

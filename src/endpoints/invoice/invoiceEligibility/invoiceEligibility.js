@@ -3,7 +3,7 @@ const customerService = require('../../customer/customer-service');
 const transactionsService = require('../../transactions/transactions-service');
 const retainerService = require('../../retainer/retainer-service');
 const writeOffsService = require('../../writeOffs/writeOffs-service');
-const { groupByFunction, findMostRecentOutstandingInvoiceRecords } = require('../sharedInvoiceFunctions');
+const { groupByFunction } = require('../sharedInvoiceFunctions');
 const dayjs = require('dayjs');
 const paymentsService = require('../../payments/payments-service');
 
@@ -13,10 +13,10 @@ const paymentsService = require('../../payments/payments-service');
  * @param {*} accountID
  * @returns {}
  */
-const findCustomersNeedingInvoices = async (db, accountID) => {
+const findCustomersNeedingInvoices = async (db, accountID, today = dayjs().format('YYYY-MM-DD')) => {
    const [customers, invoices, transactions, retainers, writeOffs, payments] = await fetchData(db, accountID);
    const [invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer] = groupDataByCustomerId([invoices, transactions, retainers, writeOffs, payments]);
-   return invoiceEligibilityPerCustomer(customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer);
+   return invoiceEligibilityPerCustomer(customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today);
 };
 
 module.exports = { findCustomersNeedingInvoices };
@@ -38,63 +38,101 @@ const groupDataByCustomerId = data => {
    return data.map(dataset => groupByFunction(dataset, 'customer_id'));
 };
 
-const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer) => {
+const isParent = invoice => invoice.parent_invoice_id === null || invoice.parent_invoice_id === undefined || Number(invoice.parent_invoice_id) === Number(invoice.customer_invoice_id);
+const dateKey = value => dayjs(value).format('YYYY-MM-DD');
+const byNewest = (a, b) => {
+   const dateDiff = new Date(b.invoice_date) - new Date(a.invoice_date);
+   if (dateDiff !== 0) return dateDiff;
+   const createdDiff = new Date(b.created_at) - new Date(a.created_at);
+   if (createdDiff !== 0) return createdDiff;
+   return Number(b.customer_invoice_id) - Number(a.customer_invoice_id);
+};
+
+/**
+ * Rolling-balance view of a customer's ledger for the Create Invoice grid.
+ * Returns the newest parent statement(s), the outstanding amount the engine will
+ * roll forward (latest snapshot of every chain dated on the newest statement date
+ * — same-day duplicates are summed exactly like the engine does), and the
+ * newest parent row itself.
+ */
+const currentChainsSummary = customerInvoices => {
+   const parents = customerInvoices.filter(isParent).sort(byNewest);
+   if (!parents.length) return { newestParent: null, currentParents: [], outstandingTotal: 0, outstandingRecords: [] };
+
+   const newestParent = parents[0];
+   const newestDate = dateKey(newestParent.invoice_date);
+   const currentParents = parents.filter(parent => dateKey(parent.invoice_date) === newestDate);
+
+   const outstandingRecords = currentParents
+      .map(parent => {
+         const chainRows = customerInvoices.filter(row => Number(row.customer_invoice_id) === Number(parent.customer_invoice_id) || Number(row.parent_invoice_id) === Number(parent.customer_invoice_id));
+         // Latest snapshot carries the authoritative remaining (falls back to the parent row).
+         return chainRows.sort((a, b) => new Date(b.created_at) - new Date(a.created_at) || Number(b.customer_invoice_id) - Number(a.customer_invoice_id))[0] || parent;
+      })
+      .filter(record => Number(record.remaining_balance_on_invoice) !== 0);
+
+   const outstandingTotal = outstandingRecords.reduce((acc, record) => acc + Number(record.remaining_balance_on_invoice), 0);
+   return { newestParent, currentParents, outstandingTotal, outstandingRecords };
+};
+
+const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today = dayjs().format('YYYY-MM-DD')) => {
    return customers
       .map(customer => {
          const { customer_id } = customer;
-         // Access the customers prior invoices
          const customerInvoices = invoicesByCustomer[customer_id] || [];
-         // find customer most recent payment
-         const customerPayment = paymentsByCustomer[customer_id] || [];
-         const customerPaymentsTotal = customerPayment.reduce((acc, payment) => acc + Number(payment.payment_amount), 0);
+         const { newestParent, outstandingTotal, outstandingRecords } = currentChainsSummary(customerInvoices);
+         const newestParentCreatedAt = newestParent ? new Date(newestParent.created_at) : null;
 
-         const sortedCustomerInvoices = customerInvoices.sort((a, b) => dayjs(b.invoice_date).isAfter(dayjs(a.invoice_date)));
-         const outstandingInvoices = sortedCustomerInvoices.length ? findMostRecentOutstandingInvoiceRecords(sortedCustomerInvoices) : [];
-         const outstandingInvoicesTotal = outstandingInvoices.reduce((acc, invoice) => acc + Number(invoice.remaining_balance_on_invoice), 0);
-
-         // Of all the invoices, find the most recent invoice
-         const mostRecentInvoice = sortedCustomerInvoices.length && sortedCustomerInvoices.find(invoice => invoice.parent_invoice_id === null);
-
-         // Access the customers transactions
+         // Unbilled work = every transaction not yet stamped with a statement,
+         // regardless of its date — the SAME rule the billing engine uses
+         // (getTransactionsByCustomerID). Filtering on transaction_date > the last
+         // statement date hid back-dated or missed work for good: the engine would
+         // have billed it, but the customer never appeared in this list.
          const customerTransactions = transactionsByCustomer[customer_id] || [];
-         // Get the transactions that are more recent than the most recent invoice
-         const recentCustomerTransactions =
-            customerTransactions.length && Object.keys(mostRecentInvoice).length
-               ? customerTransactions.filter(transaction => dayjs(transaction.transaction_date).isAfter(dayjs(mostRecentInvoice.invoice_date)))
-               : customerTransactions;
+         const unbilledTransactions = customerTransactions.filter(transaction => !transaction.customer_invoice_id);
 
-         // Access the customers retainers
          const customerRetainers = retainersByCustomer[customer_id] || [];
-         const customerActiveRetainers = customerRetainers && customerRetainers?.filter(retainer => Number(retainer.current_amount) < 0);
+         const customerActiveRetainers = customerRetainers.filter(retainer => Number(retainer.current_amount) < 0 && retainer.is_retainer_active !== false);
 
-         // If all values are null, the null customer will be filtered out of the return array
-         if (!customerActiveRetainers.length && !recentCustomerTransactions.length && !outstandingInvoices.length) {
-            return null;
-         }
-
-         // Remove invoices that have a 0 balance. Check for outstanding invoice, check for payment and if payment is equal to outstanding invoice.
-         if (!customerActiveRetainers.length && !recentCustomerTransactions.length && Math.abs(outstandingInvoicesTotal) === Math.abs(customerPaymentsTotal)) {
-            return null;
-         }
-
+         // Write-offs entered since the newest statement act as credits on the next
+         // one; older write-offs are already reflected in a prior statement.
          const customerWriteOffs = writeOffsByCustomer[customer_id] || [];
-         const customerActiveWriteOffs = customerWriteOffs && customerWriteOffs?.filter(writeOff => Number(writeOff.writeoff_amount) < 0);
+         const pendingWriteOffs = customerWriteOffs.filter(writeOff => Number(writeOff.writeoff_amount) < 0 && (!newestParentCreatedAt || new Date(writeOff.created_at) > newestParentCreatedAt));
+
+         const customerPayments = paymentsByCustomer[customer_id] || [];
+         const pendingPayments = customerPayments.filter(payment => !newestParentCreatedAt || new Date(payment.created_at) > newestParentCreatedAt);
+
+         const hasOpenBalance = Math.abs(outstandingTotal) >= 0.005;
+         if (!hasOpenBalance && !unbilledTransactions.length && !pendingWriteOffs.length && !pendingPayments.length) {
+            return null;
+         }
 
          // Dollar totals — used by the frontend filter to hide zero-balance rows without
          // running the full invoice calculation for every customer.
-         const billableTransactionsTotal = recentCustomerTransactions
+         const billableTransactionsTotal = unbilledTransactions
             .filter(t => t.is_transaction_billable)
             .reduce((acc, t) => acc + Number(t.total_transaction || 0), 0);
+
+         const billedToday = Boolean(newestParent) && dateKey(newestParent.invoice_date) === today;
 
          return {
             ...customer,
             retainer_count: customerActiveRetainers.length,
-            transaction_count: recentCustomerTransactions.length,
-            invoice_count: outstandingInvoices.length,
-            write_off_count: customerActiveWriteOffs.length,
-            outstanding_invoice_total: outstandingInvoicesTotal,
-            billable_transactions_total: billableTransactionsTotal
+            transaction_count: unbilledTransactions.length,
+            invoice_count: outstandingRecords.length,
+            write_off_count: pendingWriteOffs.length,
+            outstanding_invoice_total: Math.round(outstandingTotal * 100) / 100,
+            billable_transactions_total: Math.round(billableTransactionsTotal * 100) / 100,
+            last_invoice_number: newestParent ? newestParent.invoice_number : null,
+            last_invoice_date: newestParent ? dateKey(newestParent.invoice_date) : null,
+            // A statement was already finalized for this customer today. The Create
+            // Invoice route skips these unless allowSameDayRebill is set; the grid
+            // warns and excludes them from select-all.
+            billed_today: billedToday
          };
       })
       .filter(Boolean); // Removes null entries
 };
+
+module.exports._invoiceEligibilityPerCustomer = invoiceEligibilityPerCustomer;
+module.exports._currentChainsSummary = currentChainsSummary;

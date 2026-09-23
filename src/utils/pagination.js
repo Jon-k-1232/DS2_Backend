@@ -1,3 +1,8 @@
+// Hard ceiling on page size. Without this, a client (or a compromised/buggy
+// one) could request limit=1000000 and force a full-table scan/serialization
+// on every paginated endpoint.
+const MAX_PAGE_LIMIT = 500;
+
 const getPaginationParams = query => {
    const { page = 1, limit = 10 } = query;
 
@@ -8,9 +13,10 @@ const getPaginationParams = query => {
       throw new Error('Invalid pagination parameters. Page and limit must be positive integers.');
    }
 
-   const offset = (pageNumber - 1) * limitNumber;
+   const cappedLimit = Math.min(limitNumber, MAX_PAGE_LIMIT);
+   const offset = (pageNumber - 1) * cappedLimit;
 
-   return { page: pageNumber, limit: limitNumber, offset };
+   return { page: pageNumber, limit: cappedLimit, offset };
 };
 
 const getPaginationMetadata = (totalCount, page, limit) => ({
@@ -20,4 +26,4 @@ const getPaginationMetadata = (totalCount, page, limit) => ({
    totalPages: Math.ceil(totalCount / limit)
 });
 
-module.exports = { getPaginationParams, getPaginationMetadata };
+module.exports = { getPaginationParams, getPaginationMetadata, MAX_PAGE_LIMIT };

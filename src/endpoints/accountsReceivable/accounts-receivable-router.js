@@ -5,6 +5,9 @@ const accountsReceivableRouter = express.Router();
 accountsReceivableRouter.param('accountID', enforceAccountId);
 const accountsReceivableService = require('./accounts-receivable-service');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
+// Shared with the analytics exports: RFC 4180 quoting + spreadsheet
+// formula-injection guard (numbers / numeric strings are never altered).
+const { csvCell, csvDate } = require('../analytics/csv-util');
 
 const SORTABLE_AR_COLUMNS = [
    'business_name',
@@ -17,7 +20,10 @@ const SORTABLE_AR_COLUMNS = [
    'total_outstanding',
    'last_payment_date',
    'has_work_since_last_payment',
-   'oldest_days'
+   'oldest_days',
+   'statement_date',
+   'oldest_open_charge_date',
+   'is_customer_active'
 ];
 const AGE_FILTERS = ['30', '60', '90', 'over_90'];
 
@@ -28,17 +34,12 @@ const parseSort = req => {
 };
 const parseFilter = req => (AGE_FILTERS.includes(req.query.filter) ? req.query.filter : null);
 
-const escapeCsvValue = value => {
-   if (value === null || value === undefined) return '';
-   if (value instanceof Date) return value.toISOString();
-   const s = String(value);
-   if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
-   return s;
-};
-
 const fmtCurrencyForCsv = v => (v == null ? '' : Number(v).toFixed(2));
-const fmtDateForCsv = v => (v ? dayjs(v).format('YYYY-MM-DD') : '');
 
+// Buckets / "Days Since Last Invoice" are STATEMENT age (days since the newest
+// statement). "Oldest Open Charge Date" / "Days Since Oldest Open Charge" are
+// the real receivable age: the oldest billed charge still unpaid when credits
+// are applied oldest-first (see accounts-receivable-service).
 const EXPORT_COLUMNS = [
    { header: 'Customer ID', get: r => r.customer_id },
    { header: 'Business Name', get: r => r.business_name || '' },
@@ -49,21 +50,25 @@ const EXPORT_COLUMNS = [
    { header: '61-90 Days', get: r => fmtCurrencyForCsv(r.bucket_61_90) },
    { header: '>90 Days', get: r => fmtCurrencyForCsv(r.bucket_over_90) },
    { header: 'Total Owed', get: r => fmtCurrencyForCsv(r.total_outstanding) },
-   { header: 'Most Recent Invoice Date', get: r => fmtDateForCsv(r.most_recent_invoice_date) },
+   { header: 'Most Recent Invoice Date', get: r => csvDate(r.statement_date || r.most_recent_invoice_date) },
    { header: 'Days Since Last Invoice', get: r => (r.oldest_days == null ? '' : r.oldest_days) },
-   { header: 'Last Payment Date', get: r => fmtDateForCsv(r.last_payment_date) },
+   { header: 'Last Payment Date', get: r => csvDate(r.last_payment_date) },
    { header: 'Last Payment Amount', get: r => fmtCurrencyForCsv(r.last_payment_amount) },
-   { header: 'Work Since Last Payment', get: r => (r.has_work_since_last_payment ? 'Yes' : 'No') }
+   { header: 'Work Since Last Payment', get: r => (r.has_work_since_last_payment ? 'Yes' : 'No') },
+   { header: 'Oldest Open Charge Date', get: r => csvDate(r.oldest_open_charge_date) },
+   { header: 'Days Since Oldest Open Charge', get: r => (r.oldest_open_charge_days == null ? '' : r.oldest_open_charge_days) },
+   { header: 'Active Customer', get: r => (r.is_customer_active === false ? 'No' : 'Yes') }
 ];
 
 const generateArCsv = rows => {
-   const header = EXPORT_COLUMNS.map(c => escapeCsvValue(c.header)).join(',');
-   const dataLines = rows.map(r => EXPORT_COLUMNS.map(c => escapeCsvValue(c.get(r))).join(','));
+   const header = EXPORT_COLUMNS.map(c => csvCell(c.header)).join(',');
+   const dataLines = rows.map(r => EXPORT_COLUMNS.map(c => csvCell(c.get(r))).join(','));
    return [header, ...dataLines].join('\n');
 };
 
-// GET aging snapshot — one row per customer with outstanding AR, bucketed by
-// the age of their most recent unpaid parent invoice.
+// GET aging snapshot — one row per customer with outstanding AR (inactive
+// customers included, flagged), bucketed by statement age, plus the oldest
+// open charge date for the real receivable age.
 accountsReceivableRouter
    .route('/aging/:accountID/:userID')
    .get(async (req, res) => {
@@ -150,3 +155,5 @@ accountsReceivableRouter
    });
 
 module.exports = accountsReceivableRouter;
+// Exposed for unit tests of the CSV export.
+module.exports.generateArCsv = generateArCsv;

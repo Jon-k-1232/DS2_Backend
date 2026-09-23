@@ -14,6 +14,12 @@
 const round2 = n => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
 const num = v => Number(v) || 0;
 
+// transaction_type is not normalized in the data: prod carries 'Time' AND
+// 'time' (5,130 rows), so every comparison is case-insensitive. The complement
+// is NULL-safe so hours/time + charges always add up to the total.
+const IS_TIME = col => `LOWER(${col}) = 'time'`;
+const IS_NOT_TIME = col => `COALESCE(LOWER(${col}), '') <> 'time'`;
+
 // Build a SQL "NOT IN (...)" fragment from a list of customer ids to exclude.
 // Ids are coerced to integers and non-integers dropped, so the values are safe
 // to inline (no injection surface). Empty list → no clause.
@@ -52,12 +58,12 @@ const analyticsService = {
             WITH yearly AS (
                SELECT ct.customer_id,
                       EXTRACT(YEAR FROM ct.transaction_date)::int AS year,
-                      COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS hours,
-                      COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS time_billed,
-                      COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.transaction_type <> 'Time'), 0) AS charges_billed,
+                      COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours,
+                      COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS time_billed,
+                      COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${IS_NOT_TIME('ct.transaction_type')}), 0) AS charges_billed,
                       COALESCE(SUM(ct.total_transaction), 0) AS total_billed,
                       -- What the time cost the firm: hours × the employee's cost_rate.
-                      COALESCE(SUM(ct.quantity * COALESCE(u.cost_rate, 0)) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS labor_cost,
+                      COALESCE(SUM(ct.quantity * COALESCE(u.cost_rate, 0)) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS labor_cost,
                       COUNT(*)::int AS entries
                FROM customer_transactions ct
                LEFT JOIN users u ON u.user_id = ct.logged_for_user_id
@@ -220,9 +226,9 @@ const analyticsService = {
       const [summaryRes, byWorkDescRes, byCustomerRes, monthlyRes, trackerRes, yearsRes] = await Promise.all([
          db.raw(
             `
-            SELECT COALESCE(SUM(quantity) FILTER (WHERE transaction_type = 'Time'), 0) AS total_hours,
-                   COALESCE(SUM(quantity) FILTER (WHERE transaction_type = 'Time' AND is_transaction_billable), 0) AS billable_hours,
-                   COALESCE(SUM(quantity) FILTER (WHERE transaction_type = 'Time' AND NOT is_transaction_billable), 0) AS nonbillable_hours,
+            SELECT COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')}), 0) AS total_hours,
+                   COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')} AND is_transaction_billable), 0) AS billable_hours,
+                   COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')} AND NOT is_transaction_billable), 0) AS nonbillable_hours,
                    COALESCE(SUM(total_transaction) FILTER (WHERE is_transaction_billable), 0) AS billed_amount,
                    COUNT(*)::int AS entries
             FROM customer_transactions
@@ -233,8 +239,8 @@ const analyticsService = {
          db.raw(
             `
             SELECT gwd.general_work_description AS work_description,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS hours,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time' AND ct.is_transaction_billable), 0) AS billable_hours,
+                   COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours,
+                   COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')} AND ct.is_transaction_billable), 0) AS billable_hours,
                    COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) AS billed_amount,
                    COUNT(*)::int AS entries
             FROM customer_transactions ct
@@ -248,7 +254,7 @@ const analyticsService = {
          db.raw(
             `
             SELECT c.display_name AS customer,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS hours,
+                   COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours,
                    COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) AS billed_amount
             FROM customer_transactions ct
             JOIN customers c ON c.customer_id = ct.customer_id
@@ -262,8 +268,8 @@ const analyticsService = {
          db.raw(
             `
             SELECT EXTRACT(MONTH FROM transaction_date)::int AS month,
-                   COALESCE(SUM(quantity) FILTER (WHERE transaction_type = 'Time' AND is_transaction_billable), 0) AS billable_hours,
-                   COALESCE(SUM(quantity) FILTER (WHERE transaction_type = 'Time' AND NOT is_transaction_billable), 0) AS nonbillable_hours,
+                   COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')} AND is_transaction_billable), 0) AS billable_hours,
+                   COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')} AND NOT is_transaction_billable), 0) AS nonbillable_hours,
                    COALESCE(SUM(total_transaction) FILTER (WHERE is_transaction_billable), 0) AS billed_amount
             FROM customer_transactions
             WHERE account_id = :accountId AND transaction_date BETWEEN :start AND :end${exTxn}
@@ -361,26 +367,37 @@ const analyticsService = {
     * billing engine bills every unbilled transaction regardless of age (the
     * Wild West fix), so anything old here is money waiting on a billing run —
     * or a candidate for write-off.
+    *
+    * Future-dated rows (transaction_date > today — typos such as 2027–2058)
+    * are kept OUT of the amounts, hours, entries, oldest date and every bucket
+    * (they used to land in 0–30) and reported per customer as
+    * future_dated_count / future_dated_amount so they can be corrected. A
+    * customer whose only unbilled work is future-dated still gets a row.
     */
    async getWipAging(db, accountId, { excludeIds = [] } = {}) {
+      const due = 'ct.is_transaction_billable AND ct.transaction_date <= CURRENT_DATE';
+      const future = 'ct.is_transaction_billable AND ct.transaction_date > CURRENT_DATE';
       const { rows } = await db.raw(
          `
          SELECT c.customer_id, c.display_name, c.is_customer_active,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) AS unbilled_amount,
-                COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time' AND ct.is_transaction_billable), 0) AS unbilled_hours,
-                COUNT(*) FILTER (WHERE ct.is_transaction_billable)::int AS entries,
-                MIN(ct.transaction_date) FILTER (WHERE ct.is_transaction_billable) AS oldest_date,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable AND ct.transaction_date >= CURRENT_DATE - 30), 0) AS bucket_0_30,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable AND ct.transaction_date < CURRENT_DATE - 30 AND ct.transaction_date >= CURRENT_DATE - 60), 0) AS bucket_31_60,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable AND ct.transaction_date < CURRENT_DATE - 60 AND ct.transaction_date >= CURRENT_DATE - 90), 0) AS bucket_61_90,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable AND ct.transaction_date < CURRENT_DATE - 90), 0) AS bucket_over_90
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due}), 0) AS unbilled_amount,
+                COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')} AND ${due}), 0) AS unbilled_hours,
+                COUNT(*) FILTER (WHERE ${due})::int AS entries,
+                MIN(ct.transaction_date) FILTER (WHERE ${due}) AS oldest_date,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date >= CURRENT_DATE - 30), 0) AS bucket_0_30,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CURRENT_DATE - 30 AND ct.transaction_date >= CURRENT_DATE - 60), 0) AS bucket_31_60,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CURRENT_DATE - 60 AND ct.transaction_date >= CURRENT_DATE - 90), 0) AS bucket_61_90,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CURRENT_DATE - 90), 0) AS bucket_over_90,
+                COUNT(*) FILTER (WHERE ${future})::int AS future_dated_count,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${future}), 0) AS future_dated_amount
          FROM customer_transactions ct
          JOIN customers c ON c.customer_id = ct.customer_id
          WHERE ct.account_id = :accountId
            AND ct.customer_invoice_id IS NULL${excludeFrag(excludeIds, 'ct.customer_id')}
          GROUP BY c.customer_id, c.display_name, c.is_customer_active
-         HAVING COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) > 0
-         ORDER BY oldest_date ASC
+         HAVING COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due}), 0) > 0
+             OR COUNT(*) FILTER (WHERE ${future}) > 0
+         ORDER BY oldest_date ASC NULLS LAST, c.customer_id ASC
          `,
          { accountId }
       );
@@ -396,13 +413,18 @@ const analyticsService = {
          bucket_0_30: round2(num(r.bucket_0_30)),
          bucket_31_60: round2(num(r.bucket_31_60)),
          bucket_61_90: round2(num(r.bucket_61_90)),
-         bucket_over_90: round2(num(r.bucket_over_90))
+         bucket_over_90: round2(num(r.bucket_over_90)),
+         future_dated_count: r.future_dated_count || 0,
+         future_dated_amount: round2(num(r.future_dated_amount))
       }));
    },
 
    /**
-    * Budget vs actual per parent job. Actual = the latest child's running
-    * total (rolling-job pattern) or the parent's own when no children exist.
+    * Budget vs actual per parent job. Actual = BILLABLE work on the job (the
+    * parent row or any of its rolling child rows), summed from
+    * customer_transactions. customer_jobs.current_job_total is NOT used: it is
+    * the running total of every transaction, billable or not, so internal /
+    * non-billable time used to consume the client's agreed budget.
     */
    async getJobBudgets(db, accountId, { excludeIds = [] } = {}) {
       const { rows } = await db.raw(
@@ -410,17 +432,23 @@ const analyticsService = {
          SELECT cj.customer_job_id, cj.agreed_job_amount, cj.is_job_complete,
                 c.customer_id, c.display_name AS customer_name,
                 cjt.job_description,
-                COALESCE(latest_child.current_job_total, cj.current_job_total, 0) AS actual_total
+                COALESCE(billable.actual_total, 0) AS actual_total
          FROM customer_jobs cj
          JOIN customers c ON c.customer_id = cj.customer_id
          LEFT JOIN customer_job_types cjt ON cjt.job_type_id = cj.job_type_id
          LEFT JOIN LATERAL (
-            SELECT current_job_total
-            FROM customer_jobs child
-            WHERE child.parent_job_id = cj.customer_job_id
-            ORDER BY child.customer_job_id DESC
-            LIMIT 1
-         ) latest_child ON true
+            SELECT SUM(ct.total_transaction) AS actual_total
+            FROM customer_transactions ct
+            WHERE ct.account_id = :accountId
+              AND ct.is_transaction_billable = true
+              AND (
+                 ct.customer_job_id = cj.customer_job_id
+                 OR ct.customer_job_id IN (
+                    SELECT child.customer_job_id FROM customer_jobs child
+                    WHERE child.parent_job_id = cj.customer_job_id AND child.account_id = :accountId
+                 )
+              )
+         ) billable ON true
          WHERE cj.account_id = :accountId
            AND cj.parent_job_id IS NULL
            AND cj.agreed_job_amount IS NOT NULL
@@ -458,7 +486,7 @@ const analyticsService = {
             `
             SELECT u.display_name AS employee,
                    EXTRACT(WEEK FROM ct.transaction_date)::int AS week,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ct.transaction_type = 'Time'), 0) AS hours
+                   COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours
             FROM customer_transactions ct
             JOIN users u ON u.user_id = ct.logged_for_user_id
             WHERE ct.account_id = :accountId

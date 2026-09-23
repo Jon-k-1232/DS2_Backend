@@ -11,19 +11,7 @@
       - sanity flag if old-view total >> new-view total (rolling-balance pattern)
 */
 
-require('dotenv').config({ path: '.env.prod' });
-const knex = require('knex')({
-   client: 'pg',
-   connection: {
-      host: process.env.DB_PROD_HOST,
-      user: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: 'ds2_prod',
-      port: 5432,
-      ssl: { rejectUnauthorized: false }
-   },
-   pool: { min: 0, max: 4 }
-});
+const knex = require('./_db').makeDb({ envFile: '.env.prod', database: 'ds2_prod', poolMax: 4 });
 
 const invoiceService = require('../src/endpoints/invoice/invoice-service');
 const { fetchInitialQueryItems } = require('../src/endpoints/invoice/createInvoice/createInvoiceQueries');

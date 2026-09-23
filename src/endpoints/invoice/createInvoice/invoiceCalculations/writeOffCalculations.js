@@ -7,9 +7,9 @@ const groupAndTotalWriteOffs = (customer_id, invoiceQueryData, showWriteOffs) =>
    // Filter write-offs by customer_invoice_id and customer_job_id
    const writeOffsByInvoice = customerWriteOffRecords.filter(writeOff => writeOff.customer_invoice_id);
 
-   // Override showWriteOffs to true if transactions are empty but invoice-linked write-offs exist.
-   // Job-only write-offs are excluded from this override — they were already consumed as billing
-   // adjustments when the original invoice amount was set, so showing them here creates a phantom credit.
+   // The "no unbilled work but pending invoice credits → show all" override now
+   // lives in calculateInvoices.effectiveShowWriteOffs so that EVERY calculator
+   // sees the same flag (kept here for direct callers of this module).
    if (!showWriteOffs && !customerTransactions.length && writeOffsByInvoice.length) {
       showWriteOffs = true;
    }

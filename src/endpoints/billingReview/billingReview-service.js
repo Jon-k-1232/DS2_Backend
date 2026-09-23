@@ -1,3 +1,31 @@
+const _pad2 = n => String(n).padStart(2, '0');
+// Local calendar date — node-postgres parses DATE columns to local midnight.
+const _localISODate = d => `${d.getFullYear()}-${_pad2(d.getMonth() + 1)}-${_pad2(d.getDate())}`;
+
+const _serviceError = (code, message, extra = {}) => Object.assign(new Error(message), { code }, extra);
+
+// Canonical transaction_type spelling ('Time' / 'Charge'). Local stand-in until
+// transactionsObjects.normalizeTransactionType is available to import.
+const _normalizeTransactionType = (value, fallback = 'Time') => {
+   const s = String(value ?? '').trim().toLowerCase();
+   if (s === 'time') return 'Time';
+   if (s === 'charge') return 'Charge';
+   return fallback;
+};
+
+// Latest AI training example per transaction. ai_category_training_examples is
+// 1:N per transaction (a reviewer edit adds a 'reviewer_edit' row with no
+// timesheet link), so a plain join duplicated rows and inflated totalSum/
+// totalCount. Prefer the provenance row (the one tied to the tracker entry),
+// newest first.
+const LATEST_TRAINING_EXAMPLE_JOIN = `LEFT JOIN LATERAL (
+      SELECT e.timesheet_entry_id, e.ai_source
+      FROM ai_category_training_examples e
+      WHERE e.transaction_id = t.transaction_id AND e.account_id = t.account_id
+      ORDER BY (e.timesheet_entry_id IS NULL), e.created_at DESC, e.training_id DESC
+      LIMIT 1
+   ) AS ex ON TRUE`;
+
 const listPendingHeldEntries = async (
    db,
    accountId,
@@ -49,6 +77,10 @@ const listPendingHeldEntries = async (
       .leftJoin('customers as sc', 'sc.customer_id', 'te.suggested_customer_id')
       .leftJoin('customer_general_work_descriptions as g', 'g.general_work_description_id', 's.suggested_general_work_description_id');
 
+   // te.* carries timesheet_entries.ai_payload — the hold detail the Review
+   // dialog parses (customer.candidates for ambiguous_customer_match,
+   // hold.requested_tax_year for missing_current_year_job, the Bedrock error).
+   // The suggestion's own payload is aliased so it can never overwrite it.
    const entries = applyFilters(baseFromJoin(db.queryBuilder()))
       .select(
          'te.*',
@@ -142,7 +174,7 @@ const listConsolidatedTransactions = async (
       .leftJoin('customer_invoices as i', 'i.customer_invoice_id', 't.customer_invoice_id')
       .leftJoin('customer_jobs as cj', 'cj.customer_job_id', 't.customer_job_id')
       .leftJoin('customer_job_types as cjt', 'cjt.job_type_id', 'cj.job_type_id')
-      .leftJoin('ai_category_training_examples as ex', 'ex.transaction_id', 't.transaction_id')
+      .joinRaw(LATEST_TRAINING_EXAMPLE_JOIN)
       .leftJoin('timesheet_entries as te', 'te.timesheet_entry_id', 'ex.timesheet_entry_id')
       .leftJoin('ai_time_tracker_transaction_suggestions as s', 's.timesheet_entry_id', 'ex.timesheet_entry_id');
 
@@ -204,52 +236,121 @@ const listConsolidatedTransactions = async (
    };
 };
 
+const HELD_FIELD_LABELS = Object.freeze({
+   customer_id: 'Customer',
+   customer_job_id: 'Job',
+   general_work_description_id: 'Work description',
+   transaction_date: 'Date',
+   logged_for_user_id: 'Employee'
+});
+
 const applyHeldEntry = async (db, accountId, entryId, edits, editingUserId) => {
    const { addNewTransaction } = require('../transactions/sharedTransactionFunctions');
+   // Same hours / rate / total arithmetic as the AI auto-insert path, so an entry
+   // costs the same whether the AI or a reviewer applies it.
+   const { _computeTimeAmounts } = require('../timesheets/auto-ingest-orchestrator');
+   const internalCustomers = require('../timesheets/internal-customers');
+   const { isNonWorkEntry } = require('../../timeTrackerValidation/nonWorkEntries');
    const entry = await db('timesheet_entries')
       .where({ account_id: accountId, timesheet_entry_id: entryId, is_processed: false, is_deleted: false })
       .first();
    if (!entry) {
-      const err = new Error('held_entry_not_found_or_already_processed');
-      err.code = 'NOT_FOUND';
-      throw err;
+      throw _serviceError('NOT_FOUND', 'This held entry was not found or has already been applied.');
    }
 
    const required = ['customer_id', 'customer_job_id', 'general_work_description_id', 'transaction_date', 'logged_for_user_id'];
    for (const field of required) {
-      if (edits[field] == null) {
-         const err = new Error(`missing_required_field:${field}`);
-         err.code = 'MISSING_FIELD';
-         err.field = field;
-         throw err;
+      if (edits[field] == null || edits[field] === '') {
+         throw _serviceError('MISSING_FIELD', `${HELD_FIELD_LABELS[field]} is required before this entry can be applied.`, { field });
       }
    }
 
-   const employee = await db('users').where({ user_id: edits.logged_for_user_id }).select('billing_rate').first();
-   const minutes = Number(edits.duration_minutes ?? entry.duration ?? 0);
-   const hours = minutes / 60;
-   const unitCost = Number(edits.unit_cost ?? (employee ? employee.billing_rate : 0) ?? 0);
-   const totalTransaction = edits.total_transaction != null
-      ? Number(edits.total_transaction)
-      : Math.round(hours * unitCost * 100) / 100;
+   // Every reference must belong to this account, and the job to the customer
+   // (a job on another customer's ledger bills the work to the wrong client).
+   const customer = await db('customers').where({ customer_id: edits.customer_id, account_id: accountId }).first();
+   if (!customer) throw _serviceError('INVALID_FIELD', `Customer #${edits.customer_id} was not found in this account.`, { field: 'customer_id' });
+   const job = await db('customer_jobs').where({ customer_job_id: edits.customer_job_id, account_id: accountId }).first();
+   if (!job || Number(job.customer_id) !== Number(edits.customer_id)) {
+      throw _serviceError('INVALID_FIELD', `Job #${edits.customer_job_id} does not belong to the chosen customer.`, { field: 'customer_job_id' });
+   }
+   // A valid FK does not establish tenant ownership — the work description
+   // must belong to THIS account, not merely exist somewhere in the database
+   // (e.g. account 1's general_work_description_id=1 sent from account 9001).
+   const gwd = await db('customer_general_work_descriptions').where({ general_work_description_id: edits.general_work_description_id, account_id: accountId }).first();
+   if (!gwd) throw _serviceError('INVALID_FIELD', `Work description #${edits.general_work_description_id} was not found in this account.`, { field: 'general_work_description_id' });
+   const employee = await db('users').where({ user_id: edits.logged_for_user_id, account_id: accountId }).select('billing_rate').first();
+   if (!employee) throw _serviceError('INVALID_FIELD', `Employee #${edits.logged_for_user_id} was not found in this account.`, { field: 'logged_for_user_id' });
+
+   // quantity = minutes / 60 rounded to 2 decimals and total = quantity × rate
+   // rounded to cents, priced from the SAME rounded hours so quantity × rate
+   // always equals the stored total (integer hundredths/cents —
+   // auto-ingest-orchestrator._computeTimeAmounts).
+   // A client-supplied total_transaction is ignored for the same reason.
+   const minutes = Number(edits.duration_minutes ?? entry.duration);
+   if (!Number.isFinite(minutes) || minutes <= 0 || !(_computeTimeAmounts(minutes, 0).quantity > 0)) {
+      throw _serviceError('INVALID_FIELD', 'Duration must be greater than zero minutes.', { field: 'duration_minutes' });
+   }
+   const rawRate = edits.unit_cost ?? employee.billing_rate ?? 0;
+   const rate = Number(rawRate);
+   if (!Number.isFinite(rate) || rate < 0) {
+      throw _serviceError('INVALID_FIELD', 'Rate must be a number of zero or more.', { field: 'unit_cost' });
+   }
+   // Reject a rate with more than 2 decimal places instead of silently
+   // rounding it (e.g. 1.005 -> 1.00/1.01 depending on float noise). Tested
+   // against the RAW value's own string form, not the Number()-parsed `rate`,
+   // so float representation noise never masks (or manufactures) extra
+   // decimals.
+   if (!/^\d+(?:\.\d{1,2})?$/.test(String(rawRate).trim())) {
+      throw _serviceError('INVALID_FIELD', 'Rate must have at most 2 decimal places.', { field: 'unit_cost' });
+   }
+   const { quantity, unitCost, totalTransaction } = _computeTimeAmounts(minutes, rate);
+
+   // The firm's own entities are never billable (internal-customers.js); the
+   // hours are still recorded for analytics. Non-work time (vacation / PTO /
+   // holiday / sick / lunch / personal / doctor's appointment / ...) is also
+   // never billable — decided from the STORED entry, never the reviewer's
+   // editable is_transaction_billable flag, which defaulted to billable=true
+   // for a held Doctor Appointment row with no explicit flag sent.
+   const internalCustomer = await internalCustomers.isInternalCustomer(db, accountId, edits.customer_id);
+   const isTransactionBillable = !internalCustomer && !isNonWorkEntry(entry) && ![false, 'false', 0, '0'].includes(edits.is_transaction_billable);
 
    let createdTxn = null;
    await db.transaction(async trx => {
+      // Claim the entry FIRST, inside the same transaction as the insert (the
+      // auto-ingest orchestrator's pattern): UPDATE … WHERE is_processed = false
+      // RETURNING. The row lock + predicate mean a double submit, a concurrent
+      // apply or an AI rerun cannot both insert — the loser claims 0 rows and
+      // rolls back.
+      const claimed = await trx('timesheet_entries')
+         .where({ account_id: accountId, timesheet_entry_id: entryId, is_processed: false, is_deleted: false })
+         .update({
+            is_processed: true,
+            hold_reason: null,
+            matched_user_id: edits.logged_for_user_id,
+            suggested_customer_id: edits.customer_id
+         })
+         .returning('timesheet_entry_id');
+      if (!claimed.length) {
+         throw _serviceError('NOT_FOUND', 'This held entry was not found or has already been applied.');
+      }
+
       createdTxn = await addNewTransaction(trx, {
          accountID: accountId,
          customerID: edits.customer_id,
          customerJobID: edits.customer_job_id,
          selectedRetainerID: null,
-         customerInvoicesID: edits.customer_invoice_id || null,
+         // New work is always unbilled; the next Create Invoice run stamps it.
+         // Linking it to an existing invoice here would skip billing entirely.
+         customerInvoicesID: null,
          loggedForUserID: edits.logged_for_user_id,
          selectedGeneralWorkDescriptionID: edits.general_work_description_id,
          detailedJobDescription: edits.detailed_work_description || '',
          transactionDate: edits.transaction_date,
-         transactionType: edits.transaction_type || 'time',
-         quantity: hours,
+         transactionType: _normalizeTransactionType(edits.transaction_type),
+         quantity,
          unitCost,
          totalTransaction,
-         isTransactionBillable: edits.is_transaction_billable !== false,
+         isTransactionBillable,
          isInAdditionToMonthlyCharge: false,
          loggedByUserID: editingUserId,
          note: edits.note || '',
@@ -260,15 +361,6 @@ const applyHeldEntry = async (db, accountId, entryId, edits, editingUserId) => {
          aiSuggestion: null,
          selectedGeneralWorkDescription: null
       });
-
-      await trx('timesheet_entries')
-         .where({ account_id: accountId, timesheet_entry_id: entryId })
-         .update({
-            is_processed: true,
-            hold_reason: null,
-            matched_user_id: edits.logged_for_user_id,
-            suggested_customer_id: edits.customer_id
-         });
 
       await trx('ai_time_tracker_transaction_suggestions')
          .where({ timesheet_entry_id: entryId })
@@ -303,7 +395,7 @@ const listEntriesForReprocess = async (db, accountId, { mode = 'unprocessed', li
    } else if (mode === 'all_held') {
       query = query.whereNotNull('hold_reason');
    } else {
-      throw new Error(`unknown reprocess mode: ${mode}`);
+      throw _serviceError('BAD_MODE', `unknown reprocess mode: ${mode}`);
    }
 
    const rows = await query.orderBy('created_at', 'asc').limit(Math.min(Number(limit) || 500, 2000)).select('timesheet_entry_id');
@@ -359,20 +451,62 @@ const listDistinctEntities = async (db, accountId) => {
 // for the fields the reviewer corrected. Used by the "Rerun AI Processing"
 // button in the held-entry dialog. Synchronous — returns the orchestrator's
 // outcome so the UI can show success or surface the new hold reason.
+// The transaction a tracker line was applied as, if it still exists. There is
+// no applied-transaction column on timesheet_entries; the link is the
+// ai_category_training_examples row written by addNewTransaction (both the AI
+// auto-insert and the manual apply write one). Its transaction_id is SET NULL
+// when the transaction is deleted.
+const findAppliedTransactionId = async (db, accountId, entryId) => {
+   const links = await db('ai_category_training_examples')
+      .where({ account_id: accountId, timesheet_entry_id: entryId })
+      .whereNotNull('transaction_id')
+      .select('transaction_id');
+   const ids = [...new Set(links.map(l => Number(l.transaction_id)).filter(n => Number.isInteger(n) && n > 0))];
+   if (!ids.length) return null;
+   const live = await db('customer_transactions').where({ account_id: accountId }).whereIn('transaction_id', ids).first('transaction_id');
+   return live ? live.transaction_id : null;
+};
+
+// Orchestrator result for an entry another run / reviewer processed first
+// (auto-ingest-orchestrator _skipped).
+const SKIPPED_ALREADY_PROCESSED = Object.freeze({ decision: 'skip', reason: 'already_processed' });
+
+const _alreadyAppliedError = transactionId =>
+   _serviceError(
+      'ENTRY_ALREADY_APPLIED',
+      `This time entry was already applied as transaction #${transactionId}. Edit that transaction on the Processed & Not Billed tab instead of re-running AI.`,
+      { transactionId }
+   );
+
 const reprocessHeldEntryWithOverrides = async (db, accountId, entryId, overrides, editingUserId) => {
    const { processEntries } = require('../timesheets/auto-ingest-orchestrator');
 
-   // Reset the held entry so the orchestrator picks it up. Keep matched_user_id
-   // and suggested_customer_id in case the reviewer doesn't override them — that
-   // way the orchestrator's existing customer/employee matching won't override
-   // a previously-applied reviewer pick from a prior reprocess.
-   await db('timesheet_entries')
-      .where({ timesheet_entry_id: entryId, account_id: accountId })
-      .update({
+   // Check-and-reset atomically under the entry's row lock. Resetting an entry
+   // that already produced a transaction would let the orchestrator insert a
+   // SECOND transaction for the same tracker line. applyHeldEntry and the AI
+   // auto-insert claim this same row inside their insert transaction, so a
+   // concurrent apply is either committed and visible to the check below
+   // (refused), or its claim waits for this reset and wins the orchestrator's
+   // own claim afterwards (reported as 'skip') — an entry with a live
+   // transaction is never flipped back to unprocessed.
+   await db.transaction(async trx => {
+      const entry = await trx('timesheet_entries').where({ timesheet_entry_id: entryId, account_id: accountId }).forUpdate().first();
+      if (!entry || entry.is_deleted) {
+         throw _serviceError('NOT_FOUND', 'This time entry was not found.');
+      }
+      const appliedTransactionId = await findAppliedTransactionId(trx, accountId, entryId);
+      if (appliedTransactionId) throw _alreadyAppliedError(appliedTransactionId);
+
+      // Reset the held entry so the orchestrator picks it up. Keep matched_user_id
+      // and suggested_customer_id in case the reviewer doesn't override them — that
+      // way the orchestrator's existing customer/employee matching won't override
+      // a previously-applied reviewer pick from a prior reprocess.
+      await trx('timesheet_entries').where({ timesheet_entry_id: entryId, account_id: accountId, is_deleted: false }).update({
          is_processed: false,
          hold_reason: null,
          ai_attempted_at: null
       });
+   });
 
    const result = await processEntries({
       db,
@@ -382,11 +516,24 @@ const reprocessHeldEntryWithOverrides = async (db, accountId, entryId, overrides
       overridesByEntryId: { [entryId]: overrides || {} }
    });
 
-   const perEntry = (result.perEntry || [])[0] || null;
+   // Another run or a reviewer processed the entry between the reset and the
+   // AI pass. Nothing is reset again; point the reviewer at what it produced.
+   const skipped = async outcome => {
+      const transactionId = await findAppliedTransactionId(db, accountId, entryId);
+      return { ...outcome, ...(transactionId ? { transactionId } : {}) };
+   };
+
+   const perEntry = (result.perEntry || []).find(r => Number(r.entryId) === Number(entryId)) || (result.perEntry || [])[0] || null;
    if (!perEntry) {
+      // processEntries only loads unprocessed rows: an empty result means it was
+      // already processed by the time the AI pass looked.
+      const current = await db('timesheet_entries').where({ timesheet_entry_id: entryId, account_id: accountId }).first();
+      if (current && current.is_processed && !current.is_deleted) return skipped({ ...SKIPPED_ALREADY_PROCESSED, autoInserted: 0, held: 0 });
       return { decision: 'unknown', reason: 'no_result_returned', autoInserted: 0, held: 0 };
    }
-   return {
+   // decision ('auto_insert' | 'hold' | 'skip') and reason (every hold reason,
+   // e.g. ambiguous_customer_match / missing_current_year_job) pass through as-is.
+   const outcome = {
       decision: perEntry.decision,
       reason: perEntry.reason || null,
       suggestionError: perEntry.suggestionError || null,
@@ -394,34 +541,32 @@ const reprocessHeldEntryWithOverrides = async (db, accountId, entryId, overrides
       autoInserted: result.autoInserted,
       held: result.held
    };
+   return perEntry.decision === SKIPPED_ALREADY_PROCESSED.decision ? skipped(outcome) : outcome;
 };
 
-// Default Start for the Processed & Not Billed tab: first of the "current
-// billing month". JKA bills monthly, so the active billing window is one of:
-//   - This month (if invoices for last month have already been sent)
-//   - Last month (if they haven't been sent yet)
-// Heuristic: look at the most recent invoice. If it was created in the
-// current calendar month, the user is now billing this month → start = 1st
-// of this month. Otherwise they're still catching up on last month → start
-// = 1st of last month. Falls back to 1st of this month when there are no
-// invoices at all.
-const earliestUnbilledMonth = async (db, accountId) => {
-   const row = await db('customer_invoices')
+// Default Start for the Processed & Not Billed tab: first of the month holding
+// the oldest UNBILLED transaction (customer_invoice_id IS NULL — the same rule
+// the billing engine uses to pick up work), or first of the current month when
+// nothing is unbilled. The old heuristic (this/last month based on the latest
+// invoice date) hid stale unbilled rows that the next bill would still pick up.
+// Future-dated rows (known date typos) are ignored so they can't pull the start
+// past today.
+const earliestUnbilledMonth = async (db, accountId, { today = new Date() } = {}) => {
+   const todayISO = _localISODate(today);
+   const row = await db('customer_transactions')
       .where({ account_id: accountId })
-      .max({ latestInvoice: 'invoice_date' })
+      .whereNull('customer_invoice_id')
+      .where('transaction_date', '<=', todayISO)
+      .min({ earliest: 'transaction_date' })
       .first();
-   const today = new Date();
-   const todayY = today.getUTCFullYear();
-   const todayM = today.getUTCMonth();
 
-   const firstOfThisMonth = new Date(Date.UTC(todayY, todayM, 1));
-   const firstOfPrevMonth = new Date(Date.UTC(todayY, todayM - 1, 1));
+   const earliest = row && row.earliest ? row.earliest : null;
+   let earliestISO = null;
+   if (earliest instanceof Date && !Number.isNaN(earliest.getTime())) earliestISO = _localISODate(earliest);
+   else if (typeof earliest === 'string' && /^\d{4}-\d{2}-\d{2}/.test(earliest)) earliestISO = earliest.slice(0, 10);
 
-   const latest = row && row.latestInvoice ? new Date(row.latestInvoice) : null;
-   const latestInCurrentMonth = latest && latest.getUTCFullYear() === todayY && latest.getUTCMonth() === todayM;
-
-   const monthStart = latestInCurrentMonth || !latest ? firstOfThisMonth : firstOfPrevMonth;
-   return monthStart.toISOString().slice(0, 10);
+   const monthStart = earliestISO || todayISO;
+   return `${monthStart.slice(0, 7)}-01`;
 };
 
 module.exports = {
@@ -431,6 +576,7 @@ module.exports = {
    invoiceAnomalyCheck,
    listEntriesForReprocess,
    reprocessHeldEntryWithOverrides,
+   findAppliedTransactionId,
    listDistinctEntities,
    earliestUnbilledMonth
 };

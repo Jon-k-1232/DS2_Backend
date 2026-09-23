@@ -1,3 +1,14 @@
+// created_at at full MICROSECOND precision, as text. node-postgres parses
+// timestamps into JS Dates, which keep only milliseconds, while the billing
+// engine compares created_at inside Postgres (applyLastBillGate: `created_at >
+// (SELECT created_at FROM customer_invoices WHERE customer_invoice_id = <newest
+// parent>)`). The audit compares these strings instead of the Dates so a row
+// created in the same millisecond as the statement row lands on the same side
+// of the statement gate as it does in the engine (see account-audit-logic
+// exactCreatedAt). The columns are `timestamp without time zone`, so the text
+// does not depend on the session time zone.
+const withExactCreatedAt = db => ['*', db.raw('created_at::text AS created_at_exact')];
+
 const accountAuditService = {
    getCustomer(db, accountId, customerId) {
       return db('customers')
@@ -7,18 +18,21 @@ const accountAuditService = {
 
    getInvoices(db, accountId, customerId) {
       return db('customer_invoices')
+         .select(withExactCreatedAt(db))
          .where({ account_id: accountId, customer_id: customerId })
          .orderBy([{ column: 'invoice_date', order: 'asc' }, { column: 'customer_invoice_id', order: 'asc' }]);
    },
 
    getPayments(db, accountId, customerId) {
       return db('customer_payments')
+         .select(withExactCreatedAt(db))
          .where({ account_id: accountId, customer_id: customerId })
          .orderBy([{ column: 'payment_date', order: 'asc' }, { column: 'payment_id', order: 'asc' }]);
    },
 
    getWriteoffs(db, accountId, customerId) {
       return db('customer_writeoffs')
+         .select(withExactCreatedAt(db))
          .where({ account_id: accountId, customer_id: customerId })
          .orderBy([{ column: 'writeoff_date', order: 'asc' }, { column: 'writeoff_id', order: 'asc' }]);
    },
@@ -31,6 +45,7 @@ const accountAuditService = {
 
    getRetainers(db, accountId, customerId) {
       return db('customer_retainers_and_prepayments')
+         .select(withExactCreatedAt(db))
          .where({ account_id: accountId, customer_id: customerId })
          .orderBy([{ column: 'created_at', order: 'asc' }, { column: 'retainer_id', order: 'asc' }]);
    },

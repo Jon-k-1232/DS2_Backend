@@ -1,5 +1,5 @@
 const express = require('express');
-const { enforceAccountId } = require('../auth/account-scope');
+const { enforceAccountId, PRIVILEGED_ROLES } = require('../auth/account-scope');
 const initialDataRouter = express.Router();
 initialDataRouter.param('accountID', enforceAccountId);
 const customerService = require('../customer/customer-service');
@@ -24,7 +24,7 @@ initialDataRouter.route('/initialBlob/:accountID/:userID').get(async (req, res) 
    const { accountID } = req.params;
 
    try {
-      await initialData(db, res, accountID);
+      await initialData(db, res, accountID, req.user);
    } catch (err) {
       console.log(err);
       res.send({
@@ -36,7 +36,33 @@ initialDataRouter.route('/initialBlob/:accountID/:userID').get(async (req, res) 
 
 module.exports = initialDataRouter;
 
-const initialData = async (db, res, accountID) => {
+// Fields on a `users` row that are compensation/contact detail rather than
+// directory info. A "User" role has no business reading a coworker's pay
+// rates (or resolving their email for phishing/spam purposes) just because
+// initialData returns the whole account's team roster for dropdowns.
+const SENSITIVE_USER_FIELDS = ['cost_rate', 'billing_rate', 'email'];
+
+const isPrivilegedCaller = requestingUser => {
+   const role = (requestingUser?.access_level || '').toLowerCase();
+   return PRIVILEGED_ROLES.includes(role);
+};
+
+// Strips compensation/contact fields for non-privileged callers WITHOUT
+// changing the payload shape: activeUsers stays an array of the same objects
+// with the same set of privileged-only keys present-or-absent consistently,
+// so `createGrid`'s "columns from Object.keys(data[0])" still works — a
+// non-privileged response just renders those columns without data instead of
+// leaking every teammate's pay rate and email to anyone logged in.
+const sanitizeUsersForCaller = (users, requestingUser) => {
+   if (isPrivilegedCaller(requestingUser)) return users;
+   return users.map(user => {
+      const sanitized = { ...user };
+      SENSITIVE_USER_FIELDS.forEach(field => delete sanitized[field]);
+      return sanitized;
+   });
+};
+
+const initialData = async (db, res, accountID, requestingUser) => {
    const [
       activeCustomers,
       activeRecurringCustomers,
@@ -95,9 +121,10 @@ const initialData = async (db, res, accountID) => {
       grid: createGrid(activeRecurringCustomers)
    };
 
+   const sanitizedActiveUsers = sanitizeUsersForCaller(activeUsers, requestingUser);
    const activeUserData = {
-      activeUsers,
-      grid: createGrid(activeUsers)
+      activeUsers: sanitizedActiveUsers,
+      grid: createGrid(sanitizedActiveUsers)
    };
 
    const { transactions: activeTransactions, totalCount: transactionsCount } = activeTransactionsPage;

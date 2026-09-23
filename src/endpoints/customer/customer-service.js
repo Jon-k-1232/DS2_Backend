@@ -131,6 +131,50 @@ const customerService = {
 
    deleteCustomer(db, customer_id, accountId) {
       return db('customers').where({ customer_id }).andWhere('account_id', accountId).del();
+   },
+
+   // deleteCustomer's guard previously checked jobs/retainers/invoices/
+   // payments/transactions/recurring-customers but not write-offs — a
+   // customer with only write-off history (no jobs/invoices/etc. left) could
+   // slip past the guard and get hard-deleted, leaving customer_writeoffs rows
+   // pointing at a customer_id that no longer exists. writeOffs-service.js has
+   // no customer-scoped getter to reuse (only by-invoice / by-job), so this is
+   // a small direct query rather than a cross-boundary edit into writeOffs/**.
+   getWriteOffsForCustomer(db, accountID, customerID) {
+      return db('customer_writeoffs').where({ customer_id: customerID, account_id: accountID });
+   },
+
+   // Deactivating (is_customer_active -> false) is the supported alternative
+   // to deleteCustomer's hard-delete-with-no-related-records rule, so it must
+   // NOT be blocked by an open balance or unbilled work — but the caller
+   // should be warned, since those debts/hours become easy to lose track of
+   // once a customer drops out of the active lists. Mirrors the rolling-balance
+   // model documented in account-audit-logic.js: current debt = the newest
+   // parent invoice's remaining_balance_on_invoice, not a sum across parents.
+   async getDeactivationWarnings(db, accountID, customerID) {
+      const warnings = [];
+
+      const newestParent = await db('customer_invoices')
+         .where({ account_id: accountID, customer_id: customerID })
+         .whereNull('parent_invoice_id')
+         .orderBy('invoice_date', 'desc')
+         .orderBy('customer_invoice_id', 'desc')
+         .first('remaining_balance_on_invoice');
+      const openBalance = Number(newestParent?.remaining_balance_on_invoice || 0);
+      if (openBalance > 0) {
+         warnings.push(`Customer has an open balance of $${openBalance.toFixed(2)}.`);
+      }
+
+      const { count: unbilledCount } = await db('customer_transactions')
+         .where({ account_id: accountID, customer_id: customerID, is_transaction_billable: true })
+         .whereNull('customer_invoice_id')
+         .count({ count: '*' })
+         .first();
+      if (Number(unbilledCount) > 0) {
+         warnings.push(`Customer has ${unbilledCount} unbilled billable transaction(s).`);
+      }
+
+      return warnings;
    }
 };
 

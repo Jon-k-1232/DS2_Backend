@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const crypto = require('crypto');
 const zlib = require('zlib');
 const { promisify } = require('util');
 const dayjs = require('dayjs');
@@ -15,6 +16,7 @@ const sendSuccessEmail = require('../../utils/email/sendSuccessEmail');
 const timesheetsService = require('../timesheets/timesheets-service');
 const { kickOffAutoIngestForEntryIds, _isAccountAllowed: _isAutoIngestAllowed } = require('../timesheets/auto-ingest-runner');
 const { buildTemplate } = require('./template-builder');
+const { findTrackerDuplicates, lockTrackerUploads } = require('./trackerDuplicates');
 
 const gzip = promisify(zlib.gzip);
 const gunzip = promisify(zlib.gunzip);
@@ -141,10 +143,50 @@ const buildAccountFolder = (accountRecord, accountID) => {
    return `${sanitizeSegment(accountName)}_${accountID}`;
 };
 
-const buildProcessedPrefixes = (accountFolder, userFolder) => {
-   const primaryPrefix = `${PROCESSED_ROOT}/${userFolder}/`;
-   const legacyPrefix = `${PROCESSED_ROOT}/${accountFolder}/${userFolder}/`;
-   return { primaryPrefix, legacyPrefix };
+// primaryPrefix: account-AND-OWNER-scoped by immutable numeric user id
+// (user_<id>), never by name. NEW uploads always write here.
+// accountLegacyPrefix: the FORMER primary layout — account-scoped but keyed by
+// SANITIZED DISPLAY NAME (<account_name_slug>/<Last_First>/...). Two employees
+// in the SAME account who share a display name ("Alex Jones" hired twice)
+// resolved to this exact same folder, so one could list/download the other's
+// files. No longer written by new uploads; only ever read, and (like
+// legacyPrefix below) never trusted as this owner's own without filtering.
+// legacyPrefix: the pre-fix flat layout with no account segment at all —
+// production still has real files there. It is only ever READ, never written
+// by new uploads, and a key/object found only under it is NOT automatically
+// trusted as this account's own: see filterLegacyObjectsToOwner, which every
+// caller of legacyPrefix (and accountLegacyPrefix) must run before listing or
+// serving from it, because both folders are shared by any OTHER same-named
+// employee — in another account for legacyPrefix, or in THIS SAME account for
+// accountLegacyPrefix.
+const buildProcessedPrefixes = (accountFolder, userFolder, ownerId) => {
+   const primaryPrefix = `${PROCESSED_ROOT}/${accountFolder}/user_${Number(ownerId)}/`;
+   const accountLegacyPrefix = `${PROCESSED_ROOT}/${accountFolder}/${userFolder}/`;
+   const legacyPrefix = `${PROCESSED_ROOT}/${userFolder}/`;
+   return { primaryPrefix, accountLegacyPrefix, legacyPrefix };
+};
+
+// Keep only the legacy-prefix S3 objects whose stored file name is one THIS
+// account has actually recorded for THIS employee (timesheet_entries.timesheet_name,
+// any is_deleted state — the upload happened even if the rows were later
+// cleaned up). Objects under a name-keyed legacy prefix that don't match
+// anything in this account's own history for THIS owner belong to some other
+// same-named employee (a different account for the flat layout; possibly this
+// SAME account for the old account-scoped-by-name layout) and must never be
+// listed or served here.
+const filterLegacyObjectsToOwner = async (db, accountID, ownerUserID, objects) => {
+   if (!objects || !objects.length) return [];
+   const ownNames = new Set(await timesheetsService.getAllTimesheetNamesEverUsedByEmployee(db, accountID, ownerUserID));
+   if (!ownNames.size) return [];
+   return objects.filter(object => object?.Key && ownNames.has(path.basename(object.Key).replace(/\.gz$/i, '')));
+};
+
+// Same rule as filterLegacyObjectsToOwner, for a single candidate key (used
+// where we're about to fetch/serve one object rather than list a prefix).
+const legacyKeyBelongsToOwner = async (db, accountID, ownerUserID, key) => {
+   const storedName = path.basename(key).replace(/\.gz$/i, '');
+   const ownNames = await timesheetsService.getAllTimesheetNamesEverUsedByEmployee(db, accountID, ownerUserID);
+   return ownNames.includes(storedName);
 };
 
 const ensureAdminAccess = userRecord => {
@@ -221,7 +263,15 @@ timeTrackingRouter.post(
          console.warn(`[${new Date().toISOString()}] Failed to resolve time tracker admin recipients for account ${accountIdNumber}: ${recipientError.message}`);
          adminRecipients = [];
       }
-      const decodedOriginalName = decodeURIComponent(fileNameHeader);
+      let decodedOriginalName;
+      try {
+         decodedOriginalName = decodeURIComponent(fileNameHeader);
+      } catch (decodeError) {
+         return res.status(400).json({
+            message: 'Invalid file name encoding.',
+            note: policyNote
+         });
+      }
       const detectedExtension = path.extname(decodedOriginalName || '').toLowerCase();
       if (detectedExtension === '.numbers') {
          return res.status(400).json({
@@ -338,6 +388,11 @@ timeTrackingRouter.post(
             duration: toNumeric(entry.duration),
             notes: entry.notes?.toString().trim() || ''
          }));
+         // Per-row upload facts that are not timesheet_entries columns.
+         const entryMeta = (validationResult.entries || []).map(entry => ({
+            sourceRow: entry.source_row ?? null,
+            nonWorkReason: entry.non_work_reason || null
+         }));
 
          if (!normalizedEntries.length) {
             console.warn(`[${new Date().toISOString()}] No time entries produced for "${decodedOriginalName}" after validation.`);
@@ -366,40 +421,107 @@ timeTrackingRouter.post(
          }
 
          const userFolder = buildUserFolder(userRecord);
+         const accountFolder = buildAccountFolder(accountRecord, accountIdNumber);
          const { firstName, lastName } = deriveUserNameSegments(userRecord);
          const extension = resolveExtension(decodedOriginalName, fileTypeHeader);
-         const timestamp = formatTimestamp();
-         const storedFileName = `${sanitizeSegment(lastName)}_${sanitizeSegment(firstName)}_${timestamp}${extension}`;
-         const s3Key = `${PROCESSED_ROOT}/${userFolder}/${storedFileName}.gz`;
          const compressedFile = await gzip(req.body);
 
-         normalizedEntries.forEach(entry => {
-            entry.timesheet_name = storedFileName;
-         });
-
-         console.log(`[${new Date().toISOString()}] Validation passed for "${decodedOriginalName}". Saving compressed file to S3 key "${s3Key}".`);
-         await putObject(s3Key, compressedFile, 'application/gzip', {
-            'original-filename': encodeURIComponent(storedFileName),
-            'original-content-type': fileTypeHeader
-         });
-
-         console.log(`[${new Date().toISOString()}] Successfully saved tracker to S3 at "${s3Key}". Persisting entries to database...`);
-
+         // Duplicate protection + insert run in ONE transaction, serialized per
+         // employee by an advisory lock, so a double-clicked or concurrent
+         // re-upload can't slip past the check. The S3 copy is written only once
+         // we know there is something new to store (and removed if the insert fails).
+         //
+         // The stored file name (and therefore the S3 key) is generated AFTER the
+         // lock is acquired, not before: two uploads for the same employee inside
+         // the same second used to race to compute the identical
+         // formatTimestamp() string BEFORE either one blocked on the lock, so the
+         // second writer's S3 PutObject silently overwrote the first's object even
+         // though both inserts succeeded. Generating the name post-lock forces the
+         // second caller's clock read to happen only once the first has fully
+         // committed (or rolled back) and released the lock, and the appended
+         // millisecond suffix closes the (now practically unreachable, but still
+         // possible on a very fast machine) same-second gap.
          const trx = await db.transaction();
          let insertedEntries = [];
+         let dedupe = { identicalUpload: null, toInsertIndexes: normalizedEntries.map((_, index) => index), duplicates: [] };
+         let storedInS3 = false;
+         let storedFileName;
+         let s3Key;
          try {
-            insertedEntries = await timesheetsService.insertTimesheetEntriesWithTransaction(trx, normalizedEntries);
+            await lockTrackerUploads(trx, effectiveUserId);
+
+            const uploadInstant = dayjs();
+            const timestamp = uploadInstant.format('MMMM-DD-YYYY_hh-mm-ssA');
+            const msSuffix = String(uploadInstant.millisecond()).padStart(3, '0');
+            // A random suffix (on top of the per-employee advisory lock + ms
+            // timestamp) removes any remaining reliance on wall-clock
+            // uniqueness alone for the STORED FILE NAME.
+            const uniqueSuffix = crypto.randomUUID().slice(0, 8);
+            storedFileName = `${sanitizeSegment(lastName)}_${sanitizeSegment(firstName)}_${timestamp}-${msSuffix}-${uniqueSuffix}${extension}`;
+            s3Key = `${buildProcessedPrefixes(accountFolder, userFolder, effectiveUserId).primaryPrefix}${storedFileName}.gz`;
+            normalizedEntries.forEach(entry => {
+               entry.timesheet_name = storedFileName;
+            });
+
+            dedupe = await findTrackerDuplicates(trx, {
+               accountId: accountIdNumber,
+               userId: effectiveUserId,
+               startDate: normalizedEntries[0].time_tracker_start_date,
+               endDate: normalizedEntries[0].time_tracker_end_date,
+               entries: normalizedEntries,
+               sourceRows: entryMeta.map(meta => meta.sourceRow)
+            });
+
+            if (dedupe.identicalUpload) {
+               await trx.rollback();
+               const earlier = dedupe.identicalUpload;
+               // The stored file name carries the upload timestamp; created_at is a
+               // tz-less timestamp, so it is returned raw (duplicate_of) rather than
+               // re-formatted into a possibly-shifted local time.
+               const message = `This tracker was already uploaded as "${earlier.timesheet_name}" (${earlier.row_count} identical row${earlier.row_count === 1 ? '' : 's'} for ${metadata.startDate} to ${metadata.endDate}). Nothing was saved. To replace that upload, ask an admin to delete its rows first.`;
+               console.warn(`[${new Date().toISOString()}] Rejected duplicate upload "${decodedOriginalName}" for user ${effectiveUserId}: identical to "${earlier.timesheet_name}".`);
+               return res.status(409).json({ message, errors: [message], duplicate_of: earlier, note: policyNote });
+            }
+
+            if (!dedupe.toInsertIndexes.length) {
+               await trx.rollback();
+               const earlierNames = [...new Set(dedupe.duplicates.map(d => d.duplicate_of.timesheet_name).filter(Boolean))];
+               const message = `All ${dedupe.duplicates.length} row${dedupe.duplicates.length === 1 ? '' : 's'} in this tracker were already uploaded${earlierNames.length ? ` (${earlierNames.map(n => `"${n}"`).join(', ')})` : ''}. Nothing new was saved.`;
+               console.warn(`[${new Date().toISOString()}] Rejected upload "${decodedOriginalName}" for user ${effectiveUserId}: every row already exists.`);
+               return res.status(409).json({
+                  message,
+                  errors: [message],
+                  duplicates_skipped: dedupe.duplicates,
+                  duplicates_skipped_count: dedupe.duplicates.length,
+                  note: policyNote
+               });
+            }
+
+            console.log(`[${new Date().toISOString()}] Validation passed for "${decodedOriginalName}". Saving compressed file to S3 key "${s3Key}".`);
+            await putObject(s3Key, compressedFile, 'application/gzip', {
+               'original-filename': encodeURIComponent(storedFileName),
+               'original-content-type': fileTypeHeader
+            });
+            storedInS3 = true;
+            console.log(`[${new Date().toISOString()}] Successfully saved tracker to S3 at "${s3Key}". Persisting entries to database...`);
+
+            const rowsToInsert = dedupe.toInsertIndexes.map(index => normalizedEntries[index]);
+            insertedEntries = await timesheetsService.insertTimesheetEntriesWithTransaction(trx, rowsToInsert);
             await trx.commit();
-            console.log(`[${new Date().toISOString()}] Inserted ${normalizedEntries.length} entries into timesheet_entries for "${decodedOriginalName}".`);
+            console.log(
+               `[${new Date().toISOString()}] Inserted ${rowsToInsert.length} entries into timesheet_entries for "${decodedOriginalName}" (${dedupe.duplicates.length} duplicate row(s) skipped).`
+            );
          } catch (dbError) {
-            await trx.rollback();
+            await trx.rollback().catch(() => {});
             console.error(`[${new Date().toISOString()}] Failed to persist timesheet entries for "${decodedOriginalName}": ${dbError.message}`, dbError.stack);
 
-            try {
-               await deleteObject(s3Key);
-               console.log(`[${new Date().toISOString()}] Removed S3 object "${s3Key}" after database insert failure.`);
-            } catch (cleanupError) {
-               console.error(`[${new Date().toISOString()}] Failed to remove S3 object "${s3Key}" after database error: ${cleanupError.message}`);
+            if (storedInS3) {
+               try {
+                  await deleteObject(s3Key);
+                  console.log(`[${new Date().toISOString()}] Removed S3 object "${s3Key}" after database insert failure.`);
+               } catch (cleanupError) {
+                  console.error(`[${new Date().toISOString()}] Failed to remove S3 object "${s3Key}" after database error: ${cleanupError.message}`);
+               }
             }
 
             if (adminRecipients.length) {
@@ -447,7 +569,7 @@ timeTrackingRouter.post(
                userRecord,
                metadata: validationResult.metadata,
                storedFileName,
-               entryCount: normalizedEntries.length
+               entryCount: insertedEntries.length
             });
             if (info && info.accepted) {
                staffNotifiedCount = info.accepted.length;
@@ -505,11 +627,32 @@ timeTrackingRouter.post(
             `[${new Date().toISOString()}] Tracker upload complete for "${decodedOriginalName}". Stored as "${storedFileName}". Submitted by user ${userIdNumber} for user ${ownerUserIdNumber}.`
          );
 
+         const insertedIndexSet = new Set(dedupe.toInsertIndexes);
+         const nonBillableRows = entryMeta
+            .map((meta, index) => ({ row: meta.sourceRow, reason: meta.nonWorkReason, inserted: insertedIndexSet.has(index) }))
+            .filter(item => item.reason && item.inserted)
+            .map(({ row, reason }) => ({ row, reason }));
+         const messageParts = ['Time tracker validated and uploaded successfully.'];
+         if (dedupe.duplicates.length) {
+            messageParts.push(
+               `${dedupe.duplicates.length} row${dedupe.duplicates.length === 1 ? ' was' : 's were'} already uploaded earlier and ${dedupe.duplicates.length === 1 ? 'was' : 'were'} skipped as ${dedupe.duplicates.length === 1 ? 'a duplicate' : 'duplicates'}.`
+            );
+         }
+         if (nonBillableRows.length) {
+            messageParts.push(
+               `${nonBillableRows.length} row${nonBillableRows.length === 1 ? ' looks' : 's look'} like non-work time (vacation / PTO / holiday / sick / personal / lunch) and will never be auto-billed.`
+            );
+         }
+
          return res.status(201).json({
-            message: 'Time tracker validated and uploaded successfully.',
+            message: messageParts.join(' '),
             storedKey: s3Key,
             fileName: storedFileName,
             metadata: validationResult.metadata,
+            inserted_count: insertedEntries.length,
+            duplicates_skipped: dedupe.duplicates,
+            duplicates_skipped_count: dedupe.duplicates.length,
+            non_billable_rows: nonBillableRows,
             note: policyNote
          });
       } catch (error) {
@@ -587,10 +730,15 @@ timeTrackingRouter.get(
       const accountRecord = await fetchAccountRecord(db, accountID);
       const userFolder = buildUserFolder(userRecord);
       const accountFolder = buildAccountFolder(accountRecord, accountID);
-      const { primaryPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, userFolder);
+      const { primaryPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, userFolder, userID);
 
-      const primaryObjects = await listObjects(primaryPrefix);
-      const legacyObjects = await listObjects(legacyPrefix);
+      const [primaryObjects, rawAccountLegacyObjects, rawFlatLegacyObjects] = await Promise.all([listObjects(primaryPrefix), listObjects(accountLegacyPrefix), listObjects(legacyPrefix)]);
+      // Both name-keyed prefixes are shared by any OTHER same-named employee —
+      // another account's for the flat layout, or (pre-fix) this SAME
+      // account's for the old account-scoped-by-name layout — so only surface
+      // the objects this account's own upload history actually accounts for
+      // THIS owner.
+      const legacyObjects = await filterLegacyObjectsToOwner(db, accountID, userID, [...(rawAccountLegacyObjects || []), ...(rawFlatLegacyObjects || [])]);
       const mergedObjects = [...(primaryObjects || []), ...(legacyObjects || [])];
 
       if (!mergedObjects.length) {
@@ -609,7 +757,7 @@ timeTrackingRouter.get(
       );
 
       const history = uniqueObjects
-         .filter(object => object.Key && object.Key !== primaryPrefix && object.Key !== legacyPrefix)
+         .filter(object => object.Key && object.Key !== primaryPrefix && object.Key !== accountLegacyPrefix && object.Key !== legacyPrefix)
          .map(object => {
             const baseName = path.basename(object.Key);
             const fileName = baseName.endsWith('.gz') ? baseName.slice(0, -3) : baseName;
@@ -649,13 +797,33 @@ timeTrackingRouter.get(
       const accountRecord = await fetchAccountRecord(db, accountID);
       const userFolder = buildUserFolder(userRecord);
       const accountFolder = buildAccountFolder(accountRecord, accountID);
-      const { primaryPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, userFolder);
+      const { primaryPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, userFolder, userID);
 
-      if (!key.startsWith(primaryPrefix) && !key.startsWith(legacyPrefix)) {
+      if (key.startsWith(primaryPrefix)) {
+         // owner-id-scoped key: inherently this exact owner's own.
+      } else if (key.startsWith(accountLegacyPrefix) || key.startsWith(legacyPrefix)) {
+         // Name-keyed legacy key (account-scoped-by-name, or the older flat
+         // layout): either folder is shared by any OTHER same-named employee
+         // (in this same account for accountLegacyPrefix; in another account
+         // for legacyPrefix), so only serve it if this account's own upload
+         // history actually accounts for that file name FOR THIS OWNER.
+         if (!(await legacyKeyBelongsToOwner(db, accountID, userID, key))) {
+            return res.status(403).json({ message: 'You do not have access to this file.' });
+         }
+      } else {
          return res.status(403).json({ message: 'You do not have access to this file.' });
       }
 
-      const { body, metadata } = await getObject(key);
+      let body;
+      let metadata;
+      try {
+         ({ body, metadata } = await getObject(key));
+      } catch (err) {
+         if (err.name === 'NoSuchKey') {
+            return res.status(404).json({ message: 'That time tracker file could not be found.' });
+         }
+         throw err;
+      }
       const metadataValues = metadata?.userMetadata || {};
       const storedFileName = path.basename(key).replace(/\.gz$/, '');
       const originalContentType = metadataValues['original-content-type'] || 'application/octet-stream';
@@ -708,7 +876,13 @@ timeTrackingRouter.get(
 
       const ownerFolder = buildUserFolder(ownerUserRecord);
       const accountFolder = buildAccountFolder(accountRecord, accountID);
-      const { primaryPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, ownerFolder);
+      const { primaryPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, ownerFolder, ownerUserID);
+      // Both name-keyed legacy prefixes are shared by any OTHER same-named
+      // employee — another account's for the flat layout, or (pre-fix) this
+      // SAME account's for the old account-scoped-by-name layout — so only
+      // ever resolve a legacy-prefix candidate whose name is one this
+      // account's own history actually recorded for THIS owner.
+      const ownLegacyNames = new Set(await timesheetsService.getAllTimesheetNamesEverUsedByEmployee(db, accountID, ownerUserID));
 
       const evaluateCandidate = key => `${key.endsWith('.gz') ? key : `${key}.gz`}`;
 
@@ -731,7 +905,13 @@ timeTrackingRouter.get(
 
       const candidateNames = buildVariants();
 
-      const candidateKeys = candidateNames.flatMap(name => [evaluateCandidate(`${primaryPrefix}${name}`), evaluateCandidate(`${legacyPrefix}${name}`)]);
+      const candidateKeys = candidateNames.flatMap(name => {
+         const keys = [evaluateCandidate(`${primaryPrefix}${name}`)];
+         if (ownLegacyNames.has(name)) {
+            keys.push(evaluateCandidate(`${accountLegacyPrefix}${name}`), evaluateCandidate(`${legacyPrefix}${name}`));
+         }
+         return keys;
+      });
 
       let downloadKey = null;
       let downloadedObject = null;
@@ -758,8 +938,11 @@ timeTrackingRouter.get(
       if (!downloadKey || !downloadedObject) {
          const normalize = value => sanitizeSegment((value || '').replace(/\.gz$/i, '')).toLowerCase();
          const targetVariants = Array.from(new Set([...candidateNames, baseName, nameWithoutExt, safeTimesheetName].filter(Boolean))).map(normalize);
+         // Same ownership rule as the direct-candidate lookup above, applied to
+         // the legacy/flat prefix's listing scan.
+         const ownLegacyNormalized = new Set([...ownLegacyNames].map(normalize));
 
-         const prefixesToSearch = [primaryPrefix, legacyPrefix];
+         const prefixesToSearch = [primaryPrefix, accountLegacyPrefix, legacyPrefix];
 
          for (const prefix of prefixesToSearch) {
             if (downloadKey) break;
@@ -768,7 +951,12 @@ timeTrackingRouter.get(
                for (const object of objects || []) {
                   if (!object?.Key) continue;
                   const base = path.basename(object.Key);
-                  if (targetVariants.includes(normalize(base))) {
+                  const normalizedBase = normalize(base);
+                  // Neither legacy (name-keyed) prefix is trusted as this
+                  // owner's own without checking their recorded history —
+                  // only the id-keyed primaryPrefix is inherently theirs.
+                  if (prefix !== primaryPrefix && !ownLegacyNormalized.has(normalizedBase)) continue;
+                  if (targetVariants.includes(normalizedBase)) {
                      try {
                         await tryFetchObject(object.Key);
                         if (downloadKey) break;
@@ -918,7 +1106,12 @@ timeTrackingRouter.post(
 
       const db = req.app.get('db');
 
-      const decodedOriginalName = decodeURIComponent(fileNameHeader);
+      let decodedOriginalName;
+      try {
+         decodedOriginalName = decodeURIComponent(fileNameHeader);
+      } catch (decodeError) {
+         return res.status(400).json({ message: 'Invalid file name encoding.' });
+      }
       const extension = resolveExtension(decodedOriginalName, fileTypeHeader) || '.xlsx';
       const timestamp = formatTimestamp();
       const storedFileName = `timeTracker_${timestamp}${extension}`;
@@ -943,10 +1136,12 @@ timeTrackingRouter.get(
    '/template/list/:accountID/:userID',
    requireAuth,
    asyncHandler(async (req, res) => {
-      const { accountID, userID } = req.params;
-      const db = req.app.get('db');
-      const userRecord = await fetchUserRecord(db, accountID, userID);
-      ensureAdminAccess(userRecord);
+      // Authorize the AUTHENTICATED caller (req.user), never the selected
+      // URL :userID's own record — a manager can legitimately address another
+      // user's id here (enforceSelfOrPrivileged allows it), and that other
+      // user's record could belong to an admin, which used to let the manager
+      // "borrow" that admin's role just by addressing their id in the URL.
+      ensureAdminAccess(req.user);
 
       const objects = await listObjects(`${TRACKER_VERSIONS_ROOT}/`);
 
@@ -979,22 +1174,19 @@ timeTrackingRouter.get(
 );
 
 // DELETE /time-tracking/template/delete/:accountID/:userID
-// Admin: Delete a specific tracker template from S3.
+// Super admin only — same gate as template upload (a firm-wide template
+// version affects every tenant, so deleting one is held to the same bar as
+// creating one; it used to only require plain admin access).
 timeTrackingRouter.delete(
    '/template/delete/:accountID/:userID',
-   requireAuth,
+   requireSuperAdmin,
    jsonParser,
    asyncHandler(async (req, res) => {
-      const { accountID, userID } = req.params;
       const { key } = req.body || {};
 
       if (!key) {
          return res.status(400).json({ message: 'S3 key is required to delete a template.' });
       }
-
-      const db = req.app.get('db');
-      const userRecord = await fetchUserRecord(db, accountID, userID);
-      ensureAdminAccess(userRecord);
 
       if (!key.startsWith(`${TRACKER_VERSIONS_ROOT}/`) || key.endsWith('/')) {
          return res.status(400).json({ message: 'Invalid template key.' });

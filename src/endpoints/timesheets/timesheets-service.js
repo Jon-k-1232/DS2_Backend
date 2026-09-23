@@ -47,10 +47,16 @@ const timesheetsService = {
          .offset(offset);
    },
 
-   getEntriesByTimesheetName(db, accountID, userID, timesheetName) {
+   // NOT filtered on user_id: a timesheet_name is unique per upload and every
+   // row under it already carries its real owner. The caller used to pass the
+   // URL :userID (the person MAKING the request) here, which meant an
+   // admin/manager kicking off an EMPLOYEE's tracker by name always matched
+   // zero rows (their own id, not the tracker's actual owner) — see the
+   // ai/kickoff route in timesheets-router.js.
+   getEntriesByTimesheetName(db, accountID, timesheetName) {
       return db('timesheet_entries')
          .select(ENTRY_SAFE_COLUMNS)
-         .where({ account_id: accountID, user_id: userID, timesheet_name: timesheetName })
+         .where({ account_id: accountID, timesheet_name: timesheetName })
          .andWhere('is_deleted', false)
          .andWhere('is_processed', false);
    },
@@ -124,6 +130,18 @@ const timesheetsService = {
 
    getUniqueTimesheetNamesByEmployee(db, accountID, user_id) {
       return db('timesheet_entries').where('account_id', accountID).andWhere('user_id', user_id).andWhere('is_deleted', false).distinct('timesheet_name').pluck('timesheet_name');
+   },
+
+   // Every timesheet_name this account has EVER recorded for this employee,
+   // regardless of is_deleted (a soft-deleted entry's upload still happened and
+   // its file should still be attributable to this account). Used to decide
+   // whether an S3 object found under the pre-account-scoping "flat" processed/
+   // layout (processed/<Last_First>/..., no account segment, shared by any
+   // account with a same-named employee) actually belongs to THIS account —
+   // see buildProcessedPrefixes / filterLegacyObjectsToOwner in
+   // timeTracking-router.js.
+   getAllTimesheetNamesEverUsedByEmployee(db, accountID, user_id) {
+      return db('timesheet_entries').where('account_id', accountID).andWhere('user_id', user_id).distinct('timesheet_name').pluck('timesheet_name');
    },
 
    getOutstandingTimesheetEntriesCountByUserID(db, accountID, queryUserID) {
@@ -231,6 +249,20 @@ const timesheetsService = {
 
    updateTimesheetEntry(db, timesheetEntry) {
       return db.update(timesheetEntry).into('timesheet_entries').where('timesheet_entry_id', timesheetEntry.timesheet_entry_id);
+   },
+
+   // Soft-delete atomically, only while still pending: WHERE is_processed =
+   // false AND is_deleted = false ... RETURNING. Never a blind write of a
+   // previously-read row object — a row a concurrent apply claimed between the
+   // caller's own read and this call returns zero rows (the caller should
+   // answer 409), instead of the row being corrupted into
+   // {is_processed:false, is_deleted:true} while a transaction now exists for
+   // it. See timesheets-router.js deleteTimesheetEntry.
+   deleteTimesheetEntryIfPending(db, accountID, timesheetEntryID) {
+      return db('timesheet_entries')
+         .where({ account_id: Number(accountID), timesheet_entry_id: Number(timesheetEntryID), is_processed: false, is_deleted: false })
+         .update({ is_deleted: true })
+         .returning('*');
    },
 
    insertTimesheetEntriesWithTransaction(trx, entries) {

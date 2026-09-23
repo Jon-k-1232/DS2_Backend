@@ -19,6 +19,8 @@ jobCategoriesRouter.route('/createJobCategory/:accountID/:userID').post(jsonPars
 
       // Create new object with sanitized fields
       const jobCategoriesTableFields = restoreDataTypesJobCategoriesOnCreate(sanitizedNewJobCategory);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      jobCategoriesTableFields.account_id = Number(accountID);
 
       // Post new job category
       await jobCategoriesService.createJobCategory(db, jobCategoriesTableFields);
@@ -42,9 +44,14 @@ jobCategoriesRouter.route('/updateJobCategory/:accountID/:userID').put(jsonParse
 
       // Create new object with sanitized fields
       const jobCategoriesTableFields = restoreDataTypesJobCategoriesOnUpdate(sanitizedUpdatedJobCategory);
+      // Trust the account from the (guard-verified) URL, never the request body.
+      jobCategoriesTableFields.account_id = Number(accountID);
 
       // Update the Job category
-      await jobCategoriesService.updateJobCategory(db, jobCategoriesTableFields);
+      const affectedRows = await jobCategoriesService.updateJobCategory(db, jobCategoriesTableFields, accountID);
+      if (!affectedRows) {
+         return res.status(404).send({ message: 'Job category not found.', status: 404 });
+      }
       await sendUpdatedTableWith200Response(db, res, accountID);
    } catch (err) {
       console.log(err);
@@ -65,7 +72,10 @@ jobCategoriesRouter.route('/deleteJobCategory/:jobCategoryID/:accountID/:userID'
       if (foundJobTypes.length) throw new Error('Job Category is in use by Job Types.');
 
       // Delete the Job category
-      await jobCategoriesService.deleteJobCategory(db, jobCategoryID);
+      const affectedRows = await jobCategoriesService.deleteJobCategory(db, jobCategoryID, accountID);
+      if (!affectedRows) {
+         return res.status(404).send({ message: 'Job category not found.', status: 404 });
+      }
       await sendUpdatedTableWith200Response(db, res, accountID);
    } catch (err) {
       console.log(err);
@@ -79,8 +89,8 @@ jobCategoriesRouter.route('/deleteJobCategory/:jobCategoryID/:accountID/:userID'
 // get single job category
 jobCategoriesRouter.route('/getSingleJobCategory/:jobCategoryID/:accountID/:userID').get(async (req, res) => {
    const db = req.app.get('db');
-   const { jobCategoryID } = req.params;
-   const activeJobCategory = await jobCategoriesService.getSingleJobCategory(db, jobCategoryID);
+   const { jobCategoryID, accountID } = req.params;
+   const activeJobCategory = await jobCategoriesService.getSingleJobCategory(db, jobCategoryID, accountID);
 
    const activeJobCategoriesData = {
       activeJobCategory,

@@ -11,9 +11,13 @@ const transactionSchema = {
    detailed_work_description: 'text',
    transaction_date: 'date',
    transaction_type: 'string',
-   quantity: 'int',
-   unit_cost: 'int',
-   total_transaction: 'int',
+   // Money and hours are DECIMAL(10,2) in Postgres. These were declared 'int' and
+   // parseInt-corrected, which floored 0.25 h → 0 and $18.75 → $18 on every row
+   // the finalize step re-wrote. Finalize no longer rewrites rows (it only stamps
+   // customer_invoice_id) but the validator must never truncate again either.
+   quantity: 'decimal',
+   unit_cost: 'decimal',
+   total_transaction: 'decimal',
    is_transaction_billable: 'boolean',
    is_excess_to_subscription: 'boolean',
    created_at: 'timestamp',
@@ -27,7 +31,7 @@ const transactionValidators = {
    string: str => typeof str === 'string',
    text: str => typeof str === 'string',
    date: d => !isNaN(new Date(d).getTime()),
-   decimal: n => typeof n === 'number',
+   decimal: n => typeof n === 'number' && Number.isFinite(n),
    boolean: b => typeof b === 'boolean',
    timestamp: ts => !isNaN(new Date(ts).getTime()),
    null: val => val === null
@@ -39,7 +43,11 @@ const correctType = (value, expectedType) => {
       case 'int':
          return Number.isNaN(parseInt(value)) ? null : parseInt(value);
       case 'string':
-         return value.toString();
+      case 'text':
+         return value == null ? null : value.toString();
+      case 'decimal':
+         // Whole numeric strings only (Postgres NUMERIC arrives as '18.75'); never parseFloat('18.75junk').
+         return typeof value === 'string' && /^-?\d+(?:\.\d+)?$/.test(value.trim()) && Number.isFinite(Number(value)) ? Number(value) : null;
       default:
          return null;
    }
@@ -82,7 +90,7 @@ const cleanAndValidateTransactionObject = transactionObject => {
       }
       return true;
    });
-   if (!validatedKeys) throw new Error(`Validation of transaction failed prior to database insert on ${invoiceObject.customer_id}`);
+   if (!validatedKeys) throw new Error(`Validation of transaction failed prior to database insert on ${transactionObject.customer_id}`);
 
    console.log(`Transaction: ${transactionObject.transaction_id} has been validated successfully.`);
    return transactionObject;

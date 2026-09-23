@@ -6,8 +6,8 @@ const retainerRouter = express.Router();
 retainerRouter.param('accountID', enforceAccountId);
 const retainerService = require('./retainer-service');
 const { restoreDataTypesRetainersTableOnCreate, restoreDataTypesRetainersTableOnUpdate } = require('./retainerObjects');
+const { createRetainerCore, updateRetainerCore, deleteRetainerCore } = require('./retainer-logic');
 const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
-const transactionsService = require('../transactions/transactions-service');
 
 // Create a new retainer
 retainerRouter.route('/createRetainer/:accountID/:userID').post(jsonParser, async (req, res) => {
@@ -15,14 +15,18 @@ retainerRouter.route('/createRetainer/:accountID/:userID').post(jsonParser, asyn
    const { accountID } = req.params;
 
    try {
-      const sanitizedNewRetainer = sanitizeFields(req.body.retainer);
+      const sanitizedNewRetainer = sanitizeFields(req.body.retainer || {});
 
       // Create new object with sanitized fields
       const retainerTableFields = restoreDataTypesRetainersTableOnCreate(sanitizedNewRetainer);
+      // Audit trail: the AUTHENTICATED user, never a caller-supplied id
+      // (loggedByUserID in the body or the URL :userID).
+      if (req.user?.user_id) retainerTableFields.created_by_user_id = Number(req.user.user_id);
 
-      // Post new retainer
-      await retainerService.createRetainer(db, retainerTableFields);
-      await sendUpdatedTableWith200Response(db, res, accountID);
+      // Post new retainer. The account comes from the (guard-verified) URL and
+      // the customer must belong to it; see retainer-logic.createRetainerCore.
+      await createRetainerCore(db, { accountId: Number(accountID), retainerFields: retainerTableFields });
+      await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully created new retainer.');
    } catch (err) {
       console.log(err);
       res.send({
@@ -38,16 +42,17 @@ retainerRouter.route('/updateRetainer/:accountID/:userID').put(jsonParser, async
    const { accountID } = req.params;
 
    try {
-      const sanitizedUpdatedRetainer = sanitizeFields(req.body.retainer);
+      const sanitizedUpdatedRetainer = sanitizeFields(req.body.retainer || {});
 
       // Create new object with sanitized fields
       const retainerTableFields = restoreDataTypesRetainersTableOnUpdate(sanitizedUpdatedRetainer);
       // Trust the account from the (guard-verified) URL, never the request body.
       retainerTableFields.account_id = Number(accountID);
 
-      // Update retainer
-      await retainerService.updateRetainer(db, retainerTableFields, accountID);
-      await sendUpdatedTableWith200Response(db, res, accountID);
+      // Update retainer — preserves the chain's draw history (balance shifts by
+      // the starting-amount delta; active flag follows the balance).
+      await updateRetainerCore(db, { accountId: Number(accountID), retainerFields: retainerTableFields });
+      await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully updated retainer.');
    } catch (err) {
       console.log(err);
       res.send({
@@ -63,14 +68,11 @@ retainerRouter.route('/deleteRetainer/:retainerID/:accountID/:userID').delete(js
    const { retainerID, accountID } = req.params;
 
    try {
-      // Check transactions table for retainerID. If transactions exist it mean the reatiner is linked to a transaction and cannot be deleted
-      const linkedTransactions = await transactionsService.getTransactionsByRetainerID(db, accountID, retainerID);
-
-      if (linkedTransactions.length) throw new Error('Transactions are linked to this retainer; it cannot be deleted.');
-
-      // Delete retainer
-      await retainerService.deleteRetainer(db, retainerID, accountID);
-      await sendUpdatedTableWith200Response(db, res, accountID);
+      // Refuses while ANY row of the retainer's chain is referenced by a
+      // transaction or payment, or the chain has draw-down snapshots (draws
+      // reference the snapshot ids, so checking only this row missed them).
+      await deleteRetainerCore(db, { accountId: Number(accountID), retainerId: Number(retainerID) });
+      await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully deleted retainer.');
    } catch (err) {
       console.log(err);
       res.send({
@@ -86,9 +88,17 @@ retainerRouter.route('/getSingleRetainer/:retainerID/:accountID/:userID').get(as
 
    try {
       const { retainerID, accountID } = req.params;
-      const activeRetainer = await retainerService.getSingleRetainer(db, accountID, retainerID);
+      // Validate before querying: a malformed id must not reach SQL, and an
+      // unknown/other-tenant id is a clean 404 rather than a generic failure.
+      const retainerId = Number(retainerID);
+      if (!Number.isInteger(retainerId) || retainerId <= 0) {
+         return res.send({ message: 'No matching retainer record found.', status: 404 });
+      }
+      const activeRetainer = await retainerService.getSingleRetainer(db, accountID, retainerId);
 
-      if (!activeRetainer.length) throw new Error('No matching retainer record found.');
+      if (!activeRetainer.length) {
+         return res.send({ message: 'No matching retainer record found.', status: 404 });
+      }
 
       const activeRetainerData = {
          activeRetainer,
@@ -137,7 +147,7 @@ retainerRouter.route('/getActiveRetainers/:customerID/:accountID/:userID').get(a
 
 module.exports = retainerRouter;
 
-const sendUpdatedTableWith200Response = async (db, res, accountID) => {
+const sendUpdatedTableWith200Response = async (db, res, accountID, message = 'Successfully created new retainer.') => {
    // Get all retainers
    const activeRetainers = await retainerService.getActiveRetainers(db, accountID);
 
@@ -149,7 +159,7 @@ const sendUpdatedTableWith200Response = async (db, res, accountID) => {
 
    res.send({
       accountRetainersList: { activeRetainerData },
-      message: 'Successfully created new retainer.',
+      message,
       status: 200
    });
 };

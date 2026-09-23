@@ -1,15 +1,21 @@
 const pLimit = require('p-limit');
-const { matchCustomer } = require('../../ai_integrations/customerMatching');
+const { matchCustomer, NEEDS_REVIEW_TIER } = require('../../ai_integrations/customerMatching');
 const { inferCategorization } = require('../../ai_integrations/categoryInference');
 const { loadCustomerHistoricalPatterns, pickJobFromHistory, pickBillableFromHistory } = require('../../ai_integrations/customerHistoricalPatterns');
 const { matchEmployee } = require('../../utils/employeeMatching');
-const { redactRowForAi } = require('../../utils/piiRedactor');
+const { redactRowForAi, _knownNamesFromCatalogs } = require('../../utils/piiRedactor');
+const { canonicalNameKey } = require('../../utils/fuzzyMatch');
+const { isNonWorkEntry } = require('../../timeTrackerValidation/nonWorkEntries');
 const { addNewTransaction } = require('../transactions/sharedTransactionFunctions');
+const { loadInternalCustomerIds } = require('./internal-customers');
 
 const AUTO_INSERT_THRESHOLD = Number(process.env.AUTO_INSERT_CONFIDENCE_THRESHOLD || 0.85);
 const FUZZY_HIGH_THRESHOLD = Number(process.env.CUSTOMER_FUZZY_HIGH_THRESHOLD || 0.90);
 const CONCURRENCY = Number(process.env.AUTO_INGEST_CONCURRENCY || 8);
 const FEW_SHOT_LIMIT = Number(process.env.FEW_SHOT_LIMIT || 5);
+// A search name becomes a reviewer-confirmed alias once reviewers have billed
+// it to the same customer at least this many times and never to another one.
+const MIN_ALIAS_CONFIRMATIONS = Number(process.env.CUSTOMER_ALIAS_MIN_CONFIRMATIONS || 2);
 
 const HOLD_REASONS = Object.freeze({
    NO_MATCHING_CUSTOMER: 'no_matching_customer',
@@ -20,12 +26,32 @@ const HOLD_REASONS = Object.freeze({
    EMPLOYEE_NOT_MATCHED: 'employee_not_matched',
    BEDROCK_ERROR: 'bedrock_error',
    AI_COST_CAP_REACHED: 'ai_cost_cap_reached',
-   MISSING_CURRENT_YEAR_JOB: 'missing_current_year_job'
+   MISSING_CURRENT_YEAR_JOB: 'missing_current_year_job',
+   // The tracker's customer name matched more than one plausible customer (or
+   // only on a single shared token). Candidate IDs are kept in ai_payload.
+   AMBIGUOUS_CUSTOMER_MATCH: 'ambiguous_customer_match'
 });
+
+// Thrown inside the insert transaction when another run (or a reviewer) has
+// already processed the entry; the transaction rolls back and the entry is
+// reported as skipped — never held, never inserted twice.
+const ALREADY_PROCESSED = 'timesheet_entry_already_processed';
+
+const _customerSearchName = entry =>
+   (entry && (entry.company_name ||
+      (entry.first_name && entry.last_name ? `${entry.first_name} ${entry.last_name}` : null) ||
+      entry.first_name ||
+      entry.last_name)) ||
+   null;
 
 const _loadCatalogs = async (db, accountId) => {
    const [customers, employees, categories, jobTypes, gwds, account] = await Promise.all([
-      db('customers').where({ account_id: accountId, is_customer_active: true }).select('customer_id', 'business_name', 'customer_name', 'display_name'),
+      // Deterministic order: matchCustomer's fuzzy tier depends only on
+      // (query, label) now (see src/utils/fuzzyMatch.js), but an unordered
+      // SELECT still lets Postgres return the catalog in a different physical
+      // row order between runs, which made the AI payload's candidate order —
+      // and which duplicate-name candidate is reported first — nondeterministic.
+      db('customers').where({ account_id: accountId, is_customer_active: true }).orderBy('customer_id').select('customer_id', 'business_name', 'customer_name', 'display_name'),
       db('users').where({ account_id: accountId, is_user_active: true }).select('user_id', 'display_name', 'billing_rate', 'cost_rate'),
       db('customer_job_categories').where({ account_id: accountId, is_job_category_active: true }).select('customer_job_category_id', 'customer_job_category'),
       db('customer_job_types').where({ account_id: accountId, is_job_type_active: true }).select('job_type_id', 'customer_job_category_id', 'job_description'),
@@ -42,6 +68,44 @@ const _loadCatalogs = async (db, accountId) => {
          job_types: jobTypes.map(j => ({ id: j.job_type_id, label: j.job_description, category_id: j.customer_job_category_id }))
       }
    };
+};
+
+// Search names that human reviewers have repeatedly — and only ever — billed to
+// one customer (manual submissions, and reprocesses where the reviewer picked
+// the customer). matchCustomer uses these ONLY to break a near-tie between
+// fuzzy leaders that already agree on >= 2 name tokens, e.g. "Kimmel Financial
+// Advisors" -> Kimmel Financial Partners (tied at 0.95 with "Jonathon and Kathy
+// Kimmel"; reviewers have confirmed the former 100+ times).
+const _loadConfirmedAliases = async (db, accountId) => {
+   try {
+      const rows = await db('timesheet_entries as te')
+         .join('ai_time_tracker_transaction_suggestions as s', 's.timesheet_entry_id', 'te.timesheet_entry_id')
+         .join('ai_category_training_examples as a', 'a.timesheet_entry_id', 'te.timesheet_entry_id')
+         .join('customer_transactions as t', function joinTxn() {
+            this.on('t.transaction_id', '=', 'a.transaction_id').andOn('t.account_id', '=', 'te.account_id');
+         })
+         .where('te.account_id', accountId)
+         .where(q => q.where('s.status', 'applied').orWhereRaw("s.ai_payload->'customer'->>'tier' = 'reviewer_override'"))
+         .select('te.company_name', 'te.first_name', 'te.last_name', 't.customer_id');
+      const tallies = new Map();
+      for (const row of rows) {
+         const key = canonicalNameKey(_customerSearchName(row));
+         if (!key || row.customer_id == null) continue;
+         const perCustomer = tallies.get(key) || new Map();
+         perCustomer.set(row.customer_id, (perCustomer.get(row.customer_id) || 0) + 1);
+         tallies.set(key, perCustomer);
+      }
+      const aliases = new Map();
+      for (const [key, perCustomer] of tallies) {
+         if (perCustomer.size !== 1) continue;
+         const [[customerId, count]] = [...perCustomer.entries()];
+         if (count >= MIN_ALIAS_CONFIRMATIONS) aliases.set(key, customerId);
+      }
+      return aliases;
+   } catch (e) {
+      console.error('[auto-ingest] confirmed-alias load failed (continuing without aliases):', e.message);
+      return new Map();
+   }
 };
 
 const _loadFewShots = async (db, accountId) => {
@@ -115,16 +179,21 @@ const _findGwdByLabel = (refData, label) => {
 //   3. Word-overlap between (category + notes) and parent-job descriptions.
 //   4. Most-recent active parent job.
 //
-// AFTER picking via 2/3/4, if the chosen job is year-prefixed AND the notes/category
-// did NOT mention a year, swap to the same job family for the **transaction's tax year**
-// (transaction_date_year - 1). Tax-prep work is year-driven and lags by one year:
-// transactions logged in calendar 2026 are billing 2025 returns; transactions logged
-// during Oct-Dec 2025 (on-extension work) are billing 2024 returns. Use the transaction
-// date, NOT today, so historical reprocesses stay correct.
+// AFTER picking via 2/3/4:
+//   - notes named a year but the customer has NO job for it (step 1 found none):
+//     if the pick is a job for a DIFFERENT year, HOLD (missing_current_year_job,
+//     detail names the requested year) — never fall back to another year's job.
+//     Year-less jobs (monthly bookkeeping, consulting) are still fine.
+//   - notes named no year: if the pick is year-prefixed for an OLD year, swap to
+//     the same job family for the **transaction's tax year** (transaction_date_year
+//     - 1; tax-prep work lags by a year, e.g. work logged in 2026 bills 2025
+//     returns). No same-family job for that year -> HOLD (missing_current_year_job).
+//     Uses the transaction date, NOT today, so historical reprocesses stay correct.
 //
 // Child jobs are NEVER assigned — they exist only as internal tracking rows.
 const _normalizeForJobMatch = s => (typeof s === 'string' ? s.trim().toLowerCase() : '');
 const _stripYearFromJob = s => _normalizeForJobMatch(s).replace(/\b20\d{2}\b\s*/, '').trim();
+const _jobYear = job => ((((job && job.job_description) || '').match(/\b(20\d{2})\b/)) || [])[1] || null;
 
 const _taxYearForDate = d => {
    if (!d) return String(new Date().getUTCFullYear() - 1);
@@ -137,12 +206,13 @@ const _taxYearForDate = d => {
 // for an OLD year (≠ this transaction's tax year), look for a same-family job for the
 // transaction's tax year. Returns:
 //   { jobId }                   — swap succeeded OR no swap needed
-//   { jobId: null, missingYear } — stale year but customer has NO current-year same-family job;
-//                                   caller should hold the entry rather than billing the wrong year
+//   { jobId: null, missingYear, family, fallbackJobId, fallbackJobYear }
+//                               — stale year but customer has NO current-year same-family
+//                                 job; caller should hold rather than bill the wrong year
 const _resolveTaxYearSwap = (candidateJobId, patterns, transactionDate) => {
    const candidate = patterns.parentJobs.find(j => j.customer_job_id === candidateJobId);
    if (!candidate || !candidate.job_description) return { jobId: candidateJobId };
-   const candYear = (candidate.job_description.match(/\b(20\d{2})\b/) || [])[1];
+   const candYear = _jobYear(candidate);
    if (!candYear) return { jobId: candidateJobId };
    const ty = _taxYearForDate(transactionDate);
    if (candYear === ty) return { jobId: candidateJobId };
@@ -154,17 +224,27 @@ const _resolveTaxYearSwap = (candidateJobId, patterns, transactionDate) => {
    );
    if (currentYearJob) return { jobId: currentYearJob.customer_job_id };
    // No current-year same-family job exists for this customer — hold rather than bill wrong year.
-   return { jobId: null, missingYear: ty, family: candidate.job_description };
+   return { jobId: null, missingYear: ty, family: candidate.job_description, fallbackJobId: candidateJobId, fallbackJobYear: candYear };
 };
 
-const _findCustomerJobId = async (db, accountId, customerId, entry = null, { workDescId = null, patterns = null } = {}) => {
-   if (!customerId) return null;
+/**
+ * Resolve the parent job an auto-inserted row bills to.
+ * @returns {Promise<{ jobId: number|null, holdReason?: string, holdDetail?: object }>}
+ *   jobId null => the caller must HOLD the entry with holdReason; holdDetail
+ *   (no PII — years and opaque job ids only) is persisted into ai_payload.hold.
+ */
+const _resolveCustomerJob = async (db, accountId, customerId, entry = null, { workDescId = null, patterns = null } = {}) => {
+   if (!customerId) {
+      return { jobId: null, holdReason: HOLD_REASONS.MISSING_REQUIRED_FIELD, holdDetail: { reason: 'no_customer' } };
+   }
 
    const effectivePatterns = patterns || (await loadCustomerHistoricalPatterns(db, accountId, customerId));
-   if (!effectivePatterns || !effectivePatterns.parentJobs || !effectivePatterns.parentJobs.length) return null;
+   if (!effectivePatterns || !effectivePatterns.parentJobs || !effectivePatterns.parentJobs.length) {
+      return { jobId: null, holdReason: HOLD_REASONS.MISSING_REQUIRED_FIELD, holdDetail: { reason: 'customer_has_no_open_parent_job' } };
+   }
 
    const sourceText = [entry && entry.category, entry && entry.notes].filter(Boolean).join(' ');
-   const yearMatches = (sourceText.match(/\b(20\d{2})\b/g) || []);
+   const yearMatches = [...new Set(sourceText.match(/\b(20\d{2})\b/g) || [])];
    const notesHaveYear = yearMatches.length > 0;
 
    // 1. Year-specific match (notes explicitly mention a year)
@@ -176,7 +256,7 @@ const _findCustomerJobId = async (db, accountId, customerId, entry = null, { wor
          if (workDescId) {
             const hist = pickJobFromHistory(effectivePatterns, workDescId);
             if (hist && yearJobs.some(j => j.customer_job_id === hist.customer_job_id)) {
-               return hist.customer_job_id;
+               return { jobId: hist.customer_job_id };
             }
          }
          const wordsOf = s => _normalizeForJobMatch(s).split(/[\s,.;:!?()\[\]"'/-]+/).filter(w => w.length >= 4 && !/^20\d{2}$/.test(w));
@@ -185,9 +265,9 @@ const _findCustomerJobId = async (db, accountId, customerId, entry = null, { wor
             const scored = yearJobs
                .map(j => ({ j, overlap: wordsOf(j.job_description).filter(w => sw.includes(w)).length }))
                .sort((a, b) => b.overlap - a.overlap);
-            return scored[0].j.customer_job_id;
+            return { jobId: scored[0].j.customer_job_id };
          }
-         return yearJobs[0].customer_job_id;
+         return { jobId: yearJobs[0].customer_job_id };
       }
    }
 
@@ -204,7 +284,7 @@ const _findCustomerJobId = async (db, accountId, customerId, entry = null, { wor
          if (workDescId) {
             const hist = pickJobFromHistory(effectivePatterns, workDescId);
             if (hist && monthlyJobs.some(j => j.customer_job_id === hist.customer_job_id)) {
-               return hist.customer_job_id;
+               return { jobId: hist.customer_job_id };
             }
          }
          // Otherwise pick the monthly job with the most aggregate historical volume
@@ -219,7 +299,7 @@ const _findCustomerJobId = async (db, accountId, customerId, entry = null, { wor
          for (const [id, n] of monthlyAgg.entries()) {
             if (!best || n > best.n) best = { id, n };
          }
-         return best ? best.id : monthlyJobs[0].customer_job_id;
+         return { jobId: best ? best.id : monthlyJobs[0].customer_job_id };
       }
    }
 
@@ -258,28 +338,61 @@ const _findCustomerJobId = async (db, accountId, customerId, entry = null, { wor
       candidateJobId = sortedByRecent ? sortedByRecent.customer_job_id : effectivePatterns.parentJobs[0].customer_job_id;
    }
 
-   // POST-PICK adjustment: if notes had no year and candidate is year-prefixed but for an
-   // old year, swap to the same family's current-tax-year job. If no current-year same-family
-   // job exists for this customer (e.g. JKA hasn't created the 2025 PITR job yet), return null
-   // so the caller HOLDS the entry rather than silently billing the wrong year.
-   if (!notesHaveYear) {
-      const swap = _resolveTaxYearSwap(candidateJobId, effectivePatterns, entry && entry.date);
-      return swap.jobId; // may be null → caller should hold with MISSING_CURRENT_YEAR_JOB
+   if (notesHaveYear) {
+      // The notes named a year and step 1 found no job for it. Falling back to a job
+      // for ANOTHER year would bill the wrong return — hold for a reviewer instead.
+      const candidate = effectivePatterns.parentJobs.find(j => j.customer_job_id === candidateJobId);
+      const candidateYear = _jobYear(candidate);
+      if (candidateYear && !yearMatches.includes(candidateYear)) {
+         return {
+            jobId: null,
+            holdReason: HOLD_REASONS.MISSING_CURRENT_YEAR_JOB,
+            holdDetail: {
+               reason: 'no_job_for_year_named_in_notes',
+               requested_tax_year: yearMatches.join(', '),
+               year_source: 'notes',
+               fallback_job_id: candidateJobId,
+               fallback_job_year: candidateYear
+            }
+         };
+      }
+      return { jobId: candidateJobId };
    }
-   return candidateJobId;
+
+   // No year in notes: if the pick is year-prefixed for an old year, swap to the same
+   // family's current-tax-year job. If none exists (e.g. JKA hasn't created the 2025
+   // PITR job yet), HOLD rather than silently billing the wrong year.
+   const swap = _resolveTaxYearSwap(candidateJobId, effectivePatterns, entry && entry.date);
+   if (swap.jobId) return { jobId: swap.jobId };
+   return {
+      jobId: null,
+      holdReason: HOLD_REASONS.MISSING_CURRENT_YEAR_JOB,
+      holdDetail: {
+         reason: 'no_job_for_transaction_tax_year',
+         requested_tax_year: swap.missingYear,
+         year_source: 'transaction_date',
+         fallback_job_id: swap.fallbackJobId,
+         fallback_job_year: swap.fallbackJobYear
+      }
+   };
 };
 
 // Strip name/label fields before persisting. ai_payload must not contain
-// any PII strings — only opaque IDs, scores, and tiers.
+// any PII strings — only opaque IDs, scores, tiers and fixed reason codes.
 const _safeCustomerForPayload = customer => {
    if (!customer) return null;
-   return {
+   const out = {
       customerId: customer.customerId,
       score: customer.score,
       tier: customer.tier,
       reason: customer.reason
       // intentionally omits: displayName, candidates[*].label
    };
+   if (customer.tier === NEEDS_REVIEW_TIER && Array.isArray(customer.candidates)) {
+      // Ambiguous match: keep the candidate IDs so the reviewer can pick one.
+      out.candidates = customer.candidates.map(c => ({ id: c.id, score: c.score }));
+   }
+   return out;
 };
 
 const _safeSuggestionForPayload = suggestion => {
@@ -294,16 +407,18 @@ const _safeSuggestionForPayload = suggestion => {
    };
 };
 
-const _safePayload = (suggestion, customer) => {
-   if (!suggestion && !customer) return null;
-   return JSON.stringify({
+const _safePayload = (suggestion, customer, holdDetail = null) => {
+   if (!suggestion && !customer && !holdDetail) return null;
+   const payload = {
       suggestion: _safeSuggestionForPayload(suggestion),
       customer: _safeCustomerForPayload(customer)
-   });
+   };
+   if (holdDetail) payload.hold = holdDetail;
+   return JSON.stringify(payload);
 };
 
-const _writeSuggestion = async (db, { accountId, entryId, sanitizedNotes, suggestion, suggestedCustomer, status }) => {
-   const safe = _safePayload(suggestion, suggestedCustomer);
+const _writeSuggestion = async (db, { accountId, entryId, sanitizedNotes, suggestion, suggestedCustomer, status, holdDetail = null }) => {
+   const safe = _safePayload(suggestion, suggestedCustomer, holdDetail);
    await db('ai_time_tracker_transaction_suggestions')
       .insert({
          account_id: accountId,
@@ -337,26 +452,35 @@ const _writeSuggestion = async (db, { accountId, entryId, sanitizedNotes, sugges
       });
 };
 
-const _holdEntry = async (db, { entryId, accountId, holdReason, suggestion, suggestedCustomer, employeeMatch = null, sanitizedNotes }) => {
+// Returns true when the entry was held; false when it had already been
+// processed (by a concurrent run or a reviewer) — an applied entry is never
+// downgraded back to a hold.
+const _holdEntry = async (db, { entryId, accountId, holdReason, suggestion, suggestedCustomer, employeeMatch = null, sanitizedNotes, holdDetail = null }) => {
+   let held = false;
    await db.transaction(async trx => {
-      await trx('timesheet_entries')
-         .where({ timesheet_entry_id: entryId, account_id: accountId })
+      const updated = await trx('timesheet_entries')
+         .where({ timesheet_entry_id: entryId, account_id: accountId, is_processed: false })
          .update({
             hold_reason: holdReason,
             ai_attempted_at: new Date(),
-            ai_payload: _safePayload(suggestion, suggestedCustomer),
+            ai_payload: _safePayload(suggestion, suggestedCustomer, holdDetail),
             suggested_customer_id: suggestedCustomer ? suggestedCustomer.customerId : null,
             matched_user_id: employeeMatch ? employeeMatch.userId : null
-         });
+         })
+         .returning('timesheet_entry_id');
+      if (!updated.length) return;
+      held = true;
       await _writeSuggestion(trx, {
          accountId,
          entryId,
          sanitizedNotes,
          suggestion,
          suggestedCustomer,
-         status: 'pending_review'
+         status: 'pending_review',
+         holdDetail
       });
    });
+   return held;
 };
 
 const _toISODate = d => {
@@ -385,12 +509,18 @@ const _isLikelyNonBillable = entry => {
 };
 
 // Decide whether a new auto-insert should be billable. Order:
+//   0a. Non-work time (vacation / PTO / holiday / sick / lunch / out of office /
+//       personal) → false, always. Never billable, whatever history says.
+//   0b. Internal customer (the firm's own entities, see internal-customers.js) → false,
+//       always. The hours are still recorded for analytics.
 //   1. Strong admin/payment regex match → false (ignores historical signal — back-office work
 //      shouldn't be billed even if past data shows it was).
 //   2. Customer history for this work_desc strongly favors non-billable (e.g. retainer client) → false.
 //   3. Customer history for this work_desc strongly favors billable → true.
 //   4. Default → true (safer to bill and let reviewer flip than to silently miss revenue).
-const _decideBillable = ({ entry, suggestion, customerPatterns }) => {
+const _decideBillable = ({ entry, suggestion, customerPatterns, internalCustomer = false }) => {
+   if (isNonWorkEntry(entry)) return false;
+   if (internalCustomer) return false;
    if (_isLikelyNonBillable(entry)) return false;
    const workDescId = suggestion && suggestion.suggested_general_work_description_id;
    const fromHistory = pickBillableFromHistory(customerPatterns, workDescId);
@@ -399,32 +529,95 @@ const _decideBillable = ({ entry, suggestion, customerPatterns }) => {
    return true;
 };
 
-const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, customerMatch, employeeMatch, sanitizedNotes, customerPatterns = null, overrides = null }) => {
+// The firm bills time in 6-minute increments, ROUNDED UP (0.1h units) — the
+// same rule the frontend's TimeTrackingIncrements.js already applies
+// (Math.ceil(minutes / 6)). quantity and total are derived from the SAME
+// rounded quantity, in integer cents/hundredths so the invoice's qty × rate
+// always equals the line total. (customer_transactions.quantity is
+// numeric(10,2); rounding hours only in the DB while totalling from the
+// unrounded value made 4.4k prod rows disagree.)
+// Examples: 1 min -> ceil(1/6)=1 -> 0.1h; 68 min -> ceil(68/6)=12 -> 1.2h;
+// 60 min -> ceil(60/6)=10 -> 1.0h.
+const _computeTimeAmounts = (minutes, rate) => {
+   const quantityHundredths = Math.ceil(Number(minutes) / 6) * 10;
+   const rateCents = Math.round(Number(rate || 0) * 100);
+   const totalCents = Math.round((quantityHundredths * rateCents) / 100);
+   return { quantity: quantityHundredths / 100, unitCost: rateCents / 100, totalTransaction: totalCents / 100 };
+};
+
+// Resolve which employee a row should be billed to. Order: (1) an explicit
+// reviewer override always wins; (2) the VALIDATED entry.user_id — the
+// tracker owner, set at upload time from the authenticated/authorized owner,
+// never from free-text — is the source of truth whenever present; (3) only a
+// legacy pre-validation row with no user_id at all falls back to matching the
+// free-text employee_name string, which is unsafe when two employees share a
+// display name (matchEmployee itself refuses that case rather than guessing
+// — see src/utils/employeeMatching.js).
+const _resolveEmployeeMatch = (entry, catalogs, ov = {}) => {
+   if (ov && ov.logged_for_user_id) {
+      const emp = catalogs.employees.find(e => e.user_id === Number(ov.logged_for_user_id));
+      return emp ? { userId: emp.user_id, displayName: emp.display_name } : null;
+   }
+   if (entry && entry.user_id != null) {
+      const emp = catalogs.employees.find(e => Number(e.user_id) === Number(entry.user_id));
+      return emp ? { userId: emp.user_id, displayName: emp.display_name } : null;
+   }
+   return matchEmployee(entry && entry.employee_name, catalogs.employees);
+};
+
+const _holdError = (holdReason, holdDetail = null) => {
+   const err = new Error(holdReason);
+   err.holdReason = holdReason;
+   err.holdDetail = holdDetail;
+   return err;
+};
+
+const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, customerMatch, employeeMatch, sanitizedNotes, customerPatterns = null, overrides = null, internalCustomerIds = null }) => {
    const ov = overrides || {};
    // Reviewer overrides win when present — otherwise fall back to deterministic picker
-   const customerJobId = ov.customer_job_id
-      ? Number(ov.customer_job_id)
-      : await _findCustomerJobId(db, accountId, customerMatch.customerId, entry, {
+   const resolution = ov.customer_job_id
+      ? { jobId: Number(ov.customer_job_id) }
+      : await _resolveCustomerJob(db, accountId, customerMatch.customerId, entry, {
            workDescId: suggestion && suggestion.suggested_general_work_description_id,
            patterns: customerPatterns
         });
-   if (!customerJobId) {
-      // Distinguish "no jobs at all" from "stale-year, missing current-year same-family job".
-      // The latter is the common case during early tax season: client doesn't have e.g. 2025
-      // PITR set up yet. Hold for review with a clear hold_reason.
-      const hasAnyParentJob = customerPatterns && customerPatterns.parentJobs && customerPatterns.parentJobs.length > 0;
-      const err = new Error(hasAnyParentJob ? 'missing_current_year_job' : 'no_customer_job_for_auto_insert');
-      err.holdReason = hasAnyParentJob ? HOLD_REASONS.MISSING_CURRENT_YEAR_JOB : HOLD_REASONS.MISSING_REQUIRED_FIELD;
-      throw err;
+   if (!resolution.jobId) {
+      throw _holdError(resolution.holdReason || HOLD_REASONS.MISSING_REQUIRED_FIELD, resolution.holdDetail || null);
+   }
+   const customerJobId = resolution.jobId;
+
+   const minutesValue = ov.duration_minutes != null ? Number(ov.duration_minutes) : Number(entry.duration);
+   if (!Number.isFinite(minutesValue) || minutesValue <= 0) {
+      // Legacy rows (pre-validation) include negative durations; never bill them.
+      throw _holdError(HOLD_REASONS.MISSING_REQUIRED_FIELD, { reason: 'invalid_duration', duration_minutes: Number.isFinite(minutesValue) ? minutesValue : null });
    }
    const employee = (await db('users').where({ user_id: employeeMatch.userId }).select('billing_rate').first()) || {};
-   const minutesValue = ov.duration_minutes != null ? Number(ov.duration_minutes) : Number(entry.duration || 0);
-   const hours = minutesValue / 60;
-   const unitCost = Number(employee.billing_rate || 0);
-   const totalTransaction = Math.round(hours * unitCost * 100) / 100;
+   const { quantity, unitCost, totalTransaction } = _computeTimeAmounts(minutesValue, employee.billing_rate);
    const txnDate = ov.transaction_date ? _toISODate(ov.transaction_date) : _toISODate(entry.date);
+   const internalCustomer = Boolean(internalCustomerIds && internalCustomerIds.has(Number(customerMatch.customerId)));
+   const isTransactionBillable = _decideBillable({ entry, suggestion, customerPatterns, internalCustomer });
 
    await db.transaction(async trx => {
+      // Claim the entry FIRST, inside the same transaction as the insert. The row
+      // lock + `is_processed = false` predicate means two concurrent runs (upload
+      // kickoff + "Process pending", a double-clicked reprocess, ...) cannot both
+      // insert: the loser updates 0 rows and rolls back.
+      const claimed = await trx('timesheet_entries')
+         .where({ timesheet_entry_id: entry.timesheet_entry_id, account_id: accountId, is_processed: false, is_deleted: false })
+         .update({
+            is_processed: true,
+            hold_reason: null,
+            ai_attempted_at: new Date(),
+            matched_user_id: employeeMatch.userId,
+            suggested_customer_id: customerMatch.customerId
+         })
+         .returning('timesheet_entry_id');
+      if (!claimed.length) {
+         const err = new Error(ALREADY_PROCESSED);
+         err.code = ALREADY_PROCESSED;
+         throw err;
+      }
+
       await addNewTransaction(trx, {
          accountID: accountId,
          customerID: customerMatch.customerId,
@@ -435,11 +628,11 @@ const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, cust
          selectedGeneralWorkDescriptionID: suggestion.suggested_general_work_description_id,
          detailedJobDescription: entry.notes || '',
          transactionDate: txnDate,
-         transactionType: 'time',
-         quantity: hours,
+         transactionType: 'Time',
+         quantity,
          unitCost,
          totalTransaction,
-         isTransactionBillable: _decideBillable({ entry, suggestion, customerPatterns }),
+         isTransactionBillable,
          isInAdditionToMonthlyCharge: false,
          loggedByUserID: userId,
          note: '',
@@ -457,16 +650,6 @@ const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, cust
          selectedGeneralWorkDescription: null
       });
 
-      await trx('timesheet_entries')
-         .where({ timesheet_entry_id: entry.timesheet_entry_id, account_id: accountId })
-         .update({
-            is_processed: true,
-            hold_reason: null,
-            ai_attempted_at: new Date(),
-            matched_user_id: employeeMatch.userId,
-            suggested_customer_id: customerMatch.customerId
-         });
-
       await _writeSuggestion(trx, {
          accountId,
          entryId: entry.timesheet_entry_id,
@@ -480,6 +663,9 @@ const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, cust
 
 const _gateDecision = ({ employeeMatch, customerMatch, suggestion }) => {
    if (!employeeMatch) return { action: 'hold', reason: HOLD_REASONS.EMPLOYEE_NOT_MATCHED };
+   if (customerMatch && customerMatch.tier === NEEDS_REVIEW_TIER) {
+      return { action: 'hold', reason: HOLD_REASONS.AMBIGUOUS_CUSTOMER_MATCH };
+   }
    if (!customerMatch || !customerMatch.customerId) {
       return { action: 'hold', reason: HOLD_REASONS.NO_MATCHING_CUSTOMER };
    }
@@ -502,6 +688,27 @@ const _gateDecision = ({ employeeMatch, customerMatch, suggestion }) => {
    return { action: 'auto_insert', reason: null };
 };
 
+const _skipped = (entryId, costUsd = 0) => ({ entryId, decision: 'skip', reason: 'already_processed', costUsd });
+
+// Customer patterns (parent jobs, history, redacted few-shots) are loaded once
+// per customer per batch — the few-shot redaction calls Comprehend, so this
+// keeps that cost proportional to distinct customers, not rows.
+const _customerPatternsFor = (db, accountId, customerId, catalogs) => {
+   const load = () => loadCustomerHistoricalPatterns(db, accountId, customerId, { knownNames: catalogs.knownNames || [] });
+   const cache = catalogs.patternsCache;
+   if (!cache) return load();
+   if (!cache.has(customerId)) {
+      cache.set(
+         customerId,
+         load().catch(err => {
+            cache.delete(customerId);
+            throw err;
+         })
+      );
+   }
+   return cache.get(customerId);
+};
+
 const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, costSoFarUsd = 0, overrides = null }) => {
    // Reviewer overrides (from the "Rerun AI Processing" path) replace the AI's
    // matching/inference for the fields the reviewer corrected. Fields not in
@@ -509,17 +716,11 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
    // the broken field instead of rebuilding the whole row by hand.
    const ov = overrides || {};
 
-   let employeeMatch = null;
-   if (ov.logged_for_user_id) {
-      const emp = catalogs.employees.find(e => e.user_id === Number(ov.logged_for_user_id));
-      if (emp) employeeMatch = { userId: emp.user_id, displayName: emp.display_name };
-   } else {
-      employeeMatch = matchEmployee(entry.employee_name, catalogs.employees);
-   }
+   const employeeMatch = _resolveEmployeeMatch(entry, catalogs, ov);
 
    const cap = catalogs.account && catalogs.account.ai_daily_cost_cap_usd ? Number(catalogs.account.ai_daily_cost_cap_usd) : null;
    if (cap && costSoFarUsd >= cap) {
-      await _holdEntry(db, {
+      const held = await _holdEntry(db, {
          entryId: entry.timesheet_entry_id,
          accountId,
          holdReason: HOLD_REASONS.AI_COST_CAP_REACHED,
@@ -528,6 +729,7 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
          employeeMatch,
          sanitizedNotes: ''
       });
+      if (!held) return _skipped(entry.timesheet_entry_id);
       return { entryId: entry.timesheet_entry_id, decision: 'hold', reason: HOLD_REASONS.AI_COST_CAP_REACHED, costUsd: 0 };
    }
 
@@ -548,12 +750,7 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
       // Customer = company_name (business customer) OR first_name + last_name (individual customer).
       // entity is the EMPLOYER's business identity (which of the multi-business owner's entities the
       // employee was working FOR), NOT the customer. Don't ever look up customer from entity.
-      const customerSearchName =
-         entry.company_name ||
-         (entry.first_name && entry.last_name ? `${entry.first_name} ${entry.last_name}` : null) ||
-         entry.first_name ||
-         entry.last_name ||
-         null;
+      const customerSearchName = _customerSearchName(entry);
       if (customerSearchName) {
          customerMatch = await matchCustomer({
             searchName: customerSearchName,
@@ -561,10 +758,11 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
             accountId,
             userId,
             timesheetEntryId: entry.timesheet_entry_id,
-            db
+            db,
+            confirmedAliases: catalogs.confirmedAliases || null
          });
       }
-      if (!customerMatch.customerId && entry.first_name && entry.last_name) {
+      if (!customerMatch.customerId && customerMatch.tier !== NEEDS_REVIEW_TIER && entry.first_name && entry.last_name) {
          customerMatch.reason = 'no_match_first_last_present';
          customerMatch.tier = 'new_individual';
       }
@@ -578,8 +776,9 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
    if (employeeMatch && customerMatch.customerId) {
       // Pull this customer's historical patterns once. Used to (a) bias the AI
       // toward the customer's actual jobs + past notes patterns, and (b) drive
-      // the deterministic post-AI job assignment in _autoInsertEntry.
-      customerPatterns = await loadCustomerHistoricalPatterns(db, accountId, customerMatch.customerId);
+      // the deterministic post-AI job assignment in _autoInsertEntry. Past notes
+      // are PII-redacted against the account's known names before use.
+      customerPatterns = await _customerPatternsFor(db, accountId, customerMatch.customerId, catalogs);
 
       if (ov.general_work_description_id) {
          // Reviewer hand-picked the work description — skip the AI call entirely.
@@ -637,33 +836,44 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
             employeeMatch,
             sanitizedNotes,
             customerPatterns,
-            overrides: ov
+            overrides: ov,
+            internalCustomerIds: catalogs.internalCustomerIds || null
          });
          return { entryId: entry.timesheet_entry_id, decision: 'auto_insert', reason: null, costUsd: suggestionCost };
       } catch (err) {
+         if (err.code === ALREADY_PROCESSED) return _skipped(entry.timesheet_entry_id, suggestionCost);
+         if (!err.holdReason) {
+            // Unexpected insert failure (job/customer guard, DB error). The raw message can
+            // carry data values, so it is logged — never persisted into ai_payload.
+            console.error(`[auto-ingest] auto-insert failed for entry ${entry.timesheet_entry_id}: ${err.message}`);
+         }
          const holdReason = err.holdReason || HOLD_REASONS.MISSING_REQUIRED_FIELD;
-         await _holdEntry(db, {
+         const held = await _holdEntry(db, {
             entryId: entry.timesheet_entry_id,
             accountId,
             holdReason,
             suggestion,
             suggestedCustomer: customerMatch,
             employeeMatch,
-            sanitizedNotes
+            sanitizedNotes,
+            holdDetail: err.holdDetail || (err.holdReason ? null : { reason: 'auto_insert_failed' })
          });
+         if (!held) return _skipped(entry.timesheet_entry_id, suggestionCost);
          return { entryId: entry.timesheet_entry_id, decision: 'hold', reason: holdReason, costUsd: suggestionCost };
       }
    }
 
-   await _holdEntry(db, {
+   const held = await _holdEntry(db, {
       entryId: entry.timesheet_entry_id,
       accountId,
       holdReason: decision.reason,
       suggestion,
-      suggestedCustomer: customerMatch.customerId ? customerMatch : null,
+      // Ambiguous matches carry no customerId but keep their candidate IDs for review.
+      suggestedCustomer: customerMatch.customerId || customerMatch.tier === NEEDS_REVIEW_TIER ? customerMatch : null,
       employeeMatch,
       sanitizedNotes
    });
+   if (!held) return _skipped(entry.timesheet_entry_id, suggestionCost);
    return {
       entryId: entry.timesheet_entry_id,
       decision: 'hold',
@@ -674,16 +884,25 @@ const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, 
 };
 
 const processEntries = async ({ db, accountId, userId, entryIds, overridesByEntryId = null }) => {
+   const empty = { processed: 0, autoInserted: 0, held: 0, skipped: 0, totalCostUsd: 0, perEntry: [] };
    if (!Array.isArray(entryIds) || !entryIds.length) {
-      return { processed: 0, autoInserted: 0, held: 0, totalCostUsd: 0, perEntry: [] };
+      return empty;
    }
    const entries = await db('timesheet_entries')
       .where({ account_id: accountId })
       .whereIn('timesheet_entry_id', entryIds)
       .where('is_processed', false)
+      .where('is_deleted', false)
       .select('*');
+   if (!entries.length) {
+      return empty;
+   }
 
    const catalogs = await _loadCatalogs(db, accountId);
+   catalogs.knownNames = _knownNamesFromCatalogs(catalogs.customers, catalogs.employees);
+   catalogs.confirmedAliases = await _loadConfirmedAliases(db, accountId);
+   catalogs.internalCustomerIds = await loadInternalCustomerIds(db, accountId, { customers: catalogs.customers });
+   catalogs.patternsCache = new Map();
    const fewShots = await _loadFewShots(db, accountId);
 
    let costSoFar = await _todayDailyCostUsd(db, accountId);
@@ -699,8 +918,9 @@ const processEntries = async ({ db, accountId, userId, entryIds, overridesByEntr
                costSoFar += result.costUsd || 0;
                results.push(result);
             } catch (err) {
+               let held = true;
                try {
-                  await _holdEntry(db, {
+                  held = await _holdEntry(db, {
                      entryId: entry.timesheet_entry_id,
                      accountId,
                      holdReason: HOLD_REASONS.BEDROCK_ERROR,
@@ -711,7 +931,11 @@ const processEntries = async ({ db, accountId, userId, entryIds, overridesByEntr
                } catch (holdErr) {
                   console.error('[auto-ingest] hold-on-error fallback failed:', holdErr.message);
                }
-               results.push({ entryId: entry.timesheet_entry_id, decision: 'hold', reason: HOLD_REASONS.BEDROCK_ERROR, errorMessage: err.message });
+               results.push(
+                  held
+                     ? { entryId: entry.timesheet_entry_id, decision: 'hold', reason: HOLD_REASONS.BEDROCK_ERROR, errorMessage: err.message }
+                     : _skipped(entry.timesheet_entry_id)
+               );
             }
          })
       )
@@ -719,14 +943,22 @@ const processEntries = async ({ db, accountId, userId, entryIds, overridesByEntr
 
    const autoInserted = results.filter(r => r.decision === 'auto_insert').length;
    const held = results.filter(r => r.decision === 'hold').length;
-   return { processed: results.length, autoInserted, held, totalCostUsd: costSoFar, perEntry: results };
+   const skipped = results.filter(r => r.decision === 'skip').length;
+   return { processed: results.length, autoInserted, held, skipped, totalCostUsd: costSoFar, perEntry: results };
 };
 
 module.exports = {
    processEntries,
    processEntry,
    HOLD_REASONS,
+   ALREADY_PROCESSED,
    _gateDecision,
    _loadCatalogs,
-   _loadFewShots
+   _loadFewShots,
+   _loadConfirmedAliases,
+   _resolveCustomerJob,
+   _decideBillable,
+   _computeTimeAmounts,
+   _resolveEmployeeMatch,
+   _safePayload
 };

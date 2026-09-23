@@ -23,6 +23,123 @@ const fmtDateTime = d => {
    return dt.toISOString();
 };
 
+const toMs = d => {
+   if (d === null || d === undefined || d === '') return null;
+   const t = (d instanceof Date ? d : new Date(d)).getTime();
+   return Number.isNaN(t) ? null : t;
+};
+
+// ── created_at at the engine's precision ────────────────────────────────────
+// Postgres stores created_at to the MICROSECOND and the billing engine compares
+// it inside SQL (applyLastBillGate: `created_at > (SELECT created_at FROM
+// customer_invoices WHERE customer_invoice_id = <newest parent>)`, and ORDER BY
+// created_at for the newest statement / latest snapshot). node-postgres hands
+// the column back as a JS Date, which keeps only MILLISECONDS, so comparing
+// Dates here disagreed with the engine for rows created in the same millisecond
+// as the statement row: parent …:00.123100, write-off …:00.123900 → the engine
+// credits it on the next bill, the audit called it already billed.
+// account-audit-service therefore also selects `created_at::text AS
+// created_at_exact` for invoices, payments and write-offs. Postgres prints a
+// timestamp as 'YYYY-MM-DD HH24:MI:SS' plus up to six fractional digits with
+// trailing zeros dropped; padding the fraction to six digits yields a
+// fixed-width key whose string order is time order. When either row lacks the
+// field (synthetic rows in unit tests) the comparison falls back to the Dates.
+const EXACT_TIMESTAMP = /^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2}:\d{2})(?:\.(\d{1,6}))?$/;
+const exactCreatedAt = row => {
+   const raw = row ? row.created_at_exact : null;
+   if (typeof raw !== 'string') return null;
+   const m = EXACT_TIMESTAMP.exec(raw.trim());
+   return m ? `${m[1]} ${m[2]}.${(m[3] || '').padEnd(6, '0')}` : null;
+};
+const hasCreatedAt = row => exactCreatedAt(row) !== null || toMs(row ? row.created_at : null) !== null;
+
+/**
+ * Sign of (a.created_at − b.created_at) → -1 / 0 / 1, or null when either row
+ * has no created_at. Microsecond-exact when both rows carry created_at_exact.
+ */
+const compareCreatedAt = (a, b) => {
+   const ea = exactCreatedAt(a);
+   const eb = exactCreatedAt(b);
+   if (ea !== null && eb !== null) return ea === eb ? 0 : ea < eb ? -1 : 1;
+   const ma = toMs(a ? a.created_at : null);
+   const mb = toMs(b ? b.created_at : null);
+   if (ma === null || mb === null) return null;
+   return Math.sign(ma - mb);
+};
+
+// ORDER BY created_at ASC exactly as Postgres sorts it: a NULL created_at is the
+// largest value (ASC NULLS LAST, DESC NULLS FIRST). Swap the arguments for DESC.
+const createdAtAsc = (a, b) => {
+   const cmp = compareCreatedAt(a, b);
+   if (cmp !== null) return cmp;
+   const aMissing = !hasCreatedAt(a);
+   const bMissing = !hasCreatedAt(b);
+   if (aMissing === bMissing) return 0;
+   return aMissing ? 1 : -1;
+};
+
+// A statement (parent) row, exactly as the billing engine defines one in
+// getLastInvoiceDatesByCustomerID / getLastInvoiceMarkersByCustomerID:
+// parent_invoice_id IS NULL, or a legacy self-referencing row.
+const isStatementRow = i => !i.parent_invoice_id || Number(i.parent_invoice_id) === Number(i.customer_invoice_id);
+
+// DESC comparator with Postgres' default NULLS FIRST placement for DESC.
+const descNullsFirst = (aMs, bMs) => {
+   if (aMs === bMs) return 0;
+   if (aMs === null) return -1;
+   if (bMs === null) return 1;
+   return bMs - aMs;
+};
+
+/**
+ * The customer's newest statement — mirrors invoiceService.getLastInvoiceMarkersByCustomerID:
+ * statement rows ordered by invoice_date DESC, created_at DESC, customer_invoice_id DESC.
+ * Its created_at TIMESTAMP is the engine's payments / write-offs gate.
+ */
+const findNewestStatement = invoices => {
+   const statements = (invoices || []).filter(isStatementRow);
+   if (!statements.length) return null;
+   return statements.slice().sort((a, b) => {
+      const byDate = descNullsFirst(toMs(a.invoice_date), toMs(b.invoice_date));
+      if (byDate) return byDate;
+      const byCreated = createdAtAsc(b, a); // created_at DESC NULLS FIRST, microsecond-exact
+      if (byCreated) return byCreated;
+      return Number(b.customer_invoice_id) - Number(a.customer_invoice_id);
+   })[0];
+};
+
+/**
+ * STATEMENT GATE — mirrors invoiceService.applyLastBillGate.
+ *
+ * A payment or write-off is a NEXT-BILL item only when it was created strictly
+ * AFTER the newest statement row (created_at > newest parent's created_at).
+ * Rows entered on bill day BEFORE the run were already reflected on that
+ * statement (a job write-off netted into its charges, a payment/write-off
+ * snapshot absorbed into its beginning_balance); gating on the statement DATE
+ * (the old `created_at >= invoice_date` rule) pulled them onto the next bill a
+ * second time and re-credited the customer.
+ *
+ *   no statement yet            → every row is pending (never billed)
+ *   statement without created_at → legacy date gate (created_at >= invoice_date)
+ *
+ * Precision: the engine compares against the marker row's created_at inside
+ * Postgres, to the microsecond. The comparison here uses created_at_exact (see
+ * compareCreatedAt), so a row created in the statement's own millisecond lands
+ * on the same side of the gate as in the engine.
+ */
+const makeStatementGate = newestStatement => {
+   if (!newestStatement) return () => true;
+   if (!hasCreatedAt(newestStatement)) {
+      const statementDateMs = toMs(newestStatement.invoice_date);
+      if (statementDateMs === null) return () => true;
+      return row => {
+         const c = toMs(row.created_at);
+         return c !== null && c >= statementDateMs;
+      };
+   }
+   return row => compareCreatedAt(row, newestStatement) === 1;
+};
+
 const buildInvoiceChains = invoices => {
    const byId = new Map();
    invoices.forEach(inv => byId.set(inv.customer_invoice_id, inv));
@@ -38,12 +155,10 @@ const buildInvoiceChains = invoices => {
       if (!chain.parent && byId.has(chain.rootId)) {
          chain.parent = byId.get(chain.rootId);
       }
-      chain.snapshots.sort((a, b) => {
-         const aT = new Date(a.created_at).getTime();
-         const bT = new Date(b.created_at).getTime();
-         if (aT !== bT) return aT - bT;
-         return a.customer_invoice_id - b.customer_invoice_id;
-      });
+      // Oldest → newest, the reverse of the engine's ORDER BY created_at DESC,
+      // customer_invoice_id DESC (microsecond-exact, NULL created_at newest), so
+      // the last snapshot is the one the engine reads as the chain's latest.
+      chain.snapshots.sort((a, b) => createdAtAsc(a, b) || a.customer_invoice_id - b.customer_invoice_id);
    });
    return chains;
 };
@@ -56,10 +171,38 @@ const computePerInvoice = ({ chain, payments, writeoffs, transactions }) => {
    const linkedWriteoffs = writeoffs.filter(w => chainIds.has(w.customer_invoice_id));
    const linkedTransactions = transactions.filter(t => chainIds.has(t.customer_invoice_id));
 
+   // ISSUE-TIME PAYMENTS are already inside total_amount_due. Finalize stamps
+   // the uninvoiced payments received in the period onto the NEW PARENT row
+   // (customer_invoice_id = parent id) and issues the parent with
+   // total_amount_due = the engine's invoiceTotal, which already adds that
+   // paymentTotal (negative). Those payments were created before the parent
+   // row. Every later payment links to the child snapshot it creates
+   // (createPaymentCore, reversePayment), and a payment linked directly to a
+   // parent can be neither re-priced nor re-linked. Subtracting the issue-time
+   // payments again double-debited the chain: $100 of work less a $30 retainer
+   // payment is a correct $70 statement, but the audit expected $40 and raised
+   // a false invoice_remaining_drift.
+   //
+   // Issue-time = linked to the parent row itself AND created no later than it
+   // (the statement gate's boundary: only rows created strictly after the
+   // statement row are next-bill items). Payments on child snapshots, and any
+   // payment created after the parent, still move the remaining. A parent with
+   // no such payment (legacy parents whose total was not netted by stamped
+   // payments carry none) is computed exactly as before.
+   const parentId = parent ? Number(parent.customer_invoice_id) : null;
+   const isIssueTimePayment = p => {
+      if (parentId === null || Number(p.customer_invoice_id) !== parentId) return false;
+      const cmp = compareCreatedAt(p, parent);
+      return cmp !== null && cmp <= 0;
+   };
+   const issueTimePayments = linkedPayments.filter(isIssueTimePayment);
+   const movingPayments = linkedPayments.filter(p => !isIssueTimePayment(p));
+
    // Sign-aware, not abs(): payments are stored negative; NSF reversals are
    // POSITIVE payment rows that un-pay. Negating each amount makes payments
    // add to paidSum and reversals subtract.
-   const paidSum = round2(linkedPayments.reduce((a, p) => a + -num(p.payment_amount), 0));
+   const paidSum = round2(movingPayments.reduce((a, p) => a + -num(p.payment_amount), 0));
+   const paidAtIssue = round2(issueTimePayments.reduce((a, p) => a + -num(p.payment_amount), 0));
    const writeoffSum = round2(linkedWriteoffs.reduce((a, w) => a + abs(w.writeoff_amount), 0));
    const transactionSum = round2(linkedTransactions.reduce((a, t) => a + num(t.total_transaction), 0));
 
@@ -87,7 +230,12 @@ const computePerInvoice = ({ chain, payments, writeoffs, transactions }) => {
       linked_payments_count: linkedPayments.length,
       linked_writeoffs_count: linkedWriteoffs.length,
       linked_transactions_count: linkedTransactions.length,
+      // Payments that move the remaining (snapshot / post-issue). Issue-time
+      // payments are reported separately: they are already netted into
+      // parent_total_amount_due, so total − paid − writeoffs = expected holds.
       paid_against_invoice: paidSum,
+      issue_time_payments_count: issueTimePayments.length,
+      paid_at_issue: paidAtIssue,
       writeoffs_against_invoice: writeoffSum,
       transactions_on_invoice: transactionSum,
       expected_remaining: expectedRemaining,
@@ -106,7 +254,17 @@ const driftSeverity = absD => {
    return 'high';
 };
 
-const detectDiscrepancies = ({ invoices = [], invoiceBreakdown, payments, writeoffs, transactions, lastBillDate, staleRolledForward = [], duplicateSameDayParents = [] }) => {
+const detectDiscrepancies = ({
+   invoices = [],
+   invoiceBreakdown,
+   payments,
+   writeoffs,
+   transactions,
+   lastBillDate,
+   isPendingNextBill = () => true,
+   staleRolledForward = [],
+   duplicateSameDayParents = []
+}) => {
    const out = [];
 
    // Multiple parent invoices issued on the same date — likely a duplicate
@@ -145,18 +303,13 @@ const detectDiscrepancies = ({ invoices = [], invoiceBreakdown, payments, writeo
    // credits on the NEXT bill (reducing what the customer is charged), but
    // accounting-wise they're often data corrections that shouldn't change
    // current debt.  Flag each one so the user can decide whether it's a real
-   // credit or a bookkeeping artifact to clean up.
-   const lastBillDateMs = lastBillDate ? new Date(lastBillDate).getTime() : null;
-   const isPostLastBill = w => {
-      if (!lastBillDateMs) return true;
-      const c = w.created_at;
-      return c && new Date(c).getTime() >= lastBillDateMs;
-   };
+   // credit or a bookkeeping artifact to clean up.  Only write-offs still
+   // pending for the next bill (statement gate) — older ones already landed.
    const invoiceById = new Map();
    invoices.forEach(i => invoiceById.set(i.customer_invoice_id, i));
    writeoffs
       .filter(w => w.customer_invoice_id)
-      .filter(isPostLastBill)
+      .filter(isPendingNextBill)
       .forEach(w => {
          const linked = invoiceById.get(w.customer_invoice_id);
          if (linked && linked.is_invoice_paid_in_full) {
@@ -203,6 +356,9 @@ const detectDiscrepancies = ({ invoices = [], invoiceBreakdown, payments, writeo
          const uncovered = round2(drift - absorbedBy);
          const fullyAbsorbed = drift > 0 && Math.abs(uncovered) < 0.01;
          const severity = fullyAbsorbed ? 'info' : driftSeverity(Math.abs(uncovered));
+         const issueSuffix = Math.abs(num(row.paid_at_issue)) >= 0.01
+            ? ` $${num(row.paid_at_issue).toFixed(2)} received before the statement was issued is already netted into its total and is not subtracted again.`
+            : '';
          const noteSuffix = absorbedBy > 0
             ? ` $${absorbedBy.toFixed(2)} of this drift is covered by unbilled job-level write-offs (typical for monthly-retainer billing where excess time was zeroed via job adjustments rather than invoice-linked write-offs).`
             : '';
@@ -211,7 +367,7 @@ const detectDiscrepancies = ({ invoices = [], invoiceBreakdown, payments, writeo
             severity,
             invoice_number: row.invoice_number,
             parent_invoice_id: row.parent_invoice_id,
-            detail: `Expected remaining $${row.expected_remaining.toFixed(2)} (total $${row.parent_total_amount_due} - paid $${row.paid_against_invoice} - writeoffs $${row.writeoffs_against_invoice}) but the latest snapshot says $${row.actual_remaining_used.toFixed(2)}.${noteSuffix}`,
+            detail: `Expected remaining $${row.expected_remaining.toFixed(2)} (total $${row.parent_total_amount_due} - paid $${row.paid_against_invoice} - writeoffs $${row.writeoffs_against_invoice}) but the latest snapshot says $${row.actual_remaining_used.toFixed(2)}.${issueSuffix}${noteSuffix}`,
             diff_amount: drift,
             absorbed_by_writeoff_credit: absorbedBy,
             uncovered_amount: uncovered
@@ -429,12 +585,10 @@ const buildRetainerChains = retainers => {
       else chain.snapshots.push(r);
    });
    chains.forEach(chain => {
-      chain.snapshots.sort((a, b) => {
-         const aT = new Date(a.created_at).getTime();
-         const bT = new Date(b.created_at).getTime();
-         if (aT !== bT) return aT - bT;
-         return a.retainer_id - b.retainer_id;
-      });
+      // Microsecond-exact when the row carries created_at_exact (audit-service
+      // selects it); a millisecond Date tie broken by id picked the wrong
+      // snapshot when two draws landed within one millisecond in id-reversed order.
+      chain.snapshots.sort((a, b) => createdAtAsc(a, b) || a.retainer_id - b.retainer_id);
       // Defensive: if the chain's root row was deleted but snapshots survive
       // (orphan parent_retainer_id pointing to a non-existent retainer),
       // promote the earliest snapshot to act as the root so we don't silently
@@ -448,6 +602,16 @@ const buildRetainerChains = retainers => {
    return chains;
 };
 
+// Marker the payments module stamps on an overpayment prepayment retainer that
+// an NSF reversal cancelled (ledger-helpers.cancelledByReversalMarker). Parsed
+// locally on purpose: the audit recomputes from raw rows and imports no ledger
+// code. Keep the pattern identical to the one in ledger-helpers.
+const CANCELLED_BY_REVERSAL_RE = /\[cancelled by reversal of payment #(\d+)\]/;
+const parseCancelledByReversal = note => {
+   const match = CANCELLED_BY_REVERSAL_RE.exec(note || '');
+   return match ? Number(match[1]) : null;
+};
+
 const summarizeRetainers = retainers => {
    const chains = buildRetainerChains(retainers);
    const breakdown = [];
@@ -456,12 +620,23 @@ const summarizeRetainers = retainers => {
    chains.forEach(chain => {
       const root = chain.root;
       if (!root) return;
+      // The LATEST snapshot is authoritative for both the balance and the
+      // active flag: drawing a retainer to $0 writes a new snapshot with
+      // is_retainer_active = false, while the root row keeps the flag it was
+      // created with. Reading the flag from the root counted exhausted (or
+      // deactivated) retainers as still available.
       const latest = chain.snapshots[chain.snapshots.length - 1] || root;
+      // An overpayment prepayment that an NSF reversal cancelled never funded
+      // anything: it is neither prepaid nor drawn. Its starting_amount is kept
+      // only so deleting the reversal can restore it exactly — counting it as
+      // "drawn" overstated retainer_drawn by the bounced excess.
+      const cancelledByPayment = parseCancelledByReversal(latest.note) ?? parseCancelledByReversal(root.note);
+      const isCancelled = cancelledByPayment != null;
       const startingAmt = round2(abs(root.starting_amount));
       const currentAmt = round2(abs(latest.current_amount));
-      const drawn = round2(startingAmt - currentAmt);
-      const isActive = !!root.is_retainer_active;
-      total_prepaid_lifetime = round2(total_prepaid_lifetime + startingAmt);
+      const drawn = isCancelled ? 0 : round2(startingAmt - currentAmt);
+      const isActive = !isCancelled && !!latest.is_retainer_active;
+      if (!isCancelled) total_prepaid_lifetime = round2(total_prepaid_lifetime + startingAmt);
       if (isActive) retainer_available = round2(retainer_available + currentAmt);
       breakdown.push({
          retainer_id: root.retainer_id,
@@ -473,16 +648,23 @@ const summarizeRetainers = retainers => {
          current_amount: currentAmt,
          drawn_to_date: drawn,
          is_active: isActive,
+         is_cancelled: isCancelled,
+         cancelled_by_payment_id: cancelledByPayment,
          snapshot_count: chain.snapshots.length,
          orphan_root: !!chain.orphan_root
       });
    });
-   const retainer_drawn = round2(total_prepaid_lifetime - retainer_available);
+   // "Drawn" is what was actually consumed from each chain (starting − current),
+   // not prepaid − available: an inactive chain that still holds its full
+   // balance is unavailable but was never drawn, and a cancelled NSF excess is
+   // neither. The two quantities differ exactly by those unavailable balances.
+   const retainer_drawn = round2(breakdown.reduce((sum, chain) => sum + chain.drawn_to_date, 0));
    return {
       total_prepaid_lifetime,
       retainer_available,
       retainer_drawn,
       active_chains: breakdown.filter(b => b.is_active).length,
+      cancelled_chains: breakdown.filter(b => b.is_cancelled).length,
       total_chains: breakdown.length,
       breakdown
    };
@@ -502,17 +684,24 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
 
    const parentInvoices = invoices.filter(i => !i.parent_invoice_id);
 
-   // Compute last bill date early — needed for write-off netting below.
-   // Use a numeric comparator so this works whether invoice_date comes back from
-   // node-postgres as a 'YYYY-MM-DD' string or as a JavaScript Date object.
-   // The default .sort() stringifies Date objects as "Mon Feb 10 2026 …" and sorts
-   // alphabetically by day-name, giving a wrong result.
-   const lastBillDate = parentInvoices.length
-      ? parentInvoices
-           .map(i => i.invoice_date)
-           .sort((a, b) => new Date(a) - new Date(b))
-           .slice(-1)[0]
-      : null;
+   // The newest statement drives two different gates, mirroring the engine:
+   //   lastBillDate (its invoice_date) — which CHAINS are current (rolling
+   //     balance + the write-off single-count rule; same-day parents summed);
+   //   isPendingNextBill (its created_at) — which PAYMENTS / WRITE-OFFS are
+   //     still next-bill items (see makeStatementGate).
+   // Numeric comparisons throughout, so this works whether invoice_date comes
+   // back from node-postgres as a 'YYYY-MM-DD' string or as a Date object (the
+   // default .sort() stringifies Dates as "Mon Feb 10 2026 …").
+   // lastBillDate = MAX(invoice_date) over statement rows (NULLs ignored), as in
+   // getLastInvoiceDatesByCustomerID; the marker row follows the engine's
+   // DISTINCT ON ordering (getLastInvoiceMarkersByCustomerID).
+   const lastBillDate = invoices
+      .filter(isStatementRow)
+      .map(i => i.invoice_date)
+      .filter(d => toMs(d) !== null)
+      .reduce((max, d) => (max === null || toMs(d) > toMs(max) ? d : max), null);
+   const newestStatement = findNewestStatement(invoices);
+   const isPendingNextBill = makeStatementGate(newestStatement);
 
    const total_invoiced = round2(parentInvoices.reduce((a, i) => a + num(i.total_amount_due), 0));
    // Net of NSF reversals (positive payment rows subtract).
@@ -570,8 +759,13 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       outstanding_invoices = round2(
          newestGroup.reduce((s, c) => s + Math.max(0, c.actual_remaining_used), 0)
       );
-      if (newestGroup.length > 1) {
-         newestGroup.forEach(g => {
+      // A same-day statement that a later run absorbed on purpose (zeroed and
+      // stamped absorbed_by — zeroOutAbsorbedInvoices works by chain identity,
+      // so an explicitly allowed same-day re-bill absorbs the first run) is not
+      // a duplicate; only live same-day parents are flagged.
+      const liveNewestGroup = newestGroup.filter(g => !(g.was_absorbed && g.actual_remaining_used === 0));
+      if (liveNewestGroup.length > 1) {
+         liveNewestGroup.forEach(g => {
             duplicateSameDayParents.push({
                invoice_number: g.invoice_number,
                parent_invoice_id: g.parent_invoice_id,
@@ -600,12 +794,24 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          .filter(t => !t.customer_invoice_id && t.is_transaction_billable)
          .reduce((a, t) => a + num(t.total_transaction), 0)
    );
+
+   // Payments received since the last statement that are not applied to an
+   // invoice — the engine's paymentTotal (getPaymentsByCustomerID pulls rows
+   // through the statement gate; groupAndTotalPayments keeps the uninvoiced
+   // ones). An uninvoiced payment created BEFORE the newest statement row was
+   // already on that statement (finalize stamps it with the new invoice) and is
+   // not credited again; it is still reported by the unlinked_payments check.
    const unbilled_payments = round2(
-      payments.filter(p => !p.customer_invoice_id).reduce((a, p) => a + -num(p.payment_amount), 0)
+      payments
+         .filter(p => !p.customer_invoice_id)
+         .filter(isPendingNextBill)
+         .reduce((a, p) => a + -num(p.payment_amount), 0)
    );
-   const unbilled_writeoffs = round2(
-      writeoffs.filter(w => !w.customer_invoice_id).reduce((a, w) => a + abs(w.writeoff_amount), 0)
-   );
+
+   // Write-offs still pending for the next bill (statement gate). Everything
+   // below that decides whether a write-off is "already reflected" works off
+   // this set only.
+   const pendingWriteoffs = writeoffs.filter(isPendingNextBill);
 
    // Net job-level write-offs against their job's unbilled transactions, mirroring the billing
    // engine's groupAndTotalTransactions behavior (showWriteOffs=false path).
@@ -615,38 +821,52 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
    //    the billing engine processes every transaction to allow write-offs on jobs with only
    //    non-billable work to net against the overall total (e.g. a discount job).
    // 2. Only billable transaction amounts contribute to the job's running total.
-   // 3. Only write-offs created AFTER the last invoice are included — the billing engine applies
-   //    the same date gate via SQL (`created_at >= lastBillDate` on customer_writeoffs).  Using
-   //    writeoff_date here was a bug: a writeoff dated retroactively (writeoff_date pre-lastBill)
-   //    but ENTERED post-lastBill would be excluded by the audit but included by the engine.
-   // 4. Only write-offs on jobs that have at least one unbilled transaction are netted, to avoid
-   //    applying old "credit pool" write-offs on fully-billed jobs.
-   const lastBillDateMs = lastBillDate ? new Date(lastBillDate).getTime() : null;
-   const isPostLastBill = w => {
-      if (!lastBillDateMs) return true; // no prior invoice — include all
-      const c = w.created_at;
-      return c && new Date(c).getTime() >= lastBillDateMs;
-   };
+   // 3. Only write-offs still pending for the next bill are netted — the statement gate
+   //    (created_at > newest statement row's created_at), exactly like getWriteOffsByCustomerID.
+   //    A job write-off entered on bill day BEFORE the run was already netted into that
+   //    statement's charges; the old `created_at >= invoice_date` gate netted it a second time
+   //    against the job's next unbilled work. (Gating on writeoff_date was an earlier bug of the
+   //    same family: a retroactively dated write-off entered post-bill was skipped.)
+   // 4. A pending write-off whose job has NO unbilled transaction this cycle — or that has no job
+   //    at all — is still credited, as an adjustment-only line (transactionCalculations
+   //    .addAdjustmentOnlyJobGroups groups write-offs by customer_job_id, so job-less rows land
+   //    in their own group too). It used to be dropped here and, once the statement gate moved
+   //    on, lost for good. Write-offs entered BEFORE the last statement are never re-applied.
    const unbilledByJob = {};
+   let unbilled_billable_on_jobs = 0;
    transactions
       .filter(t => !t.customer_invoice_id && t.customer_job_id)
       .forEach(t => {
          if (!(t.customer_job_id in unbilledByJob)) unbilledByJob[t.customer_job_id] = 0;
          if (t.is_transaction_billable) {
             unbilledByJob[t.customer_job_id] = round2(unbilledByJob[t.customer_job_id] + num(t.total_transaction));
+            unbilled_billable_on_jobs = round2(unbilled_billable_on_jobs + num(t.total_transaction));
          }
       });
-   writeoffs
-      .filter(w => !w.customer_invoice_id && w.customer_job_id)
-      .filter(isPostLastBill)
+   let job_writeoffs_netted = 0;
+   // Pending write-offs not linked to an invoice with no unbilled work to net
+   // against (rule 4): credited on the next bill as adjustment-only lines.
+   let adjustment_writeoffs = 0;
+   pendingWriteoffs
+      .filter(w => !w.customer_invoice_id)
       .forEach(w => {
-         if (Object.prototype.hasOwnProperty.call(unbilledByJob, w.customer_job_id)) {
+         if (w.customer_job_id && Object.prototype.hasOwnProperty.call(unbilledByJob, w.customer_job_id)) {
             unbilledByJob[w.customer_job_id] = round2(unbilledByJob[w.customer_job_id] - abs(w.writeoff_amount));
+            job_writeoffs_netted = round2(job_writeoffs_netted + abs(w.writeoff_amount));
+         } else {
+            adjustment_writeoffs = round2(adjustment_writeoffs + abs(w.writeoff_amount));
          }
       });
    const unbilled_billable_net = round2(Object.values(unbilledByJob).reduce((a, v) => a + v, 0));
+   // Write-offs the next bill will NOT apply — the "pending adjustment" the
+   // strict ledger subtracts. The engine now applies every pending write-off
+   // (current-chain ones via the snapshot, absorbed-chain ones as credits, the
+   // rest netted or as adjustment-only lines), so nothing is left pending and
+   // the strict ledger equals the audit balance. Kept (stored per audit, shown
+   // on the print view) so a future engine rule that drops a write-off shows up.
+   const unbilled_writeoffs = 0;
 
-   // Invoice-linked write-offs since lastBillDate: the engine treats these as
+   // Invoice-linked write-offs since the last statement: the engine treats these as
    // credits on the next bill (they represent the customer either overpaying a
    // prior invoice that we later wrote off, or Jon entering a credit adjustment
    // and tagging it to a specific old invoice).  Audit subtracts them so the
@@ -657,9 +877,13 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
    // SINGLE-COUNT RULE (mirrors groupAndTotalWriteOffs): a write-off linked to
    // the CURRENT chain already reduced outstanding_invoices via its snapshot —
    // only write-offs on chains absorbed by the last bill act as credits here.
+   // Which chains are current is still decided by statement DATE (root
+   // invoice_date < lastBillDate = absorbed), exactly like the engine, so
+   // legacy same-day duplicate parents keep being summed rather than credited.
+   const lastBillDateMs = toMs(lastBillDate);
    const rowById = new Map(invoices.map(i => [i.customer_invoice_id, i]));
    const isAbsorbedChainCredit = w => {
-      if (!lastBillDateMs) return true;
+      if (lastBillDateMs === null) return true;
       const row = rowById.get(w.customer_invoice_id);
       if (!row) return true;
       const root = row.parent_invoice_id ? rowById.get(row.parent_invoice_id) : row;
@@ -667,22 +891,39 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       if (!rootDate) return true;
       return new Date(rootDate).getTime() < lastBillDateMs;
    };
-   const invoiceLinkedWriteoffsRecent = writeoffs
+   const invoiceLinkedWriteoffsRecent = pendingWriteoffs
       .filter(w => w.customer_invoice_id)
-      .filter(isPostLastBill)
       .filter(isAbsorbedChainCredit);
    const invoice_linked_writeoffs_recent = round2(
       invoiceLinkedWriteoffsRecent.reduce((a, w) => a + abs(w.writeoff_amount), 0)
    );
 
-   // audit_balance now matches the engine's invoiceTotal formula:
-   //   outstanding + unbilled_billable_net - unbilled_payments - invoice_linked_writeoffs_recent
-   const audit_balance = round2(
-      outstanding_invoices + unbilled_billable_net - unbilled_payments - invoice_linked_writeoffs_recent
-   );
-   const strict_ledger_balance = round2(
-      outstanding_invoices + unbilled_billable - unbilled_payments - unbilled_writeoffs
-   );
+   // audit_balance matches the engine's invoiceTotal. It is built from the
+   // same signed lines the audit PDF prints, so the printed breakdown always
+   // sums to the printed balance:
+   //   outstanding + unbilled work on jobs − job write-offs netted
+   //   − adjustment-only write-offs − unapplied payments since the last statement
+   //   − absorbed-chain write-off credits
+   const audit_balance_lines = [
+      { key: 'outstanding_invoices', label: 'Outstanding on current statement (latest snapshot per chain)', amount: outstanding_invoices },
+      { key: 'unbilled_billable_on_jobs', label: 'Unbilled billable work (on jobs)', amount: unbilled_billable_on_jobs },
+      { key: 'job_writeoffs_netted', label: 'Job write-offs netted against that work', amount: round2(-job_writeoffs_netted) },
+      {
+         key: 'adjustment_writeoffs',
+         label: 'Write-offs since the last statement with no unbilled work to net against (credited)',
+         amount: round2(-adjustment_writeoffs)
+      },
+      { key: 'unbilled_payments', label: 'Payments since the last statement not applied to an invoice', amount: round2(-unbilled_payments) },
+      {
+         key: 'invoice_linked_writeoffs_recent',
+         label: 'Write-offs since the last statement on absorbed statements (next-bill credits)',
+         amount: round2(-invoice_linked_writeoffs_recent)
+      }
+   ];
+   const audit_balance = round2(audit_balance_lines.reduce((a, l) => a + l.amount, 0));
+   // Strict ledger = the audit balance with every pending write-off applied now
+   // (see unbilled_writeoffs above).
+   const strict_ledger_balance = round2(audit_balance - unbilled_writeoffs);
    const net_position_lifetime = round2(total_invoiced + unbilled_billable - total_paid - total_writeoffs);
 
    // Retainer summary — purely informational alongside the balance. We do NOT
@@ -700,6 +941,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       writeoffs,
       transactions,
       lastBillDate,
+      isPendingNextBill,
       staleRolledForward,
       duplicateSameDayParents
    });
@@ -722,10 +964,15 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          total_billable_transactions,
          outstanding_invoices,
          unbilled_billable,
+         unbilled_billable_on_jobs,
+         job_writeoffs_netted,
+         adjustment_writeoffs,
          unbilled_billable_net,
          unbilled_payments,
+         invoice_linked_writeoffs_recent,
          unbilled_writeoffs,
          audit_balance,
+         audit_balance_lines,
          strict_ledger_balance,
          net_position_lifetime,
          retainer_total_prepaid_lifetime: retainerSummary.total_prepaid_lifetime,
@@ -741,7 +988,11 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
             retainer_chains: retainerSummary.total_chains,
             retainer_active_chains: retainerSummary.active_chains
          },
-         last_bill_date: fmtDate(lastBillDate)
+         last_bill_date: fmtDate(lastBillDate),
+         // The statement-gate marker: payments / write-offs created after this
+         // timestamp are next-bill items (see makeStatementGate).
+         last_bill_invoice_number: newestStatement ? newestStatement.invoice_number || null : null,
+         last_bill_created_at: newestStatement ? fmtDateTime(newestStatement.created_at) : null
       },
       retainers: retainerSummary,
       invoice_breakdown: invoiceBreakdown,
@@ -751,8 +1002,9 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          description:
             'Independent recomputation from raw customer_invoices, customer_payments, customer_writeoffs, and customer_transactions rows. Does not share code with the app balance engine.',
          audit_balance_formula:
-            'outstanding_invoices (newest unpaid parent chain\'s latest-snapshot remaining — the rolling-balance view; older parents whose balance was absorbed by a newer invoice\'s beginning_balance are flagged as stale_rolled_forward_balance discrepancies and NOT double-counted) + unbilled_billable_transactions - unbilled_payments',
-         strict_ledger_formula: 'audit_balance - unbilled_writeoffs (treats job-level writeoffs as immediate credits)',
+            'outstanding_invoices (latest-snapshot remaining of every parent chain dated on the newest statement date — the rolling-balance view; older parents whose balance was absorbed by a newer invoice\'s beginning_balance are flagged as stale_rolled_forward_balance discrepancies and NOT double-counted) + unbilled_billable_on_jobs - job_writeoffs_netted - adjustment_writeoffs (pending write-offs with no unbilled work on their job, or no job) - unbilled_payments - invoice_linked_writeoffs_recent. "Since the last statement" means created_at later than the newest statement row\'s created_at (the billing engine\'s statement gate), so bill-day entries made before the run are not counted twice. The printed lines are totals.audit_balance_lines.',
+         strict_ledger_formula:
+            'audit_balance - unbilled_writeoffs, where unbilled_writeoffs = write-offs entered since the last statement that the next bill will not apply. The billing engine applies every pending write-off (netted into its job\'s unbilled work or credited as an adjustment-only line), so this is currently 0 and the strict ledger equals the audit balance.',
          net_position_formula:
             'total_invoiced + unbilled_billable - total_paid - total_writeoffs (lifetime net, ignores invoice linkage)',
          ledger_basis:

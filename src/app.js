@@ -1,4 +1,10 @@
 require('dotenv').config();
+// Must be required before any router is required/mounted: it patches Express's
+// route/router methods so a rejected promise inside an async handler is
+// forwarded to next(err) automatically. Without this, an async handler that
+// forgets try/catch throws an unhandled rejection on Node 20 and crashes the
+// process instead of hitting the error-handling middleware below.
+require('express-async-errors');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -25,7 +31,7 @@ const initialDataRouter = require('./endpoints/initialData/initialData-router');
 const workDescriptionsRouter = require('./endpoints/workDescriptions/workDescriptions-router');
 const { healthRouter } = require('./endpoints/health/health-router');
 const cookieParser = require('cookie-parser');
-const { requireAuth, requireSuperAdmin } = require('./endpoints/auth/jwt-auth');
+const { requireAuth, requireSuperAdmin, requireManagerOrAdmin } = require('./endpoints/auth/jwt-auth');
 const timesheetsRouter = require('./endpoints/timesheets/timesheets-router');
 const timeTrackingRouter = require('./endpoints/timeTracking/timeTracking-router');
 const timeTrackerStaffRouter = require('./endpoints/timeTrackerStaff/timeTrackerStaff-router');
@@ -57,7 +63,11 @@ app.use(
    })
 );
 app.use(helmet());
-app.use(express.json());
+// Default express.json() limit is 100kb. A month-end "select all" invoice
+// creation/billing-review payload (every outstanding customer + line detail)
+// can approach that ceiling; raise it so legitimate large payloads aren't
+// rejected with a 413 mid-billing-run.
+app.use(express.json({ limit: '1mb' }));
 const corsOrigins = (CORS_ORIGIN || '').split(',').map(s => s.trim()).filter(Boolean);
 app.use(
    cors({
@@ -76,6 +86,14 @@ const authLimiter = rateLimit({
    message: { error: 'Too many auth requests, please try again later.', status: 429 }
 });
 
+// The API/expensive limiters are skipped under test, and on a LOCAL sandbox
+// started with DISABLE_RATE_LIMIT=true: a full browser end-to-end run (70
+// tests, one worker) issues far more than 300 requests a minute from one
+// client and was failing on 429s. Never set this in a deployed environment —
+// the auth limiter below is never skipped.
+const rateLimitDisabled = String(process.env.DISABLE_RATE_LIMIT).toLowerCase() === 'true';
+const skipRateLimit = () => NODE_ENV === 'test' || rateLimitDisabled;
+
 // General throttle for all authenticated API traffic. Generous enough not to
 // affect normal use, but caps abuse/scraping by a single client. Disabled under
 // test so the suite isn't rate-limited.
@@ -84,7 +102,7 @@ const apiLimiter = rateLimit({
    max: 300,
    standardHeaders: true,
    legacyHeaders: false,
-   skip: () => NODE_ENV === 'test',
+   skip: skipRateLimit,
    message: { error: 'Too many requests, please slow down.', status: 429 }
 });
 
@@ -95,39 +113,60 @@ const expensiveLimiter = rateLimit({
    max: 30,
    standardHeaders: true,
    legacyHeaders: false,
-   skip: () => NODE_ENV === 'test',
+   skip: skipRateLimit,
    message: { error: 'Too many requests for this resource, please slow down.', status: 429 }
 });
 
 app.use(apiLimiter);
 app.use('/auth', authLimiter, authentication);
 app.use('/customer', requireAuth, customerRouter);
-app.use('/jobs', requireAuth, company);
-app.use('/transactions', requireAuth, transactions);
+// The frontend wraps /transactions/*, /jobs/*, /customers/*, /invoices/* in
+// ManagerAndAdminProtectedAccessRoute — plain 'User' staff only use
+// time-tracking upload/history. Mirror that here on every router below whose
+// UI lives behind that gate (jobs + its master-data siblings, transactions,
+// payments, write-offs, retainers, pending-payments review, billing-review,
+// time-tracker-staff); previously most of these had no server-side role
+// check at all, so a plain employee token could reach them directly.
+app.use('/jobs', requireAuth, requireManagerOrAdmin, company);
+app.use('/transactions', requireAuth, requireManagerOrAdmin, transactions);
 // app.use('/transactions', transactions);
 app.use('/user', requireAuth, user);
-app.use('/invoices', requireAuth, invoices);
-app.use('/jobCategories', requireAuth, jobCategoriesRouter);
+// Every page under /invoices/* (invoices grid, quotes, createInvoice,
+// accountsReceivable, invoice detail) is wrapped in ManagerAndAdminProtectedAccessRoute
+// in the frontend (DS2_Frontend/src/Routes/PrimaryRouter.js) — mirror that here
+// rather than leaving individual routes (e.g. createInvoice) ungated.
+app.use('/invoices', requireAuth, requireManagerOrAdmin, invoices);
+app.use('/jobCategories', requireAuth, requireManagerOrAdmin, jobCategoriesRouter);
 app.use('/account', requireAuth, accountRouter);
-app.use('/jobTypes', requireAuth, jobTypeRouter);
-app.use('/quotes', requireAuth, quotesRouter);
-app.use('/payments', requireAuth, paymentsRouter);
+app.use('/jobTypes', requireAuth, requireManagerOrAdmin, jobTypeRouter);
+app.use('/quotes', requireAuth, requireManagerOrAdmin, quotesRouter);
+app.use('/payments', requireAuth, requireManagerOrAdmin, paymentsRouter);
 app.use('/recurringCustomer', requireAuth, recurringCustomerRouter);
-app.use('/retainers', requireAuth, retainerRouter);
-app.use('/writeOffs', requireAuth, writeOffsRouter);
+app.use('/retainers', requireAuth, requireManagerOrAdmin, retainerRouter);
+app.use('/writeOffs', requireAuth, requireManagerOrAdmin, writeOffsRouter);
 app.use('/initialData', requireAuth, initialDataRouter);
-app.use('/workDescriptions', requireAuth, workDescriptionsRouter);
+app.use('/workDescriptions', requireAuth, requireManagerOrAdmin, workDescriptionsRouter);
 app.use('/timesheets', requireAuth, timesheetsRouter);
 app.use('/time-tracking', requireAuth, timeTrackingRouter);
-app.use('/time-tracker-staff', requireAuth, timeTrackerStaffRouter);
+app.use('/time-tracker-staff', requireAuth, requireManagerOrAdmin, timeTrackerStaffRouter);
 app.use('/api/health', healthRouter);
 app.use('/healthz', healthRouter); // AWS health check endpoint (no auth)
 app.use('/ai-integration', requireAuth, expensiveLimiter, aiIntegrationRouter);
-app.use('/pending-payments', requireAuth, pendingPaymentsRouter);
-app.use('/billing-review', requireAuth, expensiveLimiter, billingReviewRouter);
+app.use('/pending-payments', requireAuth, requireManagerOrAdmin, pendingPaymentsRouter);
+// Bedrock-backed mutations stay behind the expensive limiter; the GET list and
+// poll routes (the Needs Review tab polls reprocess-count every few seconds)
+// must not burn the 30-req/min budget or the tab freezes in 'Processing…'.
+const limitMutationsOnly = (req, res, next) => (req.method === 'GET' || req.method === 'HEAD' ? next() : expensiveLimiter(req, res, next));
+app.use('/billing-review', requireAuth, requireManagerOrAdmin, limitMutationsOnly, billingReviewRouter);
 app.use('/notifications', requireAuth, notificationsRouter);
-app.use('/accountAudit', requireAuth, expensiveLimiter, accountAuditRouter);
-app.use('/accountsReceivable', requireAuth, accountsReceivableRouter);
+// NOTE: account-audit-router.js already does `.use(requireAuth, requireSuperAdmin)`
+// internally (checked while reviewing this mount) — matches the frontend's
+// AuditorProtectedAccessRoute (super-admin only), so no change needed here.
+app.use('/accountAudit', requireAuth, limitMutationsOnly, accountAuditRouter);
+// Accounts Receivable lives under /invoices/accountsReceivable in the frontend,
+// inside the same ManagerAndAdminProtectedAccessRoute wrapper as the rest of
+// the Invoices section.
+app.use('/accountsReceivable', requireAuth, requireManagerOrAdmin, accountsReceivableRouter);
 app.use('/analytics', requireAuth, requireSuperAdmin, analyticsRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

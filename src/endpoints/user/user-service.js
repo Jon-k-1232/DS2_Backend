@@ -21,6 +21,20 @@ const accountUserService = {
 
   fetchUser(db, accountID, userID) {
     return db.select().from('users').where('account_id', '=', accountID).andWhere('user_id', '=', userID).returning('*');
+  },
+
+  // Used to refuse an operation that would leave the account with zero active
+  // Super Admins. Pass excludeUserID to ask "how many WOULD remain if this
+  // user's Super Admin status were removed" (i.e. count everyone else).
+  countActiveSuperAdmins(db, accountID, excludeUserID = null) {
+    let query = db('users')
+      .where('account_id', accountID)
+      .andWhere('is_user_active', true)
+      .andWhereRaw('LOWER(access_level) = ?', ['super admin']);
+    if (excludeUserID != null) {
+      query = query.andWhereNot('user_id', excludeUserID);
+    }
+    return query.count({ count: '*' }).first();
   }
 };
 

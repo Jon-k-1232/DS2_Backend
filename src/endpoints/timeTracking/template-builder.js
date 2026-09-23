@@ -226,6 +226,24 @@ const _readCatalogs = async (db, accountId) => {
    };
 };
 
+// The base template also carries a VISIBLE 'Employee Names' sheet (no header
+// row; the workbook-scope `Employees` defined name points its whole column A
+// at it — see _restoreDefinedNames). It predates the __employees hidden
+// lookup sheet and is not what the B1 dropdown actually validates against
+// once buildTemplate has run (_applyDataValidation points B1 at
+// __employees!$A$2:$A$N directly), but it is still rendered to the user and,
+// left untouched, keeps showing whichever account the base template was last
+// captured from. Overwrite its rows with THIS account's own active staff so
+// no other tenant's names are visible in the downloaded workbook.
+const _replaceVisibleNameList = (workbook, sheetName, items) => {
+   const sheet = workbook.getWorksheet(sheetName);
+   if (!sheet) return; // base template shape may vary across versions; nothing to fix
+   const rowsToClear = Math.max(sheet.rowCount, items.length);
+   for (let r = 1; r <= rowsToClear; r += 1) {
+      sheet.getCell(`A${r}`).value = items[r - 1] != null ? items[r - 1] : null;
+   }
+};
+
 const _addLookupSheet = (workbook, sheetName, header, items) => {
    let sheet = workbook.getWorksheet(sheetName);
    if (sheet) workbook.removeWorksheet(sheet.id);
@@ -316,6 +334,9 @@ const buildTemplate = async ({ db, accountId, userId, baseTemplateBuffer, now = 
    _addLookupSheet(workbook, '__customers', 'Customer', customers);
    _addLookupSheet(workbook, '__employees', 'Employee', employees);
    _addLookupSheet(workbook, '__categories', 'Category', categories);
+   // Visible legacy sheet — see _replaceVisibleNameList for why this also
+   // needs the requesting account's own staff list, not just the hidden one.
+   _replaceVisibleNameList(workbook, 'Employee Names', employees);
 
    const dataSheet = workbook.worksheets.find(ws => !['__customers', '__employees', '__categories'].includes(ws.name));
    if (!dataSheet) {
@@ -359,6 +380,7 @@ module.exports = {
    _resetCacheForTest,
    _readCatalogs,
    _addLookupSheet,
+   _replaceVisibleNameList,
    _stripBadValidations,
    _applyDataValidation,
    COLLAPSE_WINDOW_MS,

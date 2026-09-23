@@ -9,8 +9,15 @@ const recurringCustomerService = {
       .andWhere('recurring_customers.is_recurring_customer_active', true);
   },
 
-  getRecurringCustomerByID(db, accountID, customerID) {
-    return db.from('recurring_customers').select().where('recurring_customer_id', customerID).andWhere('account_id', accountID);
+  // NOTE: the second argument is a recurring_customer_id (the row's own key),
+  // not a customer_id — use getRecurringCustomersForCustomer for the latter.
+  getRecurringCustomerByID(db, accountID, recurringCustomerID) {
+    return db.from('recurring_customers').select().where('recurring_customer_id', recurringCustomerID).andWhere('account_id', accountID);
+  },
+
+  // Every recurring-billing row that belongs to a CUSTOMER (deleteCustomer guard).
+  getRecurringCustomersForCustomer(db, accountID, customerID) {
+    return db.from('recurring_customers').select().where('customer_id', customerID).andWhere('account_id', accountID);
   },
 
   // Create a new recurring customer

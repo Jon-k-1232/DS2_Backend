@@ -1,3 +1,33 @@
+/**
+ * Restrict a payments / write-offs sub-query to rows NOT yet reflected on the
+ * customer's newest statement.
+ *   marker = { created_at }  → rows created strictly AFTER the newest parent row
+ *                              (bill-day entries made before the run stay on that
+ *                              statement instead of re-crediting the next one)
+ *   marker = date/string     → legacy behaviour (created_at >= statement date)
+ *   marker falsy             → customer has never been billed: every row qualifies
+ */
+const applyLastBillGate = (query, createdAtColumn, marker) => {
+   if (!marker) return query;
+   if (typeof marker === 'object' && !(marker instanceof Date) && marker.created_at) {
+      // Compare against the parent row's timestamp INSIDE Postgres: a JS Date only
+      // carries milliseconds, so binding the parsed value would re-select rows
+      // created in the same millisecond (microsecond ties) as already-billed.
+      if (marker.customer_invoice_id) {
+         return query.andWhereRaw('?? > (SELECT ci_marker.created_at FROM customer_invoices ci_marker WHERE ci_marker.customer_invoice_id = ?)', [createdAtColumn, marker.customer_invoice_id]);
+      }
+      return query.andWhere(createdAtColumn, '>', marker.created_at);
+   }
+   return query.andWhere(createdAtColumn, '>=', marker);
+};
+
+const toISODateString = value => {
+   if (value instanceof Date && !Number.isNaN(value.getTime())) {
+      return `${value.getFullYear()}-${String(value.getMonth() + 1).padStart(2, '0')}-${String(value.getDate()).padStart(2, '0')}`;
+   }
+   return String(value).slice(0, 10);
+};
+
 const buildActiveInvoicesQuery = (db, accountID) =>
    db
       .select('customer_invoices.*', db.raw('customers.display_name as customer_name'), db.raw('users.display_name as created_by_user_name'))
@@ -59,7 +89,7 @@ const invoiceService = {
                qb.where('customer_invoice_id', invoiceID).andWhere('parent_invoice_id', null);
             });
          })
-         .orderBy('created_at', 'desc')
+         .orderBy([{ column: 'created_at', order: 'desc' }, { column: 'customer_invoice_id', order: 'desc' }])
          .first();
    },
 
@@ -100,8 +130,24 @@ const invoiceService = {
          .andWhere('customer_invoices.customer_invoice_id', invoiceRowID);
    },
 
-   async getLastInvoiceNumber(db, accountID) {
-      return db.select('invoice_number').from('customer_invoices').where('account_id', accountID).orderBy('invoice_number', 'desc').first();
+   // Highest CONFORMING invoice number (PREFIX-YYYY-NNNNN), ordered by year then
+   // sequence as numbers. A plain string ORDER BY let any non-conforming test or
+   // legacy number (e.g. 'TEST-REG-001') sort above every real one and made the
+   // next finalize throw 'Invalid invoiceNumber format'.
+   // Scoped to the statement prefix and the billing YEAR so a stray number from
+   // another prefix or a future year can never hijack the sequence; the first
+   // statement of a new year starts at 00001 (caller falls back to <PREFIX>-<year>-00000).
+   async getLastInvoiceNumber(db, accountID, { prefix = 'INV', year = new Date().getFullYear() } = {}) {
+      const safePrefix = String(prefix).replace(/[^A-Z]/g, '') || 'INV';
+      const safeYear = Number(year);
+      return db
+         .select('invoice_number')
+         .from('customer_invoices')
+         .where('account_id', accountID)
+         .whereNull('parent_invoice_id')
+         .whereRaw('invoice_number ~ ?', [`^${safePrefix}-${safeYear}-[0-9]{5}$`])
+         .orderByRaw("substring(invoice_number from '-([0-9]{5})$')::int DESC")
+         .first();
    },
 
    createInvoice(db, invoice) {
@@ -148,6 +194,29 @@ const invoiceService = {
          .orderBy('last_invoice_date', 'desc');
 
       return data.reduce((result, { customer_id, last_invoice_date }) => ({ ...result, [customer_id]: last_invoice_date }), {});
+   },
+
+   /**
+    * Newest PARENT statement per customer, with its created_at TIMESTAMP.
+    * The billing engine gates payments and write-offs on this timestamp
+    * (`created_at > marker.created_at`), not on the statement DATE: a row entered
+    * on bill day before the run was already reflected on that statement and must
+    * not be pulled onto the next one (write-offs were being credited twice).
+    * Returns { [customer_id]: { customer_invoice_id, invoice_number, invoice_date, created_at } }.
+    */
+   async getLastInvoiceMarkersByCustomerID(db, accountID, customerIDs) {
+      if (!customerIDs || !customerIDs.length) return {};
+      const rows = await db
+         .select(db.raw('DISTINCT ON (customer_id) customer_id, customer_invoice_id, invoice_number, invoice_date, created_at'))
+         .from('customer_invoices')
+         .where('account_id', accountID)
+         .whereIn('customer_id', customerIDs)
+         .andWhere(function () {
+            this.whereNull('parent_invoice_id').orWhereRaw('parent_invoice_id = customer_invoice_id');
+         })
+         .orderByRaw('customer_id, invoice_date DESC, created_at DESC, customer_invoice_id DESC');
+
+      return rows.reduce((result, row) => ({ ...result, [row.customer_id]: row }), {});
    },
 
    getCustomerInvoicesByCustomerID(db, customerID, accountID) {
@@ -226,16 +295,12 @@ const invoiceService = {
          })
          .andWhere(builder => {
             customerIDs.forEach(id => {
-               // Handles query if there is an ID in the lastBillDateLookup
-               if (lastBillDateLookup[id]) {
-                  builder.orWhere(subQuery => {
-                     // Changed payment date to created_at from payment date since created_at has the time stamp.
-                     subQuery.where('customer_payments.customer_id', id).andWhere('customer_payments.created_at', '>=', lastBillDateLookup[id]);
-                  });
-                  // Handles query if there is no ID in the lastBillDateLookup
-               } else {
-                  builder.orWhere('customer_payments.customer_id', id);
-               }
+               // Statement gate — see applyLastBillGate: rows already reflected on
+               // the newest statement (created before its parent row) are excluded.
+               builder.orWhere(subQuery => {
+                  subQuery.where('customer_payments.customer_id', id);
+                  applyLastBillGate(subQuery, 'customer_payments.created_at', lastBillDateLookup[id]);
+               });
             });
          });
 
@@ -265,15 +330,11 @@ const invoiceService = {
          })
          .andWhere(builder => {
             customerIDs.forEach(id => {
-               // Handles query if there is a id in the lastBillDateLookup
-               if (lastBillDateLookup[id]) {
-                  builder.orWhere(subQuery => {
-                     subQuery.where('customer_writeoffs.customer_id', id).andWhere('customer_writeoffs.created_at', '>=', lastBillDateLookup[id]);
-                  });
-                  // Handles query if there is no id in the lastBillDateLookup
-               } else {
-                  builder.orWhere('customer_writeoffs.customer_id', id);
-               }
+               // Statement gate — see applyLastBillGate.
+               builder.orWhere(subQuery => {
+                  subQuery.where('customer_writeoffs.customer_id', id);
+                  applyLastBillGate(subQuery, 'customer_writeoffs.created_at', lastBillDateLookup[id]);
+               });
             });
          });
 
@@ -286,14 +347,18 @@ const invoiceService = {
    },
 
    async getRetainersByCustomerID(db, accountID, customerIDs, lastBillDateLookup) {
+      // created_at_exact (timestamp as text) keeps Postgres' microseconds so the
+      // engine picks each chain's TRUE latest snapshot (retainerCalculations);
+      // a JS Date tie inside one millisecond kept the first row and printed a
+      // stale retainer balance. Rows arrive in the database's own order too.
       const data = await db('customer_retainers_and_prepayments')
-         .select('customer_retainers_and_prepayments.*')
+         .select('customer_retainers_and_prepayments.*', db.raw('customer_retainers_and_prepayments.created_at::text AS created_at_exact'))
          .where('customer_retainers_and_prepayments.account_id', accountID)
-         .andWhere(builder => {
-            customerIDs.forEach(id => {
-               builder.orWhere('customer_retainers_and_prepayments.customer_id', id);
-            });
-         });
+         .whereIn('customer_retainers_and_prepayments.customer_id', customerIDs.map(Number))
+         .orderBy([
+            { column: 'customer_retainers_and_prepayments.created_at', order: 'asc' },
+            { column: 'customer_retainers_and_prepayments.retainer_id', order: 'asc' }
+         ]);
 
       return data.reduce((result, retainer) => {
          const { customer_id } = retainer;
@@ -319,14 +384,15 @@ const invoiceService = {
          .where('account_id', accountID)
          .whereIn('customer_id', customerIDs)
          .andWhere('parent_invoice_id', null)
-         .orderBy('created_at', 'desc');
+         .orderBy([{ column: 'created_at', order: 'desc' }, { column: 'customer_invoice_id', order: 'desc' }]);
 
       // One query for every child snapshot, grouped in memory. This used to be
       // one query per parent — N+1 across each billed customer's full history
-      // on every Create Invoice run.
+      // on every Create Invoice run. Ordering carries the row id as a tie-break
+      // so equal timestamps can never make an older snapshot look newest.
       const parentIDs = parentInvoices.map(parent => parent.customer_invoice_id);
       const allChildren = parentIDs.length
-         ? await db.select('*').from('customer_invoices').whereIn('parent_invoice_id', parentIDs).orderBy('created_at', 'desc')
+         ? await db.select('*').from('customer_invoices').whereIn('parent_invoice_id', parentIDs).orderBy([{ column: 'created_at', order: 'desc' }, { column: 'customer_invoice_id', order: 'desc' }])
          : [];
       const childrenByParent = allChildren.reduce((acc, child) => {
          (acc[child.parent_invoice_id] = acc[child.parent_invoice_id] || []).push(child);
@@ -417,36 +483,138 @@ const invoiceService = {
          .from('customer_invoices')
          .where('account_id', accountID)
          .andWhere('parent_invoice_id', parentInvoiceID)
-         .orderBy('created_at', 'desc')
+         .orderBy([{ column: 'created_at', order: 'desc' }, { column: 'customer_invoice_id', order: 'desc' }])
          .first();
    },
 
    /**
-    * ROLLING-BALANCE ZERO-OUT. When a new parent invoice absorbs the prior
-    * outstanding amount as its beginning_balance, the absorbed rows must stop
-    * carrying a remaining balance — otherwise they keep appearing as payable
-    * invoices in the payment pickers and payments get tagged to chains the
-    * billing engine's date gate ignores (money paid but never reflected on a
-    * bill). Zeroes every prior-dated row (parents AND their snapshots) that
-    * still shows remaining > 0, and stamps notes with an `absorbed_by:` marker
-    * so the audit engine can tell deliberate absorption from ledger drift.
+    * ROLLING-BALANCE ZERO-OUT. When a new parent statement absorbs the customer's
+    * prior outstanding amount as its beginning_balance, the absorbed rows must stop
+    * carrying a remaining balance — otherwise they keep offering themselves as
+    * payable invoices in the payment pickers, the engine's same-day rule double
+    * counts them, and payments get tagged to chains the date gate ignores.
     *
-    * Strictly older dates only: same-day duplicate parents are summed by the
-    * engine and must keep their remaining.
-    * Negative remainders (credit memos) are left alone — they were never
-    * absorbed into the new beginning_balance.
+    * Absorption is by CHAIN IDENTITY, not by date: every row of every OTHER chain
+    * that existed before the new parent (created_at < newParent.created_at) and
+    * still shows remaining > 0 is zeroed and stamped with an `absorbed_by:` marker
+    * so the audit engine can tell deliberate absorption from ledger drift. This
+    * also covers an explicitly allowed same-day re-bill (the first statement of
+    * the day is absorbed by the second instead of being summed with it).
+    * Negative remainders (credit memos) are left alone — they were never absorbed
+    * into the new beginning_balance.
+    *
+    * @param newParent  the freshly inserted parent row (customer_invoice_id,
+    *                   invoice_number, invoice_date, created_at)
     */
-   zeroOutAbsorbedInvoices(db, accountID, customerID, newInvoiceDate, newInvoiceNumber) {
-      const marker = `[absorbed_by:${newInvoiceNumber}@${new Date(newInvoiceDate).toISOString().slice(0, 10)}]`;
+   zeroOutAbsorbedInvoices(db, accountID, customerID, newParent, absorbedRootIDs) {
+      const { customer_invoice_id: newParentID, invoice_number, invoice_date } = newParent;
+      // invoice_date arrives as a JS Date from `returning('*')` (node-postgres parses
+      // DATE to local midnight) or as 'YYYY-MM-DD' from a plain object.
+      const marker = `[absorbed_by:${invoice_number}@${toISODateString(invoice_date)}]`;
+      const query = db('customer_invoices')
+         .where('account_id', accountID)
+         .andWhere('customer_id', customerID)
+         .andWhere('customer_invoice_id', '<>', newParentID)
+         .andWhereRaw('COALESCE(parent_invoice_id, customer_invoice_id) <> ?', [newParentID]);
+
+      if (Array.isArray(absorbedRootIDs)) {
+         // Preferred: exactly the chains whose remaining the calculation rolled
+         // into beginning_balance — every row of those chains, whatever its
+         // remaining, so the chain is closed as a unit. Nothing else is touched.
+         if (!absorbedRootIDs.length) return Promise.resolve(0);
+         query.whereIn(db.raw('COALESCE(parent_invoice_id, customer_invoice_id)'), absorbedRootIDs.map(Number));
+      } else {
+         // Fallback (no calculation context): every older positive row, using the
+         // parent's timestamp inside Postgres for microsecond-exact comparison.
+         query
+            .andWhereRaw('created_at < (SELECT ci_new.created_at FROM customer_invoices ci_new WHERE ci_new.customer_invoice_id = ?)', [newParentID])
+            .andWhere('remaining_balance_on_invoice', '>', 0);
+      }
+
+      return query.update({
+         remaining_balance_on_invoice: 0,
+         notes: db.raw(`CASE WHEN notes IS NULL OR notes = '' THEN ? ELSE notes || ' ' || ? END`, [marker, marker])
+      });
+   },
+
+   /** All row ids of a statement chain (the root parent plus every snapshot). */
+   async getInvoiceChainRowIDs(db, accountID, rootInvoiceID) {
+      const rows = await db
+         .select('customer_invoice_id')
+         .from('customer_invoices')
+         .where('account_id', accountID)
+         .andWhere(function () {
+            this.where('customer_invoice_id', rootInvoiceID).orWhere('parent_invoice_id', rootInvoiceID);
+         });
+      return rows.map(r => r.customer_invoice_id);
+   },
+
+   /**
+    * Fingerprint of everything that can move a customer's balance: payments,
+    * write-offs, invoice rows (count / signed sum / max id) and unbilled
+    * transactions. Captured by the finalize route BEFORE it reads the ledger and
+    * compared again inside the finalize transaction, so an edit, delete or insert
+    * of any ledger row while the statements were rendering aborts the run
+    * (created_at-based checks cannot see edits and deletes).
+    */
+   /**
+    * Per-customer fingerprint of every ledger row a statement is priced from:
+    * payments, write-offs, invoice rows, UNBILLED transactions and retainers.
+    * Each table contributes `count:md5(every column of every row, in id order)`,
+    * so ANY field change (amount, date, reference, note, active flag) changes
+    * the fingerprint — a `count|sum|max id` digest missed a payment date edit,
+    * a retainer top-up and an offsetting pair of edits. Read it inside the same
+    * snapshot as the pricing reads (billingSnapshot.readBillingSnapshot) and
+    * compare under the finalize lock (dataInsertionOrchestrator).
+    */
+   async getLedgerFingerprint(db, accountID, customerIDs) {
+      if (!customerIDs.length) return {};
+      const ids = customerIDs.map(Number);
+      const q = async (table, idColumn, extraWhere) => {
+         const query = db({ ledger: table })
+            .select('ledger.customer_id')
+            .select(db.raw("count(*)::text || ':' || md5(string_agg(to_jsonb(ledger)::text, '|' ORDER BY ??)) AS fp", [`ledger.${idColumn}`]))
+            .where('ledger.account_id', accountID)
+            .whereIn('ledger.customer_id', ids)
+            .groupBy('ledger.customer_id');
+         if (extraWhere) extraWhere(query);
+         const rows = await query;
+         return rows.reduce((acc, r) => ({ ...acc, [r.customer_id]: r.fp }), {});
+      };
+      const [payments, writeOffs, invoices, unbilled, retainers] = await Promise.all([
+         q('customer_payments', 'payment_id'),
+         q('customer_writeoffs', 'writeoff_id'),
+         q('customer_invoices', 'customer_invoice_id'),
+         q('customer_transactions', 'transaction_id', query => query.whereNull('ledger.customer_invoice_id')),
+         q('customer_retainers_and_prepayments', 'retainer_id')
+      ]);
+      return ids.reduce(
+         (acc, id) => ({ ...acc, [id]: [payments[id] || '0', writeOffs[id] || '0', invoices[id] || '0', unbilled[id] || '0', retainers[id] || '0'].join('/') }),
+         {}
+      );
+   },
+
+   /** Rows that were zeroed because the given statement absorbed them. */
+   countRowsAbsorbedBy(db, accountID, customerID, invoiceNumber) {
       return db('customer_invoices')
          .where('account_id', accountID)
          .andWhere('customer_id', customerID)
-         .andWhere('invoice_date', '<', newInvoiceDate)
-         .andWhere('remaining_balance_on_invoice', '>', 0)
-         .update({
-            remaining_balance_on_invoice: 0,
-            notes: db.raw(`CASE WHEN notes IS NULL OR notes = '' THEN ? ELSE notes || ' ' || ? END`, [marker, marker])
-         });
+         .andWhere('notes', 'like', `%[absorbed_by:${invoiceNumber}@%`)
+         .count({ count: '*' })
+         .first()
+         .then(r => Number(r?.count || 0));
+   },
+
+   /** Newest PARENT statements for the given customers dated `dateYYYYMMDD`. */
+   getParentsOnDate(db, accountID, customerIDs, dateYYYYMMDD) {
+      if (!customerIDs.length) return Promise.resolve([]);
+      return db
+         .select('customer_invoice_id', 'customer_id', 'invoice_number', 'invoice_date', 'created_at')
+         .from('customer_invoices')
+         .where('account_id', accountID)
+         .whereIn('customer_id', customerIDs)
+         .whereNull('parent_invoice_id')
+         .andWhereRaw('invoice_date = ?::date', [dateYYYYMMDD]);
    }
 };
 

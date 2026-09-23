@@ -6,6 +6,7 @@ const {
    _resetCacheForTest,
    _addLookupSheet,
    _applyDataValidation,
+   _replaceVisibleNameList,
    COLLAPSE_WINDOW_MS
 } = require('../../../src/endpoints/timeTracking/template-builder');
 
@@ -168,6 +169,55 @@ describe('template-builder', () => {
          if (v != null) values.push(v);
       }
       expect(values).to.include('New Co Just Added');
+   });
+
+   // DEFECT fix regression: the base template also carries a VISIBLE
+   // 'Employee Names' sheet (predates __employees; see _replaceVisibleNameList)
+   // that buildTemplate used to leave untouched, so a re-stamped (flag-on)
+   // template still displayed whichever account's staff the base workbook was
+   // last captured from.
+   it('also scrubs the visible "Employee Names" sheet to the requesting account\'s own staff', async () => {
+      const foreignBase = new ExcelJS.Workbook();
+      foreignBase.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+      const foreignNames = foreignBase.addWorksheet('Employee Names');
+      ['Foreign Staff One', 'Foreign Staff Two', 'Foreign Staff Three'].forEach((name, i) => {
+         foreignNames.getCell(`A${i + 1}`).value = name;
+      });
+      const baseBuffer = Buffer.from(await foreignBase.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer });
+
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      const sheet = wb.getWorksheet('Employee Names');
+      const values = [];
+      for (let r = 1; r <= sheet.rowCount; r++) {
+         const v = sheet.getCell(`A${r}`).value;
+         if (v != null) values.push(v);
+      }
+      expect(values).to.have.members(['Eliza Smith', 'Bob Jones']);
+      expect(values).to.not.include.members(['Foreign Staff One', 'Foreign Staff Two', 'Foreign Staff Three']);
+   });
+});
+
+describe('template-builder _replaceVisibleNameList', () => {
+   it('overwrites an existing visible sheet\'s rows with the given list, clearing leftovers', () => {
+      const wb = new ExcelJS.Workbook();
+      const sheet = wb.addWorksheet('Employee Names');
+      ['Foreign Staff One', 'Foreign Staff Two', 'Foreign Staff Three'].forEach((name, i) => {
+         sheet.getCell(`A${i + 1}`).value = name;
+      });
+      _replaceVisibleNameList(wb, 'Employee Names', ['Eliza Smith', 'Bob Jones']);
+      expect(sheet.getCell('A1').value).to.equal('Eliza Smith');
+      expect(sheet.getCell('A2').value).to.equal('Bob Jones');
+      expect(sheet.getCell('A3').value).to.equal(null);
+      expect(sheet.state).to.equal('visible');
+   });
+
+   it('is a no-op when the sheet does not exist (base template shape may vary)', () => {
+      const wb = new ExcelJS.Workbook();
+      expect(() => _replaceVisibleNameList(wb, 'Employee Names', ['Eliza Smith'])).to.not.throw();
    });
 });
 

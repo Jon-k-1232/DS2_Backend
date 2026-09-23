@@ -6,7 +6,7 @@ const accountRouter = express.Router();
 accountRouter.param('accountID', enforceAccountId);
 const accountService = require('./account-service');
 const { createGrid } = require('../../utils/gridFunctions');
-const { requireAdmin } = require('../auth/jwt-auth');
+const { requireAdmin, requireSuperAdmin } = require('../auth/jwt-auth');
 const automationSettingsService = require('./automation-settings-service');
 const accountUserService = require('../user/user-service');
 const {
@@ -76,8 +76,15 @@ const fetchAccountLogo = async rawValue => {
    };
 };
 
-// Create post to input new account
-accountRouter.route('/createAccount').post(jsonParser, async (req, res) => {
+// Create post to input new account. There is no "create a new tenant" page in
+// the frontend at all (DS2 is effectively single-tenant today) — this was
+// previously reachable, unauthenticated-role-wise, by any logged-in user.
+// Provisioning an entirely new account/tenant is at least as sensitive as
+// updateAccount (requireAdmin below), so gate it at the strictest level.
+accountRouter
+   .route('/createAccount')
+   .all(requireSuperAdmin)
+   .post(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    const sanitizedNewAccount = sanitizeFields(req.body.account);
 
@@ -126,8 +133,32 @@ accountRouter
       accountTableFields.account_id = req.user.account_id;
       accountInfoTableFields.account_id = req.user.account_id;
 
-      const accountData = await accountService.updateAccount(db, accountTableFields);
-      const accountInfoData = await accountService.updateAccountInformation(db, accountInfoTableFields);
+      // The business-settings form and the address form both post through this
+      // one combined endpoint, so a request only carries address fields when
+      // the caller is the address form — restoreDataTypesAccountInformationOnUpdate
+      // now only includes keys that were actually present in the body, so
+      // anything beyond account_id here means "this request means to touch
+      // account_information". A partial/garbage account_info_id used to reach
+      // updateAccountInformation's WHERE clause, silently match zero rows, and
+      // no-op — accepted as a 200 even though nothing was saved.
+      const hasAddressFields = Object.keys(accountInfoTableFields).some(key => key !== 'account_id');
+      if (hasAddressFields && (!Number.isInteger(accountInfoTableFields.account_info_id) || accountInfoTableFields.account_info_id <= 0)) {
+         return res.status(400).send({ status: 400, message: 'Valid account address ID required.' });
+      }
+
+      // Both tables are written in one transaction — previously each ran
+      // against the plain `db` connection independently, so an account update
+      // that "succeeded" could be followed by an address update that failed
+      // (or matched no row), leaving the two tables inconsistent with no
+      // rollback.
+      const { accountData, accountInfoData } = await db.transaction(async trx => {
+         const accountData = await accountService.updateAccount(trx, accountTableFields);
+         const accountInfoData = hasAddressFields ? await accountService.updateAccountInformation(trx, accountInfoTableFields) : undefined;
+         if (!accountData || (hasAddressFields && !accountInfoData)) {
+            throw new Error('Account or address not found.');
+         }
+         return { accountData, accountInfoData };
+      });
 
       // Join account and accountInfo returned values
       const returnedFields = { ...accountData, ...accountInfoData };

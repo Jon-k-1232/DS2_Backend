@@ -22,7 +22,7 @@ const paymentValidators = {
    string: str => typeof str === 'string',
    text: str => typeof str === 'string',
    date: d => !isNaN(new Date(d).getTime()),
-   decimal: n => typeof n === 'number',
+   decimal: n => typeof n === 'number' && Number.isFinite(n),
    boolean: b => typeof b === 'boolean',
    timestamp: ts => !isNaN(new Date(ts).getTime()),
    null: val => val === null
@@ -37,7 +37,8 @@ const correctType = (value, expectedType) => {
       case 'text':
          return value.toString();
       case 'decimal':
-         return Number.isNaN(parseFloat(value)) ? null : parseFloat(value);
+         // Whole numeric strings only (Postgres NUMERIC arrives as '18.75'); never parseFloat('18.75junk').
+         return typeof value === 'string' && /^-?\d+(?:\.\d+)?$/.test(value.trim()) && Number.isFinite(Number(value)) ? Number(value) : null;
       default:
          return null;
    }

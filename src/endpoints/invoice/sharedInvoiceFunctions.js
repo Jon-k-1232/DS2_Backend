@@ -39,14 +39,16 @@ const findMostRecentOutstandingInvoiceRecords = invoices => {
  * @param {*} increment - Integer - number to increment by
  * @returns - String - incremented invoice number
  */
-const incrementAnInvoiceOrQuote = (invoiceNumber, increment) => {
+const incrementAnInvoiceOrQuote = (invoiceNumber, increment, billingYear) => {
    // Check if invoiceNumber is a string
    if (typeof invoiceNumber !== 'string') {
       throw new Error('invoiceNumber must be a string');
    }
 
    const addOne = increment || 0;
-   const currentYear = new Date().getFullYear();
+   // The billing year is passed in by the finalize run so every statement in a
+   // batch shares one year even if the run crosses midnight / a year boundary.
+   const currentYear = Number(billingYear) || new Date().getFullYear();
    // match the format 'PREFIX-YYYY-NNNNN'
    const regex = /^([A-Z]+)-(\d{4})-(\d{5})$/;
    const match = regex.exec(invoiceNumber);
@@ -64,6 +66,10 @@ const incrementAnInvoiceOrQuote = (invoiceNumber, increment) => {
       incrementedNum = num + 1 + addOne;
    } else {
       incrementedNum = 1 + addOne;
+   }
+
+   if (incrementedNum > 99999) {
+      throw new Error(`Invoice sequence exhausted for ${prefix}-${currentYear} (${incrementedNum} > 99999).`);
    }
 
    // format number with leading zeros

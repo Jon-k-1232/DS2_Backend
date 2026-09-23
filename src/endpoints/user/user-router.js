@@ -1,13 +1,40 @@
 const express = require('express');
-const { enforceAccountId } = require('../auth/account-scope');
+const { enforceAccountId, enforceSelfOrPrivileged } = require('../auth/account-scope');
 const userRouter = express.Router();
 userRouter.param('accountID', enforceAccountId);
+// :userID across these routes conventionally carries the ACTING user's own id
+// (createUser/updateUser never actually read it — the target comes from the
+// request body) except on deleteUser, where it IS the target to delete. Either
+// way, self-or-privileged is the right guard: super admin (required below on
+// every route here) always satisfies "privileged", so this is a no-op for the
+// legitimate caller and only matters as defense in depth — except on
+// fetchSingleUser, which used to require manager/admin for EVERY call
+// including a user looking up their own record (see fix below).
+userRouter.param('userID', enforceSelfOrPrivileged);
 const accountUserService = require('./user-service');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { createGrid } = require('../../utils/gridFunctions');
-const { requireManagerOrAdmin, requireSuperAdmin } = require('../auth/jwt-auth');
-const { restoreDataTypesUserOnCreate, restoreDataTypesUserOnUpdate } = require('./userObjects');
+const { requireSuperAdmin } = require('../auth/jwt-auth');
+const { restoreDataTypesUserOnCreate, restoreDataTypesUserOnUpdate, normalizeAccessLevel } = require('./userObjects');
+
+const SUPER_ADMIN = 'super admin';
+const isActiveSuperAdmin = user => !!user && user.is_user_active && String(user.access_level || '').toLowerCase() === SUPER_ADMIN;
+
+// Refuses an update/delete that would leave the account with zero active Super
+// Admins. `targetUserID` is the user being changed; `wouldLoseSuperAdmin`
+// tells us whether the operation actually removes their active-super-admin
+// status (a delete always does; an update only does if it deactivates them or
+// changes their access_level away from Super Admin).
+const assertNotLastSuperAdmin = async (db, accountID, targetUser, targetUserID, wouldLoseSuperAdmin) => {
+   if (!isActiveSuperAdmin(targetUser) || !wouldLoseSuperAdmin) return;
+   const { count } = await accountUserService.countActiveSuperAdmins(db, accountID, targetUserID);
+   if (Number(count) < 1) {
+      const error = new Error('Cannot remove the last active Super Admin on this account.');
+      error.status = 400;
+      throw error;
+   }
+};
 
 // Create a new user — super admin only (Kasi/Jon)
 userRouter
@@ -24,15 +51,19 @@ userRouter
          const userDataTypes = restoreDataTypesUserOnCreate(sanitizedNewUser);
          // Trust the account from the (guard-verified) URL, never the request body.
          userDataTypes.account_id = Number(accountID);
+         // Reject anything outside the canonical role set instead of persisting
+         // a value none of the frontend's role gates would recognize.
+         userDataTypes.access_level = normalizeAccessLevel(userDataTypes.access_level);
          const userData = await accountUserService.createUser(db, userDataTypes);
          const { account_id } = userData;
 
          await sendUpdatedTableWith200Response(db, res, account_id);
       } catch (err) {
          console.log(err);
-         res.send({
+         const status = err.status || 500;
+         res.status(status).send({
             message: err.message || 'An error occurred while creating the user.',
-            status: 500
+            status
          });
       }
    });
@@ -50,15 +81,34 @@ userRouter
          const userDataTypes = restoreDataTypesUserOnUpdate(sanitizedUpdatedUser);
          // Trust the account from the (guard-verified) URL, never the request body.
          userDataTypes.account_id = Number(accountID);
+         userDataTypes.access_level = normalizeAccessLevel(userDataTypes.access_level);
+
+         const targetUserID = Number(userDataTypes.user_id);
+         const isSelf = targetUserID === Number(req.user.user_id);
+         // is_user_active on the mapped object is `undefined` (not `false`)
+         // when the caller omits it, so this only fires on an explicit
+         // deactivation, never on an unrelated field edit.
+         const willDeactivate = userDataTypes.is_user_active === false;
+
+         if (isSelf && willDeactivate) {
+            const error = new Error('You cannot deactivate your own user account.');
+            error.status = 400;
+            throw error;
+         }
+
+         const [currentTarget] = await accountUserService.fetchUser(db, accountID, targetUserID);
+         const willLoseSuperAdmin = willDeactivate || userDataTypes.access_level !== 'Super Admin';
+         await assertNotLastSuperAdmin(db, accountID, currentTarget, targetUserID, willLoseSuperAdmin);
 
          await accountUserService.updateUser(db, userDataTypes, accountID);
 
          await sendUpdatedTableWith200Response(db, res, accountID);
       } catch (err) {
          console.log(err);
-         res.send({
+         const status = err.status || 500;
+         res.status(status).send({
             message: err.message || 'An error occurred while updating the user.',
-            status: 500
+            status
          });
       }
    });
@@ -72,26 +122,45 @@ userRouter
       const { userID, accountID } = req.params;
 
       try {
+         if (Number(userID) === Number(req.user.user_id)) {
+            const error = new Error('You cannot delete your own user account.');
+            error.status = 400;
+            throw error;
+         }
+
+         const [targetUser] = await accountUserService.fetchUser(db, accountID, userID);
+         await assertNotLastSuperAdmin(db, accountID, targetUser, userID, true);
+
          await accountUserService.deleteUser(db, userID, accountID);
          await sendUpdatedTableWith200Response(db, res, accountID);
       } catch (err) {
          console.log(err);
-         res.send({
-            message: 'The user cannot be deleted because data tied to this user exists.',
-            status: 500
+         const status = err.status || 500;
+         res.status(status).send({
+            message: status === 500 ? 'The user cannot be deleted because data tied to this user exists.' : err.message,
+            status
          });
       }
    });
 
-// fetch single user
+// Fetch single user. Called for EVERY logged-in user (any role) on page
+// load/reload to populate their own session info (PrimaryRouter.js apiCall),
+// as well as by the (super-admin-gated) Account Users admin screen to look up
+// someone else's record. Blanket requireManagerOrAdmin used to 403 a plain
+// "User"-role staff member reloading the page; self-or-privileged (registered
+// above as the :userID param guard) is the correct check: any authenticated
+// user may fetch their own record, only a manager+ may fetch someone else's.
 userRouter
    .route('/fetchSingleUser/:accountID/:userID')
-   .all(requireManagerOrAdmin)
    .get(async (req, res) => {
       const db = req.app.get('db');
       const { accountID, userID } = req.params;
 
       const [activeUser] = await accountUserService.fetchUser(db, accountID, userID);
+
+      if (!activeUser) {
+         return res.status(404).send({ message: 'User not found.', status: 404 });
+      }
 
       const activeUserData = {
          activeUser,

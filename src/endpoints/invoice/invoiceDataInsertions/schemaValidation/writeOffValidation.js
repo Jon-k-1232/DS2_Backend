@@ -19,7 +19,7 @@ const transactionValidators = {
    string: str => typeof str === 'string',
    text: str => typeof str === 'string',
    date: d => !isNaN(new Date(d).getTime()),
-   decimal: n => typeof n === 'number',
+   decimal: n => typeof n === 'number' && Number.isFinite(n),
    boolean: b => typeof b === 'boolean',
    timestamp: ts => !isNaN(new Date(ts).getTime()),
    null: val => val === null

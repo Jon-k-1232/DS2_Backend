@@ -19,6 +19,59 @@ const fmtDateTime = iso => {
    return Number.isNaN(d.getTime()) ? iso : d.toLocaleString();
 };
 
+const round2 = n => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
+const num = n => Number(n) || 0;
+
+/**
+ * Rows of the "Audit balance breakdown" section, as signed amounts that ALWAYS
+ * sum to the printed audit balance.
+ *  - Audits built by the current account-audit-logic carry
+ *    totals.audit_balance_lines — the exact components audit_balance is
+ *    computed from (outstanding, unbilled work on jobs, job write-offs netted,
+ *    unapplied payments, absorbed-chain write-off credits).
+ *  - Summaries stored by older versions lack those lines; they are rebuilt from
+ *    the fields they do have, and any remainder (e.g. write-off credits that
+ *    were not stored separately) is printed as an explicit adjustment line
+ *    instead of silently not adding up.
+ */
+const auditBalanceBreakdownLines = totals => {
+   const t = totals || {};
+   const balance = round2(num(t.audit_balance));
+   const lines =
+      Array.isArray(t.audit_balance_lines) && t.audit_balance_lines.length
+         ? t.audit_balance_lines.map(l => ({ label: l.label, amount: round2(num(l.amount)) }))
+         : [
+              { label: 'Outstanding on invoices (latest snapshot per chain)', amount: round2(num(t.outstanding_invoices)) },
+              { label: 'Unbilled billable work (net of job write-offs)', amount: round2(num(t.unbilled_billable_net ?? t.unbilled_billable)) },
+              { label: 'Unbilled payments', amount: round2(-num(t.unbilled_payments)) }
+           ];
+   const residual = round2(balance - lines.reduce((a, l) => a + l.amount, 0));
+   if (Math.abs(residual) >= 0.01) {
+      lines.push({ label: 'Other adjustments (write-off credits since the last statement)', amount: residual });
+   }
+   return lines;
+};
+
+/**
+ * Audit balance → strict ledger step. The pending write-off line is derived
+ * (audit − strict) so the step always adds up; for current audits it equals
+ * totals.unbilled_writeoffs because strict_ledger_balance = audit_balance −
+ * unbilled_writeoffs by construction. Summaries stored by older versions used a
+ * different strict formula, so their difference is labelled as such.
+ */
+const strictLedgerStep = totals => {
+   const t = totals || {};
+   const auditBalance = round2(num(t.audit_balance));
+   const strict = round2(num(t.strict_ledger_balance));
+   const isCurrentFormula = Array.isArray(t.audit_balance_lines) && t.audit_balance_lines.length > 0;
+   return {
+      auditBalance,
+      pendingWriteoffs: round2(auditBalance - strict),
+      pendingLabel: isCurrentFormula ? 'Pending write-offs the next bill will not apply' : 'Difference to strict ledger (legacy formula)',
+      strict
+   };
+};
+
 const severityLabel = sev => (sev || 'low').toUpperCase();
 const severityColor = sev => {
    if (sev === 'high') return '#c62828';
@@ -96,19 +149,19 @@ const buildAuditPdf = ({ audit, summary }) => {
          row('Total write-offs', fmt(totals.total_writeoffs));
          doc.moveDown(0.5);
 
+         // Signed rows that sum to the audit balance (see auditBalanceBreakdownLines).
          doc.fontSize(12).font('Helvetica-Bold').text('Audit balance breakdown');
          doc.moveDown(0.25);
          doc.fontSize(10);
-         row('Outstanding on invoices (latest snapshot per chain)', fmt(totals.outstanding_invoices));
-         row('+ Unbilled billable transactions', fmt(totals.unbilled_billable));
-         row('− Unbilled |payments|', fmt(totals.unbilled_payments));
+         auditBalanceBreakdownLines(totals).forEach(line => row(line.label, fmt(line.amount)));
          doc.moveTo(36, doc.y).lineTo(576, doc.y).stroke();
          doc.moveDown(0.2);
-         row('Audit balance (matches app)', fmt(totals.audit_balance), true);
-         row('− Unbilled write-offs (pending adjustment)', fmt(totals.unbilled_writeoffs));
+         const step = strictLedgerStep(totals);
+         row('Audit balance (matches app)', fmt(step.auditBalance), true);
+         row(step.pendingLabel, fmt(-step.pendingWriteoffs));
          doc.moveTo(36, doc.y).lineTo(576, doc.y).stroke();
          doc.moveDown(0.2);
-         row('Strict ledger balance (after pending writeoffs applied)', fmt(totals.strict_ledger_balance), true);
+         row('Strict ledger balance (after pending writeoffs applied)', fmt(step.strict), true);
          doc.moveDown(0.5);
 
          // Retainers section (only when the customer has any)
@@ -285,4 +338,4 @@ const buildAuditPdf = ({ audit, summary }) => {
    });
 };
 
-module.exports = { buildAuditPdf };
+module.exports = { buildAuditPdf, auditBalanceBreakdownLines, strictLedgerStep };

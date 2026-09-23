@@ -1,7 +1,11 @@
 const express = require('express');
-const { enforceAccountId } = require('../auth/account-scope');
+const { enforceAccountId, enforceSelfOrPrivileged } = require('../auth/account-scope');
 const notificationsRouter = express.Router();
 notificationsRouter.param('accountID', enforceAccountId);
+// :userID here identifies the OWNER of the notifications being read/mutated,
+// not merely the acting caller — a plain user must only reach their own
+// notifications; managers/admins/super admins may act on any user's.
+notificationsRouter.param('userID', enforceSelfOrPrivileged);
 const asyncHandler = require('../../utils/asyncHandler');
 const jsonParser = express.json();
 const notificationsService = require('./notifications-service');

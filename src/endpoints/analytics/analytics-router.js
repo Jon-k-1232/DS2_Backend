@@ -6,13 +6,9 @@ analyticsRouter.param('accountID', enforceAccountId);
 const analyticsService = require('./analytics-service');
 const accountsReceivableService = require('../accountsReceivable/accounts-receivable-service');
 const archiver = require('archiver');
-
-const escapeCsvValue = value => {
-   if (value === null || value === undefined) return '';
-   const s = String(value);
-   if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
-   return s;
-};
+// Every CSV cell goes through csvCell (quoting + formula-injection guard that
+// leaves numbers / numeric strings alone); date-only cells through csvDate.
+const { csvDate, csvRow } = require('./csv-util');
 
 // Customer ids to exclude from analytics, from the ?exclude=1,2,3 query param.
 const parseExclude = req =>
@@ -36,7 +32,7 @@ const buildClientRatesCsvLines = (clients, years) => {
       'YoY %',
       'Suggested Rate'
    ];
-   const lines = [header.map(escapeCsvValue).join(',')];
+   const lines = [csvRow(header)];
    clients.forEach(c => {
       const cells = [c.display_name];
       years.forEach(y => {
@@ -50,44 +46,96 @@ const buildClientRatesCsvLines = (clients, years) => {
          );
       });
       cells.push(c.last_full_year_rate ?? '', c.yoy_pct ?? '', c.suggested_rate ?? '');
-      lines.push(cells.map(escapeCsvValue).join(','));
+      lines.push(csvRow(cells));
    });
    return lines;
 };
 
 const buildTimeAllocationCsvLines = data => {
    const lines = [];
-   lines.push(`Time Allocation ${data.year}`);
+   lines.push(csvRow([`Time Allocation ${data.year}`]));
    lines.push('');
    lines.push('Summary');
-   lines.push(['Total Hours', 'Billable Hours', 'Non-Billable Hours', 'Billable %', 'Billed Amount'].join(','));
-   lines.push([data.summary.total_hours, data.summary.billable_hours, data.summary.nonbillable_hours, data.summary.billable_pct ?? '', data.summary.billed_amount].join(','));
+   lines.push(csvRow(['Total Hours', 'Billable Hours', 'Non-Billable Hours', 'Billable %', 'Billed Amount']));
+   lines.push(csvRow([data.summary.total_hours, data.summary.billable_hours, data.summary.nonbillable_hours, data.summary.billable_pct ?? '', data.summary.billed_amount]));
    lines.push('');
    lines.push('By Work Description');
-   lines.push(['Work Description', 'Hours', 'Billable Hours', 'Non-Billable Hours', 'Billed Amount', 'Entries'].map(escapeCsvValue).join(','));
-   data.byWorkDescription.forEach(r =>
-      lines.push([escapeCsvValue(r.work_description), r.hours, r.billable_hours, r.nonbillable_hours, r.billed_amount, r.entries].join(','))
-   );
+   lines.push(csvRow(['Work Description', 'Hours', 'Billable Hours', 'Non-Billable Hours', 'Billed Amount', 'Entries']));
+   data.byWorkDescription.forEach(r => lines.push(csvRow([r.work_description, r.hours, r.billable_hours, r.nonbillable_hours, r.billed_amount, r.entries])));
    lines.push('');
-   lines.push('By Customer (top 20 by hours)');
-   lines.push(['Customer', 'Hours', 'Billed Amount'].map(escapeCsvValue).join(','));
-   data.byCustomer.forEach(r => lines.push([escapeCsvValue(r.customer), r.hours, r.billed_amount].join(',')));
+   lines.push(csvRow(['By Customer (top 20 by hours)']));
+   lines.push(csvRow(['Customer', 'Hours', 'Billed Amount']));
+   data.byCustomer.forEach(r => lines.push(csvRow([r.customer, r.hours, r.billed_amount])));
    lines.push('');
    lines.push('By Month');
-   lines.push(['Month', 'Billable Hours', 'Non-Billable Hours', 'Billed Amount'].join(','));
-   data.monthly.forEach(r => lines.push([r.month, r.billable_hours, r.nonbillable_hours, r.billed_amount].join(',')));
+   lines.push(csvRow(['Month', 'Billable Hours', 'Non-Billable Hours', 'Billed Amount']));
+   data.monthly.forEach(r => lines.push(csvRow([r.month, r.billable_hours, r.nonbillable_hours, r.billed_amount])));
    lines.push('');
-   lines.push('Raw Tracker By Category (includes held/unprocessed entries)');
-   lines.push(['Category', 'Hours', 'Entries'].map(escapeCsvValue).join(','));
-   data.trackerByCategory.forEach(r => lines.push([escapeCsvValue(r.category), r.hours, r.entries].join(',')));
+   lines.push(csvRow(['Raw Tracker By Category (includes held/unprocessed entries)']));
+   lines.push(csvRow(['Category', 'Hours', 'Entries']));
+   data.trackerByCategory.forEach(r => lines.push(csvRow([r.category, r.hours, r.entries])));
    return lines;
 };
 
 const buildWipCsvLines = rows => {
-   const lines = [['Customer', 'Unbilled Amount', 'Unbilled Hours', 'Entries', 'Oldest Date', 'Days Old', '0-30', '31-60', '61-90', '>90'].map(escapeCsvValue).join(',')];
+   const lines = [
+      csvRow(['Customer', 'Unbilled Amount', 'Unbilled Hours', 'Entries', 'Oldest Date', 'Days Old', '0-30', '31-60', '61-90', '>90', 'Future-Dated Entries', 'Future-Dated Amount'])
+   ];
    rows.forEach(r =>
       lines.push(
-         [escapeCsvValue(r.display_name), r.unbilled_amount, r.unbilled_hours, r.entries, r.oldest_date ? String(r.oldest_date).slice(0, 10) : '', r.days_old ?? '', r.bucket_0_30, r.bucket_31_60, r.bucket_61_90, r.bucket_over_90].join(',')
+         csvRow([
+            r.display_name,
+            r.unbilled_amount,
+            r.unbilled_hours,
+            r.entries,
+            csvDate(r.oldest_date),
+            r.days_old ?? '',
+            r.bucket_0_30,
+            r.bucket_31_60,
+            r.bucket_61_90,
+            r.bucket_over_90,
+            r.future_dated_count ?? 0,
+            r.future_dated_amount ?? 0
+         ])
+      )
+   );
+   return lines;
+};
+
+// AR sheet of the year-end packet. Buckets are STATEMENT age (days since the
+// newest statement); the trailing columns carry the real receivable age (oldest
+// charge still unpaid, FIFO) — see accounts-receivable-service.
+const buildArAgingCsvLines = rows => {
+   const lines = [
+      csvRow([
+         'Customer',
+         '0-30',
+         '31-60',
+         '61-90',
+         '>90',
+         'Total Owed',
+         'Most Recent Invoice',
+         'Last Payment',
+         'Oldest Open Charge',
+         'Days Since Oldest Open Charge',
+         'Active Customer'
+      ])
+   ];
+   rows.forEach(r =>
+      lines.push(
+         csvRow([
+            r.display_name,
+            r.bucket_0_30,
+            r.bucket_31_60,
+            r.bucket_61_90,
+            r.bucket_over_90,
+            r.total_outstanding,
+            csvDate(r.statement_date || r.most_recent_invoice_date),
+            csvDate(r.last_payment_date),
+            csvDate(r.oldest_open_charge_date),
+            r.oldest_open_charge_days ?? '',
+            r.is_customer_active === false ? 'No' : 'Yes'
+         ])
       )
    );
    return lines;
@@ -214,23 +262,7 @@ analyticsRouter.route('/yearEndPacket/:accountID/:userID').get(async (req, res) 
          accountsReceivableService.getAging(db, accountID, { limit: 10000, offset: 0, excludeIds })
       ]);
 
-      const arLines = [
-         ['Customer', '0-30', '31-60', '61-90', '>90', 'Total Owed', 'Most Recent Invoice', 'Last Payment'].map(escapeCsvValue).join(',')
-      ];
-      arResult.rows.forEach(r =>
-         arLines.push(
-            [
-               escapeCsvValue(r.display_name),
-               r.bucket_0_30,
-               r.bucket_31_60,
-               r.bucket_61_90,
-               r.bucket_over_90,
-               r.total_outstanding,
-               r.most_recent_invoice_date ? String(r.most_recent_invoice_date).slice(0, 10) : '',
-               r.last_payment_date ? String(r.last_payment_date).slice(0, 10) : ''
-            ].join(',')
-         )
-      );
+      const arLines = buildArAgingCsvLines(arResult.rows);
 
       res.setHeader('Content-Type', 'application/zip');
       res.setHeader('Content-Disposition', `attachment; filename="year_end_packet_${year}.zip"`);
@@ -281,3 +313,5 @@ analyticsRouter.route('/exclusions/:accountID/:userID').get(async (req, res) => 
 });
 
 module.exports = analyticsRouter;
+// Exposed for unit tests of the CSV builders.
+module.exports.csvBuilders = { buildClientRatesCsvLines, buildTimeAllocationCsvLines, buildWipCsvLines, buildArAgingCsvLines };

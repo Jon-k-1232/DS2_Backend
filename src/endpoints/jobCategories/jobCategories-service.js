@@ -3,8 +3,8 @@ const jobCategoriesService = {
     return db.select().from('customer_job_categories').where('account_id', accountID).where('is_job_category_active', true);
   },
 
-  getSingleJobCategory(db, jobCategoryID) {
-    return db.select().from('customer_job_categories').where('customer_job_category_id', jobCategoryID);
+  getSingleJobCategory(db, jobCategoryID, accountID) {
+    return db.select().from('customer_job_categories').where('customer_job_category_id', jobCategoryID).andWhere('account_id', accountID);
   },
 
   createJobCategory(db, newJobCategory) {
@@ -15,15 +15,16 @@ const jobCategoriesService = {
       .then(rows => rows[0]);
   },
 
-  updateJobCategory(db, updatedJobCategory) {
+  updateJobCategory(db, updatedJobCategory, accountID) {
     return db
       .update(updatedJobCategory)
       .into('customer_job_categories')
-      .where('customer_job_category_id', '=', updatedJobCategory.customer_job_category_id);
+      .where('customer_job_category_id', '=', updatedJobCategory.customer_job_category_id)
+      .andWhere('account_id', accountID);
   },
 
-  deleteJobCategory(db, jobCategoryID) {
-    return db.delete().from('customer_job_categories').where('customer_job_category_id', '=', jobCategoryID);
+  deleteJobCategory(db, jobCategoryID, accountID) {
+    return db.delete().from('customer_job_categories').where('customer_job_category_id', '=', jobCategoryID).andWhere('account_id', accountID);
   }
 };
 

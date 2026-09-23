@@ -6,6 +6,9 @@ const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagi
 const { putObject, getObject, deleteObject } = require('../../utils/s3');
 const { pendingPaymentsService, PAYMENTS_PENDING_PREFIX } = require('./pendingPayments-service');
 const { validatePendingPaymentExists, validateCanApprove, validateCanDelete } = require('./pendingPayments-logic');
+const { buildCreatePaymentInput, createPaymentCore, buildLedgerTablesPayload } = require('../payments/payment-logic');
+const { appendNoteMarker } = require('../payments/ledger-helpers');
+const { clientSafeMessage } = require('../../utils/clientError');
 
 const { enforceAccountId } = require('../auth/account-scope');
 const pendingPaymentsRouter = express.Router();
@@ -14,6 +17,16 @@ const jsonParser = express.json();
 const rawUploadParser = express.raw({ type: () => true, limit: '25mb' });
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10 MB
+
+/**
+ * Refusal for the `:paymentID` routes: a not-found (incl. a malformed id) keeps
+ * its 404; anything else stays a 500 whose message never carries driver / SQL
+ * text in production.
+ */
+const sendPendingPaymentError = (res, error, fallback) => {
+   const statusCode = error.statusCode || 500;
+   res.status(statusCode).send({ message: error.statusCode ? error.message : clientSafeMessage(error, fallback), status: statusCode });
+};
 
 // GET /pending-payments/list/:accountID/:userID
 // Paginated list with filters: status (new|processed|all), month, year, search
@@ -48,9 +61,12 @@ pendingPaymentsRouter.route('/list/:accountID/:userID').get(async (req, res) => 
       });
    } catch (error) {
       console.error('Error fetching pending payments:', error);
-      res.status(500).send({
-         message: error.message || 'An error occurred while retrieving pending payments.',
-         status: 500
+      // Same contract as GET /payments/getPayments: bad paging input is a 400.
+      const isPaginationError = Boolean(error.message && error.message.includes('Invalid pagination'));
+      const statusCode = isPaginationError ? 400 : 500;
+      res.status(statusCode).send({
+         message: isPaginationError ? error.message : clientSafeMessage(error, 'An error occurred while retrieving pending payments.'),
+         status: statusCode
       });
    }
 });
@@ -81,7 +97,7 @@ pendingPaymentsRouter.route('/single/:paymentID/:accountID/:userID').get(async (
       return res.status(200).send({ payment: record, message: 'Success', status: 200 });
    } catch (error) {
       console.error('Error fetching single pending payment:', error);
-      res.status(500).send({ message: error.message, status: 500 });
+      sendPendingPaymentError(res, error, 'An error occurred while retrieving the pending payment.');
    }
 });
 
@@ -106,33 +122,109 @@ pendingPaymentsRouter.route('/soft-delete/:paymentID/:accountID/:userID').put(js
       });
    } catch (error) {
       console.error('Error soft-deleting pending payment:', error);
-      res.status(500).send({ message: error.message, status: 500 });
+      sendPendingPaymentError(res, error, 'An error occurred while deleting the pending payment.');
    }
 });
 
-// PUT /pending-payments/approve/:paymentID/:accountID/:userID
-// Mark a pending payment as processed (called AFTER the real payment is created)
-pendingPaymentsRouter.route('/approve/:paymentID/:accountID/:userID').put(jsonParser, async (req, res) => {
+const httpError = (statusCode, message) => Object.assign(new Error(message), { statusCode });
+
+// POST /pending-payments/approve/:accountID/:userID
+// One-step approval: posts the reviewed payment AND marks the pending row
+// processed in ONE transaction, so a retry or double-click can never post the
+// same check twice (the legacy flow was two client calls with no link between
+// them: POST /payments/createPayment, then PUT /approve/:paymentID/...).
+//
+// Body: { pendingPaymentId: <customer_payments_processed.payment_id>,
+//         payment: <exactly the `payment` object POST /payments/createPayment takes> }
+//
+// - The pending row is locked (SELECT … FOR UPDATE); an already processed or
+//   deleted row, or one a payment was already posted from, answers 409.
+// - The payment goes through payment-logic.createPaymentCore — the same code
+//   path as /payments/createPayment (current-chain guard, overpayment split,
+//   retainer draw, ledger lock). Its note gets `[pending_payment:<id>]`.
+// - The pending row is marked processed and its note gets
+//   `[posted_payment:<payment_id>]` (no column exists for the link).
+// Success: HTTP 200 { status: 200, message, payment, pendingPayment, counts,
+//   paymentsList, accountRetainersList, invoicesList } — the lists have the same
+//   shape as the /payments/createPayment response.
+// Failure: HTTP 400 (bad body) / 404 (not found) / 409 (already processed) /
+//   422 (payment rule refused, e.g. amount exceeds the remaining) / 500, with
+//   { status: <same code>, message }.
+pendingPaymentsRouter.route('/approve/:accountID/:userID').post(jsonParser, async (req, res) => {
    const db = req.app.get('db');
-   const { paymentID, accountID } = req.params;
+   const accountID = Number(req.params.accountID);
 
    try {
-      const record = await validatePendingPaymentExists(db, paymentID, accountID);
-      validateCanApprove(record);
+      const pendingPaymentId = Number(req.body?.pendingPaymentId);
+      if (!Number.isInteger(pendingPaymentId) || pendingPaymentId <= 0) {
+         throw httpError(400, 'pendingPaymentId is required.');
+      }
+      const { payment } = req.body || {};
+      if (!payment || typeof payment !== 'object' || Array.isArray(payment)) {
+         throw httpError(400, 'payment is required.');
+      }
 
-      const updated = await pendingPaymentsService.markAsProcessed(db, paymentID, accountID);
-      const counts = await pendingPaymentsService.getTabCounts(db, accountID);
+      const input = buildCreatePaymentInput(sanitizeFields(payment), accountID, req.user?.user_id);
+
+      const result = await db.transaction(async trx => {
+         const pending = await pendingPaymentsService.getPendingPaymentForUpdate(trx, pendingPaymentId, accountID);
+         if (!pending) throw httpError(404, 'Pending payment record not found.');
+         try {
+            validateCanApprove(pending);
+         } catch (err) {
+            throw httpError(409, err.message);
+         }
+         const alreadyPosted = await pendingPaymentsService.findPostedPaymentForPending(trx, pendingPaymentId, accountID);
+         if (alreadyPosted) {
+            throw httpError(409, `Payment #${alreadyPosted.payment_id} was already posted from this pending payment.`);
+         }
+
+         const created = await createPaymentCore(trx, {
+            ...input,
+            paymentFields: { ...input.paymentFields, note: appendNoteMarker(input.paymentFields.note, `[pending_payment:${pendingPaymentId}]`) }
+         });
+
+         const postedMarker = created.payment ? `[posted_payment:${created.payment.payment_id}]` : `[posted_prepayment_retainer:${created.prepaymentRetainer.retainer_id}]`;
+         const pendingPayment = await pendingPaymentsService.markAsProcessed(trx, pendingPaymentId, accountID, {
+            note: appendNoteMarker(pending.note, postedMarker)
+         });
+         return { created, pendingPayment };
+      });
+
+      const [tables, counts] = await Promise.all([buildLedgerTablesPayload(db, accountID), pendingPaymentsService.getTabCounts(db, accountID)]);
 
       return res.status(200).send({
-         payment: updated,
+         ...tables,
+         payment: result.created.payment,
+         prepaymentRetainer: result.created.prepaymentRetainer,
+         pendingPayment: result.pendingPayment,
          counts,
-         message: 'Payment approved and processed.',
+         message: result.created.message,
          status: 200
       });
    } catch (error) {
       console.error('Error approving pending payment:', error);
-      res.status(500).send({ message: error.message, status: 500 });
+      const statusCode = error.statusCode || 500;
+      // Rule refusals carry a user-facing message; an unexpected failure may be a
+      // raw driver/SQL error, which must not reach the client in production.
+      const message = error.statusCode ? error.message : clientSafeMessage(error, 'An error occurred while approving the payment.');
+      res.status(statusCode).send({ message, status: statusCode });
    }
+});
+
+// PUT /pending-payments/approve/:paymentID/:accountID/:userID
+// RETIRED: this legacy two-step flow marked a pending payment "processed"
+// without ever posting a ledger entry (no lock, no createPaymentCore call) —
+// a receipt could be reported as approved with no payment, retainer or
+// invoice movement behind it. POST /pending-payments/approve replaced it
+// 2026: it posts the payment AND marks the row processed atomically, under
+// the customer's ledger lock. Kept as a 410 so any caller still on the old
+// two-step flow gets a clear, actionable failure instead of a silent no-op.
+pendingPaymentsRouter.route('/approve/:paymentID/:accountID/:userID').put(jsonParser, (req, res) => {
+   res.status(410).send({
+      status: 410,
+      message: 'This endpoint no longer posts payments. Use POST /pending-payments/approve/:accountID/:userID with { pendingPaymentId, payment } — it posts the ledger entry and marks the pending payment processed atomically.'
+   });
 });
 
 // POST /pending-payments/upload/:accountID/:userID
@@ -164,7 +256,8 @@ pendingPaymentsRouter.post('/upload/:accountID/:userID', rawUploadParser, async 
 
       const s3Key = `${PAYMENTS_PENDING_PREFIX}/${decodedName}`;
       await putObject(s3Key, req.body, fileTypeHeader, {
-         'uploaded-by': String(req.params.userID),
+         // The AUTHENTICATED uploader — the URL :userID is caller-supplied.
+         'uploaded-by': String(req.user?.user_id ?? ''),
          'account-id': String(accountID),
          'upload-date': dayjs().toISOString()
       });
