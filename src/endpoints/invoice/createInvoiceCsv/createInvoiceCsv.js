@@ -1,3 +1,8 @@
+// Every cell goes through the shared csv-util: text a spreadsheet would run as a
+// formula (leading = + - @ TAB CR) is neutralised, text containing commas/quotes
+// is quoted instead of mangled, and numbers / numeric strings are never altered.
+const { csvRow } = require('../../analytics/csv-util');
+
 /**
  * Create Csv Data
  * @param {*} invoicesWithDetail
@@ -39,7 +44,7 @@ const convertToCSV = invoicesWithDetail => {
 
    const rows = invoicesWithDetail.map(customer => [
       customer.customer_id,
-      customer.customerContactInformation.display_name.replace(/,/g, ''),
+      customer.customerContactInformation.display_name,
       customer.outstandingInvoices.outstandingInvoiceTotal,
       customer.payments.paymentTotal,
       customer.transactions.transactionsTotal,
@@ -49,7 +54,7 @@ const convertToCSV = invoicesWithDetail => {
    ]);
 
    rows.unshift(headers);
-   const csvRows = rows.map(row => row.join(','));
+   const csvRows = rows.map(row => csvRow(row));
    return csvRows.join('\n');
 };
 
