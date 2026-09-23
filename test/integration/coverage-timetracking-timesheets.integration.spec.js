@@ -39,6 +39,10 @@ const { bootHttp, expectEnvelopeOk } = require('./_http');
 const { buildTrackerFromTemplate } = require('../fixtures/buildTrackerFromTemplate');
 const { installStubbedAws, installFailClosedAws, SEED_GWD_ID } = require('../fixtures/integrationHelpers');
 const { getObject, putObject, deleteObject, listObjects } = require('../../src/utils/s3');
+// Required as a namespace so its buildTemplate property can be monkey-patched
+// for the "builder failure -> 503" coverage below (the router requires it the
+// same way for the same reason).
+const templateBuilder = require('../../src/endpoints/timeTracking/template-builder');
 
 const A = 9001;
 const FOREIGN_ACCOUNT = 1; // read-only reference tenant
@@ -248,7 +252,16 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
       maxNotificationId = Number((await db('notifications').max({ id: 'notification_id' }).first()).id || 0);
       maxTemplateDownloadId = Number((await db('template_downloads').max({ id: 'template_download_id' }).first()).id || 0);
 
-      const tpl = await getBinary('admin', `/time-tracking/template/latest/${A}/${ADMIN}`);
+      // Fetched as the OWNER account (1), never A (9001): timeTracking-router.js
+      // now only ever passes through raw bytes to the template's owner — every
+      // other account always gets a rebuild instead (see the "template/latest"
+      // describe block below). Fetching as A here would (a) populate
+      // template-builder's in-memory cache for A/ADMIN before covCustomer below
+      // exists, making the later "flag on" test observe a stale pre-fixture
+      // snapshot within the 60s collapse window, and (b) hand this fixture a
+      // rebuilt buffer instead of the pristine original. Fetching as the owner
+      // sidesteps both and yields the exact same bytes this fixture always used.
+      const tpl = await getBinary('superAdmin', `/time-tracking/template/latest/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
       expect(tpl.status).to.equal(200);
       templateBuffer = tpl.body;
       originalTemplateName = tpl.headers['x-tracker-filename'];
@@ -595,13 +608,19 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
    });
 
    describe('GET /time-tracking/template/latest/:accountID/:userID', () => {
-      it('flag off (default): the stored latest template is served unchanged to any authenticated user of the account', async () => {
-         const res = await getBinary('employee', `/time-tracking/template/latest/${A}/${ELIZA}`);
+      // Byte-identical passthrough is reserved for the account that OWNS the
+      // template object (TEMPLATE_OWNER_ACCOUNT_ID in timeTracking-router.js
+      // — account 1, since the S3 key lives under its slug and no per-object
+      // owner is otherwise recorded). Account 9001 is not that owner, so its
+      // own "flag off (default)" behavior is covered separately below (it
+      // always gets a rebuild, never these raw bytes).
+      it('flag off (default), OWNER account: the stored latest template is served unchanged', async () => {
+         const res = await getBinary('superAdmin', `/time-tracking/template/latest/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
          expect(res.status).to.equal(200);
          expect(res.headers['x-tracker-filename']).to.equal(originalTemplateName);
          const stored = await getObject(`${TRACKER_VERSIONS_ROOT}/${originalTemplateName}`);
          expect(sha256(res.body)).to.equal(sha256(stored.body));
-         expect(res.headers['x-tracker-customers'], 'no dynamic re-stamp when the flag is off').to.equal(undefined);
+         expect(res.headers['x-tracker-customers'], 'no dynamic re-stamp for the template’s own owner account').to.equal(undefined);
       });
 
       it('flag on for the account: hidden lookup sheets are re-stamped from account 9001’s own catalogs; counts in headers; audit row written', async () => {
@@ -667,37 +686,52 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          expect(leaked(XLSX.read(dynamicRes.body, { type: 'buffer' }))).to.deep.equal({ customers: 0, staff: 0 });
       });
 
-      // STILL A DEFECT, left skipped — see the flag-on test just above for the part
-      // that IS fixed. This flag-OFF half is irreconcilable with the OTHER (green,
-      // not-DEFECT) test in this same describe block, "flag off (default): the
-      // stored latest template is served unchanged...", which pins the flag-off
-      // response to being BYTE-IDENTICAL to whatever object currently sits at
-      // tracker_versions/<latest> (sha256 equality, and x-tracker-customers must be
-      // `undefined` — i.e. no re-stamp at all). That object is a single firm-wide
-      // key (timeTracking-router.js TRACKER_VERSIONS_ROOT, unchanged by this pass
-      // per the defect's own fix instructions — only "build the customer and staff
-      // lists from the requesting account only" was in scope, not relocating the
-      // template's storage key) shared by every account in the sandbox, including
-      // account 1, and it is a captured prod snapshot that already has account 1's
-      // real client/staff names baked into its cells — not something this route can
-      // launder without either (a) making the flag-off path stop being a pure
-      // passthrough (breaking the test above), or (b) rewriting the shared stored
-      // S3 object's bytes out from under every other concurrently-running spec that
-      // reads it (tracker-excel-end-to-end.integration.spec.js's step (1) included),
-      // which is a data change, not a code fix, and outside this pass's scope.
-      // Flagging for a human call: either the flag-off "unchanged" contract needs to
-      // become "unchanged AND account-scoped" (a product decision, not just a bug
-      // fix), or the static template object itself needs to be re-captured/scrubbed
-      // out of band.
-      it.skip('the flag-off (static passthrough) template served to account 9001 carries no other tenant’s customer or staff names — DEFECT, see comment above', async () => {
+      // FIXED (was DEFECT, flag-OFF half — left skipped above the flag-ON fix
+      // was made): the flag-ON fix scoped the rebuilt sheets to the
+      // requesting account, but the flag-OFF path was a pure passthrough of
+      // the single firm-wide tracker_versions/<latest> object — a captured
+      // prod snapshot with account 1's real client/staff names baked into
+      // its cells — so any OTHER account still received account 1's names
+      // whenever ITS OWN flag was off (the default). Resolved by scoping the
+      // passthrough itself: timeTracking-router.js now only ever serves the
+      // raw bytes to the object's OWNING account (TEMPLATE_OWNER_ACCOUNT_ID,
+      // account 1 — see the router). Every other account always receives a
+      // rebuild from its own catalogs instead, regardless of its own flag
+      // state, so the static object's real prod names never reach it. The
+      // "flag off (default), OWNER account" test above covers the (now
+      // legitimate) owner passthrough; this test covers every other account.
+      it('the flag-off (default) template served to account 9001 carries no other tenant’s customer or staff names (rebuilt, never passed through)', async () => {
          const foreignCustomers = new Set(await db('customers').where({ account_id: FOREIGN_ACCOUNT }).pluck('display_name'));
          const foreignStaff = new Set(await db('users').where({ account_id: FOREIGN_ACCOUNT }).pluck('display_name'));
          const leaked = wb => ({
             customers: (sheetColumnA(wb, '__customers') || []).filter(n => foreignCustomers.has(n)).length,
             staff: [...(sheetColumnA(wb, '__employees') || []), ...(sheetColumnA(wb, 'Employee Names') || [])].filter(n => foreignStaff.has(n)).length
          });
-         const staticRes = await getBinary('admin', `/time-tracking/template/latest/${A}/${ADMIN}`);
-         expect(leaked(XLSX.read(staticRes.body, { type: 'buffer' }))).to.deep.equal({ customers: 0, staff: 0 });
+         const res = await getBinary('admin', `/time-tracking/template/latest/${A}/${ADMIN}`);
+         expect(res.status).to.equal(200);
+         expect(res.headers['x-tracker-customers'], 'a non-owner account always gets a rebuild, even with its own flag off').to.not.equal(undefined);
+         expect(leaked(XLSX.read(res.body, { type: 'buffer' }))).to.deep.equal({ customers: 0, staff: 0 });
+      });
+
+      // A rebuild failure for a non-owner account must never fall back to
+      // serving the shared bytes (that would re-open the exact leak just
+      // fixed above) — it has to fail loudly instead. templateBuilder is
+      // required as a namespace (not destructured) in timeTracking-router.js
+      // specifically so this stub takes effect there; see the comment on
+      // that require.
+      it('a template-builder failure for a non-owner account returns 503 and never falls back to the shared bytes', async () => {
+         const original = templateBuilder.buildTemplate;
+         templateBuilder.buildTemplate = async () => {
+            throw new Error('simulated template-builder failure');
+         };
+         let res;
+         try {
+            res = await getBinary('employee', `/time-tracking/template/latest/${A}/${ELIZA}`);
+         } finally {
+            templateBuilder.buildTemplate = original;
+         }
+         expect(res.status).to.equal(503);
+         expect(jsonBody(res).message).to.be.a('string').and.not.equal('');
       });
    });
 
@@ -719,7 +753,11 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          expect(stored.metadata.contentType).to.equal(XLSX_MIME);
          expect(decodeURIComponent(stored.metadata.userMetadata['original-filename'])).to.equal(`coverage copy ${RUN}.xlsx`);
 
-         const latest = await getBinary('admin', `/time-tracking/template/latest/${A}/${ADMIN}`);
+         // Fetched as the OWNER account: this is checking that the upload
+         // changed which object "latest" resolves to, not tenant isolation
+         // (covered separately above) — account 9001 would get a rebuild
+         // (different bytes) regardless of which object is "latest".
+         const latest = await getBinary('superAdmin', `/time-tracking/template/latest/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
          expect(latest.status).to.equal(200);
          expect(latest.headers['x-tracker-filename']).to.equal(res.body.fileName);
          expect(sha256(latest.body)).to.equal(sha256(templateBuffer));
@@ -828,7 +866,9 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          expect(gone && gone.name, 'object removed').to.equal('NoSuchKey');
          const list = await h.as('admin').get(`/time-tracking/template/list/${A}/${ADMIN}`);
          expect(list.body.templates.map(t => t.key)).to.not.include(uploadedTemplate.storedKey);
-         const latest = await getBinary('admin', `/time-tracking/template/latest/${A}/${ADMIN}`);
+         // Fetched as the OWNER account — see the comment on the same
+         // substitution in the upload test above.
+         const latest = await getBinary('superAdmin', `/time-tracking/template/latest/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
          expect(latest.headers['x-tracker-filename']).to.equal(originalTemplateName);
          const original = await getObject(`${TRACKER_VERSIONS_ROOT}/${originalTemplateName}`);
          expect(sha256(latest.body)).to.equal(sha256(original.body));

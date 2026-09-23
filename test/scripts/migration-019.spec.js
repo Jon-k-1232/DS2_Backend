@@ -16,9 +16,43 @@ const { seedReferenceData, invoiceDefaults, paymentDefaults } = require('./helpe
 const MIGRATION_019_PATH = path.join(__dirname, '..', '..', 'migrations', '019.ledger_data_normalization.sql');
 const migrationSql = () => fs.readFileSync(MIGRATION_019_PATH, 'utf8');
 
-/** Paste a (still-unreviewed, test-authored) block of _m019_reviewed rows into the migration
- *  text, exactly where the file's own "accountant-reviewed rows go here" marker says to. */
-const withManifestRows = insertStatement => migrationSql().replace('-- accountant-reviewed rows go here', `-- accountant-reviewed rows go here\n${insertStatement}`);
+const MANIFEST_START = '-- accountant-reviewed rows go here';
+const MANIFEST_END = '-- end of accountant-reviewed rows';
+
+/** Offsets of the shipped manifest block, exclusive of both marker lines. */
+const manifestBounds = sql => {
+   const start = sql.indexOf(MANIFEST_START);
+   const end = sql.indexOf(MANIFEST_END);
+   if (start < 0 || end < 0 || end < start) throw new Error('migration 019 manifest markers are missing or out of order');
+   return { start: start + MANIFEST_START.length, end };
+};
+
+/** The migration with its shipped manifest block REPLACED by a test-authored block of
+ *  _m019_reviewed rows (so the test rows are the only rows the flip can see). */
+const withManifestRows = insertStatement => {
+   const sql = migrationSql();
+   const { start, end } = manifestBounds(sql);
+   return `${sql.slice(0, start)}\n${insertStatement}\n${sql.slice(end)}`;
+};
+
+/** The migration with its shipped manifest block removed — the fail-closed "nothing reviewed"
+ *  state the file shipped in before the 2026-09-23 manifest was pasted. */
+const withoutManifestRows = () => withManifestRows('');
+
+/** The 904 shipped rows, parsed back out of the migration text. */
+const shippedManifestRows = () => {
+   const sql = migrationSql();
+   const { start, end } = manifestBounds(sql);
+   return sql
+      .slice(start, end)
+      .split('\n')
+      .filter(line => /^   \(/.test(line))
+      .map(line => {
+         const m = line.match(/^   \((\d+), (\d+), (\d+), '(-?[\d.]+)', '(-?[\d.]+)', ARRAY\[([\d, ]+)\]\)[,;]\s*$/);
+         if (!m) throw new Error(`unparseable manifest row: ${line}`);
+         return { account_id: Number(m[1]), customer_id: Number(m[2]), root_id: Number(m[3]), expected_old_total: Number(m[4]), expected_signed_net: Number(m[5]), payment_ids: m[6].split(',').map(x => Number(x.trim())) };
+      });
+};
 
 describe('migrations/019.ledger_data_normalization.sql', function () {
    this.timeout(30000);
@@ -44,10 +78,10 @@ describe('migrations/019.ledger_data_normalization.sql', function () {
          await db('customer_invoices').insert(invoiceDefaults(ref, 1, { customer_invoice_id: 4, total_payments: 100, invoice_number: 'INV-4' }));
          await db('customer_payments').insert(paymentDefaults(ref, 1, { payment_id: 6, payment_amount: -100, customer_invoice_id: 4 }));
 
-         await db.transaction(trx => trx.raw(migrationSql()));
+         await db.transaction(trx => trx.raw(withoutManifestRows()));
 
          const row = await db('customer_invoices').where({ customer_invoice_id: 4 }).first();
-         expect(Number(row.total_payments)).to.equal(100); // unflipped — the ship-as-is manifest is empty
+         expect(Number(row.total_payments)).to.equal(100); // unflipped — the manifest block was emptied for this test
          const reviewLog = await db('ledger_normalization_log').where({ migration: '019-review', row_id: 4 }).first();
          expect(reviewLog, 'should be listed for accountant review instead').to.exist;
       });
@@ -69,7 +103,7 @@ describe('migrations/019.ledger_data_normalization.sql', function () {
             paymentDefaults(ref, 1, { payment_id: 7, payment_amount: 100, customer_invoice_id: 3, note: '[reversal of payment #6]' })
          ]);
 
-         await db.transaction(trx => trx.raw(migrationSql()));
+         await db.transaction(trx => trx.raw(withoutManifestRows()));
 
          const rows = await db('customer_invoices').select('customer_invoice_id', 'total_payments').whereIn('customer_invoice_id', [3, 4]);
          const byId = Object.fromEntries(rows.map(r => [r.customer_invoice_id, Number(r.total_payments)]));
@@ -89,7 +123,7 @@ describe('migrations/019.ledger_data_normalization.sql', function () {
          ]);
          await db('customer_payments').insert(paymentDefaults(ref, 2, { payment_id: 8, payment_amount: -100, customer_invoice_id: 6 }));
 
-         await db.transaction(trx => trx.raw(migrationSql()));
+         await db.transaction(trx => trx.raw(withoutManifestRows()));
 
          const row = await db('customer_invoices').where({ customer_invoice_id: 5 }).first();
          expect(Number(row.total_payments)).to.equal(100); // customer 1's invoice must not move because of customer 2's payment
@@ -197,7 +231,7 @@ describe('migrations/019.ledger_data_normalization.sql', function () {
 
       it('flips a row when a reviewed manifest entry matches the live data exactly (the happy path)', async () => {
          const ref = await seedReferenceData(db, { accountId: 1, customerIds: [1] });
-         await db('customer_invoices').insert(invoiceDefaults(ref, 1, { customer_invoice_id: 4, total_payments: 100, invoice_number: 'INV-4' }));
+         await db('customer_invoices').insert(invoiceDefaults(ref, 1, { customer_invoice_id: 4, total_payments: 100, remaining_balance_on_invoice: 250, invoice_number: 'INV-4' }));
          await db('customer_payments').insert(paymentDefaults(ref, 1, { payment_id: 6, payment_amount: -100, customer_invoice_id: 4 }));
 
          const sql = withManifestRows(
@@ -207,8 +241,39 @@ describe('migrations/019.ledger_data_normalization.sql', function () {
 
          const row = await db('customer_invoices').where({ customer_invoice_id: 4 }).first();
          expect(Number(row.total_payments)).to.equal(-100);
+         // R7 (Astra round 7): the flip is a sign change of the stored total only — the balance the
+         // app bills from must not move.
+         expect(Number(row.remaining_balance_on_invoice)).to.equal(250);
          const flipLog = await db('ledger_normalization_log').where({ migration: '019', table_name: 'customer_invoices', row_id: 4, column_name: 'total_payments' }).first();
          expect(flipLog).to.include({ old_value: '100.00', new_value: '-100.00' });
+      });
+
+      it('R7: does NOT flip a manifest-matching row once a reversal note on ANOTHER chain names one of its payments (post-snapshot drift)', async () => {
+         // Same shape Astra reproduced on the prod-snapshot clone: root 4's own group is untouched
+         // (owner, total, net and payment ids all still match the approved row), but a payment on
+         // a different chain of the same customer now says "[reversal of payment #6]". The
+         // adoption decision assumed no such note exists, so the row must skip and be listed.
+         const ref = await seedReferenceData(db, { accountId: 1, customerIds: [1] });
+         await db('customer_invoices').insert([
+            invoiceDefaults(ref, 1, { customer_invoice_id: 3, total_payments: 0, invoice_number: 'INV-3' }),
+            invoiceDefaults(ref, 1, { customer_invoice_id: 4, total_payments: 100, invoice_number: 'INV-4' })
+         ]);
+         await db('customer_payments').insert([
+            paymentDefaults(ref, 1, { payment_id: 6, payment_amount: -100, customer_invoice_id: 4 }),
+            paymentDefaults(ref, 1, { payment_id: 7, payment_amount: 100, customer_invoice_id: 3, note: '[reversal of payment #6]' })
+         ]);
+
+         const sql = withManifestRows(
+            `INSERT INTO _m019_reviewed (account_id, customer_id, root_id, expected_old_total, expected_signed_net, expected_payment_ids) VALUES\n   (1, 1, 4, 100.00, -100.00, ARRAY[6]);`
+         );
+         await db.transaction(trx => trx.raw(sql));
+
+         const row = await db('customer_invoices').where({ customer_invoice_id: 4 }).first();
+         expect(Number(row.total_payments)).to.equal(100);
+         const flips = await db('ledger_normalization_log').where({ migration: '019', table_name: 'customer_invoices', column_name: 'total_payments' });
+         expect(flips).to.have.length(0);
+         const reviewLog = await db('ledger_normalization_log').where({ migration: '019-review', row_id: 4 }).first();
+         expect(reviewLog, 'skipped row must be listed for review').to.exist;
       });
 
       it('does NOT flip when a manifest entry exists but the live data has since changed (stale approval)', async () => {
@@ -285,7 +350,7 @@ describe('migrations/019.ledger_data_normalization.sql', function () {
          await db('customer_payments').insert(paymentDefaults(ref, 1, { payment_id: 1, payment_amount: -10, note: 'null', payment_reference_number: 'undefined' }));
          await db('customer_writeoffs').insert(writeoffRow(ref, { writeoff_id: 1, writeoff_amount: -5, note: 'undefined' }));
 
-         await db.transaction(trx => trx.raw(migrationSql()));
+         await db.transaction(trx => trx.raw(withoutManifestRows()));
 
          const logs = await db('ledger_normalization_log').where({ migration: '019' }).select('table_name', 'row_id', 'column_name', 'old_value', 'new_value');
          const find = (table, rowId, col) => logs.find(l => l.table_name === table && l.row_id === rowId && l.column_name === col);
@@ -309,11 +374,11 @@ describe('migrations/019.ledger_data_normalization.sql', function () {
          const ref = await seedReferenceData(db, { accountId: 1, customerIds: [1] });
          await db('customer_transactions').insert(transactionRow(ref, { transaction_id: 1, transaction_type: 'time', note: 'null' }));
 
-         await db.transaction(trx => trx.raw(migrationSql()));
+         await db.transaction(trx => trx.raw(withoutManifestRows()));
          const countAfterFirst = Number((await db('ledger_normalization_log').count('*'))[0].count);
          expect(countAfterFirst).to.be.greaterThan(0);
 
-         await db.transaction(trx => trx.raw(migrationSql()));
+         await db.transaction(trx => trx.raw(withoutManifestRows()));
          const countAfterSecond = Number((await db('ledger_normalization_log').count('*'))[0].count);
          expect(countAfterSecond).to.equal(countAfterFirst);
 
@@ -329,7 +394,7 @@ describe('migrations/019.ledger_data_normalization.sql', function () {
          await db('customer_invoices').insert(invoiceDefaults(ref, 1, { customer_invoice_id: 4, total_payments: 100, invoice_number: 'INV-4' }));
          await db('customer_payments').insert(paymentDefaults(ref, 1, { payment_id: 6, payment_amount: -100, customer_invoice_id: 4 }));
 
-         await db.transaction(trx => trx.raw(migrationSql()));
+         await db.transaction(trx => trx.raw(withoutManifestRows()));
 
          const tx1 = await db('customer_transactions').where({ transaction_id: 1 }).first();
          expect(tx1.transaction_type).to.equal('Charge');
@@ -360,6 +425,58 @@ describe('migrations/019.ledger_data_normalization.sql', function () {
          expect(Number(afterFirst.total_payments)).to.equal(-100);
          expect(Number(afterSecond.total_payments)).to.equal(-100);
          expect(logCountSecond).to.equal(logCountFirst);
+      });
+   });
+
+   describe('shipped manifest — 904 rows reviewed 2026-09-23 from the 2026-09-22 production snapshot', () => {
+      it('has 904 well-formed account-1 rows with unique roots, each a pure sign flip of a positive stored total', () => {
+         const rows = shippedManifestRows();
+         expect(rows).to.have.length(904);
+         expect(new Set(rows.map(r => r.root_id)).size).to.equal(904);
+         for (const r of rows) {
+            expect(r.account_id).to.equal(1);
+            expect(r.expected_old_total).to.be.greaterThan(0);
+            expect(r.expected_signed_net).to.equal(-r.expected_old_total);
+            expect(r.payment_ids.length).to.be.greaterThan(0);
+         }
+         const storedTotal = rows.reduce((sum, r) => sum + Math.round(r.expected_old_total * 100), 0) / 100;
+         expect(storedTotal).to.equal(718003.54); // matches scripts/review-2026-09/manifest-2026-09-22/positive-total-payments-manifest.review.csv
+      });
+
+      it('flips NOTHING on a database whose live rows do not match the shipped rows, and lists the unmatched parent for review', async () => {
+         // Fixture root 4 is customer 1 / 100.00 / payment 6; the shipped row for root 4 is
+         // customer 67 / 425.00 / payment 8 — same root id, different everything else. The
+         // per-row live-data checks must refuse it exactly as they would a drifted prod row.
+         const ref = await seedReferenceData(db, { accountId: 1, customerIds: [1] });
+         await db('customer_invoices').insert(invoiceDefaults(ref, 1, { customer_invoice_id: 4, total_payments: 100, invoice_number: 'INV-4' }));
+         await db('customer_payments').insert(paymentDefaults(ref, 1, { payment_id: 6, payment_amount: -100, customer_invoice_id: 4 }));
+
+         await db.transaction(trx => trx.raw(migrationSql()));
+
+         const row = await db('customer_invoices').where({ customer_invoice_id: 4 }).first();
+         expect(Number(row.total_payments)).to.equal(100);
+         const flips = await db('ledger_normalization_log').where({ migration: '019', table_name: 'customer_invoices', column_name: 'total_payments' });
+         expect(flips).to.have.length(0);
+         const reviewLog = await db('ledger_normalization_log').where({ migration: '019-review', row_id: 4 }).first();
+         expect(reviewLog, 'unmatched positive parent must be listed for review').to.exist;
+      });
+
+      it('applies a shipped row through the shipped file when the live data matches it exactly (root 4: customer 67, 425.00, payment 8)', async () => {
+         const shipped = shippedManifestRows().find(r => r.root_id === 4);
+         expect(shipped).to.include({ customer_id: 67, expected_old_total: 425, expected_signed_net: -425 });
+         expect(shipped.payment_ids).to.deep.equal([8]);
+
+         const ref = await seedReferenceData(db, { accountId: 1, customerIds: [67] });
+         await db('customer_invoices').insert(invoiceDefaults(ref, 67, { customer_invoice_id: 4, total_payments: 425, remaining_balance_on_invoice: 0, invoice_number: 'INV-4' }));
+         await db('customer_payments').insert(paymentDefaults(ref, 67, { payment_id: 8, payment_amount: -425, customer_invoice_id: 4 }));
+
+         await db.transaction(trx => trx.raw(migrationSql()));
+
+         const row = await db('customer_invoices').where({ customer_invoice_id: 4 }).first();
+         expect(Number(row.total_payments)).to.equal(-425);
+         expect(Number(row.remaining_balance_on_invoice)).to.equal(0);
+         const flipLog = await db('ledger_normalization_log').where({ migration: '019', table_name: 'customer_invoices', row_id: 4, column_name: 'total_payments' }).first();
+         expect(flipLog).to.include({ old_value: '425.00', new_value: '-425.00' });
       });
    });
 });

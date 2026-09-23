@@ -114,13 +114,30 @@ with it.
   still needs independent verification before anyone runs anything against
   it.
 
-  **Migration `019`'s total_payments sign flip ships fail-closed:** the
-  manifest temp table it reads from (`_m019_reviewed`) starts **empty** in
-  this file, so `019` flips **zero** `total_payments` rows anywhere —
-  including on prod — until an accountant has reviewed the candidates and a
-  reviewed block of `INSERT INTO _m019_reviewed (...) VALUES (...)` rows has
-  been pasted in below the `-- accountant-reviewed rows go here` marker.
-  Generate the candidate CSV and the matching (still unreviewed) SQL with:
+  **Migration `019`'s total_payments sign flip is fail-closed per row:** it
+  flips only the rows listed in the manifest block between the
+  `-- accountant-reviewed rows go here` and `-- end of accountant-reviewed rows`
+  markers, and only while the live row still matches every expected value in
+  its manifest entry (owner, old total, signed net, exact payment-id set, no
+  reversal event, no foreign ownership in the chain). The shipped block holds
+  the **904 rows reviewed on 2026-09-23** from the 2026-09-22 production
+  snapshot (`scripts/review-2026-09/manifest-2026-09-22/` has the review CSV,
+  the generator's untouched output and the 14 exceptions left for the
+  accountant; the block's own header comment records the decision basis).
+  Rehearsed against a clone of that snapshot: 904 APPLIED / 0 SKIPPED. A row
+  whose live data drifted since the snapshot is skipped silently and stays on
+  the `019-review` list, which is why the rehearsal audit SELECT above must be
+  saved and compared against the manifest before the committing run. A
+  row is also refused live when a `[reversal of payment #id]` note anywhere
+  on the account names one of its payments (the generator only *flags* that
+  shape as `possible_misattributed_reversal`; a positive event on the row's
+  own chain is excluded outright by both). Regenerating after a newer
+  snapshot is **not** a mechanical replace: it needs a new documented
+  adoption decision — run the generator against the new copy, strike or
+  first resolve every flagged row (the generator emits flagged rows into its
+  INSERT block too), re-check the criteria in the block's header comment,
+  record the decision in a new `scripts/review-2026-09/manifest-<date>/README.md`,
+  then replace the block. The generator command:
   ```
   DS2_ENV_FILE=.env.local DATABASE_NAME=ds2_local node scripts/review-2026-09/positive-total-payments-manifest.js
   ```

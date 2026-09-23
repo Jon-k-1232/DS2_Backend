@@ -68,6 +68,15 @@ const ADMIN = 90013;
 const ELIZA = 90011;
 const BOB = 90012;
 const INACTIVE_USER = 90014;
+// The tracker_versions/<latest> S3 object is a single firm-wide key with no
+// per-object owner recorded; timeTracking-router.js treats account 1 as its
+// owner (the key lives under its slug) and only ever passes its raw bytes
+// through to THAT account — every other account gets a rebuild instead. Used
+// only to fetch the REAL byte-for-byte template in step (1) below (read-only
+// against the account-1 production copy); the rest of this file's pipeline
+// still runs entirely as account 9001.
+const FOREIGN_ACCOUNT = 1;
+const SUPER_ADMIN = 21;
 const RATE = 75; // Eliza's billing_rate
 const JOHN_SMITH = 900103;
 const JOHN_SMITH_JOB = 9001003; // '1040 Individual Return' (year-less)
@@ -481,7 +490,14 @@ describe('tracker Excel end-to-end: template → upload → auto-ingest → invo
    // ─────────────────────────────────────────────────────────────────────────
    describe('GET /time-tracking/template/latest/:accountID/:userID', () => {
       it('(1) returns the REAL template from tracker_versions/ byte-for-byte (xlsx with Time / Employee Names / Instructions / Categories / Entity sheets)', async () => {
-         const res = await h.as('employee').get(`/time-tracking/template/latest/${A}/${ELIZA}`).buffer(true).parse(binaryParser);
+         // Fetched as the template's OWNING account (1) — byte-for-byte
+         // passthrough is reserved for that account (see FOREIGN_ACCOUNT
+         // above); account 9001 (A) would now get a per-tenant rebuild
+         // instead, which is exercised separately in
+         // coverage-timetracking-timesheets.integration.spec.js. The rest of
+         // this pipeline (fill -> upload -> auto-ingest -> invoice) still
+         // runs entirely as account 9001 below.
+         const res = await h.as('superAdmin').get(`/time-tracking/template/latest/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`).buffer(true).parse(binaryParser);
          expect(res.status).to.equal(200);
          templateFileName = res.headers['x-tracker-filename'];
          expect(templateFileName).to.match(/^timeTracker_.*\.xlsx$/);

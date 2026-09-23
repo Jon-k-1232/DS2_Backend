@@ -15,7 +15,11 @@ const { sendValidationSuccessEmail, sendSystemErrorEmail, getAdminRecipients } =
 const sendSuccessEmail = require('../../utils/email/sendSuccessEmail');
 const timesheetsService = require('../timesheets/timesheets-service');
 const { kickOffAutoIngestForEntryIds, _isAccountAllowed: _isAutoIngestAllowed } = require('../timesheets/auto-ingest-runner');
-const { buildTemplate } = require('./template-builder');
+// Imported as a namespace (not destructured) so tests can monkey-patch
+// templateBuilder.buildTemplate on the shared module object and have this
+// router pick up the stub — see the "builder failure" 503 coverage in
+// coverage-timetracking-timesheets.integration.spec.js.
+const templateBuilder = require('./template-builder');
 const { findTrackerDuplicates, lockTrackerUploads } = require('./trackerDuplicates');
 
 const gzip = promisify(zlib.gzip);
@@ -1008,6 +1012,21 @@ timeTrackingRouter.get(
    })
 );
 
+// The object under TRACKER_VERSIONS_ROOT is a single firm-wide S3 key (see
+// TIME_TRACKING_ROOT above — hard-coded to the "James_F__Kimmel___Associates"
+// slug) written only via POST /template/upload below. Nothing records a
+// per-object owner today: there is no tracker_versions DB table, and upload
+// only stamps an 'original-filename' on the object, never an account id.
+// Since the key itself lives under account 1's slug and account 1 is the
+// only real uploader, account 1 is treated as that object's owner. Only the
+// owner may ever receive the raw bytes; every other account is always served
+// a copy rebuilt from ITS OWN customers/employees/categories instead — see
+// the /template/latest handler below. If a real per-object owner is ever
+// recorded (S3 metadata or a tracker_versions row), replace this constant
+// with a lookup against that instead. Overridable per deployment with the
+// TEMPLATE_OWNER_ACCOUNT_ID environment variable (default 1).
+const TEMPLATE_OWNER_ACCOUNT_ID = Number(process.env.TEMPLATE_OWNER_ACCOUNT_ID) || 1;
+
 // GET /time-tracking/template/latest/:accountID/:userID
 // Admin: Fetch the latest tracker template from S3.
 timeTrackingRouter.get(
@@ -1042,15 +1061,22 @@ timeTrackingRouter.get(
       const fileName = path.basename(latestTemplate.Key);
       const contentType = metadata?.contentType || 'application/octet-stream';
 
-      // When the new pipeline is enabled for this account, return a workbook
-      // with current customer / employee / category dropdowns injected.
-      // Otherwise fall through to the static S3 template.
       const accountIdNumber = Number(req.params.accountID);
       const userIdNumber = Number(req.params.userID);
-      if (_isAutoIngestAllowed(accountIdNumber)) {
+      const isOwnerAccount = accountIdNumber === TEMPLATE_OWNER_ACCOUNT_ID;
+
+      // Every account other than the template's owner ALWAYS gets a copy
+      // rebuilt for its own customers/employees/categories, regardless of
+      // the auto-ingest flag — otherwise it would silently receive the
+      // owner's real client and staff names (both in the hidden lookup
+      // sheets and the visible "Employee Names" sheet). The owner account
+      // keeps the legacy behavior: a passthrough unless auto-ingest is on
+      // for it too, in which case it gets its own rebuild (falling back to
+      // its own raw bytes if that rebuild fails, same as always).
+      if (!isOwnerAccount || _isAutoIngestAllowed(accountIdNumber)) {
          try {
             const db = req.app.get('db');
-            const { buffer, counts } = await buildTemplate({
+            const { buffer, counts } = await templateBuilder.buildTemplate({
                db,
                accountId: accountIdNumber,
                userId: userIdNumber,
@@ -1066,8 +1092,15 @@ timeTrackingRouter.get(
             });
             return res.status(200).send(buffer);
          } catch (err) {
-            console.error(`[${new Date().toISOString()}] template-builder fallback to static: ${err.message}`);
-            // Fall through to the static template below as a safe fallback.
+            console.error(`[${new Date().toISOString()}] template-builder failed for account ${accountIdNumber}: ${err.message}`);
+            if (!isOwnerAccount) {
+               // Never launder the owner's names into another tenant's
+               // download by falling back to the shared raw bytes here.
+               return res.status(503).json({
+                  message: 'We could not prepare your time tracker template right now. Please try again shortly, or contact support if this continues.'
+               });
+            }
+            // Owner account: fall through to serving its own bytes unmodified below.
          }
       }
 

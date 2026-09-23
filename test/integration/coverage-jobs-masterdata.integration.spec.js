@@ -57,8 +57,11 @@ describe('Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, 
    };
 
    // Account-1 sample rows, fetched read-only once so the tenancy tests don't
-   // need to guess real prod ids. Never written to.
-   let acct1JobCategory, acct1JobType, acct1WorkDescription, acct1Job, acct1Quote;
+   // need to guess real prod ids. Never written to. (customer_quotes has no
+   // account-1 equivalent — quotes is a dead endpoint with no real usage, so
+   // the quotes coverage below is a fully self-contained round trip on
+   // account 9001's own fixtures instead of an account-1 tenancy check.)
+   let acct1JobCategory, acct1JobType, acct1WorkDescription, acct1Job;
 
    before(async function () {
       h = await bootHttp.call(this);
@@ -66,7 +69,6 @@ describe('Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, 
       acct1JobType = await h.db('customer_job_types').where('account_id', FOREIGN_ACCOUNT_ID).first();
       acct1WorkDescription = await h.db('customer_general_work_descriptions').where('account_id', FOREIGN_ACCOUNT_ID).first();
       acct1Job = await h.db('customer_jobs').where('account_id', FOREIGN_ACCOUNT_ID).first();
-      acct1Quote = await h.db('customer_quotes').where('account_id', FOREIGN_ACCOUNT_ID).first();
    });
 
    after(async function () {
@@ -1584,12 +1586,47 @@ describe('Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, 
          expect(res.status).to.equal(404);
       });
 
-      it('cannot delete an account-1 quote even when scoped through the caller\'s own account/token, if one exists (row untouched)', async function () {
-         if (!acct1Quote) return this.skip();
-         const res = await h.as('admin').delete(`/quotes/deleteQuote/${h.accountID}/${acct1Quote.customer_quote_id}`);
-         expect(res.status).to.equal(404);
-         const after = await h.db('customer_quotes').where('customer_quote_id', acct1Quote.customer_quote_id).first();
-         expect(after).to.deep.equal(acct1Quote);
+      // Self-contained in place of an account-1 tenancy check: quotes is a
+      // dead endpoint (see the GAP comment above POST /quotes/createQuote)
+      // with no rows anywhere in account 1's real (production-copied) data,
+      // so an "account-1 row is untouchable" test like the job / jobCategory
+      // / jobType / workDescription ones above could never find a fixture
+      // and always skipped at runtime. Cross-tenant protection for quotes is
+      // already covered elsewhere in this file (the URL-account and
+      // spoofed-body-account_id tests above); this test instead exercises
+      // the full read -> update -> delete lifecycle end to end on a quote
+      // this run creates for itself, through the real routes.
+      it('a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001\'s own fixture customers', async () => {
+         const quote = await mkQuote('admin');
+
+         const getRes = await h.as('admin').get(`/quotes/getActiveQuotes/${h.accountID}/${quote.customer_quote_id}`);
+         const getBody = expectEnvelopeOk(getRes, 'lifecycle getActiveQuotes');
+         expect(getBody.activeQuoteData.activeQuotes.some(q => q.customer_quote_id === quote.customer_quote_id)).to.equal(true);
+
+         const updateRes = await h
+            .as('admin')
+            .put('/quotes/updateQuote')
+            .send({
+               quote: {
+                  customer_quote_id: quote.customer_quote_id,
+                  account_id: h.accountID,
+                  customer_id: quote.customer_id,
+                  customer_job_id: quote.customer_job_id,
+                  amount_quoted: 9999.99,
+                  is_quote_active: false,
+                  created_by_user_id: h.adminUserID,
+                  notes: quote.notes
+               }
+            });
+         expectEnvelopeOk(updateRes, 'lifecycle updateQuote');
+         const updatedRow = await h.db('customer_quotes').where('customer_quote_id', quote.customer_quote_id).first();
+         expect(Number(updatedRow.amount_quoted)).to.equal(9999.99);
+         expect(updatedRow.is_quote_active).to.equal(false);
+
+         const deleteRes = await h.as('admin').delete(`/quotes/deleteQuote/${h.accountID}/${quote.customer_quote_id}`);
+         expectEnvelopeOk(deleteRes, 'lifecycle deleteQuote');
+         expect(await h.db('customer_quotes').where('customer_quote_id', quote.customer_quote_id).first()).to.be.undefined;
+         created.quotes = created.quotes.filter(id => id !== quote.customer_quote_id);
       });
    });
 });
