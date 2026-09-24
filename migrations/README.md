@@ -24,7 +24,7 @@
   throwaway `ds2_mig_test_*` database is built from for local testing (see
   `test/scripts/helpers/pgHarness.js`).
 
-- **`NNN.description.sql`** (`002`–`020`) — incremental migrations, applied on
+- **`NNN.description.sql`** (`002`–`021`) — incremental migrations, applied on
   top of `tables.sql`. There is no `001` file; that's expected and harmless
   (see "Historical: why this isn't postgrator anymore" below, which covers
   the version-sequence gap too) — `tables.sql` is what `001` would have been,
@@ -33,7 +33,7 @@
 
 ## File contract: numbered migrations are plain SQL
 
-`002`–`020` must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
+`002`–`021` must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
 TRANSACTION;` / `END;` line and no psql `\`-meta-command**, outside a
 dollar-quoted (`$$...$$`/`$tag$...$tag$`) block. `scripts/migrate.js` owns
 the transaction wrapper for every file it runs (together with that file's
@@ -99,7 +99,7 @@ with it.
   prod) against that specific database.
 
   Take a backup first. Prod has **no `schemaversion` tracking table at all**
-  — nothing records which of `002`–`020` have already been run there, so
+  — nothing records which of `002`–`021` have already been run there, so
   whoever applies a migration by hand has to know the current state
   themselves. This is also why the several non-idempotent files below are a
   real hazard on prod specifically: a tracked runner would normally refuse to
@@ -196,7 +196,7 @@ current version.
 
 ## Known non-idempotent migrations
 
-Inspected every file in `002`–`020` for what happens if it's run a second
+Inspected every file in `002`–`021` for what happens if it's run a second
 time against a database where it already applied cleanly (the scenario that
 matters most for prod's by-hand `psql -f` process, which has no tracking
 table to prevent a re-run):
@@ -212,7 +212,7 @@ table to prevent a re-run):
 | `015.account_audits_add_app_balance.sql` | **Errors.** Two `ADD COLUMN` clauses, no `IF NOT EXISTS`. |
 
 Everything else (`003`, `004`, `005`, `006`, `008`, `011`, `012`, `016`,
-`017`, `018`) either uses `IF NOT EXISTS` / `IF EXISTS` throughout, or (in
+`017`, `018`, `021`) either uses `IF NOT EXISTS` / `IF EXISTS` throughout, or (in
 `008`'s case, an `ALTER COLUMN ... TYPE`) is naturally a no-op to re-run.
 `019.ledger_data_normalization.sql` is a set of bulk `UPDATE`s that only ever
 touch rows still in the "before" state (and a manifest-gated flip that only
@@ -254,6 +254,31 @@ migration twice against a fresh `CREATE DATABASE ... TEMPLATE
 ds2_ref_20260922` clone (`psql -X -1 -v ON_ERROR_STOP=1 -f`): first run
 backfills account 1 to its existing `James_F__Kimmel___Associates` slug,
 second run is a byte-for-byte no-op.
+
+`021.tracker_file_owners.sql` (review/full-audit-2026-09, Astra round 13,
+finding P2 — see that file's own header comment) is straightforwardly
+idempotent: `CREATE TABLE IF NOT EXISTS` and `CREATE INDEX IF NOT EXISTS`,
+no backfill, no data-dependent step — confirmed by
+`test/scripts/migration-021.spec.js` running it two and three times in a row
+and asserting zero drift in the table's columns, constraints, and rows. It
+needs no two-step cutover the way `020` does: it only ADDS a new table that
+nothing existing reads or writes, so applying it with the OLD backend code
+still serving traffic is always safe, in either order relative to a
+deploy — unlike `020`'s `storage_slug NOT NULL`, there is no old code path
+that would break once this table exists. Rollout order still matters for a
+different reason, though: apply `021` any time after `020` (its own
+`buildAccountFolder`/`storage_slug` reasoning is unrelated, but there is no
+reason to reorder them) and BEFORE deploying the backend that reads it — the
+new backend's buildKeyAuthorizer queries `tracker_file_owners`
+unconditionally, so it must exist first. The table starts empty: until
+`scripts/timeTracking/backfill-tracker-owners.js` is run with `--apply`
+against the target database, every LEGACY (flat or name-keyed) tracker
+object is simply unlisted and unreachable (403/omitted, never exposed to the
+wrong person) — id-keyed objects (every upload since `020`) are unaffected,
+since those are authorized by path structure alone. See
+`scripts/review-2026-09/FINAL_REPORT.md` section 6 for the full production
+rollout sequence (apply `021` → deploy backend → run the backfill dry run →
+review its two CSVs → run it with `--apply`).
 
 The equivalent runtime allocator for a BRAND-NEW account
 (`resolveNewAccountStorageSlug` in `src/utils/storageSlug.js`, called from

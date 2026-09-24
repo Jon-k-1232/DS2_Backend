@@ -134,12 +134,14 @@ const timesheetsService = {
 
    // Every timesheet_name this account has EVER recorded for this employee,
    // regardless of is_deleted (a soft-deleted entry's upload still happened and
-   // its file should still be attributable to this account). Used to decide
-   // whether an S3 object found under the pre-account-scoping "flat" processed/
-   // layout (processed/<Last_First>/..., no account segment, shared by any
-   // account with a same-named employee) actually belongs to THIS account —
-   // see buildProcessedPrefixes / filterLegacyObjectsToOwner in
-   // timeTracking-router.js.
+   // its file should still be attributable to this account). NOT currently
+   // used by timeTracking-router.js's buildKeyAuthorizer — review/full-audit
+   // -2026-09, Astra round 13, finding P2 removed the recorded-name lookup
+   // this used to back, in favor of the durable tracker_file_owners table
+   // (migrations/021.tracker_file_owners.sql, trackerOwners.js), which
+   // survives a rename or a delete-then-recreate that this lookup alone did
+   // not protect against. Left in place as a general-purpose service method;
+   // no other current caller.
    getAllTimesheetNamesEverUsedByEmployee(db, accountID, user_id) {
       return db('timesheet_entries').where('account_id', accountID).andWhere('user_id', user_id).distinct('timesheet_name').pluck('timesheet_name');
    },

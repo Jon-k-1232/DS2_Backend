@@ -22,6 +22,8 @@ const { kickOffAutoIngestForEntryIds, _isAccountAllowed: _isAutoIngestAllowed } 
 // coverage-timetracking-timesheets.integration.spec.js.
 const templateBuilder = require('./template-builder');
 const { findTrackerDuplicates, lockTrackerUploads } = require('./trackerDuplicates');
+const trackerOwners = require('./trackerOwners');
+const { sanitizeSegment, deriveUserNameSegments, buildUserFolder } = require('./trackerFolderNames');
 
 const gzip = promisify(zlib.gzip);
 const gunzip = promisify(zlib.gunzip);
@@ -85,13 +87,6 @@ const toISODate = value => {
    return parsed.isValid() ? parsed.format('YYYY-MM-DD') : null;
 };
 
-const sanitizeSegment = (value, fallback = 'unknown') => {
-   if (!value) return fallback;
-   const trimmed = value.trim();
-   if (!trimmed) return fallback;
-   return trimmed.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
-};
-
 const resolveExtension = (fileName, fileType) => {
    const ext = path.extname(fileName || '').toLowerCase();
    if (ext) return ext;
@@ -117,30 +112,6 @@ const fetchAccountRecord = async (db, accountID) => {
       throw error;
    }
    return accountRecords[0];
-};
-
-const deriveUserNameSegments = userRecord => {
-   const displayName = userRecord.display_name || '';
-   const trimmed = displayName.trim();
-
-   if (!trimmed) {
-      return { firstName: 'User', lastName: 'Unknown' };
-   }
-
-   const parts = trimmed.split(/\s+/);
-   if (parts.length === 1) {
-      return { firstName: parts[0], lastName: parts[0] };
-   }
-
-   return {
-      firstName: parts[0],
-      lastName: parts[parts.length - 1]
-   };
-};
-
-const buildUserFolder = userRecord => {
-   const { firstName, lastName } = deriveUserNameSegments(userRecord);
-   return sanitizeSegment(`${lastName}_${firstName}`);
 };
 
 // review/full-audit-2026-09 finding 5 (Astra round 10): this used to be the
@@ -187,7 +158,8 @@ const buildAccountFolder = (accountRecord, accountID) => {
 // rename of the account or the employee can move it. Reading and authorizing
 // existing keys, in every layout the server has ever written, is done by
 // classifyProcessedKey / buildKeyAuthorizer below, and findAccountFolders /
-// ownerSearchPrefixes decide where history and download-by-name look.
+// idKeyedPrefixesFor / trackerOwners.ownedKeys decide where history and
+// download-by-name look.
 const buildProcessedPrefixes = (accountRecord, accountID, userFolder, ownerId) => {
    const accountFolder = buildAccountFolder(accountRecord, accountID);
    const primaryPrefix = `${PROCESSED_ROOT}/${accountFolder}/user_${Number(ownerId)}/`;
@@ -195,21 +167,27 @@ const buildProcessedPrefixes = (accountRecord, accountID, userFolder, ownerId) =
 };
 
 // Every tracker key the server has written, relative to PROCESSED_ROOT:
-//   <Last_First>/<file>                                   flat layout (deployed master writes here)
-//   <AccountFolder>_<accountId>/<Last_First>/<file>       account folder, name-keyed (older, read-only)
-//   <AccountFolder>_<accountId>/user_<ownerId>/<file>     account folder, id-keyed (all new uploads)
+//   <AnyFolderName>/<file>                                 flat layout (deployed master writes here)
+//   <AccountFolder>_<accountId>/<AnyFolderName>/<file>     account folder, name-keyed (older, read-only)
+//   <AccountFolder>_<accountId>/user_<ownerId>/<file>      account folder, id-keyed (all new uploads)
 // An account folder always ends with the owning account's id and an id-keyed
-// leaf names the owning user, so ownership is read from the key's structure:
-//   'owner'  - an id-keyed folder of THIS account for THIS owner: theirs by construction;
-//   'shared' - this owner's CURRENT name folder inside one of THIS account's
-//              folders, which same-named employees of the account share, so
-//              the file name must exactly equal one this owner recorded;
-//   'legacy-flat' - this owner's CURRENT flat name folder, only for the legacy
-//              tenant (LEGACY_FLAT_TRACKER_ACCOUNT_ID): theirs when no other
-//              user of the account maps to that folder, otherwise only for
-//              exactly recorded file names;
-//   null     - anything else: another account's folder, another user's id
-//              folder, another name, or a key of unexpected depth.
+// leaf names the owning user, so 'owner' scope is read from the key's
+// structure alone. 'shared' and 'legacy-flat' carry NO reliable owner
+// information in their path at all — see review/full-audit-2026-09, Astra
+// round 13, finding P2 (migrations/021.tracker_file_owners.sql's header
+// comment has the full writeup): a folder's NAME (current or former) is
+// never proof of who uploaded an object under it, so classification here is
+// purely STRUCTURAL and buildKeyAuthorizer below is what actually decides
+// ownership, from the tracker_file_owners table, for both scopes:
+//   'owner'       - an id-keyed folder of THIS account for THIS owner: theirs by construction;
+//   'shared'      - a non-id-keyed (name) folder inside one of THIS account's
+//                   folders, ANY name, current or former — same-named
+//                   employees of the account, and a renamed or deleted-then-
+//                   recreated employee's old folder, all land here;
+//   'legacy-flat' - a flat (2-segment) key, only for the legacy tenant
+//                   (LEGACY_FLAT_TRACKER_ACCOUNT_ID), ANY folder name;
+//   null          - anything else: another account's folder, another user's id
+//                   folder, or a key of unexpected depth.
 const ACCOUNT_FOLDER_ID_RE = /_(\d+)$/;
 const USER_LEAF_RE = /^user_(\d+)$/;
 
@@ -233,12 +211,11 @@ const accountIdOfFolder = folder => {
    return match ? match[1] : null;
 };
 
-const classifyProcessedKey = ({ accountID, ownerUserID, ownerFolder, key }) => {
+const classifyProcessedKey = ({ accountID, ownerUserID, key }) => {
    if (typeof key !== 'string' || !key.startsWith(`${PROCESSED_ROOT}/`)) return null;
    const segments = key.slice(PROCESSED_ROOT.length + 1).split('/');
    if (!segments.every(Boolean)) return null;
    if (segments.length === 2) {
-      if (segments[0] !== ownerFolder) return null;
       return canonicalId(accountID) === canonicalId(LEGACY_FLAT_TRACKER_ACCOUNT_ID) ? 'legacy-flat' : null;
    }
    if (segments.length !== 3) return null;
@@ -247,40 +224,31 @@ const classifyProcessedKey = ({ accountID, ownerUserID, ownerFolder, key }) => {
    if (!account || accountIdOfFolder(accountFolder) !== account) return null;
    const leafMatch = USER_LEAF_RE.exec(leaf);
    if (leafMatch) return leafMatch[1] === canonicalId(ownerUserID) ? 'owner' : null;
-   return leaf === ownerFolder ? 'shared' : null;
+   return 'shared';
 };
 
-// True when exactly one user of this account (active or not) maps to this
-// name folder and it is the owner. Then every file in the owner's flat folder
-// is theirs, including uploads from before per-entry upload records existed
-// (140 of the 550 production tracker files have no record).
-const ownerFolderIsUnique = async (db, accountID, ownerUserID, ownerFolder) => {
-   const users = await db('users').select('user_id', 'display_name').where({ account_id: Number(accountID) });
-   const matches = users.filter(user => buildUserFolder(user) === ownerFolder);
-   return matches.length === 1 && Number(matches[0].user_id) === Number(ownerUserID);
-};
-
-const storedNameOf = key => path.basename(key).replace(/\.gz$/i, '');
-
-// Builds a synchronous per-request authorizer from facts loaded once, so a
-// search over many candidate keys decides ownership BEFORE fetching any of
-// them: exact recorded names only (normalization may be used afterwards to
-// choose among keys this has already accepted, never to accept one).
-const buildKeyAuthorizer = async ({ db, accountID, ownerUserID, ownerFolder }) => {
-   const recordedNames = new Set(await timesheetsService.getAllTimesheetNamesEverUsedByEmployee(db, accountID, ownerUserID));
-   const isLegacyFlatAccount = canonicalId(accountID) === canonicalId(LEGACY_FLAT_TRACKER_ACCOUNT_ID);
-   const flatFolderIsOwners = isLegacyFlatAccount && (await ownerFolderIsUnique(db, accountID, ownerUserID, ownerFolder));
+// Builds a synchronous per-request authorizer from the owner's durable
+// tracker_file_owners rows, loaded once, so a search over many candidate
+// keys decides ownership BEFORE fetching any of them. An id-keyed key
+// ('owner' scope) is authorized by structure alone — it was written by, and
+// only by, its own owner's upload (migration 020 onward). Every other
+// legacy scope ('shared', 'legacy-flat') is authorized iff the EXACT key is
+// owned — see migrations/021.tracker_file_owners.sql and trackerOwners.js.
+// Name normalization (used by the download-by-name fallback search) only
+// ever chooses AMONG keys this function has already accepted, never grants
+// one it would otherwise refuse.
+const buildKeyAuthorizer = async ({ db, accountID, ownerUserID }) => {
+   const owned = await trackerOwners.ownedKeys(db, accountID, ownerUserID);
    return key => {
-      const scope = classifyProcessedKey({ accountID, ownerUserID, ownerFolder, key });
+      const scope = classifyProcessedKey({ accountID, ownerUserID, key });
       if (scope === 'owner') return true;
-      if (scope === 'shared') return recordedNames.has(storedNameOf(key));
-      if (scope === 'legacy-flat') return flatFolderIsOwners || recordedNames.has(storedNameOf(key));
+      if (scope === 'shared' || scope === 'legacy-flat') return owned.has(key);
       return false;
    };
 };
 
-const authorizeProcessedKey = async ({ db, accountID, ownerUserID, ownerFolder, key }) => {
-   const isAuthorized = await buildKeyAuthorizer({ db, accountID, ownerUserID, ownerFolder });
+const authorizeProcessedKey = async ({ db, accountID, ownerUserID, key }) => {
+   const isAuthorized = await buildKeyAuthorizer({ db, accountID, ownerUserID });
    return isAuthorized(key);
 };
 
@@ -289,9 +257,12 @@ const authorizeProcessedKey = async ({ db, accountID, ownerUserID, ownerFolder, 
 // first-level folder ending with `_<accountID>` (named after an earlier
 // account name), deduplicated. One delimiter listing finds the former ones,
 // so renaming the account never hides files the server wrote under the old
-// name (Astra rounds 11-12). Callers search BOTH the user_<owner> leaf and the
-// owner's name leaf in every folder. A listing failure only means former
-// folders are not searched; it never widens access.
+// name (Astra rounds 11-12). Callers search the user_<owner> leaf of every
+// folder this returns for id-keyed objects; legacy (name-keyed / flat)
+// objects are found through tracker_file_owners instead (Astra round 13 —
+// see buildKeyAuthorizer), never by re-deriving a folder name here. A
+// listing failure only means former folders are not searched; it never
+// widens access.
 const findAccountFolders = async (accountRecord, accountID) => {
    const folders = new Set([buildAccountFolder(accountRecord, accountID), buildLegacyAccountFolder(accountRecord, accountID)]);
    let prefixes = [];
@@ -307,13 +278,18 @@ const findAccountFolders = async (accountRecord, accountID) => {
    return [...folders];
 };
 
-// The owner's search prefixes: id-keyed and name-keyed leaves of every account
-// folder, plus the flat name folder (only meaningful for the legacy tenant;
-// the authorizer refuses it for everyone else).
-const ownerSearchPrefixes = (accountFolders, ownerUserID, ownerFolder) => ({
-   idKeyed: accountFolders.map(folder => `${PROCESSED_ROOT}/${folder}/user_${Number(ownerUserID)}/`),
-   nameKeyed: [...accountFolders.map(folder => `${PROCESSED_ROOT}/${folder}/${ownerFolder}/`), `${PROCESSED_ROOT}/${ownerFolder}/`]
-});
+// The owner's id-keyed search prefixes: one per account folder findAccountFolders
+// found. Legacy (name-keyed / flat) objects have no prefix worth searching by
+// name any more — see buildKeyAuthorizer and the two callers below, which
+// derive legacy search locations from the owner's tracker_file_owners rows
+// directly instead.
+const idKeyedPrefixesFor = (accountFolders, ownerUserID) => accountFolders.map(folder => `${PROCESSED_ROOT}/${folder}/user_${Number(ownerUserID)}/`);
+
+// Every distinct parent "folder/" prefix of a set of S3 keys, e.g.
+// "a/b/c.gz" -> "a/b/". Used to recover LastModified/Size for the owner's
+// legacy objects (tracker_file_owners records only the key, not S3 metadata)
+// by listing each folder they actually live in exactly once.
+const parentFolderPrefixes = keys => [...new Set(keys.map(key => key.slice(0, key.lastIndexOf('/') + 1)))];
 
 const ensureAdminAccess = userRecord => {
    // Super admin sits above admin in the role hierarchy and must satisfy any
@@ -632,6 +608,13 @@ timeTrackingRouter.post(
 
             const rowsToInsert = dedupe.toInsertIndexes.map(index => normalizedEntries[index]);
             insertedEntries = await timesheetsService.insertTimesheetEntriesWithTransaction(trx, rowsToInsert);
+            // review/full-audit-2026-09 finding (Astra round 13, P2): record
+            // durable ownership of this upload's S3 object in the SAME
+            // transaction as its timesheet_entries rows, so the rollback
+            // below (which also deletes the S3 object on failure) removes
+            // this row too — see trackerOwners.js and
+            // migrations/021.tracker_file_owners.sql.
+            await trackerOwners.recordOwner(trx, { s3Key, accountId: accountIdNumber, userId: effectiveUserId, source: 'upload' });
             await trx.commit();
             console.log(
                `[${new Date().toISOString()}] Inserted ${rowsToInsert.length} entries into timesheet_entries for "${decodedOriginalName}" (${dedupe.duplicates.length} duplicate row(s) skipped).`
@@ -851,18 +834,31 @@ timeTrackingRouter.get(
    asyncHandler(async (req, res) => {
       const { accountID, userID } = req.params;
       const db = req.app.get('db');
-      const userRecord = await fetchUserRecord(db, accountID, userID);
+      // fetchUserRecord is kept purely to 404 an unknown owner id, matching
+      // prior behavior — its return value is otherwise unused: neither
+      // id-keyed nor legacy listing depends on the owner's display name any
+      // more (Astra round 13, finding P2).
+      await fetchUserRecord(db, accountID, userID);
       const accountRecord = await fetchAccountRecord(db, accountID);
-      const userFolder = buildUserFolder(userRecord);
-      // Every id-keyed and name-keyed leaf of every folder of this account,
-      // plus the flat name folder; each listed key is then accepted or
-      // rejected by the same structural authorizer the download routes use
-      // (exact recorded names for shared name folders; flat folders only for
-      // the legacy tenant).
+      // id-keyed: every user_<owner> leaf of every folder of this account
+      // (unaffected by any rename — Astra rounds 10-11 — and needs no name
+      // at all, since an id-keyed key was written by, and only by, its own
+      // owner's upload).
       const accountFolders = await findAccountFolders(accountRecord, accountID);
-      const prefixes = ownerSearchPrefixes(accountFolders, userID, userFolder);
-      const isAuthorized = await buildKeyAuthorizer({ db, accountID, ownerUserID: userID, ownerFolder: userFolder });
-      const listed = (await Promise.all([...prefixes.idKeyed, ...prefixes.nameKeyed].map(prefix => listObjects(prefix)))).flat();
+      const idKeyedPrefixes = idKeyedPrefixesFor(accountFolders, userID);
+      // legacy (flat / name-keyed): found ONLY through this owner's durable
+      // tracker_file_owners rows now, never by listing a CURRENT name
+      // folder — Astra round 13, finding P2 (a rename, or a delete followed
+      // by a same-named employee, could otherwise silently hand a
+      // different person's history to whoever currently matches the
+      // folder's name). Each owned key's own parent folder is listed once,
+      // to recover its LastModified / Size from S3; the isAuthorized filter
+      // below then keeps only the objects actually owned, so an unrelated
+      // file a same-named colleague later added to that same folder is
+      // never picked up.
+      const legacyFolderPrefixes = parentFolderPrefixes([...(await trackerOwners.ownedKeys(db, accountID, userID))]);
+      const isAuthorized = await buildKeyAuthorizer({ db, accountID, ownerUserID: userID });
+      const listed = (await Promise.all([...idKeyedPrefixes, ...legacyFolderPrefixes].map(prefix => listObjects(prefix)))).flat();
       const mergedObjects = listed.filter(object => object?.Key && !object.Key.endsWith('/') && isAuthorized(object.Key));
 
       if (!mergedObjects.length) {
@@ -929,17 +925,22 @@ timeTrackingRouter.get(
       }
 
       const db = req.app.get('db');
-      const userRecord = await fetchUserRecord(db, accountID, userID);
-      const userFolder = buildUserFolder(userRecord);
+      // Existence check only (404 on an unknown owner id, matching prior
+      // behavior) — the returned record is otherwise unused: ownership no
+      // longer depends on the owner's display name (Astra round 13, P2).
+      await fetchUserRecord(db, accountID, userID);
 
       // Ownership comes from the key's structure (classifyProcessedKey): an
-      // id-keyed folder of this account for this owner is theirs; a name
-      // folder shared with same-named employees also needs the file name to
-      // be one this owner recorded. Anything else, including another
-      // account's or another user's folder, is refused before any S3 call
-      // (Astra round 11: a recorded basename alone used to authorize any key
-      // under PROCESSED_ROOT).
-      const authorized = await authorizeProcessedKey({ db, accountID, ownerUserID: userID, ownerFolder: userFolder, key });
+      // id-keyed folder of this account for this owner is theirs by
+      // construction. Every other scope (a name folder, or a legacy-tenant
+      // flat folder) is authorized only when the EXACT key is one of this
+      // owner's durable tracker_file_owners rows — Astra round 13, finding
+      // P2: a folder's name (current OR former) is never proof of
+      // ownership on its own. Anything else, including another account's or
+      // another user's folder, is refused before any S3 call (Astra round
+      // 11: a recorded basename alone used to authorize any key under
+      // PROCESSED_ROOT).
+      const authorized = await authorizeProcessedKey({ db, accountID, ownerUserID: userID, key });
 
       if (!authorized) {
          return res.status(403).json({ message: 'You do not have access to this file.' });
@@ -956,10 +957,27 @@ timeTrackingRouter.get(
          throw err;
       }
       const metadataValues = metadata?.userMetadata || {};
-      const storedFileName = path.basename(key).replace(/\.gz$/, '');
       const originalContentType = metadataValues['original-content-type'] || 'application/octet-stream';
 
-      const decompressedFile = await gunzip(body);
+      // Astra round 13, finding P3: this used to gunzip() unconditionally,
+      // so a genuinely plain (uncompressed) workbook — 139 of the 550
+      // production tracker objects, all pre-dating per-upload records —
+      // was correctly LISTED by /history but then 500'd here
+      // (Z_DATA_ERROR) instead of downloading. Mirror download-by-name's
+      // own compressed-vs-plain handling: only gunzip when the key itself
+      // says the object is gzipped, and only strip the .gz suffix from the
+      // served file name when it was actually there.
+      const isGzipped = /\.gz$/i.test(key);
+      let fileBuffer;
+      try {
+         fileBuffer = isGzipped ? await gunzip(body) : body;
+      } catch (decompressError) {
+         console.error(`[${new Date().toISOString()}] Failed to decompress tracker "${key}": ${decompressError.message}`);
+         return res.status(500).json({
+            message: 'We were unable to open that time tracker file. It may be corrupted. Please contact support if this continues.'
+         });
+      }
+      const storedFileName = isGzipped ? path.basename(key).replace(/\.gz$/i, '') : path.basename(key);
 
       res.set({
          'Content-Type': originalContentType,
@@ -967,7 +985,7 @@ timeTrackingRouter.get(
          'X-Tracker-Filename': storedFileName
       });
 
-      return res.status(200).send(decompressedFile);
+      return res.status(200).send(fileBuffer);
    })
 );
 
@@ -999,7 +1017,11 @@ timeTrackingRouter.get(
 
       const db = req.app.get('db');
 
-      const [requestingUserRecord, ownerUserRecord, accountRecord] = await Promise.all([
+      // The owner's record is fetched only to 404 an unknown owner id
+      // (matching prior behavior) — its display name is no longer part of
+      // ownership at all (Astra round 13, finding P2), so it is otherwise
+      // unused here.
+      const [requestingUserRecord, , accountRecord] = await Promise.all([
          fetchUserRecord(db, accountID, userID),
          fetchUserRecord(db, accountID, ownerUserID),
          fetchAccountRecord(db, accountID)
@@ -1013,15 +1035,20 @@ timeTrackingRouter.get(
          return res.status(403).json({ message: 'You are not authorized to download this tracker.' });
       }
 
-      const ownerFolder = buildUserFolder(ownerUserRecord);
-      // Ownership is decided for every candidate BEFORE it is fetched: an
-      // id-keyed leaf of this account for this owner, or a shared name folder
-      // whose file name EXACTLY matches one this owner recorded (flat folders
-      // only for the legacy tenant). Normalized name matching below only
-      // chooses among keys this authorizer already accepted (Astra round 12).
+      // Ownership is decided for every candidate BEFORE it is fetched.
+      // id-keyed candidates (an id-keyed leaf of this account for this
+      // owner) are exactly as before — never depend on anyone's display
+      // name. Legacy (name-keyed / flat) candidates are resolved ONLY
+      // among this owner's durable tracker_file_owners rows now — Astra
+      // round 13, finding P2: no S3 folder is ever searched by name any
+      // more, so a rename or a delete-then-recreate can never hand a
+      // different person's file to a same-named lookup. Normalized name
+      // matching below only chooses among keys already authorized here
+      // (Astra round 12).
       const accountFolders = await findAccountFolders(accountRecord, accountID);
-      const searchPrefixes = ownerSearchPrefixes(accountFolders, ownerUserID, ownerFolder);
-      const isAuthorized = await buildKeyAuthorizer({ db, accountID, ownerUserID, ownerFolder });
+      const idKeyedPrefixes = idKeyedPrefixesFor(accountFolders, ownerUserID);
+      const ownedLegacyKeys = [...(await trackerOwners.ownedKeys(db, accountID, ownerUserID))];
+      const isAuthorized = await buildKeyAuthorizer({ db, accountID, ownerUserID });
 
       const evaluateCandidate = key => `${key.endsWith('.gz') ? key : `${key}.gz`}`;
 
@@ -1044,9 +1071,16 @@ timeTrackingRouter.get(
 
       const candidateNames = buildVariants();
 
-      const candidateKeys = candidateNames
-         .flatMap(name => [...searchPrefixes.idKeyed, ...searchPrefixes.nameKeyed].map(prefix => evaluateCandidate(`${prefix}${name}`)))
-         .filter(key => isAuthorized(key));
+      // Phase 1a — id-keyed candidates, constructed exactly as before.
+      const idKeyedCandidateKeys = candidateNames.flatMap(name => idKeyedPrefixes.map(prefix => evaluateCandidate(`${prefix}${name}`)));
+      // Phase 1b — an owned legacy key whose basename (gzipped or not)
+      // exactly matches one of the requested name's variants. No S3
+      // listing is needed: the owner's tracker_file_owners rows ARE the
+      // whole legacy candidate universe.
+      const candidateNameVariants = new Set(candidateNames.flatMap(name => [name, `${name}.gz`]));
+      const ownedExactMatches = ownedLegacyKeys.filter(key => candidateNameVariants.has(path.basename(key)));
+
+      const candidateKeys = [...idKeyedCandidateKeys, ...ownedExactMatches].filter(key => isAuthorized(key));
 
       let downloadKey = null;
       let downloadedObject = null;
@@ -1073,9 +1107,9 @@ timeTrackingRouter.get(
       if (!downloadKey || !downloadedObject) {
          const normalize = value => sanitizeSegment((value || '').replace(/\.gz$/i, '')).toLowerCase();
          const targetVariants = Array.from(new Set([...candidateNames, baseName, nameWithoutExt, safeTimesheetName].filter(Boolean))).map(normalize);
-         const prefixesToSearch = [...searchPrefixes.idKeyed, ...searchPrefixes.nameKeyed];
 
-         for (const prefix of prefixesToSearch) {
+         // id-keyed fallback — unchanged: a real S3 listing per prefix.
+         for (const prefix of idKeyedPrefixes) {
             if (downloadKey) break;
             try {
                const objects = await listObjects(prefix);
@@ -1095,6 +1129,20 @@ timeTrackingRouter.get(
                }
             } catch (listError) {
                console.error(`[${new Date().toISOString()}] Failed to list objects under "${prefix}": ${listError.message}`);
+            }
+         }
+
+         // Legacy fallback — normalized match among this owner's OWNED
+         // keys only; again, no S3 listing, just the DB-backed key set.
+         for (const key of ownedLegacyKeys) {
+            if (downloadKey) break;
+            if (!isAuthorized(key)) continue;
+            const normalizedBase = normalize(path.basename(key));
+            if (!targetVariants.includes(normalizedBase)) continue;
+            try {
+               await tryFetchObject(key);
+            } catch (fetchError) {
+               console.error(`[${new Date().toISOString()}] Error retrieving candidate key "${key}": ${fetchError.message}`);
             }
          }
 

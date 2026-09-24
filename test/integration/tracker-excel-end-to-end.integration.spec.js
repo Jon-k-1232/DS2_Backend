@@ -479,6 +479,13 @@ describe('tracker Excel end-to-end: template → upload → auto-ingest → invo
             await db('customers').where({ account_id: A }).whereIn('customer_id', customerIds).del();
          }
          if (created.jobTypes.length) await db('customer_job_types').where({ account_id: A }).whereIn('job_type_id', created.jobTypes).del();
+         // Astra round 13 (P2): every real tracker upload through the route
+         // now also writes a tracker_file_owners row (migrations/021,
+         // trackerOwners.js) in the same transaction as its timesheet_entries
+         // rows — sweep it the same way created.s3Keys already is (harmless
+         // no-op for the non-tracker keys, e.g. invoice locations, also in
+         // that array).
+         if (created.s3Keys.length) await db('tracker_file_owners').whereIn('s3_key', created.s3Keys).del();
       }
       for (const key of [...new Set(created.s3Keys)]) {
          await deleteObject(key).catch(() => {});

@@ -45,6 +45,7 @@ const { getObject, putObject, deleteObject, listObjects } = require('../../src/u
 // for the "builder failure -> 503" coverage below (the router requires it the
 // same way for the same reason).
 const templateBuilder = require('../../src/endpoints/timeTracking/template-builder');
+const trackerOwners = require('../../src/endpoints/timeTracking/trackerOwners');
 
 const A = 9001;
 const FOREIGN_ACCOUNT = 1; // read-only reference tenant
@@ -505,6 +506,12 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          // false-positive (account 9001 picking up more of its own "Eliza" /
          // manager users run after run).
          if (created.userIds.length) await db('users').where({ account_id: A }).whereIn('user_id', created.userIds).del();
+         // Astra round 13 (P2) fixture rows: every tracker_file_owners row this
+         // file writes (directly, via trackerOwners.recordOwner, or indirectly
+         // through a real upload) is keyed by an s3_key already tracked in
+         // created.s3Keys, so one sweep here catches all of them regardless of
+         // which test created the row.
+         if (created.s3Keys.length) await db('tracker_file_owners').whereIn('s3_key', created.s3Keys).del();
       }
       for (const key of [...new Set([...created.s3Keys, ...created.templateKeys])]) {
          // never the template that was 'latest' when the run started
@@ -705,9 +712,10 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
    // list/download the other's files. New uploads write under
    // processed/<accountFolder>/user_<id>/ (immutable, never shared); the old
    // name-keyed folder is still read for pre-fix history, but only ever
-   // trusted for the file names THIS owner's own timesheet_entries history
-   // actually recorded — simulated here the same way the cross-account test
-   // above simulates its own legacy object.
+   // trusted for a key this owner's tracker_file_owners rows actually record
+   // (Astra round 13, finding P2 — superseding the timesheet_entries-based
+   // check this comment used to describe) — simulated here the same way the
+   // cross-account test above simulates its own legacy object.
    describe('same-named employees within ONE account do not share history/downloads (C6)', () => {
       const ACCOUNT_LEGACY_PREFIX = `${PROCESSED_ROOT}/TEST_FIXTURE_ACCOUNT_9001/Smith_Eliza/`;
       let otherElizaFileName;
@@ -720,7 +728,9 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          await putObject(otherElizaKey, zlib.gzipSync(Buffer.from('other Eliza private workbook bytes')), 'application/gzip', { 'original-content-type': XLSX_MIME });
          // The row this account's own history actually attributes to
          // otherEliza (her OWN user_id) — this is what makes the object
-         // legitimately hers, not just its file name.
+         // legitimately hers, not just its file name. A timesheet_entries row
+         // alone no longer grants anything (Astra round 13, finding P2); the
+         // tracker_file_owners row below is the actual grant.
          const [row] = await db('timesheet_entries')
             .insert({
                account_id: A,
@@ -738,6 +748,7 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
             })
             .returning('timesheet_entry_id');
          created.timesheetNames.push(otherElizaFileName);
+         await trackerOwners.recordOwner(db, { s3Key: otherElizaKey, accountId: A, userId: otherEliza.user_id, source: 'recorded-upload' });
          return row;
       });
 
@@ -754,10 +765,10 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
 
       it('/download/by-name for the real Eliza 404s for a name only the OTHER Eliza owns (no owned matching file — 200 with any non-victim bytes is still wrong)', async () => {
          const res = await getBinary('admin', `/time-tracking/download/by-name/${A}/${ADMIN}`, { ownerUserID: ELIZA, timesheetName: otherElizaFileName });
-         // The real Eliza's OWN upload history (getAllTimesheetNamesEverUsedByEmployee)
-         // has no row named otherElizaFileName at all, so resolving to ANYTHING
-         // here — even a third, unrelated object — would be wrong. The only
-         // correct response is 404.
+         // The real Eliza has no tracker_file_owners row for otherElizaKey
+         // (only otherEliza does — see the fixture above), so resolving to
+         // ANYTHING here — even a third, unrelated object — would be wrong.
+         // The only correct response is 404.
          expect(res.status, JSON.stringify(res.body).slice(0, 300)).to.equal(404);
       });
 
@@ -1873,7 +1884,10 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
    // structure — the account id at the end of the account folder and the
    // owner id in a user_<id> leaf — never from a file-name match alone. A
    // recorded basename used to authorize any key under PROCESSED_ROOT,
-   // including another account's and another user's folders.
+   // including another account's and another user's folders. formerNameKey
+   // below additionally needs a tracker_file_owners row (Astra round 13,
+   // finding P2 removed the recorded-basename grant this block originally
+   // relied on for a name-keyed key).
    describe('tracker key ownership is structural (Astra round 11)', () => {
       let storageSlug;
       let recordedName;
@@ -1918,6 +1932,10 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          await put(formerIdKey, 'R11 former id-keyed tracker');
          await put(formerNameKey, 'R11 former name-keyed tracker');
          await put(formerNameUnrecordedKey, 'R11 sentinel: unrecorded name in the shared name folder');
+         // formerNameKey is Eliza's — grant it the same way a real backfill
+         // would (Astra round 13, finding P2); formerNameUnrecordedKey stays
+         // deliberately unowned by anyone, so it must stay refused below.
+         await trackerOwners.recordOwner(db, { s3Key: formerNameKey, accountId: A, userId: ELIZA, source: 'recorded-upload' });
       });
 
       const download = key => getBinary('admin', `/time-tracking/history/download/${A}/${ELIZA}`, { key });
@@ -2052,8 +2070,12 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          this.timeout(60_000);
          const name = `R12Stable_${RUN}.xlsx`;
          const stableKey = `${PROCESSED_ROOT}/${storageSlug}_${A}/Smith_Eliza/${name}.gz`;
-         await record(ELIZA, name);
          await put(stableKey, 'R12 stable name-keyed tracker');
+         // Ownership (Astra round 13, finding P2 removed the recorded-name
+         // grant this test used to rely on via record(); account rename
+         // stability for a name-keyed file is otherwise exactly what this
+         // test is about, unaffected by that change).
+         await trackerOwners.recordOwner(db, { s3Key: stableKey, accountId: A, userId: ELIZA, source: 'recorded-upload' });
          expect(await historyKeys()).to.include(stableKey);
 
          const renameRes = await h.as('admin').put('/account/updateAccount').send({ account: { account_name: `R12 Renamed ${RUN}` } });
@@ -2065,15 +2087,258 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          expect(sha256(res.body)).to.equal(sha256(Buffer.from('R12 stable name-keyed tracker')));
       });
 
-      it("the legacy tenant's flat files with no upload record are listed and downloadable for the one employee whose folder it is", async () => {
+      // UPDATED for Astra round 13, finding P2: this test used to rely on
+      // ownerFolderIsUnique — current-name uniqueness among account 1's
+      // users — to attribute an unrecorded flat file. That mechanism is
+      // removed outright (see timeTracking-router.js's buildKeyAuthorizer);
+      // an explicit tracker_file_owners row for (1, 21) is now the only
+      // grant, exactly as a reviewed backfill would write one.
+      it('the legacy tenant\'s flat files are listed and downloadable once an ownership row exists (Astra round 13)', async () => {
          const legacyKey = `${PROCESSED_ROOT}/Admin_Admin/R12LegacyFlat_${RUN}.xlsx.gz`;
          await put(legacyKey, 'R12 legacy flat tracker without an upload record');
+         await trackerOwners.recordOwner(db, { s3Key: legacyKey, accountId: FOREIGN_ACCOUNT, userId: SUPER_ADMIN, source: 'folder-at-backfill' });
          const history = await h.as('superAdmin').get(`/time-tracking/history/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
          expect(history.status).to.equal(200);
          expect(history.body.history.map(entry => entry.key)).to.include(legacyKey);
          const download = await getBinary('superAdmin', `/time-tracking/history/download/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`, { key: legacyKey });
          expect(download.status).to.equal(200);
          expect(sha256(download.body)).to.equal(sha256(Buffer.from('R12 legacy flat tracker without an upload record')));
+         await db('tracker_file_owners').where({ s3_key: legacyKey }).del();
+      });
+   });
+
+   // Astra round 13 (review/full-audit-2026-09): current-name uniqueness
+   // (ownerFolderIsUnique) and the recorded-name (timesheet_entries) lookup
+   // are BOTH removed as ownership grants for legacy tracker layouts —
+   // tracker_file_owners (migrations/021) is now the ONLY grant. See
+   // timeTracking-router.js's buildKeyAuthorizer and trackerOwners.js. These
+   // regressions reproduce Astra's exact findings against the fix, using
+   // account 9001 name-keyed files (`${PROCESSED_ROOT}/${storageSlug}_${A}/
+   // Smith_Eliza/<file>`) and, for the legacy-flat + gzip cases, account 1
+   // (permitted: writing rows into the NEW tracker_file_owners table for
+   // account 1 in ds2_local is not touching production-copy data — every row
+   // and MinIO object created below is removed again).
+   describe('legacy tracker ownership is durable, not name-derived (Astra round 13)', () => {
+      let storageSlug;
+      let accountSuperAdmin;
+
+      const put = async (key, text) => {
+         created.s3Keys.push(key);
+         await putObject(key, zlib.gzipSync(Buffer.from(text)), 'application/gzip', { 'original-content-type': XLSX_MIME });
+      };
+      const own = (s3Key, accountId, userId, source = 'folder-at-backfill') => trackerOwners.recordOwner(db, { s3Key, accountId, userId, source });
+      // accessLevel is always the canonical literal 'User' (never the DB
+      // row's raw access_level, e.g. the seed fixture's non-canonical
+      // 'employee') — normalizeAccessLevel in userObjects.js only accepts
+      // 'Super Admin' / 'Admin' / 'Manager' / 'User', matching the
+      // convention coverage-account-users-auth-misc.integration.spec.js
+      // already uses for this same route.
+      const updateUserBody = row => ({
+         userID: row.user_id,
+         accountID: row.account_id,
+         userDisplayName: row.display_name,
+         userEmail: row.email,
+         costRate: row.cost_rate,
+         billingRate: row.billing_rate,
+         role: row.job_title,
+         accessLevel: 'User',
+         isUserActive: row.is_user_active
+      });
+
+      before(async () => {
+         storageSlug = (await db('accounts').where({ account_id: A }).first()).storage_slug;
+         // A real super admin OF ACCOUNT 9001 (the seeded superAdmin identity
+         // is account 1's) — updateUser/deleteUser are requireSuperAdmin-gated
+         // AND account-scoped (enforceAccountId), so renaming/deleting an
+         // account-9001 employee needs an account-9001 super admin caller.
+         const email = `r13superadmin+${RUN.toLowerCase()}@example.test`;
+         [accountSuperAdmin] = await db('users')
+            .insert({ account_id: A, email, display_name: 'R13 Coverage Super Admin', cost_rate: 0, billing_rate: 0, job_title: 'Auditor', access_level: 'super admin', is_user_active: true })
+            .returning('*');
+         created.userIds.push(accountSuperAdmin.user_id);
+      });
+
+      it("a renamed owner keeps their file, in both the old and new name folder; a same-named colleague never gets it — before or after the rename", async function () {
+         this.timeout(60_000);
+         const elizaBefore = await db('users').where({ user_id: ELIZA }).first();
+         const key = `${PROCESSED_ROOT}/${storageSlug}_${A}/Smith_Eliza/R13Owned_${RUN}.xlsx.gz`;
+         await put(key, 'R13 owned by the real Eliza');
+         await own(key, A, ELIZA);
+
+         const assertOwnerHasAccess = async () => {
+            const list = await h.as('employee').get(`/time-tracking/history/${A}/${ELIZA}`);
+            expect(list.status).to.equal(200);
+            expect(list.body.history.map(x => x.key)).to.include(key);
+            const download = await getBinary('employee', `/time-tracking/history/download/${A}/${ELIZA}`, { key });
+            expect(download.status).to.equal(200);
+            expect(sha256(download.body)).to.equal(sha256(Buffer.from('R13 owned by the real Eliza')));
+         };
+         const assertColleagueRefused = async () => {
+            const list = await asCustom(otherEliza.email).get(`/time-tracking/history/${A}/${otherEliza.user_id}`);
+            expect(list.status).to.equal(200);
+            expect(list.body.history.map(x => x.key)).to.not.include(key);
+            const download = await getBinaryAs(asCustom(otherEliza.email), `/time-tracking/history/download/${A}/${otherEliza.user_id}`, { key });
+            expect(download.status).to.equal(403);
+            const byName = await getBinaryAs(asCustom(otherEliza.email), `/time-tracking/download/by-name/${A}/${otherEliza.user_id}`, {
+               ownerUserID: otherEliza.user_id,
+               timesheetName: path.basename(key).replace(/\.gz$/i, '')
+            });
+            expect(byName.status).to.equal(404);
+         };
+
+         // Before the rename: theirs; a same-named colleague never gets it.
+         await assertOwnerHasAccess();
+         await assertColleagueRefused();
+
+         // Rename the owner through the REAL user-update route.
+         const renamed = `Eliza R13Renamed ${RUN}`;
+         const renameRes = await asCustom(accountSuperAdmin.email)
+            .put(`/user/updateUser/${A}/${accountSuperAdmin.user_id}`)
+            .send({ user: updateUserBody({ ...elizaBefore, display_name: renamed }) });
+         expect(renameRes.status, JSON.stringify(renameRes.body)).to.equal(200);
+         const renamedRow = await db('users').where({ user_id: ELIZA }).first();
+         expect(renamedRow.display_name).to.equal(renamed);
+
+         try {
+            // After the rename: still theirs, INCLUDING in the OLD
+            // "Smith_Eliza" name folder — aliased purely through the
+            // ownership table, never through a name match. The same-named
+            // colleague STILL never gets it (the P2 exploit this regression
+            // reproduces: under the OLD code, the colleague would become the
+            // unique current match for "Smith_Eliza" at this exact point).
+            await assertOwnerHasAccess();
+            await assertColleagueRefused();
+         } finally {
+            // Restore the name through the real route, then restore the
+            // exact original row directly — the route always coerces
+            // access_level to a canonical value (see updateUserBody above),
+            // and the seed fixture's raw value ('employee') is not one.
+            const restoreRes = await asCustom(accountSuperAdmin.email)
+               .put(`/user/updateUser/${A}/${accountSuperAdmin.user_id}`)
+               .send({ user: updateUserBody(elizaBefore) });
+            expect(restoreRes.status, JSON.stringify(restoreRes.body)).to.equal(200);
+            await db('users').where({ user_id: ELIZA }).update({
+               display_name: elizaBefore.display_name,
+               email: elizaBefore.email,
+               cost_rate: elizaBefore.cost_rate,
+               billing_rate: elizaBefore.billing_rate,
+               job_title: elizaBefore.job_title,
+               access_level: elizaBefore.access_level,
+               is_user_active: elizaBefore.is_user_active
+            });
+         }
+      });
+
+      it("a deleted employee's owned file is not transferred to a later employee created with the same name", async function () {
+         this.timeout(30_000);
+         const tempName = `R13 Temp ${RUN}`;
+         const [tempEmployee] = await db('users')
+            .insert({ account_id: A, email: `r13temp+${RUN.toLowerCase()}@example.test`, display_name: tempName, cost_rate: 20, billing_rate: 40, job_title: 'Temp', access_level: 'employee', is_user_active: true })
+            .returning('*');
+         created.userIds.push(tempEmployee.user_id);
+
+         const key = `${PROCESSED_ROOT}/${storageSlug}_${A}/R13TempFolder_${RUN}/R13TempFile_${RUN}.xlsx.gz`;
+         await put(key, 'R13 owned by the temporary employee');
+         await own(key, A, tempEmployee.user_id);
+
+         const beforeList = await asCustom(tempEmployee.email).get(`/time-tracking/history/${A}/${tempEmployee.user_id}`);
+         expect(beforeList.status).to.equal(200);
+         expect(beforeList.body.history.map(x => x.key)).to.include(key);
+
+         // Delete through the REAL user-delete route (a hard delete — see
+         // user-service.js's deleteUser — which is exactly why
+         // tracker_file_owners.user_id has no foreign key: this row must
+         // survive it).
+         const delRes = await asCustom(accountSuperAdmin.email).delete(`/user/deleteUser/${A}/${tempEmployee.user_id}`);
+         expect(delRes.status, JSON.stringify(delRes.body)).to.equal(200);
+         expect(await db('users').where({ user_id: tempEmployee.user_id }).first()).to.not.exist;
+         expect(await db('tracker_file_owners').where({ s3_key: key }).first(), 'the ownership row itself must survive the deleted user').to.exist;
+
+         // A NEW employee, same display name — user_id is a serial PK Postgres
+         // never reuses, so this is necessarily a DIFFERENT id from tempEmployee's.
+         const [newEmployee] = await db('users')
+            .insert({ account_id: A, email: `r13new+${RUN.toLowerCase()}@example.test`, display_name: tempName, cost_rate: 20, billing_rate: 40, job_title: 'Temp', access_level: 'employee', is_user_active: true })
+            .returning('*');
+         created.userIds.push(newEmployee.user_id);
+         expect(newEmployee.user_id).to.not.equal(tempEmployee.user_id);
+
+         const afterList = await asCustom(newEmployee.email).get(`/time-tracking/history/${A}/${newEmployee.user_id}`);
+         expect(afterList.status).to.equal(200);
+         expect(afterList.body.history.map(x => x.key)).to.not.include(key);
+         const afterDownload = await getBinaryAs(asCustom(newEmployee.email), `/time-tracking/history/download/${A}/${newEmployee.user_id}`, { key });
+         expect(afterDownload.status).to.equal(403);
+      });
+
+      it("a key in the owner's current name folder is refused and unlisted with NO ownership row, even when a timesheet row records its exact name", async () => {
+         const name = `R13Unowned_${RUN}.xlsx`;
+         const key = `${PROCESSED_ROOT}/${storageSlug}_${A}/Smith_Eliza/${name}.gz`;
+         await put(key, 'R13 recorded but never owned');
+         await db('timesheet_entries').insert({
+            account_id: A,
+            user_id: ELIZA,
+            employee_name: 'Eliza Smith',
+            timesheet_name: name,
+            time_tracker_start_date: iso(CUR_START),
+            time_tracker_end_date: iso(CUR_END),
+            date: iso(CUR_END),
+            entity: ENTITY_JKA,
+            category: 'Phone Call',
+            company_name: COV_NAME,
+            duration: 15,
+            notes: `R13 recorded-not-owned ${RUN}`
+         });
+         created.timesheetNames.push(name);
+
+         const list = await h.as('employee').get(`/time-tracking/history/${A}/${ELIZA}`);
+         expect(list.status).to.equal(200);
+         expect(list.body.history.map(x => x.key)).to.not.include(key);
+         const download = await getBinary('employee', `/time-tracking/history/download/${A}/${ELIZA}`, { key });
+         expect(download.status).to.equal(403);
+         const byName = await getBinary('admin', `/time-tracking/download/by-name/${A}/${ADMIN}`, { ownerUserID: ELIZA, timesheetName: name });
+         expect(byName.status).to.equal(404);
+      });
+
+      it('account 1 legacy flat files — gzipped and genuinely plain — list and download byte-exact once owned (P2 ownership + P3 gzip handling)', async () => {
+         const realXlsx = fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'timetrackers', 'clean.xlsx'));
+         const gzKey = `${PROCESSED_ROOT}/R13_Admin_${RUN}/R13Flat_${RUN}.xlsx.gz`;
+         const plainKey = `${PROCESSED_ROOT}/R13_Admin_${RUN}/R13FlatPlain_${RUN}.xlsx`;
+         created.s3Keys.push(gzKey, plainKey);
+         await putObject(gzKey, zlib.gzipSync(realXlsx), 'application/gzip', { 'original-content-type': XLSX_MIME });
+         // Genuinely uncompressed — the exact P3 shape: history-download used
+         // to gunzip() unconditionally and 500 (Z_DATA_ERROR) on this.
+         await putObject(plainKey, realXlsx, XLSX_MIME, { 'original-content-type': XLSX_MIME });
+         await own(gzKey, FOREIGN_ACCOUNT, SUPER_ADMIN);
+         await own(plainKey, FOREIGN_ACCOUNT, SUPER_ADMIN);
+
+         const history = await h.as('superAdmin').get(`/time-tracking/history/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
+         expect(history.status).to.equal(200);
+         const keys = history.body.history.map(x => x.key);
+         expect(keys).to.include(gzKey);
+         expect(keys).to.include(plainKey);
+
+         const gzDownload = await getBinary('superAdmin', `/time-tracking/history/download/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`, { key: gzKey });
+         expect(gzDownload.status).to.equal(200);
+         expect(sha256(gzDownload.body)).to.equal(sha256(realXlsx));
+         expect(gzDownload.headers['x-tracker-filename']).to.equal(`R13Flat_${RUN}.xlsx`);
+
+         const plainDownload = await getBinary('superAdmin', `/time-tracking/history/download/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`, { key: plainKey });
+         expect(plainDownload.status, JSON.stringify(plainDownload.body).slice(0, 300)).to.equal(200);
+         expect(sha256(plainDownload.body)).to.equal(sha256(realXlsx));
+         expect(plainDownload.headers['x-tracker-filename']).to.equal(`R13FlatPlain_${RUN}.xlsx`);
+      });
+
+      it('a real upload writes its own ownership row, source "upload", for the owner', async () => {
+         await uploadTracker('R13Upload', ELIZA, {
+            employeeName: 'Eliza Smith',
+            start: CUR_START,
+            end: CUR_END,
+            rows: [{ date: CUR_END, category: 'Phone Call', duration: 10, notes: `R13 upload ownership check ${RUN}` }]
+         });
+         const row = await db('tracker_file_owners').where({ s3_key: T.R13Upload.body.storedKey }).first();
+         expect(row, 'expected an ownership row written by the upload route').to.exist;
+         expect(row.account_id).to.equal(A);
+         expect(row.user_id).to.equal(ELIZA);
+         expect(row.source).to.equal('upload');
       });
    });
 });
