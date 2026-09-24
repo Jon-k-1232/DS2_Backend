@@ -1869,4 +1869,108 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          expect(account1.storage_slug).to.equal('James_F__Kimmel___Associates');
       });
    });
+   // Astra round 11: ownership of a tracker key is read from the key's own
+   // structure — the account id at the end of the account folder and the
+   // owner id in a user_<id> leaf — never from a file-name match alone. A
+   // recorded basename used to authorize any key under PROCESSED_ROOT,
+   // including another account's and another user's folders.
+   describe('tracker key ownership is structural (Astra round 11)', () => {
+      let storageSlug;
+      let recordedName;
+      let foreignAccountKey;
+      let otherUserKey;
+      let formerIdKey;
+      let formerNameKey;
+      let formerNameUnrecordedKey;
+      const FORMER_FOLDER = `R11_Former_Name_${A}`;
+      const put = async (key, text) => {
+         created.s3Keys.push(key);
+         await putObject(key, zlib.gzipSync(Buffer.from(text)), 'application/gzip', { 'original-content-type': XLSX_MIME });
+      };
+
+      before(async () => {
+         storageSlug = (await db('accounts').where({ account_id: A }).first()).storage_slug;
+         recordedName = `R11Recorded_${RUN}.xlsx`;
+         // A file name genuinely recorded for Eliza in this account.
+         await db('timesheet_entries').insert({
+            account_id: A,
+            user_id: ELIZA,
+            employee_name: 'Eliza Smith',
+            timesheet_name: recordedName,
+            time_tracker_start_date: iso(CUR_START),
+            time_tracker_end_date: iso(CUR_END),
+            date: iso(CUR_END),
+            entity: ENTITY_JKA,
+            category: 'Phone Call',
+            company_name: COV_NAME,
+            duration: 15,
+            notes: `R11 recorded-name fixture ${RUN}`
+         });
+         created.timesheetNames.push(recordedName);
+
+         foreignAccountKey = `${PROCESSED_ROOT}/Other_Fixture_9002/user_90021/${recordedName}.gz`;
+         otherUserKey = `${PROCESSED_ROOT}/${storageSlug}_${A}/user_${BOB}/${recordedName}.gz`;
+         formerIdKey = `${PROCESSED_ROOT}/${FORMER_FOLDER}/user_${ELIZA}/R11Former_${RUN}.xlsx.gz`;
+         formerNameKey = `${PROCESSED_ROOT}/${FORMER_FOLDER}/Smith_Eliza/${recordedName}.gz`;
+         formerNameUnrecordedKey = `${PROCESSED_ROOT}/${FORMER_FOLDER}/Smith_Eliza/R11Unrecorded_${RUN}.xlsx.gz`;
+         await put(foreignAccountKey, 'R11 sentinel: another account');
+         await put(otherUserKey, 'R11 sentinel: another user in this account');
+         await put(formerIdKey, 'R11 former id-keyed tracker');
+         await put(formerNameKey, 'R11 former name-keyed tracker');
+         await put(formerNameUnrecordedKey, 'R11 sentinel: unrecorded name in the shared name folder');
+      });
+
+      const download = key => getBinary('admin', `/time-tracking/history/download/${A}/${ELIZA}`, { key });
+
+      it("refuses a key in another account's folder even when its file name is one this owner recorded", async () => {
+         const res = await download(foreignAccountKey);
+         expect(res.status).to.equal(403);
+      });
+
+      it("refuses a key under another user's id folder in this account, even with a recorded file name", async () => {
+         const res = await download(otherUserKey);
+         expect(res.status).to.equal(403);
+      });
+
+      it('refuses keys of unexpected depth, and a bare file directly under the processed root', async () => {
+         expect((await download(`${PROCESSED_ROOT}/${storageSlug}_${A}/user_${ELIZA}/extra/${recordedName}.gz`)).status).to.equal(403);
+         expect((await download(`${PROCESSED_ROOT}/${recordedName}.gz`)).status).to.equal(403);
+         expect((await download(`${PROCESSED_ROOT}/${FORMER_FOLDER}/`)).status).to.equal(403);
+      });
+
+      it('compares ids exactly: leading zeros in the account or user id never match', async () => {
+         expect((await download(`${PROCESSED_ROOT}/${FORMER_FOLDER}/user_0${ELIZA}/R11Former_${RUN}.xlsx.gz`)).status).to.equal(403);
+         expect((await download(`${PROCESSED_ROOT}/R11_Former_Name_0${A}/user_${ELIZA}/R11Former_${RUN}.xlsx.gz`)).status).to.equal(403);
+      });
+
+      it("history lists this account's files under a former account-name folder (id-keyed always, name-keyed only when recorded) and none of the other folders", async () => {
+         const res = await h.as('admin').get(`/time-tracking/history/${A}/${ELIZA}`);
+         expect(res.status).to.equal(200);
+         const keys = res.body.history.map(entry => entry.key);
+         expect(keys).to.include(formerIdKey);
+         expect(keys).to.include(formerNameKey);
+         expect(keys).to.not.include(formerNameUnrecordedKey);
+         expect(keys).to.not.include(foreignAccountKey);
+         expect(keys).to.not.include(otherUserKey);
+      });
+
+      it('downloads files in a former account-name folder of this account, and refuses an unrecorded name in the shared name folder', async () => {
+         const idKeyed = await download(formerIdKey);
+         expect(idKeyed.status).to.equal(200);
+         expect(sha256(idKeyed.body)).to.equal(sha256(Buffer.from('R11 former id-keyed tracker')));
+         const nameKeyed = await download(formerNameKey);
+         expect(nameKeyed.status).to.equal(200);
+         expect(sha256(nameKeyed.body)).to.equal(sha256(Buffer.from('R11 former name-keyed tracker')));
+         expect((await download(formerNameUnrecordedKey)).status).to.equal(403);
+      });
+
+      it('download-by-name finds files in a former account-name folder and never resolves to another account or user', async () => {
+         const idKeyed = await getBinary('admin', `/time-tracking/download/by-name/${A}/${ADMIN}`, { ownerUserID: ELIZA, timesheetName: `R11Former_${RUN}.xlsx` });
+         expect(idKeyed.status).to.equal(200);
+         expect(sha256(idKeyed.body)).to.equal(sha256(Buffer.from('R11 former id-keyed tracker')));
+         const recorded = await getBinary('admin', `/time-tracking/download/by-name/${A}/${ADMIN}`, { ownerUserID: ELIZA, timesheetName: recordedName });
+         expect(recorded.status).to.equal(200);
+         expect(sha256(recorded.body)).to.equal(sha256(Buffer.from('R11 former name-keyed tracker')));
+      });
+   });
 });

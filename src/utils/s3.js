@@ -79,6 +79,34 @@ const listObjects = async (prefix = "") => {
   return results;
 };
 
+// First-level "folder" prefixes directly under `prefix` (S3 CommonPrefixes
+// with a '/' delimiter), paginated. Used to find an account's tracker folders
+// named after an earlier account name.
+const listFolderPrefixes = async (prefix = "") => {
+  const results = [];
+  let continuationToken;
+
+  do {
+    const command = new ListObjectsV2Command({
+      Bucket: bucketName,
+      Prefix: prefix,
+      Delimiter: "/",
+      ContinuationToken: continuationToken,
+    });
+
+    const response = await s3.send(command);
+    if (response.CommonPrefixes) {
+      results.push(...response.CommonPrefixes.map((entry) => entry.Prefix).filter(Boolean));
+    }
+
+    continuationToken = response.IsTruncated
+      ? response.NextContinuationToken
+      : undefined;
+  } while (continuationToken);
+
+  return results;
+};
+
 const getObject = async key => {
   const command = new GetObjectCommand({
     Bucket: bucketName,
@@ -139,6 +167,7 @@ const checkConnectivity = async () => {
 
 module.exports = {
   listObjects,
+  listFolderPrefixes,
   getObject,
   putObject,
   deleteObject,

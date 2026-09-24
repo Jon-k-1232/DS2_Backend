@@ -8,7 +8,7 @@ const asyncHandler = require('../../utils/asyncHandler');
 const { requireAuth, requireSuperAdmin } = require('../auth/jwt-auth');
 const accountUserService = require('../user/user-service');
 const accountService = require('../account/account-service');
-const { listObjects, getObject, putObject, deleteObject } = require('../../utils/s3');
+const { listObjects, listFolderPrefixes, getObject, putObject, deleteObject } = require('../../utils/s3');
 const { isSyntacticallySafeKey, isSafeBareFilename } = require('../../utils/downloadAuthorization');
 const { validateUploadedTracker } = require('../../timeTrackerValidation/validateUploadedTracker');
 const timeTrackerStaffService = require('../timeTrackerStaff/timeTrackerStaff-service');
@@ -237,15 +237,85 @@ const filterLegacyObjectsToOwner = async (db, accountID, ownerUserID, objects) =
 
 // Same rule as filterLegacyObjectsToOwner, for a single candidate key (used
 // where we're about to fetch/serve one object rather than list a prefix).
-// Deliberately prefix-agnostic — it only ever looks at the key's basename —
-// so it doubles as the finding-5 fallback in /history/download for a key
-// under NO reconstructable prefix at all (see that route's PROCESSED_ROOT
-// branch): an account can be renamed any number of times, but its recorded
-// timesheet_entries.timesheet_name values never change underneath it.
+// It only compares the key's basename with this owner's recorded file names,
+// so it is NOT an ownership test on its own: callers must first establish,
+// from the key's structure, that the key sits in a folder shared by this
+// owner (see classifyProcessedKey). Astra round 11 reproduced a recorded
+// basename authorizing another account's and another user's folder when this
+// check was used as a catch-all fallback.
 const legacyKeyBelongsToOwner = async (db, accountID, ownerUserID, key) => {
    const storedName = path.basename(key).replace(/\.gz$/i, '');
    const ownNames = await timesheetsService.getAllTimesheetNamesEverUsedByEmployee(db, accountID, ownerUserID);
    return ownNames.includes(storedName);
+};
+
+// Every tracker key the server has written, relative to PROCESSED_ROOT:
+//   <Last_First>/<file>                                   flat layout (deployed master writes here)
+//   <AccountFolder>_<accountId>/<Last_First>/<file>       account folder, name-keyed (older, read-only)
+//   <AccountFolder>_<accountId>/user_<ownerId>/<file>     account folder, id-keyed (all new uploads)
+// An account folder always ends with the owning account's id and an id-keyed
+// leaf names the owning user, so ownership is read from the key's structure:
+//   'owner'  - an id-keyed folder of THIS account for THIS owner: theirs by construction;
+//   'shared' - this owner's CURRENT name folder (flat, or inside one of THIS
+//              account's folders), which same-named employees share, so the
+//              file name must also be one this owner recorded;
+//   null     - anything else: another account's folder, another user's id
+//              folder, another name, or a key of unexpected depth.
+const ACCOUNT_FOLDER_ID_RE = /_(\d+)$/;
+const USER_LEAF_RE = /^user_(\d+)$/;
+
+// Ids are compared as canonical decimal strings, so `user_090011` or a folder
+// ending `_09001` never matches ids 90011 / 9001 (the server never writes
+// leading zeros; such keys are simply refused).
+const canonicalId = value => {
+   const n = Number(value);
+   return Number.isSafeInteger(n) && n > 0 ? String(n) : null;
+};
+
+const accountIdOfFolder = folder => {
+   const match = ACCOUNT_FOLDER_ID_RE.exec(folder || '');
+   return match ? match[1] : null;
+};
+
+const classifyProcessedKey = ({ accountID, ownerUserID, ownerFolder, key }) => {
+   if (typeof key !== 'string' || !key.startsWith(`${PROCESSED_ROOT}/`)) return null;
+   const segments = key.slice(PROCESSED_ROOT.length + 1).split('/');
+   if (!segments.every(Boolean)) return null;
+   if (segments.length === 2) return segments[0] === ownerFolder ? 'shared' : null;
+   if (segments.length !== 3) return null;
+   const [accountFolder, leaf] = segments;
+   const account = canonicalId(accountID);
+   if (!account || accountIdOfFolder(accountFolder) !== account) return null;
+   const leafMatch = USER_LEAF_RE.exec(leaf);
+   if (leafMatch) return leafMatch[1] === canonicalId(ownerUserID) ? 'owner' : null;
+   return leaf === ownerFolder ? 'shared' : null;
+};
+
+const authorizeProcessedKey = async ({ db, accountID, ownerUserID, ownerFolder, key }) => {
+   const scope = classifyProcessedKey({ accountID, ownerUserID, ownerFolder, key });
+   if (scope === 'owner') return true;
+   if (scope === 'shared') return legacyKeyBelongsToOwner(db, accountID, ownerUserID, key);
+   return false;
+};
+
+// This account's OTHER folders under PROCESSED_ROOT: names ending with
+// `_<accountID>` that the current storage_slug and account_name no longer
+// produce (a folder named after an earlier account name). One delimiter
+// listing finds them, so renaming the account never hides files the server
+// wrote under the old name (Astra round 11). A listing failure only means
+// those folders are not searched; it never widens access.
+const findFormerAccountFolders = async (accountRecord, accountID) => {
+   const current = new Set([buildAccountFolder(accountRecord, accountID), buildLegacyAccountFolder(accountRecord, accountID)]);
+   let prefixes;
+   try {
+      prefixes = await listFolderPrefixes(`${PROCESSED_ROOT}/`);
+   } catch (err) {
+      console.error(`[${new Date().toISOString()}] Could not list tracker folders under ${PROCESSED_ROOT}: ${err.message}`);
+      return [];
+   }
+   return (prefixes || [])
+      .map(prefix => prefix.slice(PROCESSED_ROOT.length + 1).replace(/\/$/, ''))
+      .filter(folder => folder && !folder.includes('/') && accountIdOfFolder(folder) === canonicalId(accountID) && !current.has(folder));
 };
 
 const ensureAdminAccess = userRecord => {
@@ -788,12 +858,16 @@ timeTrackingRouter.get(
       const accountRecord = await fetchAccountRecord(db, accountID);
       const userFolder = buildUserFolder(userRecord);
       const { primaryPrefix, legacyIdKeyedPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountRecord, accountID, userFolder, userID);
+      const formerFolders = await findFormerAccountFolders(accountRecord, accountID);
+      const listAll = prefixes => Promise.all(prefixes.map(prefix => listObjects(prefix))).then(lists => lists.flat());
 
-      const [primaryObjects, legacyIdKeyedObjects, rawAccountLegacyObjects, rawFlatLegacyObjects] = await Promise.all([
+      const [primaryObjects, legacyIdKeyedObjects, rawAccountLegacyObjects, rawFlatLegacyObjects, formerIdKeyedObjects, rawFormerNameKeyedObjects] = await Promise.all([
          listObjects(primaryPrefix),
          listObjects(legacyIdKeyedPrefix),
          listObjects(accountLegacyPrefix),
-         listObjects(legacyPrefix)
+         listObjects(legacyPrefix),
+         listAll(formerFolders.map(folder => `${PROCESSED_ROOT}/${folder}/user_${Number(userID)}/`)),
+         listAll(formerFolders.map(folder => `${PROCESSED_ROOT}/${folder}/${userFolder}/`))
       ]);
       // Both name-keyed prefixes are shared by any OTHER same-named employee —
       // another account's for the flat layout, or (pre-fix) this SAME
@@ -802,8 +876,8 @@ timeTrackingRouter.get(
       // THIS owner. legacyIdKeyedPrefix needs no such filtering: like
       // primaryPrefix, its leaf is keyed by this owner's immutable numeric id
       // (see buildProcessedPrefixes, finding 5).
-      const legacyObjects = await filterLegacyObjectsToOwner(db, accountID, userID, [...(rawAccountLegacyObjects || []), ...(rawFlatLegacyObjects || [])]);
-      const mergedObjects = [...(primaryObjects || []), ...(legacyIdKeyedObjects || []), ...(legacyObjects || [])];
+      const legacyObjects = await filterLegacyObjectsToOwner(db, accountID, userID, [...(rawAccountLegacyObjects || []), ...(rawFlatLegacyObjects || []), ...(rawFormerNameKeyedObjects || [])]);
+      const mergedObjects = [...(primaryObjects || []), ...(legacyIdKeyedObjects || []), ...(formerIdKeyedObjects || []), ...(legacyObjects || [])];
 
       if (!mergedObjects.length) {
          return res.status(200).json({ history: [] });
@@ -821,7 +895,7 @@ timeTrackingRouter.get(
       );
 
       const history = uniqueObjects
-         .filter(object => object.Key && object.Key !== primaryPrefix && object.Key !== legacyIdKeyedPrefix && object.Key !== accountLegacyPrefix && object.Key !== legacyPrefix)
+         .filter(object => object.Key && !object.Key.endsWith('/') && classifyProcessedKey({ accountID, ownerUserID: userID, ownerFolder: userFolder, key: object.Key }))
          .map(object => {
             const baseName = path.basename(object.Key);
             const fileName = baseName.endsWith('.gz') ? baseName.slice(0, -3) : baseName;
@@ -870,38 +944,16 @@ timeTrackingRouter.get(
 
       const db = req.app.get('db');
       const userRecord = await fetchUserRecord(db, accountID, userID);
-      const accountRecord = await fetchAccountRecord(db, accountID);
       const userFolder = buildUserFolder(userRecord);
-      const { primaryPrefix, legacyIdKeyedPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountRecord, accountID, userFolder, userID);
 
-      let authorized;
-      if (key.startsWith(primaryPrefix) || key.startsWith(legacyIdKeyedPrefix)) {
-         // owner-id-scoped key (current storage_slug folder, or the
-         // pre-storage_slug folder it replaced — finding 5): inherently this
-         // exact owner's own either way.
-         authorized = true;
-      } else if (key.startsWith(accountLegacyPrefix) || key.startsWith(legacyPrefix)) {
-         // Name-keyed legacy key (account-scoped-by-name, or the older flat
-         // layout): either folder is shared by any OTHER same-named employee
-         // (in this same account for accountLegacyPrefix; in another account
-         // for legacyPrefix), so only serve it if this account's own upload
-         // history actually accounts for that file name FOR THIS OWNER.
-         authorized = await legacyKeyBelongsToOwner(db, accountID, userID, key);
-      } else if (key.startsWith(`${PROCESSED_ROOT}/`)) {
-         // review/full-audit-2026-09 finding 5 (Astra round 10): a key under
-         // this account's own time-tracking namespace that doesn't match ANY
-         // prefix reconstructable from the account's CURRENT name/slug — e.g.
-         // a pre-storage_slug object surviving a SECOND rename that happened
-         // after the storage_slug cutover — still gets one more chance via
-         // the same DB-backed ownership rule used for the name-keyed legacy
-         // prefixes above, so a file this account's own tracker history
-         // really did record for this owner is never turned into a 403 by a
-         // rename alone. Scoped to PROCESSED_ROOT so this can never become a
-         // way to reach an S3 key outside the time-tracking namespace.
-         authorized = await legacyKeyBelongsToOwner(db, accountID, userID, key);
-      } else {
-         authorized = false;
-      }
+      // Ownership comes from the key's structure (classifyProcessedKey): an
+      // id-keyed folder of this account for this owner is theirs; a name
+      // folder shared with same-named employees also needs the file name to
+      // be one this owner recorded. Anything else, including another
+      // account's or another user's folder, is refused before any S3 call
+      // (Astra round 11: a recorded basename alone used to authorize any key
+      // under PROCESSED_ROOT).
+      const authorized = await authorizeProcessedKey({ db, accountID, ownerUserID: userID, ownerFolder: userFolder, key });
 
       if (!authorized) {
          return res.status(403).json({ message: 'You do not have access to this file.' });
@@ -983,6 +1035,12 @@ timeTrackingRouter.get(
       // ever resolve a legacy-prefix candidate whose name is one this
       // account's own history actually recorded for THIS owner.
       const ownLegacyNames = new Set(await timesheetsService.getAllTimesheetNamesEverUsedByEmployee(db, accountID, ownerUserID));
+      // Folders named after an earlier account name (see findFormerAccountFolders).
+      const formerFolders = await findFormerAccountFolders(accountRecord, accountID);
+      const formerIdKeyedPrefixes = formerFolders.map(folder => `${PROCESSED_ROOT}/${folder}/user_${Number(ownerUserID)}/`);
+      const formerNameKeyedPrefixes = formerFolders.map(folder => `${PROCESSED_ROOT}/${folder}/${ownerFolder}/`);
+      const idKeyedPrefixList = [primaryPrefix, legacyIdKeyedPrefix, ...formerIdKeyedPrefixes];
+      const nameKeyedPrefixList = [accountLegacyPrefix, legacyPrefix, ...formerNameKeyedPrefixes];
 
       const evaluateCandidate = key => `${key.endsWith('.gz') ? key : `${key}.gz`}`;
 
@@ -1010,9 +1068,9 @@ timeTrackingRouter.get(
          // owner's immutable numeric id (finding 5) — always safe to try
          // regardless of recorded history, exactly like primaryPrefix alone
          // used to be.
-         const keys = [evaluateCandidate(`${primaryPrefix}${name}`), evaluateCandidate(`${legacyIdKeyedPrefix}${name}`)];
+         const keys = idKeyedPrefixList.map(prefix => evaluateCandidate(`${prefix}${name}`));
          if (ownLegacyNames.has(name)) {
-            keys.push(evaluateCandidate(`${accountLegacyPrefix}${name}`), evaluateCandidate(`${legacyPrefix}${name}`));
+            keys.push(...nameKeyedPrefixList.map(prefix => evaluateCandidate(`${prefix}${name}`)));
          }
          return keys;
       });
@@ -1046,8 +1104,8 @@ timeTrackingRouter.get(
          // the legacy/flat prefix's listing scan.
          const ownLegacyNormalized = new Set([...ownLegacyNames].map(normalize));
 
-         const idKeyedPrefixes = new Set([primaryPrefix, legacyIdKeyedPrefix]);
-         const prefixesToSearch = [primaryPrefix, legacyIdKeyedPrefix, accountLegacyPrefix, legacyPrefix];
+         const idKeyedPrefixes = new Set(idKeyedPrefixList);
+         const prefixesToSearch = [...idKeyedPrefixList, ...nameKeyedPrefixList];
 
          for (const prefix of prefixesToSearch) {
             if (downloadKey) break;
@@ -1082,6 +1140,14 @@ timeTrackingRouter.get(
                message: 'We could not locate that time tracker. It may have been archived or renamed.'
             });
          }
+      }
+
+      // Final structural check on whatever key the search resolved: it must be
+      // an id-keyed folder of this account for this owner, or this owner's own
+      // name folder (the search above already confirmed the recorded name).
+      if (!classifyProcessedKey({ accountID, ownerUserID, ownerFolder, key: downloadKey })) {
+         console.error(`[${new Date().toISOString()}] Refusing resolved tracker key outside the owner's folders. Account ${accountID}, owner ${ownerUserID}.`);
+         return res.status(404).json({ message: 'We could not locate that time tracker. It may have been archived or renamed.' });
       }
 
       const metadata = downloadedObject?.metadata;
