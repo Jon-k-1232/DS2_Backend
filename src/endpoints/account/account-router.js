@@ -17,7 +17,6 @@ const {
 } = require('./accountObjects');
 const { getObject } = require('../../utils/s3');
 const path = require('path');
-const { sanitizeAccountName } = require('../../utils/invoicePath');
 const { resolveOwnLogoPrefixes, isAuthorizedDownloadKey } = require('../../utils/downloadAuthorization');
 
 const resolveLogoKey = rawValue => {
@@ -46,16 +45,19 @@ const resolveLogoKey = rawValue => {
    return looksLikeS3Key ? candidateString : null;
 };
 
-const fetchAccountLogo = async (rawValue, accountName) => {
+const fetchAccountLogo = async (rawValue, storageSlug) => {
    const derivedLogoKey = resolveLogoKey(rawValue);
    // This account's own default — was a hardcoded account-1 key
    // ('James_F__Kimmel___Associates/app/assets/logo.png') regardless of
    // which account was asking, so any account with no custom logo set (e.g.
    // fixture account 9001) silently got served ACCOUNT 1's real logo bytes.
-   // Deriving it from the caller's own name matches addInvoiceDetail.js's
-   // fallbackS3Key and — for account 1 itself — resolves to the exact same
-   // key as before, so account 1's behaviour is unchanged.
-   const ownSlug = sanitizeAccountName(accountName || '');
+   // Deriving it from the caller's own storage_slug matches
+   // addInvoiceDetail.js's fallbackS3Key and — for account 1 itself —
+   // resolves to the exact same key as before, so account 1's behaviour is
+   // unchanged. Astra round 9, finding 1: this used to be re-derived from
+   // the mutable account_name via sanitizeAccountName() on every call — see
+   // src/utils/storageSlug.js.
+   const ownSlug = storageSlug || '';
    const fallbackLogoKey = ownSlug ? `${ownSlug}/app/assets/logo.png` : null;
 
    // review/full-audit-2026-09 finding 2: account_company_logo is a free-text
@@ -66,7 +68,7 @@ const fetchAccountLogo = async (rawValue, accountName) => {
    // fetched: treated exactly like "no custom logo," falling back to this
    // account's own default instead of leaking another object's bytes back
    // to the client as base64.
-   const allowedLogoPrefixes = resolveOwnLogoPrefixes({ accountName });
+   const allowedLogoPrefixes = resolveOwnLogoPrefixes({ storageSlug });
    const isOwnKey = Boolean(derivedLogoKey) && isAuthorizedDownloadKey(derivedLogoKey, allowedLogoPrefixes);
    if (derivedLogoKey && !isOwnKey) {
       console.warn(`Ignoring account_company_logo "${derivedLogoKey}" — not under this account's own logo prefix.`);
@@ -179,7 +181,7 @@ accountRouter
          const trimmedLogo = typeof rawLogo === 'string' ? rawLogo.trim() : rawLogo;
          if (trimmedLogo !== null && trimmedLogo !== undefined && trimmedLogo !== '') {
             const [currentAccount] = await accountService.getAccount(db, req.user.account_id);
-            const allowedLogoPrefixes = resolveOwnLogoPrefixes({ accountName: currentAccount?.account_name });
+            const allowedLogoPrefixes = resolveOwnLogoPrefixes({ storageSlug: currentAccount?.storage_slug });
             if (!isAuthorizedDownloadKey(trimmedLogo, allowedLogoPrefixes)) {
                return res.status(400).send({ status: 400, message: 'Invalid logo file key.' });
             }
@@ -245,7 +247,7 @@ accountRouter
          });
       }
 
-      const logo = await fetchAccountLogo(accountInfo.account_company_logo, accountInfo.account_name);
+      const logo = await fetchAccountLogo(accountInfo.account_company_logo, accountInfo.storage_slug);
 
       const accountData = {
          ...accountInfo,

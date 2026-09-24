@@ -27,6 +27,10 @@ describe('downloadAuthorization', () => {
          expect(isSyntacticallySafeKey('Some_Account/invoicing/\x00x.zip')).to.equal(false);
       });
 
+      it('RESIDUAL finding (Astra round 9): rejects \\x7f (DEL) — outside the \\x00-\\x1f range previously checked', () => {
+         expect(isSyntacticallySafeKey('Some_Account/invoicing/\x7fx.zip')).to.equal(false);
+      });
+
       it('does NOT reject an embedded slash (full keys are multi-segment by design)', () => {
          expect(isSyntacticallySafeKey('Some_Account/invoicing/sub/dir/x.zip')).to.equal(true);
       });
@@ -49,6 +53,10 @@ describe('downloadAuthorization', () => {
          expect(isSafeBareFilename('evil\x00.pdf')).to.equal(false);
       });
 
+      it('RESIDUAL finding (Astra round 9): rejects \\x7f (DEL)', () => {
+         expect(isSafeBareFilename('evil\x7f.pdf')).to.equal(false);
+      });
+
       it('rejects non-strings and the empty string', () => {
          expect(isSafeBareFilename('')).to.equal(false);
          expect(isSafeBareFilename(null)).to.equal(false);
@@ -56,40 +64,58 @@ describe('downloadAuthorization', () => {
       });
    });
 
+   // Astra round 9, finding 1: both resolvers below now take an
+   // already-resolved `storageSlug` (accounts.storage_slug — immutable),
+   // never a raw `accountName` re-sanitized on every call. The slug values
+   // used here are exactly what sanitizeAccountName() (and, since migration
+   // 020, the accounts.storage_slug backfill) produce for the corresponding
+   // real names, so these stay meaningful without this module doing any
+   // sanitization of its own.
    describe('resolveOwnDownloadPrefixes', () => {
-      it('returns the invoicing prefix for a resolvable account name, and the audit prefix for a valid account id', () => {
-         const prefixes = resolveOwnDownloadPrefixes({ accountName: 'James F. Kimmel & Associates', accountId: 1 });
+      it('returns the invoicing prefix for a resolvable storage slug, and the audit prefix for a valid account id', () => {
+         const prefixes = resolveOwnDownloadPrefixes({ storageSlug: 'James_F__Kimmel___Associates', accountId: 1 });
          expect(prefixes).to.include('James_F__Kimmel___Associates/invoicing/');
          expect(prefixes).to.include('account_audits/1/');
       });
 
-      it('returns an empty list for a blank name and a non-positive/non-integer id — never falls open', () => {
-         expect(resolveOwnDownloadPrefixes({ accountName: '', accountId: 0 })).to.deep.equal([]);
-         expect(resolveOwnDownloadPrefixes({ accountName: '', accountId: -1 })).to.deep.equal([]);
+      it('returns an empty list for a blank slug and a non-positive/non-integer id — never falls open', () => {
+         expect(resolveOwnDownloadPrefixes({ storageSlug: '', accountId: 0 })).to.deep.equal([]);
+         expect(resolveOwnDownloadPrefixes({ storageSlug: '', accountId: -1 })).to.deep.equal([]);
          expect(resolveOwnDownloadPrefixes({})).to.deep.equal([]);
+      });
+
+      it('trusts the given slug verbatim — it does not re-sanitize a raw account name passed by mistake', () => {
+         // Documents the post-fix contract: this function no longer knows how
+         // to sanitize anything. A caller that (incorrectly) passed a raw,
+         // unsanitized name through as `storageSlug` gets it back verbatim,
+         // not silently "fixed" — the real safety net is that every actual
+         // caller in src/ now passes the immutable accounts.storage_slug
+         // column instead (see src/utils/storageSlug.js).
+         const prefixes = resolveOwnDownloadPrefixes({ storageSlug: 'James F. Kimmel & Associates', accountId: 1 });
+         expect(prefixes).to.include('James F. Kimmel & Associates/invoicing/');
       });
    });
 
    describe('resolveOwnLogoPrefixes', () => {
       it('matches the real account-1 logo shape on record (James_F__Kimmel___Associates/app/assets/logo.png)', () => {
-         const prefixes = resolveOwnLogoPrefixes({ accountName: 'James F. Kimmel & Associates' });
+         const prefixes = resolveOwnLogoPrefixes({ storageSlug: 'James_F__Kimmel___Associates' });
          expect(prefixes).to.deep.equal(['James_F__Kimmel___Associates/app/assets/']);
          expect(isAuthorizedDownloadKey('James_F__Kimmel___Associates/app/assets/logo.png', prefixes)).to.equal(true);
       });
 
       it('is scoped strictly per account — one account\'s prefix never matches another\'s slug', () => {
-         const ownPrefixes = resolveOwnLogoPrefixes({ accountName: 'TEST FIXTURE ACCOUNT' });
+         const ownPrefixes = resolveOwnLogoPrefixes({ storageSlug: 'TEST_FIXTURE_ACCOUNT' });
          expect(ownPrefixes).to.deep.equal(['TEST_FIXTURE_ACCOUNT/app/assets/']);
          expect(isAuthorizedDownloadKey('James_F__Kimmel___Associates/app/assets/logo.png', ownPrefixes)).to.equal(false);
       });
 
       it('never grows into a generic download area — a key under the same account\'s OWN invoicing prefix is still refused for logo purposes', () => {
-         const prefixes = resolveOwnLogoPrefixes({ accountName: 'TEST FIXTURE ACCOUNT' });
+         const prefixes = resolveOwnLogoPrefixes({ storageSlug: 'TEST_FIXTURE_ACCOUNT' });
          expect(isAuthorizedDownloadKey('TEST_FIXTURE_ACCOUNT/invoicing/final_invoices/not-a-logo.zip', prefixes)).to.equal(false);
       });
 
-      it('returns an empty list (authorizes nothing) for a blank/unresolvable account name', () => {
-         expect(resolveOwnLogoPrefixes({ accountName: '' })).to.deep.equal([]);
+      it('returns an empty list (authorizes nothing) for a blank/unresolvable storage slug', () => {
+         expect(resolveOwnLogoPrefixes({ storageSlug: '' })).to.deep.equal([]);
          expect(resolveOwnLogoPrefixes({})).to.deep.equal([]);
       });
    });

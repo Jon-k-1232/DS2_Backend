@@ -18,8 +18,13 @@
 -- ============================================================
 
 -- Account ---------------------------------------------------------------------
-INSERT INTO accounts (account_id, account_name, account_type, is_account_active, account_statement, account_interest_statement, account_invoice_interest_rate, account_invoice_template_option)
-VALUES (1, 'Clean Room CPA', 'business', true, 'Please reference invoice number on payment.', 'Balances unpaid for 30 days accrue interest at the rate of 18% per annum.', 1.50, 'template_one')
+-- storage_slug is the immutable S3 namespace (migrations/020.accounts_
+-- storage_slug.sql / src/utils/storageSlug.js) — set here to exactly what
+-- migration 020's backfill would produce for this name
+-- (sanitizeAccountName('Clean Room CPA')), so this seed satisfies the NOT
+-- NULL/UNIQUE constraint on an already-migrated ds2_clean.
+INSERT INTO accounts (account_id, account_name, account_type, is_account_active, account_statement, account_interest_statement, account_invoice_interest_rate, account_invoice_template_option, storage_slug)
+VALUES (1, 'Clean Room CPA', 'business', true, 'Please reference invoice number on payment.', 'Balances unpaid for 30 days accrue interest at the rate of 18% per annum.', 1.50, 'template_one', 'Clean_Room_CPA')
 ON CONFLICT (account_id) DO NOTHING;
 
 INSERT INTO account_information (account_id, account_street, account_city, account_state, account_zip, account_email, account_phone, is_this_address_active, is_account_physical_address, is_account_billing_address, is_account_mailing_address)

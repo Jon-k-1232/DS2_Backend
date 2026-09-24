@@ -79,6 +79,7 @@ const U = TEST_ADMIN_USER_ID; // 90013
 const REAL_ACCOUNT_ID = 1; // prod copy — READ-ONLY in this spec.
 const REAL_SUPERADMIN_USER_ID = 21; // admin@jimkimmel.com — matches _http.js IDENTITIES.superAdmin.
 const REAL_ACCOUNT_SLUG = 'James_F__Kimmel___Associates'; // sanitizeAccountName('James F. Kimmel & Associates') — see timeTracking-router.js's own TIME_TRACKING_ROOT constant. Never written to here.
+const REAL_ACCOUNT_NAME = 'James F. Kimmel & Associates'; // account 1's real, current account_name — read-only reference, never written to here.
 const TRACKER_VERSIONS_ROOT = `${REAL_ACCOUNT_SLUG}/time_tracking/tracker_versions`; // mirrors timeTracking-router.js
 
 describe('integration: coverage — cross-tenant download authorization (HTTP)', function () {
@@ -87,8 +88,8 @@ describe('integration: coverage — cross-tenant download authorization (HTTP)',
    let h;
    let db;
    const s3Keys = [];
-   let accountSlug; // account 9001's own slug, computed the same way the app does
-   let account9001Name; // account 9001's raw account_name, for loadCompanyLogo's own sanitizeAccountName call
+   let accountSlug; // account 9001's own IMMUTABLE storage_slug (accounts.storage_slug) — see src/utils/storageSlug.js
+   let account9001Name; // account 9001's ORIGINAL raw account_name — saved so the rename regression below can restore it in `after`
    let tempSuperAdmin = null; // { user_id, email, token } — account 9001, removed in `after`
 
    const asTemp = () => {
@@ -109,7 +110,12 @@ describe('integration: coverage — cross-tenant download authorization (HTTP)',
       db = h.db;
 
       const account = await db('accounts').where({ account_id: A }).first();
-      accountSlug = sanitizeAccountName(account.account_name);
+      // Astra round 9, finding 1: read the immutable column directly, not a
+      // live re-sanitization of account_name — this is also what makes
+      // `accountSlug` stay correct for every test in this file even after
+      // the rename-collision regression below renames the account and
+      // restores it.
+      accountSlug = account.storage_slug;
       account9001Name = account.account_name;
 
       // No super admin exists in the 9001 fixture (seed.sql: 90011/90012
@@ -404,29 +410,207 @@ describe('integration: coverage — cross-tenant download authorization (HTTP)',
 
       describe('loadCompanyLogo (addInvoiceDetail.js) — read-time authorization used when a statement/invoice PDF is built', () => {
          it('embeds the exact bytes of a key under the accounts own logo prefix', async () => {
-            const buffer = await loadCompanyLogo({ account_company_logo: ownLogoKey, account_name: account9001Name });
+            const buffer = await loadCompanyLogo({ account_company_logo: ownLogoKey, storage_slug: accountSlug });
             expect(Buffer.isBuffer(buffer)).to.equal(true);
             expect(Buffer.compare(buffer, ownLogoBytes)).to.equal(0);
          });
 
          it('falls back to "no logo" — never throws, never returns the foreign objects bytes — for a REAL fetchable key outside the accounts own logo prefix', async () => {
-            const buffer = await loadCompanyLogo({ account_company_logo: foreignAreaKey, account_name: account9001Name });
+            const buffer = await loadCompanyLogo({ account_company_logo: foreignAreaKey, storage_slug: accountSlug });
             expect(Buffer.isBuffer(buffer)).to.equal(true);
             expect(Buffer.compare(buffer, foreignAreaBytes)).to.not.equal(0);
             expect(Buffer.compare(buffer, fs.readFileSync(NO_IMAGE_PATH))).to.equal(0);
          });
 
          it('falls back to "no logo" for a key under a different accounts own logo prefix (account 1) — no cross-tenant embed', async () => {
-            const buffer = await loadCompanyLogo({ account_company_logo: `${REAL_ACCOUNT_SLUG}/app/assets/logo.png`, account_name: account9001Name });
+            const buffer = await loadCompanyLogo({ account_company_logo: `${REAL_ACCOUNT_SLUG}/app/assets/logo.png`, storage_slug: accountSlug });
             expect(Buffer.isBuffer(buffer)).to.equal(true);
             expect(Buffer.compare(buffer, fs.readFileSync(NO_IMAGE_PATH))).to.equal(0);
          });
 
          it('statement build never 500s even when the stored key is completely malformed', async () => {
-            const buffer = await loadCompanyLogo({ account_company_logo: '../../../etc/passwd', account_name: account9001Name });
+            const buffer = await loadCompanyLogo({ account_company_logo: '../../../etc/passwd', storage_slug: accountSlug });
             expect(Buffer.isBuffer(buffer)).to.equal(true);
             expect(Buffer.compare(buffer, fs.readFileSync(NO_IMAGE_PATH))).to.equal(0);
          });
+      });
+   });
+
+   // ══════════════════════════════════════════════════════════════════════
+   // Finding 1 regression (Astra round 9) — renaming an account must not
+   // change, or collide with, its S3 namespace. Reproduces the exact
+   // exploit: an authenticated account-9001 admin renames their own account
+   // to a string that sanitizes to account 1's slug, then re-attempts both
+   // of finding 1's original targets (a foreign invoicing key, account 1's
+   // logo key). Both must still be refused, because authorization now comes
+   // from the IMMUTABLE accounts.storage_slug column (src/utils/
+   // storageSlug.js), never from re-sanitizing the live account_name.
+   // ══════════════════════════════════════════════════════════════════════
+   describe('Account rename cannot collide with another account\'s storage namespace (finding 1 regression)', () => {
+      // sanitizeAccountName() replaces every non-alphanumeric character with
+      // '_' individually — a literal '_' and a literal ' ' are therefore
+      // indistinguishable to it. Replacing the FIRST space in account 1's
+      // real name with an underscore is a DIFFERENT raw string that still
+      // sanitizes to the IDENTICAL slug (Astra's exact reproduction).
+      const collidingName = REAL_ACCOUNT_NAME.replace(' ', '_');
+
+      afterEach(async () => {
+         // Restored after EVERY test in this block, not just the last one —
+         // a failed assertion mid-test must never leave the fixture renamed
+         // for other tests/specs sharing this sandbox.
+         await db('accounts').where({ account_id: A }).update({ account_name: account9001Name });
+      });
+
+      it('sanity check on the fixture itself: the colliding name is different from account 1\'s real name but sanitizes to the identical slug', () => {
+         expect(collidingName).to.not.equal(REAL_ACCOUNT_NAME);
+         expect(sanitizeAccountName(collidingName)).to.equal(REAL_ACCOUNT_SLUG);
+      });
+
+      it('renaming account 9001 to the colliding string succeeds — renaming itself is not, and should not be, blocked', async () => {
+         const res = await h.as('admin').put('/account/updateAccount').send({ account: { account_name: collidingName } });
+         expect(res.status).to.equal(200);
+         const row = await db('accounts').where({ account_id: A }).first();
+         expect(row.account_name).to.equal(collidingName);
+      });
+
+      it('storage_slug is untouched by the rename — the immutable namespace does not follow account_name', async () => {
+         await h.as('admin').put('/account/updateAccount').send({ account: { account_name: collidingName } });
+         const row = await db('accounts').where({ account_id: A }).first();
+         expect(row.storage_slug).to.equal(accountSlug);
+         expect(row.storage_slug).to.not.equal(REAL_ACCOUNT_SLUG);
+      });
+
+      it('FIXED (was the live finding-1 exploit): after the rename, account 9001 STILL cannot download an account-1 invoicing key — 403, key need not even exist', async () => {
+         const renameRes = await h.as('admin').put('/account/updateAccount').send({ account: { account_name: collidingName } });
+         expect(renameRes.status).to.equal(200);
+
+         // Never created in S3 — the authorization check must run, and
+         // refuse, before any S3 call, so the key does not need to exist
+         // (same convention as the "403 for a key under a DIFFERENT
+         // account's own invoicing prefix" test above).
+         const foreignKey = `${REAL_ACCOUNT_SLUG}/invoicing/final_invoices/not-9001s/zipped_files.zip`;
+         const res = await h.as('admin').get(`/invoices/downloadFile/${A}/${U}?fileLocation=${encodeURIComponent(foreignKey)}`);
+         expect(res.status, 'must stay 403 even though account_name now sanitizes to the SAME slug as account 1').to.equal(403);
+         expect(res.headers['content-disposition']).to.equal(undefined);
+      });
+
+      it('FIXED: after the rename, setting account 9001\'s logo to account 1\'s real logo key STILL 400s — no cross-tenant logo adoption', async () => {
+         const renameRes = await h.as('admin').put('/account/updateAccount').send({ account: { account_name: collidingName } });
+         expect(renameRes.status).to.equal(200);
+
+         const res = await h.as('admin').put('/account/updateAccount').send({ account: { account_company_logo: `${REAL_ACCOUNT_SLUG}/app/assets/logo.png` } });
+         expect(res.status).to.equal(400);
+         expect(res.body.message).to.equal('Invalid logo file key.');
+      });
+
+      it('account 9001\'s OWN keys still download normally after the rename — the fix does not break the renamed account\'s own access', async () => {
+         const renameRes = await h.as('admin').put('/account/updateAccount').send({ account: { account_name: collidingName } });
+         expect(renameRes.status).to.equal(200);
+
+         const ownKeyAfterRename = `${accountSlug}/invoicing/coverage-downloads-authz/${uniqueName('post-rename')}.pdf`;
+         const bytes = Buffer.from('%PDF-1.4 coverage-downloads-authz post-rename own-prefix fixture bytes');
+         await putObject(ownKeyAfterRename, bytes, 'application/pdf');
+         s3Keys.push(ownKeyAfterRename);
+
+         const res = await h.as('admin').get(`/invoices/downloadFile/${A}/${U}?fileLocation=${encodeURIComponent(ownKeyAfterRename)}`);
+         expect(res.status).to.equal(200);
+         expect(Buffer.compare(res.body, bytes)).to.equal(0);
+      });
+
+      it('the fixture name is restored after this block (confirms the afterEach cleanup actually works, not just that it ran)', async () => {
+         const row = await db('accounts').where({ account_id: A }).first();
+         expect(row.account_name).to.equal(account9001Name);
+      });
+
+      it('a client cannot set storage_slug directly through the real HTTP route either — a supplied value is silently ignored, not a 500 or a 400', async () => {
+         const res = await h.as('admin').put('/account/updateAccount').send({ account: { account_name: collidingName, storage_slug: REAL_ACCOUNT_SLUG } });
+         expect(res.status).to.equal(200);
+         const row = await db('accounts').where({ account_id: A }).first();
+         expect(row.account_name).to.equal(collidingName); // the field this request WAS allowed to change did change
+         expect(row.storage_slug, 'storage_slug must ignore the client-supplied value entirely').to.equal(accountSlug);
+      });
+   });
+
+   // ══════════════════════════════════════════════════════════════════════
+   // RESIDUAL (Astra round 9) — history/download did not run the shared
+   // syntax validator before touching S3: a key that legitimately STARTS
+   // WITH this owner's own real prefix could still carry '../', a
+   // backslash, or a residual '%' past the old prefix-only (string
+   // startsWith) check.
+   // ══════════════════════════════════════════════════════════════════════
+   describe('GET /time-tracking/history/download — syntax validator (RESIDUAL finding)', () => {
+      // timeTracking-router.js's PROCESSED_ROOT / sanitizeSegment /
+      // buildAccountFolder / buildProcessedPrefixes are not exported, so
+      // replicated here exactly (same pattern this file already uses for
+      // accountSlug/REAL_ACCOUNT_SLUG) to build a key that genuinely STARTS
+      // WITH this account's own real "owner-id-scoped" prefix — proving the
+      // syntax gate itself, not just the pre-existing prefix-mismatch
+      // fallthrough that a key with no valid prefix at all would already hit.
+      // Computed in a `before` (not a plain `const` at describe-definition
+      // time) because account9001Name is only populated once the file-level
+      // `before` above has run — mocha builds the whole test tree, including
+      // evaluating every describe callback body, BEFORE any `before` hook
+      // fires, so a plain top-level `const` here would have silently closed
+      // over `undefined` instead.
+      let primaryPrefix;
+      const sanitizeSegment = value => (value || '').trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
+
+      before(() => {
+         primaryPrefix = `${REAL_ACCOUNT_SLUG}/time_tracking/processed/${sanitizeSegment(account9001Name)}_${A}/user_${U}/`;
+         expect(primaryPrefix).to.equal(`${REAL_ACCOUNT_SLUG}/time_tracking/processed/TEST_FIXTURE_ACCOUNT_${A}/user_${U}/`);
+      });
+
+      it('a key that starts with this account\'s own real prefix but escapes it via ".." is refused (403), never reaches S3', async () => {
+         const maliciousKey = `${primaryPrefix}../../../../etc/passwd`;
+         const res = await h.as('admin').get(`/time-tracking/history/download/${A}/${U}?key=${encodeURIComponent(maliciousKey)}`);
+         expect(res.status).to.equal(403);
+      });
+
+      it('rejects a backslash and a residual (double-encoded) percent the same way', async () => {
+         const variants = [`${primaryPrefix}evil\\..\\..\\secret.gz`, `${primaryPrefix}%2e%2e%2f${uniqueName('x')}.gz`];
+         for (const key of variants) {
+            const res = await h.as('admin').get(`/time-tracking/history/download/${A}/${U}?key=${encodeURIComponent(key)}`);
+            expect(res.status, key).to.equal(403);
+         }
+      });
+   });
+
+   // ══════════════════════════════════════════════════════════════════════
+   // RESIDUAL (Astra round 9) — download/by-name's timesheetName is used
+   // exactly like a bare filename (the route prepends its own fixed
+   // prefix), but only ever checked with path.basename(), which does not
+   // split on '\' even on POSIX — a backslash-containing name satisfied
+   // `safeTimesheetName === timesheetName` unchanged and reached candidate
+   // key construction unexamined.
+   // ══════════════════════════════════════════════════════════════════════
+   describe('GET /time-tracking/download/by-name — bare-filename hygiene gap (RESIDUAL finding)', () => {
+      it('rejects a timesheetName containing a backslash', async () => {
+         const res = await h.as('admin').get(`/time-tracking/download/by-name/${A}/${U}?ownerUserID=${U}&timesheetName=${encodeURIComponent('evil\\..\\secret.gz')}`);
+         expect(res.status).to.equal(400);
+         expect(res.body.message).to.equal('Invalid timesheet name provided.');
+      });
+
+      it('rejects a residual (double-encoded) percent in timesheetName the same way', async () => {
+         const res = await h.as('admin').get(`/time-tracking/download/by-name/${A}/${U}?ownerUserID=${U}&timesheetName=${encodeURIComponent(`%2e%2e%2f${uniqueName('x')}.gz`)}`);
+         expect(res.status).to.equal(400);
+         expect(res.body.message).to.equal('Invalid timesheet name provided.');
+      });
+   });
+
+   // ══════════════════════════════════════════════════════════════════════
+   // RESIDUAL (Astra round 9) — the owner template-delete route accepted a
+   // key containing '../' as long as it happened to (string) startsWith the
+   // tracker_versions/ prefix and end in a timetracker_ basename.
+   // ══════════════════════════════════════════════════════════════════════
+   describe('DELETE /time-tracking/template/delete — owner-account syntax validator (RESIDUAL finding)', () => {
+      it('owner-account delete refuses a key containing ".." even though it matches the tracker_versions/ prefix and a timetracker_ basename — nothing is deleted', async () => {
+         const listBefore = (await listObjects(`${TRACKER_VERSIONS_ROOT}/`)).map(o => o.Key).sort();
+         const maliciousKey = `${TRACKER_VERSIONS_ROOT}/../../../etc/timetracker_evil.xlsx`;
+         const res = await h.as('superAdmin').delete(`/time-tracking/template/delete/${REAL_ACCOUNT_ID}/${REAL_SUPERADMIN_USER_ID}`).send({ key: maliciousKey });
+         expect(res.status).to.equal(400);
+         expect(res.body.message).to.equal('Invalid template key.');
+         const listAfter = (await listObjects(`${TRACKER_VERSIONS_ROOT}/`)).map(o => o.Key).sort();
+         expect(listAfter).to.deep.equal(listBefore);
       });
    });
 });

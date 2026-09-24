@@ -42,9 +42,13 @@
  *     other account with 403.
  *
  * Fixture: account 9001 (test/fixtures/seed.sql), admin 90013. Account 1 is
- * used strictly READ-ONLY (superAdmin identity, one validation-failure
- * request only — never a real upload/delete/preview) — this spec never
- * uploads, deletes, or otherwise mutates any account-1 object, matching
+ * used almost entirely READ-ONLY (superAdmin identity) — the one exception is
+ * the FINDING 6 success-path test below (a uniquely-keyed real upload,
+ * verified and then deleted in the same test via the shared `s3Keys`
+ * after-hook, against the LOCAL MinIO sandbox — never production S3, and
+ * never a Postgres write, since only the Process_Payment_Images Lambda ever
+ * inserts customer_payments_processed rows). Every other test in this spec
+ * never uploads, deletes, or otherwise mutates any account-1 object, matching
  * coverage-downloads-authz.integration.spec.js's own convention.
  *
  * A real second tenant able to legitimately own a pending-payment row does
@@ -180,6 +184,57 @@ describe('integration: coverage — pendingPayments S3 authorization (HTTP)', fu
          const res = await upload('superAdmin', REAL_ACCOUNT_ID, REAL_SUPERADMIN_USER_ID, `${uniqueName('owner-check')}.png`, Buffer.from('not checked anyway'));
          expect(res.status).to.equal(400);
          expect(res.body.message).to.equal('Only PDF files are accepted.');
+      });
+
+      // ═══════════════════════════════════════════════════════════════════
+      // FINDING 6 (P3, Astra round 9): the rewritten authz coverage above
+      // proves non-owner refusal, and the "owner is unaffected" test proves
+      // the gate is a no-op for account 1 — but neither ever exercises a
+      // REAL successful owner upload, so nothing actually proves an owner
+      // CAN upload. This is that missing success-path assertion.
+      //
+      // No sinon/proxyquire (or any other mocking library) exists in this
+      // codebase's devDependencies, and putObject/getObject/deleteObject are
+      // destructured at require-time in pendingPayments-router.js — a
+      // post-hoc monkey-patch of the exported s3 module would not reach the
+      // router's already-bound references, so an in-memory stub was not a
+      // practical option without a broader dependency-injection refactor
+      // that is out of scope for this fix. Instead this uses the SAME
+      // pattern every other S3-writing test in this file (and in
+      // coverage-downloads-authz.integration.spec.js) already relies on: a
+      // REAL write against the local MinIO sandbox (never production S3 —
+      // see the task environment: 127.0.0.1:9000, bucket ds2-local) under a
+      // uniquely-generated filename that cannot collide with or overwrite
+      // any real object, verified byte-for-byte, then removed via the same
+      // shared `s3Keys` after-hook every other test here uses for cleanup.
+      // The upload route itself never writes to Postgres (only the
+      // Process_Payment_Images Lambda inserts into
+      // customer_payments_processed — see the file header above), so this
+      // also touches zero rows of account 1's production-copy DB data.
+      it('FINDING 6: the owner account (1) — a valid PDF upload actually succeeds, with exact bytes/key/metadata, cleaned up immediately after', async () => {
+         const fileName = `${uniqueName('coverage-ppauthz-owner-success')}.pdf`;
+         const bytes = Buffer.from(`%PDF-1.4 coverage-pending-payments-authz REAL owner upload for ${fileName}`);
+         const expectedKey = `${PAYMENTS_PENDING_PREFIX}/${fileName}`;
+
+         const res = await upload('superAdmin', REAL_ACCOUNT_ID, REAL_SUPERADMIN_USER_ID, fileName, bytes);
+         s3Keys.push(expectedKey); // clean up even if an assertion below throws
+
+         expect(res.status).to.equal(200);
+         expect(res.body.status).to.equal(200);
+         expect(res.body.fileName).to.equal(fileName);
+         expect(res.body.s3Key).to.equal(expectedKey);
+
+         const stored = await getObject(expectedKey);
+         expect(Buffer.compare(stored.body, bytes), 'exact bytes').to.equal(0);
+         expect(stored.metadata.contentType).to.equal('application/pdf');
+         expect(stored.metadata.userMetadata['uploaded-by']).to.equal(String(REAL_SUPERADMIN_USER_ID));
+         expect(stored.metadata.userMetadata['account-id']).to.equal(String(REAL_ACCOUNT_ID));
+         expect(stored.metadata.userMetadata['upload-date']).to.be.a('string').and.not.equal('');
+
+         // Nothing was ever written to Postgres by this upload (only the
+         // Lambda inserts customer_payments_processed rows), so there is
+         // nothing to assert-and-restore in the DB — the S3 cleanup above is
+         // the entire footprint.
       });
    });
 

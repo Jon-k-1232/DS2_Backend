@@ -233,15 +233,30 @@ const _readCatalogs = async (db, accountId) => {
 // once buildTemplate has run (_applyDataValidation points B1 at
 // __employees!$A$2:$A$N directly), but it is still rendered to the user and,
 // left untouched, keeps showing whichever account the base template was last
-// captured from. Overwrite its rows with THIS account's own active staff so
-// no other tenant's names are visible in the downloaded workbook.
+// captured from. Overwrite ALL of its existing content — every row AND every
+// column, not just column A — with THIS account's own active staff so no
+// other tenant's names are visible in the downloaded workbook.
+//
+// Astra finding 2 (round 9, 2026-09-23): a prior version of this only ever
+// touched column A, so a stray value planted in Employee Names!B1 survived a
+// rebuild untouched. "Cleared completely" now means the sheet's whole used
+// range, including any cell note, not just the one column this sheet is
+// supposed to hold.
 const _replaceVisibleNameList = (workbook, sheetName, items) => {
    const sheet = workbook.getWorksheet(sheetName);
    if (!sheet) return; // base template shape may vary across versions; nothing to fix
    const rowsToClear = Math.max(sheet.rowCount, items.length);
+   const colsToClear = Math.max(sheet.columnCount, 1);
    for (let r = 1; r <= rowsToClear; r += 1) {
-      sheet.getCell(`A${r}`).value = items[r - 1] != null ? items[r - 1] : null;
+      for (let c = 1; c <= colsToClear; c += 1) {
+         const cell = sheet.getCell(r, c);
+         cell.value = null;
+         cell.note = undefined;
+      }
    }
+   items.forEach((item, i) => {
+      sheet.getCell(i + 1, 1).value = item;
+   });
 };
 
 const _addLookupSheet = (workbook, sheetName, header, items) => {
@@ -259,6 +274,108 @@ const _addLookupSheet = (workbook, sheetName, header, items) => {
       // older ExcelJS versions ignore protect — non-fatal.
    }
    return sheet;
+};
+
+// ─────────────────────────────────────────────────────────────────────────
+// Fail-closed package allowlist (Astra round 9, finding 2, 2026-09-23).
+//
+// A prior version of this file scrubbed whatever text it could find inside
+// the workbook and trusted a successful ExcelJS round trip as proof the
+// output was safe to hand another tenant. Astra proved that wrong: a
+// rebuilt copy of the real base with a hidden sheet named "Jim Kimmel", a
+// formula whose literal returned that name, a hyperlink to
+// mailto:jim.kimmel@example.com, and a stray value in Employee Names!B1 all
+// survived into the "sanitized" output. None of that lives somewhere a
+// per-cell text scrub can safely reach, or even knows to look — a whole
+// extra worksheet, a drawing, a comment, custom XML, a table, a pivot
+// cache, an external link, or any other package part this file has never
+// reviewed must never be silently laundered through. It has to refuse the
+// entire rebuild instead of guessing.
+//
+// ALLOWED_SHEET_NAMES and ALLOWED_PART_RES are drawn directly from the real
+// base template as downloaded during this review (Time, Employee Names,
+// Instructions, Categories, Entity, __customers, __employees, __categories
+// — see test/fixtures/timetrackers/README.md). Both checks run against the
+// RAW zip, before ExcelJS ever touches the buffer, so neither can be fooled
+// by anything ExcelJS's own loader silently drops or normalizes away on
+// load. A thrown error here propagates straight out of buildTemplate — its
+// caller (the /template/latest route) already turns any builder failure
+// into a 503 for non-owner accounts rather than ever falling back to
+// raw/unscrubbed bytes (see timeTracking-router.js).
+const ALLOWED_SHEET_NAMES = new Set(['Time', 'Employee Names', 'Instructions', 'Categories', 'Entity', '__customers', '__employees', '__categories']);
+
+const ALLOWED_PART_RES = [
+   /^\[Content_Types\]\.xml$/,
+   /^_rels\/\.rels$/,
+   /^xl\/workbook\.xml$/,
+   /^xl\/_rels\/workbook\.xml\.rels$/,
+   /^xl\/worksheets\/sheet\d+\.xml$/,
+   // The real base has no hyperlinks today, but a worksheet-relationship
+   // part for one is still an ordinary, supported package part — a
+   // hyperlink naming a foreign person is handled once ExcelJS has loaded
+   // it (see _neutralizeCellValue), not refused outright the way a drawing
+   // or comment relationship is. This pattern does NOT, by itself, permit a
+   // drawing/vmlDrawing/etc. part — those are refused directly below no
+   // matter what any worksheet rels file points at.
+   /^xl\/worksheets\/_rels\/sheet\d+\.xml\.rels$/,
+   /^xl\/theme\/theme\d+\.xml$/,
+   /^xl\/styles\.xml$/,
+   /^xl\/sharedStrings\.xml$/,
+   /^docProps\/core\.xml$/,
+   /^docProps\/app\.xml$/
+];
+
+// Purely cosmetic (a legible thrown error / log line): matching one of these
+// labels a part as a KNOWN bad category. NOT matching ALLOWED_PART_RES above
+// is what actually makes any part disallowed, hint or no hint.
+const KNOWN_DISALLOWED_PART_HINTS = [
+   { test: /^xl\/drawings\//, label: 'a drawing/image part' },
+   { test: /^xl\/media\//, label: 'an embedded image' },
+   { test: /^xl\/comments\d*\.xml$/, label: 'a comment part' },
+   { test: /^customXml\//, label: 'a custom XML part' },
+   { test: /^xl\/tables\//, label: 'a table part' },
+   { test: /^xl\/pivotCache/, label: 'a pivot cache part' },
+   { test: /^xl\/pivotTables\//, label: 'a pivot table part' },
+   { test: /^xl\/externalLinks\//, label: 'an external link part' },
+   { test: /^xl\/vbaProject\.bin$/, label: 'a macro project' }
+];
+
+const _describeDisallowedPart = name => {
+   const hint = KNOWN_DISALLOWED_PART_HINTS.find(h => h.test.test(name));
+   return hint ? hint.label : 'an unknown package part';
+};
+
+// Throws — never "sanitizes" — the instant the base object contains
+// anything outside the reviewed, tenant-neutral package shape: a package
+// part this file doesn't recognize, or a worksheet whose name isn't one of
+// the template's own. See the file-level comment above for why this has to
+// be fail-closed rather than best-effort.
+const _assertAllowedPackage = async buffer => {
+   const zip = await JSZip.loadAsync(buffer);
+   const partNames = Object.keys(zip.files).filter(name => !zip.files[name].dir);
+
+   for (const name of partNames) {
+      if (!ALLOWED_PART_RES.some(re => re.test(name))) {
+         throw new Error(
+            `template_builder_disallowed_package_part: found ${_describeDisallowedPart(name)} ("${name}") in the base template. Non-owner downloads can only be rebuilt from the reviewed tenant-neutral package shape.`
+         );
+      }
+   }
+
+   if (zip.files['xl/workbook.xml']) {
+      const wbXml = await zip.files['xl/workbook.xml'].async('string');
+      const sheetNameRe = /<sheet\b[^>]*\bname="([^"]*)"[^>]*\/>/g;
+      let match = sheetNameRe.exec(wbXml);
+      while (match) {
+         const sheetName = _xmlDecodeText(match[1]);
+         if (!ALLOWED_SHEET_NAMES.has(sheetName)) {
+            throw new Error(
+               `template_builder_disallowed_sheet: worksheet "${sheetName}" is not one of the template's allowed sheets. Non-owner downloads can only be rebuilt from the reviewed tenant-neutral package shape.`
+            );
+         }
+         match = sheetNameRe.exec(wbXml);
+      }
+   }
 };
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -370,24 +487,26 @@ const _collectForeignNames = (workbook, protectedWords) => {
 const EMP_SENTINEL = 'TENANT_EMPLOYEE';
 const CUS_SENTINEL = 'TENANT_CUSTOMER';
 
-// Replace every occurrence of a foreign customer/employee name (or employee
-// name-token) in `text` with the requesting account's own tenant-neutral
-// stand-in. Full names are matched as literal substrings (longest first, so
-// e.g. a full name is consumed before any of its own tokens could be); tokens
-// are matched on word boundaries, case-insensitively, so "Kimmel" is replaced
-// but "Administrative" (containing employee-name token "Admin") is not.
-const _neutralizeText = (text, plan) => {
+// Replace every occurrence of a foreign customer/employee FULL name in
+// `text` with the requesting account's own tenant-neutral stand-in. Full
+// names are matched on a word boundary, case-sensitive, longest first (so a
+// full name is consumed before any of its own tokens could be) — NOT a bare
+// substring. Astra finding 3 (round 9): the single-word employee name
+// "Admin" (a full name here, not just a token) corrupted "Administrative"
+// into "Admin Personistrative" because the old `.split/.join` had no concept
+// of a word boundary. `\b` fixes that — "Admin" immediately followed by
+// "istrative" (no boundary between the two) never matches.
+const _neutralizeFullNames = (text, plan) => {
    if (typeof text !== 'string' || !text) return text;
-   if (!plan.customerNames.length && !plan.employeeNames.length && !plan.employeeTokens.length) return text;
+   if (!plan.customerNames.length && !plan.employeeNames.length) return text;
    let out = text;
    for (const name of plan.customerNames) {
-      if (name && out.includes(name)) out = out.split(name).join(CUS_SENTINEL);
+      if (!name) continue;
+      out = out.replace(new RegExp(`\\b${_escapeRegExp(name)}\\b`, 'g'), CUS_SENTINEL);
    }
    for (const name of plan.employeeNames) {
-      if (name && out.includes(name)) out = out.split(name).join(EMP_SENTINEL);
-   }
-   for (const token of plan.employeeTokens) {
-      out = out.replace(new RegExp(`\\b${_escapeRegExp(token)}\\b`, 'gi'), EMP_SENTINEL);
+      if (!name) continue;
+      out = out.replace(new RegExp(`\\b${_escapeRegExp(name)}\\b`, 'g'), EMP_SENTINEL);
    }
    if (out.includes(EMP_SENTINEL) || out.includes(CUS_SENTINEL)) {
       out = out.split(EMP_SENTINEL).join(plan.employeeReplacement).split(CUS_SENTINEL).join(plan.customerReplacement);
@@ -395,10 +514,47 @@ const _neutralizeText = (text, plan) => {
    return out;
 };
 
+// Single first/last-name tokens (e.g., "Kimmel", "Mark") are ordinary
+// English words and name fragments far too often to ever regex-replace
+// *inside* prose. Astra finding 3: with employee "Mark Long", the sentence
+// "Mark the start date. How long did it take you?" became "Eliza Smith the
+// start date. How Eliza Smith did it take you?" under the old `\btoken\b`
+// substitution, which fires anywhere the word appears — including as an
+// ordinary English word with no relation to anyone's name. A token is now
+// only ever replaced when the ENTIRE (trimmed) string is nothing else: the
+// cell/note/run holds just a bare name and nothing more, never a longer
+// sentence or label. Case-insensitive, since a bare-name cell is commonly
+// retyped in a different case ("KIMMEL", "kimmel").
+const _neutralizeExactToken = (text, plan) => {
+   if (typeof text !== 'string' || !text) return text;
+   if (!plan.employeeTokens.length) return text;
+   const trimmed = text.trim();
+   if (!trimmed) return text;
+   const isToken = plan.employeeTokens.some(token => token.toLowerCase() === trimmed.toLowerCase());
+   return isToken ? plan.employeeReplacement : text;
+};
+
+// Single entry point every scrubbed string goes through: a full-name pass
+// first (may replace a substring within a longer string), then an
+// exact-whole-value token pass on whatever that leaves behind (never a
+// substring — see _neutralizeExactToken).
+const _neutralizeText = (text, plan) => _neutralizeExactToken(_neutralizeFullNames(text, plan), plan);
+
 // Cell values arrive in several shapes (plain string, rich text runs, a
-// hyperlink's display text, a cached formula result) — scrub whichever
-// string(s) are actually present and leave everything else (numbers, dates,
-// formulas themselves, booleans) untouched.
+// hyperlink's display text + target, a cell's formula + cached result) —
+// scrub whichever string(s) are present and leave numbers/dates/booleans
+// untouched.
+//
+// Hyperlinks and formulas get more than a text scrub. Astra finding 2
+// (round 9): a formula's cached RESULT got scrubbed while its LITERAL kept
+// the foreign name — Excel recalculates a formula on open, so the cached
+// value a prior version relied on is not load-bearing and silently restores
+// the foreign name. Likewise a hyperlink's display TEXT got scrubbed while
+// its TARGET (a mailto: link) kept the name outright. Neither is patched
+// anymore: a formula naming a foreign person has the formula itself dropped
+// (replaced with its already-scrubbed cached value, and logged); a
+// hyperlink naming a foreign person in its target OR its text is dropped
+// entirely, keeping only scrubbed display text as a plain value.
 const _neutralizeCellValue = (value, plan) => {
    if (value == null) return value;
    if (typeof value === 'string') return _neutralizeText(value, plan);
@@ -406,11 +562,29 @@ const _neutralizeCellValue = (value, plan) => {
       if (Array.isArray(value.richText)) {
          return { richText: value.richText.map(run => ({ ...run, text: _neutralizeText(run.text, plan) })) };
       }
-      if (typeof value.result === 'string') {
-         return { ...value, result: _neutralizeText(value.result, plan) };
-      }
       if (typeof value.text === 'string' && 'hyperlink' in value) {
-         return { ...value, text: _neutralizeText(value.text, plan) };
+         const scrubbedText = _neutralizeText(value.text, plan);
+         const scrubbedTarget = typeof value.hyperlink === 'string' ? _neutralizeText(value.hyperlink, plan) : value.hyperlink;
+         if (scrubbedText !== value.text || scrubbedTarget !== value.hyperlink) {
+            // Drop the hyperlink outright rather than patch one side of it —
+            // a partially-scrubbed hyperlink (fixed text, foreign target) is
+            // exactly what survived last time.
+            return scrubbedText;
+         }
+         return value;
+      }
+      if (typeof value.formula === 'string') {
+         const scrubbedFormula = _neutralizeText(value.formula, plan);
+         if (scrubbedFormula !== value.formula) {
+            console.error('[template-builder] dropped a cell formula that named a foreign person; the cell now holds only its scrubbed cached value.');
+            const { result } = value;
+            if (typeof result === 'string') return _neutralizeText(result, plan);
+            return result == null || typeof result === 'object' ? null : result;
+         }
+         if (typeof value.result === 'string') {
+            return { ...value, result: _neutralizeText(value.result, plan) };
+         }
+         return value;
       }
    }
    return value;
@@ -475,17 +649,30 @@ const _clearEntryRows = (sheet, headerRow = 5) => {
 };
 
 // docProps identity fields (dc:creator / cp:lastModifiedBy / dc:title /
-// dc:description / Company / Manager) are plain top-level properties on the
-// ExcelJS Workbook once loaded — set directly rather than editing XML.
-// Stamped unconditionally (not just "if a foreign name is found") since these
-// are exactly the fields Office itself would silently fill in from whoever
-// last saved the file in Excel; never trust that they're already safe.
+// dc:subject / dc:description / cp:keywords / cp:category /
+// cp:contentStatus / Company / Manager) are plain top-level properties on
+// the ExcelJS Workbook once loaded — set directly rather than editing XML.
+// Stamped unconditionally (not just "if a foreign name is found") since
+// these are exactly the fields Office itself would silently fill in from
+// whoever last saved the file in Excel; never trust that they're already
+// safe.
+//
+// Astra finding 2 (round 9): a prior version only ever touched
+// creator/lastModifiedBy/title/description/company/manager. subject,
+// keywords, category and contentStatus — all plain strings ExcelJS
+// round-trips exactly the same way (see node_modules/exceljs's
+// xlsx/xform/core/core-xform.js) — were left completely untouched, and the
+// real base's own dc:subject held a foreign name.
 const _neutralizeMetadata = (workbook, accountLabel) => {
    const label = accountLabel || 'DS2';
    workbook.creator = label;
    workbook.lastModifiedBy = label;
    workbook.title = label;
+   workbook.subject = label;
    workbook.description = label;
+   workbook.keywords = label;
+   workbook.category = label;
+   workbook.contentStatus = label;
    workbook.company = label;
    workbook.manager = label;
 };
@@ -632,6 +819,10 @@ const buildTemplate = async ({ db, accountId, userId, baseTemplateBuffer, now = 
       return cached.payload;
    }
 
+   // Astra finding 2 (round 9): fail closed on the package shape before
+   // doing anything else with the base object — see _assertAllowedPackage.
+   await _assertAllowedPackage(baseTemplateBuffer);
+
    const { customers, employees, categories } = await _readCatalogs(db, accountId);
    const accountLabel = await _readAccountLabel(db, accountId);
 
@@ -655,7 +846,12 @@ const buildTemplate = async ({ db, accountId, userId, baseTemplateBuffer, now = 
    // needs the requesting account's own staff list, not just the hidden one.
    _replaceVisibleNameList(workbook, 'Employee Names', employees);
 
-   const dataSheet = workbook.worksheets.find(ws => !['__customers', '__employees', '__categories'].includes(ws.name));
+   // The allowlist above (see _assertAllowedPackage) already guarantees the
+   // entry sheet, if present at all, is named exactly "Time" — look it up
+   // directly rather than the old "first sheet that isn't one of the three
+   // hidden lookups" heuristic, which could have mis-picked e.g. 'Employee
+   // Names' as the data sheet on a base that omitted "Time".
+   const dataSheet = workbook.getWorksheet('Time');
    if (!dataSheet) {
       throw new Error('base_template_has_no_data_sheet');
    }
@@ -728,15 +924,19 @@ module.exports = {
    _replaceVisibleNameList,
    _stripBadValidations,
    _applyDataValidation,
+   _assertAllowedPackage,
    _collectProtectedWords,
    _collectForeignNames,
    _neutralizeText,
+   _neutralizeFullNames,
+   _neutralizeExactToken,
    _neutralizeWorkbook,
    _neutralizeHeaderFooters,
    _neutralizeMetadata,
    _neutralizeXmlTextParts,
    _clearEntryRows,
    _readAccountLabel,
+   ALLOWED_SHEET_NAMES,
    COLLAPSE_WINDOW_MS,
    MAX_DATA_ROWS
 };

@@ -422,7 +422,9 @@ invoiceRouter.route('/downloadFile/:accountID/:userID').get(async (req, res) => 
       // GET /time-tracking/template/list route be downloaded here instead.
       const db = req.app.get('db');
       const [accountRow] = await accountService.getAccount(db, accountID);
-      const allowedPrefixes = resolveOwnDownloadPrefixes({ accountName: accountRow?.account_name, accountId: accountID });
+      // Astra round 9, finding 1: storage_slug (immutable), not account_name
+      // (mutable) — see utils/storageSlug.js.
+      const allowedPrefixes = resolveOwnDownloadPrefixes({ storageSlug: accountRow?.storage_slug, accountId: accountID });
 
       if (!isAuthorizedDownloadKey(s3Key, allowedPrefixes)) {
          return res.status(403).send({ message: 'You do not have access to this file.', status: 403 });

@@ -1,5 +1,3 @@
-const { sanitizeAccountName } = require('./invoicePath');
-
 /**
  * Shared "does this authenticated account actually own this S3 key" gate for
  * routes that serve bytes from a CLIENT-SUPPLIED key (as opposed to a key the
@@ -24,12 +22,23 @@ const { sanitizeAccountName } = require('./invoicePath');
  * PDFs), then require BOTH a syntactically-safe key AND a prefix match
  * before ever calling S3. Nothing under time_tracking/tracker_versions/ (the
  * shared template) or another account's prefix can ever match.
+ *
+ * Astra round 9, finding 1: these prefixes used to be derived by
+ * re-sanitizing the account's CURRENT, mutable account_name on every call
+ * (sanitizeAccountName in invoicePath.js) — an account admin could rename
+ * their own account to a string that sanitizes to a DIFFERENT account's slug
+ * and inherit that account's entire S3 namespace. Both resolvers below now
+ * take an already-resolved `storageSlug` (accounts.storage_slug — see
+ * src/utils/storageSlug.js and migrations/020.accounts_storage_slug.sql),
+ * which is assigned once and never recomputed from account_name again. This
+ * module does no sanitization of its own; it only trusts the caller's slug
+ * verbatim, exactly as before, just from an immutable source.
  */
 
 // Areas of the bucket that legitimately belong to one account and may be
 // served back through a client-supplied-key download route.
-const resolveOwnDownloadPrefixes = ({ accountName, accountId } = {}) => {
-   const slug = sanitizeAccountName(accountName);
+const resolveOwnDownloadPrefixes = ({ storageSlug, accountId } = {}) => {
+   const slug = storageSlug;
    const accountIdNumber = Number(accountId);
    const allowed = [];
 
@@ -62,9 +71,12 @@ const resolveOwnDownloadPrefixes = ({ accountName, accountId } = {}) => {
  * `James_F__Kimmel___Associates/app/assets/logo.png` — already lives under
  * this exact shape (see addInvoiceDetail.js's own fallbackS3Key), confirmed
  * read-only against the sandbox DB while building this fix.
+ *
+ * Astra round 9, finding 1: takes `storageSlug` (accounts.storage_slug), not
+ * a raw account name — see the module header comment above.
  */
-const resolveOwnLogoPrefixes = ({ accountName } = {}) => {
-   const slug = sanitizeAccountName(accountName);
+const resolveOwnLogoPrefixes = ({ storageSlug } = {}) => {
+   const slug = storageSlug;
    return slug ? [`${slug}/app/assets/`] : [];
 };
 
@@ -82,8 +94,10 @@ const isSyntacticallySafeKey = key => {
    if (key.startsWith('/')) return false;
    if (key.includes('\\')) return false;
    if (key.includes('%')) return false;
+   // \x7f (DEL) is a control character outside the \x00-\x1f range this used
+   // to check — RESIDUAL finding, Astra round 9 — rejected here too.
    // eslint-disable-next-line no-control-regex
-   if (/[\x00-\x1f]/.test(key)) return false;
+   if (/[\x00-\x1f\x7f]/.test(key)) return false;
    return true;
 };
 

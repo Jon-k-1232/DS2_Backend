@@ -30,6 +30,7 @@
  * test, and the createUser isActive:false test.
  */
 const { bootHttp, uniqueName } = require('./_http');
+const { sanitizeAccountName } = require('../../src/utils/invoicePath');
 
 describe('integration: coverage — account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer', function () {
    this.timeout(60_000);
@@ -553,6 +554,47 @@ describe('integration: coverage — account / user / auth / notifications / heal
 
          const row = await db('accounts').where({ account_id: newId }).first();
          expect(row.account_name).to.equal(name);
+      });
+
+      // review/full-audit-2026-09 finding 1 (Astra round 9): account-service.js's
+      // createAccount now assigns storage_slug (accounts.storage_slug) at
+      // creation time, mirroring migration 020's own collision rule — see
+      // src/utils/storageSlug.js. sanitizeAccountName() maps every
+      // non-alphanumeric character to '_' individually, so a hyphen and a
+      // space are indistinguishable to it: two DIFFERENT uniqueName()-based
+      // account names built by swapping one hyphen for a space sanitize to
+      // the IDENTICAL base slug, exercising the real collision path through
+      // the real HTTP route (not just the migration's SQL — see
+      // test/scripts/migration-020.spec.js for that half).
+      it('two accounts whose names sanitize to the same base slug get distinct storage_slug values — the second is suffixed with its own account_id', async () => {
+         const base = uniqueName('COV-Collide');
+         const collidingName = base.replace('-', ' '); // same sanitized slug as `base`, different raw string
+
+         const create = name =>
+            withToken(superToken)
+               .post('/account/createAccount')
+               .send({ account: { account_name: name, account_type: 'business', is_account_active: true } });
+
+         const firstRes = await create(base);
+         expect(firstRes.status).to.equal(200);
+         const firstId = firstRes.body.account.returnedFields.account_id;
+         createdAccountIds.push(firstId);
+
+         const secondRes = await create(collidingName);
+         expect(secondRes.status).to.equal(200);
+         const secondId = secondRes.body.account.returnedFields.account_id;
+         createdAccountIds.push(secondId);
+
+         expect(secondId).to.be.greaterThan(firstId); // sequence only ever increases
+
+         const [firstRow, secondRow] = await Promise.all([
+            db('accounts').where({ account_id: firstId }).first(),
+            db('accounts').where({ account_id: secondId }).first()
+         ]);
+         const expectedBaseSlug = sanitizeAccountName(base);
+         expect(firstRow.storage_slug).to.equal(expectedBaseSlug); // lower id keeps the bare slug
+         expect(secondRow.storage_slug).to.equal(`${expectedBaseSlug}_${secondId}`); // higher id is suffixed with ITS OWN id
+         expect(firstRow.storage_slug).to.not.equal(secondRow.storage_slug);
       });
 
       it('validation failure: an empty account body raises a real 500 (NOT NULL account_name)', async () => {

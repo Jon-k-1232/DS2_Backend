@@ -1,0 +1,5 @@
+# Time-tracker template fixtures
+
+- `clean.xlsx`, `adversarial.xlsx`, `mixed.xlsx`, `volume.xlsx` — single-sheet upload-validation fixtures (`validateUploadedTracker`); `clean.xlsx` also doubles as `template-builder.spec.js`'s minimal base (a bare `Time` sheet, which the allowlist permits since it's a subset of the real template's sheets).
+- `real-base.xlsx` — the real firm tracker template as downloaded (8 sheets: `Time`, `Employee Names`, `Instructions`, `Categories`, `Entity`, `__customers`, `__employees`, `__categories`), captured 2026-09-23 during Astra's round-9 review. Used to prove the fail-closed allowlist accepts the genuine base unchanged.
+- `astra-finding2-hidden-sheet.xlsx` — Astra round-9 finding 2 repro (`synthetic-rebuilt.xlsx` from that review): the OLD builder's output for a synthetic base carrying a hidden `Jim Kimmel` sheet, a formula literal returning that name, a hyperlink to a foreign mailto: address, and a stray value in `Employee Names!B1`. Used to prove the new allowlist rejects it outright instead of re-scrubbing it.

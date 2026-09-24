@@ -9,6 +9,7 @@ const { requireAuth, requireSuperAdmin } = require('../auth/jwt-auth');
 const accountUserService = require('../user/user-service');
 const accountService = require('../account/account-service');
 const { listObjects, getObject, putObject, deleteObject } = require('../../utils/s3');
+const { isSyntacticallySafeKey, isSafeBareFilename } = require('../../utils/downloadAuthorization');
 const { validateUploadedTracker } = require('../../timeTrackerValidation/validateUploadedTracker');
 const timeTrackerStaffService = require('../timeTrackerStaff/timeTrackerStaff-service');
 const { sendValidationSuccessEmail, sendSystemErrorEmail, getAdminRecipients } = require('../../timeTrackerValidation/notifications');
@@ -796,6 +797,18 @@ timeTrackingRouter.get(
          return res.status(400).json({ message: 'An S3 object key is required to download the file.' });
       }
 
+      // RESIDUAL finding, Astra round 9: this route used to go straight from
+      // "does the key start with one of my own prefixes" to getObject() with
+      // no syntax check at all — a key that legitimately STARTS WITH this
+      // owner's own primaryPrefix could still carry '../', a backslash, or a
+      // residual '%' past that prefix-only test (a prefix match is a
+      // string.startsWith check, not a path-safety check). Run the same
+      // syntax gate every other client-supplied-key route uses, before any
+      // prefix comparison or S3 call.
+      if (!isSyntacticallySafeKey(key)) {
+         return res.status(403).json({ message: 'You do not have access to this file.' });
+      }
+
       const db = req.app.get('db');
       const userRecord = await fetchUserRecord(db, accountID, userID);
       const accountRecord = await fetchAccountRecord(db, accountID);
@@ -857,8 +870,16 @@ timeTrackingRouter.get(
          return res.status(400).json({ message: 'Both ownerUserID and timesheetName are required to download a tracker.' });
       }
 
+      // RESIDUAL finding, Astra round 9: path.basename() only splits on '/'
+      // (even on POSIX, never '\'), so a timesheetName containing a
+      // backslash, a residual '%', or a control byte satisfied
+      // `safeTimesheetName === timesheetName` unchanged and reached the raw
+      // `variants.add(baseName)` candidate below unexamined. timesheetName is
+      // used exactly like a bare filename here (the route prepends its own
+      // fixed prefix) — isSafeBareFilename is the same check
+      // pendingPayments-router.js uses for that exact shape.
       const safeTimesheetName = path.basename(timesheetName);
-      if (!safeTimesheetName || safeTimesheetName !== timesheetName) {
+      if (!safeTimesheetName || safeTimesheetName !== timesheetName || !isSafeBareFilename(timesheetName)) {
          return res.status(400).json({ message: 'Invalid timesheet name provided.' });
       }
 
@@ -1255,7 +1276,12 @@ timeTrackingRouter.delete(
          return res.status(400).json({ message: 'S3 key is required to delete a template.' });
       }
 
-      if (!key.startsWith(`${TRACKER_VERSIONS_ROOT}/`) || key.endsWith('/')) {
+      // RESIDUAL finding, Astra round 9: a key containing '../' could
+      // satisfy `startsWith(TRACKER_VERSIONS_ROOT + '/')` (a plain string
+      // prefix check) AND end with a `timetracker_`-basename after the
+      // traversal segments, reaching deleteObject() unexamined. The syntax
+      // gate every other client-supplied-key route uses now runs here too.
+      if (!isSyntacticallySafeKey(key) || !key.startsWith(`${TRACKER_VERSIONS_ROOT}/`) || key.endsWith('/')) {
          return res.status(400).json({ message: 'Invalid template key.' });
       }
 

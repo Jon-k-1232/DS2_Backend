@@ -24,7 +24,7 @@
   throwaway `ds2_mig_test_*` database is built from for local testing (see
   `test/scripts/helpers/pgHarness.js`).
 
-- **`NNN.description.sql`** (`002`–`019`) — incremental migrations, applied on
+- **`NNN.description.sql`** (`002`–`020`) — incremental migrations, applied on
   top of `tables.sql`. There is no `001` file; that's expected and harmless
   (see "Historical: why this isn't postgrator anymore" below, which covers
   the version-sequence gap too) — `tables.sql` is what `001` would have been,
@@ -33,7 +33,7 @@
 
 ## File contract: numbered migrations are plain SQL
 
-`002`–`019` must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
+`002`–`020` must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
 TRANSACTION;` / `END;` line and no psql `\`-meta-command**, outside a
 dollar-quoted (`$$...$$`/`$tag$...$tag$`) block. `scripts/migrate.js` owns
 the transaction wrapper for every file it runs (together with that file's
@@ -99,7 +99,7 @@ with it.
   prod) against that specific database.
 
   Take a backup first. Prod has **no `schemaversion` tracking table at all**
-  — nothing records which of `002`–`019` have already been run there, so
+  — nothing records which of `002`–`020` have already been run there, so
   whoever applies a migration by hand has to know the current state
   themselves. This is also why the several non-idempotent files below are a
   real hazard on prod specifically: a tracked runner would normally refuse to
@@ -196,7 +196,7 @@ current version.
 
 ## Known non-idempotent migrations
 
-Inspected every file in `002`–`019` for what happens if it's run a second
+Inspected every file in `002`–`020` for what happens if it's run a second
 time against a database where it already applied cleanly (the scenario that
 matters most for prod's by-hand `psql -f` process, which has no tracking
 table to prevent a re-run):
@@ -221,6 +221,14 @@ idempotent as its own header comment claims — confirmed by reading each
 `WHERE` clause, not just taking the comment's word for it, and by applying it
 twice in a row against a throwaway database (second run: zero rows changed,
 zero new audit-log rows).
+`020.accounts_storage_slug.sql` is also genuinely idempotent, confirmed the
+same way (test/scripts/migration-020.spec.js runs it two and three times in a
+row against the same database and asserts zero drift): the `ADD COLUMN`/
+`CREATE UNIQUE INDEX` lines use `IF NOT EXISTS`, the backfill only targets
+rows where `storage_slug IS NULL`, and the collision-resolution step
+recomputes collisions from whatever the CURRENT (already-resolved) values
+are, so a value that was already made unique on a prior run is never
+revisited or reshuffled.
 
 Practical takeaway: a `psql -f` that's run twice by accident against prod
 will *mostly* fail loudly (relation/column already exists) rather than

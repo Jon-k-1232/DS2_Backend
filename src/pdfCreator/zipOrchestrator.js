@@ -3,7 +3,6 @@ const { PassThrough } = require('stream');
 const dayjs = require('dayjs');
 const { randomUUID } = require('crypto');
 const { putObject } = require('../utils/s3');
-const { sanitizeAccountName } = require('../utils/invoicePath');
 
 /**
  * Creates a ZIP file from given buffers and metadata, and saves it to S3.
@@ -16,10 +15,16 @@ const { sanitizeAccountName } = require('../utils/invoicePath');
  */
 const createAndSaveZip = async (pdfBuffersWithMetadata, accountBillingInformation, fileParentDirectoryName, zippedFileName, options = {}) => {
    const now = dayjs().format('MM-DD-YYYY_T_HH_mm_ss');
-   const accountName = sanitizeAccountName(accountBillingInformation?.account_name);
+   // review/full-audit-2026-09 finding 1: this used to re-derive the S3
+   // namespace via sanitizeAccountName(accountBillingInformation.account_name)
+   // — a MUTABLE field — on every call. accountBillingInformation always
+   // comes from accountService.getAccount()'s `SELECT *` (see
+   // billingSnapshot.js's readBillingSnapshot), so storage_slug is already
+   // present on the row; see src/utils/storageSlug.js.
+   const accountSlug = accountBillingInformation?.storage_slug;
 
-   if (!accountName) {
-      throw new Error('Account name is required to generate invoice storage path.');
+   if (!accountSlug) {
+      throw new Error('Account storage slug is required to generate invoice storage path.');
    }
    // Keys used to be second-resolution + display name only, so two runs in the
    // same second (or two customers sharing a display name) overwrote each other's
@@ -27,7 +32,7 @@ const createAndSaveZip = async (pdfBuffersWithMetadata, accountBillingInformatio
    // now carries a per-run id and, for per-customer files, the customer id.
    const runID = options.runID || randomUUID();
    const customerSegment = options.customerID != null ? `customer_${options.customerID}` : null;
-   const keySegments = [accountName, fileParentDirectoryName, `${now}_${runID}`, customerSegment].filter(Boolean);
+   const keySegments = [accountSlug, fileParentDirectoryName, `${now}_${runID}`, customerSegment].filter(Boolean);
    const directoryKey = keySegments.join('/');
    const s3Key = `${directoryKey}/${zippedFileName}`;
 

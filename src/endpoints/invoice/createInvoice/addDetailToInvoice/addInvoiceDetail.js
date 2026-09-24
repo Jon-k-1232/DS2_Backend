@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const dayjs = require('dayjs');
 const { getObject } = require('../../../../utils/s3');
-const { sanitizeAccountName } = require('../../../../utils/invoicePath');
 const { resolveOwnLogoPrefixes, isAuthorizedDownloadKey } = require('../../../../utils/downloadAuthorization');
 
 const isSupportedImageBuffer = buffer => {
@@ -43,9 +42,14 @@ const safeFetchS3LogoBuffer = async key => {
 const loadCompanyLogo = async accountBillingInformation => {
    const rawLogoValue = accountBillingInformation?.account_company_logo;
    const noImagePath = path.join(__dirname, '../../../../images/noImage.png');
-   const accountName = accountBillingInformation?.account_name || '';
-   const accountRoot = sanitizeAccountName(accountName);
-   const fallbackS3Key = accountRoot ? `${accountRoot}/app/assets/logo.png` : null;
+   // review/full-audit-2026-09 finding 1: this used to re-derive the account's
+   // S3 namespace via sanitizeAccountName(accountBillingInformation.account_name)
+   // — a MUTABLE field — on every call, both for the fallback key AND the
+   // authorization prefix below. accountBillingInformation always comes from
+   // accountService.getAccount()'s `SELECT *`, so storage_slug is already on
+   // the row; see src/utils/storageSlug.js.
+   const storageSlug = accountBillingInformation?.storage_slug || '';
+   const fallbackS3Key = storageSlug ? `${storageSlug}/app/assets/logo.png` : null;
 
    const candidateLogoKey = typeof rawLogoValue === 'string' ? rawLogoValue.trim() : '';
 
@@ -56,7 +60,7 @@ const loadCompanyLogo = async accountBillingInformation => {
    // validation existed. A foreign/malformed key is never fetched: skip
    // straight to this account's own fallback key (and, after that, the
    // generic "no image") — never another account's object, and never a 500.
-   const allowedLogoPrefixes = resolveOwnLogoPrefixes({ accountName });
+   const allowedLogoPrefixes = resolveOwnLogoPrefixes({ storageSlug });
    const logoKey = candidateLogoKey && isAuthorizedDownloadKey(candidateLogoKey, allowedLogoPrefixes) ? candidateLogoKey : '';
    if (candidateLogoKey && !logoKey) {
       console.warn(`Ignoring account_company_logo "${candidateLogoKey}" for invoice generation — not under this account's own logo prefix.`);

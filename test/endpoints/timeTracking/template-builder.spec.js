@@ -12,6 +12,18 @@ const {
 } = require('../../../src/endpoints/timeTracking/template-builder');
 
 const FIXTURE_PATH = path.join(__dirname, '..', '..', 'fixtures', 'timetrackers', 'clean.xlsx');
+const REAL_BASE_FIXTURE_PATH = path.join(__dirname, '..', '..', 'fixtures', 'timetrackers', 'real-base.xlsx');
+const ASTRA_FINDING2_FIXTURE_PATH = path.join(__dirname, '..', '..', 'fixtures', 'timetrackers', 'astra-finding2-hidden-sheet.xlsx');
+
+// Await a promise that should reject; returns the error (or null otherwise).
+const caught = async promise => {
+   try {
+      await promise;
+   } catch (e) {
+      return e;
+   }
+   return null;
+};
 
 const buildStubDb = () => {
    const customers = [
@@ -284,12 +296,6 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
       instructions.getCell('F21').value = 'Johnson'; // bare token, no collision
       instructions.getCell('E15').value = 'Billed through Acme Global LLC this month';
 
-      // A hidden sheet that is NOT one of the three lookup sheets — proves
-      // the scrub covers "every worksheet", not just the well-known ones.
-      const misc = wb.addWorksheet('__old_notes');
-      misc.state = 'veryHidden';
-      misc.getCell('A1').value = 'Contact Jim Kimmel for questions';
-
       wb.creator = 'Jim Kimmel';
       wb.company = 'James F. Kimmel & Associates';
       return Buffer.from(await wb.xlsx.writeBuffer());
@@ -307,7 +313,6 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
       expect(instr.getCell('D15').value, 'full employee name example (the reported leak)').to.equal('Eliza Smith');
       expect(instr.getCell('F21').value, 'bare last-name token with no collision').to.equal('Eliza Smith');
       expect(instr.getCell('E15').value, 'foreign customer name embedded in prose').to.equal('Billed through Acme Corp this month');
-      expect(wb.getWorksheet('__old_notes').getCell('A1').value, 'a hidden sheet that is not one of the three lookup sheets is scrubbed too').to.equal('Contact Eliza Smith for questions');
    });
 
    it("never corrupts the workbook's own Entity/business-line text even when it shares a word with a foreign employee's surname", async () => {
@@ -369,23 +374,24 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
       expect(wb.company).to.equal('Acme Testing Co');
    });
 
-   it('scrubs a foreign name out of a cell comment (defense in depth — none exist in the real template today)', async () => {
+   // SUPERSEDED by the fail-closed allowlist (Astra finding 2, round 9): a
+   // cell comment used to be "scrubbed" the same as any other cell string.
+   // Comments now live in their own package part (xl/comments*.xml, plus a
+   // legacy xl/drawings/vmlDrawing*.vml) that this file never reviewed and
+   // has no safe way to rebuild, so it is refused outright — see
+   // "template-builder fail-closed allowlist" below for the full suite of
+   // disallowed-part coverage.
+   it('throws rather than scrubs when the base contains a cell comment (a package part outside the allowlist)', async () => {
       const wb = new ExcelJS.Workbook();
-      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
-      const employeesSheet = wb.addWorksheet('__employees');
-      employeesSheet.state = 'veryHidden';
-      employeesSheet.getCell('A1').value = 'Employee';
-      employeesSheet.getCell('A2').value = 'Jim Kimmel';
-      const notes = wb.addWorksheet('Notes');
-      notes.getCell('A1').value = 'see comment';
-      notes.getCell('A1').note = 'Ask Jim Kimmel before changing this.';
+      const time = wb.addWorksheet('Time');
+      time.getCell('A1').value = 'see comment';
+      time.getCell('A1').note = 'Ask Jim Kimmel before changing this.';
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
-      const wb2 = new ExcelJS.Workbook();
-      await wb2.xlsx.load(buffer);
-      expect(wb2.getWorksheet('Notes').getCell('A1').note).to.equal('Ask Eliza Smith before changing this.');
+      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer }));
+      expect(err, 'a comment part must refuse the rebuild, never silently scrub it').to.be.an('error');
+      expect(err.message).to.match(/disallowed_package_part/);
    });
 
    // Regression: ExcelJS writes a data-validation literal list's quotes back
@@ -437,5 +443,214 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
       await wb2.xlsx.load(buffer);
       const restoredName = wb2.definedNames.model.find(dn => dn.name.includes('Contact'));
       expect(restoredName.name).to.equal('Eliza Smith Contact & Notes');
+   });
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+// Astra round 9 findings (2026-09-23): finding 2 (a fail-closed allowlist —
+// an unknown sheet, drawing, comment, custom XML, table, pivot cache, or
+// external link must refuse the whole rebuild rather than be "sanitized" by
+// a successful ExcelJS round trip) and finding 3 (name matching that cannot
+// damage the template's own vocabulary or ordinary prose). See the
+// file-level comments above _assertAllowedPackage and _neutralizeExactToken
+// in template-builder.js for the full design these tests cover.
+describe('template-builder fail-closed allowlist + name-boundary fixes (Astra findings 2 & 3, round 9)', () => {
+   afterEach(() => _resetCacheForTest());
+
+   it('accepts the real base template unchanged — all 8 of its sheets are on the allowlist, and Categories/Instructions vocabulary survives', async () => {
+      const db = buildStubDb();
+      const err = await caught(
+         (async () => {
+            const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: fs.readFileSync(REAL_BASE_FIXTURE_PATH) });
+            const wb = new ExcelJS.Workbook();
+            await wb.xlsx.load(buffer);
+            // Real base's worked examples name the firm's own owner
+            // ("Jim Kimmel") — must be replaced by the requesting account.
+            expect(wb.getWorksheet('Instructions').getCell('D15').value).to.equal('Eliza Smith');
+            expect(wb.getWorksheet('Instructions').getCell('D16').value).to.equal('Eliza Smith');
+            // The real base's own static category vocabulary must survive
+            // byte-for-byte (this is the exact Astra finding-3 cell).
+            expect(wb.getWorksheet('Categories').getCell('A3').value).to.equal('Administrative');
+         })()
+      );
+      expect(err, err && err.message).to.equal(null);
+   });
+
+   it('throws when the base has an unknown worksheet', async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+      wb.addWorksheet('Notes').getCell('A1').value = 'internal scratch sheet';
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer }));
+      expect(err, 'an unrecognized worksheet must refuse the rebuild').to.be.an('error');
+      expect(err.message).to.match(/disallowed_sheet/);
+      expect(err.message).to.include('Notes');
+   });
+
+   it('throws when the base has a hidden worksheet named after a foreign person (not on the allowlist)', async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+      const hidden = wb.addWorksheet('Jim Kimmel');
+      hidden.state = 'veryHidden';
+      hidden.getCell('A1').value = 'Jim Kimmel';
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer }));
+      expect(err, 'a hidden sheet is still a sheet — its name is checked the same as a visible one').to.be.an('error');
+      expect(err.message).to.match(/disallowed_sheet/);
+      expect(err.message).to.include('Jim Kimmel');
+   });
+
+   // Real-world regression: Astra's actual round-9 output for a synthetic
+   // base carrying a hidden "Jim Kimmel" sheet, a formula returning that
+   // name, a hyperlink, and a stray Employee Names!B1 value — every one of
+   // those survived the OLD builder. Feeding that exact file back in as a
+   // base must now refuse it outright rather than re-"sanitize" it.
+   it("throws when fed Astra's round-9 finding-2 fixture (hidden foreign sheet + formula + hyperlink)", async () => {
+      const db = buildStubDb();
+      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: fs.readFileSync(ASTRA_FINDING2_FIXTURE_PATH) }));
+      expect(err, 'the fixture\'s hidden "Jim Kimmel" sheet must be refused').to.be.an('error');
+      expect(err.message).to.match(/disallowed_sheet/);
+   });
+
+   it('neutralizes docProps Subject, Keywords and Category — not just Title/Creator/Description', async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+      wb.subject = 'Jim Kimmel';
+      wb.keywords = 'Jim Kimmel, taxes, 2025';
+      wb.category = 'Jim Kimmel personal';
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      // buildStubDb has no 'accounts' table, so this falls back to the same
+      // 'DS2' literal the pre-existing metadata tests above already cover.
+      expect(wb2.subject).to.equal('DS2');
+      expect(wb2.keywords).to.equal('DS2');
+      expect(wb2.category).to.equal('DS2');
+   });
+
+   it('drops a cell formula whose literal names a foreign person, keeping only the scrubbed cached value', async () => {
+      const wb = new ExcelJS.Workbook();
+      const time = wb.addWorksheet('Time');
+      time.getCell('A1').value = 'Employee Name';
+      time.getCell('L1').value = { formula: '"Jim Kimmel"', result: 'Jim Kimmel' };
+      const employeesSheet = wb.addWorksheet('__employees');
+      employeesSheet.state = 'veryHidden';
+      employeesSheet.getCell('A1').value = 'Employee';
+      employeesSheet.getCell('A2').value = 'Jim Kimmel';
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      const cell = wb2.getWorksheet('Time').getCell('L1');
+      expect(cell.type, 'the formula itself must be gone, not just its cached result (Excel recalculates formulas on open)').to.not.equal(ExcelJS.ValueType.Formula);
+      expect(cell.value).to.equal('Eliza Smith');
+   });
+
+   it('drops a hyperlink whose TARGET names a foreign person, even when its display text does not', async () => {
+      const wb = new ExcelJS.Workbook();
+      const time = wb.addWorksheet('Time');
+      time.getCell('A1').value = 'Employee Name';
+      time.getCell('L1').value = { text: 'Contact us', hyperlink: 'https://intranet.example.com/staff?name=Jim Kimmel' };
+      const employeesSheet = wb.addWorksheet('__employees');
+      employeesSheet.state = 'veryHidden';
+      employeesSheet.getCell('A1').value = 'Employee';
+      employeesSheet.getCell('A2').value = 'Jim Kimmel';
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      const cell = wb2.getWorksheet('Time').getCell('L1');
+      expect(cell.type, 'the hyperlink must be dropped entirely, not just its display text').to.not.equal(ExcelJS.ValueType.Hyperlink);
+      expect(cell.value).to.equal('Contact us');
+   });
+
+   it('clears Employee Names!B1 (not just column A) of a stray value', async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+      const namesSheet = wb.addWorksheet('Employee Names');
+      namesSheet.getCell('A1').value = 'Foreign Person One';
+      namesSheet.getCell('A2').value = 'Foreign Person Two';
+      namesSheet.getCell('B1').value = 'Stray leftover value';
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      const sheet = wb2.getWorksheet('Employee Names');
+      expect(sheet.getCell('B1').value, 'Astra finding 2: a stray value outside column A used to survive').to.equal(null);
+      expect(sheet.getCell('A1').value).to.equal('Eliza Smith');
+      expect(sheet.getCell('A2').value).to.equal('Bob Jones');
+   });
+
+   it('preserves "Administrative" in the Categories sheet even when "Admin" is a foreign employee\'s full display name', async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+      const employeesSheet = wb.addWorksheet('__employees');
+      employeesSheet.state = 'veryHidden';
+      employeesSheet.getCell('A1').value = 'Employee';
+      employeesSheet.getCell('A2').value = 'Admin';
+      const categories = wb.addWorksheet('Categories');
+      categories.getCell('A1').value = 'Accounting';
+      categories.getCell('A2').value = 'Administrative';
+      categories.getCell('A3').value = 'Billing';
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      expect(wb2.getWorksheet('Categories').getCell('A2').value, 'a full employee name that is a PREFIX of real vocabulary must not corrupt it').to.equal('Administrative');
+   });
+
+   it("preserves ordinary prose containing common words that also happen to be a foreign employee's first/last name", async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+      const employeesSheet = wb.addWorksheet('__employees');
+      employeesSheet.state = 'veryHidden';
+      employeesSheet.getCell('A1').value = 'Employee';
+      employeesSheet.getCell('A2').value = 'Mark Long';
+      const instructions = wb.addWorksheet('Instructions');
+      const prose = 'Mark the start date. How long did it take you?';
+      instructions.getCell('C9').value = prose;
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      expect(wb2.getWorksheet('Instructions').getCell('C9').value, 'ordinary prose must never be token-replaced').to.equal(prose);
+   });
+
+   it('replaces an exact-cell bare name token ("Kimmel") when the whole trimmed cell value is nothing else', async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+      const employeesSheet = wb.addWorksheet('__employees');
+      employeesSheet.state = 'veryHidden';
+      employeesSheet.getCell('A1').value = 'Employee';
+      employeesSheet.getCell('A2').value = 'Jim Kimmel';
+      // No Entity/Categories sheet in this fixture, so "Kimmel" is not
+      // protected shared vocabulary here (contrast with the Astra
+      // finding-2 describe block above, where it legitimately is).
+      const instructions = wb.addWorksheet('Instructions');
+      instructions.getCell('F1').value = 'Kimmel';
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      expect(wb2.getWorksheet('Instructions').getCell('F1').value).to.equal('Eliza Smith');
    });
 });

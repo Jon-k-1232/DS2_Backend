@@ -1,6 +1,17 @@
 const dayjs = require('dayjs');
 
-// Restores the customer table fields
+// Restores the customer table fields.
+//
+// review/full-audit-2026-09 finding 1 (Astra round 9): `storage_slug` is
+// DELIBERATELY not in this whitelist. It is the account's immutable S3
+// namespace (migrations/020.accounts_storage_slug.sql /
+// src/utils/storageSlug.js) — account-service.js's createAccount assigns it
+// server-side from the (also-whitelisted-here) account_name, and a client
+// payload that happens to include a `storage_slug` key is silently dropped
+// by simply never being copied into the returned object, same as any other
+// unrecognized field. See restoreDataTypesAccountOnUpdate below for the same
+// rule on update, and test/endpoints/account/accountObjects.spec.js for the
+// regression proving a supplied value never survives either mapper.
 const restoreDataTypesAccountOnCreate = newAccount => ({
   account_name: newAccount.account_name,
   account_type: newAccount.account_type,
@@ -41,7 +52,14 @@ const restoreDataTypesAccountInformationOnCreate = newAccountInformation => ({
 // actually needs to write to.
 const hasField = (source, key) => Object.prototype.hasOwnProperty.call(source, key);
 
-// Restores the customer table fields
+// Restores the customer table fields.
+//
+// `storage_slug` is intentionally NEVER read from `newAccount` here — see the
+// comment on restoreDataTypesAccountOnCreate above. A client that includes
+// `storage_slug` in a PUT /account/updateAccount body has it silently
+// ignored (the key is simply never copied into accountFields), the same
+// outcome as any other field this whitelist doesn't recognize; it is never a
+// 400, since the field name isn't otherwise reserved/meaningful to a client.
 const restoreDataTypesAccountOnUpdate = newAccount => {
   const accountFields = { account_id: Number(newAccount.account_id) };
   if (hasField(newAccount, 'account_name')) accountFields.account_name = newAccount.account_name;

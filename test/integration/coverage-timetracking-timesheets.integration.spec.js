@@ -113,6 +113,22 @@ const _columnAValuesExcelJS = sheet => {
    return values;
 };
 
+// Every non-empty plain-string cell on `sheet`, keyed by address (e.g.
+// "D15") — used below to diff the rebuilt Categories/Instructions sheets
+// cell-for-cell against the owner's own untouched base (Astra round 9: the
+// allowlist rewrite must never corrupt the template's OWN vocabulary, only
+// ever replace the handful of cells that legitimately name an employee).
+const _sheetTextByAddress = sheet => {
+   const out = {};
+   if (!sheet) return out;
+   sheet.eachRow({ includeEmpty: false }, row => {
+      row.eachCell({ includeEmpty: false }, cell => {
+         if (typeof cell.value === 'string' && cell.value !== '') out[cell.address] = cell.value;
+      });
+   });
+   return out;
+};
+
 // Scan EVERY worksheet (visible and hidden alike), every cell value (plain
 // string, rich text, hyperlink display text, cached formula result), every
 // cell comment, every defined name, and the package's own docProps metadata
@@ -158,7 +174,12 @@ const findAccount1Leaks = (workbook, matchers) => {
    });
 
    (workbook.definedNames.model || []).forEach(dn => checkString(`defined name "${dn.name}"`, dn.name));
-   ['creator', 'lastModifiedBy', 'title', 'subject', 'description', 'company', 'manager'].forEach(key => checkString(`docProps.${key}`, workbook[key]));
+   // 'keywords' and 'category' added 2026-09-23 (Astra round 9, finding 2):
+   // the builder's docProps scrub used to stop at
+   // creator/lastModifiedBy/title/subject/description/company/manager —
+   // subject was already covered, but keywords/category were not, and the
+   // real base's own metadata carries values in both.
+   ['creator', 'lastModifiedBy', 'title', 'subject', 'description', 'company', 'manager', 'keywords', 'category'].forEach(key => checkString(`docProps.${key}`, workbook[key]));
 
    return findings;
 };
@@ -855,11 +876,25 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
       // well-known ones), every cell string (plain, rich text, hyperlink
       // text, cached formula result), every cell comment, every defined
       // name, and the package's own docProps metadata (creator /
-      // lastModifiedBy / title / subject / description / company / manager)
-      // for ANY account-1 customer name, user name, or user name-token — for
-      // BOTH the admin and the employee identity, since either can trigger a
-      // rebuild. See findAccount1Leaks / buildForeignAccount1Matchers above.
-      it('the flag-off (default) template served to account 9001 carries NOTHING from account 1 anywhere in the workbook (rebuilt, never passed through)', async () => {
+      // lastModifiedBy / title / subject / description / company / manager /
+      // keywords / category) for ANY account-1 customer name, user name, or
+      // user name-token — for BOTH the admin and the employee identity,
+      // since either can trigger a rebuild. See findAccount1Leaks /
+      // buildForeignAccount1Matchers above.
+      //
+      // STRENGTHENED AGAIN (Astra round 9, finding 3, 2026-09-23): "leaks
+      // nothing" is only half the bar — the rewrite that stops a leak must
+      // not damage the template's OWN vocabulary in the process (Categories
+      // and Instructions both hold static text that is never supposed to
+      // change, e.g. Instructions!C9 "How long did it take you." got
+      // corrupted into "How Eliza Smith did it take you." by a previous,
+      // over-eager token replacement). Diffed cell-for-cell against
+      // `templateBuffer`, the SAME owner-account bytes this fixture's
+      // `before()` hook fetched read-only at the very top of this file —
+      // every Categories cell and every Instructions cell other than the
+      // two worked-example employee-name cells (D15/D16) must be
+      // byte-identical to the owner's own base.
+      it('the flag-off (default) template served to account 9001 carries NOTHING from account 1 anywhere in the workbook (rebuilt, never passed through), and never damages the template’s own Categories/Instructions vocabulary', async () => {
          const downloads = await Promise.all([
             getBinary('admin', `/time-tracking/template/latest/${A}/${ADMIN}`),
             getBinary('employee', `/time-tracking/template/latest/${A}/${ELIZA}`)
@@ -873,12 +908,31 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
             expect(res.headers['x-tracker-customers'], 'a non-owner account always gets a rebuild, even with its own flag off').to.not.equal(undefined);
          }
 
+         const baseWorkbook = new ExcelJS.Workbook();
+         await baseWorkbook.xlsx.load(templateBuffer);
+         const baseCategories = _sheetTextByAddress(baseWorkbook.getWorksheet('Categories'));
+         const baseInstructions = _sheetTextByAddress(baseWorkbook.getWorksheet('Instructions'));
+         // The only Instructions cells the rebuild is EXPECTED to change —
+         // the worked examples' employee-name column (see base-cells.json
+         // from the Astra round-9 review: Instructions!D15/D16 = "Jim
+         // Kimmel" on the real base).
+         const EXPECTED_INSTRUCTIONS_REWRITES = new Set(['D15', 'D16']);
+
          for (const res of downloads) {
             const workbook = new ExcelJS.Workbook();
             await workbook.xlsx.load(res.body);
             const matchers = await buildForeignAccount1Matchers(workbook);
             const findings = findAccount1Leaks(workbook, matchers);
             expect(findings, `leaked account-1 identifiers:\n${findings.join('\n')}`).to.deep.equal([]);
+
+            const rebuiltCategories = _sheetTextByAddress(workbook.getWorksheet('Categories'));
+            expect(rebuiltCategories, 'Categories vocabulary must be byte-identical to the owner’s own base — nothing in it names any customer/employee').to.deep.equal(baseCategories);
+
+            const rebuiltInstructions = _sheetTextByAddress(workbook.getWorksheet('Instructions'));
+            Object.keys(baseInstructions).forEach(address => {
+               if (EXPECTED_INSTRUCTIONS_REWRITES.has(address)) return;
+               expect(rebuiltInstructions[address], `Instructions!${address} must be byte-identical to the owner’s own base`).to.equal(baseInstructions[address]);
+            });
          }
       });
 

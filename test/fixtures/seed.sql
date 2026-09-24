@@ -12,9 +12,15 @@
 DO $$
 BEGIN
    -- Test account (id 9001 reserved for tests).
+   -- storage_slug is the immutable S3 namespace (migrations/020.accounts_
+   -- storage_slug.sql / src/utils/storageSlug.js) — set here to exactly what
+   -- migration 020's backfill would have produced for this name
+   -- (sanitizeAccountName('TEST FIXTURE ACCOUNT')), so a fresh apply of this
+   -- fixture on an already-migrated database satisfies the NOT NULL/UNIQUE
+   -- constraint without depending on the migration having run first.
    IF NOT EXISTS (SELECT 1 FROM accounts WHERE account_id = 9001) THEN
-      INSERT INTO accounts(account_id, account_name, account_type, is_account_active)
-         VALUES (9001, 'TEST FIXTURE ACCOUNT', 'business', true);
+      INSERT INTO accounts(account_id, account_name, account_type, is_account_active, storage_slug)
+         VALUES (9001, 'TEST FIXTURE ACCOUNT', 'business', true, 'TEST_FIXTURE_ACCOUNT');
    END IF;
 
    -- Test users (employees who fill out time trackers).
