@@ -4,6 +4,7 @@ const path = require('path');
 const dayjs = require('dayjs');
 const { getObject } = require('../../../../utils/s3');
 const { sanitizeAccountName } = require('../../../../utils/invoicePath');
+const { resolveOwnLogoPrefixes, isAuthorizedDownloadKey } = require('../../../../utils/downloadAuthorization');
 
 const isSupportedImageBuffer = buffer => {
    if (!Buffer.isBuffer(buffer) || buffer.length < 4) return false;
@@ -42,10 +43,24 @@ const safeFetchS3LogoBuffer = async key => {
 const loadCompanyLogo = async accountBillingInformation => {
    const rawLogoValue = accountBillingInformation?.account_company_logo;
    const noImagePath = path.join(__dirname, '../../../../images/noImage.png');
-   const accountRoot = sanitizeAccountName(accountBillingInformation?.account_name || '');
+   const accountName = accountBillingInformation?.account_name || '';
+   const accountRoot = sanitizeAccountName(accountName);
    const fallbackS3Key = accountRoot ? `${accountRoot}/app/assets/logo.png` : null;
 
-   const logoKey = typeof rawLogoValue === 'string' ? rawLogoValue.trim() : '';
+   const candidateLogoKey = typeof rawLogoValue === 'string' ? rawLogoValue.trim() : '';
+
+   // review/full-audit-2026-09 finding 2: account_company_logo is a free-text
+   // field that used to be fetched here with no check that the key actually
+   // belonged to this account — PUT /account/updateAccount now validates new
+   // values, but this guards values already on record from before that
+   // validation existed. A foreign/malformed key is never fetched: skip
+   // straight to this account's own fallback key (and, after that, the
+   // generic "no image") — never another account's object, and never a 500.
+   const allowedLogoPrefixes = resolveOwnLogoPrefixes({ accountName });
+   const logoKey = candidateLogoKey && isAuthorizedDownloadKey(candidateLogoKey, allowedLogoPrefixes) ? candidateLogoKey : '';
+   if (candidateLogoKey && !logoKey) {
+      console.warn(`Ignoring account_company_logo "${candidateLogoKey}" for invoice generation — not under this account's own logo prefix.`);
+   }
 
    if (logoKey) {
       try {
@@ -101,4 +116,9 @@ const addInvoiceDetails = async (calculatedInvoices, invoiceQueryData, invoicesT
    });
 };
 
-module.exports = { addInvoiceDetails };
+// loadCompanyLogo is exported alongside the main entry point so its
+// authorization behaviour (review/full-audit-2026-09 finding 2 — a foreign
+// or malformed account_company_logo key must never be fetched, and must
+// never surface as a 500) can be unit/integration-tested directly, without
+// having to drive an entire invoice finalize just to reach it.
+module.exports = { addInvoiceDetails, loadCompanyLogo };

@@ -1,6 +1,6 @@
 # Route coverage matrix
 
-Generated 2026-09-23T10:53:14.454Z by scripts/test-coverage-matrix.js — 135/135 routes referenced by at least one spec.
+Generated 2026-09-23T23:49:08.553Z by scripts/test-coverage-matrix.js — 135/135 routes referenced by at least one spec.
 
 _Caveat: this matrix counts route REFERENCES — a spec file whose describe/it title or a request path string contains the route — not exercised behaviour. A spec can reference a route in a comment or a skipped/pending test and still count as "covered" here; a route covered indirectly (helper function, different literal path string) won't. Treat this as a starting point for finding gaps, not a substitute for reading the spec._
 
@@ -51,7 +51,7 @@ _Caveat: this matrix counts route REFERENCES — a spec file whose describe/it t
 | POST | `/invoices/createInvoice/:accountID/:userID` | invoice/invoice-router.js | `integration/clean-room-regression.integration.spec.js`<br>`integration/coverage-invoices-audit-ar-analytics.integration.spec.js`<br>`integration/coverage-payments-pending.integration.spec.js`<br>`integration/finalize-engine.integration.spec.js`<br>`integration/month-end-lifecycle.integration.spec.js`<br>`integration/tracker-excel-end-to-end.integration.spec.js` |
 | GET | `/invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID` | invoice/invoice-router.js | `integration/clean-room-regression.integration.spec.js`<br>`integration/coverage-invoices-audit-ar-analytics.integration.spec.js`<br>`integration/finalize-engine.integration.spec.js`<br>`integration/month-end-lifecycle.integration.spec.js` |
 | DELETE | `/invoices/deleteInvoice/:accountID/:invoiceID` | invoice/invoice-router.js | `integration/coverage-invoices-audit-ar-analytics.integration.spec.js`<br>`integration/finalize-engine.integration.spec.js`<br>`integration/finalize-snapshot.integration.spec.js` |
-| GET | `/invoices/downloadFile/:accountID/:userID` | invoice/invoice-router.js | `integration/clean-room-regression.integration.spec.js`<br>`integration/coverage-invoices-audit-ar-analytics.integration.spec.js`<br>`integration/tracker-excel-end-to-end.integration.spec.js` |
+| GET | `/invoices/downloadFile/:accountID/:userID` | invoice/invoice-router.js | `integration/clean-room-regression.integration.spec.js`<br>`integration/coverage-downloads-authz.integration.spec.js`<br>`integration/coverage-invoices-audit-ar-analytics.integration.spec.js`<br>`integration/coverage-timetracking-timesheets.integration.spec.js`<br>`integration/tracker-excel-end-to-end.integration.spec.js` |
 | GET | `/invoices/getInvoiceDetails/:invoiceID/:accountID/:userID` | invoice/invoice-router.js | `integration/coverage-invoices-audit-ar-analytics.integration.spec.js`<br>`integration/finalize-engine.integration.spec.js` |
 | GET | `/invoices/getInvoices/:accountID/:invoiceID` | invoice/invoice-router.js | `endpoints/auth/roleGates.integration.spec.js`<br>`integration/coverage-invoices-audit-ar-analytics.integration.spec.js` |
 | GET | `/invoices/getInvoicesPaginated/:accountID/:userID` | invoice/invoice-router.js | `integration/coverage-invoices-audit-ar-analytics.integration.spec.js` |
@@ -115,10 +115,10 @@ _Caveat: this matrix counts route REFERENCES — a spec file whose describe/it t
 | GET | `/time-tracking/download/by-name/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-timetracking-timesheets.integration.spec.js` |
 | GET | `/time-tracking/history/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-timetracking-timesheets.integration.spec.js` |
 | GET | `/time-tracking/history/download/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-timetracking-timesheets.integration.spec.js` |
-| DELETE | `/time-tracking/template/delete/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-timetracking-timesheets.integration.spec.js` |
-| GET | `/time-tracking/template/latest/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-timetracking-timesheets.integration.spec.js`<br>`integration/tracker-excel-end-to-end.integration.spec.js` |
-| GET | `/time-tracking/template/list/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-timetracking-timesheets.integration.spec.js` |
-| POST | `/time-tracking/template/upload/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-timetracking-timesheets.integration.spec.js` |
+| DELETE | `/time-tracking/template/delete/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-downloads-authz.integration.spec.js`<br>`integration/coverage-timetracking-timesheets.integration.spec.js` |
+| GET | `/time-tracking/template/latest/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-downloads-authz.integration.spec.js`<br>`integration/coverage-timetracking-timesheets.integration.spec.js`<br>`integration/tracker-excel-end-to-end.integration.spec.js` |
+| GET | `/time-tracking/template/list/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-downloads-authz.integration.spec.js`<br>`integration/coverage-timetracking-timesheets.integration.spec.js` |
+| POST | `/time-tracking/template/upload/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-downloads-authz.integration.spec.js`<br>`integration/coverage-timetracking-timesheets.integration.spec.js` |
 | POST | `/time-tracking/upload/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-timetracking-timesheets.integration.spec.js`<br>`integration/tracker-excel-end-to-end.integration.spec.js` |
 | GET | `/time-tracking/users/:accountID/:userID` | timeTracking/timeTracking-router.js | `integration/coverage-timetracking-timesheets.integration.spec.js` |
 | POST | `/transactions/createTransaction/:accountID/:userID` | transactions/transactions-router.js | `integration/clean-room-regression.integration.spec.js`<br>`integration/coverage-jobs-masterdata.integration.spec.js`<br>`integration/coverage-transactions-retainers-writeoffs.integration.spec.js`<br>`integration/finalize-engine.integration.spec.js`<br>`integration/month-end-lifecycle.integration.spec.js`<br>`integration/transactions-ledger-seams.integration.spec.js` |

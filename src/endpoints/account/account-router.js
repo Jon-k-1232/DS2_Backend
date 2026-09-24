@@ -17,6 +17,8 @@ const {
 } = require('./accountObjects');
 const { getObject } = require('../../utils/s3');
 const path = require('path');
+const { sanitizeAccountName } = require('../../utils/invoicePath');
+const { resolveOwnLogoPrefixes, isAuthorizedDownloadKey } = require('../../utils/downloadAuthorization');
 
 const resolveLogoKey = rawValue => {
    const candidateString = (() => {
@@ -44,13 +46,40 @@ const resolveLogoKey = rawValue => {
    return looksLikeS3Key ? candidateString : null;
 };
 
-const fetchAccountLogo = async rawValue => {
+const fetchAccountLogo = async (rawValue, accountName) => {
    const derivedLogoKey = resolveLogoKey(rawValue);
-   const logoKey = derivedLogoKey || 'James_F__Kimmel___Associates/app/assets/logo.png';
+   // This account's own default — was a hardcoded account-1 key
+   // ('James_F__Kimmel___Associates/app/assets/logo.png') regardless of
+   // which account was asking, so any account with no custom logo set (e.g.
+   // fixture account 9001) silently got served ACCOUNT 1's real logo bytes.
+   // Deriving it from the caller's own name matches addInvoiceDetail.js's
+   // fallbackS3Key and — for account 1 itself — resolves to the exact same
+   // key as before, so account 1's behaviour is unchanged.
+   const ownSlug = sanitizeAccountName(accountName || '');
+   const fallbackLogoKey = ownSlug ? `${ownSlug}/app/assets/logo.png` : null;
+
+   // review/full-audit-2026-09 finding 2: account_company_logo is a free-text
+   // field that used to flow straight into getObject() with no check that
+   // the key actually belonged to this account — PUT /updateAccount now
+   // validates new values (see below), but this guards values already on
+   // record from before that existed. A foreign/malformed key is never
+   // fetched: treated exactly like "no custom logo," falling back to this
+   // account's own default instead of leaking another object's bytes back
+   // to the client as base64.
+   const allowedLogoPrefixes = resolveOwnLogoPrefixes({ accountName });
+   const isOwnKey = Boolean(derivedLogoKey) && isAuthorizedDownloadKey(derivedLogoKey, allowedLogoPrefixes);
+   if (derivedLogoKey && !isOwnKey) {
+      console.warn(`Ignoring account_company_logo "${derivedLogoKey}" — not under this account's own logo prefix.`);
+   }
+   const logoKey = isOwnKey ? derivedLogoKey : fallbackLogoKey;
 
    let base64 = null;
    let metadata = null;
    let source = 's3';
+
+   if (!logoKey) {
+      return { logoKey: null, base64: null, metadata: null, source: 'unavailable', originalValue: derivedLogoKey };
+   }
 
    try {
       const { body, metadata: s3Metadata } = await getObject(logoKey);
@@ -133,6 +162,30 @@ accountRouter
       accountTableFields.account_id = req.user.account_id;
       accountInfoTableFields.account_id = req.user.account_id;
 
+      // review/full-audit-2026-09 finding 2: account_company_logo was written
+      // completely unvalidated and later flows straight into getObject()
+      // (fetchAccountLogo above, and addInvoiceDetail.js's loadCompanyLogo) —
+      // an admin could set it to any string and have the app fetch and
+      // return (or embed into a generated invoice PDF) whatever object that
+      // string pointed at. There is no upload route today that produces this
+      // value on the client's behalf (see DS2_Frontend's
+      // formObjectForUpdateAccountPost, which deliberately never sends it),
+      // so a non-empty value can only arrive here as a directly-posted
+      // string — validated exactly like a pasted download key, against THIS
+      // account's own logo prefix (resolveOwnLogoPrefixes). An explicit
+      // clear (null/empty string) is always allowed.
+      if (Object.prototype.hasOwnProperty.call(accountTableFields, 'account_company_logo')) {
+         const rawLogo = accountTableFields.account_company_logo;
+         const trimmedLogo = typeof rawLogo === 'string' ? rawLogo.trim() : rawLogo;
+         if (trimmedLogo !== null && trimmedLogo !== undefined && trimmedLogo !== '') {
+            const [currentAccount] = await accountService.getAccount(db, req.user.account_id);
+            const allowedLogoPrefixes = resolveOwnLogoPrefixes({ accountName: currentAccount?.account_name });
+            if (!isAuthorizedDownloadKey(trimmedLogo, allowedLogoPrefixes)) {
+               return res.status(400).send({ status: 400, message: 'Invalid logo file key.' });
+            }
+         }
+      }
+
       // The business-settings form and the address form both post through this
       // one combined endpoint, so a request only carries address fields when
       // the caller is the address form — restoreDataTypesAccountInformationOnUpdate
@@ -192,7 +245,7 @@ accountRouter
          });
       }
 
-      const logo = await fetchAccountLogo(accountInfo.account_company_logo);
+      const logo = await fetchAccountLogo(accountInfo.account_company_logo, accountInfo.account_name);
 
       const accountData = {
          ...accountInfo,

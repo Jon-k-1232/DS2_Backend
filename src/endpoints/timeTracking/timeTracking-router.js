@@ -1115,13 +1115,25 @@ timeTrackingRouter.get(
 );
 
 // POST /time-tracking/template/upload/:accountID/:userID
-// Super admin only (Kasi/Jon): Upload a new tracker template to S3.
+// Owner-account super admin only (Kasi/Jon): Upload a new tracker template to S3.
 timeTrackingRouter.post(
    '/template/upload/:accountID/:userID',
    requireSuperAdmin,
    rawUploadParser,
    asyncHandler(async (req, res) => {
       const { accountID, userID } = req.params;
+
+      // finding 3, review/full-audit-2026-09: the fixed account-1 slug this
+      // object lives under is a storage location, not proof that the caller
+      // is the account this shared, firm-wide template belongs to. A super
+      // admin's role is checked above, but role alone let a super admin of
+      // ANY account overwrite the one template every other tenant's
+      // /template/latest rebuild starts from. Only the configured owner
+      // account may mutate it.
+      if (Number(accountID) !== TEMPLATE_OWNER_ACCOUNT_ID) {
+         return res.status(403).json({ message: 'Only the template owner account may upload a shared tracker template.', status: 403 });
+      }
+
       const fileNameHeader = req.headers['x-file-name'];
       const fileTypeHeader = req.headers['x-file-type'] || 'application/octet-stream';
 
@@ -1176,6 +1188,19 @@ timeTrackingRouter.get(
       // "borrow" that admin's role just by addressing their id in the URL.
       ensureAdminAccess(req.user);
 
+      // finding 3 (list-route callout), review/full-audit-2026-09: this list
+      // used to hand back the owner firm's raw S3 keys (and therefore its
+      // account-name slug) to an admin of ANY account — including the exact
+      // key finding 1 then used to bypass the download guard. Non-owner
+      // accounts don't manage this shared, firm-wide template at all, so
+      // they get an (unremarkable, UI-safe) empty list instead of a peek at
+      // owner-account S3 layout. `managedByOwnerAccount` lets a future UI
+      // explain the empty state without changing what the owner account
+      // receives. No listObjects call is even made for a non-owner caller.
+      if (Number(req.params.accountID) !== TEMPLATE_OWNER_ACCOUNT_ID) {
+         return res.status(200).json({ templates: [], managedByOwnerAccount: true });
+      }
+
       const objects = await listObjects(`${TRACKER_VERSIONS_ROOT}/`);
 
       if (!objects || !objects.length) {
@@ -1209,12 +1234,21 @@ timeTrackingRouter.get(
 // DELETE /time-tracking/template/delete/:accountID/:userID
 // Super admin only — same gate as template upload (a firm-wide template
 // version affects every tenant, so deleting one is held to the same bar as
-// creating one; it used to only require plain admin access).
+// creating one; it used to only require plain admin access). Also owner-
+// account-only, same rationale and finding as template upload above: a
+// super admin's role says nothing about whether their account owns this
+// shared, firm-wide object.
 timeTrackingRouter.delete(
    '/template/delete/:accountID/:userID',
    requireSuperAdmin,
    jsonParser,
    asyncHandler(async (req, res) => {
+      const { accountID } = req.params;
+
+      if (Number(accountID) !== TEMPLATE_OWNER_ACCOUNT_ID) {
+         return res.status(403).json({ message: 'Only the template owner account may delete a shared tracker template.', status: 403 });
+      }
+
       const { key } = req.body || {};
 
       if (!key) {

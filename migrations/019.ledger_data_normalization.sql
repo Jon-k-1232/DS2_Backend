@@ -44,10 +44,14 @@
 --    2026-09-22 production snapshot (provenance and decision basis are documented at the top of
 --    the block). Removing the block, or shipping it empty, makes this migration flip NOTHING.
 --    Regenerate the review CSV and the matching SQL INSERT block with
---    `node scripts/review-2026-09/positive-total-payments-manifest.js` (read-only; the generator
---    applies the same reversal and ownership quarantine, so nothing it lists can fail these
---    checks unless the live data changed between generation and review). Child snapshots are
---    never touched (they need event-time reconciliation).
+--    `node scripts/review-2026-09/positive-total-payments-manifest.js` (read-only). Two of its
+--    quarantines are hard exclusions this UPDATE repeats (a positive/reversal event on the row's
+--    OWN chain; foreign ownership anywhere in the chain); the third — a "[reversal of payment
+--    #id]" note on ANOTHER chain — is only FLAGGED in its output (possible_misattributed_reversal)
+--    while this UPDATE refuses it outright, so a flagged row the generator lists will NOT flip
+--    even on unchanged data. Adopting a regenerated list therefore needs the documented decision
+--    described at the top of the manifest block (strike or resolve flagged rows first). Child
+--    snapshots are never touched (they need event-time reconciliation).
 -- 4. Row-level audit evidence. Every field this migration changes — not just total_payments —
 --    is logged to ledger_normalization_log with its before/after value, idempotently: the
 --    before-image capture below only ever selects rows still in the "before" (unfixed) state,

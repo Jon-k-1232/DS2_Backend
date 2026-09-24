@@ -23,6 +23,7 @@ const { createAndSaveZip } = require('../../pdfCreator/zipOrchestrator');
 const dataInsertionOrchestrator = require('./invoiceDataInsertions/dataInsertionOrchestrator');
 const { requireManagerOrAdmin } = require('../auth/jwt-auth');
 const { getObject } = require('../../utils/s3');
+const { resolveOwnDownloadPrefixes, isAuthorizedDownloadKey } = require('../../utils/downloadAuthorization');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const dayjs = require('dayjs');
 dayjs.extend(require('dayjs/plugin/utc'));
@@ -396,44 +397,57 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(requireManagerOrAd
 
 invoiceRouter.route('/downloadFile/:accountID/:userID').get(async (req, res) => {
    try {
+      const { accountID } = req.params;
       const rawLocation = req.query.fileLocation;
 
       if (typeof rawLocation !== 'string' || rawLocation.trim().length === 0) {
          throw new Error('Invalid or no file path.');
       }
 
-      let s3Key = rawLocation.trim();
+      // No decoding here: Express's own query-string parser already decodes
+      // the value once, and a SECOND decode is exactly how a double-encoded
+      // separator (e.g. '..' sent as %252e%252e) would have smuggled a
+      // traversal past validation. Anything left over is taken literally and
+      // must pass the syntax + ownership checks below as-is (see
+      // utils/downloadAuthorization.js for the full rationale).
+      const s3Key = rawLocation.trim();
 
-      try {
-         s3Key = decodeURIComponent(s3Key);
-      } catch (error) {
-         // ignore decode errors, continue with trimmed value
+      // Authorize BEFORE touching S3: resolve the areas of the bucket this
+      // authenticated account actually owns (its own invoicing exports, its
+      // own audit PDFs) and refuse anything else — including the shared
+      // time-tracking template and any other account's prefix — with a 403,
+      // never a silent normalize-and-continue. See finding 1,
+      // review/full-audit-2026-09: this route used to fetch whatever key it
+      // was handed, which let a key obtained from the (separately-guarded)
+      // GET /time-tracking/template/list route be downloaded here instead.
+      const db = req.app.get('db');
+      const [accountRow] = await accountService.getAccount(db, accountID);
+      const allowedPrefixes = resolveOwnDownloadPrefixes({ accountName: accountRow?.account_name, accountId: accountID });
+
+      if (!isAuthorizedDownloadKey(s3Key, allowedPrefixes)) {
+         return res.status(403).send({ message: 'You do not have access to this file.', status: 403 });
       }
 
-      s3Key = s3Key.replace(/\\/g, '/').replace(/^\/+/, '');
+      try {
+         const { body, metadata } = await getObject(s3Key);
 
-      if (s3Key) {
-         try {
-            const { body, metadata } = await getObject(s3Key);
-
-            if (!body || !Buffer.isBuffer(body)) {
-               throw new Error('File does not exist.');
-            }
-
-            const filename = path.basename(s3Key);
-
-            if (metadata?.contentType) {
-               res.set('Content-Type', metadata.contentType);
-            }
-
-            if (metadata?.contentLength) {
-               res.set('Content-Length', `${metadata.contentLength}`);
-            }
-
-            return res.status(200).attachment(filename).send(body);
-         } catch (s3Error) {
-            console.warn(`Unable to retrieve ${s3Key} from S3: ${s3Error.message}`);
+         if (!body || !Buffer.isBuffer(body)) {
+            throw new Error('File does not exist.');
          }
+
+         const filename = path.basename(s3Key);
+
+         if (metadata?.contentType) {
+            res.set('Content-Type', metadata.contentType);
+         }
+
+         if (metadata?.contentLength) {
+            res.set('Content-Length', `${metadata.contentLength}`);
+         }
+
+         return res.status(200).attachment(filename).send(body);
+      } catch (s3Error) {
+         console.warn(`Unable to retrieve ${s3Key} from S3: ${s3Error.message}`);
       }
 
       throw new Error('File does not exist.');

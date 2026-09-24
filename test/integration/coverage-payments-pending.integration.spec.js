@@ -48,7 +48,8 @@ const dayjs = require('dayjs');
 }
 
 const { bootHttp, uniqueName, expectEnvelopeOk, expectEnvelopeRefused } = require('./_http');
-const { getObject, deleteObject } = require('../../src/utils/s3');
+const { getObject, putObject, deleteObject } = require('../../src/utils/s3');
+const { PAYMENTS_PENDING_PREFIX } = require('../../src/endpoints/pendingPayments/pendingPayments-service');
 
 describe('integration: coverage — payments & pending payments (HTTP)', function () {
    this.timeout(120_000);
@@ -1253,19 +1254,32 @@ describe('integration: coverage — payments & pending payments (HTTP)', functio
             .set('x-file-type', 'application/pdf')
             .send(buf);
 
-      it('happy path: uploads bytes to S3 under a .pdf name (content is never inspected)', async () => {
+      it('FIXED (was DEFECT, review/full-audit-2026-09 finding 3): account 9001 is refused with HTTP 403 before any S3 write', async () => {
+         // This route writes to a single, hardcoded, account-1-specific S3
+         // prefix (PAYMENTS_PENDING_PREFIX) regardless of which account
+         // asks — see coverage-pending-payments-authz.integration.spec.js
+         // for the full writeup. It used to accept ANY account's upload
+         // into that same shared, real prefix (co-mingling a test/fixture
+         // account's data with account 1's); it now refuses every account
+         // except PAYMENTS_AUTOMATION_ACCOUNT_ID (1) outright. Account 1's
+         // own positive upload path is intentionally not re-exercised here
+         // (or anywhere in this suite) — this sandbox's account-1 rows are a
+         // read-only production copy, and coverage-pending-payments-authz's
+         // "owner account is unaffected by the new gate" test already proves
+         // the gate is a no-op for account 1 without ever writing to its
+         // real prefix.
          const fileName = `${uniqueName('coverage-upload')}.pdf`;
          const buf = Buffer.from('coverage-fixture-not-a-real-pdf-but-that-is-fine');
          const res = await upload('admin', U, fileName, buf);
-         expect(res.status).to.equal(200);
-         expect(res.body.status).to.equal(200);
-         expect(res.body.message).to.equal('File uploaded successfully. Processing will begin shortly.');
-         expect(res.body.fileName).to.equal(fileName);
-         expect(res.body.s3Key).to.equal(`James_F__Kimmel___Associates/payments/processing_pending/${fileName}`);
-         s3Keys.push(res.body.s3Key);
+         expect(res.status).to.equal(403);
 
-         const obj = await getObject(res.body.s3Key);
-         expect(obj.body.equals(buf), 'the exact bytes sent landed in MinIO').to.equal(true);
+         let exists = true;
+         try {
+            await getObject(`${PAYMENTS_PENDING_PREFIX}/${fileName}`);
+         } catch (e) {
+            exists = false;
+         }
+         expect(exists, 'nothing was written to the shared account-1 prefix').to.equal(false);
       });
 
       it('validation failure: a missing x-file-name header is refused with HTTP 400', async () => {
@@ -1351,11 +1365,19 @@ describe('integration: coverage — payments & pending payments (HTTP)', functio
 
    describe('DELETE /pending-payments/file/:accountID/:userID', () => {
       it('happy path: removes unprocessed pending rows for the file and the S3 object', async () => {
+         // Seeded directly (putObject + a DB row account 9001 owns) rather
+         // than via POST /pending-payments/upload, which is now gated to
+         // account 1 only (review/full-audit-2026-09 finding 3 — see
+         // coverage-pending-payments-authz.integration.spec.js). Delete
+         // itself is NOT account-1-gated: it is authorized per-file against
+         // the requesting account's own DB rows (accountOwnsSourceFile), so
+         // account 9001 owning a row is exactly what is under test here.
          const cust = await makeCustomer('ppfiledel-happy');
          const fileName = `${uniqueName('coverage-delete')}.pdf`;
+         const key = `${PAYMENTS_PENDING_PREFIX}/${fileName}`;
          const buf = Buffer.from('coverage delete happy path');
-         const uploaded = await h.as('admin').post(`/pending-payments/upload/${A}/${U}`).set('x-file-name', encodeURIComponent(fileName)).set('x-file-type', 'application/pdf').send(buf);
-         expect(uploaded.status).to.equal(200);
+         await putObject(key, buf, 'application/pdf');
+         s3Keys.push(key);
          const pending = await makePending(cust, 44, { source_file: fileName });
 
          const res = await h.as('admin').delete(`/pending-payments/file/${A}/${U}`).send({ fileName });
@@ -1367,7 +1389,7 @@ describe('integration: coverage — payments & pending payments (HTTP)', functio
 
          let stillThere = true;
          try {
-            await getObject(uploaded.body.s3Key);
+            await getObject(key);
          } catch (e) {
             stillThere = false;
          }
@@ -1403,10 +1425,15 @@ describe('integration: coverage — payments & pending payments (HTTP)', functio
          expect((await pendingRow(pending.payment_id)).deleted).to.equal(false);
       });
 
-      it('not-found: a fileName with no rows still answers 200 (no existence check) — GAP', async () => {
+      it('FIXED (was DEFECT, review/full-audit-2026-09 finding 3): a fileName with no rows for this account is now refused with HTTP 404, not silently "succeeded"', async () => {
+         // Previously fell straight through to a real S3 delete call
+         // regardless of whether ANY row matched — see
+         // coverage-pending-payments-authz.integration.spec.js for the full
+         // writeup, including the version of this scenario where a REAL
+         // object with no owning row is proven untouched.
          const res = await h.as('admin').delete(`/pending-payments/file/${A}/${U}`).send({ fileName: `${uniqueName('never-uploaded')}.pdf` });
-         expect(res.status).to.equal(200);
-         expect(res.body.message).to.equal('File and associated pending payments deleted.');
+         expect(res.status).to.equal(404);
+         expect(res.body.message).to.equal('File not found.');
       });
    });
 
@@ -1418,11 +1445,19 @@ describe('integration: coverage — payments & pending payments (HTTP)', functio
       };
 
       it('happy path: streams back the exact bytes that were uploaded', async () => {
+         // Seeded directly (putObject + a DB row account 9001 owns) rather
+         // than via POST /pending-payments/upload, which is now gated to
+         // account 1 only (review/full-audit-2026-09 finding 3). Preview
+         // itself is NOT account-1-gated: it is authorized per-file against
+         // the requesting account's own DB rows (accountOwnsSourceFile) —
+         // see coverage-pending-payments-authz.integration.spec.js.
+         const cust = await makeCustomer('ppfilepreview-happy');
          const fileName = `${uniqueName('coverage-preview')}.pdf`;
+         const key = `${PAYMENTS_PENDING_PREFIX}/${fileName}`;
          const buf = Buffer.from('coverage preview bytes 12345');
-         const uploaded = await h.as('admin').post(`/pending-payments/upload/${A}/${U}`).set('x-file-name', encodeURIComponent(fileName)).set('x-file-type', 'application/pdf').send(buf);
-         expect(uploaded.status).to.equal(200);
-         s3Keys.push(uploaded.body.s3Key);
+         await putObject(key, buf, 'application/pdf');
+         s3Keys.push(key);
+         await makePending(cust, 66, { source_file: fileName });
 
          const res = await h.as('admin').get(`/pending-payments/file-preview/${A}/${U}?fileName=${encodeURIComponent(fileName)}`);
          expect(res.status).to.equal(200);

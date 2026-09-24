@@ -32,6 +32,7 @@ const zlib = require('zlib');
 const path = require('path');
 const crypto = require('crypto');
 const XLSX = require('xlsx');
+const ExcelJS = require('exceljs');
 const dayjs = require('dayjs');
 const { expect } = require('chai');
 const { SESClient } = require('@aws-sdk/client-ses');
@@ -85,6 +86,83 @@ const binaryParser = (res, cb) => {
 const jsonBody = res => (Buffer.isBuffer(res.body) ? JSON.parse(res.body.toString('utf8') || '{}') : res.body);
 const sheetColumnA = (wb, name) => (wb.Sheets[name] ? XLSX.utils.sheet_to_json(wb.Sheets[name], { header: 1 }).map(r => r[0]).filter(v => v !== undefined && v !== '') : null);
 
+// ── whole-workbook account-1 leak scan (Astra finding 2) ────────────────────
+// Short, common English words that would otherwise false-positive once real
+// account-1 staff display names (~23 of them) are split into first/last-name
+// tokens — kept independent of, and deliberately not identical to,
+// template-builder.js's own stoplist (see buildForeignAccount1Matchers below
+// for the one exclusion that IS load-bearing for this actual dataset: the
+// firm's own Entity vocabulary).
+const NAME_TOKEN_STOPWORDS = new Set([
+   'and', 'the', 'for', 'are', 'was', 'not', 'all', 'but', 'you', 'her', 'his', 'its', 'our', 'out', 'day', 'get',
+   'has', 'him', 'how', 'man', 'new', 'now', 'see', 'two', 'way', 'who', 'did', 'use', 'say', 'she', 'too'
+]);
+const _wordsOfName = value => String(value).match(/[A-Za-z0-9]+/g) || [];
+const _escapeRegExpForLeakScan = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// Column-A values from an ExcelJS worksheet (as opposed to sheetColumnA above,
+// which is SheetJS-based) — used only to read the workbook's OWN Entity /
+// Categories vocabulary below.
+const _columnAValuesExcelJS = sheet => {
+   if (!sheet) return [];
+   const values = [];
+   for (let r = 1; r <= sheet.rowCount; r += 1) {
+      const v = sheet.getCell(`A${r}`).value;
+      if (typeof v === 'string' && v.trim()) values.push(v.trim());
+   }
+   return values;
+};
+
+// Scan EVERY worksheet (visible and hidden alike), every cell value (plain
+// string, rich text, hyperlink display text, cached formula result), every
+// cell comment, every defined name, and the package's own docProps metadata
+// for an account-1 identifier. Returns a list of human-readable findings
+// (empty = clean) rather than a boolean so a failure names exactly what
+// leaked and where.
+const findAccount1Leaks = (workbook, matchers) => {
+   const findings = [];
+   const checkString = (where, value) => {
+      if (typeof value !== 'string' || !value) return;
+      matchers.customerNames.forEach(name => {
+         if (name && value.includes(name)) findings.push(`${where}: account-1 customer "${name}"`);
+      });
+      matchers.userNames.forEach(name => {
+         if (name && value.includes(name)) findings.push(`${where}: account-1 user "${name}"`);
+      });
+      matchers.tokens.forEach(token => {
+         if (new RegExp(`\\b${_escapeRegExpForLeakScan(token)}\\b`, 'i').test(value)) findings.push(`${where}: account-1 user name-token "${token}"`);
+      });
+   };
+
+   workbook.worksheets.forEach(sheet => {
+      sheet.eachRow({ includeEmpty: false }, row => {
+         row.eachCell({ includeEmpty: false }, cell => {
+            const v = cell.value;
+            const text =
+               typeof v === 'string'
+                  ? v
+                  : v && Array.isArray(v.richText)
+                  ? v.richText.map(r => r.text).join('')
+                  : v && typeof v.result === 'string'
+                  ? v.result
+                  : v && typeof v.text === 'string'
+                  ? v.text
+                  : '';
+            checkString(`sheet "${sheet.name}" cell ${cell.address}`, text);
+            if (cell.note) {
+               const noteText = typeof cell.note === 'string' ? cell.note : (cell.note.texts || []).map(t => t.text).join('');
+               checkString(`sheet "${sheet.name}" comment on ${cell.address}`, noteText);
+            }
+         });
+      });
+   });
+
+   (workbook.definedNames.model || []).forEach(dn => checkString(`defined name "${dn.name}"`, dn.name));
+   ['creator', 'lastModifiedBy', 'title', 'subject', 'description', 'company', 'manager'].forEach(key => checkString(`docProps.${key}`, workbook[key]));
+
+   return findings;
+};
+
 const sesSends = [];
 const stubSes = () => {
    const own = Object.prototype.hasOwnProperty.call(SESClient.prototype, 'send');
@@ -134,6 +212,63 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
 
    // ── helpers ────────────────────────────────────────────────────────────────
    const getBinary = (identity, url, query = {}) => h.as(identity).get(url).query(query).buffer(true).parse(binaryParser);
+   // Everything a leaked account-1 identity could look like inside a
+   // downloaded workbook: full customer/user display names (READ-ONLY,
+   // hundreds of customers / ~23 users — see CLAUDE.md), plus — for users
+   // only, mirroring what template-builder.js itself scrubs — first/last
+   // name tokens (>= 3 chars). Two families of exclusion keep this from
+   // false-positiving on account 9001's OWN, entirely legitimate data:
+   //  1) words also used by the workbook's OWN shared Entity/Categories
+   //     dropdown content — this firm's Entity option "James F. Kimmel &
+   //     Associates" legitimately shares a surname with staff "Jim Kimmel" /
+   //     "Kasi Kimmel", and template-builder.js deliberately never touches
+   //     that shared vocabulary (see its _collectProtectedWords).
+   //  2) any account-1 name/word that ALSO belongs to account 9001's own
+   //     current customers/users — the dev sandbox is shared across
+   //     concurrently-running suites (see CLAUDE.md), so account 9001 can
+   //     accumulate its own users beyond the seeded three (this has been
+   //     observed live: account 1 has a user named exactly "Admin", and
+   //     account 9001's OWN seeded admin is "Admin Person" — a single-word
+   //     account-1 name is really just a token, so it needs the same
+   //     self-overlap guard as a real token does, or "Admin" false-positives
+   //     against the unrelated "Admin Person" account 9001 is SUPPOSED to
+   //     show). A multi-word account-1 name is still checked verbatim
+   //     (a full phrase match is unambiguous) unless it is EXACTLY one of
+   //     account 9001's own names too.
+   const buildForeignAccount1Matchers = async workbook => {
+      const [customerNames, userNames, ownCustomerNames, ownUserNames] = await Promise.all([
+         db('customers').where({ account_id: FOREIGN_ACCOUNT }).pluck('display_name'),
+         db('users').where({ account_id: FOREIGN_ACCOUNT }).pluck('display_name'),
+         db('customers').where({ account_id: A }).pluck('display_name'),
+         db('users').where({ account_id: A }).pluck('display_name')
+      ]);
+      const ownCustomerSet = new Set(ownCustomerNames.filter(Boolean));
+      const ownUserSet = new Set(ownUserNames.filter(Boolean));
+      const ownUserWords = new Set();
+      ownUserNames.filter(Boolean).forEach(name => _wordsOfName(name).forEach(w => ownUserWords.add(w.toLowerCase())));
+
+      const protectedWords = new Set();
+      ['Entity', 'Categories'].forEach(name => {
+         _columnAValuesExcelJS(workbook.getWorksheet(name)).forEach(v => _wordsOfName(v).forEach(w => protectedWords.add(w.toLowerCase())));
+      });
+      const isNoisyWord = lower => lower.length < 3 || protectedWords.has(lower) || NAME_TOKEN_STOPWORDS.has(lower) || ownUserWords.has(lower);
+
+      const fullUserNames = new Set();
+      const tokens = new Set();
+      userNames.filter(Boolean).forEach(name => {
+         const words = _wordsOfName(name);
+         if (words.length > 1 && !ownUserSet.has(name)) fullUserNames.add(name);
+         words.forEach(token => {
+            if (!isNoisyWord(token.toLowerCase())) tokens.add(token);
+         });
+      });
+
+      return {
+         customerNames: customerNames.filter(n => n && !ownCustomerSet.has(n)),
+         userNames: [...fullUserNames],
+         tokens: [...tokens]
+      };
+   };
    // Authenticate as an arbitrary DB user by email (for otherEliza/manager,
    // which have no entry in _http.js's fixed IDENTITIES map) — requireAuth
    // resolves the real user row from the JWT's `sub` (email) alone, so the
@@ -339,6 +474,15 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
             .whereIn('type', ['tracker_upload_processed', 'rows_held_for_review', 'new_customer_needs_addition'])
             .del();
          await db('template_downloads').where({ account_id: A }).where('template_download_id', '>', maxTemplateDownloadId).del();
+         // FIXED (was DEFECT): created.userIds (otherEliza / manager, both
+         // inserted directly in `before` since createUser is super-admin-only
+         // and the seeded superAdmin belongs to account 1, not 9001) was
+         // tracked but never deleted here, so every run of this file left two
+         // more rows behind in the shared dev sandbox — discovered because
+         // the accumulated extras made the new whole-workbook leak scan above
+         // false-positive (account 9001 picking up more of its own "Eliza" /
+         // manager users run after run).
+         if (created.userIds.length) await db('users').where({ account_id: A }).whereIn('user_id', created.userIds).del();
       }
       for (const key of [...new Set([...created.s3Keys, ...created.templateKeys])]) {
          // never the template that was 'latest' when the run started
@@ -700,17 +844,42 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
       // state, so the static object's real prod names never reach it. The
       // "flag off (default), OWNER account" test above covers the (now
       // legitimate) owner passthrough; this test covers every other account.
-      it('the flag-off (default) template served to account 9001 carries no other tenant’s customer or staff names (rebuilt, never passed through)', async () => {
-         const foreignCustomers = new Set(await db('customers').where({ account_id: FOREIGN_ACCOUNT }).pluck('display_name'));
-         const foreignStaff = new Set(await db('users').where({ account_id: FOREIGN_ACCOUNT }).pluck('display_name'));
-         const leaked = wb => ({
-            customers: (sheetColumnA(wb, '__customers') || []).filter(n => foreignCustomers.has(n)).length,
-            staff: [...(sheetColumnA(wb, '__employees') || []), ...(sheetColumnA(wb, 'Employee Names') || [])].filter(n => foreignStaff.has(n)).length
-         });
-         const res = await getBinary('admin', `/time-tracking/template/latest/${A}/${ADMIN}`);
-         expect(res.status).to.equal(200);
-         expect(res.headers['x-tracker-customers'], 'a non-owner account always gets a rebuild, even with its own flag off').to.not.equal(undefined);
-         expect(leaked(XLSX.read(res.body, { type: 'buffer' }))).to.deep.equal({ customers: 0, staff: 0 });
+      //
+      // STRENGTHENED (Astra finding 2, 2026-09-23): this used to check only
+      // the three hidden lookup sheets + the visible 'Employee Names' list —
+      // exactly the four sheets buildTemplate's own lookup-sheet replacement
+      // repopulates. It missed everything else: an actual account-9001
+      // download still carried account-1 employee "Jim Kimmel" in
+      // Instructions!D15/D16, a worked-example cell that isn't one of those
+      // four. Now checks every worksheet (visible AND hidden — not just the
+      // well-known ones), every cell string (plain, rich text, hyperlink
+      // text, cached formula result), every cell comment, every defined
+      // name, and the package's own docProps metadata (creator /
+      // lastModifiedBy / title / subject / description / company / manager)
+      // for ANY account-1 customer name, user name, or user name-token — for
+      // BOTH the admin and the employee identity, since either can trigger a
+      // rebuild. See findAccount1Leaks / buildForeignAccount1Matchers above.
+      it('the flag-off (default) template served to account 9001 carries NOTHING from account 1 anywhere in the workbook (rebuilt, never passed through)', async () => {
+         const downloads = await Promise.all([
+            getBinary('admin', `/time-tracking/template/latest/${A}/${ADMIN}`),
+            getBinary('employee', `/time-tracking/template/latest/${A}/${ELIZA}`)
+         ]);
+
+         for (const res of downloads) {
+            // The rebuild-header assertions, kept from before this test was
+            // strengthened: a non-owner account always gets a rebuild, even
+            // with its own flag off, for either identity.
+            expect(res.status).to.equal(200);
+            expect(res.headers['x-tracker-customers'], 'a non-owner account always gets a rebuild, even with its own flag off').to.not.equal(undefined);
+         }
+
+         for (const res of downloads) {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.load(res.body);
+            const matchers = await buildForeignAccount1Matchers(workbook);
+            const findings = findAccount1Leaks(workbook, matchers);
+            expect(findings, `leaked account-1 identifiers:\n${findings.join('\n')}`).to.deep.equal([]);
+         }
       });
 
       // A rebuild failure for a non-owner account must never fall back to
@@ -794,19 +963,32 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
    });
 
    describe('GET /time-tracking/template/list/:accountID/:userID', () => {
-      it('admin: every version newest first — the new upload on top, the original still listed', async () => {
+      // FIXED (was DEFECT, review/full-audit-2026-09 finding 3): this list
+      // used to hand back the owner account's raw S3 keys — and therefore
+      // its account-name slug — to an admin of ANY account. That is exactly
+      // the key finding 1 then used to bypass the download guard via
+      // /invoices/downloadFile (see coverage-downloads-authz.integration.spec.js
+      // for the full cross-route regression). A non-owner account doesn't
+      // manage this shared, firm-wide template at all, so it now gets an
+      // empty list (`managedByOwnerAccount: true`) instead of a peek at the
+      // owner's S3 layout. "Newest first" / "original still listed" coverage
+      // moved to the owner-account test below, the only path that still
+      // returns real content.
+      it('a non-owner account (9001 admin) gets an empty list, never the owner\'s raw keys or slug', async () => {
          const res = await h.as('admin').get(`/time-tracking/template/list/${A}/${ADMIN}`);
          expect(res.status).to.equal(200);
-         const { templates } = res.body;
+         expect(res.body.templates).to.deep.equal([]);
+         expect(res.body.managedByOwnerAccount).to.equal(true);
+      });
+
+      it('super admin (owner account) lists newest first — the new upload on top, the original still listed; employee -> 403 (admin only)', async () => {
+         const sa = await h.as('superAdmin').get(`/time-tracking/template/list/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
+         expect(sa.status).to.equal(200);
+         expect(sa.body.managedByOwnerAccount).to.equal(undefined);
+         const { templates } = sa.body;
          expect(templates[0]).to.include({ id: uploadedTemplate.storedKey, key: uploadedTemplate.storedKey, fileName: uploadedTemplate.fileName, size: templateBuffer.length });
          expect(templates.map(t => t.fileName)).to.include(originalTemplateName);
          templates.forEach(t => expect(t.fileName).to.match(/^timetracker_/i));
-      });
-
-      it('super admin may list; employee -> 403 (admin only)', async () => {
-         const sa = await h.as('superAdmin').get(`/time-tracking/template/list/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
-         expect(sa.status).to.equal(200);
-         expect(sa.body.templates.map(t => t.key)).to.include(uploadedTemplate.storedKey);
          const employee = await h.as('employee').get(`/time-tracking/template/list/${A}/${ELIZA}`);
          expect(employee.status).to.equal(403);
          expect(employee.body.message).to.equal('Admin access required.');
@@ -864,7 +1046,11 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
             gone = e;
          }
          expect(gone && gone.name, 'object removed').to.equal('NoSuchKey');
-         const list = await h.as('admin').get(`/time-tracking/template/list/${A}/${ADMIN}`);
+         // Fetched as the OWNER account (see finding-3 fix: a non-owner
+         // account's list is always empty now, so it can no longer prove
+         // anything about which keys remain — see
+         // coverage-downloads-authz.integration.spec.js for that behavior).
+         const list = await h.as('superAdmin').get(`/time-tracking/template/list/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
          expect(list.body.templates.map(t => t.key)).to.not.include(uploadedTemplate.storedKey);
          // Fetched as the OWNER account — see the comment on the same
          // substitution in the upload test above.

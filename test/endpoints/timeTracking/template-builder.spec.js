@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const ExcelJS = require('exceljs');
+const JSZip = require('jszip');
 const {
    buildTemplate,
    _resetCacheForTest,
@@ -239,5 +240,202 @@ describe('template-builder _applyDataValidation', () => {
       expect(ranges.find(r => r.startsWith('B6'))).to.equal(undefined);
       expect(findRule('C6').errorStyle).to.equal('information');
       expect(findRule('D6').errorStyle).to.equal('information');
+   });
+});
+
+// DEFECT fix (Astra finding 2, 2026-09-23): the fixes above scoped the three
+// hidden lookup sheets and the visible 'Employee Names' list, but nothing
+// scrubbed the REST of the workbook — an actual account-9001 download still
+// carried account-1's employee name in Instructions!D15/D16 (a worked-example
+// cell, well outside those four sheets). See template-builder.js's own
+// comment block above _collectForeignNames for the full design, and the
+// integration-level proof (every worksheet, defined names, comments,
+// docProps) in coverage-timetracking-timesheets.integration.spec.js.
+describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
+   afterEach(() => _resetCacheForTest());
+
+   // A stand-in for "whatever tenant the S3-stored base object currently
+   // belongs to" — two employees (one sharing a surname with the workbook's
+   // OWN Entity text, one that doesn't), one customer, referenced from
+   // several places outside the three hidden lookup sheets.
+   const buildForeignBase = async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+
+      const employeesSheet = wb.addWorksheet('__employees');
+      employeesSheet.state = 'veryHidden';
+      employeesSheet.getCell('A1').value = 'Employee';
+      employeesSheet.getCell('A2').value = 'Jim Kimmel';
+      employeesSheet.getCell('A3').value = 'Marsha Johnson';
+
+      const customersSheet = wb.addWorksheet('__customers');
+      customersSheet.state = 'veryHidden';
+      customersSheet.getCell('A1').value = 'Customer';
+      customersSheet.getCell('A2').value = 'Acme Global LLC';
+
+      // The firm's own Entity/business-line option — shares the word
+      // "Kimmel" with employee "Jim Kimmel" above. Must never be touched.
+      wb.addWorksheet('Entity').getCell('A1').value = 'James F. Kimmel & Associates';
+
+      const instructions = wb.addWorksheet('Instructions');
+      instructions.getCell('D15').value = 'Jim Kimmel'; // the actual Astra finding's shape
+      instructions.getCell('B15').value = 'James F. Kimmel & Associates'; // Entity example — must survive
+      instructions.getCell('F20').value = 'Kimmel'; // bare token colliding with Entity vocabulary
+      instructions.getCell('F21').value = 'Johnson'; // bare token, no collision
+      instructions.getCell('E15').value = 'Billed through Acme Global LLC this month';
+
+      // A hidden sheet that is NOT one of the three lookup sheets — proves
+      // the scrub covers "every worksheet", not just the well-known ones.
+      const misc = wb.addWorksheet('__old_notes');
+      misc.state = 'veryHidden';
+      misc.getCell('A1').value = 'Contact Jim Kimmel for questions';
+
+      wb.creator = 'Jim Kimmel';
+      wb.company = 'James F. Kimmel & Associates';
+      return Buffer.from(await wb.xlsx.writeBuffer());
+   };
+
+   it("scrubs a foreign employee's full name, a bare name-token, and a foreign customer's name from sheets the lookup-sheet replacement never touches", async () => {
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: await buildForeignBase() });
+
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      const instr = wb.getWorksheet('Instructions');
+      // buildStubDb's users/customers keep insertion order (its `.orderBy` is
+      // a no-op) — 'Eliza Smith' and 'Acme Corp' are each first in their list.
+      expect(instr.getCell('D15').value, 'full employee name example (the reported leak)').to.equal('Eliza Smith');
+      expect(instr.getCell('F21').value, 'bare last-name token with no collision').to.equal('Eliza Smith');
+      expect(instr.getCell('E15').value, 'foreign customer name embedded in prose').to.equal('Billed through Acme Corp this month');
+      expect(wb.getWorksheet('__old_notes').getCell('A1').value, 'a hidden sheet that is not one of the three lookup sheets is scrubbed too').to.equal('Contact Eliza Smith for questions');
+   });
+
+   it("never corrupts the workbook's own Entity/business-line text even when it shares a word with a foreign employee's surname", async () => {
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: await buildForeignBase() });
+
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      expect(wb.getWorksheet('Entity').getCell('A1').value, 'the Entity sheet itself').to.equal('James F. Kimmel & Associates');
+      expect(wb.getWorksheet('Instructions').getCell('B15').value, 'an Entity example elsewhere').to.equal('James F. Kimmel & Associates');
+      expect(wb.getWorksheet('Instructions').getCell('F20').value, 'the bare surname token is protected for the same reason').to.equal('Kimmel');
+   });
+
+   it('clears any populated entry rows in the data sheet for the rebuild (headers in rows 1-5 survive)', async () => {
+      const baseWb = new ExcelJS.Workbook();
+      const time = baseWb.addWorksheet('Time');
+      time.getCell('A1').value = 'Employee Name';
+      time.getCell('A5').value = 'Date';
+      time.getCell('A6').value = new Date('2024-01-01');
+      time.getCell('D6').value = 'Some Prior Customer';
+      time.getCell('I6').value = 'Some prior note';
+      const baseTemplateBuffer = Buffer.from(await baseWb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      const time2 = wb.getWorksheet('Time');
+      expect(time2.getCell('A1').value, 'header row 1 survives').to.equal('Employee Name');
+      expect(time2.getCell('A5').value, 'header row 5 survives').to.equal('Date');
+      expect(time2.getCell('A6').value, 'a populated entry row is cleared').to.equal(null);
+      expect(time2.getCell('D6').value).to.equal(null);
+      expect(time2.getCell('I6').value).to.equal(null);
+   });
+
+   it("stamps docProps metadata to a generic label when the db has no account name (fails closed, never leaves a foreign name in place)", async () => {
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: await buildForeignBase() });
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      // buildStubDb has no 'accounts' table — _readAccountLabel fails closed
+      // to null, and _neutralizeMetadata falls back to the literal 'DS2'.
+      expect(wb.creator).to.equal('DS2');
+      expect(wb.lastModifiedBy).to.equal('DS2');
+      expect(wb.title).to.equal('DS2');
+      expect(wb.description).to.equal('DS2');
+      expect(wb.company).to.equal('DS2');
+      expect(wb.manager).to.equal('DS2');
+   });
+
+   it("stamps docProps metadata to the requesting account's own name when the db has one", async () => {
+      const base = buildStubDb();
+      const db = table => (table === 'accounts' ? { where: () => ({ first: () => Promise.resolve({ account_name: 'Acme Testing Co' }) }) } : base(table));
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: await buildForeignBase() });
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      expect(wb.creator).to.equal('Acme Testing Co');
+      expect(wb.lastModifiedBy).to.equal('Acme Testing Co');
+      expect(wb.company).to.equal('Acme Testing Co');
+   });
+
+   it('scrubs a foreign name out of a cell comment (defense in depth — none exist in the real template today)', async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Time').getCell('A1').value = 'Employee Name';
+      const employeesSheet = wb.addWorksheet('__employees');
+      employeesSheet.state = 'veryHidden';
+      employeesSheet.getCell('A1').value = 'Employee';
+      employeesSheet.getCell('A2').value = 'Jim Kimmel';
+      const notes = wb.addWorksheet('Notes');
+      notes.getCell('A1').value = 'see comment';
+      notes.getCell('A1').note = 'Ask Jim Kimmel before changing this.';
+      const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      expect(wb2.getWorksheet('Notes').getCell('A1').note).to.equal('Ask Eliza Smith before changing this.');
+   });
+
+   // Regression: ExcelJS writes a data-validation literal list's quotes back
+   // as the XML ENTITY &quot;, not a literal '"' character — a first version
+   // of _neutralizeXmlTextParts matched only the literal quote and so never
+   // fired on real output (silently doing nothing rather than throwing).
+   // Also covers a defined name whose own text contains an XML-special
+   // character ("&"), to prove the raw-XML splice re-encodes correctly
+   // instead of producing an invalid workbook.
+   it('scrubs a foreign name out of a literal (quoted) data-validation list and a defined name — including one containing "&"', async () => {
+      const wb = new ExcelJS.Workbook();
+      const time = wb.addWorksheet('Time');
+      time.getCell('A1').value = 'Employee Name';
+      time.getCell('L1').value = 'x';
+      const employeesSheet = wb.addWorksheet('__employees');
+      employeesSheet.state = 'veryHidden';
+      employeesSheet.getCell('A1').value = 'Employee';
+      employeesSheet.getCell('A2').value = 'Jim Kimmel';
+      // A literal quoted list (as opposed to a named-range/cell-ref formula).
+      time.dataValidations.add('K1', { type: 'list', allowBlank: true, formulae: ['"Jim Kimmel,Someone Else"'] });
+      let baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
+
+      // ExcelJS's own definedNames API is unreliable for round-tripping
+      // arbitrary names (see _restoreDefinedNames) — splice one in via the
+      // same raw-zip approach the builder itself uses, so this test doesn't
+      // depend on that separate, known-shaky path.
+      const zip = await JSZip.loadAsync(baseTemplateBuffer);
+      let wbXml = await zip.files['xl/workbook.xml'].async('string');
+      const definedName = '<definedName name="Jim Kimmel Contact &amp; Notes">Time!$L$1</definedName>';
+      wbXml = wbXml.includes('<definedNames>') ? wbXml.replace('</definedNames>', `${definedName}</definedNames>`) : wbXml.replace('</sheets>', `</sheets><definedNames>${definedName}</definedNames>`);
+      zip.file('xl/workbook.xml', wbXml);
+      baseTemplateBuffer = await zip.generateAsync({ type: 'nodebuffer' });
+
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+
+      const outZip = await JSZip.loadAsync(buffer);
+      const sheetXml = await outZip.files['xl/worksheets/sheet1.xml'].async('string');
+      expect(sheetXml, 'the literal list no longer names the foreign employee').to.not.include('Kimmel');
+      expect(sheetXml, 'the scrubbed list is still validly XML-quoted').to.match(/<formula1>&quot;Eliza Smith,Someone Else&quot;<\/formula1>/);
+
+      const outWbXml = await outZip.files['xl/workbook.xml'].async('string');
+      expect(outWbXml, 'the defined name no longer names the foreign employee').to.not.include('Kimmel');
+      expect(outWbXml).to.include('<definedName name="Eliza Smith Contact &amp; Notes">');
+
+      // Re-open with ExcelJS to confirm the raw-XML splice produced a valid
+      // workbook and the "&" round-trips back to a literal ampersand.
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      const restoredName = wb2.definedNames.model.find(dn => dn.name.includes('Contact'));
+      expect(restoredName.name).to.equal('Eliza Smith Contact & Notes');
    });
 });

@@ -54,6 +54,7 @@ const { TEST_ACCOUNT_ID, TEST_ADMIN_USER_ID } = require('./_setup');
 const { fetchInitialQueryItems } = require('../../src/endpoints/invoice/createInvoice/createInvoiceQueries');
 const { calculateInvoices } = require('../../src/endpoints/invoice/createInvoice/invoiceCalculations/calculateInvoices');
 const { putObject, deleteObject } = require('../../src/utils/s3');
+const { sanitizeAccountName } = require('../../src/utils/invoicePath');
 const { installFailClosedAws } = require('../fixtures/integrationHelpers');
 
 const A = TEST_ACCOUNT_ID; // 9001 — the fixture account. Never account 1.
@@ -77,6 +78,11 @@ describe('integration: coverage — invoices, account audit, accounts receivable
    let tempSuperAdmin = null; // { user_id, email, token }
    let createdAccountInfoId = null;
    let accountColumnsToRestore = null;
+   // GET /invoices/downloadFile now authorizes a client-supplied key against
+   // `<own account slug>/invoicing/...` (see utils/downloadAuthorization.js) —
+   // set once `account` is fetched below, from the SAME account_name column
+   // (and the SAME sanitizeAccountName helper) the download route itself uses.
+   let accountSlug;
 
    // Ledger state shared across describe blocks, populated by the earlier
    // blocks and consumed by later ones (mocha runs sibling describes in file
@@ -232,6 +238,7 @@ describe('integration: coverage — invoices, account audit, accounts receivable
          createdAccountInfoId = row.account_info_id || row;
       }
       const account = await db('accounts').where({ account_id: A }).first();
+      accountSlug = sanitizeAccountName(account.account_name);
       const patch = {};
       if (account.account_statement == null) patch.account_statement = 'Please reference invoice number on payment.';
       if (account.account_interest_statement == null) patch.account_interest_statement = 'Balances unpaid for 30 days accrue interest at the rate of 18% per annum.';
@@ -657,7 +664,12 @@ describe('integration: coverage — invoices, account audit, accounts receivable
       const uploadedBytes = Buffer.from('%PDF-1.4 coverage spec fixture bytes');
 
       before(async () => {
-         uploadedKey = `coverage-spec/${uniqueName('download')}.pdf`;
+         // Must live under this account's own `<slug>/invoicing/` prefix —
+         // downloadFile now authorizes the key against that area before ever
+         // calling S3 (review/full-audit-2026-09 finding 1's fix); an
+         // arbitrary key outside it is refused with 403 regardless of role
+         // (see coverage-downloads-authz.integration.spec.js for that matrix).
+         uploadedKey = `${accountSlug}/invoicing/coverage-spec/${uniqueName('download')}.pdf`;
          await putObject(uploadedKey, uploadedBytes, 'application/pdf');
          s3Keys.push(uploadedKey);
       });
@@ -680,7 +692,10 @@ describe('integration: coverage — invoices, account audit, accounts receivable
          expect(res.body.message).to.include('Invalid or no file path');
       });
       it('400 for a bogus path that does not exist in S3', async () => {
-         const res = await h.as('admin').get(`/invoices/downloadFile/${A}/${U}?fileLocation=${encodeURIComponent('coverage-spec/does-not-exist-' + uniqueName('x') + '.pdf')}`);
+         // Authorized area (this account's own invoicing prefix), just no
+         // object at that key — distinct from the 403 "wrong area entirely"
+         // case covered in coverage-downloads-authz.integration.spec.js.
+         const res = await h.as('admin').get(`/invoices/downloadFile/${A}/${U}?fileLocation=${encodeURIComponent(`${accountSlug}/invoicing/coverage-spec/does-not-exist-` + uniqueName('x') + '.pdf')}`);
          expect(res.status).to.equal(400);
          expect(res.body.message).to.include('does not exist');
       });

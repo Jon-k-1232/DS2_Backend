@@ -1214,6 +1214,120 @@ describe('tracker Excel end-to-end: template → upload → auto-ingest → invo
          expect(foreign.body.message).to.equal('Account access denied');
       });
    });
+
+   // ─────────────────────────────────────────────────────────────────────────
+   // Astra finding 2 follow-up: step (1) above only ever proves the OWNER's
+   // byte-for-byte passthrough works end to end — it says nothing about the
+   // REBUILT workbook every other account actually downloads
+   // (template-builder.js buildTemplate; the tenant-isolation coverage in
+   // coverage-timetracking-timesheets.integration.spec.js checks that
+   // rebuilt buffer for leaked account-1 names but never fills, uploads, or
+   // bills off of it). This block drives that same rebuilt workbook through
+   // the complete fill -> upload -> auto-ingest -> finalize pipeline, on its
+   // own dedicated customer/job so it can't perturb the Alpha/Beta figures
+   // asserted earlier in this file. Kept self-contained (its own it()s) and
+   // cleaned up the same way everything else in this spec is: created.customers
+   // / created.entryIds / created.timesheetNames / created.s3Keys feed the
+   // existing generic after() above, so no new teardown code is needed here.
+   describe('non-owner rebuilt template round trip (account 9001)', () => {
+      const NON_OWNER_NAME = `Tracker E2E NonOwner ${RUN}`;
+      const NON_OWNER_ROWS = [
+         { day: 0, category: 'Phone Call', duration: 30, timeRange: '0930-1000', notes: `Non-owner rebuild round trip call (ref ${REF})` },
+         { day: 1, category: 'Email', duration: 50, timeRange: '1400-1450', notes: `Non-owner rebuild round trip email (ref ${REF})` }
+      ];
+      const NON_OWNER_EXPECTED = NON_OWNER_ROWS.map(r => expectedAmounts(r.duration));
+      const NON_OWNER_TOTAL = money(NON_OWNER_EXPECTED.reduce((sum, a) => sum + a.total, 0));
+
+      let nonOwnerCustomer;
+      let nonOwnerJobId;
+      let nonOwnerTemplateBuffer;
+      let nonOwnerUpload;
+
+      it('download: account 9001 receives a REBUILT workbook (never the owner’s raw bytes), scoped to its own catalogs', async () => {
+         nonOwnerCustomer = await createCustomer(NON_OWNER_NAME, 'nonOwner');
+         nonOwnerJobId = await createJob(nonOwnerCustomer.customer_id, JOB_TYPE_GENERAL_CONSULTING, 'nonOwner');
+
+         const res = await h.as('admin').get(`/time-tracking/template/latest/${A}/${ADMIN}`).buffer(true).parse(binaryParser);
+         expect(res.status).to.equal(200);
+         expect(res.headers['x-tracker-customers'], 'a non-owner account always gets a rebuild').to.not.equal(undefined);
+         expect(sha256(res.body)).to.not.equal(sha256(templateBuffer), 'never the owner’s raw bytes');
+         nonOwnerTemplateBuffer = res.body;
+
+         const wb = XLSX.read(nonOwnerTemplateBuffer, { type: 'buffer' });
+         expect(wb.SheetNames[0], 'the upload validator reads the FIRST sheet').to.equal('Time');
+         expect(wb.SheetNames).to.include.members(['Time', 'Employee Names', 'Instructions', 'Categories', 'Entity']);
+         const sheetValues = name => (wb.Sheets[name] ? XLSX.utils.sheet_to_json(wb.Sheets[name], { header: 1, defval: '' }) : []);
+         const employeeNames = sheetValues('Employee Names').map(r => r[0]).filter(Boolean);
+         expect(employeeNames, 'account 9001’s own roster is what fills the visible sheet').to.include('Eliza Smith');
+         const flatText = wb.SheetNames.map(n => sheetValues(n).flat().join(' | ')).join(' \n ');
+         expect(flatText, 'no account-1 staff name leaks anywhere in the rebuilt workbook').to.not.match(/Jim Kimmel|Kasi Kimmel|Marsha Johnson|Kati Strough|Kirsten Knight|Sabraya Clay/);
+      });
+
+      it('fill -> upload: the rebuilt workbook fills and uploads exactly like the owner template', async () => {
+         const trackerBuffer = buildTrackerFromTemplate({
+            templateBuffer: nonOwnerTemplateBuffer,
+            employeeName: 'Eliza Smith',
+            startDate: WEEK_START,
+            endDate: WEEK_END,
+            rows: NON_OWNER_ROWS.map(r => ({ date: DAY(r.day), entity: ENTITY_JKA, category: r.category, companyName: NON_OWNER_NAME, duration: r.duration, timeRange: r.timeRange, notes: r.notes }))
+         });
+         await waitForNextSecond();
+         const res = await upload('admin', ADMIN, trackerBuffer, { owner: ELIZA, fileName: `Eliza_Smith_nonowner_rebuild_${RUN}.xlsx` });
+         expect(res.status, JSON.stringify(res.body).slice(0, 400)).to.equal(201);
+         recordUpload(res.body);
+         nonOwnerUpload = res.body;
+         expect(nonOwnerUpload.inserted_count).to.equal(NON_OWNER_ROWS.length);
+         expect(nonOwnerUpload.duplicates_skipped).to.deep.equal([]);
+      });
+
+      it('auto-ingest -> finalize: transactions and the statement total match the independently-computed 6-minute-rounded figures', async () => {
+         const rows = await entriesFor(ELIZA, { timesheet_name: nonOwnerUpload.fileName }).orderBy('timesheet_entry_id', 'asc');
+         expect(rows).to.have.lengthOf(NON_OWNER_ROWS.length);
+         const entryIds = rows.map(r => r.timesheet_entry_id);
+         created.entryIds.push(...entryIds);
+
+         const result = await processEntries({ db, accountId: A, userId: ADMIN, entryIds });
+         expect(result).to.include({ processed: NON_OWNER_ROWS.length, autoInserted: NON_OWNER_ROWS.length, held: 0, skipped: 0 });
+
+         const txns = await transactionsByEntry(entryIds);
+         entryIds.forEach((id, i) => {
+            const linked = txns.get(id);
+            expect(linked, `entry ${id} produced exactly one transaction`).to.have.lengthOf(1);
+            const [txn] = linked;
+            expect(Number(txn.quantity), `row ${i} quantity (hours)`).to.equal(NON_OWNER_EXPECTED[i].quantity);
+            expect(Number(txn.unit_cost)).to.equal(RATE);
+            expect(money(txn.total_transaction), `row ${i} total`).to.equal(NON_OWNER_EXPECTED[i].total);
+            expect(txn.customer_id).to.equal(nonOwnerCustomer.customer_id);
+            expect(txn.customer_job_id).to.equal(nonOwnerJobId);
+            expect(txn.is_transaction_billable).to.equal(true);
+         });
+
+         const finalize = expectEnvelopeOk(
+            await h
+               .as('admin')
+               .post(`/invoices/createInvoice/${A}/${ADMIN}`)
+               .send({
+                  invoiceConfiguration: {
+                     invoicesToCreate: [{ customer_id: nonOwnerCustomer.customer_id, showWriteOffs: false, invoiceNote: `Non-owner rebuild round trip ${RUN}` }],
+                     invoiceCreationSettings: { isFinalized: true, isRoughDraft: false, isCsvOnly: false, globalInvoiceNote: 'Thank you for your business.' }
+                  }
+               }),
+            'finalize nonOwner'
+         );
+         if (finalize.fileLocation) created.s3Keys.push(finalize.fileLocation);
+         expect(finalize.skippedCustomers).to.deep.equal([]);
+         expect(finalize.invoicesWithDetail).to.have.lengthOf(1);
+         const [detail] = finalize.invoicesWithDetail;
+         expect(money(detail.invoiceTotal)).to.equal(NON_OWNER_TOTAL);
+         expect(money(detail.transactions.transactionsTotal)).to.equal(NON_OWNER_TOTAL);
+
+         const parent = await db('customer_invoices').where({ account_id: A, customer_id: nonOwnerCustomer.customer_id }).whereNull('parent_invoice_id').first();
+         expect(money(parent.remaining_balance_on_invoice)).to.equal(NON_OWNER_TOTAL);
+         expect(money(parent.total_amount_due)).to.equal(NON_OWNER_TOTAL);
+
+         await expectThreeViewsAgree(nonOwnerCustomer.customer_id, NON_OWNER_TOTAL, 'non-owner rebuild round trip');
+      });
+   });
 });
 
 function cents(v) {

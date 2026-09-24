@@ -4,11 +4,12 @@ const dayjs = require('dayjs');
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const { putObject, getObject, deleteObject } = require('../../utils/s3');
-const { pendingPaymentsService, PAYMENTS_PENDING_PREFIX } = require('./pendingPayments-service');
+const { pendingPaymentsService, PAYMENTS_PENDING_PREFIX, PAYMENTS_AUTOMATION_ACCOUNT_ID } = require('./pendingPayments-service');
 const { validatePendingPaymentExists, validateCanApprove, validateCanDelete } = require('./pendingPayments-logic');
 const { buildCreatePaymentInput, createPaymentCore, buildLedgerTablesPayload } = require('../payments/payment-logic');
 const { appendNoteMarker } = require('../payments/ledger-helpers');
 const { clientSafeMessage } = require('../../utils/clientError');
+const { isSafeBareFilename } = require('../../utils/downloadAuthorization');
 
 const { enforceAccountId } = require('../auth/account-scope');
 const pendingPaymentsRouter = express.Router();
@@ -254,6 +255,26 @@ pendingPaymentsRouter.post('/upload/:accountID/:userID', rawUploadParser, async 
          return res.status(400).json({ message: 'Only PDF files are accepted.', status: 400 });
       }
 
+      // Filename hygiene: this route only ever accepts a BARE filename — it
+      // prepends its own fixed prefix below — so no path separator, '..',
+      // backslash, control byte, or residual '%' (see isSafeBareFilename /
+      // downloadAuthorization.js) may reach the S3 key.
+      if (!isSafeBareFilename(decodedName)) {
+         return res.status(400).json({ message: 'Invalid file name.', status: 400 });
+      }
+
+      // review/full-audit-2026-09 finding 3: this whole route is wired to
+      // exactly one Lambda that only ever watches account 1's exact prefix
+      // (see PAYMENTS_AUTOMATION_ACCOUNT_ID in pendingPayments-service.js) —
+      // there is no per-account variant of this feature to give anyone
+      // else. Silently accepting another account's upload here would drop
+      // it into a location nothing will ever process (an orphan S3 object,
+      // no DB row, since only that Lambda ever inserts into
+      // customer_payments_processed) — a worse failure than a clear refusal.
+      if (Number(accountID) !== PAYMENTS_AUTOMATION_ACCOUNT_ID) {
+         return res.status(403).json({ message: 'Automatic payment PDF processing is not available for this account.', status: 403 });
+      }
+
       const s3Key = `${PAYMENTS_PENDING_PREFIX}/${decodedName}`;
       await putObject(s3Key, req.body, fileTypeHeader, {
          // The AUTHENTICATED uploader — the URL :userID is caller-supplied.
@@ -301,6 +322,23 @@ pendingPaymentsRouter.route('/file/:accountID/:userID').delete(jsonParser, async
          return res.status(400).json({ message: 'File name is required.', status: 400 });
       }
 
+      if (!isSafeBareFilename(fileName)) {
+         return res.status(400).json({ message: 'Invalid file name.', status: 400 });
+      }
+
+      // review/full-audit-2026-09 finding 3: a fileName with zero rows for
+      // THIS account used to fall straight through to the S3 delete call
+      // below regardless — any account could delete any other account's
+      // object under the shared prefix just by naming it. The DB is the
+      // only record of which account a file belongs to (see
+      // accountOwnsSourceFile), so ownership is checked before any S3 call;
+      // a miss is refused exactly like "this file doesn't exist" — never
+      // distinguished from "it exists but isn't yours."
+      const owns = await pendingPaymentsService.accountOwnsSourceFile(db, fileName, accountID);
+      if (!owns) {
+         return res.status(404).json({ message: 'File not found.', status: 404 });
+      }
+
       // Check if any payments from this file have been processed
       const hasProcessed = await pendingPaymentsService.hasProcessedPaymentsForFile(db, fileName, accountID);
       if (hasProcessed) {
@@ -336,12 +374,31 @@ pendingPaymentsRouter.route('/file/:accountID/:userID').delete(jsonParser, async
 // GET /pending-payments/file-preview/:accountID/:userID
 // Stream a PDF from S3 for preview
 pendingPaymentsRouter.route('/file-preview/:accountID/:userID').get(async (req, res) => {
+   const db = req.app.get('db');
    const { accountID } = req.params;
    const { fileName } = req.query;
 
    try {
       if (!fileName) {
          return res.status(400).json({ message: 'File name is required.', status: 400 });
+      }
+
+      if (!isSafeBareFilename(fileName)) {
+         return res.status(400).json({ message: 'Invalid file name.', status: 400 });
+      }
+
+      // review/full-audit-2026-09 finding 3: this route had NO ownership
+      // check at all — it scanned every subfolder under the shared
+      // processed-payments prefix (account-agnostic) and, failing that, the
+      // shared pending prefix, then streamed back whatever matched the
+      // caller-supplied name. Any authenticated account could preview any
+      // other account's payment PDF just by guessing or learning its name.
+      // Refusing before either S3 call (see accountOwnsSourceFile) also
+      // means a non-owner can no longer even trigger the unscoped
+      // listObjects scan.
+      const owns = await pendingPaymentsService.accountOwnsSourceFile(db, fileName, accountID);
+      if (!owns) {
+         return res.status(404).send({ message: 'File not found.', status: 404 });
       }
 
       // Try processed folder first (organized by month), then pending
