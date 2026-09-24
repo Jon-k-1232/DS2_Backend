@@ -228,7 +228,78 @@ row against the same database and asserts zero drift): the `ADD COLUMN`/
 rows where `storage_slug IS NULL`, and the collision-resolution step
 recomputes collisions from whatever the CURRENT (already-resolved) values
 are, so a value that was already made unique on a prior run is never
-revisited or reshuffled.
+revisited or reshuffled. That collision-resolution step is a `DO $$ ... $$`
+PL/pgSQL loop (added review/full-audit-2026-09 finding 4, Astra round 10),
+not the single `UPDATE ... FROM (WITH collisions AS (...))` it started as —
+the original single-pass version computed every "resolved" slug from one
+static snapshot and never re-checked a suffixed candidate against the table
+again, so it could hand two DIFFERENT accounts the same slug (accounts 100
+'R10 Foo', 101 'R10_Foo', 102 'R10_Foo_101': 101's naive `_101` suffix landed
+on 102's own pre-existing bare slug), which then failed the `CREATE UNIQUE
+INDEX` below and rolled back the WHOLE migration inside the `psql -X -1`
+transaction. The loop instead resolves one colliding row at a time, in
+ascending `account_id` order, walking `_<id>`, then `_<id>_2`, `_<id>_3`, ...
+until it finds a candidate nothing else in the table currently holds — see
+the migration file's own header comment and
+`test/scripts/migration-020.spec.js`'s "cross-collision resolution" describe
+block (Astra's exact reproduction, plus a three-way `_<id>_2`/`_<id>_3`
+escalation). It is still a `DO` block, not a bare statement, so it remains
+plain SQL under this file's contract (the dollar-quoted body is one opaque
+token to `scripts/plain-sql.js`'s lexer — see that file's own header
+comment) and still runs inside `scripts/migrate.js`'s / `psql -X -1`'s single
+transaction, so a failure anywhere in it still rolls back the entire file,
+not just this step. The real prod snapshot (`ds2_ref_20260922`) has exactly
+one account and cannot hit this at all — confirmed by rehearsing this
+migration twice against a fresh `CREATE DATABASE ... TEMPLATE
+ds2_ref_20260922` clone (`psql -X -1 -v ON_ERROR_STOP=1 -f`): first run
+backfills account 1 to its existing `James_F__Kimmel___Associates` slug,
+second run is a byte-for-byte no-op.
+
+The equivalent runtime allocator for a BRAND-NEW account
+(`resolveNewAccountStorageSlug` in `src/utils/storageSlug.js`, called from
+`account-service.js`'s `createAccount`) had the same two problems (Astra
+round 10, findings 3 and 4): concurrently creating two accounts whose names
+sanitize to the SAME base ('R10 Race' / 'R10_Race') let both transactions
+read the base slug as free before either had inserted, so both tried to
+insert it and one hit `23505`; and even run strictly sequentially, always
+trying exactly one `_<id>` candidate with no re-check could still collide
+with an unrelated, already-existing account's own bare slug and fail
+outright. Fixed with a `pg_advisory_xact_lock` held for the rest of the
+creating transaction (serializing allocation the same way
+`scripts/migrate.js`'s own `MIGRATE_LOCK_KEY` serializes migration runs) plus
+the same walk-until-free candidate search as the loop above, and a
+retry-once-after-relocking in `createAccount` as a last-line-of-defence
+against the UNIQUE index — see
+`test/integration/coverage-account-users-auth-misc.integration.spec.js`'s
+`POST /account/createAccount` tests for the two-connection regression and
+the occupied-suffixed-candidate regression.
+
+**Cutover order matters for `020` specifically, more than for a typical
+additive column.** Deploy it as a genuine two-step, back-to-back cutover,
+not "sometime before the next deploy":
+
+1. Apply `020` to the target database (`psql -X -1 -v ON_ERROR_STOP=1 -f
+   migrations/020.accounts_storage_slug.sql`) — additive and idempotent, safe
+   to run with the OLD backend code still serving traffic (the old code never
+   references `storage_slug` at all, so it neither reads nor writes it).
+2. Deploy the new backend immediately after, with **no account creation in
+   between**. The OLD `account-service.js` inserts a new `accounts` row
+   without a `storage_slug` value; before `020`, that's fine (the column
+   doesn't exist yet), but the moment `020` has run, that same old INSERT
+   fails outright on the new `storage_slug NOT NULL` constraint — a clear,
+   loud 500 on `POST /account/createAccount`, not silent corruption or a
+   missing/incorrect S3 namespace, but still an avoidable outage for a
+   route that (per account-router.js's own comment) has no real caller in
+   the current frontend anyway. The NEW backend code requires the column to
+   already exist (`resolveNewAccountStorageSlug` reads/writes it
+   unconditionally). Neither ordering below is safe to leave in place for
+   any length of time: new code before `020` → every `createAccount` 500s on
+   `column "storage_slug" does not exist`; old code after `020` with a
+   create attempted in the gap → that one attempt 500s on the NOT NULL
+   violation above. **Deliberately no default and no trigger were added to
+   paper over this gap** — a default would let the OLD code silently insert
+   a row with a placeholder/duplicate-prone slug that the NEW code would
+   then treat as a real, immutable namespace forever.
 
 Practical takeaway: a `psql -f` that's run twice by accident against prod
 will *mostly* fail loudly (relation/column already exists) rather than

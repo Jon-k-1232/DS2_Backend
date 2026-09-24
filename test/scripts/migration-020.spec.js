@@ -131,6 +131,68 @@ describe('migrations/020.accounts_storage_slug.sql', function () {
       });
    });
 
+   // review/full-audit-2026-09 finding 4 (Astra round 10): the OLD
+   // collision-resolution UPDATE computed every "resolved" slug from a single
+   // static snapshot (one CTE, taken once) and never re-checked a suffixed
+   // candidate against the table again — so a resolved slug could collide
+   // with an UNRELATED row's slug the snapshot never considered, which the
+   // UNIQUE index below then caught, aborting the entire migration.
+   describe('cross-collision resolution (Astra round 10, finding 4)', () => {
+      it("Astra's exact reproduction — 100 'R10 Foo', 101 'R10_Foo', 102 'R10_Foo_101' — resolves to three unique slugs instead of aborting", async () => {
+         // 100 and 101 collide on base 'R10_Foo' (100 is lower id, keeps it
+         // bare). The OLD code always suffixed 101 with exactly
+         // `_<account_id>`, giving 'R10_Foo_101' — but account 102's NAME
+         // already sanitizes to that exact string, so 102 holds it as its
+         // own bare (unique-at-the-time) slug. The two 'R10_Foo_101' values
+         // (101's naive suffix and 102's real bare slug) would then collide
+         // at the UNIQUE index, well after the single-pass UPDATE had
+         // already stopped looking.
+         await insertAccount(db, { account_id: 100, account_name: 'R10 Foo' });
+         await insertAccount(db, { account_id: 101, account_name: 'R10_Foo' });
+         await insertAccount(db, { account_id: 102, account_name: 'R10_Foo_101' });
+
+         await db.transaction(trx => trx.raw(migrationSql()));
+
+         const rows = await db('accounts').select('account_id', 'storage_slug').orderBy('account_id');
+         const byId = Object.fromEntries(rows.map(r => [r.account_id, r.storage_slug]));
+         expect(byId[100]).to.equal('R10_Foo'); // lowest id in the 'R10_Foo' group keeps the bare slug
+         expect(byId[102]).to.equal('R10_Foo_101'); // untouched — 102 was never part of any collision
+         expect(byId[101]).to.equal('R10_Foo_101_2'); // escalated PAST 102's pre-existing slug, not equal to it
+         expect(new Set(Object.values(byId)).size).to.equal(3); // all unique — the UNIQUE index below never fails
+      });
+
+      it('a three-way chain — the naive `_<id>` AND the next `_<id>_2` candidate are both already taken — escalates all the way to `_<id>_3`', async () => {
+         await insertAccount(db, { account_id: 200, account_name: 'R10 Foo' }); // bare -> R10_Foo
+         await insertAccount(db, { account_id: 201, account_name: 'R10_Foo' }); // collides -> naive candidate R10_Foo_201
+         await insertAccount(db, { account_id: 202, account_name: 'R10_Foo_201' }); // pre-occupies the naive candidate
+         await insertAccount(db, { account_id: 203, account_name: 'R10_Foo_201_2' }); // pre-occupies the NEXT candidate too
+
+         await db.transaction(trx => trx.raw(migrationSql()));
+
+         const rows = await db('accounts').select('account_id', 'storage_slug').orderBy('account_id');
+         const byId = Object.fromEntries(rows.map(r => [r.account_id, r.storage_slug]));
+         expect(byId[200]).to.equal('R10_Foo');
+         expect(byId[202]).to.equal('R10_Foo_201'); // untouched — never part of the R10_Foo collision group
+         expect(byId[203]).to.equal('R10_Foo_201_2'); // untouched — never part of the R10_Foo collision group
+         expect(byId[201]).to.equal('R10_Foo_201_3'); // escalated past BOTH pre-occupied candidates
+         expect(new Set(Object.values(byId)).size).to.equal(4);
+      });
+
+      it('the cross-collision fix is itself idempotent — re-running after an escalated resolution changes nothing', async () => {
+         await insertAccount(db, { account_id: 100, account_name: 'R10 Foo' });
+         await insertAccount(db, { account_id: 101, account_name: 'R10_Foo' });
+         await insertAccount(db, { account_id: 102, account_name: 'R10_Foo_101' });
+
+         await db.transaction(trx => trx.raw(migrationSql()));
+         const afterFirst = await db('accounts').select('account_id', 'storage_slug').orderBy('account_id');
+
+         await db.transaction(trx => trx.raw(migrationSql()));
+         const afterSecond = await db('accounts').select('account_id', 'storage_slug').orderBy('account_id');
+
+         expect(afterSecond).to.deep.equal(afterFirst);
+      });
+   });
+
    describe('idempotency — rerun is a no-op', () => {
       it('running the file twice in a row leaves every storage_slug unchanged, including a previously-resolved collision', async () => {
          await insertAccount(db, { account_id: 5, account_name: 'Foo Bar' });

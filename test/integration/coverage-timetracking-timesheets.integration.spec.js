@@ -29,6 +29,7 @@
  * ever READ (to prove isolation).
  */
 const zlib = require('zlib');
+const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const XLSX = require('xlsx');
@@ -888,12 +889,18 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
       // and Instructions both hold static text that is never supposed to
       // change, e.g. Instructions!C9 "How long did it take you." got
       // corrupted into "How Eliza Smith did it take you." by a previous,
-      // over-eager token replacement). Diffed cell-for-cell against
-      // `templateBuffer`, the SAME owner-account bytes this fixture's
-      // `before()` hook fetched read-only at the very top of this file —
-      // every Categories cell and every Instructions cell other than the
-      // two worked-example employee-name cells (D15/D16) must be
-      // byte-identical to the owner's own base.
+      // over-eager token replacement).
+      //
+      // BASELINE CHANGED (round 10, 2026-09-23 — Astra findings 1 & 2): this
+      // used to diff cell-for-cell against `templateBuffer`, the OWNER
+      // account's own live bytes — because until round 10, that's what a
+      // non-owner rebuild actually started from. It no longer does (see the
+      // design-decision comment above buildTemplate in template-builder.js):
+      // every non-owner download is now rebuilt from the reviewed, committed
+      // neutral-template.xlsx asset instead, so THAT is the only baseline
+      // that still means anything here. Every Categories cell and every
+      // Instructions cell other than the two worked-example employee-name
+      // cells (D15/D16) must be byte-identical to the ASSET's own text.
       it('the flag-off (default) template served to account 9001 carries NOTHING from account 1 anywhere in the workbook (rebuilt, never passed through), and never damages the template’s own Categories/Instructions vocabulary', async () => {
          const downloads = await Promise.all([
             getBinary('admin', `/time-tracking/template/latest/${A}/${ADMIN}`),
@@ -908,15 +915,24 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
             expect(res.headers['x-tracker-customers'], 'a non-owner account always gets a rebuild, even with its own flag off').to.not.equal(undefined);
          }
 
-         const baseWorkbook = new ExcelJS.Workbook();
-         await baseWorkbook.xlsx.load(templateBuffer);
-         const baseCategories = _sheetTextByAddress(baseWorkbook.getWorksheet('Categories'));
-         const baseInstructions = _sheetTextByAddress(baseWorkbook.getWorksheet('Instructions'));
+         const assetWorkbook = new ExcelJS.Workbook();
+         await assetWorkbook.xlsx.load(fs.readFileSync(templateBuilder.NEUTRAL_ASSET_PATH));
+         const baseCategories = _sheetTextByAddress(assetWorkbook.getWorksheet('Categories'));
+         const baseInstructions = _sheetTextByAddress(assetWorkbook.getWorksheet('Instructions'));
          // The only Instructions cells the rebuild is EXPECTED to change —
-         // the worked examples' employee-name column (see base-cells.json
-         // from the Astra round-9 review: Instructions!D15/D16 = "Jim
-         // Kimmel" on the real base).
+         // the worked examples' employee-name column. On the asset itself
+         // these hold the literal placeholder (see
+         // template-builder.js's EXAMPLE_PLACEHOLDER_TEXT /
+         // build-neutral-template.js); the rebuild fills them with the
+         // requesting account's own first active employee, or leaves the
+         // placeholder if it has none.
          const EXPECTED_INSTRUCTIONS_REWRITES = new Set(['D15', 'D16']);
+
+         const activeEmployeeNames = await db('users').where({ account_id: A, is_user_active: true }).orderBy('display_name').pluck('display_name');
+         const expectedExampleValue = activeEmployeeNames[0] || templateBuilder.EXAMPLE_PLACEHOLDER_TEXT;
+
+         const accountRow = await db('accounts').where({ account_id: A }).first();
+         const expectedDocPropsLabel = (accountRow && typeof accountRow.account_name === 'string' && accountRow.account_name.trim()) || 'DS2';
 
          for (const res of downloads) {
             const workbook = new ExcelJS.Workbook();
@@ -926,12 +942,22 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
             expect(findings, `leaked account-1 identifiers:\n${findings.join('\n')}`).to.deep.equal([]);
 
             const rebuiltCategories = _sheetTextByAddress(workbook.getWorksheet('Categories'));
-            expect(rebuiltCategories, 'Categories vocabulary must be byte-identical to the owner’s own base — nothing in it names any customer/employee').to.deep.equal(baseCategories);
+            expect(rebuiltCategories, 'Categories vocabulary must be byte-identical to the neutral asset — nothing in it names any customer/employee').to.deep.equal(baseCategories);
 
             const rebuiltInstructions = _sheetTextByAddress(workbook.getWorksheet('Instructions'));
             Object.keys(baseInstructions).forEach(address => {
                if (EXPECTED_INSTRUCTIONS_REWRITES.has(address)) return;
-               expect(rebuiltInstructions[address], `Instructions!${address} must be byte-identical to the owner’s own base`).to.equal(baseInstructions[address]);
+               expect(rebuiltInstructions[address], `Instructions!${address} must be byte-identical to the neutral asset`).to.equal(baseInstructions[address]);
+            });
+            EXPECTED_INSTRUCTIONS_REWRITES.forEach(address => {
+               expect(rebuiltInstructions[address], `Instructions!${address} must be account 9001's own first active employee (or the placeholder)`).to.equal(expectedExampleValue);
+            });
+
+            // docProps carry only the tenant's own account name (or the
+            // literal 'DS2' fallback) — never anything from the asset or
+            // from account 1.
+            ['creator', 'lastModifiedBy', 'title', 'subject', 'description', 'keywords', 'category', 'company', 'manager'].forEach(prop => {
+               expect(workbook[prop], `docProps.${prop}`).to.equal(expectedDocPropsLabel);
             });
          }
       });
@@ -1729,6 +1755,118 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          } else {
             throw new Error(`expected the re-upload to be rejected as a duplicate, but it succeeded: ${JSON.stringify(res.body)}`);
          }
+      });
+   });
+
+   // review/full-audit-2026-09 finding 5 (Astra round 10): buildAccountFolder
+   // (timeTracking-router.js) used to re-derive the per-account processed-
+   // tracker S3 folder from the account's CURRENT, mutable account_name on
+   // every request. Reproduced: an owned tracker was listed/downloadable
+   // (200, one history entry) before an authenticated account-9001 rename,
+   // then invisible (403, zero history entries) after it, with the object's
+   // S3 key completely unchanged — the numeric account-id suffix already
+   // stopped a rename from colliding with a DIFFERENT account's folder
+   // (finding 1 / migration 020), but did nothing to keep THIS account's own
+   // folder stable across its own rename. Fixed by keying the PRIMARY folder
+   // off accounts.storage_slug (immutable — migrations/020.accounts_storage_
+   // slug.sql, src/utils/storageSlug.js) instead of account_name; the old,
+   // mutable-name-derived folder (buildLegacyAccountFolder) stays in
+   // permanent read-only use as a fallback so objects already stored under
+   // it before this shipped are never orphaned.
+   //
+   // Appended as its own describe block at the very end of this file,
+   // deliberately after every block above that exercises the template
+   // upload/list/latest/delete round trip (owned by a different work item) —
+   // this block must never be reordered above them. Mutates account 9001's
+   // account_name (nothing else in this file does) and restores it in its
+   // own `after`, independent of the shared top-level `before`/`after`.
+   describe('tracker namespace survives an account rename (Astra round 10, finding 5)', () => {
+      let originalAccountName;
+      let storageSlug;
+
+      before(async () => {
+         const accountBefore = await db('accounts').where({ account_id: A }).first();
+         originalAccountName = accountBefore.account_name;
+         storageSlug = accountBefore.storage_slug;
+         expect(storageSlug, 'fixture account 9001 must already have a storage_slug (migration 020 applied)').to.be.a('string').and.not.be.empty;
+      });
+
+      after(async () => {
+         if (originalAccountName !== undefined) {
+            await db('accounts').where({ account_id: A }).update({ account_name: originalAccountName });
+         }
+      });
+
+      // The S3 key's account-folder segment: everything up to (not
+      // including) "/user_<ownerId>/" — i.e. `${PROCESSED_ROOT}/<accountFolder>`.
+      // Comparing this substring before/after the rename, rather than
+      // re-implementing sanitizeSegment/sanitizeAccountName here, is what
+      // proves the folder itself never moved without coupling the test to
+      // either function's exact algorithm.
+      const accountFolderSegmentOf = (key, ownerId) => key.slice(0, key.indexOf(`/user_${ownerId}/`));
+
+      it('an owned tracker stays listed and downloadable after the account is renamed, and a new upload after the rename lands under the SAME immutable folder', async function () {
+         this.timeout(60_000);
+
+         await uploadTracker('R10Pre', ELIZA, {
+            employeeName: 'Eliza Smith',
+            start: CUR_START,
+            end: CUR_END,
+            rows: [{ date: CUR_END, category: 'Phone Call', duration: 25, notes: `Coverage rename-survival call ${RUN}` }]
+         });
+         const preRenameKey = T.R10Pre.body.storedKey;
+         expect(preRenameKey).to.include(`${PROCESSED_ROOT}/${storageSlug}_${A}/user_${ELIZA}/`);
+
+         const beforeHistory = await h.as('admin').get(`/time-tracking/history/${A}/${ELIZA}`);
+         expect(beforeHistory.status).to.equal(200);
+         expect(beforeHistory.body.history.map(entry => entry.key)).to.include(preRenameKey);
+
+         const beforeDownload = await getBinary('admin', `/time-tracking/history/download/${A}/${ELIZA}`, { key: preRenameKey });
+         expect(beforeDownload.status).to.equal(200);
+
+         // Rename the account — the business-settings-only payload shape
+         // (account_name alone; no address/is_account_active fields), same
+         // as DS2_Frontend's real business-settings form.
+         const newName = `COV Renamed Account ${RUN}`;
+         const renameRes = await h.as('admin').put('/account/updateAccount').send({ account: { account_name: newName } });
+         expect(renameRes.status, JSON.stringify(renameRes.body)).to.equal(200);
+
+         const renamedRow = await db('accounts').where({ account_id: A }).first();
+         expect(renamedRow.account_name).to.equal(newName);
+         expect(renamedRow.storage_slug, 'storage_slug must be completely unaffected by the rename').to.equal(storageSlug);
+
+         // History must still list the SAME key after the rename.
+         const afterHistory = await h.as('admin').get(`/time-tracking/history/${A}/${ELIZA}`);
+         expect(afterHistory.status).to.equal(200);
+         expect(afterHistory.body.history.map(entry => entry.key)).to.include(preRenameKey);
+
+         // Download by the SAME key must still return the SAME bytes.
+         const afterDownload = await getBinary('admin', `/time-tracking/history/download/${A}/${ELIZA}`, { key: preRenameKey });
+         expect(afterDownload.status).to.equal(200);
+         expect(sha256(afterDownload.body)).to.equal(sha256(beforeDownload.body));
+
+         // A NEW upload made AFTER the rename must land under the exact SAME
+         // account-folder segment as the PRE-rename upload — i.e. the
+         // immutable, storage_slug-keyed folder, never one derived from the
+         // (now-changed) account_name.
+         await uploadTracker('R10Post', ELIZA, {
+            employeeName: 'Eliza Smith',
+            start: CUR_START,
+            end: CUR_END,
+            rows: [{ date: CUR_END, category: 'Email', duration: 10, notes: `Coverage post-rename upload ${RUN}` }]
+         });
+         const postRenameKey = T.R10Post.body.storedKey;
+         expect(postRenameKey).to.include(`${PROCESSED_ROOT}/${storageSlug}_${A}/user_${ELIZA}/`);
+         expect(accountFolderSegmentOf(postRenameKey, ELIZA)).to.equal(accountFolderSegmentOf(preRenameKey, ELIZA));
+
+         const postRenameHistory = await h.as('admin').get(`/time-tracking/history/${A}/${ELIZA}`);
+         expect(postRenameHistory.status).to.equal(200);
+         expect(postRenameHistory.body.history.map(entry => entry.key)).to.include(postRenameKey);
+      });
+
+      it("account 1's folder derivation is unaffected by anything above (read-only assertion against its real row)", async () => {
+         const account1 = await db('accounts').where({ account_id: FOREIGN_ACCOUNT }).first();
+         expect(account1.storage_slug).to.equal('James_F__Kimmel___Associates');
       });
    });
 });

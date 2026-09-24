@@ -597,6 +597,114 @@ describe('integration: coverage — account / user / auth / notifications / heal
          expect(firstRow.storage_slug).to.not.equal(secondRow.storage_slug);
       });
 
+      // review/full-audit-2026-09 finding 3 (Astra round 10): the test above
+      // proves the collision RULE is right; it says nothing about two
+      // requests actually racing. Reproduced on disposable clones: two REAL
+      // concurrent createAccount calls for 'R10 Race' and 'R10_Race' (which
+      // sanitize to the identical base) both read "is the base taken?" as
+      // false before EITHER had inserted, so both tried to insert the same
+      // bare slug — one succeeded, the other 500'd on 23505. Fixed by
+      // resolveNewAccountStorageSlug taking a transaction-held advisory lock
+      // before picking a candidate (src/utils/storageSlug.js) plus a
+      // retry-once-on-conflict in account-service.js's createAccount. Two
+      // genuinely concurrent HTTP requests through the real pooled db
+      // connection (pool max > 1 — see src/utils/db.js) exercise the same
+      // race a single JS process's Promise.all would.
+      it('two CONCURRENT create-account requests whose names sanitize to the same base slug both succeed, each with a distinct storage_slug', async () => {
+         const base = uniqueName('COV-R10-Race');
+         const collidingName = base.replace(/-/g, ' '); // identical sanitized slug, different raw string
+
+         const create = name =>
+            withToken(superToken)
+               .post('/account/createAccount')
+               .send({ account: { account_name: name, account_type: 'business', is_account_active: true } });
+
+         const [resA, resB] = await Promise.all([create(base), create(collidingName)]);
+
+         expect(resA.status, JSON.stringify(resA.body)).to.equal(200);
+         expect(resB.status, JSON.stringify(resB.body)).to.equal(200);
+
+         const idA = resA.body.account.returnedFields.account_id;
+         const idB = resB.body.account.returnedFields.account_id;
+         createdAccountIds.push(idA, idB);
+
+         const [rowA, rowB] = await Promise.all([db('accounts').where({ account_id: idA }).first(), db('accounts').where({ account_id: idB }).first()]);
+
+         // Which of the two wins the bare base slug is a genuine race (it
+         // depends on which transaction's advisory-lock acquisition lands
+         // first) — never asserted here. What must always hold: both
+         // succeeded, both got a real slug, the two differ, and whichever one
+         // was NOT the bare base is suffixed with ITS OWN account_id (never
+         // the other's).
+         const expectedBase = sanitizeAccountName(base);
+         expect(rowA.storage_slug).to.not.equal(rowB.storage_slug);
+         const candidates = [
+            { id: idA, slug: rowA.storage_slug },
+            { id: idB, slug: rowB.storage_slug }
+         ];
+         const bareWinners = candidates.filter(c => c.slug === expectedBase);
+         const suffixedLosers = candidates.filter(c => c.slug !== expectedBase);
+         expect(bareWinners, JSON.stringify(candidates)).to.have.length(1);
+         expect(suffixedLosers, JSON.stringify(candidates)).to.have.length(1);
+         expect(suffixedLosers[0].slug).to.equal(`${expectedBase}_${suffixedLosers[0].id}`);
+      });
+
+      // review/full-audit-2026-09 finding 4 (Astra round 10): even run
+      // strictly SEQUENTIALLY (no race at all), the old code always tried
+      // exactly one suffixed candidate (`${base}_${newAccountId}`) and never
+      // re-checked it — so a create could still fail outright if some
+      // unrelated, already-existing account's OWN bare slug happened to equal
+      // that exact string. Reproduced here by directly pre-occupying the
+      // slug the naive algorithm would have picked, with an unrelated row
+      // inserted straight into the table (standing in for "some earlier,
+      // differently-named account already happened to hold this string") —
+      // the fixed resolveNewAccountStorageSlug must escalate past it to
+      // `_2` instead of 500ing on a duplicate-key insert.
+      it('a sequential create whose naive `_<id>` candidate is already occupied by an unrelated account escalates to `_<id>_2` instead of failing', async () => {
+         const fooName = uniqueName('COV-R10-Foo');
+         const fooRes = await withToken(superToken)
+            .post('/account/createAccount')
+            .send({ account: { account_name: fooName, account_type: 'business', is_account_active: true } });
+         expect(fooRes.status, JSON.stringify(fooRes.body)).to.equal(200);
+         const fooId = fooRes.body.account.returnedFields.account_id;
+         createdAccountIds.push(fooId);
+         const expectedBase = sanitizeAccountName(fooName);
+         expect((await db('accounts').where({ account_id: fooId }).first()).storage_slug).to.equal(expectedBase);
+
+         // Reserve the id the NEXT createAccount call will receive (nothing
+         // else consumes this sequence between here and that call, since
+         // mocha runs `it` blocks one at a time), and pre-occupy the exact
+         // suffixed slug a naive, unchecked algorithm would compute for it —
+         // standing in for an unrelated account that already held this exact
+         // string before the colliding create below ever ran.
+         const {
+            rows: [{ id: reservedId }]
+         } = await db.raw("SELECT nextval(pg_get_serial_sequence('accounts', 'account_id')) AS id");
+         const occupantId = Number(reservedId);
+         const nextRealId = occupantId + 1;
+         const occupiedSlug = `${expectedBase}_${nextRealId}`;
+         await db('accounts').insert({
+            account_id: occupantId,
+            account_name: uniqueName('COV-R10-Occupant'),
+            account_type: 'business',
+            is_account_active: true,
+            storage_slug: occupiedSlug
+         });
+         createdAccountIds.push(occupantId);
+
+         const collideRes = await withToken(superToken)
+            .post('/account/createAccount')
+            .send({ account: { account_name: fooName.replace(/-/g, ' '), account_type: 'business', is_account_active: true } });
+         expect(collideRes.status, JSON.stringify(collideRes.body)).to.equal(200);
+         const collideId = collideRes.body.account.returnedFields.account_id;
+         createdAccountIds.push(collideId);
+         expect(collideId, 'sequence prediction must hold for this test to be meaningful').to.equal(nextRealId);
+
+         const collideRow = await db('accounts').where({ account_id: collideId }).first();
+         expect(collideRow.storage_slug).to.not.equal(occupiedSlug);
+         expect(collideRow.storage_slug).to.equal(`${expectedBase}_${collideId}_2`);
+      });
+
       it('validation failure: an empty account body raises a real 500 (NOT NULL account_name)', async () => {
          const res = await withToken(superToken).post('/account/createAccount').send({ account: {} });
          expect(res.status).to.equal(500);

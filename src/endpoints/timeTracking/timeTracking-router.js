@@ -143,18 +143,64 @@ const buildUserFolder = userRecord => {
    return sanitizeSegment(`${lastName}_${firstName}`);
 };
 
-const buildAccountFolder = (accountRecord, accountID) => {
+// review/full-audit-2026-09 finding 5 (Astra round 10): this used to be the
+// ONLY account-folder builder, re-deriving its output from the account's
+// CURRENT, mutable account_name on every call. The numeric account-id suffix
+// already stops a rename from colliding with a DIFFERENT account's folder
+// (finding 1 / migration 020's fix — see buildAccountFolder below), but does
+// nothing to keep THIS account's own folder stable across ITS OWN rename: an
+// authenticated account-9001 admin renamed their own account and the SAME
+// employee's SAME already-uploaded tracker went from listed-and-downloadable
+// (200, one history entry) to invisible (403, zero history entries) with its
+// S3 key completely unchanged. Kept alive, under its original name, ONLY as
+// a read fallback for objects that already exist under it — see
+// buildProcessedPrefixes. No code path should call this to build a NEW key.
+const buildLegacyAccountFolder = (accountRecord, accountID) => {
    const accountName = accountRecord.account_name || `account_${accountID}`;
    return `${sanitizeSegment(accountName)}_${accountID}`;
 };
 
-// primaryPrefix: account-AND-OWNER-scoped by immutable numeric user id
-// (user_<id>), never by name. NEW uploads always write here.
-// accountLegacyPrefix: the FORMER primary layout — account-scoped but keyed by
-// SANITIZED DISPLAY NAME (<account_name_slug>/<Last_First>/...). Two employees
-// in the SAME account who share a display name ("Alex Jones" hired twice)
-// resolved to this exact same folder, so one could list/download the other's
-// files. No longer written by new uploads; only ever read, and (like
+// The fix: key every account folder off accounts.storage_slug instead —
+// assigned once and NEVER recomputed from account_name (migrations/
+// 020.accounts_storage_slug.sql, src/utils/storageSlug.js) — so renaming the
+// account can never move this folder again. storage_slug is NOT always
+// byte-identical to buildLegacyAccountFolder's output for a given name:
+// account 1's real slug ('James_F__Kimmel___Associates', from
+// sanitizeAccountName, which turns each non-alphanumeric character into its
+// OWN '_') differs from what sanitizeSegment(account_name) produces for that
+// same name ('James_F_Kimmel__Associates', which instead DELETES punctuation
+// rather than replacing it) — confirmed by direct comparison against both
+// real accounts (1 and the 9001 fixture) before this shipped: identical for
+// 9001 (whose name has no punctuation), different for account 1. Switching
+// straight over would have silently orphaned account 1's real, already-
+// uploaded S3 objects the moment this code deployed, so
+// buildLegacyAccountFolder stays in permanent, read-only use alongside this
+// one (see buildProcessedPrefixes) rather than being deleted — only NEW
+// uploads ever write under this folder.
+const buildAccountFolder = (accountRecord, accountID) => {
+   const slug = accountRecord.storage_slug || `account_${accountID}`;
+   return `${slug}_${accountID}`;
+};
+
+// primaryPrefix: account-AND-OWNER-scoped by the account's IMMUTABLE
+// buildAccountFolder (storage_slug) plus the OWNER's immutable numeric user
+// id (user_<id>), never by name. ALL new uploads always write here; renaming
+// the account or the employee can never move it again.
+// legacyIdKeyedPrefix: the SAME id-keyed leaf, but under
+// buildLegacyAccountFolder — the account segment primaryPrefix itself used
+// before storage_slug existed. Nothing writes here anymore, but real
+// production/fixture objects already do, and it is trusted as this owner's
+// own exactly like primaryPrefix (the leaf is still keyed by this owner's
+// immutable numeric id either way) — this is what keeps those pre-existing
+// files listable and downloadable through the cutover onto storage_slug,
+// and across any rename that happens after it, without needing a record of
+// every name the account has ever had.
+// accountLegacyPrefix: the FORMER primary layout — the same mutable
+// buildLegacyAccountFolder account segment as legacyIdKeyedPrefix, but keyed
+// by SANITIZED DISPLAY NAME (<account_name_slug>/<Last_First>/...). Two
+// employees in the SAME account who share a display name ("Alex Jones" hired
+// twice) resolved to this exact same folder, so one could list/download the
+// other's files. No longer written by new uploads; only ever read, and (like
 // legacyPrefix below) never trusted as this owner's own without filtering.
 // legacyPrefix: the pre-fix flat layout with no account segment at all —
 // production still has real files there. It is only ever READ, never written
@@ -164,11 +210,14 @@ const buildAccountFolder = (accountRecord, accountID) => {
 // serving from it, because both folders are shared by any OTHER same-named
 // employee — in another account for legacyPrefix, or in THIS SAME account for
 // accountLegacyPrefix.
-const buildProcessedPrefixes = (accountFolder, userFolder, ownerId) => {
+const buildProcessedPrefixes = (accountRecord, accountID, userFolder, ownerId) => {
+   const accountFolder = buildAccountFolder(accountRecord, accountID);
+   const legacyAccountFolder = buildLegacyAccountFolder(accountRecord, accountID);
    const primaryPrefix = `${PROCESSED_ROOT}/${accountFolder}/user_${Number(ownerId)}/`;
-   const accountLegacyPrefix = `${PROCESSED_ROOT}/${accountFolder}/${userFolder}/`;
+   const legacyIdKeyedPrefix = `${PROCESSED_ROOT}/${legacyAccountFolder}/user_${Number(ownerId)}/`;
+   const accountLegacyPrefix = `${PROCESSED_ROOT}/${legacyAccountFolder}/${userFolder}/`;
    const legacyPrefix = `${PROCESSED_ROOT}/${userFolder}/`;
-   return { primaryPrefix, accountLegacyPrefix, legacyPrefix };
+   return { primaryPrefix, legacyIdKeyedPrefix, accountLegacyPrefix, legacyPrefix };
 };
 
 // Keep only the legacy-prefix S3 objects whose stored file name is one THIS
@@ -188,6 +237,11 @@ const filterLegacyObjectsToOwner = async (db, accountID, ownerUserID, objects) =
 
 // Same rule as filterLegacyObjectsToOwner, for a single candidate key (used
 // where we're about to fetch/serve one object rather than list a prefix).
+// Deliberately prefix-agnostic — it only ever looks at the key's basename —
+// so it doubles as the finding-5 fallback in /history/download for a key
+// under NO reconstructable prefix at all (see that route's PROCESSED_ROOT
+// branch): an account can be renamed any number of times, but its recorded
+// timesheet_entries.timesheet_name values never change underneath it.
 const legacyKeyBelongsToOwner = async (db, accountID, ownerUserID, key) => {
    const storedName = path.basename(key).replace(/\.gz$/i, '');
    const ownNames = await timesheetsService.getAllTimesheetNamesEverUsedByEmployee(db, accountID, ownerUserID);
@@ -426,7 +480,6 @@ timeTrackingRouter.post(
          }
 
          const userFolder = buildUserFolder(userRecord);
-         const accountFolder = buildAccountFolder(accountRecord, accountIdNumber);
          const { firstName, lastName } = deriveUserNameSegments(userRecord);
          const extension = resolveExtension(decodedOriginalName, fileTypeHeader);
          const compressedFile = await gzip(req.body);
@@ -463,7 +516,7 @@ timeTrackingRouter.post(
             // uniqueness alone for the STORED FILE NAME.
             const uniqueSuffix = crypto.randomUUID().slice(0, 8);
             storedFileName = `${sanitizeSegment(lastName)}_${sanitizeSegment(firstName)}_${timestamp}-${msSuffix}-${uniqueSuffix}${extension}`;
-            s3Key = `${buildProcessedPrefixes(accountFolder, userFolder, effectiveUserId).primaryPrefix}${storedFileName}.gz`;
+            s3Key = `${buildProcessedPrefixes(accountRecord, accountIdNumber, userFolder, effectiveUserId).primaryPrefix}${storedFileName}.gz`;
             normalizedEntries.forEach(entry => {
                entry.timesheet_name = storedFileName;
             });
@@ -734,17 +787,23 @@ timeTrackingRouter.get(
       const userRecord = await fetchUserRecord(db, accountID, userID);
       const accountRecord = await fetchAccountRecord(db, accountID);
       const userFolder = buildUserFolder(userRecord);
-      const accountFolder = buildAccountFolder(accountRecord, accountID);
-      const { primaryPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, userFolder, userID);
+      const { primaryPrefix, legacyIdKeyedPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountRecord, accountID, userFolder, userID);
 
-      const [primaryObjects, rawAccountLegacyObjects, rawFlatLegacyObjects] = await Promise.all([listObjects(primaryPrefix), listObjects(accountLegacyPrefix), listObjects(legacyPrefix)]);
+      const [primaryObjects, legacyIdKeyedObjects, rawAccountLegacyObjects, rawFlatLegacyObjects] = await Promise.all([
+         listObjects(primaryPrefix),
+         listObjects(legacyIdKeyedPrefix),
+         listObjects(accountLegacyPrefix),
+         listObjects(legacyPrefix)
+      ]);
       // Both name-keyed prefixes are shared by any OTHER same-named employee —
       // another account's for the flat layout, or (pre-fix) this SAME
       // account's for the old account-scoped-by-name layout — so only surface
       // the objects this account's own upload history actually accounts for
-      // THIS owner.
+      // THIS owner. legacyIdKeyedPrefix needs no such filtering: like
+      // primaryPrefix, its leaf is keyed by this owner's immutable numeric id
+      // (see buildProcessedPrefixes, finding 5).
       const legacyObjects = await filterLegacyObjectsToOwner(db, accountID, userID, [...(rawAccountLegacyObjects || []), ...(rawFlatLegacyObjects || [])]);
-      const mergedObjects = [...(primaryObjects || []), ...(legacyObjects || [])];
+      const mergedObjects = [...(primaryObjects || []), ...(legacyIdKeyedObjects || []), ...(legacyObjects || [])];
 
       if (!mergedObjects.length) {
          return res.status(200).json({ history: [] });
@@ -762,7 +821,7 @@ timeTrackingRouter.get(
       );
 
       const history = uniqueObjects
-         .filter(object => object.Key && object.Key !== primaryPrefix && object.Key !== accountLegacyPrefix && object.Key !== legacyPrefix)
+         .filter(object => object.Key && object.Key !== primaryPrefix && object.Key !== legacyIdKeyedPrefix && object.Key !== accountLegacyPrefix && object.Key !== legacyPrefix)
          .map(object => {
             const baseName = path.basename(object.Key);
             const fileName = baseName.endsWith('.gz') ? baseName.slice(0, -3) : baseName;
@@ -813,21 +872,38 @@ timeTrackingRouter.get(
       const userRecord = await fetchUserRecord(db, accountID, userID);
       const accountRecord = await fetchAccountRecord(db, accountID);
       const userFolder = buildUserFolder(userRecord);
-      const accountFolder = buildAccountFolder(accountRecord, accountID);
-      const { primaryPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, userFolder, userID);
+      const { primaryPrefix, legacyIdKeyedPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountRecord, accountID, userFolder, userID);
 
-      if (key.startsWith(primaryPrefix)) {
-         // owner-id-scoped key: inherently this exact owner's own.
+      let authorized;
+      if (key.startsWith(primaryPrefix) || key.startsWith(legacyIdKeyedPrefix)) {
+         // owner-id-scoped key (current storage_slug folder, or the
+         // pre-storage_slug folder it replaced — finding 5): inherently this
+         // exact owner's own either way.
+         authorized = true;
       } else if (key.startsWith(accountLegacyPrefix) || key.startsWith(legacyPrefix)) {
          // Name-keyed legacy key (account-scoped-by-name, or the older flat
          // layout): either folder is shared by any OTHER same-named employee
          // (in this same account for accountLegacyPrefix; in another account
          // for legacyPrefix), so only serve it if this account's own upload
          // history actually accounts for that file name FOR THIS OWNER.
-         if (!(await legacyKeyBelongsToOwner(db, accountID, userID, key))) {
-            return res.status(403).json({ message: 'You do not have access to this file.' });
-         }
+         authorized = await legacyKeyBelongsToOwner(db, accountID, userID, key);
+      } else if (key.startsWith(`${PROCESSED_ROOT}/`)) {
+         // review/full-audit-2026-09 finding 5 (Astra round 10): a key under
+         // this account's own time-tracking namespace that doesn't match ANY
+         // prefix reconstructable from the account's CURRENT name/slug — e.g.
+         // a pre-storage_slug object surviving a SECOND rename that happened
+         // after the storage_slug cutover — still gets one more chance via
+         // the same DB-backed ownership rule used for the name-keyed legacy
+         // prefixes above, so a file this account's own tracker history
+         // really did record for this owner is never turned into a 403 by a
+         // rename alone. Scoped to PROCESSED_ROOT so this can never become a
+         // way to reach an S3 key outside the time-tracking namespace.
+         authorized = await legacyKeyBelongsToOwner(db, accountID, userID, key);
       } else {
+         authorized = false;
+      }
+
+      if (!authorized) {
          return res.status(403).json({ message: 'You do not have access to this file.' });
       }
 
@@ -900,8 +976,7 @@ timeTrackingRouter.get(
       }
 
       const ownerFolder = buildUserFolder(ownerUserRecord);
-      const accountFolder = buildAccountFolder(accountRecord, accountID);
-      const { primaryPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountFolder, ownerFolder, ownerUserID);
+      const { primaryPrefix, legacyIdKeyedPrefix, accountLegacyPrefix, legacyPrefix } = buildProcessedPrefixes(accountRecord, accountID, ownerFolder, ownerUserID);
       // Both name-keyed legacy prefixes are shared by any OTHER same-named
       // employee — another account's for the flat layout, or (pre-fix) this
       // SAME account's for the old account-scoped-by-name layout — so only
@@ -931,7 +1006,11 @@ timeTrackingRouter.get(
       const candidateNames = buildVariants();
 
       const candidateKeys = candidateNames.flatMap(name => {
-         const keys = [evaluateCandidate(`${primaryPrefix}${name}`)];
+         // primaryPrefix and legacyIdKeyedPrefix are both keyed by this
+         // owner's immutable numeric id (finding 5) — always safe to try
+         // regardless of recorded history, exactly like primaryPrefix alone
+         // used to be.
+         const keys = [evaluateCandidate(`${primaryPrefix}${name}`), evaluateCandidate(`${legacyIdKeyedPrefix}${name}`)];
          if (ownLegacyNames.has(name)) {
             keys.push(evaluateCandidate(`${accountLegacyPrefix}${name}`), evaluateCandidate(`${legacyPrefix}${name}`));
          }
@@ -967,7 +1046,8 @@ timeTrackingRouter.get(
          // the legacy/flat prefix's listing scan.
          const ownLegacyNormalized = new Set([...ownLegacyNames].map(normalize));
 
-         const prefixesToSearch = [primaryPrefix, accountLegacyPrefix, legacyPrefix];
+         const idKeyedPrefixes = new Set([primaryPrefix, legacyIdKeyedPrefix]);
+         const prefixesToSearch = [primaryPrefix, legacyIdKeyedPrefix, accountLegacyPrefix, legacyPrefix];
 
          for (const prefix of prefixesToSearch) {
             if (downloadKey) break;
@@ -977,10 +1057,11 @@ timeTrackingRouter.get(
                   if (!object?.Key) continue;
                   const base = path.basename(object.Key);
                   const normalizedBase = normalize(base);
-                  // Neither legacy (name-keyed) prefix is trusted as this
+                  // Neither name-keyed legacy prefix is trusted as this
                   // owner's own without checking their recorded history —
-                  // only the id-keyed primaryPrefix is inherently theirs.
-                  if (prefix !== primaryPrefix && !ownLegacyNormalized.has(normalizedBase)) continue;
+                  // only the id-keyed prefixes (primaryPrefix and
+                  // legacyIdKeyedPrefix — finding 5) are inherently theirs.
+                  if (!idKeyedPrefixes.has(prefix) && !ownLegacyNormalized.has(normalizedBase)) continue;
                   if (targetVariants.includes(normalizedBase)) {
                      try {
                         await tryFetchObject(object.Key);
@@ -1097,11 +1178,22 @@ timeTrackingRouter.get(
       if (!isOwnerAccount || _isAutoIngestAllowed(accountIdNumber)) {
          try {
             const db = req.app.get('db');
+            // isOwnerAccount, forwarded (round 10, 2026-09-23 — Astra
+            // findings 1 & 2): buildTemplate no longer scrubs a non-owner
+            // download from these owner bytes at all — it rebuilds from the
+            // reviewed, committed neutral-template.xlsx asset instead, and
+            // never reads baseTemplateBuffer to do it. See the
+            // design-decision comment above buildTemplate in
+            // template-builder.js. baseTemplateBuffer is still passed
+            // through unconditionally (harmless for a non-owner build, which
+            // ignores it) so the owner-with-autoingest branch above keeps
+            // rebuilding from ITS OWN bytes exactly as before.
             const { buffer, counts } = await templateBuilder.buildTemplate({
                db,
                accountId: accountIdNumber,
                userId: userIdNumber,
-               baseTemplateBuffer: body
+               baseTemplateBuffer: body,
+               isOwnerAccount
             });
             res.set({
                'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

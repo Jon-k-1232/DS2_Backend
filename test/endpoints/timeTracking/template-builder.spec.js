@@ -1,4 +1,5 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const ExcelJS = require('exceljs');
 const JSZip = require('jszip');
@@ -8,12 +9,24 @@ const {
    _addLookupSheet,
    _applyDataValidation,
    _replaceVisibleNameList,
+   _loadNeutralAsset,
+   _readZipTextParts,
+   _xmlDecodeText,
+   _tokenAppearsIn,
+   _assertNoForbiddenTokens,
+   _setExampleEmployeeCells,
+   ALLOWED_SHEET_NAMES,
+   EXAMPLE_PLACEHOLDER_TEXT,
+   NEUTRAL_ASSET_PATH,
+   NEUTRAL_MANIFEST_PATH,
    COLLAPSE_WINDOW_MS
 } = require('../../../src/endpoints/timeTracking/template-builder');
+const { buildNeutralTemplateFromBuffer } = require('../../../scripts/timeTracking/build-neutral-template');
 
 const FIXTURE_PATH = path.join(__dirname, '..', '..', 'fixtures', 'timetrackers', 'clean.xlsx');
 const REAL_BASE_FIXTURE_PATH = path.join(__dirname, '..', '..', 'fixtures', 'timetrackers', 'real-base.xlsx');
 const ASTRA_FINDING2_FIXTURE_PATH = path.join(__dirname, '..', '..', 'fixtures', 'timetrackers', 'astra-finding2-hidden-sheet.xlsx');
+const ASTRA_PAIRED_SHEET_TAGS_FIXTURE_PATH = path.join(__dirname, '..', '..', 'fixtures', 'timetrackers', 'astra-paired-sheet-tags.xlsx');
 
 // Await a promise that should reject; returns the error (or null otherwise).
 const caught = async promise => {
@@ -78,7 +91,7 @@ describe('template-builder', () => {
    it('injects __customers, __employees, __categories hidden sheets', async () => {
       const baseBuffer = fs.readFileSync(FIXTURE_PATH);
       const db = buildStubDb();
-      const { buffer, counts } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer });
+      const { buffer, counts } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer });
       expect(counts).to.deep.equal({ customers: 3, employees: 2, categories: 2 });
 
       const wb = new ExcelJS.Workbook();
@@ -120,7 +133,7 @@ describe('template-builder', () => {
    it('writes a template_downloads audit row', async () => {
       const baseBuffer = fs.readFileSync(FIXTURE_PATH);
       const db = buildStubDb();
-      await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer });
+      await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer });
       expect(db._downloads).to.have.lengthOf(1);
       expect(db._downloads[0]).to.deep.include({ account_id: 9001, user_id: 7, customer_count: 3, employee_count: 2, category_count: 2 });
    });
@@ -129,8 +142,8 @@ describe('template-builder', () => {
       const baseBuffer = fs.readFileSync(FIXTURE_PATH);
       const db = buildStubDb();
       const fixedNow = () => 1_000_000;
-      const a = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer, now: fixedNow });
-      const b = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      const a = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      const b = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer, now: fixedNow });
       expect(a.buffer).to.equal(b.buffer);
       // Audit row only written on the first build.
       expect(db._downloads).to.have.lengthOf(1);
@@ -142,9 +155,9 @@ describe('template-builder', () => {
       let t = 1_000_000;
       const moveTime = ms => { t += ms; };
       const fixedNow = () => t;
-      await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer, now: fixedNow });
       moveTime(COLLAPSE_WINDOW_MS + 1);
-      await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer, now: fixedNow });
       expect(db._downloads).to.have.lengthOf(2);
    });
 
@@ -152,8 +165,8 @@ describe('template-builder', () => {
       const baseBuffer = fs.readFileSync(FIXTURE_PATH);
       const db = buildStubDb();
       const fixedNow = () => 1_000_000;
-      await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer, now: fixedNow });
-      await buildTemplate({ db, accountId: 9001, userId: 8, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      await buildTemplate({ db, accountId: 9001, userId: 8, isOwnerAccount: true, baseTemplateBuffer: baseBuffer, now: fixedNow });
       expect(db._downloads).to.have.lengthOf(2);
       expect(db._downloads[0].user_id).to.equal(7);
       expect(db._downloads[1].user_id).to.equal(8);
@@ -165,13 +178,13 @@ describe('template-builder', () => {
       let t = 0;
       const fixedNow = () => t;
 
-      await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer, now: fixedNow });
 
       // New customer added between downloads.
       db._customers.push({ customer_id: 999, account_id: 9001, display_name: 'New Co Just Added', is_customer_active: true });
       t += COLLAPSE_WINDOW_MS + 1;
 
-      const next = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      const next = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer, now: fixedNow });
 
       const wb = new ExcelJS.Workbook();
       await wb.xlsx.load(next.buffer);
@@ -199,7 +212,7 @@ describe('template-builder', () => {
       const baseBuffer = Buffer.from(await foreignBase.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: baseBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer });
 
       const wb = new ExcelJS.Workbook();
       await wb.xlsx.load(buffer);
@@ -303,7 +316,7 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
 
    it("scrubs a foreign employee's full name, a bare name-token, and a foreign customer's name from sheets the lookup-sheet replacement never touches", async () => {
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: await buildForeignBase() });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: await buildForeignBase() });
 
       const wb = new ExcelJS.Workbook();
       await wb.xlsx.load(buffer);
@@ -317,7 +330,7 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
 
    it("never corrupts the workbook's own Entity/business-line text even when it shares a word with a foreign employee's surname", async () => {
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: await buildForeignBase() });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: await buildForeignBase() });
 
       const wb = new ExcelJS.Workbook();
       await wb.xlsx.load(buffer);
@@ -337,7 +350,7 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
       const baseTemplateBuffer = Buffer.from(await baseWb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer });
       const wb = new ExcelJS.Workbook();
       await wb.xlsx.load(buffer);
       const time2 = wb.getWorksheet('Time');
@@ -350,7 +363,7 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
 
    it("stamps docProps metadata to a generic label when the db has no account name (fails closed, never leaves a foreign name in place)", async () => {
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: await buildForeignBase() });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: await buildForeignBase() });
       const wb = new ExcelJS.Workbook();
       await wb.xlsx.load(buffer);
       // buildStubDb has no 'accounts' table — _readAccountLabel fails closed
@@ -366,7 +379,7 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
    it("stamps docProps metadata to the requesting account's own name when the db has one", async () => {
       const base = buildStubDb();
       const db = table => (table === 'accounts' ? { where: () => ({ first: () => Promise.resolve({ account_name: 'Acme Testing Co' }) }) } : base(table));
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: await buildForeignBase() });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: await buildForeignBase() });
       const wb = new ExcelJS.Workbook();
       await wb.xlsx.load(buffer);
       expect(wb.creator).to.equal('Acme Testing Co');
@@ -389,7 +402,7 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer }));
+      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer }));
       expect(err, 'a comment part must refuse the rebuild, never silently scrub it').to.be.an('error');
       expect(err.message).to.match(/disallowed_package_part/);
    });
@@ -426,7 +439,7 @@ describe('template-builder tenant-neutral scrubbing (Astra finding 2)', () => {
       baseTemplateBuffer = await zip.generateAsync({ type: 'nodebuffer' });
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer });
 
       const outZip = await JSZip.loadAsync(buffer);
       const sheetXml = await outZip.files['xl/worksheets/sheet1.xml'].async('string');
@@ -461,7 +474,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const db = buildStubDb();
       const err = await caught(
          (async () => {
-            const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: fs.readFileSync(REAL_BASE_FIXTURE_PATH) });
+            const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: fs.readFileSync(REAL_BASE_FIXTURE_PATH) });
             const wb = new ExcelJS.Workbook();
             await wb.xlsx.load(buffer);
             // Real base's worked examples name the firm's own owner
@@ -483,7 +496,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer }));
+      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer }));
       expect(err, 'an unrecognized worksheet must refuse the rebuild').to.be.an('error');
       expect(err.message).to.match(/disallowed_sheet/);
       expect(err.message).to.include('Notes');
@@ -498,7 +511,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer }));
+      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer }));
       expect(err, 'a hidden sheet is still a sheet — its name is checked the same as a visible one').to.be.an('error');
       expect(err.message).to.match(/disallowed_sheet/);
       expect(err.message).to.include('Jim Kimmel');
@@ -511,7 +524,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
    // base must now refuse it outright rather than re-"sanitize" it.
    it("throws when fed Astra's round-9 finding-2 fixture (hidden foreign sheet + formula + hyperlink)", async () => {
       const db = buildStubDb();
-      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer: fs.readFileSync(ASTRA_FINDING2_FIXTURE_PATH) }));
+      const err = await caught(buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: fs.readFileSync(ASTRA_FINDING2_FIXTURE_PATH) }));
       expect(err, 'the fixture\'s hidden "Jim Kimmel" sheet must be refused').to.be.an('error');
       expect(err.message).to.match(/disallowed_sheet/);
    });
@@ -525,7 +538,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer });
       const wb2 = new ExcelJS.Workbook();
       await wb2.xlsx.load(buffer);
       // buildStubDb has no 'accounts' table, so this falls back to the same
@@ -547,7 +560,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer });
       const wb2 = new ExcelJS.Workbook();
       await wb2.xlsx.load(buffer);
       const cell = wb2.getWorksheet('Time').getCell('L1');
@@ -567,7 +580,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer });
       const wb2 = new ExcelJS.Workbook();
       await wb2.xlsx.load(buffer);
       const cell = wb2.getWorksheet('Time').getCell('L1');
@@ -585,7 +598,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer });
       const wb2 = new ExcelJS.Workbook();
       await wb2.xlsx.load(buffer);
       const sheet = wb2.getWorksheet('Employee Names');
@@ -608,7 +621,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer });
       const wb2 = new ExcelJS.Workbook();
       await wb2.xlsx.load(buffer);
       expect(wb2.getWorksheet('Categories').getCell('A2').value, 'a full employee name that is a PREFIX of real vocabulary must not corrupt it').to.equal('Administrative');
@@ -627,7 +640,7 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer });
       const wb2 = new ExcelJS.Workbook();
       await wb2.xlsx.load(buffer);
       expect(wb2.getWorksheet('Instructions').getCell('C9').value, 'ordinary prose must never be token-replaced').to.equal(prose);
@@ -648,9 +661,398 @@ describe('template-builder fail-closed allowlist + name-boundary fixes (Astra fi
       const baseTemplateBuffer = Buffer.from(await wb.xlsx.writeBuffer());
 
       const db = buildStubDb();
-      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, baseTemplateBuffer });
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer });
       const wb2 = new ExcelJS.Workbook();
       await wb2.xlsx.load(buffer);
       expect(wb2.getWorksheet('Instructions').getCell('F1').value).to.equal('Eliza Smith');
+   });
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+// Design decision, round 10 (2026-09-23, Astra findings 1 & 2): non-owner
+// downloads are rebuilt from the reviewed, committed neutral-template.xlsx
+// asset instead of the owner's uploaded bytes — see the file-level comment
+// above buildTemplate / _buildFromNeutralAsset in template-builder.js.
+describe('template-builder non-owner build (neutral asset)', () => {
+   afterEach(() => _resetCacheForTest());
+
+   it('builds successfully for a non-owner account WITHOUT ever reading baseTemplateBuffer', async () => {
+      const db = buildStubDb();
+      // Stands in for "whatever the S3 layer would have handed buildTemplate
+      // for the owner's shared object" — a Proxy that throws the instant ANY
+      // property is touched. If the non-owner path reads so much as
+      // `.length` off this, the test fails loudly instead of silently
+      // passing on a buffer that happens to not matter.
+      const poison = new Proxy(Buffer.from('not a real workbook'), {
+         get(target, prop) {
+            throw new Error(`POISON BUFFER WAS READ: ${String(prop)}`);
+         }
+      });
+      const { buffer, counts } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false, baseTemplateBuffer: poison });
+      expect(counts).to.deep.equal({ customers: 3, employees: 2, categories: 2 });
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      expect([...new Set(wb.worksheets.map(ws => ws.name))].sort()).to.deep.equal([...ALLOWED_SHEET_NAMES].sort());
+   });
+
+   it('also builds successfully when no baseTemplateBuffer is passed at all — it is never required for a non-owner build', async () => {
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false });
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      expect(wb.getWorksheet('Time')).to.exist;
+   });
+
+   it('scopes the hidden lookup sheets and the visible roster to the requesting account, same as the owner path', async () => {
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false });
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      const customerSheet = wb.getWorksheet('__customers');
+      expect(customerSheet.state).to.equal('veryHidden');
+      expect(customerSheet.getCell('A2').value).to.equal('Acme Corp');
+      const empNames = [];
+      for (let r = 1; r <= wb.getWorksheet('Employee Names').rowCount; r++) {
+         const v = wb.getWorksheet('Employee Names').getCell(`A${r}`).value;
+         if (v != null) empNames.push(v);
+      }
+      expect(empNames).to.have.members(['Eliza Smith', 'Bob Jones']);
+   });
+
+   it("fills the Instructions worked-example placeholder with the tenant's first active employee", async () => {
+      const db = buildStubDb();
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false });
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      const instr = wb.getWorksheet('Instructions');
+      // buildStubDb's users keep insertion order (.orderBy is a no-op) —
+      // 'Eliza Smith' is first.
+      expect(instr.getCell('D15').value).to.equal('Eliza Smith');
+      expect(instr.getCell('D16').value).to.equal('Eliza Smith');
+   });
+
+   // Real-world regression (found running the integration suite against
+   // ds2_local, 2026-09-24): the real Instructions sheet has its OWN,
+   // unrelated field-label cell (A5) whose value is ALSO the literal string
+   // "Employee Name" — the exact placeholder text. Re-finding "which cells
+   // hold the placeholder" by content at request time can't tell that label
+   // apart from the two former-name cells, and corrupted it. Fixed by having
+   // the runtime only ever write to manifest.exampleCellAddresses (recorded
+   // once, at build time, by searching for the ORIGINAL name instead).
+   it("_setExampleEmployeeCells only touches the recorded addresses, never any OTHER cell that also happens to hold the placeholder text", () => {
+      const wb = new ExcelJS.Workbook();
+      const instructions = wb.addWorksheet('Instructions');
+      instructions.getCell('A5').value = EXAMPLE_PLACEHOLDER_TEXT; // the real sheet's own, unrelated field label
+      instructions.getCell('D15').value = EXAMPLE_PLACEHOLDER_TEXT;
+      instructions.getCell('D16').value = EXAMPLE_PLACEHOLDER_TEXT;
+
+      _setExampleEmployeeCells(wb, 'Eliza Smith', ['Instructions!D15', 'Instructions!D16']);
+
+      expect(instructions.getCell('A5').value, 'the unrelated field label must survive untouched').to.equal(EXAMPLE_PLACEHOLDER_TEXT);
+      expect(instructions.getCell('D15').value).to.equal('Eliza Smith');
+      expect(instructions.getCell('D16').value).to.equal('Eliza Smith');
+   });
+
+   it('leaves the literal placeholder in place when the tenant has no active employees yet', async () => {
+      const db = table => (table === 'users' ? { where: () => ({ orderBy: () => ({ select: () => Promise.resolve([]) }) }) } : buildStubDb()(table));
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false });
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      expect(wb.getWorksheet('Instructions').getCell('D15').value).to.equal(EXAMPLE_PLACEHOLDER_TEXT);
+   });
+
+   it('stamps docProps to the requesting account name (or DS2) exactly like the owner path', async () => {
+      const base = buildStubDb();
+      const db = table => (table === 'accounts' ? { where: () => ({ first: () => Promise.resolve({ account_name: 'Acme Testing Co' }) }) } : base(table));
+      const { buffer } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false });
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      expect(wb.creator).to.equal('Acme Testing Co');
+      expect(wb.company).to.equal('Acme Testing Co');
+   });
+
+   it('throws when the neutral asset does not match its manifest sha256 — never serves an unverified asset', () => {
+      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'neutral-asset-test-'));
+      const assetPath = path.join(tmpDir, 'neutral-template.xlsx');
+      const manifestPath = path.join(tmpDir, 'neutral-template.manifest.json');
+      fs.writeFileSync(assetPath, Buffer.from('these are not the reviewed bytes'));
+      fs.writeFileSync(manifestPath, JSON.stringify({ sha256: '0'.repeat(64) }));
+      expect(() => _loadNeutralAsset(assetPath, manifestPath)).to.throw(/neutral_template_asset_hash_mismatch/);
+   });
+
+   it('throws when the asset file is missing', () => {
+      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'neutral-asset-test-'));
+      expect(() => _loadNeutralAsset(path.join(tmpDir, 'missing.xlsx'), path.join(tmpDir, 'missing.json'))).to.throw(/neutral_template_asset_missing/);
+   });
+
+   it('a genuine (correctly matched) asset+manifest pair loads without throwing', () => {
+      const { buffer, manifest } = _loadNeutralAsset();
+      expect(Buffer.isBuffer(buffer)).to.equal(true);
+      expect(manifest).to.have.property('sha256');
+   });
+
+   it("the committed neutral-template.xlsx contains none of its own manifest's forbidden tokens", async () => {
+      const manifest = JSON.parse(fs.readFileSync(NEUTRAL_MANIFEST_PATH, 'utf8'));
+      const assetBuffer = fs.readFileSync(NEUTRAL_ASSET_PATH);
+      const parts = await _readZipTextParts(assetBuffer);
+      const survivors = [];
+      for (const [partName, xml] of Object.entries(parts)) {
+         const decoded = _xmlDecodeText(xml);
+         for (const token of manifest.forbiddenTokens) {
+            if (_tokenAppearsIn(decoded, token)) survivors.push(`"${token}" in ${partName}`);
+         }
+      }
+      expect(survivors, survivors.join('\n')).to.deep.equal([]);
+   });
+
+   // Real-world regression (found running the integration suite against
+   // ds2_local, 2026-09-24): account 9001's own fixture admin user is
+   // literally named "Admin Person", and "Admin" (the REAL firm's own admin
+   // account name) is one of the neutral asset's forbidden tokens. Every
+   // non-owner download for that account 503'd — the requesting tenant's own
+   // legitimate roster entry looked identical to a leak. ownValues is what
+   // fixes it: _buildFromNeutralAsset passes the tenant's own current
+   // customers/employees/categories/label so this check can tell "this
+   // tenant's own data, expected to be here" apart from "a real survivor".
+   it("excludes a forbidden token from the scan when it matches the requesting tenant's OWN current data (no false-positive 503)", async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Sheet1').getCell('A1').value = 'Admin Person';
+      const buffer = Buffer.from(await wb.xlsx.writeBuffer());
+      const manifest = { forbiddenTokens: ['Admin'] };
+
+      // Without ownValues, this is indistinguishable from a real leak.
+      const withoutOwnValues = await caught(_assertNoForbiddenTokens(buffer, manifest));
+      expect(withoutOwnValues, 'sanity check: "Admin" really is in this buffer').to.be.an('error');
+
+      // With ownValues carrying the tenant's own "Admin Person", the same
+      // buffer must be accepted.
+      const withOwnValues = await caught(_assertNoForbiddenTokens(buffer, manifest, ['Admin Person']));
+      expect(withOwnValues, 'a token matching the tenant\'s own current data must not be treated as a leak').to.equal(null);
+   });
+
+   it('still throws for a forbidden token that does NOT match anything in the requesting tenant\'s own current data', async () => {
+      const wb = new ExcelJS.Workbook();
+      wb.addWorksheet('Sheet1').getCell('A1').value = 'Totally Unrelated Text About Jim Kimmel';
+      const buffer = Buffer.from(await wb.xlsx.writeBuffer());
+      const manifest = { forbiddenTokens: ['Jim Kimmel'] };
+      const err = await caught(_assertNoForbiddenTokens(buffer, manifest, ['Eliza Smith', 'Acme Corp']));
+      expect(err, 'a real survivor unrelated to the tenant\'s own data must still be refused').to.be.an('error');
+      expect(err.message).to.match(/forbidden_token_survived/);
+   });
+
+   it('the committed neutral-template.xlsx has exactly the eight allowed sheets, with the lookup sheets veryHidden and the three lookup defined names present', async () => {
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(fs.readFileSync(NEUTRAL_ASSET_PATH));
+      expect([...new Set(wb.worksheets.map(ws => ws.name))].sort()).to.deep.equal([...ALLOWED_SHEET_NAMES].sort());
+      ['__customers', '__employees', '__categories'].forEach(name => {
+         expect(wb.getWorksheet(name).state, name).to.equal('veryHidden');
+      });
+      const zip = await JSZip.loadAsync(fs.readFileSync(NEUTRAL_ASSET_PATH));
+      const wbXml = await zip.files['xl/workbook.xml'].async('string');
+      ['EntityList', 'Categories', 'Employees'].forEach(name => {
+         expect(wbXml, name).to.match(new RegExp(`<definedName\\s+name="${name}"`));
+      });
+   });
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+// scripts/timeTracking/build-neutral-template.js — the offline, by-hand
+// tool that PRODUCES the neutral-template.xlsx asset the tests above load.
+// These exercise its fail-closed paths directly against small in-memory
+// fixtures (DB reachability disabled via checkDb:false so these stay fast,
+// hermetic unit tests — the best-effort ds2_local account-1 augmentation
+// itself is exercised by actually running the script by hand; see
+// src/endpoints/timeTracking/assets/README.md).
+describe('build-neutral-template.js (scripts/timeTracking)', () => {
+   // A minimal, otherwise-valid eight-sheet package with "Jim Kimmel" as a
+   // real roster entry (so it's collected as a forbidden token) — `customize`
+   // then injects one specific risky representation elsewhere in the
+   // workbook, matching one of Astra's round-10 finding-2 vectors.
+   const buildEightSheetFixture = customize => {
+      const wb = new ExcelJS.Workbook();
+      const time = wb.addWorksheet('Time');
+      time.getCell('A1').value = 'Employee Name';
+      // A throwaway validation so the "Time sheet still has data
+      // validations" round-trip check has something to find — these tests
+      // aren't exercising _applyDataValidation, just the fail-closed paths.
+      time.dataValidations.add('B1', { type: 'list', allowBlank: true, formulae: ['"a,b"'] });
+      wb.addWorksheet('Employee Names').getCell('A1').value = 'Jim Kimmel';
+      const instructions = wb.addWorksheet('Instructions');
+      wb.addWorksheet('Categories').getCell('A1').value = 'Accounting';
+      wb.addWorksheet('Entity').getCell('A1').value = 'James F. Kimmel & Associates';
+      const emp = wb.addWorksheet('__employees');
+      emp.state = 'veryHidden';
+      emp.getCell('A1').value = 'Employee';
+      emp.getCell('A2').value = 'Jim Kimmel';
+      const cust = wb.addWorksheet('__customers');
+      cust.state = 'veryHidden';
+      cust.getCell('A1').value = 'Customer';
+      const cat = wb.addWorksheet('__categories');
+      cat.state = 'veryHidden';
+      cat.getCell('A1').value = 'Category';
+      if (customize) customize({ wb, instructions });
+      return wb;
+   };
+
+   it('produces an asset that round-trips through ExcelJS with the eight sheets, hidden flags, validations and lookup defined names intact (real base fixture)', async () => {
+      const { buffer, manifest } = await buildNeutralTemplateFromBuffer(fs.readFileSync(REAL_BASE_FIXTURE_PATH), { sourceLabel: 'real-base.xlsx', checkDb: false });
+      expect(manifest.sheets).to.deep.equal([...ALLOWED_SHEET_NAMES].sort());
+
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buffer);
+      expect([...new Set(wb.worksheets.map(ws => ws.name))].sort()).to.deep.equal([...ALLOWED_SHEET_NAMES].sort());
+      ['__customers', '__employees', '__categories'].forEach(name => {
+         expect(wb.getWorksheet(name).state, name).to.equal('veryHidden');
+      });
+      const timeValidations = Object.keys((wb.getWorksheet('Time').dataValidations || {}).model || {});
+      expect(timeValidations.length, 'Time sheet must still have data validations').to.be.greaterThan(0);
+      const zip = await JSZip.loadAsync(buffer);
+      const wbXml = await zip.files['xl/workbook.xml'].async('string');
+      ['EntityList', 'Categories', 'Employees'].forEach(name => {
+         expect(wbXml, name).to.match(new RegExp(`<definedName\\s+name="${name}"`));
+      });
+      // The two worked-example cells are the placeholder now, not "Jim Kimmel".
+      expect(wb.getWorksheet('Instructions').getCell('D15').value).to.equal(EXAMPLE_PLACEHOLDER_TEXT);
+      expect(wb.getWorksheet('Instructions').getCell('D16').value).to.equal(EXAMPLE_PLACEHOLDER_TEXT);
+      // Categories' own static vocabulary must survive untouched (same
+      // Astra finding-3 regression the runtime tests already cover).
+      expect(wb.getWorksheet('Categories').getCell('A3').value).to.equal('Administrative');
+   });
+
+   it("rejects Astra's round-10 finding-1 fixture — an extra hidden sheet encoded as an equivalent PAIRED <sheet> tag, not a self-closing one", async () => {
+      const err = await caught(buildNeutralTemplateFromBuffer(fs.readFileSync(ASTRA_PAIRED_SHEET_TAGS_FIXTURE_PATH), { checkDb: false }));
+      expect(err, 'a workbook whose sheet set is not exactly the eight known sheets must be refused, whichever XML tag form it uses').to.be.an('error');
+      expect(err.message).to.match(/eight known sheets/);
+   });
+
+   it('rejects a workbook containing a disallowed package part (a cell comment)', async () => {
+      const wb = new ExcelJS.Workbook();
+      const time = wb.addWorksheet('Time');
+      time.getCell('A1').value = 'see comment';
+      time.getCell('A1').note = 'Ask Jim Kimmel before changing this.';
+      const buf = Buffer.from(await wb.xlsx.writeBuffer());
+      const err = await caught(buildNeutralTemplateFromBuffer(buf, { checkDb: false }));
+      expect(err, 'a comment part must refuse the build, never be silently dropped').to.be.an('error');
+      expect(err.message).to.match(/disallowed package part/);
+   });
+
+   it('rejects a workbook whose worksheet set is not exactly the eight known sheets', async () => {
+      const wb = buildEightSheetFixture();
+      wb.addWorksheet('Notes').getCell('A1').value = 'internal scratch sheet';
+      const buf = Buffer.from(await wb.xlsx.writeBuffer());
+      const err = await caught(buildNeutralTemplateFromBuffer(buf, { checkDb: false }));
+      expect(err).to.be.an('error');
+      expect(err.message).to.match(/eight known sheets/);
+   });
+
+   it('rejects a workbook whose formula still names a foreign roster entry once flattened to its cached value', async () => {
+      // A LONGER string than the bare name on purpose: an exact-whole-cell
+      // match against a foreign employee's full name would already be
+      // caught (and fixed) by the Instructions worked-example replacement
+      // step above, which would mask what THIS test means to prove — that
+      // the FINAL GATE independently catches a survivor that step doesn't
+      // reach, e.g. a name embedded in a longer sentence.
+      const wb = buildEightSheetFixture(({ instructions }) => {
+         instructions.getCell('Z1').value = { formula: '"Contact "&"Jim Kimmel"', result: 'Contact Jim Kimmel' };
+      });
+      const buf = Buffer.from(await wb.xlsx.writeBuffer());
+      const err = await caught(buildNeutralTemplateFromBuffer(buf, { checkDb: false }));
+      expect(err, 'flattening a formula to its plain value does not launder the name it still spells out').to.be.an('error');
+      expect(err.message).to.match(/FINAL GATE failed/);
+   });
+
+   it('rejects a workbook whose hyperlink display text still names a foreign roster entry once the link itself is dropped', async () => {
+      const wb = buildEightSheetFixture(({ instructions }) => {
+         instructions.getCell('Z1').value = { text: 'Contact Jim Kimmel', hyperlink: 'mailto:jim.kimmel@example.com' };
+      });
+      const buf = Buffer.from(await wb.xlsx.writeBuffer());
+      const err = await caught(buildNeutralTemplateFromBuffer(buf, { checkDb: false }));
+      expect(err, 'dropping the hyperlink target does not launder a name left in the display text').to.be.an('error');
+      expect(err.message).to.match(/FINAL GATE failed/);
+   });
+
+   it('rejects a workbook whose rich-text runs spell out a foreign roster entry once flattened to plain text', async () => {
+      // Same reasoning as the formula test above: a longer string than the
+      // bare name, so this proves the FINAL GATE catches it rather than the
+      // (exact-whole-cell-match only) Instructions worked-example step.
+      const wb = buildEightSheetFixture(({ instructions }) => {
+         instructions.getCell('Z1').value = { richText: [{ text: 'Contact ' }, { text: 'Jim ' }, { text: 'Kimmel', font: { bold: true } }] };
+      });
+      const buf = Buffer.from(await wb.xlsx.writeBuffer());
+      const err = await caught(buildNeutralTemplateFromBuffer(buf, { checkDb: false }));
+      expect(err, 'flattening rich text runs does not launder the name they spell out together').to.be.an('error');
+      expect(err.message).to.match(/FINAL GATE failed/);
+   });
+
+   // Unlike the three representations above, a defined name and a quoted
+   // numFmt literal are not "flattened and re-checked" — step (c)
+   // unconditionally removes every custom defined name and strips every
+   // quoted numFmt literal, full stop, regardless of what they contain (the
+   // design's "reconstruct from a strict schema" option). That is a
+   // STRONGER guarantee than a reactive reject: there is no matching-based
+   // detection to ever miss. These two tests prove the removal, not a throw.
+   it('unconditionally strips a defined name even when its own name spells out a foreign roster entry', async () => {
+      const wb = buildEightSheetFixture();
+      let buf = Buffer.from(await wb.xlsx.writeBuffer());
+      const zip = await JSZip.loadAsync(buf);
+      let wbXml = await zip.files['xl/workbook.xml'].async('string');
+      const definedName = '<definedName name="Jim_Kimmel">Time!$A$1</definedName>';
+      wbXml = wbXml.includes('<definedNames>') ? wbXml.replace('</definedNames>', `${definedName}</definedNames>`) : wbXml.replace('</sheets>', `</sheets><definedNames>${definedName}</definedNames>`);
+      zip.file('xl/workbook.xml', wbXml);
+      buf = await zip.generateAsync({ type: 'nodebuffer' });
+
+      const { buffer } = await buildNeutralTemplateFromBuffer(buf, { checkDb: false });
+      const outZip = await JSZip.loadAsync(buffer);
+      const outWbXml = await outZip.files['xl/workbook.xml'].async('string');
+      expect(outWbXml, 'the injected defined name must not survive — every custom defined name is removed, not pattern-matched').to.not.include('Jim_Kimmel');
+   });
+
+   it('unconditionally resets a numFmt whose quoted literal spells out a foreign roster entry', async () => {
+      const wb = buildEightSheetFixture(({ instructions }) => {
+         instructions.getCell('Z1').value = 123;
+         instructions.getCell('Z1').numFmt = '"Jim Kimmel "0';
+      });
+      const buf = Buffer.from(await wb.xlsx.writeBuffer());
+      const { buffer } = await buildNeutralTemplateFromBuffer(buf, { checkDb: false });
+      const wb2 = new ExcelJS.Workbook();
+      await wb2.xlsx.load(buffer);
+      expect(wb2.getWorksheet('Instructions').getCell('Z1').numFmt).to.equal('0');
+   });
+
+   it('the produced buffer round-trips clean through _finalGate on a workbook with no forbidden content at all', async () => {
+      const wb = buildEightSheetFixture();
+      const buf = Buffer.from(await wb.xlsx.writeBuffer());
+      const { buffer, manifest, summary } = await buildNeutralTemplateFromBuffer(buf, { sourceLabel: 'inline-fixture', checkDb: false });
+      expect(Buffer.isBuffer(buffer)).to.equal(true);
+      expect(manifest.forbiddenTokens).to.include('Jim Kimmel');
+      expect(summary.exampleCellsReplaced).to.be.an('array');
+   });
+});
+
+describe('buildTemplate owner flag is required (fail-closed)', () => {
+   it('throws a TypeError before any database read or buffer access when isOwnerAccount is omitted or not a boolean', async () => {
+      const poisonDb = new Proxy(() => {}, {
+         get() {
+            throw new Error('database must not be touched');
+         },
+         apply() {
+            throw new Error('database must not be touched');
+         }
+      });
+      const poisonBuffer = new Proxy(Buffer.alloc(0), {
+         get() {
+            throw new Error('base buffer must not be read');
+         }
+      });
+      for (const flag of [undefined, null, 'true', 1, 0]) {
+         let err;
+         try {
+            await buildTemplate({ db: poisonDb, accountId: 9001, userId: 7, baseTemplateBuffer: poisonBuffer, isOwnerAccount: flag });
+         } catch (e) {
+            err = e;
+         }
+         expect(err, `flag ${String(flag)}`).to.be.instanceOf(TypeError);
+         expect(err.message).to.match(/isOwnerAccount/);
+      }
    });
 });

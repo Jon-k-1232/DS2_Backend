@@ -22,6 +22,32 @@
 -- the collision-resolution step recomputes collisions from the CURRENT
 -- (already-resolved) values, so a second run finds nothing left to change —
 -- see test/scripts/migration-020.spec.js.
+--
+-- review/full-audit-2026-09 finding 4 (Astra round 10): the collision step
+-- below used to be a single UPDATE computed from one static snapshot (a CTE
+-- taken once, before any row was rewritten), which could assign a "resolved"
+-- slug that collided with an UNRELATED row's slug the snapshot never
+-- re-checked against. Reproduced on a clone: accounts 100 'R10 Foo', 101
+-- 'R10_Foo', 102 'R10_Foo_101' — 100 and 101 collide on base 'R10_Foo' (rank
+-- 1 and 2), and the old single-pass UPDATE always suffixed the rank-2 loser
+-- with exactly `_<account_id>` and stopped looking, so 101 became
+-- 'R10_Foo_101' — the pre-existing BARE slug of completely unrelated account
+-- 102. That second, newly-created collision was never re-examined by the
+-- same statement, so it reached CREATE UNIQUE INDEX below, which failed
+-- (duplicate key) and rolled back the ENTIRE migration inside the `psql -X
+-- -1` transaction — not just the storage_slug backfill. Fix: replace the
+-- single UPDATE with a PL/pgSQL loop (still plain SQL under the file
+-- contract in migrations/README.md — a dollar-quoted DO block, no
+-- BEGIN/COMMIT of its own) that resolves one colliding row at a time, in
+-- deterministic account_id order, trying `_<account_id>`, then
+-- `_<account_id>_2`, `_<account_id>_3`, ... and re-checking each candidate
+-- against the CURRENT, live state of the WHOLE table (every untouched bare
+-- slug plus every collision already resolved earlier in the same loop) —
+-- mirroring what a brand-new account's own allocation does one row at a time
+-- (src/utils/storageSlug.js's resolveNewAccountStorageSlug). The real prod
+-- snapshot has exactly one account and cannot hit this at all; every shape
+-- above is exercised by test/scripts/migration-020.spec.js against throwaway
+-- databases.
 
 ALTER TABLE accounts ADD COLUMN IF NOT EXISTS storage_slug text;
 
@@ -43,19 +69,51 @@ WHERE storage_slug IS NULL;
 -- with the LOWEST account_id in each colliding group keeps the bare
 -- name-derived slug (preserving every existing S3 key for the
 -- longest-lived / lowest-id account — in practice, account 1); every other
--- account sharing that slug gets `_<account_id>` appended, which is unique
--- by construction (account_id is the primary key).
-WITH collisions AS (
-   SELECT account_id,
-          storage_slug,
-          ROW_NUMBER() OVER (PARTITION BY storage_slug ORDER BY account_id) AS slug_rank
-   FROM accounts
-)
-UPDATE accounts
-SET storage_slug = accounts.storage_slug || '_' || accounts.account_id
-FROM collisions
-WHERE accounts.account_id = collisions.account_id
-  AND collisions.slug_rank > 1;
+-- account sharing that slug is walked, in ascending account_id order, through
+-- `_<account_id>`, then `_<account_id>_2`, `_<account_id>_3`, ... until it
+-- finds a candidate NOTHING ELSE in the table currently holds (see this
+-- file's header comment, finding 4) — each candidate check runs against the
+-- table as it stands at that moment, so it sees every untouched bare slug
+-- AND every collision this same loop has already resolved for an
+-- earlier (lower) account_id.
+DO $$
+DECLARE
+   loser RECORD;
+   base_slug text;
+   candidate text;
+   attempt int;
+BEGIN
+   FOR loser IN
+      SELECT account_id,
+             storage_slug,
+             ROW_NUMBER() OVER (PARTITION BY storage_slug ORDER BY account_id) AS slug_rank
+      FROM accounts
+      ORDER BY account_id
+   LOOP
+      IF loser.slug_rank = 1 THEN
+         CONTINUE;
+      END IF;
+
+      base_slug := loser.storage_slug;
+      attempt := 1;
+      LOOP
+         IF attempt = 1 THEN
+            candidate := base_slug || '_' || loser.account_id;
+         ELSE
+            candidate := base_slug || '_' || loser.account_id || '_' || attempt;
+         END IF;
+
+         EXIT WHEN NOT EXISTS (
+            SELECT 1 FROM accounts
+            WHERE storage_slug = candidate AND account_id <> loser.account_id
+         );
+
+         attempt := attempt + 1;
+      END LOOP;
+
+      UPDATE accounts SET storage_slug = candidate WHERE account_id = loser.account_id;
+   END LOOP;
+END $$;
 
 ALTER TABLE accounts ALTER COLUMN storage_slug SET NOT NULL;
 

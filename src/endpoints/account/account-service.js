@@ -24,17 +24,46 @@ const accountService = {
    // as a human assigning ids by hand — Postgres sequences are never
    // transactional, so a failed create simply leaves a gap, which is
    // harmless (ids carry no meaning beyond uniqueness).
+   //
+   // review/full-audit-2026-09 findings 3+4 (Astra round 10): each attempt
+   // runs inside its own SAVEPOINT (trx.transaction() nested inside an
+   // already-open transaction — knex's documented way to get one), not bare
+   // statements directly on trx. A unique-violation leaves the ENTIRE
+   // enclosing transaction aborted until rollback, so retrying on the same
+   // trx with no savepoint would just raise "current transaction is aborted"
+   // on the very next statement; the savepoint confines that abort to the
+   // one attempt, leaving trx itself (and the id already reserved via
+   // nextval above it, if the retry reused it — it doesn't, see below) still
+   // usable. resolveNewAccountStorageSlug's advisory lock should make a
+   // 23505 on accounts_storage_slug_key unreachable in practice; this retry
+   // is the documented last-line-of-defence belt-and-suspenders, not the
+   // primary fix — see storageSlug.js.
    createAccount(db, newAccount) {
       return db.transaction(async trx => {
-         const {
-            rows: [{ id }]
-         } = await trx.raw("SELECT nextval(pg_get_serial_sequence('accounts', 'account_id')) AS id");
-         const accountId = Number(id);
-         const storageSlug = await resolveNewAccountStorageSlug(trx, newAccount.account_name, accountId);
-         const [row] = await trx('accounts')
-            .insert({ ...newAccount, account_id: accountId, storage_slug: storageSlug })
-            .returning('*');
-         return row;
+         const attemptInsert = async attemptTrx => {
+            const {
+               rows: [{ id }]
+            } = await attemptTrx.raw("SELECT nextval(pg_get_serial_sequence('accounts', 'account_id')) AS id");
+            const accountId = Number(id);
+            const storageSlug = await resolveNewAccountStorageSlug(attemptTrx, newAccount.account_name, accountId);
+            const [row] = await attemptTrx('accounts')
+               .insert({ ...newAccount, account_id: accountId, storage_slug: storageSlug })
+               .returning('*');
+            return row;
+         };
+
+         try {
+            return await trx.transaction(attemptInsert);
+         } catch (err) {
+            if (err?.code === '23505' && err?.constraint === 'accounts_storage_slug_key') {
+               // Re-picks a fresh accountId too (a new nextval), not just a
+               // fresh slug for the same id — simplest correct retry, and the
+               // abandoned id from the failed attempt is just a harmless gap
+               // (see the comment above).
+               return trx.transaction(attemptInsert);
+            }
+            throw err;
+         }
       });
    },
 
