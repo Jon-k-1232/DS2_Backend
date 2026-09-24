@@ -281,7 +281,7 @@ rollout sequence (apply `021` → deploy backend → run the backfill dry run �
 review its rows CSV, deleting any line you do not approve → run it with
 `--apply --manifest <that reviewed CSV>`). The apply writes exactly the
 reviewed rows, bound to the database, bucket and legacy account they were
-reviewed against, and refuses if anything drifted since the review.
+reviewed against, and refuses if anything drifted since the review. Afterwards reconcile the counts, read back a few rows and check one employee's history, as listed in FINAL_REPORT section 6.
 
 The equivalent runtime allocator for a BRAND-NEW account
 (`resolveNewAccountStorageSlug` in `src/utils/storageSlug.js`, called from
