@@ -1973,4 +1973,107 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          expect(sha256(recorded.body)).to.equal(sha256(Buffer.from('R11 former name-keyed tracker')));
       });
    });
+   // Astra round 12: every candidate key is authorized BEFORE it is fetched,
+   // with exact recorded names for shared name folders (normalization only
+   // chooses among keys already accepted); both leaves of every account folder
+   // are searched; flat name folders belong only to the legacy tenant.
+   describe('download-by-name and history authorize before fetching (Astra round 12)', () => {
+      let storageSlug;
+      let originalAccountName;
+      const put = async (key, text) => {
+         created.s3Keys.push(key);
+         await putObject(key, zlib.gzipSync(Buffer.from(text)), 'application/gzip', { 'original-content-type': XLSX_MIME });
+      };
+      const record = async (userId, name) => {
+         await db('timesheet_entries').insert({
+            account_id: A,
+            user_id: userId,
+            employee_name: 'Eliza Smith',
+            timesheet_name: name,
+            time_tracker_start_date: iso(CUR_START),
+            time_tracker_end_date: iso(CUR_END),
+            date: iso(CUR_END),
+            entity: ENTITY_JKA,
+            category: 'Phone Call',
+            company_name: COV_NAME,
+            duration: 15,
+            notes: `R12 fixture ${RUN}`
+         });
+         created.timesheetNames.push(name);
+      };
+      const byName = (timesheetName, owner = ELIZA) => getBinary('admin', `/time-tracking/download/by-name/${A}/${ADMIN}`, { ownerUserID: owner, timesheetName });
+      const historyKeys = async () => (await h.as('admin').get(`/time-tracking/history/${A}/${ELIZA}`)).body.history.map(entry => entry.key);
+
+      before(async () => {
+         const account = await db('accounts').where({ account_id: A }).first();
+         storageSlug = account.storage_slug;
+         originalAccountName = account.account_name;
+      });
+
+      after(async () => {
+         if (originalAccountName !== undefined) await db('accounts').where({ account_id: A }).update({ account_name: originalAccountName });
+      });
+
+      it("never serves a same-named colleague's file whose name only matches this owner's recorded name after normalization", async () => {
+         const mine = `R12Case_${RUN}.csv`;
+         const theirsKey = `${PROCESSED_ROOT}/${storageSlug}_${A}/Smith_Eliza/R12CASE_${RUN}.CSV.gz`;
+         await record(ELIZA, mine);
+         await record(otherEliza.user_id, `R12CASE_${RUN}.CSV`);
+         await put(theirsKey, 'R12 sentinel: colleague file');
+         const res = await byName(mine);
+         expect(res.status).to.equal(404);
+         expect(await historyKeys()).to.not.include(theirsKey);
+         expect((await getBinary('admin', `/time-tracking/history/download/${A}/${ELIZA}`, { key: theirsKey })).status).to.equal(403);
+      });
+
+      it('never serves a flat-layout file to an account that is not the legacy tenant, even with an exactly recorded name', async () => {
+         const name = `R12Flat_${RUN}.xlsx`;
+         const flatKey = `${PROCESSED_ROOT}/Smith_Eliza/${name}.gz`;
+         await record(ELIZA, name);
+         await put(flatKey, 'R12 sentinel: flat layout of another tenant');
+         expect((await byName(name)).status).to.equal(404);
+         expect(await historyKeys()).to.not.include(flatKey);
+         expect((await getBinary('admin', `/time-tracking/history/download/${A}/${ELIZA}`, { key: flatKey })).status).to.equal(403);
+      });
+
+      it('a malformed deeper key is skipped and the search continues to the valid match', async () => {
+         const base = `r12-fallback-${RUN.toLowerCase()}.csv`;
+         const malformedKey = `${PROCESSED_ROOT}/${storageSlug}_${A}/user_${ELIZA}/extra/${base}.gz`;
+         const validKey = `${PROCESSED_ROOT}/R12_Former_Fixture_${A}/user_${ELIZA}/${base}.gz`;
+         await put(malformedKey, 'R12 sentinel: malformed depth');
+         await put(validKey, 'R12 valid fallback tracker');
+         const res = await byName(base.toUpperCase());
+         expect(res.status).to.equal(200);
+         expect(sha256(res.body)).to.equal(sha256(Buffer.from('R12 valid fallback tracker')));
+         expect(await historyKeys()).to.not.include(malformedKey);
+      });
+
+      it("after a rename, a name-keyed file in the account's storage folder stays listed and downloadable by name", async function () {
+         this.timeout(60_000);
+         const name = `R12Stable_${RUN}.xlsx`;
+         const stableKey = `${PROCESSED_ROOT}/${storageSlug}_${A}/Smith_Eliza/${name}.gz`;
+         await record(ELIZA, name);
+         await put(stableKey, 'R12 stable name-keyed tracker');
+         expect(await historyKeys()).to.include(stableKey);
+
+         const renameRes = await h.as('admin').put('/account/updateAccount').send({ account: { account_name: `R12 Renamed ${RUN}` } });
+         expect(renameRes.status, JSON.stringify(renameRes.body)).to.equal(200);
+
+         expect(await historyKeys()).to.include(stableKey);
+         const res = await byName(name);
+         expect(res.status).to.equal(200);
+         expect(sha256(res.body)).to.equal(sha256(Buffer.from('R12 stable name-keyed tracker')));
+      });
+
+      it("the legacy tenant's flat files with no upload record are listed and downloadable for the one employee whose folder it is", async () => {
+         const legacyKey = `${PROCESSED_ROOT}/Admin_Admin/R12LegacyFlat_${RUN}.xlsx.gz`;
+         await put(legacyKey, 'R12 legacy flat tracker without an upload record');
+         const history = await h.as('superAdmin').get(`/time-tracking/history/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
+         expect(history.status).to.equal(200);
+         expect(history.body.history.map(entry => entry.key)).to.include(legacyKey);
+         const download = await getBinary('superAdmin', `/time-tracking/history/download/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`, { key: legacyKey });
+         expect(download.status).to.equal(200);
+         expect(sha256(download.body)).to.equal(sha256(Buffer.from('R12 legacy flat tracker without an upload record')));
+      });
+   });
 });
