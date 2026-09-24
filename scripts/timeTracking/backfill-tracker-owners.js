@@ -11,9 +11,22 @@
    without ever re-deriving ownership from a CURRENT display name again.
 
    Usage:
-      DS2_ENV_FILE=.env.local DATABASE_NAME=ds2_local node scripts/timeTracking/backfill-tracker-owners.js            # dry run (default)
-      DS2_ENV_FILE=.env.local DATABASE_NAME=ds2_local node scripts/timeTracking/backfill-tracker-owners.js --apply    # write the rows
-      DS2_ENV_FILE=.env.prod  DATABASE_NAME=ds2_prod  node scripts/timeTracking/backfill-tracker-owners.js --apply --i-know-this-is-prod
+      # 1. dry run (default): plan and write the review CSVs; nothing is written to the database
+      DS2_ENV_FILE=.env.local DATABASE_NAME=ds2_local node scripts/timeTracking/backfill-tracker-owners.js
+      # 2. review <out>/...rows.csv (delete any line you do not approve; do not edit the other columns)
+      # 3. apply EXACTLY the reviewed rows (never a fresh computation)
+      DS2_ENV_FILE=.env.local DATABASE_NAME=ds2_local node scripts/timeTracking/backfill-tracker-owners.js --apply --manifest <out>/...rows.csv
+      DS2_ENV_FILE=.env.prod  DATABASE_NAME=ds2_prod  node scripts/timeTracking/backfill-tracker-owners.js --apply --manifest <reviewed rows.csv> --i-know-this-is-prod
+
+   --apply writes only the rows of the reviewed manifest (Astra round 14: an
+   apply that re-planned could hand a file to whoever matched a name AFTER
+   the review, e.g. following a rename). Every manifest row is bound to the
+   target it was reviewed against (database, bucket, legacy account) and is
+   validated before anything is written. The script then re-plans read-only
+   and REFUSES if any approved row has drifted (object gone, or the fresh plan
+   now names a different owner or none); --accept-drift proceeds anyway, still
+   writing the APPROVED owner, never the fresh one. An approved key already
+   owned by someone else is refused, never overwritten.
 
    Like scripts/review-2026-09/*.js, DS2_ENV_FILE and DATABASE_NAME must both
    be set explicitly — there is no default target. A dry run only reads (S3
@@ -24,7 +37,7 @@
    scripts/migrate.js's looksLikeProd, reused here rather than
    reimplemented) additionally requires --i-know-this-is-prod. --apply never
    updates an existing tracker_file_owners row (ON CONFLICT (s3_key) DO
-   NOTHING, via trackerOwners.recordOwner) — a wrong or superseded backfill
+   NOTHING, after refusing any approved key already owned by someone else) — a wrong or superseded backfill
    row is fixed by a separate, reviewed follow-up, never by silently
    overwriting a prior attribution.
 
@@ -83,7 +96,6 @@
 // does) never needs any S3 config at all.
 const fs = require('fs');
 const path = require('path');
-const trackerOwners = require('../../src/endpoints/timeTracking/trackerOwners');
 const { buildUserFolder } = require('../../src/endpoints/timeTracking/trackerFolderNames');
 const { looksLikeProd } = require('../migrate');
 
@@ -233,27 +245,187 @@ const toCsv = (rowsArr, columns) => {
 
 module.exports = { planTrackerOwnership, parseTrackerKey, canonicalId, PROCESSED_ROOT, LEGACY_FLAT_TRACKER_ACCOUNT_ID };
 
-// ── CLI ─────────────────────────────────────────────────────────────────
-async function main() {
-   const args = new Set(process.argv.slice(2));
-   for (const arg of args) {
-      if (!['--apply', '--i-know-this-is-prod'].includes(arg)) throw new Error(`Unknown argument: ${arg}`);
+// ── Reviewed manifest: parse, validate, compare, apply ──────────────────
+const MANIFEST_COLUMNS = ['database', 'bucket', 'legacy_account_id', 's3_key', 'account_id', 'user_id', 'source', 'owner_display_name'];
+const ALLOWED_SOURCES = new Set(['recorded-upload', 'folder-at-backfill', 'path']);
+
+// Minimal RFC 4180 parser for the files toCsv writes (quoted cells, doubled
+// quotes, commas and newlines inside quotes). Undoes toCsv's formula guard.
+const parseCsv = text => {
+   const records = [];
+   let row = [];
+   let cell = '';
+   let quoted = false;
+   const src = String(text).replace(/^﻿/, '');
+   for (let i = 0; i < src.length; i += 1) {
+      const ch = src[i];
+      if (quoted) {
+         if (ch === '"' && src[i + 1] === '"') {
+            cell += '"';
+            i += 1;
+         } else if (ch === '"') {
+            quoted = false;
+         } else {
+            cell += ch;
+         }
+      } else if (ch === '"') {
+         quoted = true;
+      } else if (ch === ',') {
+         row.push(cell);
+         cell = '';
+      } else if (ch === '\n' || ch === '\r') {
+         if (ch === '\r' && src[i + 1] === '\n') i += 1;
+         row.push(cell);
+         records.push(row);
+         row = [];
+         cell = '';
+      } else {
+         cell += ch;
+      }
    }
-   const apply = args.has('--apply');
+   if (quoted) throw new Error('Manifest CSV has an unterminated quoted cell.');
+   if (cell !== '' || row.length) {
+      row.push(cell);
+      records.push(row);
+   }
+   const unguard = value => (/^'[=+@\-\t\r]/.test(value) ? value.slice(1) : value);
+   return records.filter(record => record.some(value => value !== '')).map(record => record.map(unguard));
+};
+
+const readManifest = text => {
+   const [header, ...records] = parseCsv(text);
+   if (!header || header.join(',') !== MANIFEST_COLUMNS.join(',')) {
+      throw new Error(`Manifest header must be exactly: ${MANIFEST_COLUMNS.join(',')}`);
+   }
+   return records.map((record, index) => {
+      if (record.length !== MANIFEST_COLUMNS.length) throw new Error(`Manifest line ${index + 2} has ${record.length} cells, expected ${MANIFEST_COLUMNS.length}.`);
+      return Object.fromEntries(MANIFEST_COLUMNS.map((column, i) => [column, record[i]]));
+   });
+};
+
+// Every problem with the manifest as a whole, before anything is written.
+const validateManifestRows = ({ rows, identity, processedRoot, legacyAccountId }) => {
+   const errors = [];
+   const seen = new Set();
+   rows.forEach((row, index) => {
+      const line = index + 2;
+      if (row.database !== identity.database) errors.push(`line ${line}: reviewed against database "${row.database}", target is "${identity.database}"`);
+      if (row.bucket !== identity.bucket) errors.push(`line ${line}: reviewed against bucket "${row.bucket}", target is "${identity.bucket}"`);
+      if (row.legacy_account_id !== String(legacyAccountId)) errors.push(`line ${line}: reviewed with legacy account ${row.legacy_account_id}, target uses ${legacyAccountId}`);
+      if (seen.has(row.s3_key)) errors.push(`line ${line}: duplicate key ${row.s3_key}`);
+      seen.add(row.s3_key);
+      if (!ALLOWED_SOURCES.has(row.source)) errors.push(`line ${line}: source "${row.source}" is not allowed`);
+      const accountId = canonicalId(row.account_id);
+      const userId = canonicalId(row.user_id);
+      if (!accountId || !userId) {
+         errors.push(`line ${line}: account_id and user_id must be canonical positive integers`);
+         return;
+      }
+      const parsed = parseTrackerKey(processedRoot, row.s3_key);
+      if (parsed.type === 'malformed') errors.push(`line ${line}: malformed key ${row.s3_key}`);
+      if (parsed.type === 'flat' && Number(accountId) !== Number(legacyAccountId)) errors.push(`line ${line}: a flat key can only belong to the legacy account ${legacyAccountId}`);
+      if (parsed.type === 'name-keyed' && parsed.accountId !== Number(accountId)) errors.push(`line ${line}: key's account folder is ${parsed.accountId}, row says ${accountId}`);
+      if (parsed.type === 'id-keyed' && (parsed.accountId !== Number(accountId) || parsed.userId !== Number(userId))) errors.push(`line ${line}: key's path names account ${parsed.accountId} user ${parsed.userId}, row says account ${accountId} user ${userId}`);
+   });
+   return errors;
+};
+
+// Approved rows whose facts changed since the review, from a fresh read-only plan.
+const findDrift = ({ approved, freshKeys, freshPlan }) => {
+   const present = new Set(freshKeys);
+   const planned = new Map(freshPlan.rows.map(row => [row.s3_key, row]));
+   const drift = [];
+   approved.forEach(row => {
+      if (!present.has(row.s3_key)) {
+         drift.push({ s3_key: row.s3_key, reason: 'object-missing' });
+         return;
+      }
+      const fresh = planned.get(row.s3_key);
+      if (!fresh) {
+         drift.push({ s3_key: row.s3_key, reason: 'now-unattributed', approved_user_id: Number(row.user_id) });
+      } else if (Number(fresh.account_id) !== Number(row.account_id) || Number(fresh.user_id) !== Number(row.user_id)) {
+         drift.push({ s3_key: row.s3_key, reason: 'owner-changed', approved_user_id: Number(row.user_id), fresh_user_id: Number(fresh.user_id) });
+      }
+   });
+   return drift;
+};
+
+// Writes exactly the approved rows in one transaction. A key already owned by
+// the SAME owner is skipped; a key owned by anyone else aborts the whole run.
+const applyManifest = async (db, approved) =>
+   db.transaction(async trx => {
+      await trx.raw('LOCK TABLE tracker_file_owners IN SHARE ROW EXCLUSIVE MODE');
+      const keys = approved.map(row => row.s3_key);
+      const existing = keys.length ? await trx('tracker_file_owners').select('s3_key', 'account_id', 'user_id').whereIn('s3_key', keys) : [];
+      const existingByKey = new Map(existing.map(row => [row.s3_key, row]));
+      const conflicts = [];
+      const toInsert = [];
+      approved.forEach(row => {
+         const current = existingByKey.get(row.s3_key);
+         if (!current) toInsert.push(row);
+         else if (Number(current.account_id) !== Number(row.account_id) || Number(current.user_id) !== Number(row.user_id)) conflicts.push({ s3_key: row.s3_key, owned_by_user_id: Number(current.user_id), approved_user_id: Number(row.user_id) });
+      });
+      if (conflicts.length) {
+         const error = new Error(`Refusing to apply: ${conflicts.length} approved key(s) are already owned by someone else (first: ${JSON.stringify(conflicts[0])}). Resolve them by hand.`);
+         error.conflicts = conflicts;
+         throw error;
+      }
+      let inserted = 0;
+      for (const row of toInsert) {
+         // eslint-disable-next-line no-await-in-loop
+         const result = await trx('tracker_file_owners')
+            .insert({ s3_key: row.s3_key, account_id: Number(row.account_id), user_id: Number(row.user_id), source: row.source })
+            .onConflict('s3_key')
+            .ignore()
+            .returning('s3_key');
+         inserted += result.length;
+      }
+      return { approved: approved.length, inserted, alreadyApplied: approved.length - toInsert.length };
+   });
+
+module.exports.MANIFEST_COLUMNS = MANIFEST_COLUMNS;
+module.exports.toCsv = toCsv;
+module.exports.parseCsv = parseCsv;
+module.exports.readManifest = readManifest;
+module.exports.validateManifestRows = validateManifestRows;
+module.exports.findDrift = findDrift;
+module.exports.applyManifest = applyManifest;
+
+// ── CLI ─────────────────────────────────────────────────────────────────
+const parseArgs = argv => {
+   const flags = new Set();
+   let manifestPath = null;
+   for (let i = 0; i < argv.length; i += 1) {
+      const arg = argv[i];
+      if (arg === '--manifest') {
+         manifestPath = argv[i + 1];
+         i += 1;
+         if (!manifestPath) throw new Error('--manifest needs a path to the reviewed rows CSV.');
+      } else if (['--apply', '--i-know-this-is-prod', '--accept-drift'].includes(arg)) {
+         flags.add(arg);
+      } else {
+         throw new Error(`Unknown argument: ${arg}`);
+      }
+   }
+   const apply = flags.has('--apply');
+   if (apply && !manifestPath) throw new Error('--apply requires --manifest <reviewed rows CSV from a dry run>; the apply never re-plans ownership on its own.');
+   if (!apply && (manifestPath || flags.has('--accept-drift'))) throw new Error('--manifest and --accept-drift are only valid with --apply.');
+   return { apply, manifestPath, acceptDrift: flags.has('--accept-drift'), prodConfirmed: flags.has('--i-know-this-is-prod') };
+};
+
+async function main() {
+   const { apply, manifestPath, acceptDrift, prodConfirmed } = parseArgs(process.argv.slice(2));
 
    if (!process.env.DS2_ENV_FILE || !process.env.DATABASE_NAME) {
       throw new Error('Set DS2_ENV_FILE and DATABASE_NAME explicitly (run from DS2_Backend), e.g. DS2_ENV_FILE=.env.local DATABASE_NAME=ds2_local node scripts/timeTracking/backfill-tracker-owners.js');
    }
 
-   // makeDb() deliberately never calls dotenv.config() for its OWN callers
-   // (see scripts/_db.js's header comment) — it reads connection settings
-   // straight off the env file itself. But src/utils/s3.js (required just
-   // below, only now that the env file is known-present) reads config.js,
-   // which reads S3_BUCKET_NAME/S3_REGION/S3_ENDPOINT/... straight off
-   // process.env at require time — so this loads the env file into
-   // process.env itself first, the same way test/setup.js does for the
-   // test suite.
+   // src/utils/s3.js and config.js read S3 settings from process.env at
+   // require time, so the env file is loaded first; the legacy account
+   // override is resolved only AFTER that (Astra round 14: reading it at
+   // module load ignored a value set only in the env file).
    require('dotenv').config({ path: process.env.DS2_ENV_FILE, override: false });
+   const legacyAccountId = Number(process.env.LEGACY_FLAT_TRACKER_ACCOUNT_ID) || 1;
 
    const { listObjects } = require('../../src/utils/s3');
    const { makeDb } = require('../_db');
@@ -263,73 +435,57 @@ async function main() {
    try {
       const dbName = db.client.config.connection.database;
       const host = db.client.config.connection.host;
-      if (apply && looksLikeProd(dbName, host) && !args.has('--i-know-this-is-prod')) {
+      if (apply && looksLikeProd(dbName, host) && !prodConfirmed) {
          throw new Error(`Refusing --apply: database "${dbName}" / host "${host}" looks like production. Pass --i-know-this-is-prod if this is deliberate.`);
       }
 
-      const identity = (await db.raw('SELECT current_database() AS database, current_user AS role')).rows[0];
-      console.log(
-         JSON.stringify({
-            database: identity.database,
-            role: identity.role,
-            bucket: config.S3_BUCKET_NAME,
-            processedRoot: PROCESSED_ROOT,
-            mode: apply ? 'APPLY' : 'DRY RUN'
-         })
-      );
+      const { database, role } = (await db.raw('SELECT current_database() AS database, current_user AS role')).rows[0];
+      const identity = { database, bucket: String(config.S3_BUCKET_NAME || '') };
+      console.log(JSON.stringify({ ...identity, role, processedRoot: PROCESSED_ROOT, legacyAccountId, mode: apply ? 'APPLY REVIEWED MANIFEST' : 'DRY RUN' }));
 
+      // Always plan read-only: a dry run reports it; an apply only uses it to detect drift.
       const objects = await listObjects(`${PROCESSED_ROOT}/`);
       const keys = (objects || []).map(o => o.Key).filter(k => k && !k.endsWith('/'));
-
       const recordedUploads = await db('timesheet_entries').distinct('account_id', 'user_id', 'timesheet_name').whereNotNull('timesheet_name');
       const userRows = await db('users').select('account_id', 'user_id', 'display_name');
       const usersByAccount = {};
+      const displayNameById = new Map();
       userRows.forEach(user => {
-         const list = usersByAccount[user.account_id] || (usersByAccount[user.account_id] = []);
-         list.push(user);
+         (usersByAccount[user.account_id] = usersByAccount[user.account_id] || []).push(user);
+         displayNameById.set(Number(user.user_id), user.display_name);
       });
+      const plan = planTrackerOwnership({ keys, processedRoot: PROCESSED_ROOT, legacyAccountId, recordedUploads, usersByAccount });
 
-      const { rows, unattributed } = planTrackerOwnership({
-         keys,
-         processedRoot: PROCESSED_ROOT,
-         legacyAccountId: LEGACY_FLAT_TRACKER_ACCOUNT_ID,
-         recordedUploads,
-         usersByAccount
-      });
-
-      const bySource = rows.reduce((acc, row) => ({ ...acc, [row.source]: (acc[row.source] || 0) + 1 }), {});
-      const byReason = unattributed.reduce((acc, row) => ({ ...acc, [row.reason]: (acc[row.reason] || 0) + 1 }), {});
-      const summary = {
-         totalKeysUnderProcessedRoot: keys.length,
-         attributable: rows.length,
-         bySource,
-         unattributedCount: unattributed.length,
-         byReason
-      };
-      console.log(`SUMMARY ${JSON.stringify(summary, null, 2)}`);
-
-      const outDir = path.join(__dirname, 'out');
-      fs.mkdirSync(outDir, { recursive: true });
-      const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const prefix = path.join(outDir, `backfill-tracker-owners.${String(identity.database).replace(/[^a-zA-Z0-9_-]/g, '_')}.${apply ? 'apply' : 'dry-run'}.${stamp}`);
-      const rowsCsvPath = `${prefix}.rows.csv`;
-      const unattributedCsvPath = `${prefix}.unattributed.csv`;
-      fs.writeFileSync(rowsCsvPath, toCsv(rows, ['s3_key', 'account_id', 'user_id', 'source']));
-      fs.writeFileSync(unattributedCsvPath, toCsv(unattributed, ['s3_key', 'reason']));
-      console.log(`Wrote ${rowsCsvPath} (${rows.length} row(s))`);
-      console.log(`Wrote ${unattributedCsvPath} (${unattributed.length} row(s))`);
-
-      if (apply) {
-         await db.transaction(async trx => {
-            for (const row of rows) {
-               // eslint-disable-next-line no-await-in-loop
-               await trackerOwners.recordOwner(trx, { s3Key: row.s3_key, accountId: row.account_id, userId: row.user_id, source: row.source });
-            }
-         });
-         console.log(`Applied ${rows.length} row(s) to tracker_file_owners inside one transaction (ON CONFLICT (s3_key) DO NOTHING — an existing row was never updated).`);
-      } else {
-         console.log('Dry run only (default) — review the two CSVs above, then re-run with --apply to write the attributable rows.');
+      if (!apply) {
+         const bySource = plan.rows.reduce((acc, row) => ({ ...acc, [row.source]: (acc[row.source] || 0) + 1 }), {});
+         const byReason = plan.unattributed.reduce((acc, row) => ({ ...acc, [row.reason]: (acc[row.reason] || 0) + 1 }), {});
+         console.log(`SUMMARY ${JSON.stringify({ totalKeysUnderProcessedRoot: keys.length, attributable: plan.rows.length, bySource, unattributedCount: plan.unattributed.length, byReason }, null, 2)}`);
+         const outDir = path.join(__dirname, 'out');
+         fs.mkdirSync(outDir, { recursive: true });
+         const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+         const prefix = path.join(outDir, `backfill-tracker-owners.${String(database).replace(/[^a-zA-Z0-9_-]/g, '_')}.dry-run.${stamp}`);
+         const manifestRows = plan.rows.map(row => ({ database, bucket: identity.bucket, legacy_account_id: legacyAccountId, ...row, owner_display_name: displayNameById.get(Number(row.user_id)) || '' }));
+         fs.writeFileSync(`${prefix}.rows.csv`, toCsv(manifestRows, MANIFEST_COLUMNS));
+         fs.writeFileSync(`${prefix}.unattributed.csv`, toCsv(plan.unattributed, ['s3_key', 'reason']));
+         console.log(`Wrote ${prefix}.rows.csv (${manifestRows.length} row(s)) — review it; delete any line you do not approve.`);
+         console.log(`Wrote ${prefix}.unattributed.csv (${plan.unattributed.length} row(s))`);
+         console.log(`Nothing was written to the database. Apply the reviewed file with: --apply --manifest ${prefix}.rows.csv`);
+         return;
       }
+
+      const approved = readManifest(fs.readFileSync(manifestPath, 'utf8'));
+      const errors = validateManifestRows({ rows: approved, identity, processedRoot: PROCESSED_ROOT, legacyAccountId });
+      if (errors.length) throw new Error(`Refusing to apply: the manifest does not match this target or has invalid rows:\n  ${errors.slice(0, 20).join('\n  ')}${errors.length > 20 ? `\n  ... ${errors.length - 20} more` : ''}`);
+
+      const drift = findDrift({ approved, freshKeys: keys, freshPlan: plan });
+      if (drift.length) {
+         console.log(`DRIFT since the review (${drift.length} approved row(s)):\n  ${drift.slice(0, 20).map(d => JSON.stringify(d)).join('\n  ')}`);
+         if (!acceptDrift) throw new Error('Refusing to apply because approved rows drifted since the review. Re-run the dry run and review again, or pass --accept-drift to apply the APPROVED owners anyway.');
+         console.log('--accept-drift given: applying the approved owners as reviewed (never the fresh plan).');
+      }
+
+      const result = await applyManifest(db, approved);
+      console.log(`Applied reviewed manifest ${manifestPath}: ${JSON.stringify(result)}`);
    } finally {
       await db.destroy();
    }
@@ -340,7 +496,6 @@ if (require.main === module) {
       .then(() => process.exit(0))
       .catch(err => {
          console.error(`\nbackfill-tracker-owners FAILED: ${err.message}`);
-         console.error(err.stack);
          process.exit(1);
       });
 }

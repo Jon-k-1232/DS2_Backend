@@ -240,3 +240,140 @@ describe('scripts/timeTracking/backfill-tracker-owners.js', () => {
       });
    });
 });
+
+// Astra round 14: --apply must write EXACTLY the reviewed dry-run manifest,
+// bound to the target it was reviewed against, and refuse drift; it must never
+// re-plan ownership on its own (a rename between review and apply could
+// otherwise hand a file to a different person).
+describe('scripts/timeTracking/backfill-tracker-owners.js — reviewed manifest (Astra round 14)', function () {
+   this.timeout(30000);
+   const fs = require('fs');
+   const path = require('path');
+   const pgHarness = require('./helpers/pgHarness');
+   const { MANIFEST_COLUMNS, toCsv, readManifest, validateManifestRows, findDrift, applyManifest } = require('../../scripts/timeTracking/backfill-tracker-owners');
+   const ROOT = 'James_F__Kimmel___Associates/time_tracking/processed';
+   const identity = { database: 'ds2_prod', bucket: 'ds2-561979538576' };
+   const flatKey = `${ROOT}/Smith_Jane/Smith_Jane_2025.xlsx`;
+   const idKey = `${ROOT}/TEST_FIXTURE_ACCOUNT_9001/user_90011/tracker.xlsx.gz`;
+   const approvedRow = (overrides = {}) =>
+      Object.assign({ database: identity.database, bucket: identity.bucket, legacy_account_id: '1', s3_key: flatKey, account_id: '1', user_id: '101', source: 'folder-at-backfill', owner_display_name: 'Jane Smith' }, overrides);
+
+   describe('readManifest', () => {
+      it('round-trips the dry run CSV, including quoted names with commas and a guarded leading minus', () => {
+         const rows = [approvedRow({ owner_display_name: 'Smith, Jane "JJ"' }), approvedRow({ s3_key: idKey, account_id: '9001', user_id: '90011', source: 'path', owner_display_name: '-dash name' })];
+         const parsed = readManifest(toCsv(rows, MANIFEST_COLUMNS));
+         expect(parsed).to.have.length(2);
+         expect(parsed[0].owner_display_name).to.equal('Smith, Jane "JJ"');
+         expect(parsed[1].owner_display_name).to.equal('-dash name');
+         expect(parsed[1].s3_key).to.equal(idKey);
+      });
+
+      it('refuses a file whose header is not the manifest header (e.g. the unattributed CSV)', () => {
+         expect(() => readManifest('"s3_key","reason"\n"x","malformed"\n')).to.throw(/header/);
+      });
+
+      it('ignores blank lines, so deleting rows in a spreadsheet is fine', () => {
+         const text = toCsv([approvedRow()], MANIFEST_COLUMNS) + '\n\n';
+         expect(readManifest(text)).to.have.length(1);
+      });
+   });
+
+   describe('validateManifestRows', () => {
+      const validate = (rows, legacyAccountId = 1, target = identity) => validateManifestRows({ rows, identity: target, processedRoot: ROOT, legacyAccountId });
+
+      it('accepts rows reviewed against this exact target', () => {
+         expect(validate([approvedRow(), approvedRow({ s3_key: idKey, account_id: '9001', user_id: '90011', source: 'path' })])).to.deep.equal([]);
+      });
+
+      it('refuses rows reviewed against another database, bucket or legacy account', () => {
+         expect(validate([approvedRow()], 1, { database: 'ds2_local', bucket: identity.bucket }).join()).to.match(/database/);
+         expect(validate([approvedRow()], 1, { database: identity.database, bucket: 'ds2-local' }).join()).to.match(/bucket/);
+         expect(validate([approvedRow()], 7).join()).to.match(/legacy account/);
+      });
+
+      it('refuses duplicates, unknown sources, non-canonical ids and malformed keys', () => {
+         expect(validate([approvedRow(), approvedRow()]).join()).to.match(/duplicate/);
+         expect(validate([approvedRow({ source: 'upload' })]).join()).to.match(/source/);
+         expect(validate([approvedRow({ user_id: '0101' })]).join()).to.match(/canonical/);
+         expect(validate([approvedRow({ s3_key: `${ROOT}/only-one-segment.xlsx` })]).join()).to.match(/malformed/);
+      });
+
+      it('refuses a flat key for any account but the legacy one, and an id-keyed row that disagrees with its own path', () => {
+         expect(validate([approvedRow({ account_id: '9001' })]).join()).to.match(/legacy account/);
+         expect(validate([approvedRow({ s3_key: idKey, account_id: '9001', user_id: '90012', source: 'path' })]).join()).to.match(/path names/);
+      });
+   });
+
+   describe('findDrift', () => {
+      it("reports Astra's case: the reviewed owner was A, a rename since then makes the fresh plan say B", () => {
+         const drift = findDrift({ approved: [approvedRow({ user_id: '101' })], freshKeys: [flatKey], freshPlan: { rows: [{ s3_key: flatKey, account_id: 1, user_id: 102, source: 'folder-at-backfill' }] } });
+         expect(drift).to.deep.equal([{ s3_key: flatKey, reason: 'owner-changed', approved_user_id: 101, fresh_user_id: 102 }]);
+      });
+
+      it('reports approved objects that are gone or that the fresh plan no longer attributes', () => {
+         expect(findDrift({ approved: [approvedRow()], freshKeys: [], freshPlan: { rows: [] } })).to.deep.equal([{ s3_key: flatKey, reason: 'object-missing' }]);
+         expect(findDrift({ approved: [approvedRow()], freshKeys: [flatKey], freshPlan: { rows: [] } })[0].reason).to.equal('now-unattributed');
+      });
+
+      it('reports nothing when the fresh plan agrees with the review', () => {
+         expect(findDrift({ approved: [approvedRow()], freshKeys: [flatKey], freshPlan: { rows: [{ s3_key: flatKey, account_id: 1, user_id: 101, source: 'recorded-upload' }] } })).to.deep.equal([]);
+      });
+   });
+
+   describe('applyManifest (throwaway database)', () => {
+      const DB = `ds2_mig_test_backfill_apply_${process.pid}`;
+      let db;
+      const migration021 = () => fs.readFileSync(path.join(__dirname, '..', '..', 'migrations', '021.tracker_file_owners.sql'), 'utf8');
+
+      before(function () {
+         if (!pgHarness.isAvailable()) return this.skip();
+      });
+      beforeEach(async () => {
+         pgHarness.createThrowawayDb(DB);
+         db = pgHarness.knexFor(DB);
+         await db('accounts').insert([
+            { account_id: 1, account_name: 'James F. Kimmel & Associates', account_type: 'business', is_account_active: true },
+            { account_id: 9001, account_name: 'TEST FIXTURE ACCOUNT', account_type: 'business', is_account_active: true }
+         ]);
+         await db.transaction(trx => trx.raw(migration021()));
+      });
+      afterEach(async () => {
+         if (db) await db.destroy();
+         pgHarness.dropDb(DB);
+      });
+
+      it('writes exactly the approved owners, and a second run changes nothing', async () => {
+         const approved = [approvedRow(), approvedRow({ s3_key: idKey, account_id: '9001', user_id: '90011', source: 'path' })];
+         expect(await applyManifest(db, approved)).to.deep.equal({ approved: 2, inserted: 2, alreadyApplied: 0 });
+         expect(await applyManifest(db, approved)).to.deep.equal({ approved: 2, inserted: 0, alreadyApplied: 2 });
+         const rows = await db('tracker_file_owners').select('s3_key', 'account_id', 'user_id', 'source').orderBy('s3_key');
+         expect(rows.map(r => [r.s3_key, r.account_id, r.user_id, r.source])).to.deep.equal([
+            [flatKey, 1, 101, 'folder-at-backfill'],
+            [idKey, 9001, 90011, 'path']
+         ]);
+      });
+
+      it('refuses the whole run, writing nothing, when an approved key is already owned by someone else', async () => {
+         await db('tracker_file_owners').insert({ s3_key: flatKey, account_id: 1, user_id: 999, source: 'upload' });
+         const approved = [approvedRow({ s3_key: idKey, account_id: '9001', user_id: '90011', source: 'path' }), approvedRow()];
+         let error;
+         try {
+            await applyManifest(db, approved);
+         } catch (e) {
+            error = e;
+         }
+         expect(error, 'expected a refusal').to.exist;
+         expect(error.message).to.match(/already owned by someone else/);
+         expect(await db('tracker_file_owners').where({ s3_key: idKey }).first(), 'nothing from the refused run may be written').to.equal(undefined);
+         expect((await db('tracker_file_owners').where({ s3_key: flatKey }).first()).user_id, 'the existing owner is untouched').to.equal(999);
+      });
+
+      it("with drift accepted, the APPROVED owner is written, never the fresh plan's", async () => {
+         const approved = [approvedRow({ user_id: '101' })];
+         const drift = findDrift({ approved, freshKeys: [flatKey], freshPlan: { rows: [{ s3_key: flatKey, account_id: 1, user_id: 102, source: 'folder-at-backfill' }] } });
+         expect(drift).to.have.length(1);
+         await applyManifest(db, approved);
+         expect((await db('tracker_file_owners').where({ s3_key: flatKey }).first()).user_id).to.equal(101);
+      });
+   });
+});

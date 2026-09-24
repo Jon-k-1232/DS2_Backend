@@ -278,7 +278,10 @@ wrong person) — id-keyed objects (every upload since `020`) are unaffected,
 since those are authorized by path structure alone. See
 `scripts/review-2026-09/FINAL_REPORT.md` section 6 for the full production
 rollout sequence (apply `021` → deploy backend → run the backfill dry run →
-review its two CSVs → run it with `--apply`).
+review its rows CSV, deleting any line you do not approve → run it with
+`--apply --manifest <that reviewed CSV>`). The apply writes exactly the
+reviewed rows, bound to the database, bucket and legacy account they were
+reviewed against, and refuses if anything drifted since the review.
 
 The equivalent runtime allocator for a BRAND-NEW account
 (`resolveNewAccountStorageSlug` in `src/utils/storageSlug.js`, called from
