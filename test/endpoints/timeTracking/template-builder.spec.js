@@ -161,6 +161,19 @@ describe('template-builder', () => {
       expect(db._downloads).to.have.lengthOf(2);
    });
 
+   it('keeps owner and non-owner builds for the same account and user in separate cache entries', async () => {
+      const baseBuffer = fs.readFileSync(FIXTURE_PATH);
+      const db = buildStubDb();
+      const fixedNow = () => 1_000_000;
+      const owner = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: true, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      const nonOwner = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      expect(nonOwner.buffer.equals(owner.buffer)).to.equal(false);
+      expect(db._downloads).to.have.lengthOf(2);
+      const again = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false, baseTemplateBuffer: baseBuffer, now: fixedNow });
+      expect(again.buffer).to.equal(nonOwner.buffer);
+      expect(db._downloads).to.have.lengthOf(2);
+   });
+
    it('rebuilds for a different user (no cache cross-contamination)', async () => {
       const baseBuffer = fs.readFileSync(FIXTURE_PATH);
       const db = buildStubDb();
@@ -683,12 +696,12 @@ describe('template-builder non-owner build (neutral asset)', () => {
       // property is touched. If the non-owner path reads so much as
       // `.length` off this, the test fails loudly instead of silently
       // passing on a buffer that happens to not matter.
-      const poison = new Proxy(Buffer.from('not a real workbook'), {
+      const sentinel = new Proxy(Buffer.from('not a real workbook'), {
          get(target, prop) {
-            throw new Error(`POISON BUFFER WAS READ: ${String(prop)}`);
+            throw new Error(`SENTINEL BUFFER WAS READ: ${String(prop)}`);
          }
       });
-      const { buffer, counts } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false, baseTemplateBuffer: poison });
+      const { buffer, counts } = await buildTemplate({ db, accountId: 9001, userId: 7, isOwnerAccount: false, baseTemplateBuffer: sentinel });
       expect(counts).to.deep.equal({ customers: 3, employees: 2, categories: 2 });
       const wb = new ExcelJS.Workbook();
       await wb.xlsx.load(buffer);
@@ -1031,7 +1044,7 @@ describe('build-neutral-template.js (scripts/timeTracking)', () => {
 
 describe('buildTemplate owner flag is required (fail-closed)', () => {
    it('throws a TypeError before any database read or buffer access when isOwnerAccount is omitted or not a boolean', async () => {
-      const poisonDb = new Proxy(() => {}, {
+      const sentinelDb = new Proxy(() => {}, {
          get() {
             throw new Error('database must not be touched');
          },
@@ -1039,7 +1052,7 @@ describe('buildTemplate owner flag is required (fail-closed)', () => {
             throw new Error('database must not be touched');
          }
       });
-      const poisonBuffer = new Proxy(Buffer.alloc(0), {
+      const sentinelBuffer = new Proxy(Buffer.alloc(0), {
          get() {
             throw new Error('base buffer must not be read');
          }
@@ -1047,7 +1060,7 @@ describe('buildTemplate owner flag is required (fail-closed)', () => {
       for (const flag of [undefined, null, 'true', 1, 0]) {
          let err;
          try {
-            await buildTemplate({ db: poisonDb, accountId: 9001, userId: 7, baseTemplateBuffer: poisonBuffer, isOwnerAccount: flag });
+            await buildTemplate({ db: sentinelDb, accountId: 9001, userId: 7, baseTemplateBuffer: sentinelBuffer, isOwnerAccount: flag });
          } catch (e) {
             err = e;
          }

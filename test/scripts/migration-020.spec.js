@@ -70,6 +70,33 @@ describe('migrations/020.accounts_storage_slug.sql', function () {
          }
       });
 
+      it('matches the JS helper for non-ASCII names, including characters outside the Basic Multilingual Plane (two UTF-16 code units -> two underscores)', async () => {
+         const names = ['\u{1F680} Rocket Co', '\u{10400} Deseret Co', '\u00e9 Co', 'A\u{1F600}B\u{1F600}', 'Caf\u00e9 \u00dcn\u00efcode'];
+         for (const [index, name] of names.entries()) {
+            await insertAccount(db, { account_id: 300 + index, account_name: name });
+         }
+
+         await db.transaction(trx => trx.raw(migrationSql()));
+
+         const rows = await db('accounts').select('account_id', 'account_name', 'storage_slug').orderBy('account_id');
+         expect(rows).to.have.length(names.length);
+         for (const row of rows) {
+            expect(row.storage_slug, row.account_name).to.equal(sanitizeAccountName(row.account_name));
+         }
+         expect(rows[0].storage_slug).to.equal('___Rocket_Co');
+      });
+
+      it('two names that differ only in a non-BMP character still collide exactly as the JS helper predicts, and resolve by account id', async () => {
+         await insertAccount(db, { account_id: 400, account_name: '\u{1F680} Co' });
+         await insertAccount(db, { account_id: 401, account_name: '\u{10400} Co' });
+
+         await db.transaction(trx => trx.raw(migrationSql()));
+
+         const rows = await db('accounts').select('account_id', 'storage_slug').orderBy('account_id');
+         expect(sanitizeAccountName('\u{1F680} Co')).to.equal('___Co');
+         expect(rows.map(r => r.storage_slug)).to.deep.equal(['___Co', '___Co_401']);
+      });
+
       it('specifically: "James F. Kimmel & Associates" -> "James_F__Kimmel___Associates" (account 1\'s real value)', async () => {
          await insertAccount(db, { account_id: 1, account_name: 'James F. Kimmel & Associates' });
 

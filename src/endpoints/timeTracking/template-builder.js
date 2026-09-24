@@ -197,7 +197,10 @@ const _stripBadValidations = async buffer => {
 
 const _cache = new Map();
 
-const _cacheKey = ({ accountId, userId }) => `acct:${accountId}:user:${userId}`;
+// The owner flag is part of the key: an owner build and a non-owner build for
+// the same account/user are different documents and must never be served from
+// each other's cache entry (Astra round 11).
+const _cacheKey = ({ accountId, userId, isOwnerAccount }) => `acct:${accountId}:user:${userId}:owner:${isOwnerAccount === true}`;
 const _now = () => Date.now();
 
 const _readCatalogs = async (db, accountId) => {
@@ -1222,7 +1225,7 @@ const buildTemplate = async ({ db, accountId, userId, baseTemplateBuffer, now = 
    if (typeof isOwnerAccount !== 'boolean') {
       throw new TypeError('buildTemplate requires isOwnerAccount (boolean): true only for the account that owns the uploaded template.');
    }
-   const cacheKey = _cacheKey({ accountId, userId });
+   const cacheKey = _cacheKey({ accountId, userId, isOwnerAccount });
    const cached = _cache.get(cacheKey);
    if (cached && now() - cached.builtAt < COLLAPSE_WINDOW_MS) {
       return cached.payload;

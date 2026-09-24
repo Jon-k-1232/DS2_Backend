@@ -59,8 +59,15 @@ ALTER TABLE accounts ADD COLUMN IF NOT EXISTS storage_slug text;
 -- 'James_F__Kimmel___Associates', matching invoicePath.js and the existing
 -- hardcoded slug constants in src/endpoints/timeTracking/timeTracking-router.js
 -- and src/endpoints/pendingPayments/pendingPayments-service.js.
+-- JavaScript's /[^a-zA-Z0-9]/g works on UTF-16 code units, so a character
+-- outside the Basic Multilingual Plane (an emoji, for example) is two code
+-- units and becomes TWO underscores in sanitizeAccountName(); PostgreSQL
+-- regexes work on whole characters. The inner replace turns each such
+-- character into '__' first so the backfill matches the JS output byte for
+-- byte (Astra round 11); BMP characters, including accented letters, map to
+-- one '_' in both. account_name is NOT NULL.
 UPDATE accounts
-SET storage_slug = regexp_replace(account_name, '[^a-zA-Z0-9]', '_', 'g')
+SET storage_slug = regexp_replace(regexp_replace(account_name, '[\U00010000-\U0010FFFF]', '__', 'g'), '[^a-zA-Z0-9]', '_', 'g')
 WHERE storage_slug IS NULL;
 
 -- Resolve collisions deterministically: two DIFFERENT accounts whose names
