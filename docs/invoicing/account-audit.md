@@ -12,7 +12,7 @@ All /accountAudit routes require authentication and the exact role `super admin`
 
 Shared failures: HTTP 401 missing/invalid/expired/unresolvable login; 403 role/account mismatch; 429 general 300/minute limiter and an additional 30/minute limiter for mutations; malformed JSON 400 and >1 MB 413. Sources: `src/app.js:70`, `src/app.js:100`, `src/app.js:111`, `src/app.js:165`.
 
-The generic invoice download route also permits this account's audit S3 prefix for manager/admin/owner users. Dedicated audit route authorization is therefore stronger than that alternative object-download path. Whether audit PDF confidentiality should be narrower is **not determined from the code**. Source: `src/utils/downloadAuthorization.js:40`.
+Audit PDFs are available only through the dedicated Super Admin route. The generic invoice download route refuses the audit namespace for all roles; `review-audit-download.integration.spec.js` checks identical saved bytes through both surfaces (fixed F4). Source: `src/utils/downloadAuthorization.js:40`.
 
 ## 3. API reference
 
@@ -48,7 +48,7 @@ All required accountID/userID path segments are scoped as above. auditID/custome
 | page | max(1,Number(value) or 1), without an integer check. |
 | limit | min(200,max(1,Number(value) or 25)), without an integer check. |
 | search | String-converted, trimmed in service. Searches names via LOWER LIKE and exact ID text. |
-| filter | billing_ready, ar_60, needs_audit, matched, mismatched; other values become null. **ar_60 is accepted but not implemented** ([F38](../_review/findings.md#f38)). |
+| filter | billing_ready, needs_audit, matched, mismatched. ar_60 is explicitly refused with HTTP 400 and guidance to use the Accounts Receivable aging report; other unrecognized values become null (fixed [F38](../_review/findings.md#f38)). |
 | sort | customer_id, display_name, last_audit_at, last_audit_balance, last_app_invoice_total, last_balance_difference. Default display_name. Difference sorts by absolute magnitude. |
 | direction | Case-insensitive desc, otherwise asc. Tie-break customer_id ASC; audit fields NULLS LAST. |
 | hideZeroAppBalance | true only for true/'true'/'1'. HTTP default false, although the UI sends true initially and service's standalone default is true. |
@@ -150,7 +150,7 @@ Example: parent due $80 already includes an issue-time -$20 payment. Later -$30 
 ### Current audit balance
 
 1. Sum nonnegative latest balances for chains whose parent invoice_date is the latest statement date. Earlier positive chains are stale_rolled_forward, not added again. Same-date live parents are summed and flagged when multiple.
-2. Sum all unbilled billable work for diagnostics; for billing parity, use work with a truthy job ID and group by that job.
+2. Sum all unbilled billable work for diagnostics; for current billing parity, use work through the billing date with a truthy job ID and group by that job. Future work remains in lifetime diagnostics. F14 regression: `test/endpoints/accountAudit/review-future.spec.js`.
 3. Among statement-gated, uninvoiced write-offs, net job credits against corresponding unbilled groups; credit the others as adjustment-only write-offs.
 4. unbilled_payments = negative of the signed sum of gated payments with no invoice link.
 5. invoice_linked_writeoffs_recent = ABS sum of gated write-offs linked to older statement-date chains. Missing chain/date falls back to crediting. Current-date linked write-offs are already in remaining balances.
@@ -159,7 +159,7 @@ Example: parent due $80 already includes an issue-time -$20 payment. Later -$30 
 
 Sources: `src/endpoints/accountAudit/account-audit-logic.js:715`, `src/endpoints/accountAudit/account-audit-logic.js:780`, `src/endpoints/accountAudit/account-audit-logic.js:867`, `src/endpoints/accountAudit/account-audit-logic.js:883`, `src/endpoints/accountAudit/account-audit-logic.js:907`.
 
-For outstanding $350, job work $200, job credits $20, adjustment credits $5, unlinked payments $70 and old-chain credits $10: audit balance = 350+200-20-5-70-10 = $445. Current engine discrepancies remain possible, including [F8](../_review/findings.md#f8) and missing-job join differences; the independent audit does not prove parity by definition.
+For outstanding $350, job work $200, job credits $20, adjustment credits $5, unlinked payments $70 and old-chain credits $10: audit balance = 350+200-20-5-70-10 = $445. [F8](../_review/findings.md#f8) is fixed; missing-job join differences can still cause discrepancies. The independent audit does not prove parity by definition.
 
 ### Lifetime and retainer metrics
 
@@ -218,11 +218,11 @@ Retainer rows advance 12 points and break after y>740, invoice rows 14 points af
 | test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js | Super-admin/account scope; batch run/poll/results; detail/history/PDF; comparison fields and cross-account job denial. |
 | test/integration/cascade-edit-recompute.integration.spec.js | Audit versus engine/AR after billed edits. |
 
-Tests were read, not run. Saved matched status is historical; it is not independent proof that the current ledger remains matched.
+The original review inspected tests; subsequent local regression and drift results are in the [F8–F22 log](../_review/fixes-F8-F22.md). Saved matched status is historical; it is not independent proof that the current ledger remains matched.
 
 ## 9. Known limitations and open decisions
 
-The ar_60 filter is ignored ([F38](../_review/findings.md#f38)); freshness only detects newly created transactions; active-only listing can hide inactive debtors; jobs are not durable across process changes. Source: `src/endpoints/accountAudit/account-audit-service.js:53`, `src/endpoints/accountAudit/account-audit-router.js:112`.
+The unsupported ar_60 filter is refused with HTTP 400 (fixed [F38](../_review/findings.md#f38)); freshness only detects newly created transactions; active-only listing can hide inactive debtors; jobs are not durable across process changes. Source: `src/endpoints/accountAudit/account-audit-service.js:53`, `src/endpoints/accountAudit/account-audit-router.js:112`.
 
 FINAL_REPORT section 3 identifies specific duplicate parents, bill-day write-offs, sign exceptions, mirror desynchronization, broken jobs, stale WIP, retainer double subtraction, stale job totals and internal billing. Audit discrepancy text is advisory; delete recommendations still face invoice delete guards. Accountant decisions and rollout status are **not determined from the code**. Follow section 6's reviewed migration/backup/cutover sequence and environment settings. Sources: `scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:67`.
 

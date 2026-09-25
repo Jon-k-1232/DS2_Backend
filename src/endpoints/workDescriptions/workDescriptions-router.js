@@ -17,7 +17,7 @@ workDescriptionsRouter.route('/createWorkDescription/:accountID/:userID').post(j
    try {
       const sanitizedNewWorkDescription = sanitizeFields(req.body.workDescription);
       // Create new object with sanitized fields
-      const workDescriptionTableFields = restoreDataTypesWorkDescriptionTableOnCreate(sanitizedNewWorkDescription, accountID, userID);
+      const workDescriptionTableFields = restoreDataTypesWorkDescriptionTableOnCreate(sanitizedNewWorkDescription, accountID, req.user.user_id);
 
       // Post new workType
       await workDescriptionService.createWorkDescription(db, workDescriptionTableFields);

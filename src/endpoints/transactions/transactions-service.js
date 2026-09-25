@@ -9,11 +9,27 @@ const buildActiveTransactionsQuery = (db, accountID) => {
          'customer_job_types.job_description'
       )
       .from('customer_transactions')
-      .join('customers', 'customer_transactions.customer_id', 'customers.customer_id')
-      .join('users', 'customer_transactions.logged_for_user_id', 'users.user_id')
-      .leftJoin('customer_general_work_descriptions', 'customer_transactions.general_work_description_id', 'customer_general_work_descriptions.general_work_description_id')
-      .join('customer_jobs', 'customer_transactions.customer_job_id', 'customer_jobs.customer_job_id')
-      .leftJoin('customer_job_types', 'customer_jobs.job_type_id', 'customer_job_types.job_type_id')
+      .join('customers', function () {
+         this.on('customer_transactions.customer_id', '=', 'customers.customer_id')
+            .andOn('customers.account_id', '=', 'customer_transactions.account_id');
+      })
+      .join('users', function () {
+         this.on('customer_transactions.logged_for_user_id', '=', 'users.user_id')
+            .andOn('users.account_id', '=', 'customer_transactions.account_id');
+      })
+      .leftJoin('customer_general_work_descriptions', function () {
+         this.on('customer_transactions.general_work_description_id', '=', 'customer_general_work_descriptions.general_work_description_id')
+            .andOn('customer_general_work_descriptions.account_id', '=', 'customer_transactions.account_id');
+      })
+      .join('customer_jobs', function () {
+         this.on('customer_transactions.customer_job_id', '=', 'customer_jobs.customer_job_id')
+            .andOn('customer_jobs.account_id', '=', 'customer_transactions.account_id')
+            .andOn('customer_jobs.customer_id', '=', 'customer_transactions.customer_id');
+      })
+      .leftJoin('customer_job_types', function () {
+         this.on('customer_jobs.job_type_id', '=', 'customer_job_types.job_type_id')
+            .andOn('customer_job_types.account_id', '=', 'customer_jobs.account_id');
+      })
       .where('customer_transactions.account_id', accountID);
 };
 
@@ -96,9 +112,19 @@ const transactionsService = {
             'customer_job_types.estimated_straight_time'
          )
          .from('customer_transactions')
-         .join('customers', 'customer_transactions.customer_id', 'customers.customer_id')
-         .join('customer_jobs', 'customer_transactions.customer_job_id', 'customer_jobs.customer_job_id')
-         .leftJoin('customer_job_types', 'customer_jobs.job_type_id', 'customer_job_types.job_type_id')
+         .join('customers', function () {
+         this.on('customer_transactions.customer_id', '=', 'customers.customer_id')
+            .andOn('customers.account_id', '=', 'customer_transactions.account_id');
+      })
+         .join('customer_jobs', function () {
+         this.on('customer_transactions.customer_job_id', '=', 'customer_jobs.customer_job_id')
+            .andOn('customer_jobs.account_id', '=', 'customer_transactions.account_id')
+            .andOn('customer_jobs.customer_id', '=', 'customer_transactions.customer_id');
+      })
+         .leftJoin('customer_job_types', function () {
+         this.on('customer_jobs.job_type_id', '=', 'customer_job_types.job_type_id')
+            .andOn('customer_job_types.account_id', '=', 'customer_jobs.account_id');
+      })
          .where('customer_transactions.account_id', accountID)
          .andWhere('customer_transactions.transaction_date', '>=', start_date)
          .andWhere('customer_transactions.transaction_date', '<=', end_date);
@@ -115,11 +141,27 @@ const transactionsService = {
             'customer_job_types.job_description'
          )
          .from('customer_transactions')
-         .join('customers', 'customer_transactions.customer_id', 'customers.customer_id')
-         .join('users', 'customer_transactions.logged_for_user_id', 'users.user_id')
-         .join('customer_general_work_descriptions', 'customer_transactions.general_work_description_id', 'customer_general_work_descriptions.general_work_description_id')
-         .join('customer_jobs', 'customer_transactions.customer_job_id', 'customer_jobs.customer_job_id')
-         .join('customer_job_types', 'customer_jobs.job_type_id', 'customer_job_types.job_type_id')
+         .join('customers', function () {
+         this.on('customer_transactions.customer_id', '=', 'customers.customer_id')
+            .andOn('customers.account_id', '=', 'customer_transactions.account_id');
+      })
+         .join('users', function () {
+         this.on('customer_transactions.logged_for_user_id', '=', 'users.user_id')
+            .andOn('users.account_id', '=', 'customer_transactions.account_id');
+      })
+         .join('customer_general_work_descriptions', function () {
+         this.on('customer_transactions.general_work_description_id', '=', 'customer_general_work_descriptions.general_work_description_id')
+            .andOn('customer_general_work_descriptions.account_id', '=', 'customer_transactions.account_id');
+      })
+         .join('customer_jobs', function () {
+         this.on('customer_transactions.customer_job_id', '=', 'customer_jobs.customer_job_id')
+            .andOn('customer_jobs.account_id', '=', 'customer_transactions.account_id')
+            .andOn('customer_jobs.customer_id', '=', 'customer_transactions.customer_id');
+      })
+         .join('customer_job_types', function () {
+         this.on('customer_jobs.job_type_id', '=', 'customer_job_types.job_type_id')
+            .andOn('customer_job_types.account_id', '=', 'customer_jobs.account_id');
+      })
          .where('customer_transactions.account_id', accountID)
          .where('customer_transactions.customer_id', customerID)
          .orderBy('customer_transactions.created_at', 'desc');

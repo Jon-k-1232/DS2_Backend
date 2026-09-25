@@ -1,3 +1,5 @@
+const { lockCustomerLedger } = require('../payments/ledger-helpers');
+const { billingDateToday } = require('../invoice/billingDate');
 /**
  * Billing & time analytics.
  *
@@ -253,14 +255,14 @@ const analyticsService = {
          ),
          db.raw(
             `
-            SELECT c.display_name AS customer,
+            SELECT c.customer_id, c.display_name AS customer,
                    COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours,
                    COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) AS billed_amount
             FROM customer_transactions ct
             JOIN customers c ON c.customer_id = ct.customer_id
             WHERE ct.account_id = :accountId AND ct.transaction_date BETWEEN :start AND :end${exCt}
-            GROUP BY 1
-            ORDER BY hours DESC
+            GROUP BY c.customer_id, c.display_name
+            ORDER BY hours DESC, c.customer_id
             LIMIT 20
             `,
             bounds
@@ -330,6 +332,7 @@ const analyticsService = {
             entries: r.entries
          })),
          byCustomer: byCustomerRes.rows.map(r => ({
+            customer_id: r.customer_id,
             customer: r.customer,
             hours: round2(num(r.hours)),
             billed_amount: round2(num(r.billed_amount))
@@ -350,7 +353,9 @@ const analyticsService = {
 
    /** Record (or update) the agreed rate for a client-year. One row per pair. */
    upsertRateAgreement(db, accountId, { customerId, year, agreedRate, notes, userId }) {
-      return db.raw(
+      return db.transaction(async trx => {
+         await lockCustomerLedger(trx, accountId, customerId);
+         return trx.raw(
          `
          INSERT INTO customer_rate_agreements (account_id, customer_id, agreement_year, agreed_rate, notes, created_by_user_id)
          VALUES (:accountId, :customerId, :year, :agreedRate, :notes, :userId)
@@ -359,7 +364,8 @@ const analyticsService = {
          RETURNING *
          `,
          { accountId, customerId, year, agreedRate, notes: notes || null, userId }
-      ).then(r => r.rows[0]);
+         ).then(r => r.rows[0]);
+      });
    },
 
    /**
@@ -374,9 +380,9 @@ const analyticsService = {
     * future_dated_count / future_dated_amount so they can be corrected. A
     * customer whose only unbilled work is future-dated still gets a row.
     */
-   async getWipAging(db, accountId, { excludeIds = [] } = {}) {
-      const due = 'ct.is_transaction_billable AND ct.transaction_date <= CURRENT_DATE';
-      const future = 'ct.is_transaction_billable AND ct.transaction_date > CURRENT_DATE';
+   async getWipAging(db, accountId, { excludeIds = [], billingDate = billingDateToday() } = {}) {
+      const due = 'ct.is_transaction_billable AND ct.transaction_date <= CAST(:billingDate AS date)';
+      const future = 'ct.is_transaction_billable AND ct.transaction_date > CAST(:billingDate AS date)';
       const { rows } = await db.raw(
          `
          SELECT c.customer_id, c.display_name, c.is_customer_active,
@@ -384,10 +390,11 @@ const analyticsService = {
                 COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')} AND ${due}), 0) AS unbilled_hours,
                 COUNT(*) FILTER (WHERE ${due})::int AS entries,
                 MIN(ct.transaction_date) FILTER (WHERE ${due}) AS oldest_date,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date >= CURRENT_DATE - 30), 0) AS bucket_0_30,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CURRENT_DATE - 30 AND ct.transaction_date >= CURRENT_DATE - 60), 0) AS bucket_31_60,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CURRENT_DATE - 60 AND ct.transaction_date >= CURRENT_DATE - 90), 0) AS bucket_61_90,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CURRENT_DATE - 90), 0) AS bucket_over_90,
+                CAST(:billingDate AS date) - (MIN(ct.transaction_date) FILTER (WHERE ${due})) AS days_old,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date >= CAST(:billingDate AS date) - 30), 0) AS bucket_0_30,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CAST(:billingDate AS date) - 30 AND ct.transaction_date >= CAST(:billingDate AS date) - 60), 0) AS bucket_31_60,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CAST(:billingDate AS date) - 60 AND ct.transaction_date >= CAST(:billingDate AS date) - 90), 0) AS bucket_61_90,
+                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CAST(:billingDate AS date) - 90), 0) AS bucket_over_90,
                 COUNT(*) FILTER (WHERE ${future})::int AS future_dated_count,
                 COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${future}), 0) AS future_dated_amount
          FROM customer_transactions ct
@@ -399,7 +406,7 @@ const analyticsService = {
              OR COUNT(*) FILTER (WHERE ${future}) > 0
          ORDER BY oldest_date ASC NULLS LAST, c.customer_id ASC
          `,
-         { accountId }
+         { accountId, billingDate }
       );
       return rows.map(r => ({
          customer_id: r.customer_id,
@@ -409,7 +416,7 @@ const analyticsService = {
          unbilled_hours: round2(num(r.unbilled_hours)),
          entries: r.entries,
          oldest_date: r.oldest_date,
-         days_old: r.oldest_date ? Math.floor((Date.now() - new Date(r.oldest_date).getTime()) / 86400000) : null,
+         days_old: r.days_old,
          bucket_0_30: round2(num(r.bucket_0_30)),
          bucket_31_60: round2(num(r.bucket_31_60)),
          bucket_61_90: round2(num(r.bucket_61_90)),
@@ -484,19 +491,19 @@ const analyticsService = {
       const seasonFor = async seasonYear => {
          const { rows } = await db.raw(
             `
-            SELECT u.display_name AS employee,
+            SELECT u.user_id, u.display_name AS employee,
                    EXTRACT(WEEK FROM ct.transaction_date)::int AS week,
                    COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours
             FROM customer_transactions ct
             JOIN users u ON u.user_id = ct.logged_for_user_id
             WHERE ct.account_id = :accountId
               AND ct.transaction_date BETWEEN make_date(:seasonYear, 1, 1) AND make_date(:seasonYear, 4, 15)${exCt}
-            GROUP BY 1, 2
-            ORDER BY 1, 2
+            GROUP BY u.user_id, u.display_name, week
+            ORDER BY u.display_name, u.user_id, week
             `,
             { accountId, seasonYear }
          );
-         return rows.map(r => ({ employee: r.employee, week: r.week, hours: round2(num(r.hours)) }));
+         return rows.map(r => ({ user_id: r.user_id, employee: r.employee, week: r.week, hours: round2(num(r.hours)) }));
       };
       const [current, prior] = await Promise.all([seasonFor(y), seasonFor(y - 1)]);
       return { year: y, current, prior };

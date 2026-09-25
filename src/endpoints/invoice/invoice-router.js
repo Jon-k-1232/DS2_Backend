@@ -245,6 +245,7 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(requireManagerOrAd
    const { isFinalized, isRoughDraft, isCsvOnly, globalInvoiceNote } = invoiceCreationSettings;
    const allowSameDayRebill = invoiceCreationSettings.allowSameDayRebill === true || invoiceCreationSettings.allowSameDayRebill === 'true';
 
+   let committedResult = null;
    try {
       if (!Array.isArray(requestedInvoices) || !requestedInvoices.length) {
          throw new Error('Select at least one customer to invoice.');
@@ -352,8 +353,10 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(requireManagerOrAd
             // Ledger first: if the run cannot be committed, no downloadable
             // "final" artifact must exist for it. The statements + CSV report go
             // into one zip under the run id.
-            await dataInsertionOrchestrator(db, invoicesWithDetail, accountBillingInformation, pdfBuffer, userID, { runStartedAt, billingDate, allowSameDayRebill, runID, ledgerFingerprint });
+            const committedInvoices = await dataInsertionOrchestrator(db, invoicesWithDetail, accountBillingInformation, pdfBuffer, userID, { runStartedAt, billingDate, allowSameDayRebill, runID, ledgerFingerprint });
+            committedResult = { committed: true, committedInvoices, invoicesWithDetail, skippedCustomers, fileLocation: '', status: 200 };
             fileLocation = await createAndSaveZip(isCsvOnly ? filesToZip : pdfBuffer, accountBillingInformation, 'invoicing/final_invoices', 'zipped_files.zip', { runID });
+            committedResult.fileLocation = fileLocation;
          } else if (isCsvOnly && isRoughDraft) {
             fileLocation = await createAndSaveZip(filesToZip, accountBillingInformation, 'invoicing/csv_report_and_draft_invoices', 'zipped_files.zip', { runID });
          } else if (isCsvOnly) {
@@ -379,6 +382,7 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(requireManagerOrAd
          : 'Successfully generated invoice preview.';
 
       res.send({
+         ...(committedResult || {}),
          invoicesWithDetail,
          fileLocation,
          skippedCustomers,
@@ -388,6 +392,13 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(requireManagerOrAd
       });
    } catch (error) {
       console.error(`[createInvoice] ${error.message}`);
+      if (committedResult) {
+         return res.send({
+            ...committedResult,
+            message: `Finalized ${committedResult.committedInvoices.length} invoice(s).`,
+            warnings: ['Billing committed, but the combined download or invoice-list refresh failed. Retrieve the saved individual files from Invoices; do not finalize again.']
+         });
+      }
       res.send({
          message: error.message,
          status: 500
@@ -413,8 +424,7 @@ invoiceRouter.route('/downloadFile/:accountID/:userID').get(async (req, res) => 
       const s3Key = rawLocation.trim();
 
       // Authorize BEFORE touching S3: resolve the areas of the bucket this
-      // authenticated account actually owns (its own invoicing exports, its
-      // own audit PDFs) and refuse anything else — including the shared
+      // authenticated account actually owns for this route (its invoicing exports) and refuse anything else — including the shared
       // time-tracking template and any other account's prefix — with a 403,
       // never a silent normalize-and-continue. See finding 1,
       // review/full-audit-2026-09: this route used to fetch whatever key it
@@ -424,7 +434,7 @@ invoiceRouter.route('/downloadFile/:accountID/:userID').get(async (req, res) => 
       const [accountRow] = await accountService.getAccount(db, accountID);
       // Astra round 9, finding 1: storage_slug (immutable), not account_name
       // (mutable) — see utils/storageSlug.js.
-      const allowedPrefixes = resolveOwnDownloadPrefixes({ storageSlug: accountRow?.storage_slug, accountId: accountID });
+      const allowedPrefixes = resolveOwnDownloadPrefixes({ storageSlug: accountRow?.storage_slug });
 
       if (!isAuthorizedDownloadKey(s3Key, allowedPrefixes)) {
          return res.status(403).send({ message: 'You do not have access to this file.', status: 403 });

@@ -93,14 +93,14 @@ Checked-in production Terraform sets account/actor/account-match IDs to 1, **MAT
 
 ### Schema sources and migration inventory
 
-`tables.sql` is a historical bootstrap, not a current schema. `schema-snapshot-2026-09-22.sql` represents the 2026-09-22 production copy, before new migrations 019–021; those files must be considered alongside it. There is no 001 migration. A fresh database cannot safely be reconstructed by blindly applying every historical file onto the snapshot. Migration 005 also contradicts current suggestion columns ([F30](../_review/findings.md#f30)). Sources: `migrations/README.md:5`, `migrations/README.md:27`, `migrations/schema-snapshot-2026-09-22.sql:335`.
+`tables.sql` is a historical bootstrap, not a current schema. `schema-snapshot-2026-09-22.sql` represents the 2026-09-22 production copy, before new migrations 019–022; those files must be considered alongside it. There is no 001 migration. A fresh database cannot safely be reconstructed by blindly applying every historical file onto the snapshot. The supported fresh build loads that snapshot as baseline 018 and applies 019–022. Migration 022 explicitly restores the runtime suggestion columns dropped by historical 005 (fixed [F30](../_review/findings.md#f30)). Sources: `migrations/README.md:5`, `migrations/README.md:27`, `migrations/schema-snapshot-2026-09-22.sql:335`.
 
 | Migration | Data/schema effect and rerun implications |
 |---|---|
 | 002 | Creates ai_time_tracker_transaction_suggestions, category/customer/entity suggestions, status and timestamps; unique entry/account indexes. Bare CREATE fails on rerun. `migrations/002.add_ai_time_tracker_transaction_suggestions.sql:1`. |
 | 003 | Ensures unique suggestion-entry and account indexes IF NOT EXISTS. `migrations/003.ensure_ai_suggestions_unique_index.sql:1`. |
 | 004 | Creates old ai_request_logs IF NOT EXISTS; later removed by 011. `migrations/004.create_ai_request_logs.sql:1`. |
-| 005 | Drops suggested_entity, suggested_customer_id, suggested_customer_display_name if present. No later numbered migration restores them; snapshot/runtime contain them. `migrations/005.drop_ai_customer_suggestion_columns.sql:1`. |
+| 005 | Drops suggested_entity, suggested_customer_id, suggested_customer_display_name if present. 022 restores them; the dated snapshot already contains them. `migrations/005.drop_ai_customer_suggestion_columns.sql:1`. |
 | 006 | Creates training examples with account cascade and entry/transaction SET NULL links; categories, notes, duration/entity, uploaded flags/timestamp. `migrations/006.create_ai_category_training_examples.sql:1`. |
 | 007 | **Drops and recreates customer_payments_processed**, erasing existing pending queue on rerun. Defines nullable match IDs, source fields/default pending flags and coarse dedup unique key. `migrations/007.create_customer_payments_processed.sql:1`. |
 | 008 | Changes customer_invoices.remaining_balance_on_invoice to decimal(10,2), avoiding integer truncation. `migrations/008.fix_remaining_balance_decimal.sql:1`. |
@@ -117,6 +117,7 @@ Checked-in production Terraform sets account/actor/account-match IDs to 1, **MAT
 | 019 | Locks four ledger tables; normalizes exact lowercase time/charge types and literal null/undefined notes/detail/references; logs before/after; flips only manifest-approved positive parent payment totals satisfying live checks. Idempotent state predicates. `migrations/019.ledger_data_normalization.sql:62`, `migrations/019.ledger_data_normalization.sql:108`, `migrations/019.ledger_data_normalization.sql:1094`. |
 | 020 | Adds/backfills immutable storage_slug; live collision-resolution loop, lowest account ID keeps bare slug; NOT NULL + unique index; safe rerun but schema/app cutover required. `migrations/020.accounts_storage_slug.sql:52`. |
 | 021 | Adds exact tracker_file_owners key PK/account FK/user ID without FK/source constraint/timestamp and owner index. Additive, idempotent; no object backfill inside migration. `migrations/021.tracker_file_owners.sql:45`. |
+| 022 | Restores nullable suggestion entity/customer ID/display name and the customer FK; idempotent, preserving existing data. `migrations/022.restore_suggestion_customer_columns.sql`. |
 
 Notifications have ID/account/user/type/title/body/payload/read_at/expires_at/created_at; account/user deletion cascades. template_downloads counts builds, not every download; ai_call_log stores token/cost/latency/status metadata. schemaversion tracks numeric version/name/time, not a source checksum. ledger_normalization_log records migration/table/row/account/customer/column/old/new/time for audit. Sources: `migrations/010.create_ai_call_log_and_notifications.sql:1`, `scripts/migrate.js:168`, `migrations/019.ledger_data_normalization.sql:62`.
 
@@ -214,6 +215,6 @@ FINAL_REPORT section 3 lists unresolved historical decisions below. Amounts/coun
 
 Planned design gaps include period locks with adjustment-only corrections, charge-level aging, voids instead of deleting issued history, credit carry-forward and persisted billing_runs. Source: `scripts/review-2026-09/FINAL_REPORT.md:59`. Early report text about non-owner flag-off template leakage is historical and superseded by the committed neutral-asset design described later and in current code; it is not a current defect assertion. Sources: `scripts/review-2026-09/FINAL_REPORT.md:43`, `src/endpoints/timeTracking/template-builder.js:1143`.
 
-Fresh platform findings are in [consolidated findings](../_review/findings.md). [F30](../_review/findings.md#f30) is the migration-chain gap. Applied schema, environment values, cloud deployment and completion of any accountant repair/backfill remain **not determined from the code**.
+Fresh platform findings are in [consolidated findings](../_review/findings.md). [F30](../_review/findings.md#f30) is fixed by additive migration 022 and disposable-database lineage tests. Applied schema, environment values, cloud deployment and completion of any accountant repair/backfill remain **not determined from the code**.
 
 Coverage: **4 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).

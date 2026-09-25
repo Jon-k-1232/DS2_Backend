@@ -53,9 +53,16 @@ const createAndSaveZip = async (pdfBuffersWithMetadata, accountBillingInformatio
 
       archive.pipe(passThrough);
 
+      const usedNames = new Set();
       pdfBuffersWithMetadata.forEach(({ buffer, metadata }) => {
          if (Buffer.isBuffer(buffer) && metadata?.displayName && metadata?.type) {
-            const fileName = `${metadata.displayName}.${metadata.type}`;
+            const safe = value => String(value).replace(/[^\p{L}\p{N}._-]+/gu, '_');
+            const customer = metadata.customerID != null ? `_customer_${safe(metadata.customerID)}` : '';
+            const base = `${safe(metadata.displayName)}${customer}`;
+            const extension = safe(metadata.type);
+            let fileName = `${base}.${extension}`;
+            for (let n = 2; usedNames.has(fileName.toLowerCase()); n++) fileName = `${base}_${n}.${extension}`;
+            usedNames.add(fileName.toLowerCase());
             archive.append(buffer, { name: fileName });
          } else {
             throw new Error(`Invalid buffer or metadata: ${JSON.stringify({ buffer, metadata })}`);

@@ -28,6 +28,10 @@
  * deleted again (the original 'latest' is never touched). Account 1 is only
  * ever READ (to prove isolation).
  */
+// Exercise the configurable legacy-flat owner with the fixture account;
+// account 1 is a production copy and must remain read-only in this suite.
+const previousLegacyFlatAccount = process.env.LEGACY_FLAT_TRACKER_ACCOUNT_ID;
+process.env.LEGACY_FLAT_TRACKER_ACCOUNT_ID = '9001';
 const zlib = require('zlib');
 const fs = require('fs');
 const path = require('path');
@@ -519,6 +523,8 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          await deleteObject(key).catch(() => {});
       }
       if (h) await h.close();
+      if (previousLegacyFlatAccount === undefined) delete process.env.LEGACY_FLAT_TRACKER_ACCOUNT_ID;
+      else process.env.LEGACY_FLAT_TRACKER_ACCOUNT_ID = previousLegacyFlatAccount;
    });
 
    // ═══════════════════════════ /time-tracking ═══════════════════════════════
@@ -1004,7 +1010,7 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          uploadedTemplate = res.body;
          created.templateKeys.push(res.body.storedKey);
          expect(res.body.message).to.equal('Tracker template uploaded successfully.');
-         expect(res.body.fileName).to.match(/^timeTracker_[A-Za-z]+-\d{2}-\d{4}_\d{2}-\d{2}-\d{2}[AP]M\.xlsx$/);
+         expect(res.body.fileName).to.match(/^timeTracker_[A-Za-z]+-\d{2}-\d{4}_\d{2}-\d{2}-\d{2}[AP]M_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\.xlsx$/);
          expect(res.body.storedKey).to.equal(`${TRACKER_VERSIONS_ROOT}/${res.body.fileName}`);
          expect(res.body.fileName).to.not.equal(originalTemplateName);
 
@@ -2091,16 +2097,16 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
       // ownerFolderIsUnique — current-name uniqueness among account 1's
       // users — to attribute an unrecorded flat file. That mechanism is
       // removed outright (see timeTracking-router.js's buildKeyAuthorizer);
-      // an explicit tracker_file_owners row for (1, 21) is now the only
-      // grant, exactly as a reviewed backfill would write one.
+      // an explicit tracker_file_owners row is now the only grant. The
+      // legacy-flat account override keeps all fixture writes in account 9001.
       it('the legacy tenant\'s flat files are listed and downloadable once an ownership row exists (Astra round 13)', async () => {
          const legacyKey = `${PROCESSED_ROOT}/Admin_Admin/R12LegacyFlat_${RUN}.xlsx.gz`;
          await put(legacyKey, 'R12 legacy flat tracker without an upload record');
-         await trackerOwners.recordOwner(db, { s3Key: legacyKey, accountId: FOREIGN_ACCOUNT, userId: SUPER_ADMIN, source: 'folder-at-backfill' });
-         const history = await h.as('superAdmin').get(`/time-tracking/history/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
+         await trackerOwners.recordOwner(db, { s3Key: legacyKey, accountId: A, userId: ELIZA, source: 'folder-at-backfill' });
+         const history = await h.as('employee').get(`/time-tracking/history/${A}/${ELIZA}`);
          expect(history.status).to.equal(200);
          expect(history.body.history.map(entry => entry.key)).to.include(legacyKey);
-         const download = await getBinary('superAdmin', `/time-tracking/history/download/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`, { key: legacyKey });
+         const download = await getBinary('employee', `/time-tracking/history/download/${A}/${ELIZA}`, { key: legacyKey });
          expect(download.status).to.equal(200);
          expect(sha256(download.body)).to.equal(sha256(Buffer.from('R12 legacy flat tracker without an upload record')));
          await db('tracker_file_owners').where({ s3_key: legacyKey }).del();
@@ -2114,10 +2120,8 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
    // timeTracking-router.js's buildKeyAuthorizer and trackerOwners.js. These
    // regressions reproduce Astra's exact findings against the fix, using
    // account 9001 name-keyed files (`${PROCESSED_ROOT}/${storageSlug}_${A}/
-   // Smith_Eliza/<file>`) and, for the legacy-flat + gzip cases, account 1
-   // (permitted: writing rows into the NEW tracker_file_owners table for
-   // account 1 in ds2_local is not touching production-copy data — every row
-   // and MinIO object created below is removed again).
+   // Smith_Eliza/<file>`). The legacy-flat + gzip cases use the configured
+   // fixture account too; every temporary row and MinIO object is removed.
    describe('legacy tracker ownership is durable, not name-derived (Astra round 13)', () => {
       let storageSlug;
       let accountSuperAdmin;
@@ -2298,7 +2302,7 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          expect(byName.status).to.equal(404);
       });
 
-      it('account 1 legacy flat files — gzipped and genuinely plain — list and download byte-exact once owned (P2 ownership + P3 gzip handling)', async () => {
+      it('configured legacy flat files — gzipped and genuinely plain — list and download byte-exact once owned (P2 ownership + P3 gzip handling)', async () => {
          const realXlsx = fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'timetrackers', 'clean.xlsx'));
          const gzKey = `${PROCESSED_ROOT}/R13_Admin_${RUN}/R13Flat_${RUN}.xlsx.gz`;
          const plainKey = `${PROCESSED_ROOT}/R13_Admin_${RUN}/R13FlatPlain_${RUN}.xlsx`;
@@ -2307,21 +2311,21 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          // Genuinely uncompressed — the exact P3 shape: history-download used
          // to gunzip() unconditionally and 500 (Z_DATA_ERROR) on this.
          await putObject(plainKey, realXlsx, XLSX_MIME, { 'original-content-type': XLSX_MIME });
-         await own(gzKey, FOREIGN_ACCOUNT, SUPER_ADMIN);
-         await own(plainKey, FOREIGN_ACCOUNT, SUPER_ADMIN);
+         await own(gzKey, A, ELIZA);
+         await own(plainKey, A, ELIZA);
 
-         const history = await h.as('superAdmin').get(`/time-tracking/history/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`);
+         const history = await h.as('employee').get(`/time-tracking/history/${A}/${ELIZA}`);
          expect(history.status).to.equal(200);
          const keys = history.body.history.map(x => x.key);
          expect(keys).to.include(gzKey);
          expect(keys).to.include(plainKey);
 
-         const gzDownload = await getBinary('superAdmin', `/time-tracking/history/download/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`, { key: gzKey });
+         const gzDownload = await getBinary('employee', `/time-tracking/history/download/${A}/${ELIZA}`, { key: gzKey });
          expect(gzDownload.status).to.equal(200);
          expect(sha256(gzDownload.body)).to.equal(sha256(realXlsx));
          expect(gzDownload.headers['x-tracker-filename']).to.equal(`R13Flat_${RUN}.xlsx`);
 
-         const plainDownload = await getBinary('superAdmin', `/time-tracking/history/download/${FOREIGN_ACCOUNT}/${SUPER_ADMIN}`, { key: plainKey });
+         const plainDownload = await getBinary('employee', `/time-tracking/history/download/${A}/${ELIZA}`, { key: plainKey });
          expect(plainDownload.status, JSON.stringify(plainDownload.body).slice(0, 300)).to.equal(200);
          expect(sha256(plainDownload.body)).to.equal(sha256(realXlsx));
          expect(plainDownload.headers['x-tracker-filename']).to.equal(`R13FlatPlain_${RUN}.xlsx`);

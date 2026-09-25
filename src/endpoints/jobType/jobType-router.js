@@ -1,3 +1,4 @@
+const { requireAccountRow } = require('../../utils/relatedAccount');
 const express = require('express');
 const { enforceAccountId } = require('../auth/account-scope');
 const jobTypeRouter = express.Router();
@@ -21,6 +22,9 @@ jobTypeRouter.route('/createJobType/:accountID/:userID').post(jsonParser, async 
       const jobTypeTableFields = restoreDataTypesJobTypeTableOnCreate(sanitizedNewJobType);
       // Trust the account from the (guard-verified) URL, never the request body.
       jobTypeTableFields.account_id = Number(accountID);
+      jobTypeTableFields.created_by_user_id = Number(req.user.user_id);
+
+      await requireAccountRow(db, 'customer_job_categories', 'customer_job_category_id', jobTypeTableFields.customer_job_category_id, accountID, 'Job category');
 
       // Post new jobType
       await jobTypeService.createJobType(db, jobTypeTableFields);
@@ -68,12 +72,17 @@ jobTypeRouter.route('/updateJobType/:accountID/:userID').put(jsonParser, async (
       // Trust the account from the (guard-verified) URL, never the request body.
       jobTypeTableFields.account_id = Number(accountID);
 
+      const [existing] = await jobTypeService.getSingleJobType(db, jobTypeTableFields.job_type_id, accountID);
+      if (!existing) return res.status(404).send({ message: 'Job type not found.', status: 404 });
+
+      await requireAccountRow(db, 'customer_job_categories', 'customer_job_category_id', jobTypeTableFields.customer_job_category_id, accountID, 'Job category');
+
       // Update jobType
       const affectedRows = await jobTypeService.updateJobType(db, jobTypeTableFields, accountID);
       if (!affectedRows) {
          return res.status(404).send({ message: 'Job type not found.', status: 404 });
       }
-      sendUpdatedTableWith200Response(db, res, accountID);
+      await sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.error(error.message);
       res.send({
@@ -97,7 +106,7 @@ jobTypeRouter.route('/deleteJobType/:jobTypeID/:accountID/:userID').delete(async
       if (!affectedRows) {
          return res.status(404).send({ message: 'Job type not found.', status: 404 });
       }
-      sendUpdatedTableWith200Response(db, res, accountID);
+      await sendUpdatedTableWith200Response(db, res, accountID);
    } catch (error) {
       console.error(error.message);
       res.send({

@@ -38,7 +38,7 @@ const restoreDataTypesRecurringCustomerTableOnUpdate = (data, customer_id) => {
     recurring_bill_amount: Number(data.recurringAmount),
     start_date: resolveStartDate(data),
     end_date: data.endDate || null,
-    created_by_user_id: Number(data.userID)
+
   };
 
   // Same `Boolean(x) || true` bug as create, but worse here: this is a partial

@@ -1,3 +1,4 @@
+const { requireCustomerJob } = require('../../utils/relatedAccount');
 const express = require('express');
 const { enforceAccountId } = require('../auth/account-scope');
 const quotesRouter = express.Router();
@@ -18,6 +19,9 @@ quotesRouter.route('/createQuote').post(jsonParser, async (req, res) => {
       const quoteTableFields = restoreDataTypesQuotesTableOnCreate(sanitizedNewQuote);
       // No :accountID in the path — scope to the authenticated user's account.
       quoteTableFields.account_id = req.user.account_id;
+      quoteTableFields.created_by_user_id = Number(req.user.user_id);
+
+      await requireCustomerJob(db, quoteTableFields);
 
       // Post new quotes
       await quotesService.createQuote(db, quoteTableFields);
@@ -88,6 +92,8 @@ quotesRouter.route('/updateQuote').put(jsonParser, async (req, res) => {
       const quoteTableFields = restoreDataTypesQuotesTableOnUpdate(sanitizedUpdatedQuote);
       // No :accountID in the path — scope to the authenticated user's account.
       quoteTableFields.account_id = req.user.account_id;
+
+      await requireCustomerJob(db, quoteTableFields);
 
       // Update quote
       const updatedQuoteRow = await quotesService.updateQuote(db, quoteTableFields, quoteTableFields.account_id);

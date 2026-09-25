@@ -6,7 +6,7 @@ Accounts Receivable shows current issued-statement balances, statement-age bucke
 
 ## 2. Access rules
 
-Authentication and backend manager/admin/super admin/owner are required. accountID must be an integer matching session account_id through enforceAccountId. No self-or-privileged userID check is registered; the report is account-wide. Frontend manager gating omits owner ([F37](../_review/findings.md#f37)). Sources: `src/app.js:169`, `src/endpoints/accountsReceivable/accounts-receivable-router.js:5`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
+Authentication and backend manager/admin/super admin/owner are required. accountID must be an integer matching session account_id through enforceAccountId. No self-or-privileged userID check is registered; the report is account-wide. Frontend manager gating includes owner ([F37](../_review/findings.md#f37)). Sources: `src/app.js:169`, `src/endpoints/accountsReceivable/accounts-receivable-router.js:5`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
 
 ## 3. API reference
 

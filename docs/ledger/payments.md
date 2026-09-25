@@ -17,7 +17,7 @@ The add form requires a customer, positive amount, payment method, and either an
 
 ## 2. Access rules
 
-All six routes require a valid active-user JWT and role `manager`, `admin`, `super admin`, or `owner`. `enforceAccountId` requires integer URL `accountID` equal to the authenticated account. There is no self-or-privileged check on URL `userID`; creates/reversals use `req.user.user_id`. Stored account/customer links control edits and deletes. Authentication failure is HTTP 401; wrong role/account is HTTP 403. The frontend gate omits `owner` ([F37](../_review/findings.md#f37)). (`src/app.js:143`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/payments/payments-router.js:6`, `src/endpoints/payments/payments-router.js:44`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.)
+All six routes require a valid active-user JWT and role `manager`, `admin`, `super admin`, or `owner`. `enforceAccountId` requires integer URL `accountID` equal to the authenticated account. There is no self-or-privileged check on URL `userID`; creates/reversals use `req.user.user_id`. Stored account/customer links control edits and deletes. Authentication failure is HTTP 401; wrong role/account is HTTP 403. The frontend manager gate includes `owner` ([F37](../_review/findings.md#f37)). (`src/app.js:143`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/payments/payments-router.js:6`, `src/endpoints/payments/payments-router.js:44`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.)
 
 ## 3. API reference
 

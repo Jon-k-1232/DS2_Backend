@@ -20,7 +20,7 @@ const restoreDataTypesWorkDescriptionTableOnUpdate = description => ({
   estimated_time: Number(description.estimatedTime),
   is_general_work_description_active: parseActiveFlag(description.isGeneralWorkDescriptionActive, true),
   created_at: description.createdAt,
-  created_by_user_id: Number(description.createdByUserID)
+
 });
 
 module.exports = {

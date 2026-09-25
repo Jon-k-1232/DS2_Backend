@@ -5,6 +5,7 @@ const retainerService = require('../../retainer/retainer-service');
 const writeOffsService = require('../../writeOffs/writeOffs-service');
 const { groupByFunction } = require('../sharedInvoiceFunctions');
 const dayjs = require('dayjs');
+const { billingDateToday } = require('../billingDate');
 const paymentsService = require('../../payments/payments-service');
 
 /**
@@ -13,7 +14,7 @@ const paymentsService = require('../../payments/payments-service');
  * @param {*} accountID
  * @returns {}
  */
-const findCustomersNeedingInvoices = async (db, accountID, today = dayjs().format('YYYY-MM-DD')) => {
+const findCustomersNeedingInvoices = async (db, accountID, today = billingDateToday()) => {
    const [customers, invoices, transactions, retainers, writeOffs, payments] = await fetchData(db, accountID);
    const [invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer] = groupDataByCustomerId([invoices, transactions, retainers, writeOffs, payments]);
    return invoiceEligibilityPerCustomer(customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today);
@@ -75,7 +76,7 @@ const currentChainsSummary = customerInvoices => {
    return { newestParent, currentParents, outstandingTotal, outstandingRecords };
 };
 
-const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today = dayjs().format('YYYY-MM-DD')) => {
+const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today = billingDateToday()) => {
    return customers
       .map(customer => {
          const { customer_id } = customer;
@@ -84,12 +85,12 @@ const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactio
          const newestParentCreatedAt = newestParent ? new Date(newestParent.created_at) : null;
 
          // Unbilled work = every transaction not yet stamped with a statement,
-         // regardless of its date — the SAME rule the billing engine uses
+         // through the billing date, with no lower bound — the SAME rule the billing engine uses
          // (getTransactionsByCustomerID). Filtering on transaction_date > the last
          // statement date hid back-dated or missed work for good: the engine would
          // have billed it, but the customer never appeared in this list.
          const customerTransactions = transactionsByCustomer[customer_id] || [];
-         const unbilledTransactions = customerTransactions.filter(transaction => !transaction.customer_invoice_id);
+         const unbilledTransactions = customerTransactions.filter(transaction => !transaction.customer_invoice_id && dateKey(transaction.transaction_date) <= today);
 
          const customerRetainers = retainersByCustomer[customer_id] || [];
          const customerActiveRetainers = customerRetainers.filter(retainer => Number(retainer.current_amount) < 0 && retainer.is_retainer_active !== false);

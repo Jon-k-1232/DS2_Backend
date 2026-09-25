@@ -1,3 +1,5 @@
+const { lockCustomerLedger } = require('../payments/ledger-helpers');
+const { requireAccountRow } = require('../../utils/relatedAccount');
 const express = require('express');
 const jsonParser = express.json();
 const { enforceAccountId } = require('../auth/account-scope');
@@ -162,21 +164,12 @@ customerRouter
       grid: createGrid(customerTransactions)
    };
 
-   // Build job tree, then set each parent's current_job_total from its most recently
-   // created child.  Child jobs follow a rolling-balance pattern (like invoices): each
-   // new child carries the cumulative running total, so summing all children would
-   // double-count.  The correct current total is the last child's value.
-   // getActiveCustomerJobs sorts by created_at ASC so the last element in each
-   // children array is the most recently created (highest customer_job_id).
    const jobTreeGrid = generateTreeGridData(customerJobs, 'customer_job_id', 'parent_job_id');
+   const latestJobs = new Map(jobService.latestFamilyVersions(customerJobs)
+      .map(job => [job.parent_job_id || job.customer_job_id, job]));
    jobTreeGrid.rows.forEach(parentRow => {
-      if (parentRow.children && parentRow.children.length > 0) {
-         const mostRecent = parentRow.children.reduce(
-            (latest, child) => child.customer_job_id > latest.customer_job_id ? child : latest,
-            parentRow.children[0]
-         );
-         parentRow.current_job_total = parseFloat(mostRecent.current_job_total) || 0;
-      }
+      const latest = latestJobs.get(parentRow.customer_job_id);
+      if (latest) parentRow.current_job_total = Number(latest.current_job_total) || 0;
    });
 
    const customerJobData = {
@@ -218,8 +211,7 @@ customerRouter
       const { start, end } = req.query;
 
       const statementData = await buildStatementData(db, accountID, customerID, { start, end });
-      const accountInfo = await invoiceService.getAccountPayToInfo(db, accountID);
-      const pdfBuffer = await renderStatementPdf(statementData, accountInfo || {});
+      const pdfBuffer = await renderStatementPdf(statementData, statementData.accountInfo || {});
 
       const safeName = String(statementData.customer.display_name || customerID).replace(/[^a-z0-9]+/gi, '_');
       res.setHeader('Content-Type', 'application/pdf');
@@ -242,7 +234,7 @@ customerRouter
    const db = req.app.get('db');
    try {
       const sanitizedUpdatedCustomer = sanitizeFields(req.body.customer);
-      const { customerID, accountID } = sanitizedUpdatedCustomer;
+      const { customerID } = sanitizedUpdatedCustomer;
 
       // Restore data types and map to DB fields
       const customerTableFields = restoreDataTypesCustomersOnUpdate(sanitizedUpdatedCustomer);
@@ -254,27 +246,40 @@ customerRouter
       const createRecurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnCreate(sanitizedUpdatedCustomer, customerID);
       const updateRecurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnUpdate(sanitizedUpdatedCustomer, customerID);
       createRecurringCustomerTableFields.account_id = trustedAccountId;
+      createRecurringCustomerTableFields.created_by_user_id = Number(req.user.user_id);
       updateRecurringCustomerTableFields.account_id = trustedAccountId;
 
-      // Post new customer information
-      await customerService.updateCustomer(db, customerTableFields);
-      await customerService.updateCustomerInformation(db, customerInfoTableFields);
-
-      // Condition: Adding customer to recurring
-      if (sanitizedUpdatedCustomer.isCustomerRecurring && !sanitizedUpdatedCustomer.recurringCustomerID) {
-         await recurringCustomerService.createRecurringCustomer(db, createRecurringCustomerTableFields);
-         // Condition: Customer is recurring but will need deactivated
-      } else if (!sanitizedUpdatedCustomer.isCustomerRecurring && sanitizedUpdatedCustomer.recurringCustomerID > 0) {
-         const addedEndDate = { ...updateRecurringCustomerTableFields, end_date: dayjs().format(), is_recurring_customer_active: false };
-         await recurringCustomerService.deleteRecurringCustomer(db, addedEndDate);
-         // Condition: Customer is recurring and needs info updated
-      } else if (sanitizedUpdatedCustomer.isCustomerRecurring && sanitizedUpdatedCustomer.recurringCustomerID > 0) {
-         await recurringCustomerService.updateRecurringCustomer(db, updateRecurringCustomerTableFields);
-      }
+      await db.transaction(async trx => {
+         await lockCustomerLedger(trx, trustedAccountId, customerID);
+         await requireAccountRow(trx, 'customers', 'customer_id', customerID, trustedAccountId, 'Customer');
+         if (Number(sanitizedUpdatedCustomer.recurringCustomerID) > 0) {
+            const recurring = await requireAccountRow(trx, 'recurring_customers', 'recurring_customer_id', sanitizedUpdatedCustomer.recurringCustomerID, trustedAccountId, 'Recurring customer');
+            if (Number(recurring.customer_id) !== Number(customerID)) throw new Error('Recurring row does not belong to this customer.');
+         }
+   
+         // Post new customer information
+         const updatedCustomer = await customerService.updateCustomer(trx, customerTableFields);
+         if (!updatedCustomer) throw new Error('Customer was not found.');
+         const updatedContact = await customerService.updateCustomerInformation(trx, customerInfoTableFields);
+         if (updatedContact !== 1) throw new Error('Customer contact was not found in this account.');
+   
+         // Condition: Adding customer to recurring
+         if (sanitizedUpdatedCustomer.isCustomerRecurring && !sanitizedUpdatedCustomer.recurringCustomerID) {
+            await recurringCustomerService.createRecurringCustomer(trx, createRecurringCustomerTableFields);
+            // Condition: Customer is recurring but will need deactivated
+         } else if (!sanitizedUpdatedCustomer.isCustomerRecurring && sanitizedUpdatedCustomer.recurringCustomerID > 0) {
+            const addedEndDate = { ...updateRecurringCustomerTableFields, end_date: dayjs().format(), is_recurring_customer_active: false };
+            await recurringCustomerService.deleteRecurringCustomer(trx, addedEndDate);
+            // Condition: Customer is recurring and needs info updated
+         } else if (sanitizedUpdatedCustomer.isCustomerRecurring && sanitizedUpdatedCustomer.recurringCustomerID > 0) {
+            await recurringCustomerService.updateRecurringCustomer(trx, updateRecurringCustomerTableFields);
+         }
+         await recurringCustomerService.reconcileCustomerRecurringFlag(trx, trustedAccountId, customerID);
+      });
 
       // Call active customers
-      const activeCustomers = await customerService.getActiveCustomers(db, accountID);
-      const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, accountID);
+      const activeCustomers = await customerService.getActiveCustomers(db, trustedAccountId);
+      const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, trustedAccountId);
 
       const activeCustomerData = {
          activeCustomers,
@@ -321,39 +326,29 @@ customerRouter
 
       try {
          const customerId = Number(customerID);
-         const existing = Number.isInteger(customerId) && customerId > 0
-            ? await db('customers').select('customer_id').where({ account_id: Number(accountID), customer_id: customerId }).first()
-            : null;
-         if (!existing) {
+         if (!Number.isInteger(customerId) || customerId <= 0) {
             return res.send({ message: 'No matching customer record found.', status: 404 });
          }
+         const deleted = await db.transaction(async trx => {
+            const existing = await trx('customers').select('customer_id')
+               .where({ account_id: Number(accountID), customer_id: customerId }).forNoKeyUpdate().first();
+            if (!existing) return false;
 
-         // check for Jobs, Retainers, Invoices, Payments, Write-Offs, Transactions, Recurring Customers. if any exist, throw error
-         const customerJobs = await jobService.getActiveCustomerJobs(db, accountID, customerID);
-         const customerRetainers = await retainerService.getCustomerRetainersByID(db, accountID, customerID);
-         const customerInvoices = await invoiceService.getCustomerInvoiceByID(db, accountID, customerID);
-         const customerPayments = await paymentsService.getActivePaymentsForCustomer(db, accountID, customerID);
-         const customerWriteOffs = await customerService.getWriteOffsForCustomer(db, accountID, customerID);
-         const customerTransactions = await transactionsService.getCustomerTransactionsByID(db, accountID, customerID);
-         // Guard by the customer's id, not by recurring_customer_id: the old lookup
-         // matched only when the two ids happened to coincide (5 of 11 recurring
-         // customers in the prod copy could have been hard-deleted).
-         const customerRecurring = await recurringCustomerService.getRecurringCustomersForCustomer(db, accountID, customerID);
-
-         if (
-            customerJobs.length ||
-            customerRetainers.length ||
-            customerInvoices.length ||
-            customerPayments.length ||
-            customerWriteOffs.length ||
-            customerTransactions.length ||
-            customerRecurring.length
-         ) {
-            throw new Error('Cannot delete customer with associated jobs, retainers, invoices, payments, write-offs, transactions, or recurring customers. Please disable customer instead.');
-         }
-
-         // delete customer
-         await customerService.deleteCustomer(db, customerID, accountID);
+            // Raw existence checks include inactive/history rows and malformed
+            // legacy relations that a joined list would hide. Hold the same
+            // customer lock as job and ledger writers until deletion commits.
+            for (const table of ['customer_jobs', 'customer_retainers_and_prepayments',
+               'customer_invoices', 'customer_payments', 'customer_writeoffs',
+               'customer_transactions', 'recurring_customers', 'customer_quotes']) {
+               if (await trx(table).where({ account_id: Number(accountID), customer_id: customerId }).first()) {
+                  throw new Error('Cannot delete customer with associated jobs, retainers, invoices, payments, write-offs, transactions, recurring customers, or quotes. Please disable customer instead.');
+               }
+            }
+            await trx('customer_information').where({ account_id: Number(accountID), customer_id: customerId }).del();
+            await customerService.deleteCustomer(trx, customerId, accountID);
+            return true;
+         });
+         if (!deleted) return res.send({ message: 'No matching customer record found.', status: 404 });
 
          // call active customers
          const activeCustomers = await customerService.getActiveCustomers(db, accountID);

@@ -217,7 +217,7 @@ describe('cascadeEdit applyTransactionEdit (flow)', () => {
          expect(adj.notes).to.equal('[adjustment: transaction #1 Δ+150.00]');
          // Stamped with clock_timestamp() (ledgerNow) at INSERT, like payment /
          // write-off snapshots — never the column default now() (transaction BEGIN).
-         expect(db._calls.raws).to.deep.equal([{ table: 'customer_invoices', column: 'created_at', sql: 'clock_timestamp()' }]);
+         expect(db._calls.raws.filter(call => call.table === 'customer_invoices')).to.deep.equal([{ table: 'customer_invoices', column: 'created_at', sql: 'clock_timestamp()' }]);
          expect(adj.created_at).to.be.an.instanceOf(Date);
 
          const effect = result.sideEffects.find(s => s.type === 'invoice_recalculated');
@@ -646,7 +646,7 @@ describe('cascadeEdit _applyInvoiceDelta', () => {
       expect(snap).to.include({ parent_invoice_id: 10, remaining_balance_on_invoice: 44.5, total_payments: '-30.00', beginning_balance: '20.00', created_by_user_id: 9 });
       expect(snap.notes).to.equal('June statement [adjustment: transaction #42 Δ-25.50]');
       // created_at = clock_timestamp() at INSERT, so it sorts after the latest row it copied.
-      expect(db._calls.raws).to.deep.equal([{ table: 'customer_invoices', column: 'created_at', sql: 'clock_timestamp()' }]);
+      expect(db._calls.raws.filter(call => call.table === 'customer_invoices')).to.deep.equal([{ table: 'customer_invoices', column: 'created_at', sql: 'clock_timestamp()' }]);
       expect(snap.created_at.getTime()).to.be.greaterThan(latest.created_at.getTime());
       expect(rows[1].remaining_balance_on_invoice).to.equal('70.00'); // previous snapshot untouched
       expect(rows[0]).to.include({ total_charges: 54.5, total_amount_due: 74.5, remaining_balance_on_invoice: 44.5, total_payments: '-30.00' });

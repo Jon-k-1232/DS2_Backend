@@ -12,10 +12,10 @@ Tracker notification staff and their settings UI are documented in [time trackin
 
 | Area | Actual authorization |
 |---|---|
-| Initial blob | `requireAuth` at mount, account guard only. No role gate or self check. URL userID is ignored. Session role controls removal of only three user fields. Other financial/contact lists are returned even to plain User ([F3](../_review/findings.md#f3)) (`src/app.js:147`, `src/endpoints/initialData/initialData-router.js:4`, `src/endpoints/initialData/initialData-router.js:45`). |
+| Initial blob | `requireAuth` at mount, account guard only. No role gate or self check. URL userID is ignored. Session role selects the payload: manager/admin/super admin/owner receive full lists; other roles receive empty lists/grids/counts plus only their own user_id and display_name (fixed [F3](../_review/findings.md#f3)) (`src/app.js:147`, `src/endpoints/initialData/initialData-router.js:4`, `src/endpoints/initialData/initialData-router.js:45`). |
 | Notifications | `requireAuth`, `enforceAccountId`, `enforceSelfOrPrivileged`. Plain users must request their own user ID; manager/admin/super admin/owner may request another user's notifications within their account (`src/app.js:161`, `src/endpoints/notifications/notifications-router.js:4`, `src/endpoints/auth/account-scope.js:22`). |
 
-Roles are compared lowercase. Auth uses cookie JWT before Bearer; validates token and loads subject user by email; missing/invalid/expired token or missing user returns HTTP 401. Role/self/account rejection returns HTTP 403. Account parameter must number-convert to integer equal to session account. Frontend manager access accepts admin/manager/super admin and omits backend's owner role (`src/endpoints/auth/jwt-auth.js:7`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`, `src/endpoints/auth/account-scope.js:7`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`).
+Roles are compared lowercase. Auth uses cookie JWT before Bearer; validates token and loads subject user by email; missing/invalid/expired token or missing user returns HTTP 401. Role/self/account rejection returns HTTP 403. Account parameter must number-convert to integer equal to session account. Frontend manager access accepts admin/manager/super admin/owner, matching the backend (`src/endpoints/auth/jwt-auth.js:7`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`, `src/endpoints/auth/account-scope.js:7`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`).
 
 Token verification accepts HS256 only. User lookup and role lookup both require `is_user_active=true`; a deactivated user cannot continue with an otherwise valid token. Authentication lookup exceptions are also returned as HTTP 401; an uncaught role-lookup failure reaches the global error handler (`src/endpoints/auth/auth-service.js:26`, `src/endpoints/auth/auth-service.js:46`, `src/endpoints/auth/jwt-auth.js:48`, `src/endpoints/auth/jwt-auth.js:77`).
 
@@ -59,7 +59,7 @@ Health contracts belong to [operations](../platform/operations.md#3-operational-
 
 ## 4. Data model
 
-Initial data reads all tables listed in section5. User rows contain user_id/account_id/email/display_name/cost_rate/billing_rate/job_title/access_level/is_user_active/created_at. Nonprivileged callers lose only cost_rate, billing_rate, email in the roster and its grid; privileged callers retain all fields. This is not a whole-blob redaction (`src/endpoints/initialData/initialData-router.js:43`, `migrations/schema-snapshot-2026-09-22.sql:1117`).
+For privileged callers, initial data reads the tables listed in section5. User rows contain user_id/account_id/email/display_name/cost_rate/billing_rate/job_title/access_level/is_user_active/created_at. Nonprivileged callers receive only their own user_id and display_name, with every other collection empty. No customer/contact/master-data/ledger queries run for them; privileged callers retain their existing fields (`src/endpoints/initialData/initialData-router.js:43`, `migrations/schema-snapshot-2026-09-22.sql:1117`).
 
 | Table | Columns, limits and relationships |
 |---|---|
@@ -71,16 +71,16 @@ Notification type constants are tracker_upload_processed, rows_held_for_review, 
 
 ## 5. Read logic
 
-Blob **B** has all rows below plus `{message:'Successfully Retrieved Data.',status:200}`. Each nested object includes `grid`. Four lists have fixed page1/limit20 metadata; callers cannot change this through the blob endpoint. No search term is supplied. Promise.all performs independent queries without one consistent database snapshot (`src/endpoints/initialData/initialData-router.js:65`, `src/endpoints/initialData/initialData-router.js:190`).
+For privileged callers, blob **B** has all rows below plus `{message:'Successfully Retrieved Data.',status:200}`. Each nested object includes `grid`. Four lists have fixed page1/limit20 metadata; callers cannot change this through the blob endpoint. No search term is supplied. Promise.all performs independent queries without one consistent database snapshot (`src/endpoints/initialData/initialData-router.js:65`, `src/endpoints/initialData/initialData-router.js:190`).
 
 | Blob path / row key | Exact source read and shape additions |
 |---|---|
 | `customersList.activeCustomerData.activeCustomers` | All customers INNER JOIN owned active contacts, customer active and both account predicates; customer_name ASC; no pagination (`src/endpoints/customer/customer-service.js:1`, `src/endpoints/customer/customer-service.js:52`). |
-| `recurringCustomersList.activeRecurringCustomersData.activeRecurringCustomers` | Active recurring account rows INNER JOIN customers on ID; only customer display_name added; no customer active/account predicate or order (`src/endpoints/recurringCustomer/recurringCustomer-service.js:3`). |
+| `recurringCustomersList.activeRecurringCustomersData.activeRecurringCustomers` | Active recurring account rows INNER JOIN customers on ID and account; only customer display_name added; no customer-active predicate or order (`src/endpoints/recurringCustomer/recurringCustomer-service.js:3`). |
 | `teamMembersList.activeUserData.activeUsers` | SELECT * active users by account, no order; redaction before grid creation (`src/endpoints/user/user-service.js:2`, `src/endpoints/initialData/initialData-router.js:124`). |
 | `transactionsList.activeTransactionsData.activeTransactions` | Transactions.* + customer/employee/work/type labels; INNER customer/user/job, LEFT general description/type; transaction account; created_at DESC; count+first20; pagination (`src/endpoints/transactions/transactions-service.js:1`, `src/endpoints/transactions/transactions-service.js:51`). |
 | `invoicesList.activeInvoiceData.activeInvoices` | Invoices.* + customer/creator labels; INNER customer/user; invoice account, invoice_date DESC; parents and snapshots; count+first20; pagination, **no treeGrid** (`src/endpoints/invoice/invoice-service.js:31`, `src/endpoints/invoice/invoice-service.js:59`, `src/endpoints/initialData/initialData-router.js:138`). |
-| `accountJobsList.activeJobData.activeJobs` | jobs.* then types.* plus category/customer/creator labels; INNER types/categories/customers/users, jobs account, jobs created_at ASC; all versions/completion states; treeGrid by customer_job_id/parent_job_id (`src/endpoints/job/job-service.js:22`). |
+| `accountJobsList.activeJobData.activeJobs` | jobs.* plus explicit type fields and category/customer/creator labels; INNER types/categories/customers/users, jobs account, jobs created_at ASC then job ID ASC; all versions/completion states; treeGrid by customer_job_id/parent_job_id (`src/endpoints/job/job-service.js:22`). |
 | `jobCategoriesList.activeJobCategoriesData.activeJobCategories` | Raw account categories, active=true, no order (`src/endpoints/jobCategories/jobCategories-service.js:2`). |
 | `jobTypesList.activeJobTypesData.jobTypesData` | types.* + category label LEFT JOIN category; type account/active, job_description ASC (`src/endpoints/jobType/jobType-service.js:18`). |
 | `writeOffsList.activeWriteOffsData.activeWriteOffs` | writeoffs.* + customer/creator labels and job/type labels; INNER customer/user, LEFT job/type; writeoff account; created_at DESC, count+first20; pagination (`src/endpoints/writeOffs/writeOffs-service.js:1`, `src/endpoints/writeOffs/writeOffs-service.js:40`). |
@@ -122,7 +122,7 @@ Staff CRUD itself sends no emails. Later tracker validation obtains active staff
 
 | Rule | Source-read test evidence |
 |---|---|
-| Plain User roster strips rates/email; admin retains them; full top-level shell shape retained | `test/endpoints/initialData/initialDataUserFields.integration.spec.js:50`, `test/endpoints/initialData/initialDataUserFields.integration.spec.js:66`, `test/endpoints/initialData/initialDataUserFields.integration.spec.js:75`. These assertions do not prove financial/contact payload minimization ([F3](../_review/findings.md#f3)). |
+| Plain User roster strips rates/email; admin retains them; full top-level shell shape retained | `test/endpoints/initialData/initialDataUserFields.integration.spec.js:50`, `test/endpoints/initialData/initialDataUserFields.integration.spec.js:66`, `test/endpoints/initialData/initialDataUserFields.integration.spec.js:75`. Additional `review-initial-data-roles.integration.spec.js` verifies every list/grid/count, the self-only projection, no protected queries, and all privileged roles. |
 | Initial blob keys, wrong-account rejection, authenticated User access | `test/integration/coverage-account-users-auth-misc.integration.spec.js:1201`. |
 | Notification newest-first/unread/self guards/count/mark one/all | `test/integration/coverage-account-users-auth-misc.integration.spec.js:1014`, `test/integration/coverage-account-users-auth-misc.integration.spec.js:1062`, `test/integration/coverage-account-users-auth-misc.integration.spec.js:1096`, `test/integration/coverage-account-users-auth-misc.integration.spec.js:1132`; query behavior `test/endpoints/notifications/notifications-service.spec.js:1`. |
 | Healthy and failed database probe; mounted aliases | `test/endpoints/health/healthCheck.spec.js:1`, `test/integration/coverage-account-users-auth-misc.integration.spec.js:1171`. |
@@ -131,7 +131,7 @@ Staff CRUD itself sends no emails. Later tracker validation obtains active staff
 
 ## 9. Limitations and open decisions
 
-[F3](../_review/findings.md#f3) in [consolidated findings](../_review/findings.md) describes the initial-data authorization gap: hiding three roster fields leaves account financial and customer-contact lists exposed to ordinary users. Existing related-ID join defects can also flow into this aggregate ([F2](../_review/findings.md#f2) in feature documents). Large unpaginated master/customer/job/retainer lists and independent reads remain part of this endpoint's contract (`src/endpoints/initialData/initialData-router.js:65`).
+F3 is fixed by role-based payload construction before any protected query. F2 joins are account-scoped as described in the affected feature guides. For privileged callers, large unpaginated master/customer/job/retainer lists and independent reads remain part of this endpoint's contract (`src/endpoints/initialData/initialData-router.js:65`).
 
 Notification paging, user-configurable retention, reliable background retry and expiry cleanup are **not determined from the code**. The health check does not verify migration readiness. Staff membership identifies recipients, not permission to approve work; role gates still control billing review (`src/endpoints/notifications/notifications-router.js:13`, `src/endpoints/timesheets/auto-ingest-runner.js:72`, `src/endpoints/health/health-service.js:7`, `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:41`).
 
@@ -140,3 +140,5 @@ Accountant issues in report section3 include duplicate/sign/desynchronized state
 Section6 requires backups/reviewed migration rehearsal, schema020 immediately before backend without an account-creation gap, schema021 before backend, then reviewed tracker ownership backfill and employee isolation verification; backend before frontend; explicit internal-customer and billing-timezone settings. A health200 is insufficient evidence for those checks. These are report requirements, not actions performed by this documentation review (`scripts/review-2026-09/FINAL_REPORT.md:67`).
 
 Coverage: **5 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+Staff upload/history uses its existing self-scoped endpoints; initialBlob retains all twelve shell keys but exposes no financial/contact selectors or counts to ordinary staff. Local regression: `test/integration/review-initial-data-roles.integration.spec.js` (18 passing).

@@ -7,22 +7,25 @@
 const PDFDocument = require('pdfkit');
 const dayjs = require('dayjs');
 const auditService = require('../accountAudit/account-audit-service');
+const invoiceService = require('../invoice/invoice-service');
 const { auditCustomerLedger } = require('../accountAudit/account-audit-logic');
 
 const fmtMoney = n => `$${Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-const buildStatementData = async (db, accountId, customerId, { start, end }) => {
-   const customer = await auditService.getCustomer(db, accountId, customerId);
+const buildStatementData = async (db, accountId, customerId, { start, end }) => db.transaction(async readTrx => {
+   await readTrx.raw('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY');
+   const customer = await auditService.getCustomer(readTrx, accountId, customerId);
    if (!customer) throw new Error('No matching customer record found.');
 
    const [invoices, payments, writeoffs, transactions, retainers] = await Promise.all([
-      auditService.getInvoices(db, accountId, customerId),
-      auditService.getPayments(db, accountId, customerId),
-      auditService.getWriteoffs(db, accountId, customerId),
-      auditService.getTransactions(db, accountId, customerId),
-      auditService.getRetainers(db, accountId, customerId)
+      auditService.getInvoices(readTrx, accountId, customerId),
+      auditService.getPayments(readTrx, accountId, customerId),
+      auditService.getWriteoffs(readTrx, accountId, customerId),
+      auditService.getTransactions(readTrx, accountId, customerId),
+      auditService.getRetainers(readTrx, accountId, customerId)
    ]);
 
+   const accountInfo = await invoiceService.getAccountPayToInfo(readTrx, accountId);
    const audit = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers });
 
    const startDate = start ? dayjs(start) : null;
@@ -43,6 +46,7 @@ const buildStatementData = async (db, accountId, customerId, { start, end }) => 
 
    return {
       customer,
+      accountInfo,
       audit,
       events,
       openingBalance,
@@ -52,7 +56,7 @@ const buildStatementData = async (db, accountId, customerId, { start, end }) => 
          end: endDate.format('MM/DD/YYYY')
       }
    };
-};
+});
 
 const renderStatementPdf = ({ customer, audit, events, openingBalance, closingBalance, range }, accountInfo = {}) => {
    const doc = new PDFDocument({ size: 'LETTER', margin: 50, bufferPages: true });

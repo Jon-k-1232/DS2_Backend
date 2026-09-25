@@ -372,6 +372,8 @@ describe('sharedTransactionFunctions.addNewTransaction', () => {
    });
    const fixture = (extra = {}) =>
       buildFakeDb({
+         users: [{ user_id: 21, account_id: 1 }],
+         customer_general_work_descriptions: [{ general_work_description_id: 7, account_id: 1 }],
          customers: baseCustomers(),
          customer_jobs: [baseJob(), otherCustomerJob()],
          customer_transactions: [],
@@ -564,6 +566,8 @@ describe('sharedTransactionFunctions.updateTransactionCore / deleteTransactionCo
    });
    const fixture = (retainers = [root(10, 100, 500)]) =>
       buildFakeDb({
+         users: [{ user_id: 21, account_id: 1 }],
+         customer_general_work_descriptions: [{ general_work_description_id: 7, account_id: 1 }],
          customers: baseCustomers(),
          customer_jobs: [baseJob(), { ...baseJob(), customer_job_id: 502 }, otherCustomerJob()],
          customer_transactions: [],

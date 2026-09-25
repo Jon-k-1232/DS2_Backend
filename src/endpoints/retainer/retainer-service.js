@@ -18,7 +18,7 @@ const retainersService = {
    },
 
    getRetainersBetweenDates(db, accountID, start_date, end_date) {
-      return db.select().from(RETAINERS).where('account_id', accountID).andWhere('created_at', '>=', start_date).andWhere('created_at', '<=', end_date);
+      return db.select().from(RETAINERS).where('account_id', accountID).andWhere('created_at', '>=', start_date).andWhereRaw("created_at < (?::date + INTERVAL '1 day')", [end_date]);
    },
 
    getCustomerRetainersByID(db, accountID, customerID) {

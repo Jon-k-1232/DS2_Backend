@@ -1,6 +1,6 @@
 # Accounts, users and authentication
 
-Source review: 2026-09-24. Backend-relative `path:line` citations describe committed code, not verified production configuration. Frontend paths begin `../DS2_Frontend/`. Tests were inspected, not executed.
+Source review: 2026-09-24. Backend-relative `path:line` citations describe checked-out code, not verified production configuration. Frontend paths begin `../DS2_Frontend/`. The original review inspected tests; executed F19/F20 regressions and final local checks are in the [F8–F22 log](../_review/fixes-F8-F22.md).
 
 ## 1. Purpose and UI
 
@@ -12,7 +12,7 @@ Source review: 2026-09-24. Backend-relative `path:line` citations describe commi
 
 `requireAuth` prefers cookie `ds2_auth` over Bearer authorization. It verifies HS256, then looks up an active user by token subject/email on **every request**. Request identity comes from that current row, not URL/body fields. Missing/invalid/expired token or missing/inactive user gives 401; database lookup exceptions also become 401. It does not test accounts.is_account_active. `checkRole` repeats token/user validation and lowercases the stored role without trimming it. Sources: `src/endpoints/auth/jwt-auth.js:7`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`.
 
-`enforceAccountId` requires a present authenticated account and integer numeric URL account equal to it; Super Admin has no cross-account exception. Missing identity/account gives 401; mismatch/malformed account gives 403. `enforceSelfOrPrivileged` accepts numeric user-ID equality or lowercase manager/admin/super admin/owner. Canonical user creation/update accepts only **Super Admin, Admin, Manager, User**, with trim/case normalization. Thus legacy `Owner` can pass several backend gates but cannot be newly assigned through users CRUD and does not pass the corresponding frontend gates. Sources: `src/endpoints/auth/account-scope.js:7`, `src/endpoints/auth/account-scope.js:22`, `src/endpoints/user/userObjects.js:8`, `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/AccountRoutes.js:23`.
+`enforceAccountId` requires a present authenticated account and integer numeric URL account equal to it; Super Admin has no cross-account exception. Missing identity/account gives 401; mismatch/malformed account gives 403. `enforceSelfOrPrivileged` accepts numeric user-ID equality or lowercase manager/admin/super admin/owner. Canonical user creation/update accepts only **Super Admin, Admin, Manager, User**, with trim/case normalization. Thus legacy `Owner` can pass several backend gates but cannot be newly assigned through users CRUD and passes frontend manager gates; Admin and Super Admin gates remain restricted to their named roles. Sources: `src/endpoints/auth/account-scope.js:7`, `src/endpoints/auth/account-scope.js:22`, `src/endpoints/user/userObjects.js:8`, `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/AccountRoutes.js:23`.
 
 In the matrix, **M** = Manager, Admin, Super Admin, legacy Owner; **A** = Admin, Super Admin; **S** = Super Admin. All protected account-param routers register enforceAccountId; account update without a URL account uses req.user.account_id. Sources: `src/app.js:121`, `src/endpoints/auth/jwt-auth.js:91`, `src/endpoints/account/account-router.js:162`.
 
@@ -25,14 +25,14 @@ In the matrix, **M** = Manager, Admin, Super Admin, legacy Owner; **A** = Admin,
 | `/retainers`, `/writeOffs`, `/workDescriptions` | Authentication + M. `src/app.js:145`, `src/app.js:148`. |
 | `/user` | Authentication + self/privileged URL user; create/update/delete S; fetch self or privileged. `src/endpoints/user/user-router.js:1`, `src/endpoints/user/user-router.js:41`. |
 | `/account` | Create S; update/information/automation GET+PUT A. `src/endpoints/account/account-router.js:115`, `src/endpoints/account/account-router.js:151`, `src/endpoints/account/account-router.js:234`, `src/endpoints/account/account-router.js:275`. |
-| `/initialData` | Authentication + own account only. User compensation/email fields are removed for nonprivileged callers; financial collections are still returned ([F3](../_review/findings.md#f3)). `src/app.js:147`, `src/endpoints/initialData/initialData-router.js:22`, `src/endpoints/initialData/initialData-router.js:56`. |
+| `/initialData` | Authentication + own account only. Nonprivileged callers receive empty collections and only their own user_id/display_name; privileged roles retain full lists (fixed [F3](../_review/findings.md#f3)). `src/app.js:147`, `src/endpoints/initialData/initialData-router.js:22`, `src/endpoints/initialData/initialData-router.js:56`. |
 | `/timesheets` | Self/privileged queryUserID on per-employee reads; M for account queue/count/move/delete; AI kickoff allows self or privileged entries. `src/endpoints/timesheets/timesheets-router.js:5`, `src/endpoints/timesheets/timesheets-router.js:36`, `src/endpoints/timesheets/timesheets-router.js:88`. |
 | `/time-tracking` | Self/privileged URL user; additional owner/on-behalf/template rules in time-tracking.md. `src/endpoints/timeTracking/timeTracking-router.js:30`. |
 | `/time-tracker-staff` | Authentication + M. `src/app.js:151`. |
 | `/ai-integration` | Authentication; every method/path returns 410. No account parameter guard in deprecated router. `src/app.js:154`, `src/endpoints/aiIntegration/aiIntegration-router.js:16`. |
 | `/pending-payments`, `/billing-review`, `/accountsReceivable` | Authentication + M. Pending-PDF upload additionally account 1 only. `src/app.js:155`, `src/app.js:160`, `src/app.js:169`, `src/endpoints/pendingPayments/pendingPayments-router.js:274`. |
 | `/notifications` | Authentication, account and self/privileged URL user. `src/app.js:161`, `src/endpoints/notifications/notifications-router.js:1`. |
-| `/accountAudit` | Authentication + S in router. Generic invoice download separately permits own audit-prefix files to M ([F4](../_review/findings.md#f4)). `src/endpoints/accountAudit/account-audit-router.js:37`, `src/utils/downloadAuthorization.js:40`. |
+| `/accountAudit` | Authentication + S in router. Generic invoice download refuses audit-prefix files for all roles; use the dedicated S endpoint (fixed [F4](../_review/findings.md#f4)). `src/endpoints/accountAudit/account-audit-router.js:37`, `src/utils/downloadAuthorization.js:40`. |
 | `/analytics` | Authentication + S at mount. `src/app.js:170`. |
 | `/api/health`, `/healthz` | Public router aliases; global rate limit still applies. `src/app.js:120`, `src/app.js:152`. |
 
@@ -77,7 +77,7 @@ In the matrix, **M** = Manager, Admin, Super Admin, legacy Owner; **A** = Admin,
 | Method/path | `POST /account/createAccount` |
 | Input | S; JSON `{account:{...}}`, fields below. Account ID allocated by server; storage_slug input ignored. |
 | Success | **200** `{account:{returnedFields:<merged account+address>,grid},message:'Successfully updated customer.',status:200}`. This message is used even on creation. |
-| Errors | **500** missing required database fields, excessive lengths, invalid conversions/constraint failure, or address insert failure; no dedicated 400 field validator. Partial creation is possible ([F20](../_review/findings.md#f20)). Shared authorization/rate/parser errors. |
+| Errors | **400** missing/blank account name/type or invalid text types/lengths; **500** other constraint/conversion or address persistence failures. All account/address writes roll back together ([F20](../_review/findings.md#f20), fixed). Shared authorization/rate/parser errors. |
 | Source | `src/endpoints/account/account-router.js:115` |
 
 ### Update account/settings/address
@@ -117,7 +117,7 @@ In the matrix, **M** = Manager, Admin, Super Admin, legacy Owner; **A** = Admin,
 | Method/path | `PUT /account/automations/A/U` |
 | Input | A; required nonempty `automationKey`; at least one of `isEnabled` or `recipientUserIds`. Enabled accepts boolean, trimmed case-insensitive 'true'/'false', or number (only 1 is true). Recipients must be array; elements parseInt, service deduplicates positive integers; every retained ID must be an active account user. Empty array is allowed. |
 | Success | **200** `{automation,status:200}`. |
-| Errors | **400** invalid key, account, enabled type/value, nonarray recipients, no updates, or inactive/foreign recipient. **500** database/service failure. Validation failure can still delete recipients/change enabled state ([F19](../_review/findings.md#f19)). |
+| Errors | **400** invalid key, account, enabled type/value, nonarray recipients, no updates, or inactive/foreign recipient. **500** database/service failure. Rejected requests preserve both enabled state and recipients ([F19](../_review/findings.md#f19), fixed). |
 | Source | `src/endpoints/account/account-router.js:332`, `src/endpoints/account/automation-settings-service.js:56` |
 
 ### Create user
@@ -137,7 +137,7 @@ In the matrix, **M** = Manager, Admin, Super Admin, legacy Owner; **A** = Admin,
 | Method/path | `PUT /user/updateUser/A/U` |
 | Input | S; `user.userID` is target (different from URL actor), `accessLevel` required, other accepted fields below. |
 | Success | **200** updated active roster/grid as above; nonexistent target is a zero-row success. |
-| Errors | **400** invalid role, literal-boolean self-deactivation, or removal of last active Super Admin by deactivation/demotion; **500** DB/constraint/conversion error. |
+| Errors | **400** invalid role, nonboolean active flag, self-deactivation, or removal of last active Super Admin by deactivation/demotion; **500** DB/constraint/conversion error. |
 | Source | `src/endpoints/user/user-router.js:73` |
 
 ### Delete user
@@ -186,7 +186,7 @@ All fields live in `body.account`; strings are recursively sanitized with xss. T
 | accessLevel | Required on create/update; only four canonical roles listed above. |
 | costRate, billingRate | Database numeric(10,2), nullable. Create applies Number (e.g. empty string becomes 0); update passes raw values. No explicit positivity/finite/two-decimal validation here. |
 | isActive | Create-only; default true if omitted, otherwise Boolean(value). |
-| userID, isUserActive, createdAt | Update target ID; raw update active value; optional raw created_at replacement. Omitted values are passed as undefined and skipped by Knex. No strict boolean check on isUserActive ([F29](../_review/findings.md#f29)). |
+| userID, isUserActive, createdAt | Update target ID; optional literal-boolean update active value; optional raw created_at replacement. Omitted values are passed as undefined and skipped by Knex. Strings, numbers and null are refused with 400; omission preserves the stored flag (fixed [F29](../_review/findings.md#f29)). |
 | accountID | Ignored for authority; authenticated URL account replaces it. |
 | Source | `src/endpoints/user/userObjects.js:26`, `src/endpoints/user/userObjects.js:41`, `src/endpoints/user/user-router.js:41`, `migrations/schema-snapshot-2026-09-22.sql:1117`. |
 
@@ -212,7 +212,7 @@ User fetch filters user_id+account_id without active filter. Post-mutation roste
 
 Automation read first inserts missing defaults ON CONFLICT IGNORE. It selects own settings and recipients and maps results in definition order; missing settings default enabled. Active account users provide availableUsers. Stale/inactive recipient IDs are removed by calling replacement during GET. Sources: `src/endpoints/account/automation-settings-service.js:7`, `src/endpoints/account/automation-settings-service.js:20`, `src/endpoints/account/account-router.js:290`.
 
-The bootstrap payload, twelve queries, first-page limits and role-redaction gap are documented in [initial data and notifications](../work/initial-data-and-notifications.md#5-read-logic). That guide is the sole owner of the initial-data contract.
+The bootstrap payload, privileged queries, first-page limits and staff projection are documented in [initial data and notifications](../work/initial-data-and-notifications.md#5-read-logic). That guide is the sole owner of the initial-data contract.
 
 ## 6. Calculations
 
@@ -224,13 +224,13 @@ Grid conversion derives columns from the first row's keys and makes index-based 
 
 ## 7. Create, edit, delete and side effects
 
-Account creation reserves a sequence ID and allocates/inserts the slug transactionally, with one savepoint retry for a slug-unique conflict. It then commits that account **before** inserting account_information separately. An address failure leaves an account without information; the API returns 500 and the inner-join account reader cannot see it ([F20](../_review/findings.md#f20)). Update, by contrast, writes the account and requested address together and rolls back if either row is absent. It preserves omitted fields/created_at and ignores storage_slug input. No account-delete endpoint is mounted despite a service helper. Sources: `src/endpoints/account/account-service.js:41`, `src/endpoints/account/account-service.js:70`, `src/endpoints/account/account-router.js:125`, `src/endpoints/account/account-router.js:209`.
+Account creation reserves a sequence ID and allocates/inserts the slug transactionally, with one savepoint retry for a slug-unique conflict. Account and account_information are committed in one encompassing transaction after text validation. Address persistence failure rolls back the account and slug too; sequence gaps are harmless ([F20](../_review/findings.md#f20), fixed). Update, by contrast, writes the account and requested address together and rolls back if either row is absent. It preserves omitted fields/created_at and ignores storage_slug input. No account-delete endpoint is mounted despite a service helper. Sources: `src/endpoints/account/account-service.js:41`, `src/endpoints/account/account-service.js:70`, `src/endpoints/account/account-router.js:125`, `src/endpoints/account/account-router.js:209`.
 
 User create writes one scoped row, then rereads roster. Update can change email/role/rates/active/created_at, but not account ownership. Changes to role or active status affect the next authenticated request because it rereads users; changing email prevents old email-subject JWTs finding the user. Delete is a hard delete subject to FK restrictions. Existing billed transactions are not repriced by changing a user's rate; future ingestion reads the current billing rate. Sources: `src/endpoints/user/user-service.js:9`, `src/endpoints/user/user-service.js:15`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/timesheets/auto-ingest-orchestrator.js:575`.
 
-Self-deactivation tests strict `=== false`; raw string 'false' can bypass it while PostgreSQL stores false. Last-active-Super-Admin count and mutation have no encompassing transaction/lock, so they are also not serialized against another administrator's change. These are implementation limits, not guaranteed safety invariants ([F29](../_review/findings.md#f29)). Sources: `src/endpoints/user/user-router.js:86`, `src/endpoints/user/user-service.js:29`.
+Self-deactivation uses the validated boolean. Update and delete acquire the same account FOR NO KEY UPDATE lock and re-read/count active Super Admins inside the mutation transaction. Concurrent demotions therefore cannot both remove the last administrator (fixed [F29](../_review/findings.md#f29)); `review-user-guards.integration.spec.js` covers malformed flags, omission, self-deactivation and a controlled concurrent demotion.
 
-Automation update upserts enabled before replacing recipients. Replacement deletes old recipients before checking requested users, without a transaction. An invalid recipient returns 400 after state changes; empty recipients subsequently mean “all active users with email” in reminder selection ([F19](../_review/findings.md#f19)). Automation keys are thursday_reminder_emails, friday_reminder_emails, missing_tracker_reminders and ai_training_weekly_upload. The last remains configurable but has no scheduled upload job; see operations. Sources: `src/endpoints/account/automation-settings-service.js:56`, `src/endpoints/account/automation-settings-service.js:101`, `src/automations/automationScripts/timeTrackerReminders.js:24`, `src/automations/automationDefinitions.js:1`.
+Automation update serializes on the account row and commits enabled state and recipient replacement together. Replacement validates requested active owned users before deleting old recipients. Invalid recipients or later write failures roll back the full request ([F19](../_review/findings.md#f19), fixed). An intentionally saved empty recipient list retains the existing meaning of all active users with email. Automation keys are thursday_reminder_emails, friday_reminder_emails, missing_tracker_reminders and ai_training_weekly_upload. The last remains configurable but has no scheduled upload job; see operations. Sources: `src/endpoints/account/automation-settings-service.js:56`, `src/endpoints/account/automation-settings-service.js:101`, `src/automations/automationScripts/timeTrackerReminders.js:24`, `src/automations/automationDefinitions.js:1`.
 
 Logout clears only the cookie; it does not revoke a separately held JWT or write a server session record. Renewal requires an unexpired JWT; it does not re-contact Google. Source: `src/endpoints/auth/auth-router.js:80`.
 

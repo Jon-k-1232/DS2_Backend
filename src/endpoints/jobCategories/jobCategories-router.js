@@ -21,6 +21,7 @@ jobCategoriesRouter.route('/createJobCategory/:accountID/:userID').post(jsonPars
       const jobCategoriesTableFields = restoreDataTypesJobCategoriesOnCreate(sanitizedNewJobCategory);
       // Trust the account from the (guard-verified) URL, never the request body.
       jobCategoriesTableFields.account_id = Number(accountID);
+      jobCategoriesTableFields.created_by_user_id = Number(req.user.user_id);
 
       // Post new job category
       await jobCategoriesService.createJobCategory(db, jobCategoriesTableFields);

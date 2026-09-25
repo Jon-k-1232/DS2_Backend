@@ -19,7 +19,10 @@ const jobTypeService = {
       return db
          .select('customer_job_types.*', 'customer_job_categories.customer_job_category')
          .from('customer_job_types')
-         .leftJoin('customer_job_categories', 'customer_job_types.customer_job_category_id', 'customer_job_categories.customer_job_category_id')
+         .leftJoin('customer_job_categories', function () {
+         this.on('customer_job_types.customer_job_category_id', '=', 'customer_job_categories.customer_job_category_id')
+            .andOn('customer_job_categories.account_id', '=', 'customer_job_types.account_id');
+      })
          .where('customer_job_types.account_id', accountID)
          .andWhere('customer_job_types.is_job_type_active', true)
          .orderBy('job_description', 'asc');

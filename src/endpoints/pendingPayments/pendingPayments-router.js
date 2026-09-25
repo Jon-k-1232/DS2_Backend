@@ -3,8 +3,8 @@ const path = require('path');
 const dayjs = require('dayjs');
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
-const { putObject, getObject, deleteObject } = require('../../utils/s3');
-const { pendingPaymentsService, PAYMENTS_PENDING_PREFIX, PAYMENTS_AUTOMATION_ACCOUNT_ID } = require('./pendingPayments-service');
+const { putObject, getObject, deleteObject, listObjects } = require('../../utils/s3');
+const { canonicalSourceFile, pendingPaymentsService, PAYMENTS_PENDING_PREFIX, PAYMENTS_PROCESSED_PREFIX, PAYMENTS_AUTOMATION_ACCOUNT_ID } = require('./pendingPayments-service');
 const { validatePendingPaymentExists, validateCanApprove, validateCanDelete } = require('./pendingPayments-logic');
 const { buildCreatePaymentInput, createPaymentCore, buildLedgerTablesPayload } = require('../payments/payment-logic');
 const { appendNoteMarker } = require('../payments/ledger-helpers');
@@ -113,6 +113,7 @@ pendingPaymentsRouter.route('/soft-delete/:paymentID/:accountID/:userID').put(js
       validateCanDelete(record);
 
       const updated = await pendingPaymentsService.softDeletePendingPayment(db, paymentID, accountID);
+      if (!updated) throw httpError(409, 'Payment state changed; refresh before deleting.');
       const counts = await pendingPaymentsService.getTabCounts(db, accountID);
 
       return res.status(200).send({
@@ -275,7 +276,8 @@ pendingPaymentsRouter.post('/upload/:accountID/:userID', rawUploadParser, async 
          return res.status(403).json({ message: 'Automatic payment PDF processing is not available for this account.', status: 403 });
       }
 
-      const s3Key = `${PAYMENTS_PENDING_PREFIX}/${decodedName}`;
+      const canonicalName = `${decodedName.slice(0, -path.extname(decodedName).length)}${ext}`;
+      const s3Key = `${PAYMENTS_PENDING_PREFIX}/${canonicalName}`;
       await putObject(s3Key, req.body, fileTypeHeader, {
          // The AUTHENTICATED uploader — the URL :userID is caller-supplied.
          'uploaded-by': String(req.user?.user_id ?? ''),
@@ -285,7 +287,7 @@ pendingPaymentsRouter.post('/upload/:accountID/:userID', rawUploadParser, async 
 
       return res.status(200).send({
          message: 'File uploaded successfully. Processing will begin shortly.',
-         fileName: decodedName,
+         fileName: canonicalName,
          s3Key,
          status: 200
       });
@@ -315,7 +317,7 @@ pendingPaymentsRouter.route('/files/:accountID/:userID').get(async (req, res) =>
 pendingPaymentsRouter.route('/file/:accountID/:userID').delete(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    const { accountID } = req.params;
-   const { fileName } = req.body;
+   let { fileName } = req.body;
 
    try {
       if (!fileName) {
@@ -325,6 +327,7 @@ pendingPaymentsRouter.route('/file/:accountID/:userID').delete(jsonParser, async
       if (!isSafeBareFilename(fileName)) {
          return res.status(400).json({ message: 'Invalid file name.', status: 400 });
       }
+      fileName = canonicalSourceFile(fileName);
 
       // review/full-audit-2026-09 finding 3: a fileName with zero rows for
       // THIS account used to fall straight through to the S3 delete call
@@ -339,24 +342,17 @@ pendingPaymentsRouter.route('/file/:accountID/:userID').delete(jsonParser, async
          return res.status(404).json({ message: 'File not found.', status: 404 });
       }
 
-      // Check if any payments from this file have been processed
-      const hasProcessed = await pendingPaymentsService.hasProcessedPaymentsForFile(db, fileName, accountID);
-      if (hasProcessed) {
-         return res.status(400).json({
-            message: 'Cannot delete this file because some payments have already been processed.',
-            status: 400
-         });
-      }
-
-      // Soft-delete associated pending payments
-      await pendingPaymentsService.softDeleteBySourceFile(db, fileName, accountID);
-
-      // Try to delete from both S3 locations (pending and processed)
-      try {
-         await deleteObject(`${PAYMENTS_PENDING_PREFIX}/${fileName}`);
-      } catch (s3Err) {
-         console.warn(`Could not delete from processing_pending: ${s3Err.message}`);
-      }
+      // Lock every extracted row so approval cannot commit while its evidence
+      // is being removed. S3 failure rolls back queue flags and is retryable.
+      await db.transaction(async trx => {
+         const rows = await pendingPaymentsService.lockSourceFile(trx, fileName, accountID);
+         if (!rows.length) throw httpError(404, 'File not found.');
+         if (rows.some(row => row.is_payment_processed)) throw httpError(400, 'Cannot delete this file because some payments have already been processed.');
+         const archived = await listObjects(`${PAYMENTS_PROCESSED_PREFIX}/`);
+         const keys = archived.filter(obj => obj.Key.endsWith(`/${fileName}`)).map(obj => obj.Key);
+         for (const key of [...new Set([...keys, `${PAYMENTS_PENDING_PREFIX}/${fileName}`])]) await deleteObject(key);
+         await pendingPaymentsService.softDeleteBySourceFile(trx, fileName, accountID);
+      });
 
       const counts = await pendingPaymentsService.getTabCounts(db, accountID);
 
@@ -367,7 +363,7 @@ pendingPaymentsRouter.route('/file/:accountID/:userID').delete(jsonParser, async
       });
    } catch (error) {
       console.error('Error deleting payment file:', error);
-      res.status(500).send({ message: error.message, status: 500 });
+      res.status(error.statusCode || 500).send({ message: error.message, status: error.statusCode || 500 });
    }
 });
 
@@ -376,7 +372,7 @@ pendingPaymentsRouter.route('/file/:accountID/:userID').delete(jsonParser, async
 pendingPaymentsRouter.route('/file-preview/:accountID/:userID').get(async (req, res) => {
    const db = req.app.get('db');
    const { accountID } = req.params;
-   const { fileName } = req.query;
+   let { fileName } = req.query;
 
    try {
       if (!fileName) {
@@ -386,6 +382,7 @@ pendingPaymentsRouter.route('/file-preview/:accountID/:userID').get(async (req, 
       if (!isSafeBareFilename(fileName)) {
          return res.status(400).json({ message: 'Invalid file name.', status: 400 });
       }
+      fileName = canonicalSourceFile(fileName);
 
       // review/full-audit-2026-09 finding 3: this route had NO ownership
       // check at all — it scanned every subfolder under the shared
@@ -396,7 +393,7 @@ pendingPaymentsRouter.route('/file-preview/:accountID/:userID').get(async (req, 
       // Refusing before either S3 call (see accountOwnsSourceFile) also
       // means a non-owner can no longer even trigger the unscoped
       // listObjects scan.
-      const owns = await pendingPaymentsService.accountOwnsSourceFile(db, fileName, accountID);
+      const owns = await pendingPaymentsService.accountOwnsSourceFile(db, fileName, accountID, { includeDeleted: false });
       if (!owns) {
          return res.status(404).send({ message: 'File not found.', status: 404 });
       }

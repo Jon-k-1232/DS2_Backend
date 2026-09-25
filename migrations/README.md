@@ -9,31 +9,33 @@
   predates `019` (added 2026-09-22). Treat it as a historical bootstrap
   snapshot, not a live reference — see the drift note below.
 
-- **`schema-snapshot-2026-09-22.sql`** — the **authoritative current schema**,
+- **`schema-snapshot-2026-09-22.sql`** — the **immutable schema baseline through 018**,
   generated straight from the prod copy on the local sandbox:
   ```
   PGPASSWORD=ds2ro pg_dump -h 127.0.0.1 -p 5433 -U ds2_ro -d ds2_local \
     --schema-only --no-owner --no-acl > migrations/schema-snapshot-2026-09-22.sql
   ```
   `ds2_local` (sandbox, port 5433) is a pg_dump of prod taken 2026-09-22, so
-  this file is what prod's schema actually is today — 32 tables, including
+  this file records that dated copy's schema — 32 tables, including
   everything `tables.sql` is missing (`customer_rate_agreements`,
   `account_audits`'s narrative/pdf/app-balance columns, the core ledger
-  indexes from `017`, etc.). When you need to know the *real* current shape
-  of a table, read this file, not `tables.sql`. It's also the base every
+  indexes from `017`, etc.). Read it together with forward migrations
+  019–022 for the supported current schema; it does not verify live production.
+  It's also the base every
   throwaway `ds2_mig_test_*` database is built from for local testing (see
   `test/scripts/helpers/pgHarness.js`).
 
-- **`NNN.description.sql`** (`002`–`021`) — incremental migrations, applied on
-  top of `tables.sql`. There is no `001` file; that's expected and harmless
-  (see "Historical: why this isn't postgrator anymore" below, which covers
-  the version-sequence gap too) — `tables.sql` is what `001` would have been,
-  applied once by hand when a database is first created, not through any
-  runner.
+- **`NNN.description.sql`** (`002`–`022`) — historical incremental changes plus current forward migrations. There is no 001 file. `tables.sql` already includes several historical changes; replaying all numbered migrations on it or the dated snapshot is not a supported fresh build.
+
+## Supported fresh-build baseline and suggestion recovery (F30)
+
+Use the immutable `schema-snapshot-2026-09-22.sql` as the supported clean schema baseline through 018, then apply 019, 020, 021 and 022 in order. For the tracked runner, load the snapshot into an empty database, verify that baseline, record `--baseline 18`, and run pending migrations. Never replay historical 002–018 onto this snapshot; some files recreate populated tables.
+
+005 removed three suggestion customer columns later reintroduced outside the numbered history. Migration **022.restore_suggestion_customer_columns.sql** makes that restoration explicit: nullable text entity/display name and integer customer ID with the original customer FK. It is additive/idempotent on the supported snapshot and restores missing columns on a historical-005-shaped database. It preserves existing values but cannot recover values already dropped by 005. `test/scripts/migration-022.spec.js` creates disposable local databases, tests both shapes through every forward migration, exercises the ingestion-shaped upsert and review read, and repeats the forward files to check preservation. No production or production-copy data repair is implied.
 
 ## File contract: numbered migrations are plain SQL
 
-`002`–`021` must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
+`002`–`022` must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
 TRANSACTION;` / `END;` line and no psql `\`-meta-command**, outside a
 dollar-quoted (`$$...$$`/`$tag$...$tag$`) block. `scripts/migrate.js` owns
 the transaction wrapper for every file it runs (together with that file's
@@ -99,7 +101,7 @@ with it.
   prod) against that specific database.
 
   Take a backup first. Prod has **no `schemaversion` tracking table at all**
-  — nothing records which of `002`–`021` have already been run there, so
+  — nothing records which of `002`–`022` have already been run there, so
   whoever applies a migration by hand has to know the current state
   themselves. This is also why the several non-idempotent files below are a
   real hazard on prod specifically: a tracked runner would normally refuse to
@@ -196,7 +198,7 @@ current version.
 
 ## Known non-idempotent migrations
 
-Inspected every file in `002`–`021` for what happens if it's run a second
+Inspected every file in `002`–`022` for what happens if it's run a second
 time against a database where it already applied cleanly (the scenario that
 matters most for prod's by-hand `psql -f` process, which has no tracking
 table to prevent a re-run):

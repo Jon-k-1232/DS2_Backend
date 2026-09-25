@@ -10,7 +10,7 @@ Create/export and calculations are in [create-invoice-engine.md](create-invoice-
 
 Every route below requires authentication and backend role manager, admin, super admin or owner. The current role is loaded from the database. enforceAccountId rejects a noninteger/foreign numeric account with 403; missing authentication/account context produces 401. userID is not a self-only restriction; these are account-wide operations. Sources: `src/app.js:138`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/invoice/invoice-router.js:5`, `src/endpoints/auth/account-scope.js:7`.
 
-The frontend gate omits owner ([F37](../_review/findings.md#f37)). Source: `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
+The frontend manager gate includes owner ([F37](../_review/findings.md#f37)). Source: `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
 
 ## 3. API reference
 
@@ -89,7 +89,7 @@ Detail first joins the selected account invoice to customer and its stored conta
 
 Then retrieve all chain IDs. Transactions have no explicit order; payments/write-offs order created_at ASC without an ID tie-break. These are chain-wide records, not rows gated by the statement timestamp. Source: `src/endpoints/invoice/invoice-router.js:483`.
 
-Retainers use account-wide created_at >= start_date AND created_at <= end_date, then customer filtering. Date-only end_date resolves to midnight, so later activity on that date is omitted ([F34](../_review/findings.md#f34)). Older still-active retainers created before start_date are also not returned. It is a history-window query, despite the route comment saying active retainers. Sources: `src/endpoints/invoice/invoice-router.js:487`, `src/endpoints/retainer/retainer-service.js:20`.
+Retainer history uses created_at >= start_date AND created_at < end_date + 1 day, then customer filtering. Both business dates are inclusive, including the final microsecond of the ending day (fixed [F34](../_review/findings.md#f34); `review-retainer-dates.integration.spec.js`). Older still-active retainers created before start_date are also not returned. It is a history-window query, despite the route comment saying active retainers. Sources: `src/endpoints/invoice/invoice-router.js:487`, `src/endpoints/retainer/retainer-service.js:20`.
 
 The outstanding tab fetches the customer's **current latest statement date** and today's outstanding candidate chains, even when opening an old invoice. It is not the saved beginning-balance section of that invoice. Source: `src/endpoints/invoice/invoice-router.js:490`.
 
@@ -116,7 +116,7 @@ Source: `src/endpoints/invoice/invoice-router.js:59`, `src/endpoints/invoice/inv
 
 There is no S3 delete, child deletion, ledger unlink/reprice, retainer restoration or notification in this handler. Its wording mentions retainers, but the explicit direct-link count queries are transactions, payments and write-offs. A post-delete list failure can return an error after the row is gone. Source: `src/endpoints/invoice/invoice-router.js:66`, `src/endpoints/invoice/invoice-router.js:134`.
 
-The [generic download contract](../platform/storage-and-downloads.md#3-api-reference) authorizes account prefixes rather than invoice-row membership. It accepts own-account audit PDFs for Manager/Admin/Owner, although the dedicated audit API requires Super Admin. This is the role-gate bypass recorded as [F4](../_review/findings.md#f4). Sources: `src/utils/downloadAuthorization.js:40`, `src/endpoints/accountAudit/account-audit-router.js:37`.
+The [generic download contract](../platform/storage-and-downloads.md#3-api-reference) authorizes account prefixes rather than invoice-row membership. It refuses audit PDFs for every role; these are served only by the dedicated Super Admin audit endpoint. Fixed [F4](../_review/findings.md#f4), regression `review-audit-download.integration.spec.js`. Sources: `src/utils/downloadAuthorization.js:40`, `src/endpoints/accountAudit/account-audit-router.js:37`.
 
 ## 8. Invariants and tests
 

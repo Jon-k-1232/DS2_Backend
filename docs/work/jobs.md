@@ -8,9 +8,9 @@ The form selects an active customer, category and type, and permits quote amount
 
 ## 2. Access rules
 
-`/jobs` requires authenticated `manager`, `admin`, `super admin` or `owner`, compared lowercase. Frontend permits only the first three (`src/app.js:130`, `src/endpoints/auth/jwt-auth.js:94`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`). Auth accepts cookie first, Bearer fallback, validates JWT and loads the subject user; failures produce HTTP 401. Role rejection is HTTP 403 (`src/endpoints/auth/jwt-auth.js:7`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`).
+`/jobs` requires authenticated `manager`, `admin`, `super admin` or `owner`, compared lowercase. Frontend permits the same four roles (`src/app.js:130`, `src/endpoints/auth/jwt-auth.js:94`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`). Auth accepts cookie first, Bearer fallback, validates JWT and loads the subject user; failures produce HTTP 401. Role rejection is HTTP 403 (`src/endpoints/auth/jwt-auth.js:7`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`).
 
-`enforceAccountId` requires integer URL account equal to the user's account; otherwise HTTP 403. There is no `enforceSelfOrPrivileged` check. URL `userID` does not constrain ownership; body `userID` becomes the creator, including on update. Account is overwritten with the URL account. Customer ownership is checked while locking the customer ledger, but type and creator ownership are not checked (`src/endpoints/job/job-router.js:4`, `src/endpoints/job/job-router.js:61`, `src/endpoints/job/jobObjects.js:12`, `src/endpoints/payments/ledger-helpers.js:62`).
+`enforceAccountId` requires integer URL account equal to the user's account; otherwise HTTP 403. There is no `enforceSelfOrPrivileged` check. URL/body `userID` is ignored for attribution: create stamps the session user and update preserves the stored creator. Account is overwritten with the URL account. Customer ownership is checked while locking the customer ledger, and the selected type must exist in the verified account before any job write (`src/endpoints/job/job-router.js:4`, `src/endpoints/job/job-router.js:61`, `src/endpoints/job/jobObjects.js:12`, `src/endpoints/payments/ledger-helpers.js:62`).
 
 Token verification accepts HS256 only. User lookup and role lookup both require `is_user_active=true`; a deactivated user cannot continue with an otherwise valid token. Authentication lookup exceptions are also returned as HTTP 401; an uncaught role-lookup failure reaches the global error handler (`src/endpoints/auth/auth-service.js:26`, `src/endpoints/auth/auth-service.js:46`, `src/endpoints/auth/jwt-auth.js:48`, `src/endpoints/auth/jwt-auth.js:77`).
 
@@ -56,8 +56,8 @@ Envelope **J**: `{accountJobsList:{activeJobData:{activeJobs:[joinedRow],grid,tr
 |---|---|
 | `customerJobID` | Update identity; required number-coerced job ID. |
 | `customerID` | Required integer-compatible ID; customer must exist in URL account. No active/billable customer check. |
-| `jobTypeID` | Required number-coerced integer, FK to type. No active/type-account check. |
-| `userID` | Required number-coerced creator FK; caller-supplied, also replaces creator on update. |
+| `jobTypeID` | Required number-coerced integer, FK to type. Must belong to the verified account; inactive types remain allowed. |
+| `userID` | Untrusted; create uses the session user and update preserves the stored creator. |
 | `accountID` | Optional/untrusted; overridden with URL account. |
 | `parentJobID` | Ignored for family assignment: create forces null; update restores stored parent. |
 | `quoteAmount` | `Number(value)` to numeric(10,2); no finite/positive validation. Null/empty becomes zero. |
@@ -78,12 +78,12 @@ Reads join `customer_job_types`, `customer_job_categories`, `customers`, `users`
 
 | View/helper | Exact read |
 |---|---|
-| Account jobs | Select `customer_jobs.*`, `customer_job_types.*`, category label, customer display name as `customer_name`, creator display name as `created_by_user`. INNER JOIN all four related tables on their IDs. Only jobs account is filtered. Order by jobs `created_at ASC`. No active/completion/quote predicate. Includes every version (`src/endpoints/job/job-service.js:22`). |
+| Account jobs | Select `customer_jobs.*`, explicit type description/category ID/active/estimated time/book rate fields, category label, customer display name as `customer_name`, creator display name as `created_by_user`. INNER JOIN all four related tables on their IDs. Each joined table must share the jobs account. Order by jobs `created_at ASC, customer_job_id ASC`. No active/completion/quote predicate. Includes every version (`src/endpoints/job/job-service.js:22`). |
 | Single job | Raw jobs columns by account and exact job ID; no family expansion (`src/endpoints/job/job-service.js:14`). |
-| Customer jobs source | `SELECT *` from jobs INNER JOIN types/categories; jobs account/customer equality; jobs `created_at ASC`. No completion/active filter (`src/endpoints/job/job-service.js:41`). |
-| Customer jobs endpoint reduction | Reduce oldest-to-newest: insert a row by own ID when parent is not present; replace parent slot only if candidate `created_at` is strictly later. Add `display_name = job_description + ' - ' + customer_job_category`. Return array, grid and tree (`src/endpoints/job/job-router.js:114`, `src/endpoints/job/job-router.js:247`). Duplicate joined column names can defeat that time comparison; [F23](../_review/findings.md#f23) documents this. |
+| Customer jobs source | `customer_jobs.*` plus type description/category ID and category label from scoped INNER JOIN types/categories; jobs account/customer equality and type/category account equality; jobs `created_at ASC, customer_job_id ASC`. No completion/active filter (`src/endpoints/job/job-service.js:41`). |
+| Customer jobs endpoint reduction | Keep the last SQL-ordered row per parent-or-own family ID. Add `display_name = job_description + ' - ' + customer_job_category`. Timestamp ordering retains PostgreSQL precision and ID breaks ties. Profile tree totals use the same selection. Fixed [F23](../_review/findings.md#f23), tested by `review-job-selection.integration.spec.js`. |
 | Family IDs | Read selected job by account/ID; root = parent or own ID; select account jobs where own ID=root OR parent=root (`src/endpoints/job/job-service.js:77`). |
-| `getRecentJob` | Select copyable job columns from the **exact supplied ID**, ordered created-at descending, first row. Despite its name it does not find the latest version of the family (`src/endpoints/job/job-service.js:106`). |
+| `getRecentJob` | Resolve the owned family and select copyable columns from its latest row, ordered created-at DESC then job ID DESC (`src/endpoints/job/job-service.js:106`). |
 | Customer-profile tree | Uses all customer job rows, builds tree, replaces each displayed root total with the child having greatest `customer_job_id`; never sums snapshot totals (`src/endpoints/customer/customer-router.js:165`). |
 
 `createGrid` uses first-row columns and positional IDs. `generateTreeGridData` maps each row by job ID, links direct parents, and promotes a row with missing parent to a root (`src/utils/gridFunctions.js:6`, `src/utils/gridFunctions.js:68`). Account grids do not apply the customer-profile root-total replacement (`src/endpoints/job/job-router.js:265`, `../DS2_Frontend/src/Pages/Jobs/JobGrids/JobsGrid.js:44`).
@@ -118,10 +118,12 @@ Delete checks those same three link sets across the family, then deletes every f
 
 ## 9. Limitations and open decisions
 
-[F2](../_review/findings.md#f2), [F23](../_review/findings.md#f23) and [F10](../_review/findings.md#f10) in [consolidated findings](../_review/findings.md) cover unchecked related-account IDs, joined timestamps breaking latest-version selection, and later snapshots copying stale job metadata from the transaction's exact historical job row. The source distinguishes all three from the corrected family-total sum (`src/endpoints/job/job-service.js:41`, `src/endpoints/job/job-service.js:106`, `src/endpoints/transactions/sharedTransactionFunctions.js:478`).
+F2 is fixed by ownership validation, scoped joins and creator preservation (`review-related-ids.integration.spec.js`). [F23](../_review/findings.md#f23) and [F10](../_review/findings.md#f10) in [consolidated findings](../_review/findings.md) record fixed joined-metadata/latest-version selection and fixed stale metadata copying. F10 snapshots preserve the latest family notes, agreed amount, and other copyable metadata; `review-job-family.integration.spec.js` verifies repricing an older-linked entry. The source distinguishes all three from the corrected family-total sum (`src/endpoints/job/job-service.js:41`, `src/endpoints/job/job-service.js:106`, `src/endpoints/transactions/sharedTransactionFunctions.js:478`).
 
 The review report lists 151 families with stale stored totals (net −$485; largest example stored $1,235 versus $960), 5 billable transactions with no job ($365), and 9 cross-customer job links for accountant review. A metadata-only transaction edit does not necessarily recompute totals: the code only calls the recomputation for amount deltas or cross-family moves. The report's “next edit” statement should be read with that qualification (`scripts/review-2026-09/FINAL_REPORT.md:51`, `scripts/review-2026-09/FINAL_REPORT.md:54`, `src/endpoints/transactions/sharedTransactionFunctions.js:704`). These are historical report counts, not a new database measurement.
 
 Period locking, adjustment-only corrections, credit carry-forward, voiding instead of deleting statement history, and persisted billing runs remain design gaps. Rollout calls for reviewed migration rehearsal/backup, 020/021 ordering and tracker backfill verification, backend before frontend, and internal-customer/timezone environment settings (`scripts/review-2026-09/FINAL_REPORT.md:59`, `scripts/review-2026-09/FINAL_REPORT.md:67`). No production readiness claim is made here.
 
 Coverage: **5 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+F2 verification: `test/integration/review-related-ids.integration.spec.js` covers forged related IDs on create/update, session creators, preserved update attribution, and historical malformed label joins. No historical production-copy rows are repaired by this change.

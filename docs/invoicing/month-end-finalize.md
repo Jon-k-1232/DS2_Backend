@@ -4,11 +4,11 @@
 
 Finalization issues rolling statements, links newly billed transactions/payments, absorbs prior statement balances and creates download artifacts. The same Create Invoice page also offers drafts and CSV-only output. Route: `/invoices/createInvoice`; page: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:17`; output defaults are CSV=true, draft=false, finalize=false. At least one selected customer and one output option are required by the UI, and finalized billing opens a confirmation dialog. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:26`, `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:10`, `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:62`.
 
-After success, completed selections are cleared; skipped customer choices remain available. A subsequent download failure is displayed separately from successful finalization. A server error returned after commit is not distinguished this way; see [F15](../_review/findings.md#f15). Source: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:85`.
+After success, completed selections are cleared; skipped customer choices remain available. A subsequent download failure is displayed separately from successful finalization. The server also returns committed success plus warnings when the combined ZIP or invoice-list refresh fails; see [F15](../_review/findings.md#f15). Source: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:85`.
 
 ## 2. Access rules
 
-POST requires authentication, account-scoped accountID, and backend role manager, admin, super admin or owner. No self-or-privileged userID check is installed. The created_by user is req.user.user_id with a URL fallback only if absent. Frontend manager gating omits owner. Sources: `src/app.js:138`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/invoice/invoice-router.js:242`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
+POST requires authentication, account-scoped accountID, and backend role manager, admin, super admin or owner. No self-or-privileged userID check is installed. The created_by user is req.user.user_id with a URL fallback only if absent. Frontend manager gating includes owner. Sources: `src/app.js:138`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/invoice/invoice-router.js:242`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
 
 ## 3. API reference
 
@@ -26,7 +26,7 @@ Unexpected database failure in the role middleware can return HTTP 500 through t
 | Query/pagination | None consumed. No date parameter: billingDate is computed on the server. |
 | Success | HTTP 200 `{invoicesWithDetail,fileLocation,skippedCustomers,invoicesList:{activeInvoiceData},message,status:200}`. A wholly skipped batch has empty detail/fileLocation and succeeds. |
 | Authentication/errors | 401 missing/invalid/expired authentication; 403 role/account mismatch; 429 general 300/min limiter; 400 malformed JSON; 413 JSON >1 MB. |
-| Handler errors | **HTTP 200, body status:500** for invalid IDs/selection, missing mailing data, numbering overflow/collision, schema rejection, concurrent ledger change, lock-time same-day conflict, stale stamping, PDF/CSV/S3/DB/readback failure. This also applies when the combined ZIP fails after commit. Errors in pre-try sanitization/settings destructuring instead reach global HTTP 500. |
+| Handler errors | **HTTP 200, body status:500** for invalid IDs/selection, missing mailing data, numbering overflow/collision, schema rejection, concurrent ledger change, lock-time same-day conflict, stale stamping, precommit PDF/CSV/S3/DB failure. After commit, export/readback failure returns status 200, committed=true, committedInvoices with IDs/numbers/individual invoice_file_location, and warnings; invoicesList may be absent. Errors in pre-try sanitization/settings destructuring instead reach global HTTP 500. |
 | Evidence | `src/endpoints/invoice/invoice-router.js:236`, `src/endpoints/invoice/invoice-router.js:249`, `src/endpoints/invoice/invoice-router.js:287`, `src/endpoints/invoice/invoice-router.js:389`, `src/app.js:70`, `src/app.js:100`. |
 
 This is the sole contract for compute-only, draft, CSV and final modes. Selection and calculation rules are in [create-invoice-engine.md](create-invoice-engine.md).
@@ -41,7 +41,7 @@ This is the sole contract for compute-only, draft, CSV and final modes. Selectio
 | invoiceCreationSettings | Optional, defaults to {}. |
 | invoiceCreationSettings.isFinalized / isRoughDraft / isCsvOnly | Optional, default false; JavaScript truthiness. The string 'false' is true. |
 | invoiceCreationSettings.allowSameDayRebill | Optional, true only for true or 'true'. |
-| invoiceCreationSettings.globalInvoiceNote | Optional PDF note; no explicit type/length validation. See [F31](../_review/findings.md#f31) for the individual-note dependency. |
+| invoiceCreationSettings.globalInvoiceNote | Optional PDF note; no explicit type/length validation. Global and individual notes render independently; null/undefined become empty strings (fixed [F31](../_review/findings.md#f31)). |
 | Evidence | `src/endpoints/invoice/invoice-router.js:243`, `src/endpoints/invoice/invoice-router.js:249`, `src/endpoints/invoice/createInvoice/invoiceCalculations/calculateInvoices.js:45`, `src/pdfCreator/templateOne/templateFunctions/templateOneNotes.js:72`. |
 
 ## 4. Data model
@@ -124,7 +124,7 @@ allowSameDayRebill=true permits another parent on the same billing date; it does
 
 ### Artifact keys and export modes
 
-The immutable account storage_slug owns artifacts. Each ZIP call makes a server-local MM-DD-YYYY_T_HH_mm_ss timestamp and appends runID. Compression level is 9. Filename-derived display names replace spaces with underscores; ZIP member names are displayName + extension. Source: `src/pdfCreator/zipOrchestrator.js:16`, `src/utils/createAndSavePDFs.js:8`.
+The immutable account storage_slug owns artifacts. Each ZIP call makes a server-local MM-DD-YYYY_T_HH_mm_ss timestamp and appends runID. Compression level is 9. Filename-derived display names replace spaces with underscores; PDF ZIP member names are sanitized displayName + `_customer_<customer_id>.pdf`; repeated normalized names get a numeric suffix. Source: `src/pdfCreator/zipOrchestrator.js:16`, `src/utils/createAndSavePDFs.js:8`.
 
 | Mode/key pattern | Contents and side effects |
 |---|---|
@@ -138,7 +138,7 @@ The immutable account storage_slug owns artifacts. Each ZIP call makes a server-
 
 CSV columns start with customer ID/name, beginning balance, payments, transactions, write-offs, retainer and invoice total. The header also has Hold/Send/Mail/Email/Add Note/Adjustment Amount/Reason review columns; data rows populate only the first eight. CSV escaping protects formula-like strings while keeping valid signed numbers numeric. Sources: `src/endpoints/invoice/createInvoiceCsv/createInvoiceCsv.js:26`, `src/endpoints/analytics/csv-util.js:25`.
 
-S3 is outside the database transaction. Failed validation/commit can leave orphan individual ZIPs. Failure of the combined ZIP or final list read after commit returns an error even though invoices were committed ([F15](../_review/findings.md#f15)). There is no S3 cleanup/compensation in this flow. Duplicate display names also create colliding members in a combined archive ([F33](../_review/findings.md#f33)). Sources: `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:60`, `src/endpoints/invoice/invoice-router.js:355`, `src/pdfCreator/zipOrchestrator.js:56`.
+S3 is outside the database transaction. Failed validation/commit can leave orphan individual ZIPs. Failure of the combined ZIP or final list read after commit returns committed success, saved individual-file identities and a warning to retrieve them from Invoices without re-finalizing ([F15](../_review/findings.md#f15)). There is no S3 cleanup/compensation in this flow. Same-name customer PDFs have distinct ID-qualified archive member names (fixed [F33](../_review/findings.md#f33)). Sources: `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:60`, `src/endpoints/invoice/invoice-router.js:355`, `src/pdfCreator/zipOrchestrator.js:56`.
 
 ### Edits/deletes after billing
 
@@ -155,7 +155,7 @@ This route does not revise an issued invoice in place. Transaction edits use del
 | test/endpoints/accountAudit/statement-gate.spec.js | Entries on billing day and repeated billing are counted once by the membership gate. |
 | test/pdfCreator/templateOnePagination.spec.js | PDF row/note/page behavior before any finalize commit. |
 
-No integration tests, cloud calls or database writes were run for this documentation task.
+The original review was read-only. Subsequent local F14/F15 integration and clean-room results are in the [F8–F22 log](../_review/fixes-F8-F22.md); production was not accessed.
 
 ## 9. Known limitations and open decisions
 
@@ -172,7 +172,7 @@ These are the report's historical findings and amounts, not a new database audit
 | Job links | 5 billable transactions missing jobs ($365); 9 cross-customer links involving KFP/JFK&A. `scripts/review-2026-09/FINAL_REPORT.md:51`. |
 | Stale work | 51 customers / about $14,800 unbilled. `scripts/review-2026-09/FINAL_REPORT.md:52`. |
 | Retainer double subtraction | Customer 228, INV-2024-00397, remaining $472 includes a second subtraction of a $153 retainer payment. `scripts/review-2026-09/FINAL_REPORT.md:53`. |
-| Stored job totals | 151 families, net -$485, range -$275 to +$4; family 1343 stored $1,235 versus recomputed $960. The report's next-edit recovery statement does not cover Billing Review's still-defective exact-version update ([F9](../_review/findings.md#f9)). `scripts/review-2026-09/FINAL_REPORT.md:54`. |
+| Stored job totals | 151 families, net -$485, range -$275 to +$4; family 1343 stored $1,235 versus recomputed $960. Billing Review now appends whole-family totals under the customer lock; the historical report predates this correction ([F9](../_review/findings.md#f9)). `scripts/review-2026-09/FINAL_REPORT.md:54`. |
 | Internal billing | Customers 5 and 6 contain about $1.43 million of internal time labeled billable; configure INTERNAL_CUSTOMER_IDS and decide whether to add an explicit internal flag. `scripts/review-2026-09/FINAL_REPORT.md:55`. |
 | Credit/aging policy | Credit carry-forward/memos remain open; AR buckets age statements and oldest_open_charge_date is a FIFO estimate. `scripts/review-2026-09/FINAL_REPORT.md:56`. |
 
@@ -181,3 +181,5 @@ The historical report requires accountant decisions for duplicate parents, bill-
 Rollout requires backup and reviewed migration rehearsal; 019 then 020 and 021 as described by the migration guide. Apply 020 immediately before the new backend with no account creation in between; deploy backend before frontend. The tracker ownership backfill follows the new backend and requires reviewed manifests. Set INTERNAL_CUSTOMER_IDS and BILLING_TIMEZONE=America/Phoenix. These are recorded rollout requirements, not actions performed here. Source: `scripts/review-2026-09/FINAL_REPORT.md:67`.
 
 Coverage: **1 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+F14 cutoff: preview, eligibility and finalization include unbilled work through the server billing date (America/Phoenix by default), including stale past work. Future transactions remain unlinked and are eligible on their date; there is no advance-billing option. Regression: `review-invoice-outcomes.integration.spec.js`.

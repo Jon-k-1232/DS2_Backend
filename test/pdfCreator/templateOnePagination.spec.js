@@ -33,9 +33,10 @@ const { PDFTOTEXT, flat, pagesOf, extractPdfText, baseFixture } = require('./_pd
 // code below now produces for the same single-page invoice. If this ever
 // fails, either a real regression was introduced, or the statement's visible
 // text legitimately changed and this baseline needs to be re-captured.
+// F39 removes the redundant Original Amount column; all other printed values remain.
 const GOLDEN_SINGLE_PAGE_TEXT =
    'Review Fixture Firm INVOICE 1 Main Street Mesa, AZ 85201 INV-2026-00001 Phone: 555-0100 Email: fixture@example.test Bill To: Review Fixture Customer ' +
-   'Statement Date: 09/23/2026 2 Main Street Payment Due Date: 10/09/2026 Mesa, AZ 85201 555-0101 Beginning Balance Invoice Date Invoice Original Amount ' +
+   'Statement Date: 09/23/2026 2 Main Street Payment Due Date: 10/09/2026 Mesa, AZ 85201 555-0101 Beginning Balance Invoice Date Invoice ' +
    'Outstanding Beginning Balance: 0.00 Payments Date Invoice Type Reference Amount 08/15/2026 INV-2026-00090 Check 4521 -150.50 Total Payments Received: ' +
    '-150.50 Professional Services Job Job Description Charge J-1 Bookkeeping services 150.00 J-2 Tax prep consultation 250.00 Total New Charges: 400.00 ' +
    'Balance Due: 249.50 Payment due as indicated. Notes Thank you for choosing us this quarter. Balances unpaid for 30 days accrue interest at the rate of 18% per annum.';
@@ -178,7 +179,7 @@ describe('templateOne statement PDF — pagination', function () {
       expect(balanceDuePage, 'totals block is on the LAST page').to.equal(pages.length - 1);
    });
 
-   it('single-page statement: extracted text is unchanged (whitespace-insensitive) from the pre-fix baseline', async () => {
+   it('single-page statement: extracted text matches the baseline with the F39 column removed', async () => {
       const fixture = baseFixture({
          payments: {
             paymentRecords: [{ payment_id: 1, payment_date: '2026-08-15', invoice_number: 'INV-2026-00090', form_of_payment: 'Check', payment_reference_number: '4521', payment_amount: '-150.50' }],

@@ -64,8 +64,8 @@ const buildTimeAllocationCsvLines = data => {
    data.byWorkDescription.forEach(r => lines.push(csvRow([r.work_description, r.hours, r.billable_hours, r.nonbillable_hours, r.billed_amount, r.entries])));
    lines.push('');
    lines.push(csvRow(['By Customer (top 20 by hours)']));
-   lines.push(csvRow(['Customer', 'Hours', 'Billed Amount']));
-   data.byCustomer.forEach(r => lines.push(csvRow([r.customer, r.hours, r.billed_amount])));
+   lines.push(csvRow(['Customer ID', 'Customer', 'Hours', 'Billed Amount']));
+   data.byCustomer.forEach(r => lines.push(csvRow([r.customer_id, r.customer, r.hours, r.billed_amount])));
    lines.push('');
    lines.push('By Month');
    lines.push(csvRow(['Month', 'Billable Hours', 'Non-Billable Hours', 'Billed Amount']));
@@ -198,20 +198,24 @@ analyticsRouter.route('/timeAllocation/:accountID/:userID/export').get(async (re
 // Record/update the agreed rate for a client-year (rate card).
 analyticsRouter.route('/rateAgreement/:accountID/:userID').post(express.json(), async (req, res) => {
    const db = req.app.get('db');
-   const { accountID, userID } = req.params;
+   const { accountID } = req.params;
    try {
       const { customerId, year, agreedRate, notes } = req.body || {};
+      const numericCustomer = Number(customerId);
       const numericRate = Number(agreedRate);
       const numericYear = Number(year);
-      if (!Number(customerId) || !numericYear || numericYear < 2000 || numericYear > 2100 || !(numericRate > 0)) {
+      if (!Number.isInteger(numericCustomer) || numericCustomer <= 0 || numericCustomer > 2147483647 ||
+          !Number.isInteger(numericYear) || numericYear < 2000 || numericYear > 2100 ||
+          !Number.isFinite(numericRate) || numericRate <= 0 || numericRate > 99999999.99 ||
+          Math.abs(Math.round(numericRate * 100) / 100 - numericRate) > 1e-9) {
          throw new Error('A customer, a year, and a positive agreed rate are required.');
       }
       const agreement = await analyticsService.upsertRateAgreement(db, accountID, {
-         customerId: Number(customerId),
+         customerId: numericCustomer,
          year: numericYear,
          agreedRate: numericRate,
          notes,
-         userId: Number(userID)
+         userId: Number(req.user.user_id)
       });
       res.send({ agreement, message: 'Successfully saved rate agreement.', status: 200 });
    } catch (err) {

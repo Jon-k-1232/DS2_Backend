@@ -36,31 +36,7 @@ initialDataRouter.route('/initialBlob/:accountID/:userID').get(async (req, res) 
 
 module.exports = initialDataRouter;
 
-// Fields on a `users` row that are compensation/contact detail rather than
-// directory info. A "User" role has no business reading a coworker's pay
-// rates (or resolving their email for phishing/spam purposes) just because
-// initialData returns the whole account's team roster for dropdowns.
-const SENSITIVE_USER_FIELDS = ['cost_rate', 'billing_rate', 'email'];
-
-const isPrivilegedCaller = requestingUser => {
-   const role = (requestingUser?.access_level || '').toLowerCase();
-   return PRIVILEGED_ROLES.includes(role);
-};
-
-// Strips compensation/contact fields for non-privileged callers WITHOUT
-// changing the payload shape: activeUsers stays an array of the same objects
-// with the same set of privileged-only keys present-or-absent consistently,
-// so `createGrid`'s "columns from Object.keys(data[0])" still works — a
-// non-privileged response just renders those columns without data instead of
-// leaking every teammate's pay rate and email to anyone logged in.
-const sanitizeUsersForCaller = (users, requestingUser) => {
-   if (isPrivilegedCaller(requestingUser)) return users;
-   return users.map(user => {
-      const sanitized = { ...user };
-      SENSITIVE_USER_FIELDS.forEach(field => delete sanitized[field]);
-      return sanitized;
-   });
-};
+const isPrivilegedCaller = requestingUser => PRIVILEGED_ROLES.includes((requestingUser?.access_level || '').toLowerCase());
 
 const initialData = async (db, res, accountID, requestingUser) => {
    const [
@@ -76,7 +52,7 @@ const initialData = async (db, res, accountID, requestingUser) => {
       activePaymentsPage,
       activeRetainers,
       workDescriptions
-   ] = await Promise.all([
+   ] = isPrivilegedCaller(requestingUser) ? await Promise.all([
       customerService.getActiveCustomers(db, accountID),
       recurringCustomerService.getActiveRecurringCustomers(db, accountID),
       accountUserService.getActiveAccountUsers(db, accountID),
@@ -109,7 +85,13 @@ const initialData = async (db, res, accountID, requestingUser) => {
       }),
       retainerService.getActiveRetainers(db, accountID),
       workDescriptionService.getActiveWorkDescriptions(db, accountID)
-   ]);
+   ]) : [
+      // Staff upload/history uses dedicated self-scoped endpoints. Keep shell
+      // keys stable without querying contacts, master data or any ledger.
+      [], [], [{ user_id: requestingUser.user_id, display_name: requestingUser.display_name }],
+      { transactions: [], totalCount: 0 }, { invoices: [], totalCount: 0 },
+      [], [], [], { writeoffs: [], totalCount: 0 }, { payments: [], totalCount: 0 }, [], []
+   ];
 
    const activeCustomerData = {
       activeCustomers,
@@ -121,7 +103,7 @@ const initialData = async (db, res, accountID, requestingUser) => {
       grid: createGrid(activeRecurringCustomers)
    };
 
-   const sanitizedActiveUsers = sanitizeUsersForCaller(activeUsers, requestingUser);
+   const sanitizedActiveUsers = activeUsers;
    const activeUserData = {
       activeUsers: sanitizedActiveUsers,
       grid: createGrid(sanitizedActiveUsers)

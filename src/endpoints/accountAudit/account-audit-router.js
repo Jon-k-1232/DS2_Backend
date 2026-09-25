@@ -48,7 +48,7 @@ accountAuditRouter.get('/whoami/:accountID/:userID', (req, res) => {
    });
 });
 
-// GET /accountAudit/customers/:accountID/:userID?page=1&limit=25&search=foo&filter=billing_ready|ar_60|needs_audit
+// GET /accountAudit/customers/:accountID/:userID?page=1&limit=25&search=foo&filter=billing_ready|needs_audit
 accountAuditRouter.get('/customers/:accountID/:userID', async (req, res) => {
    const db = req.app.get('db');
    try {
@@ -57,7 +57,10 @@ accountAuditRouter.get('/customers/:accountID/:userID', async (req, res) => {
       const limit = Math.min(200, Math.max(1, Number(req.query.limit) || 25));
       const offset = (page - 1) * limit;
       const search = (req.query.search || '').toString();
-      const filter = ['billing_ready', 'ar_60', 'needs_audit', 'matched', 'mismatched'].includes(req.query.filter)
+      if (req.query.filter === 'ar_60') {
+         return res.status(400).send({ status: 400, message: 'ar_60 is not supported. Use the Accounts Receivable aging report.' });
+      }
+      const filter = ['billing_ready', 'needs_audit', 'matched', 'mismatched'].includes(req.query.filter)
          ? req.query.filter
          : null;
       const SORTABLE = ['customer_id', 'display_name', 'last_audit_at', 'last_audit_balance', 'last_app_invoice_total', 'last_balance_difference'];

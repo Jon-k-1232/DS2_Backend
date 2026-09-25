@@ -705,9 +705,14 @@ describe('integration: coverage — account / user / auth / notifications / heal
          expect(collideRow.storage_slug).to.equal(`${expectedBase}_${collideId}_2`);
       });
 
-      it('validation failure: an empty account body raises a real 500 (NOT NULL account_name)', async () => {
+      it('validation failure: an empty account body returns 400 without creating an account or address', async () => {
+         const accountsBefore = await db('accounts').orderBy('account_id');
+         const addressesBefore = await db('account_information').orderBy('account_info_id');
          const res = await withToken(superToken).post('/account/createAccount').send({ account: {} });
-         expect(res.status).to.equal(500);
+         expect(res.status).to.equal(400);
+         expect(res.body.message).to.equal('Invalid account_name; use text up to 100 characters.');
+         expect(await db('accounts').orderBy('account_id')).to.deep.equal(accountsBefore);
+         expect(await db('account_information').orderBy('account_info_id')).to.deep.equal(addressesBefore);
       });
 
       itRejectsUnauthenticated('post', () => '/account/createAccount');
@@ -1258,11 +1263,16 @@ describe('integration: coverage — account / user / auth / notifications / heal
          expect(custRow.is_recurring, 'customers.is_recurring must flip true as a side effect').to.equal(true);
       });
 
-      it('validation failure: a missing customerID raises a real 500 (no request-shape guard before the DB)', async () => {
+      it('validation failure: a missing customerID is rejected before writing recurring data', async () => {
+         const recurringBefore = await db('recurring_customers').where({ account_id: A }).orderBy('recurring_customer_id');
+         const customersBefore = await db('customers').where({ account_id: A }).orderBy('customer_id');
          const res = await h.as('admin').post(`/recurringCustomer/createRecurringCustomer/${A}/${ADMIN_ID}`).send({
             recurringCustomer: { subscriptionFrequency: 'Monthly', billingCycle: 1, recurringAmount: 100, userID: ADMIN_ID }
          });
-         expect(res.status).to.equal(500);
+         expect(res.status).to.equal(422);
+         expect(res.body.message).to.equal('Customer not found in this account.');
+         expect(await db('recurring_customers').where({ account_id: A }).orderBy('recurring_customer_id')).to.deep.equal(recurringBefore);
+         expect(await db('customers').where({ account_id: A }).orderBy('customer_id')).to.deep.equal(customersBefore);
       });
 
       itRejectsUnauthenticated('post', () => `/recurringCustomer/createRecurringCustomer/${A}/${ADMIN_ID}`);
@@ -1690,12 +1700,19 @@ describe('integration: coverage — account / user / auth / notifications / heal
          expect(row.is_customer_active).to.equal(false);
       });
 
-      it('not-found: a nonexistent customerID silently no-ops with 200 (GAP — no 404/affected-row check)', async () => {
+      it('not-found: a nonexistent customerID returns the customer error envelope without response lists', async () => {
+         const customerBefore = await db('customers').where({ account_id: A, customer_id: customerId }).first();
+         const contactBefore = await db('customer_information').where({ account_id: A, customer_info_id: infoId }).first();
          const res = await h.as('admin').put(`/customer/updateCustomer/${A}/${ADMIN_ID}`).send({
             customer: { ...deactivateBody(), customerID: 999999999, customerInfoID: 999999999 }
          });
          expect(res.status).to.equal(200);
-         expect(res.body.status).to.equal(200);
+         expect(res.body.status).to.equal(500);
+         expect(res.body.message).to.equal('Customer not found for this account.');
+         expect(res.body).not.to.have.property('customersList');
+         expect(res.body).not.to.have.property('recurringCustomersList');
+         expect(await db('customers').where({ account_id: A, customer_id: customerId }).first()).to.deep.equal(customerBefore);
+         expect(await db('customer_information').where({ account_id: A, customer_info_id: infoId }).first()).to.deep.equal(contactBefore);
       });
 
       itRejectsUnauthenticated('put', () => `/customer/updateCustomer/${A}/${ADMIN_ID}`);

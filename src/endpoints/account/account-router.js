@@ -10,6 +10,7 @@ const { requireAdmin, requireSuperAdmin } = require('../auth/jwt-auth');
 const automationSettingsService = require('./automation-settings-service');
 const accountUserService = require('../user/user-service');
 const {
+   validateAccountCreation,
    restoreDataTypesAccountOnCreate,
    restoreDataTypesAccountInformationOnCreate,
    restoreDataTypesAccountOnUpdate,
@@ -118,22 +119,18 @@ accountRouter
    .post(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    const sanitizedNewAccount = sanitizeFields(req.body.account);
+   validateAccountCreation(sanitizedNewAccount);
 
    // Create new object with sanitized fields
    const accountTableFields = restoreDataTypesAccountOnCreate(sanitizedNewAccount);
 
-   // Post new account
-   const accountData = await accountService.createAccount(db, accountTableFields);
-
-   // need the account number to post to account_information table, then merge account to sanitizedData, then insert
-   const { account_id } = accountData;
-   const updatedWithAccountID = { ...sanitizedNewAccount, account_id };
-   const accountInfoTableFields = restoreDataTypesAccountInformationOnCreate(updatedWithAccountID);
-   // Post new account information
-   const accountInfoData = await accountService.createAccountInformation(db, accountInfoTableFields);
-
-   // Join account and accountInfo returned values
-   const returnedFields = { ...accountData, ...accountInfoData };
+   // Account identity/slug and its address become visible together.
+   const returnedFields = await db.transaction(async trx => {
+      const accountData = await accountService.createAccount(trx, accountTableFields);
+      const accountInfoTableFields = restoreDataTypesAccountInformationOnCreate({ ...sanitizedNewAccount, account_id: accountData.account_id });
+      const accountInfoData = await accountService.createAccountInformation(trx, accountInfoTableFields);
+      return { ...accountData, ...accountInfoData };
+   });
 
    const account = {
       returnedFields,

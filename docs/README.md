@@ -11,7 +11,7 @@ DS2 is an account-scoped practice management and billing application. It connect
 3. Open the owning feature guide from the catalog or endpoint index. Its API section defines inputs, responses, role checks and errors. Calculation and edit sections describe what the code actually does.
 4. Read [consolidated findings](_review/findings.md) for confirmed inconsistencies and proposed fixes. The four original review files remain historical evidence; their overlapping endpoint totals are superseded here.
 
-Source citations use `path:line`, relative to DS2_Backend. A `../DS2_Frontend/` or `../DS2_Lambdas/` prefix identifies a sibling repository. Test references describe inspected assertions unless explicitly labeled as an earlier executed helper check. This consistency pass did not run tests, services, database operations or cloud calls.
+Source citations use `path:line`, relative to DS2_Backend. A `../DS2_Frontend/` or `../DS2_Lambdas/` prefix identifies a sibling repository. The original consistency pass inspected assertions without running tests. Subsequent F8–F22 fixes and their executed local regressions are recorded in the [remediation log](_review/fixes-F8-F22.md); affected guides describe the fixed behavior. This is local verification, not deployment evidence.
 
 Every endpoint has exactly one owning **feature** contract. Supporting guides cross-link it. The index repeats only method, path, role and ownership for navigation; it is not a second contract. Some guides abbreviate `A=:accountID`, `U=:userID` and `Q=:queryUserID`; this index expands them.
 
@@ -47,6 +47,7 @@ Every endpoint has exactly one owning **feature** contract. Supporting guides cr
 | [platform/time-tracking.md](platform/time-tracking.md) | Tracker upload/history, templates, ownership and notification staff. | 13 |
 | [platform/timesheets-and-ingestion.md](platform/timesheets-and-ingestion.md) | Holding rows, matching, AI decisions, time pricing and movement to work. | 9 |
 | [_review/findings.md](_review/findings.md) | Verified, deduplicated F1–F39 with severity, evidence, reproduction and fixes. | — |
+| [_review/fixes-F8-F22.md](_review/fixes-F8-F22.md) | F8–F22 fixes, red/green evidence, files changed and exact local verification results. | — |
 | [_review/findings-ledger.md](_review/findings-ledger.md) | Retained original ledger review notes and earlier helper evidence. | — |
 | [_review/findings-work.md](_review/findings-work.md) | Retained original customer, job, catalog and transaction review notes. | — |
 | [_review/findings-invoicing.md](_review/findings-invoicing.md) | Retained original invoice, audit, AR, analytics and PDF review notes. | — |
@@ -264,7 +265,7 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 | GET | `/writeOffs/getWriteOffs/:accountID/:userID` | M | [write-offs-and-adjustments.md](ledger/write-offs-and-adjustments.md#3-api-reference) |
 | PUT | `/writeOffs/updateWriteOffs/:accountID/:userID` | M | [write-offs-and-adjustments.md](ledger/write-offs-and-adjustments.md#3-api-reference) |
 
-## Consistency-pass summary
+## Original consistency-pass summary
 
 - **25 feature documents checked and updated**, including calculation/edit sections, endpoint ownership, cross-links, source anchors and coverage notes.
 - **4 original findings files reviewed and retained unchanged**; **3 overview/index/review files added**. The catalog contains all **32 Markdown documents**.
@@ -272,4 +273,3 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 - Static checks found **no missing, extra or duplicate feature contracts**, no broken local document links/anchors, and no missing or out-of-range source citations.
 - **39 distinct findings confirmed: 7 P1, 29 P2 and 3 P3**. Eight duplicate notes were merged; no original finding was dropped as false.
 - Only documentation was written. No code edits, git commands, integration tests, database writes or cloud operations were performed.
-

@@ -72,10 +72,11 @@ describe('downloadAuthorization', () => {
    // real names, so these stay meaningful without this module doing any
    // sanitization of its own.
    describe('resolveOwnDownloadPrefixes', () => {
-      it('returns the invoicing prefix for a resolvable storage slug, and the audit prefix for a valid account id', () => {
+      it('F4 returns only the invoicing prefix; audits require their dedicated role-gated route', () => {
          const prefixes = resolveOwnDownloadPrefixes({ storageSlug: 'James_F__Kimmel___Associates', accountId: 1 });
          expect(prefixes).to.include('James_F__Kimmel___Associates/invoicing/');
-         expect(prefixes).to.include('account_audits/1/');
+         expect(prefixes).not.to.include('account_audits/1/');
+         expect(isAuthorizedDownloadKey('account_audits/1/2/private.pdf', prefixes)).to.equal(false);
       });
 
       it('returns an empty list for a blank slug and a non-positive/non-integer id — never falls open', () => {

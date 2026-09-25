@@ -75,7 +75,7 @@ const restoreDataTypesTransactionsTableOnUpdate = transaction => ({
    detailed_work_description: nullableString(transaction.detailedJobDescription),
    transaction_date: String(transaction.transactionDate),
    transaction_type: normalizeTransactionType(transaction.transactionType),
-   quantity: Number(transaction.quantity) || 1,
+   quantity: Number(transaction.quantity),
    unit_cost: Number(transaction.unitCost),
    total_transaction: Math.abs(Number(transaction.totalTransaction)),
    is_transaction_billable: parseBooleanFlag(transaction.isTransactionBillable),

@@ -1,7 +1,8 @@
 const express = require('express');
 const jobRouter = require('../../../src/endpoints/job/job-router');
 const jobService = require('../../../src/endpoints/job/job-service');
-const { buildFakeDb } = require('../transactions/_fakeDb');
+const { buildFakeDb: rawFakeDb } = require('../transactions/_fakeDb');
+const buildFakeDb = tables => rawFakeDb({ customer_job_types: [{ job_type_id: 1, account_id: 1 }, { job_type_id: 2, account_id: 1 }], ...tables });
 
 const ACCOUNT = 1;
 const USER = 21;

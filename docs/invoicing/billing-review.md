@@ -244,7 +244,7 @@ A customer move requires explicit confirmCustomerChange and a job for the target
 
 A nonzero delta copies the latest invoice snapshot, removes ID/created_at, sets parent=root, timestamp=clock_timestamp(), authenticated actor, adjustment note and revised financial amounts. It updates the parent's mirror; earlier snapshots and payment/write-off/retainer totals stay unchanged. Saved invoice_file_location is copied, **not regenerated**, so PDFs remain the original artifacts. Source: `src/endpoints/billingReview/cascadeEdit.js:386`.
 
-Changed customer/job/total triggers _recomputeJobTotal. That helper sums only transactions on the exact job ID and updates that row, unlike the shared family-history creator. This leaves latest family totals stale in multi-version jobs ([F9](../_review/findings.md#f9)). Source: `src/endpoints/billingReview/cascadeEdit.js:281`.
+Changed customer/job/total triggers _recomputeJobTotal. That helper uses the shared family-history creator to sum every version after the transaction save, with delta zero, and appends a snapshot using current family metadata. Same-family moves recompute once; cross-family moves recompute both families ([F9](../_review/findings.md#f9), fixed). Source: `src/endpoints/billingReview/cascadeEdit.js:281`.
 
 Feedback writes use savepoints: ai_reviewer_corrections for changed fields and a reviewer_edit category training example when work description changes. Failure rolls back only that feedback savepoint. If original notes changed after preview, stale sanitized text is not reused. No notification, PDF or S3 update occurs. Source: `src/endpoints/billingReview/cascadeEdit.js:681`.
 
@@ -269,11 +269,11 @@ There is no delete route in Billing Review. Detailed AI matching/prompt decision
 | test/integration/cascade-edit-recompute.integration.spec.js | Financial edits keep engine, audit and AR aligned; snapshot/delta behavior. |
 | test/integration/billing-regression.integration.spec.js | Ingestion pricing and billed-charge regression behavior. |
 
-Tests were inspected, not executed. Their fixtures do not establish that historical production job families have been corrected.
+The original review inspected tests; executed F9/F10 regressions and final local checks are in the [F8–F22 log](../_review/fixes-F8-F22.md). Their fixtures do not establish that historical production job families have been corrected.
 
 ## 9. Known limitations and open decisions
 
-Weekly paging is less strict than pending paging; pre-invoice returns only its first 200 rows even though totalSum covers all rows. Cascade edits do not re-round time in six-minute increments or regenerate issued PDFs. [F9](../_review/findings.md#f9) covers the family-total defect. Sources: `src/endpoints/billingReview/billingReview-router.js:180`, `src/endpoints/billingReview/billingReview-router.js:196`, `src/endpoints/billingReview/cascadeEdit.js:281`.
+Weekly paging is less strict than pending paging; pre-invoice returns only its first 200 rows even though totalSum covers all rows. Cascade edits do not re-round time in six-minute increments or regenerate issued PDFs. [F9](../_review/findings.md#f9) records the fixed family-total defect and its regression. Sources: `src/endpoints/billingReview/billingReview-router.js:180`, `src/endpoints/billingReview/billingReview-router.js:196`, `src/endpoints/billingReview/cascadeEdit.js:281`.
 
 The report identifies 151 stale job families, broken/missing job links, stale WIP and internal customers that must remain nonbillable. Closed-period adjustment policy is still open. Rollout includes INTERNAL_CUSTOMER_IDS and the reviewed migration/backend/frontend order. Live resolution is **not determined from the code**. Sources: `scripts/review-2026-09/FINAL_REPORT.md:51`, `scripts/review-2026-09/FINAL_REPORT.md:54`, `scripts/review-2026-09/FINAL_REPORT.md:61`, `scripts/review-2026-09/FINAL_REPORT.md:67`.
 

@@ -2,6 +2,8 @@
 
 Reviewed 2026-09-24 against the local backend, cited frontend and payment-image Lambda source. This pass used source inspection only. It did not run reproductions, integration tests, application services, database writes or cloud operations. A confirmed finding means the cited code supports the failure path; it does not mean a production incident was observed.
 
+The original failure analyses are retained below as review evidence. Each **Status: FIXED** note records the later remediation and regression tests; the feature guides describe current behavior.
+
 P1 means data loss or unauthorized disclosure. P2 means a wrong result or state. P3 means a smaller behavior or presentation defect. Findings are ordered by severity, then by impact within each severity. Paths are relative to DS2_Backend; `../DS2_Frontend/` and `../DS2_Lambdas/` identify sibling repositories.
 
 ## Disposition
@@ -67,6 +69,8 @@ The four original files contain 47 notes. Eight overlapping notes were merged in
 
 ## F1 — P1 — Customer-update response reads an arbitrary body account
 
+**Status: FIXED** — `test/integration/review-customer-response.integration.spec.js`: `refreshes customers and recurring rows only from the verified URL account`; failed updates return no lists. Red: 1 failed / 1 passed; green: 2 passed.
+
 Original notes: [W01](findings-work.md).
 
 **Evidence:** `src/endpoints/customer/customer-router.js:245`, `src/endpoints/customer/customer-router.js:251`, `src/endpoints/customer/customer-router.js:276`, `src/endpoints/customer/customer-service.js:1`, `src/endpoints/recurringCustomer/recurringCustomer-service.js:3`.
@@ -80,6 +84,8 @@ Original notes: [W01](findings-work.md).
 <a id="f2"></a>
 
 ## F2 — P1 — Caller-supplied related IDs cross tenant boundaries in joined reads
+
+**Status: FIXED** — `test/integration/review-related-ids.integration.spec.js` covers related-ID refusals on create/update, creator attribution and malformed historical joins (22 failures before; final expanded suite: 24 passing). Focused transaction/job/recurring units: 122 passing. Read-only relationship audit saved in the run output; historical data was not repaired.
 
 Original notes: [W03](findings-work.md).
 
@@ -97,6 +103,8 @@ Original notes: [W03](findings-work.md).
 
 ## F3 — P1 — Initial blob bypasses financial and contact role gates
 
+**Status: FIXED** — `test/integration/review-initial-data-roles.integration.spec.js` verifies empty staff lists/grids/counts, self-only user fields, no protected-table reads, and User/Manager/Admin/Super Admin/Owner projections. Red: 8 failed / 10 passed; green: 18 passed.
+
 Original notes: [W02](findings-work.md), [PLAT-01](findings-platform.md).
 
 **Evidence:** `src/app.js:123`, `src/app.js:147`, `src/endpoints/initialData/initialData-router.js:43`, `src/endpoints/initialData/initialData-router.js:65`, `src/endpoints/initialData/initialData-router.js:190`, `test/endpoints/initialData/initialDataUserFields.integration.spec.js:75`.
@@ -110,6 +118,8 @@ Original notes: [W02](findings-work.md), [PLAT-01](findings-platform.md).
 <a id="f4"></a>
 
 ## F4 — P1 — Generic invoice download bypasses the audit-PDF role gate
+
+**Status: FIXED** — `test/integration/review-audit-download.integration.spec.js`: the same saved object is refused through both surfaces for Manager/Admin/Owner and served only by the dedicated Super Admin audit endpoint. Red: 4 failed; green: 4 passed. Generic invoice downloads no longer accept the audit namespace.
 
 Original notes: [PLAT-02](findings-platform.md).
 
@@ -125,6 +135,8 @@ Original notes: [PLAT-02](findings-platform.md).
 
 ## F5 — P1 — One rejected extraction row rolls back earlier good rows
 
+**Status: FIXED** — `test/lambda/payment-durability.spec.js`, `F5Cases`: bad middle row aborts the complete batch; pipeline retains sources; committed counts/retries, commit failure, and missing DB configuration are checked. Red: 5 failed; green: 5 passed. Atomic batch semantics preserve existing dedup behavior without adding schema.
+
 Original notes: [LEDGER-02](findings-ledger.md), [PLAT-09](findings-platform.md).
 
 - **Source:** `../DS2_Lambdas/Process_Payment_Images/database.py:138`, especially rollback at line 175 and final commit at line 177; downstream archive at `../DS2_Lambdas/Process_Payment_Images/pipeline.py:255` and `../DS2_Lambdas/Process_Payment_Images/pipeline.py:267`.
@@ -137,6 +149,8 @@ Original notes: [LEDGER-02](findings-ledger.md), [PLAT-09](findings-platform.md)
 
 ## F6 — P1 — Archive upload failure still permits source deletion
 
+**Status: FIXED** — `test/lambda/payment-durability.spec.js`, `F6Cases`: upload/HEAD/size/missing-bucket failures retain sources, retries preserve committed rows, mixed batches and redacted PDF/image inputs are covered, and Lambda rethrows for async retry. Red: 8 failed; green: 8 passed (13 including F5).
+
 Original notes: [LEDGER-03](findings-ledger.md), [PLAT-10](findings-platform.md).
 
 - **Source:** `../DS2_Lambdas/Process_Payment_Images/s3_ops.py:28`, `../DS2_Lambdas/Process_Payment_Images/s3_ops.py:84`, `../DS2_Lambdas/Process_Payment_Images/pipeline.py:267`.
@@ -148,6 +162,8 @@ Original notes: [LEDGER-03](findings-ledger.md), [PLAT-10](findings-platform.md)
 <a id="f7"></a>
 
 ## F7 — P1 — Two template uploads in one second overwrite the same version key
+
+**Status: FIXED** — `test/endpoints/timeTracking/template-versions.spec.js`: simultaneous frozen-clock uploads preserve separate keys/bytes/history; a forced key collision is refused without overwrite. Red: 2 failed; green: 2 passed. Keys include UUIDs and template puts use `If-None-Match: *`.
 
 Original notes: [PLAT-06](findings-platform.md).
 
@@ -163,6 +179,8 @@ Original notes: [PLAT-06](findings-platform.md).
 
 ## F8 — P2 — Hiding write-offs can apply an invoice-linked credit twice
 
+**Status: FIXED** — Same-job invoice credits are excluded from hidden job netting. Test: `test/endpoints/invoice/review-writeoff.spec.js`; red 2 failed, green 2 passed (current and absorbed chains).
+
 Original notes: [INV-01](findings-invoicing.md), [LEDGER-01](findings-ledger.md).
 
 **Evidence:** `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:52`, `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:74`, `src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:23`. The write-off creation path explicitly permits a job link on an invoice-linked write-off: `src/endpoints/writeOffs/writeOffs-logic.js:85`, `src/endpoints/writeOffs/writeOffs-logic.js:125`.
@@ -176,6 +194,8 @@ Original notes: [INV-01](findings-invoicing.md), [LEDGER-01](findings-ledger.md)
 <a id="f9"></a>
 
 ## F9 — P2 — Billing Review recomputes one job version instead of the job family
+
+**Status: FIXED** — Billing Review appends the shared family total under the customer lock, summing after save with delta zero. `test/integration/review-job-family.integration.spec.js` F9: red 3 failed; green 3 passed (repricing and same/cross-family moves).
 
 Original notes: [INV-03](findings-invoicing.md), [LEDGER-09](findings-ledger.md).
 
@@ -191,6 +211,8 @@ Original notes: [INV-03](findings-invoicing.md), [LEDGER-09](findings-ledger.md)
 
 ## F10 — P2 — A new job-total snapshot can restore stale metadata
 
+**Status: FIXED** — Snapshots copy the latest owned family metadata, ordered by created_at then ID. `test/integration/review-job-family.integration.spec.js` F10: red 1 failed; green 1 passed; combined suite 4 passed.
+
 Original notes: [W07](findings-work.md).
 
 **Evidence:** `src/endpoints/job/job-service.js:106`, `src/endpoints/transactions/sharedTransactionFunctions.js:461`, `src/endpoints/transactions/sharedTransactionFunctions.js:478`, `src/endpoints/job/job-router.js:185`.
@@ -204,6 +226,8 @@ Original notes: [W07](findings-work.md).
 <a id="f11"></a>
 
 ## F11 — P2 — Direct transaction API accepts internally inconsistent prices
+
+**Status: FIXED** — Shared create/update validation enforces finite nonnegative two-decimal inputs, duration agreement after six-minute rounding when minutes are supplied, and rounded quantity × rate; zero quantity survives updates. Direct decimal-hour Time entries without supplied minutes remain valid. The [regression repair](regression-repair.md) removed the overly broad blanket 0.1-hour check, preserving the existing 0.25-hour / $18.75 / NULL-note assertions through finalization. Initial `review-transaction-policy.integration.spec.js` F11: red 15 failed / 2 passed, green 17 passed. `transactionPricing.spec.js`: red 1 failed, green 1 passed for integer-cent half-cent rounding. Billing Review retains its documented explicit correction override.
 
 Original notes: [W08](findings-work.md).
 
@@ -219,6 +243,8 @@ Original notes: [W08](findings-work.md).
 
 ## F12 — P2 — Direct entry bypasses internal-customer billability policy
 
+**Status: FIXED** — Shared create/update applies internal-customer and customer is_billable policy under the ledger lock before funding; no retainer draw for forced nonbillable work. `test/integration/review-transaction-policy.integration.spec.js` F12: red 4 failed, green 4 passed (combined 21 passed). Tracker ingestion uses the same core.
+
 Original notes: [W09](findings-work.md).
 
 **Evidence:** `src/endpoints/timesheets/internal-customers.js:75`, `src/endpoints/timesheets/timesheets-router.js:310`, `src/endpoints/billingReview/billingReview-service.js:314`, `src/endpoints/transactions/sharedTransactionFunctions.js:590`, `src/endpoints/transactions/sharedTransactionFunctions.js:603`.
@@ -232,6 +258,8 @@ Original notes: [W09](findings-work.md).
 <a id="f13"></a>
 
 ## F13 — P2 — Customer profile counts retainer payments twice in its payment display
+
+**Status: FIXED** — Customer profile displays paymentsReceivedTotal (all marker-qualified receipts) once, with a matching tooltip. Frontend `CustomerProfile.payments.test.js`: red 1 failed, green 1 passed, including cash, retainer and tagged receipts.
 
 Original notes: [W13](findings-work.md).
 
@@ -247,6 +275,8 @@ Original notes: [W13](findings-work.md).
 
 ## F14 — P2 — Future-dated work is excluded from due WIP but finalized today
 
+**Status: FIXED** — Preview, eligibility, WIP and finalization share the server billing date, excluding future work while recovering old unbilled work. `test/integration/review-invoice-outcomes.integration.spec.js` F14: both cutoff and fixed-calendar tests failed before the fixes and pass afterward. Audit current-balance parity is covered by `test/endpoints/accountAudit/review-future.spec.js` (red 1 failed, green 1 passed); lifetime diagnostics retain future work.
+
 Original notes: [INV-11](findings-invoicing.md).
 
 **Evidence:** `src/endpoints/analytics/analytics-service.js:377` separates future billable work from due WIP and its aging buckets. `src/endpoints/invoice/invoice-service.js:263` selects every uninvoiced transaction without a date upper bound; `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:83` adds every billable selected amount. Finalize stamps all selected transaction IDs: `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:113`.
@@ -260,6 +290,8 @@ Original notes: [INV-11](findings-invoicing.md).
 <a id="f15"></a>
 
 ## F15 — P2 — A failed combined download reports failure after invoices have committed
+
+**Status: FIXED** — Postcommit export/readback failures return status 200, committed=true, committed invoice IDs/numbers/individual ZIP paths, and warnings. Frontend preserves existing lists if refresh is absent. `test/integration/review-invoice-outcomes.integration.spec.js` F15: red 2 failed, green 2 passed; individual files downloaded successfully; final combined F14/F15 suite 4 passed.
 
 Original notes: [INV-02](findings-invoicing.md).
 
@@ -275,6 +307,8 @@ Original notes: [INV-02](findings-invoicing.md).
 
 ## F16 — P2 — Soft-delete can hide a concurrently approved payment
 
+**Status: FIXED** — Soft-delete conditions its write on unprocessed, nondeleted state and returns 409 if approval won. `test/integration/review-pending-files.integration.spec.js` F16: red 1 failed; green 1 passed with a real approval committed between delete read and write.
+
 Original notes: [LEDGER-05](findings-ledger.md).
 
 - **Source:** `src/endpoints/pendingPayments/pendingPayments-router.js:112`, `src/endpoints/pendingPayments/pendingPayments-service.js:101`; compare approval lock/update at `src/endpoints/pendingPayments/pendingPayments-router.js:170`.
@@ -286,6 +320,8 @@ Original notes: [LEDGER-05](findings-ledger.md).
 <a id="f17"></a>
 
 ## F17 — P2 — File deletion leaves archived evidence accessible
+
+**Status: FIXED** — File deletion locks extracted rows against approval, removes matching archive and pending objects, propagates storage failure before queue flags commit, and preview requires nondeleted evidence. `test/integration/review-pending-files.integration.spec.js` F17: red 2 failed / 1 passed; green 3 passed (combined 4). S3 deletion is idempotently retryable, not transactionally reversible.
 
 Original notes: [LEDGER-06](findings-ledger.md).
 
@@ -299,6 +335,8 @@ Original notes: [LEDGER-06](findings-ledger.md).
 
 ## F18 — P2 — Duplicate-preserving source suffix breaks file identity
 
+**Status: FIXED** — Canonical physical identity strips the reserved receipt suffix in file grouping, ownership, preview, locking and deletion; original source_file remains the dedup token and list rows expose source_reference. Existing suffixed rows work without historical rewrites or schema changes. `test/integration/review-pending-files.integration.spec.js` F18: red 3 failed; green 3 passed (combined 7).
+
 Original notes: [LEDGER-04](findings-ledger.md), [PLAT-11](findings-platform.md).
 
 - **Source:** `../DS2_Lambdas/Process_Payment_Images/database.py:113`, `../DS2_Lambdas/Process_Payment_Images/s3_ops.py:25`; exact-name consumers at `src/endpoints/pendingPayments/pendingPayments-service.js:150`, `src/endpoints/pendingPayments/pendingPayments-service.js:184`, `src/endpoints/pendingPayments/pendingPayments-router.js:337`, `src/endpoints/pendingPayments/pendingPayments-router.js:412`.
@@ -310,6 +348,8 @@ Original notes: [LEDGER-04](findings-ledger.md), [PLAT-11](findings-platform.md)
 <a id="f19"></a>
 
 ## F19 — P2 — Rejected automation update deletes recipients and can widen email delivery
+
+**Status: FIXED** — Enabled state and recipient replacement commit in one transaction under an account lock; recipient validation precedes deletion. `test/integration/review-account-atomicity.integration.spec.js` F19: red 2 failed; green 2 passed (foreign-user rejection and injected late write failure preserve old recipients/enabled state). No mail sent.
 
 Original notes: [PLAT-03](findings-platform.md).
 
@@ -325,6 +365,8 @@ Original notes: [PLAT-03](findings-platform.md).
 
 ## F20 — P2 — Failed account-address creation leaves an orphan account
 
+**Status: FIXED** — Account text lengths are validated before writes; account/slug and address share an encompassing transaction. `test/integration/review-account-atomicity.integration.spec.js` F20: red 2 failed; green 2 passed (invalid address, forced address failure, successful retry); combined 4 passed. Disposable new accounts were removed.
+
 Original notes: [PLAT-04](findings-platform.md).
 
 **Source:** `src/endpoints/account/account-router.js:125`, `src/endpoints/account/account-router.js:133`; `src/endpoints/account/account-service.js:41`, `src/endpoints/account/account-service.js:70`; `migrations/schema-snapshot-2026-09-22.sql:160`.
@@ -338,6 +380,8 @@ Original notes: [PLAT-04](findings-platform.md).
 <a id="f21"></a>
 
 ## F21 — P2 — Customer and recurring saves can partially commit
+
+**Status: FIXED** — Customer/contact/recurring updates and dedicated recurring creation now share transactions under the customer ledger lock; missing contact writes are refused. `test/integration/review-customer-recurring.integration.spec.js` F21: red 4 failed; green 4 passed (contact SQL failure, missing contact, recurring SQL failure and injected dedicated insertion failure all roll back). The [regression repair](regression-repair.md) restores dedicated creation's documented HTTP 422 for missing/foreign customers by validating ownership before acquiring the ledger lock in the same transaction; the lock still rechecks existence before writes.
 
 Original notes: [W04](findings-work.md).
 
@@ -353,6 +397,8 @@ Original notes: [W04](findings-work.md).
 
 ## F22 — P2 — Ending a recurring record leaves the customer recurring flag true
 
+**Status: FIXED** — Every recurring mutation reconciles customers.is_recurring from remaining active owned subscriptions in the same locked transaction, including embedded edits. Explicit active flags retain existing precedence over dates. `test/integration/review-customer-recurring.integration.spec.js` F22: red 4 failed; green 4 passed (last removal, multiple subscriptions, inactive create/reactivation); combined 8 passed.
+
 Original notes: [W05](findings-work.md).
 
 **Evidence:** `src/endpoints/recurringCustomer/recurringCustomer-router.js:135`, `src/endpoints/customer/customer-service.js:120`, `../DS2_Frontend/src/Pages/RecurringCustomer/RecurringCustomerForms/AddCustomer/FormSubComponents/RecurringOptions.js:43`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/SharedTransactionsFunctions.js:7`.
@@ -366,6 +412,9 @@ Original notes: [W05](findings-work.md).
 <a id="f23"></a>
 
 ## F23 — P2 — Joined timestamps prevent selecting the latest customer-job version
+
+**Status: FIXED** — Job joins preserve job metadata; customer selectors and profile totals select the same latest family row by SQL timestamp then ID. `test/integration/review-job-selection.integration.spec.js`: red 2 failed; green 2 passed (multiple versions, timestamp ties, backdated higher ID, creator preservation).
+
 
 Original notes: [W06](findings-work.md).
 
@@ -381,6 +430,9 @@ Original notes: [W06](findings-work.md).
 
 ## F24 — P2 — Permitted customer hard-delete leaves contact data behind
 
+**Status: FIXED** — Unused-customer deletion removes all owned contacts atomically; quote history blocks hard deletion and directs callers to deactivate. `test/integration/review-customer-delete.integration.spec.js` F24: red 2 failed; green 2 passed.
+
+
 Original notes: [W10](findings-work.md).
 
 **Evidence:** `src/endpoints/customer/customer-router.js:331`, `src/endpoints/customer/customer-router.js:356`, `src/endpoints/customer/customer-service.js:132`, `migrations/schema-snapshot-2026-09-22.sql:404`, `migrations/schema-snapshot-2026-09-22.sql:1862`.
@@ -394,6 +446,9 @@ Original notes: [W10](findings-work.md).
 <a id="f25"></a>
 
 ## F25 — P2 — Customer deletion races ledger/job creation
+
+**Status: FIXED** — Deletion holds the shared customer FOR NO KEY UPDATE lock through raw history checks and contact/customer deletion. `test/integration/review-customer-delete.integration.spec.js` F25: red 2 failed; green 2 passed (real two-request lock race and malformed historical job join); combined 4 passed.
+
 
 Original notes: [W11](findings-work.md).
 
@@ -409,6 +464,9 @@ Original notes: [W11](findings-work.md).
 
 ## F26 — P2 — Job-type update/delete detach a rejecting response refresh
 
+**Status: FIXED** — Job-type update/delete await refresh so rejection reaches the existing error envelope after the committed mutation. `test/endpoints/jobType/review-refresh.spec.js`: red 2 failed; green 2 passed in isolated strict-unhandled-rejection Node processes.
+
+
 Original notes: [W12](findings-work.md).
 
 **Evidence:** `src/endpoints/jobType/jobType-router.js:76`, `src/endpoints/jobType/jobType-router.js:100`, `src/endpoints/jobType/jobType-router.js:112`, `src/app.js:7`.
@@ -422,6 +480,9 @@ Original notes: [W12](findings-work.md).
 <a id="f27"></a>
 
 ## F27 — P2 — Customer statement PDF can combine different ledger states
+
+**Status: FIXED** — Customer, five ledger datasets and account header are read in one REPEATABLE READ READ ONLY transaction. `test/integration/review-statement-snapshot.integration.spec.js`: red 1 failed with -100 instead of 0; green 1 passed across a controlled concurrent atomic charge/payment commit.
+
 
 Original notes: [W14](findings-work.md).
 
@@ -437,6 +498,9 @@ Original notes: [W14](findings-work.md).
 
 ## F28 — P2 — Tracker upload can return 500 after successfully saving
 
+**Status: FIXED** — Postcommit staff-recipient lookup and delivery are best effort; successful uploads retain 201 and storedKey. `test/integration/review-tracker-outcome.integration.spec.js`: red 1 failed; green 1 passed, verifying saved MinIO bytes, entry/owner records and duplicate retry; no email or AI calls.
+
+
 Original notes: [PLAT-05](findings-platform.md).
 
 **Source:** `src/endpoints/timeTracking/timeTracking-router.js:617`, `src/endpoints/timeTracking/timeTracking-router.js:658`, `src/endpoints/timeTracking/timeTracking-router.js:670`, `src/endpoints/timeTracking/timeTracking-router.js:766`.
@@ -450,6 +514,9 @@ Original notes: [PLAT-05](findings-platform.md).
 <a id="f29"></a>
 
 ## F29 — P2 — String boolean bypasses self/last-Super-Admin deactivation guards
+
+**Status: FIXED** — Update active flags accept only literal booleans (or omission); update/delete serialize last-Super-Admin checks and mutations under an account lock. `test/integration/review-user-guards.integration.spec.js`: red 6 failed / 1 passed; green 7 passed, including concurrent self-demotions.
+
 
 Original notes: [PLAT-07](findings-platform.md).
 
@@ -465,6 +532,9 @@ Original notes: [PLAT-07](findings-platform.md).
 
 ## F30 — P2 — Historical migration chain removes columns still required by runtime
 
+**Status: FIXED** — Added additive migration 022 to restore the three runtime suggestion columns and customer FK without changing existing values. `test/scripts/migration-022.spec.js`: red 1 failed / 1 passed; green 2 passed (historical 005 gap, supported snapshot baseline through pending migrations, runtime-shaped upsert/read, idempotent rerun). Tested only in disposable ds2_mig_test databases; no historical data repair.
+
+
 Original notes: [PLAT-08](findings-platform.md).
 
 **Source:** `migrations/002.add_ai_time_tracker_transaction_suggestions.sql:1`, `migrations/005.drop_ai_customer_suggestion_columns.sql:1`; `migrations/schema-snapshot-2026-09-22.sql:335`; `src/endpoints/timesheets/auto-ingest-orchestrator.js:420`; `src/endpoints/timesheets/timesheets-router.js:470`.
@@ -478,6 +548,9 @@ Original notes: [PLAT-08](findings-platform.md).
 <a id="f31"></a>
 
 ## F31 — P2 — Global invoice note disappears unless an individual note is present
+
+**Status: FIXED** — Both notes normalize to strings and the Notes section renders when either is populated. `test/pdfCreator/review-notes.spec.js`: red 2 failed / 2 passed; green 4 passed (global only, individual only, both, neither).
+
 
 Original notes: [INV-04](findings-invoicing.md).
 
@@ -493,6 +566,9 @@ Original notes: [INV-04](findings-invoicing.md).
 
 ## F32 — P2 — Rate agreements trust unscoped customer and forged actor IDs
 
+**Status: FIXED** — Rate agreements validate positive integer customer/year and finite positive two-decimal rate within numeric(10,2), lock/verify the owned customer, and derive creator from session while preserving it on edits. `test/integration/review-rate-agreements.integration.spec.js`: red 3 failed / 7 passed; green 10 passed.
+
+
 Original notes: [INV-05](findings-invoicing.md).
 
 **Evidence:** `src/endpoints/analytics/analytics-router.js:203`, `src/endpoints/analytics/analytics-router.js:214`, `src/endpoints/analytics/analytics-service.js:351`. Schema has separate account/customer/user foreign keys, not tenant-composite references: `migrations/schema-snapshot-2026-09-22.sql:2026`.
@@ -506,6 +582,9 @@ Original notes: [INV-05](findings-invoicing.md).
 <a id="f33"></a>
 
 ## F33 — P2 — Same-name customers collide inside the combined invoice ZIP
+
+**Status: FIXED** — PDF archive members include customer IDs and safe display names, with a case-insensitive collision fallback. `test/pdfCreator/review-zip-names.spec.js`: red 2 failed; green 2 passed (draft/final archives, same names, normalized path names, distinct bytes).
+
 
 Original notes: [INV-06](findings-invoicing.md), [PLAT-12](findings-platform.md).
 
@@ -521,6 +600,9 @@ Original notes: [INV-06](findings-invoicing.md), [PLAT-12](findings-platform.md)
 
 ## F34 — P2 — Invoice detail omits retainers created during the statement's ending day
 
+**Status: FIXED** — Invoice retainer history uses inclusive business dates: created_at >= start_date and < end_date + 1 day. `test/integration/review-retainer-dates.integration.spec.js`: red 1 failed; green 1 passed (midnight/noon/final microsecond included, adjacent days and other customer excluded).
+
+
 Original notes: [INV-07](findings-invoicing.md).
 
 **Evidence:** `src/endpoints/invoice/invoice-router.js:487`, `src/endpoints/retainer/retainer-service.js:20`; finalize stores date-only end_date: `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:288`.
@@ -534,6 +616,9 @@ Original notes: [INV-07](findings-invoicing.md).
 <a id="f35"></a>
 
 ## F35 — P2 — Time reports merge distinct customers or employees sharing a display name
+
+**Status: FIXED** — Time allocation and capacity group and return stable customer/user IDs; CSV and UI retain those IDs and distinguish same-name rows/cards. `review-analytics-identities.integration.spec.js`: red 2 failed; green 2 passed. Frontend `TaxSeasonCapacityPage.identities.test.js`: red 1 failed; green 1 passed.
+
 
 Original notes: [INV-12](findings-invoicing.md).
 
@@ -549,6 +634,9 @@ Original notes: [INV-12](findings-invoicing.md).
 
 ## F36 — P2 — Accepted uppercase PDF extension misses configured trigger
 
+**Status: FIXED** — Accepted PDF extensions are stored and returned as lowercase .pdf to match the checked-in S3 notification. `test/endpoints/pendingPayments/review-upload-extension.spec.js`: red 2 failed / 1 passed; green 3 passed (.pdf, .PDF, .PdF). Router/trigger contract uses in-memory storage with fixture account 9001; no cloud configuration changed.
+
+
 Original notes: [LEDGER-08](findings-ledger.md).
 
 - **Source:** `src/endpoints/pendingPayments/pendingPayments-router.js:251`, `src/endpoints/pendingPayments/pendingPayments-router.js:278`; `../DS2_Lambdas/Process_Payment_Images/terraform/prod/main.tf:248`.
@@ -561,6 +649,9 @@ Original notes: [LEDGER-08](findings-ledger.md).
 
 ## F37 — P3 — Backend owner role cannot reach ledger UI
 
+**Status: FIXED** — The frontend manager gate now admits legacy Owner like the backend; Admin-only and Super-Admin-only gates retain their existing roles. Frontend `ManagerAndAdminProtectedAccess.test.js`: red 2 failed / 8 passed; green 10 passed (role matrix and higher-privilege exclusions).
+
+
 Original notes: [LEDGER-07](findings-ledger.md), [INV-08](findings-invoicing.md).
 
 - **Source:** `src/endpoints/auth/jwt-auth.js:94`, `src/app.js:143`, `src/app.js:145`, `src/app.js:155`; `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
@@ -572,6 +663,9 @@ Original notes: [LEDGER-07](findings-ledger.md), [INV-08](findings-invoicing.md)
 <a id="f38"></a>
 
 ## F38 — P3 — Account Audit accepts ar_60 but does not apply it
+
+**Status: FIXED** — Account Audit explicitly returns HTTP 400 for unsupported ar_60 instead of silently ignoring it; supported filters and ordinary listing remain. `test/integration/review-audit-filter.integration.spec.js`: red 2 failed / 1 passed; green 3 passed (10-day and 80-day statements plus normal listing).
+
 
 Original notes: [INV-09](findings-invoicing.md).
 
@@ -586,6 +680,9 @@ Original notes: [INV-09](findings-invoicing.md).
 <a id="f39"></a>
 
 ## F39 — P3 — PDF “Original Amount” repeats the remaining balance
+
+**Status: FIXED** — Removed the duplicate/misleading Original Amount column; Beginning Balance prints the selected outstanding balance once. No original issued amount is inferred from mutable invoice totals. `test/pdfCreator/review-outstanding-column.spec.js`: red 2 failed; green 2 passed on rendered PDFs; with existing pagination regressions 14 passed.
+
 
 Original notes: [INV-10](findings-invoicing.md).
 

@@ -653,15 +653,15 @@ describe('Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, 
                   userID: h.adminUserID,
                   customerJobID: job.customer_job_id,
                   customerID: FIXTURE_CUSTOMER_B,
-                  jobTypeID: 987654321, // FK violation on the FINAL write, inside the same locked transaction as the family move
-                  quoteAmount: 0,
+                  jobTypeID: jobType.job_type_id,
+                  quoteAmount: 1e20, // Numeric overflow on the FINAL write, after the family move
                   agreedJobAmount: 500,
                   isQuote: false,
                   notes: job.notes
                }
             });
 
-         expectEnvelopeRefused(res, /foreign key|violates/i, 'updateJob rollback on bad job_type_id');
+         expectEnvelopeRefused(res, /overflow|numeric|out of range/i, 'updateJob rollback on oversized quote');
          const jobRow = await h.db('customer_jobs').where('customer_job_id', job.customer_job_id).first();
          const siblingRow = await h.db('customer_jobs').where('customer_job_id', sibling.customer_job_id).first();
          // The family-wide customer_id move — an earlier write in the SAME
@@ -861,15 +861,17 @@ describe('Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, 
          expectEnvelopeRefused(res, undefined, 'createJobCategory missing body');
       });
 
-      it('rejects an invalid createdBy (NaN FK) and writes no row', async () => {
+      it('uses the authenticated creator when body createdBy is omitted', async () => {
          const category = uniqueName('JCAT-invalid');
          const res = await h
             .as('admin')
             .post(`/jobCategories/createJobCategory/${h.accountID}/${h.adminUserID}`)
-            .send({ jobCategory: { accountID: h.accountID, category, isActive: true } }); // createdBy omitted -> Number(undefined) = NaN
-         expectEnvelopeRefused(res, undefined, 'createJobCategory invalid createdBy');
+            .send({ jobCategory: { accountID: h.accountID, category, isActive: true } }); // Body creator is optional and never authoritative
+         expectEnvelopeOk(res, 'createJobCategory session creator');
          const row = await h.db('customer_job_categories').where({ account_id: h.accountID, customer_job_category: category }).first();
-         expect(row, 'no row should be written when created_by_user_id is invalid').to.be.undefined;
+         expect(row).to.exist;
+         created.jobCategories.push(row.customer_job_category_id);
+         expect(Number(row.created_by_user_id)).to.equal(h.adminUserID);
       });
    });
 
@@ -1061,15 +1063,17 @@ describe('Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, 
          expectEnvelopeRefused(res, undefined, 'createJobType missing body');
       });
 
-      it('rejects an invalid userID (NaN FK) and writes no row', async () => {
+      it('uses the authenticated creator when body userID is omitted', async () => {
          const jobDescription = uniqueName('JTYPE-invalid');
          const res = await h
             .as('admin')
             .post(`/jobTypes/createJobType/${h.accountID}/${h.adminUserID}`)
-            .send({ jobType: { accountID: h.accountID, customerJobCategory: FIXTURE_CATEGORY_ID, jobDescription, bookRate: 1, estimatedStraightTime: 1 } }); // userID omitted -> NaN
-         expectEnvelopeRefused(res, undefined, 'createJobType invalid userID');
+            .send({ jobType: { accountID: h.accountID, customerJobCategory: FIXTURE_CATEGORY_ID, jobDescription, bookRate: 1, estimatedStraightTime: 1 } }); // Body creator is optional and never authoritative
+         expectEnvelopeOk(res, 'createJobType session creator');
          const row = await h.db('customer_job_types').where({ account_id: h.accountID, job_description: jobDescription }).first();
-         expect(row, 'no row should be written when created_by_user_id is invalid').to.be.undefined;
+         expect(row).to.exist;
+         created.jobTypes.push(row.job_type_id);
+         expect(Number(row.created_by_user_id)).to.equal(h.adminUserID);
       });
    });
 

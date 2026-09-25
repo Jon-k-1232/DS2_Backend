@@ -4,7 +4,7 @@
 
 The engine builds the next rolling statement from existing balances, unbilled work and payments/write-offs entered since the last statement. UI route: `/invoices/createInvoice`. Page: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:17`; grid wrapper: `../DS2_Frontend/src/Pages/Invoices/InvoiceGrids/CreateInvoiceGrid.js:5`; route: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:26`. The customer profile also requests a balance preview with all output flags false. Source: `../DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerProfile.js:44`.
 
-Source review date: 2026-09-24. Tests named below were read, not run. Backend paths are relative to DS2_Backend; frontend paths begin with ../DS2_Frontend. The schema snapshot is the baseline, supplemented by later migrations, especially storage_slug. This does not establish live database state. Source: `migrations/README.md:12`.
+Source review date: 2026-09-24. The original review inspected tests; executed local remediation checks are in the [F8–F22 log](../_review/fixes-F8-F22.md). Backend paths are relative to DS2_Backend; frontend paths begin with ../DS2_Frontend. The schema snapshot is the baseline, supplemented by later migrations, especially storage_slug. This does not establish live database state. Source: `migrations/README.md:12`.
 
 ## 2. Access rules
 
@@ -12,7 +12,7 @@ Invoice endpoints require authentication and one of the exact backend roles `man
 
 enforceAccountId requires numeric accountID to be an integer equal to session account_id. Missing user/account context returns 401; bad/foreign account returns 403. No self-or-privileged check is registered on userID. Finalization records req.user.user_id, with a URL fallback only if absent. Sources: `src/endpoints/invoice/invoice-router.js:5`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/invoice/invoice-router.js:242`.
 
-The frontend manager gate permits manager, admin and super admin but omits owner. Finding [F37](../_review/findings.md#f37) records this discrepancy. Source: `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
+The frontend manager gate permits manager, admin, super admin and owner. Fixed finding [F37](../_review/findings.md#f37) records the corrected role mismatch. Source: `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
 
 ## 3. API reference
 
@@ -63,7 +63,7 @@ It gets customer IDs from the request map, derives billingYear from billingDate 
 | Last marker | DISTINCT ON customer, same root definitions; invoice_date DESC, created_at DESC, ID DESC. `src/endpoints/invoice/invoice-service.js:207`. |
 | Invoice number | Account, NULL parent, exact INV-year-five-digits pattern; greatest numeric suffix. `src/endpoints/invoice/invoice-service.js:140`. |
 | Customer mailing | Inner join active MAILING customer_information, account conditions on both tables. Map reduction has no ordering; multiple active mailing records can overwrite in unspecified order. `src/endpoints/invoice/invoice-service.js:233`. |
-| Transactions | Account/customer IDs, invoice ID NULL; inner jobs and job types. **No date cutoff**, including future work; no billable filter; missing jobs disappear. No ordering. Transaction columns selected last preserve their customer identity. `src/endpoints/invoice/invoice-service.js:263`. |
+| Transactions | Account/customer IDs, invoice ID NULL; inner jobs and job types. **Inclusive billing-date upper bound**, no lower bound; no billable filter; missing jobs disappear. No ordering. Transaction columns selected last preserve their customer identity. `src/endpoints/invoice/invoice-service.js:263`. |
 | Payments | Account/customer and statement gate below; left invoice join for number; all forms, linked or unlinked. No ordering. `src/endpoints/invoice/invoice-service.js:288`. |
 | Write-offs | Account/customer and same gate; left linked invoice, root via COALESCE(parent,id), job/type; exposes linked_chain_invoice_date. No ordering. `src/endpoints/invoice/invoice-service.js:315`. |
 | Retainers | All account/customer history, no date cutoff; created_at ASC, ID ASC; created_at::text preserves microseconds. `src/endpoints/invoice/invoice-service.js:349`. |
@@ -85,7 +85,7 @@ The calculator groups by **invoice_number**. A paid flag, fully_paid_date or zer
 
 Eligibility reads active customers with an active address (not specifically MAILING), invoice rows, transaction-service rows and payment/write-off/retainer histories. Transaction-service inner joins can omit broken jobs. Actual statement detail later requires an active MAILING record. Sources: `src/endpoints/invoice/invoiceEligibility/invoiceEligibility.js:16`, `src/endpoints/customer/customer-service.js:1`, `src/endpoints/transactions/transactions-service.js:1`.
 
-Current balance uses the latest snapshot of every parent on the latest invoice date, including same-day duplicates. Keep customers with abs(balance) >= $0.005, any unbilled transaction (including nonbillable), or pending negative write-offs/payments. Retainers alone do not establish eligibility. retainer_count counts all active negative history rows, not latest chains; invoice_count counts nonzero current-chain rows; transaction_count counts all unbilled rows; write_off_count counts pending negative write-offs. The customer list inherits customer_name ASC ordering from the customer service (`src/endpoints/customer/customer-service.js:52`). Eligibility's created_at comparisons use JavaScript timestamp precision, unlike the SQL membership gate. Sources: `src/endpoints/invoice/invoiceEligibility/invoiceEligibility.js:41`, `src/endpoints/invoice/invoiceEligibility/invoiceEligibility.js:92`.
+Current balance uses the latest snapshot of every parent on the latest invoice date, including same-day duplicates. Keep customers with abs(balance) >= $0.005, any unbilled transaction through the billing date (including nonbillable), or pending negative write-offs/payments. Retainers alone do not establish eligibility. retainer_count counts all active negative history rows, not latest chains; invoice_count counts nonzero current-chain rows; transaction_count counts unbilled rows through the billing date; write_off_count counts pending negative write-offs. The customer list inherits customer_name ASC ordering from the customer service (`src/endpoints/customer/customer-service.js:52`). Eligibility's created_at comparisons use JavaScript timestamp precision, unlike the SQL membership gate. Sources: `src/endpoints/invoice/invoiceEligibility/invoiceEligibility.js:41`, `src/endpoints/invoice/invoiceEligibility/invoiceEligibility.js:92`.
 
 The route recalculates all eligible customers together with showWriteOffs=false; any failure leaves every displayed invoice_total at zero. Latest completed audits are ordered by created_at DESC without an ID tie-break. Matching means saved audit/app balances both exist and abs(difference) < $0.01; it does not establish freshness against today's ledger. Source: `src/endpoints/invoice/invoice-router.js:167`, `src/endpoints/invoice/invoice-router.js:183`.
 
@@ -97,7 +97,7 @@ For each customer, calculateInvoices performs these steps. Source: `src/endpoint
 2. Sum retained outstanding snapshots into the rolling beginning balance. Do not sum all historical issued amounts. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/outstandingInvoicesCalculations.js:10`.
 3. Sum **uninvoiced** gated payments into paymentTotal; all gated payments into paymentsReceivedTotal for display; uninvoiced forms exactly 'Retainer' or 'Prepayment' into retainerPaymentTotal. Linked payments already affected their chain. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/paymentsCalculations.js:6`.
 4. Select latest retainer snapshot per root using exact timestamp text where available, then timestamp milliseconds/ID fallback. Keep is_retainer_active !== false and nonzero current_amount. Sum signed balances; do not automatically draw them. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/retainerCalculations.js:3`, `src/endpoints/invoice/createInvoice/invoiceCalculations/retainerCalculations.js:33`.
-5. Group transactions by actual job ID. Preserve all rows for later stamping; sum only billable total_transaction. Hidden mode nets pending write-offs into jobs. Uninvoiced write-offs without new work create adjustment-only groups; null job uses General credit. Shown mode leaves job charges gross. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:20`, `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:52`.
+5. Group transactions by actual job ID. Preserve all rows for later stamping; sum only billable total_transaction. Hidden mode nets only invoice-unlinked write-offs into jobs; invoice-linked credits never reduce job totals. Uninvoiced write-offs without new work create adjustment-only groups; null job uses General credit. Shown mode leaves job charges gross. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:20`, `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:52`.
 6. Unlinked write-offs reduce the bill. Linked write-offs on the current/newer statement date do not reduce it again. Linked write-offs on older chains are next-bill credits. Missing last/root dates fall back to crediting. Shown mode counts all eligible credits here; hidden mode counts only invoice-linked eligible credits here because unlinked credits are in jobs. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:23`.
 7. writeOffsListedTotal sums printed records, which can differ from writeOffTotal. Shown mode prints all gated write-offs; hidden mode prints invoice-linked ones. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:54`.
 8. A separate transaction-retainer diagnostic sums unbilled transactions linked to retainers, including nonbillable rows, and returns a negative absolute total. It does not affect invoiceTotal. Sources: `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionRetainerPaymentCalculations.js:6`, `src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:4`.
@@ -122,7 +122,7 @@ Latest balance is $350 after a linked -$50 payment. New work is $120 on job A pl
 
 If the linked -$50 payment passed the gate, displayed Payments Received is -$120, while only -$70 enters the new total. It is already represented in the $350 beginning balance. Formula sources: `src/endpoints/invoice/createInvoice/invoiceCalculations/paymentsCalculations.js:11`, `src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:23`, `src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:4`.
 
-**Exception found:** hidden mode also nets invoice-linked write-offs into an existing same-job transaction group. A pure-helper check returned $130 hidden versus $140 shown for $90 already-adjusted beginning balance, $50 new work and an already-applied -$10 write-off. See [F8](../_review/findings.md#f8). Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:74`.
+**F8 fixed:** hidden job groups exclude invoice-linked write-offs. Both modes return $140 for $90 already-adjusted beginning balance, $50 new work and an already-applied -$10 write-off. See [F8](../_review/findings.md#f8). Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:74`.
 
 ### Returned calculation groups
 
@@ -147,7 +147,7 @@ Example: a -$200 available balance funding $40 becomes -$160, and a -$40 payment
 
 ## 7. Create, edit and delete
 
-Direct API selection does not require customers.is_customer_active=true; account-owned mailing information and ledger reads still apply. Only the eligibility list filters active customers. Sources: `src/endpoints/invoice/invoice-service.js:233`, `src/endpoints/customer/customer-service.js:1`. Future work is also selected without a date ceiling; see [F14](../_review/findings.md#f14).
+Direct API selection does not require customers.is_customer_active=true; account-owned mailing information and ledger reads still apply. Only the eligibility list filters active customers. Sources: `src/endpoints/invoice/invoice-service.js:233`, `src/endpoints/customer/customer-service.js:1`. Future work is excluded until its performed date is on or before the billing date; see [F14](../_review/findings.md#f14).
 
 Helpers only read. With all output flags false, the route still loads statement/contact/logo detail, but does not export or finalize. Draft/CSV modes generate artifacts. Finalize performs the ledger transaction and absorbs old balances. Full sequence: [month-end-finalize.md](month-end-finalize.md). Source: `src/endpoints/invoice/invoice-router.js:307`, `src/endpoints/invoice/invoice-router.js:342`.
 
@@ -157,7 +157,7 @@ No engine edit/delete API exists. Billed corrections use [billing-review.md](bil
 
 | Existing spec | Assertions |
 |---|---|
-| test/endpoints/invoice/engine-units.spec.js | Latest retainer/microseconds; informational retainers; old unbilled work; same-day parents; pending credits; nonbillable stamping; zero invoices; adjustment-only/general credits; common display-mode override; number overflow. Its invoice-linked hidden-mode test uses a different job and misses [F8](../_review/findings.md#f8). |
+| test/endpoints/invoice/engine-units.spec.js | Latest retainer/microseconds; informational retainers; old unbilled work; same-day parents; pending credits; nonbillable stamping; zero invoices; adjustment-only/general credits; common display-mode override; number overflow. Same-job regression coverage is in `review-writeoff.spec.js` ([F8](../_review/findings.md#f8)). |
 | test/endpoints/accountAudit/statement-gate.spec.js | Bill-day membership, repeated billing and audit gate parity. |
 | test/endpoints/accountAudit/engine-parity.spec.js | Raw-ledger/engine comparisons, issue-time payments and timestamp precision. |
 | test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js | HTTP access/scope, eligibility, create modes and envelopes. |
@@ -172,3 +172,5 @@ Missing/cross-customer jobs, missing mailing information, stale unbilled work an
 Section 6 requires reviewed migrations/backup/cutover, backend before frontend, INTERNAL_CUSTOMER_IDS and BILLING_TIMEZONE=America/Phoenix. Production completion is **not determined from the code**. Source: `scripts/review-2026-09/FINAL_REPORT.md:67`.
 
 Coverage: **1 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+F8 regression: `test/endpoints/invoice/review-writeoff.spec.js` verifies same-job current-chain and absorbed-chain invoice credits count once in both shown and hidden modes (2 passing). Invoice-linked credits are excluded before all hidden job grouping.

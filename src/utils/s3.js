@@ -126,13 +126,14 @@ const getObject = async key => {
   };
 };
 
-const putObject = async (key, body, contentType = "application/octet-stream", metadata = {}) => {
+const putObject = async (key, body, contentType = "application/octet-stream", metadata = {}, { ifNoneMatch } = {}) => {
   const command = new PutObjectCommand({
     Bucket: bucketName,
     Key: key,
     Body: body,
     ContentType: contentType,
     Metadata: metadata,
+    ...(ifNoneMatch ? { IfNoneMatch: ifNoneMatch } : {}),
   });
 
   await s3.send(command);

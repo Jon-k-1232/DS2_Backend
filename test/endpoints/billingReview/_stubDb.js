@@ -104,6 +104,7 @@ const buildStubDb = (tables = {}) => {
       const orders = [];
       let limitN = null;
       const filters = [];
+      const selected = [];
       const b = { _forUpdate: false };
 
       const predicate = args => {
@@ -174,7 +175,7 @@ const buildStubDb = (tables = {}) => {
       b.join = () => b;
       b.leftJoin = () => b;
       b.innerJoin = () => b;
-      b.select = () => b;
+      b.select = (...columns) => { selected.push(...columns.flat()); return b; };
 
       const rows = () => {
          calls.queries.push({ table, forUpdate: b._forUpdate, filters });
@@ -194,7 +195,8 @@ const buildStubDb = (tables = {}) => {
             });
          }
          if (limitN !== null) out = out.slice(0, limitN);
-         return out.map(r => ({ ...r }));
+         return out.map(r => selected.length && selected.every(c => typeof c === 'string' && !c.includes('*'))
+            ? Object.fromEntries(selected.map(c => [_col(c), r[_col(c)]])) : ({ ...r }));
       };
 
       b.first = async () => rows()[0];
@@ -253,11 +255,16 @@ const buildStubDb = (tables = {}) => {
       return b;
    };
 
-   const db = name => makeBuilder(name);
+   const topLevel = handle => {
+      handle.select = (...cols) => ({ from: name => makeBuilder(name).select(...cols) });
+      handle.insert = data => ({ into: name => makeBuilder(name).insert(data) });
+      return handle;
+   };
+   const db = topLevel(name => makeBuilder(name));
    db.raw = raw;
    db.transaction = async cb => {
       const snapshot = _clone(store);
-      const trx = name => makeBuilder(name);
+      const trx = topLevel(name => makeBuilder(name));
       trx.raw = raw;
       trx.isTransaction = true;
       trx.transaction = db.transaction;

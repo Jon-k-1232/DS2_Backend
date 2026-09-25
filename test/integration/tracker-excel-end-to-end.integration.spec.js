@@ -824,6 +824,7 @@ describe('tracker Excel end-to-end: template → upload → auto-ingest → invo
          const directory = await unzipper.Open.buffer(res.body);
          const files = {};
          for (const entry of directory.files) files[entry.path] = await entry.buffer();
+         expect(Object.keys(files), 'ZIP member names are unique').to.have.lengthOf(directory.files.length);
          const pdfText = buffer => {
             const file = path.join(scratchDir, `statement-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.pdf`);
             fs.writeFileSync(file, buffer);
@@ -848,7 +849,7 @@ describe('tracker Excel end-to-end: template → upload → auto-ingest → invo
          ];
          const asserted = [];
          for (const st of statements) {
-            const pdfName = `${st.customer.display_name.replace(/ /g, '_')}.pdf`;
+            const pdfName = `${st.customer.display_name.replace(/[^\p{L}\p{N}._-]+/gu, '_')}_customer_${st.customer.customer_id}.pdf`;
             expect(files[pdfName], `${pdfName} in the zip (${Object.keys(files).join(', ')})`).to.exist;
             const text = pdfText(files[pdfName]);
             const invoiceNumber = invoiceByCustomer[st.customer.customer_id].invoice_number;

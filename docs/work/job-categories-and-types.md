@@ -8,9 +8,9 @@ Review date: 2026-09-24. Backend paths are relative to DS2_Backend; frontend pat
 
 ## 2. Access rules
 
-Both mounts require authentication plus `requireManagerOrAdmin`. Accepted role names are `manager`, `admin`, `super admin`, `owner`, compared lowercase. The frontend accepts the first three and omits `owner` (`src/app.js:139`, `src/app.js:141`, `src/endpoints/auth/jwt-auth.js:94`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`). Auth prefers the session cookie over Bearer token, verifies JWT and retrieves a user by subject email; failures are HTTP 401. A role failure is HTTP 403 (`src/endpoints/auth/jwt-auth.js:7`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`).
+Both mounts require authentication plus `requireManagerOrAdmin`. Accepted role names are `manager`, `admin`, `super admin`, `owner`, compared lowercase. The frontend accepts the same four roles (`src/app.js:139`, `src/app.js:141`, `src/endpoints/auth/jwt-auth.js:94`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`). Auth prefers the session cookie over Bearer token, verifies JWT and retrieves a user by subject email; failures are HTTP 401. A role failure is HTTP 403 (`src/endpoints/auth/jwt-auth.js:7`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`).
 
-Both routers register `enforceAccountId`: URL account must be an integer equal to the session account, or HTTP 403. Neither registers `enforceSelfOrPrivileged`. The `userID` path is not an owner check. Writes replace body account with URL account but trust body creator IDs. Type category IDs are not checked for account ownership (`src/endpoints/jobCategories/jobCategories-router.js:4`, `src/endpoints/jobCategories/jobCategories-router.js:23`, `src/endpoints/jobType/jobType-router.js:4`, `src/endpoints/jobType/jobType-router.js:23`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/jobType/jobTypeObjects.js:7`).
+Both routers register `enforceAccountId`: URL account must be an integer equal to the session account, or HTTP 403. Neither registers `enforceSelfOrPrivileged`. The `userID` path is not an owner check. Writes use the verified URL account. Creates stamp the session creator; updates preserve the original creator. Type category IDs must belong to that account (`src/endpoints/jobCategories/jobCategories-router.js:4`, `src/endpoints/jobCategories/jobCategories-router.js:23`, `src/endpoints/jobType/jobType-router.js:4`, `src/endpoints/jobType/jobType-router.js:23`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/jobType/jobTypeObjects.js:7`).
 
 Token verification accepts HS256 only. User lookup and role lookup both require `is_user_active=true`; a deactivated user cannot continue with an otherwise valid token. Authentication lookup exceptions are also returned as HTTP 401; an uncaught role-lookup failure reaches the global error handler (`src/endpoints/auth/auth-service.js:26`, `src/endpoints/auth/auth-service.js:46`, `src/endpoints/auth/jwt-auth.js:48`, `src/endpoints/auth/jwt-auth.js:77`).
 
@@ -60,13 +60,13 @@ All shown path parameters are required. Only `accountID` has the account guard's
 
 | Method | Path | Inputs | Success | Errors and triggers |
 |---|---|---|---|---|
-| PUT | `/jobTypes/updateJobType/:accountID/:userID` | Required `jobType`, including `jobTypeID` | HTTP 200 envelope T | Common errors; HTTP 404 `{message:'Job type not found.',status:404}` if no own-account row matched; E500 on mapping/update failure. The refresh promise is not awaited here, so its rejection is not caught by this handler. `src/endpoints/jobType/jobType-router.js:60` |
+| PUT | `/jobTypes/updateJobType/:accountID/:userID` | Required `jobType`, including `jobTypeID` | HTTP 200 envelope T | Common errors; HTTP 404 `{message:'Job type not found.',status:404}` if no own-account row matched; E500 on mapping/update failure. Refresh is awaited inside the handler: failure returns E500 after the mutation has committed; reload to reconcile before retrying. `src/endpoints/jobType/jobType-router.js:60` |
 
 ### Type delete
 
 | Method | Path | Inputs | Success | Errors and triggers |
 |---|---|---|---|---|
-| DELETE | `/jobTypes/deleteJobType/:jobTypeID/:accountID/:userID` | IDs only | HTTP 200 envelope T | Common errors; E500 if any own-account job references the type, or delete/precheck fails; HTTP 404 if zero rows deleted. Refresh is not awaited. `src/endpoints/jobType/jobType-router.js:87` |
+| DELETE | `/jobTypes/deleteJobType/:jobTypeID/:accountID/:userID` | IDs only | HTTP 200 envelope T | Common errors; E500 if any own-account job references the type, or delete/precheck fails; HTTP 404 if zero rows deleted. Refresh is awaited; failure returns E500 after the mutation has committed. `src/endpoints/jobType/jobType-router.js:87` |
 
 Envelope **C** is `{jobCategoriesList:{activeJobCategoriesData:{activeJobCategories:[row],grid}},message:'Successfully deleted job category.',status:200}` for **all** category mutations, including creation/update. Envelope **T** is `{jobTypesList:{activeJobTypesData:{jobTypesData:[row],grid}},message:'Successfully deleted jobType.',status:200}` for all type mutations (`src/endpoints/jobCategories/jobCategories-router.js:109`, `src/endpoints/jobType/jobType-router.js:112`). Grid shape is `{columns:[{field,id,headerName}],rows:[{id,...row}]}`, with positional IDs and first-row-derived columns; empty data gives two empty arrays (`src/utils/gridFunctions.js:6`).
 
@@ -75,11 +75,11 @@ Envelope **C** is `{jobCategoriesList:{activeJobCategoriesData:{activeJobCategor
 | `accountID` | Optional/untrusted; replaced with verified URL account. |
 | `category` | Create label; string expected, nullable unbounded varchar in DB, no nonempty or uniqueness validation. |
 | `isActive` | Create flag; optional `Boolean(value)`, omitted false, string `'false'` true. |
-| `createdBy` | Create creator; required integer-compatible value, `Number(value)`, FK to users. |
+| `createdBy` | Ignored for attribution; create stamps the authenticated user. |
 | `customerJobCategoryID` | Update identity; required number-coerced ID. |
 | `selectedNewJobCategory` | Update label, same DB limits as create. |
 | `isJobCategoryActive` | Update flag; `Boolean(value)`, omitted false. |
-| `createdByUserID` | Update creator; number-coerced FK, overwrites original creator. |
+| `createdByUserID` | Ignored; update preserves the original creator. |
 
 Category mappings: `src/endpoints/jobCategories/jobCategoriesObjects.js:1`; account overrides: `src/endpoints/jobCategories/jobCategories-router.js:23`, `src/endpoints/jobCategories/jobCategories-router.js:48`; column/FK requirements: `migrations/schema-snapshot-2026-09-22.sql:486`, `migrations/schema-snapshot-2026-09-22.sql:1910`.
 
@@ -87,11 +87,11 @@ Category mappings: `src/endpoints/jobCategories/jobCategoriesObjects.js:1`; acco
 |---|---|
 | `jobTypeID` | Update only, required number-coerced ID. |
 | `accountID` | Optional/untrusted; replaced by URL account. |
-| `customerJobCategory` | Category ID converted with `Number`; FK if stored. DB allows null but mapper turns null/empty into 0 and omitted into NaN. Send an existing category ID for an ordinary successful save. |
+| `customerJobCategory` | Category ID converted with `Number`; FK if stored. DB allows null but mapper turns null/empty into 0 and omitted into NaN. Send an existing category ID in the verified account for a successful save. |
 | `jobDescription` | String; required by DB on create, unbounded varchar, no empty/duplicate check. |
 | `bookRate`, `estimatedStraightTime` | Number-coerced, stored as integers. No positive/range check; blank/null becomes 0; omitted becomes NaN and fails integer storage. Decimal values are not rounded by this mapper. |
 | `isActive` | Optional; null/undefined defaults true on both create/update. Only boolean true or string `'true'` gives true when supplied. False and `'false'` persist false. |
-| `userID` | Required number-coerced creator FK; update also replaces the original creator. |
+| `userID` | Ignored for attribution; create stamps the session user and update preserves the stored creator. |
 
 Type mappings: `src/endpoints/jobType/jobTypeObjects.js:5`; account overrides: `src/endpoints/jobType/jobType-router.js:23`, `src/endpoints/jobType/jobType-router.js:69`; DB requirements: `migrations/schema-snapshot-2026-09-22.sql:514`, `migrations/schema-snapshot-2026-09-22.sql:1926`, `migrations/schema-snapshot-2026-09-22.sql:1934`. Both nested objects pass through the recursive string XSS sanitizer, not a schema validator (`src/utils/sanitizeFields.js:8`).
 
@@ -105,7 +105,7 @@ Categories read/write `customer_job_categories`: category ID, account, label, ac
 |---|---|
 | Active categories | All category columns, account equality, `is_job_category_active=true`; no ordering, grouping or pagination (`src/endpoints/jobCategories/jobCategories-service.js:2`). |
 | Category detail | All columns by account and category ID, including inactive rows (`src/endpoints/jobCategories/jobCategories-service.js:6`). |
-| Active types | `customer_job_types.*` plus category label through LEFT JOIN on category ID; own type account and `is_job_type_active=true`; `job_description ASC`. No category-active filter or joined-category account predicate (`src/endpoints/jobType/jobType-service.js:18`). |
+| Active types | `customer_job_types.*` plus category label through LEFT JOIN on category ID; own type account and `is_job_type_active=true`; `job_description ASC`. The category join also checks account equality; no category-active filter (`src/endpoints/jobType/jobType-service.js:18`). |
 | Type detail | Raw type row by type ID/account, including inactive rows (`src/endpoints/jobType/jobType-service.js:14`). |
 | Category in-use check | Every type of this account with matching category ID, including inactive types (`src/endpoints/jobType/jobType-service.js:10`). |
 | Type in-use check | Every job of this account with matching type ID, including completed jobs and version rows (`src/endpoints/job/job-service.js:18`). |
@@ -118,7 +118,7 @@ These endpoints do no billing arithmetic. They convert type rate and estimate wi
 
 ## 7. Create, edit, and delete
 
-Each create inserts one row; update changes one account-scoped ID in place. No duplicate guard, customer ledger lock, multi-statement transaction or version snapshot exists. Updates preserve DB `created_at` because it is not mapped, but overwrite creator IDs. Active flags change list membership without changing linked records (`src/endpoints/jobCategories/jobCategories-service.js:10`, `src/endpoints/jobCategories/jobCategoriesObjects.js:8`, `src/endpoints/jobType/jobType-service.js:28`, `src/endpoints/jobType/jobTypeObjects.js:17`).
+Each create inserts one row; update changes one account-scoped ID in place. No duplicate guard, customer ledger lock, multi-statement transaction or version snapshot exists. Updates preserve DB `created_at` because it is not mapped, and also preserve creator IDs. Active flags change list membership without changing linked records (`src/endpoints/jobCategories/jobCategories-service.js:10`, `src/endpoints/jobCategories/jobCategoriesObjects.js:8`, `src/endpoints/jobType/jobType-service.js:28`, `src/endpoints/jobType/jobTypeObjects.js:17`).
 
 Category delete refuses any matching type; type delete refuses any matching job. The checks and deletes run separately. Database FKs also protect references the application check does not cover, including AI suggestions, producing caught SQL errors (`src/endpoints/jobCategories/jobCategories-router.js:70`, `src/endpoints/jobType/jobType-router.js:91`, `migrations/schema-snapshot-2026-09-22.sql:1806`, `migrations/schema-snapshot-2026-09-22.sql:1822`).
 
@@ -128,7 +128,7 @@ Renaming, changing a type's category or changing its rates remains allowed when 
 
 | Rule | Read-only test evidence |
 |---|---|
-| Category CRUD, account guards, DB-invalid creator refusal, zero-match 404 and inactive filtering | `test/integration/coverage-jobs-masterdata.integration.spec.js:832`, `test/integration/coverage-jobs-masterdata.integration.spec.js:909`, `test/integration/coverage-jobs-masterdata.integration.spec.js:917`. |
+| Category CRUD, account guards, trusted creator attribution, zero-match 404 and inactive filtering | `test/integration/coverage-jobs-masterdata.integration.spec.js:832`, `test/integration/coverage-jobs-masterdata.integration.spec.js:909`, `test/integration/coverage-jobs-masterdata.integration.spec.js:917`. |
 | Category referenced by a type cannot be deleted | `test/integration/coverage-jobs-masterdata.integration.spec.js:975`. |
 | Type CRUD, detail empty result and inactive removal | `test/integration/coverage-jobs-masterdata.integration.spec.js:1032`, `test/integration/coverage-jobs-masterdata.integration.spec.js:1079`, `test/integration/coverage-jobs-masterdata.integration.spec.js:1173`. |
 | Type referenced by a job cannot be deleted | `test/integration/coverage-jobs-masterdata.integration.spec.js:1223`. |
@@ -138,8 +138,12 @@ The old defect comment preceding the type-inactive assertion describes a missing
 
 ## 9. Limitations and open decisions
 
-Related IDs and creator IDs can reference another account's rows; account checks protect the row being written, not every FK. The type list can then reveal the foreign category label. See [F2](../_review/findings.md#f2) in [consolidated findings](../_review/findings.md). Boolean parsing is inconsistent between categories (`Boolean`) and types (explicit true parser), so clients should send actual booleans (`src/endpoints/jobCategories/jobCategoriesObjects.js:4`, `src/endpoints/jobType/jobTypeObjects.js:5`). The unawaited type refresh can fail after a successful write without completing the response; see [F26](../_review/findings.md#f26) in the findings file (`src/endpoints/jobType/jobType-router.js:76`, `src/endpoints/jobType/jobType-router.js:100`).
+F2 is fixed: category references are account-validated, category joins enforce account equality, and creator attribution is session-derived and preserved. `review-related-ids.integration.spec.js` verifies these paths. Boolean parsing is inconsistent between categories (`Boolean`) and types (explicit true parser), so clients should send actual booleans (`src/endpoints/jobCategories/jobCategoriesObjects.js:4`, `src/endpoints/jobType/jobTypeObjects.js:5`). Type refresh failure is caught after a successful write and completes the error response; see [F26](../_review/findings.md#f26) in the findings file (`src/endpoints/jobType/jobType-router.js:76`, `src/endpoints/jobType/jobType-router.js:100`).
 
 The accountant decisions are ledger repairs, including historical cross-customer jobs and stale job-family totals, rather than type/category rate policies (`scripts/review-2026-09/FINAL_REPORT.md:45`). Production migration rehearsal, backup, 020/021 ordering, backend-first deployment and environment settings remain rollout requirements, not evidence of current deployment (`scripts/review-2026-09/FINAL_REPORT.md:67`).
 
 Coverage: **8 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+F2 verification: `test/integration/review-related-ids.integration.spec.js` covers forged related IDs on create/update, session creators, preserved update attribution, and historical malformed label joins. No historical production-copy rows are repaired by this change.
+
+F26 fixed: type update/delete await their response refresh. A refresh rejection is caught and returned as the existing E500 envelope; the preceding write may already have committed. `test/endpoints/jobType/review-refresh.spec.js` verifies both handlers in isolated Node processes with strict unhandled rejection handling.

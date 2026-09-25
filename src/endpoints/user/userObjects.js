@@ -38,6 +38,15 @@ const restoreDataTypesUserOnCreate = userData => ({
   is_user_active: userData.isActive === undefined ? true : Boolean(userData.isActive)
 });
 
+const optionalActiveBoolean = value => {
+  if (value !== undefined && typeof value !== 'boolean') {
+    const error = new Error('isUserActive must be a boolean.');
+    error.status = 400;
+    throw error;
+  }
+  return value;
+};
+
 const restoreDataTypesUserOnUpdate = userData => ({
   user_id: userData.userID,
   account_id: userData.accountID,
@@ -47,7 +56,7 @@ const restoreDataTypesUserOnUpdate = userData => ({
   billing_rate: userData.billingRate,
   job_title: userData.role,
   access_level: userData.accessLevel,
-  is_user_active: userData.isUserActive,
+  is_user_active: optionalActiveBoolean(userData.isUserActive),
   created_at: userData.createdAt
 });
 

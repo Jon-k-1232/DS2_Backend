@@ -22,7 +22,7 @@ const restoreDataTypesJobTypeTableOnUpdate = jobType => ({
   book_rate: Number(jobType.bookRate),
   estimated_straight_time: Number(jobType.estimatedStraightTime),
   is_job_type_active: parseActiveFlag(jobType.isActive, true),
-  created_by_user_id: Number(jobType.userID)
+
 });
 
 module.exports = {

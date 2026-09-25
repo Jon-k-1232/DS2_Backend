@@ -3,6 +3,9 @@ const aiReviewerCorrectionsService = require('../aiIntegration/ai-reviewer-corre
 const { detectAndRedact } = require('../../utils/comprehend');
 const { ledgerNow, lockCustomerLedger } = require('../payments/ledger-helpers');
 
+const jobService = require('../job/job-service');
+const { updateRecentJobTotal } = require('../transactions/sharedTransactionFunctions');
+
 const EDITABLE_FIELDS = Object.freeze([
    'customer_id',
    'customer_job_id',
@@ -280,12 +283,9 @@ const _recomputeInvoiceTotals = async (trx, accountId, invoiceId) => {
 
 const _recomputeJobTotal = async (trx, accountId, customerJobId) => {
    if (!customerJobId) return null;
-   const [{ sum_job_total }] = await trx('customer_transactions')
-      .where({ account_id: accountId, customer_job_id: customerJobId })
-      .sum({ sum_job_total: 'total_transaction' });
-   const total = Number(sum_job_total || 0);
-   await trx('customer_jobs').where({ customer_job_id: customerJobId, account_id: accountId }).update({ current_job_total: total });
-   return { customerJobId, total };
+   // The transaction is already saved, so the shared family sum needs no delta.
+   const snapshot = await updateRecentJobTotal(trx, customerJobId, accountId, 0);
+   return { customerJobId, total: Number(snapshot.current_job_total) };
 };
 
 /**
@@ -694,8 +694,11 @@ const _applyLockedEdit = async (trx, ctx) => {
       if (recomputedOldJob) sideEffects.push({ type: 'old_job_recalculated', ...recomputedOldJob });
    }
    if (updated.customer_job_id && Number(updated.customer_job_id) !== Number(original.customer_job_id)) {
-      const recomputedNewJob = await _recomputeJobTotal(trx, accountId, updated.customer_job_id);
-      if (recomputedNewJob) sideEffects.push({ type: 'new_job_recalculated', ...recomputedNewJob });
+      const originalFamily = original.customer_job_id ? await jobService.getJobFamilyIds(trx, original.customer_job_id, accountId) : [];
+      if (!originalFamily.map(Number).includes(Number(updated.customer_job_id))) {
+         const recomputedNewJob = await _recomputeJobTotal(trx, accountId, updated.customer_job_id);
+         if (recomputedNewJob) sideEffects.push({ type: 'new_job_recalculated', ...recomputedNewJob });
+      }
    }
 
    // Redacted before the lock was taken (never hold the ledger lock across a

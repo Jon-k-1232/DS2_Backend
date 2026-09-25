@@ -91,7 +91,21 @@ const restoreDataTypesAccountInformationOnUpdate = newAccountInformation => {
   return infoFields;
 };
 
+const validateAccountCreation = account => {
+  const limits = { account_name: 100, account_type: 50, account_statement: 255, account_interest_statement: 255,
+    account_invoice_template_option: 100, account_company_logo: 255, account_street: 255,
+    account_city: 100, account_state: 2, account_zip: 10, account_email: 255, account_phone: 20 };
+  for (const [field, limit] of Object.entries(limits)) {
+    const value = account && account[field];
+    if ((['account_name', 'account_type'].includes(field) && (typeof value !== 'string' || !value.trim())) ||
+        (value != null && (typeof value !== 'string' || [...value].length > limit))) {
+      throw Object.assign(new Error(`Invalid ${field}; use text up to ${limit} characters.`), { status: 400 });
+    }
+  }
+};
+
 module.exports = {
+  validateAccountCreation,
   restoreDataTypesAccountOnCreate,
   restoreDataTypesAccountInformationOnCreate,
   restoreDataTypesAccountOnUpdate,

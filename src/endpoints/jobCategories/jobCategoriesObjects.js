@@ -10,7 +10,7 @@ const restoreDataTypesJobCategoriesOnUpdate = data => ({
   account_id: Number(data.accountID),
   customer_job_category: data.selectedNewJobCategory,
   is_job_category_active: Boolean(data.isJobCategoryActive),
-  created_by_user_id: Number(data.createdByUserID)
+
 });
 
 module.exports = {

@@ -61,6 +61,7 @@ const buildFakeDb = (initialTables = {}) => {
    const clauseMatches = (row, clause) => {
       if (clause.type === 'or-group') return clause.terms.some(term => clauseMatches(row, term));
       if (clause.type === 'never') return false;
+      if (clause.op === 'notnull') return row[unqualify(clause.field)] != null;
       const { field, value } = clause;
       const actual = row[unqualify(field)];
       if (value && typeof value === 'object' && value[REF]) return false; // column-ref comparisons are unused by tested code paths
@@ -95,7 +96,7 @@ const buildFakeDb = (initialTables = {}) => {
       const state = {
          table: initialTable,
          whereClauses: [],
-         limitTo: null,
+         limitTo: null, orders: [], columns: [], groups: [], distinctCount: null,
          mode: 'select', // 'select' | 'insert' | 'update' | 'delete'
          insertRows: null,
          updateData: null
@@ -143,12 +144,15 @@ const buildFakeDb = (initialTables = {}) => {
       self.forNoKeyUpdate = () => self;
       self.whereRaw = () => self;
       self.andWhereRaw = self.whereRaw;
-      self.orderBy = () => self;
+      self.orderBy = (field, direction = 'asc') => { state.orders.push({ field, direction }); return self; };
+      self.whereNotNull = field => { state.whereClauses.push({ field, op: 'notnull' }); return self; };
+      self.groupBy = (...fields) => { state.groups = fields; return self; };
+      self.countDistinct = spec => { state.distinctCount = spec; return self; };
       self.limit = n => {
          state.limitTo = n;
          return self;
       };
-      self.select = () => self;
+      self.select = (...columns) => { state.columns.push(...columns.flat()); return self; };
       self.clone = () => self;
 
       self.insert = rowOrRows => {
@@ -168,14 +172,33 @@ const buildFakeDb = (initialTables = {}) => {
       self.delete = self.del;
 
       const runSelect = () => {
-         const rows = ensureTable()
-            .filter(row => rowMatches(row, state.whereClauses))
-            .map(row => ({ ...row }));
+         let rows = ensureTable().filter(row => rowMatches(row, state.whereClauses)).map(row => ({ ...row }));
+         rows.sort((a, b) => {
+            for (const { field, direction } of state.orders) {
+               const av = a[unqualify(field)], bv = b[unqualify(field)];
+               if (av === bv) continue;
+               if (av == null) return 1; if (bv == null) return -1;
+               return (av < bv ? -1 : 1) * (direction === 'desc' ? -1 : 1);
+            }
+            return 0;
+         });
+         if (state.distinctCount) {
+            const groups = new Map();
+            for (const row of rows) {
+               const key = JSON.stringify(state.groups.map(k => row[k]));
+               if (!groups.has(key)) groups.set(key, []);
+               groups.get(key).push(row);
+            }
+            rows = [...groups.values()].map(group => ({ ...group[0], ...Object.fromEntries(Object.entries(state.distinctCount).map(([alias, col]) => [alias, new Set(group.map(r => r[col])).size])) }));
+         }
+         if (state.columns.length && state.columns.every(c => typeof c === 'string' && !c.includes('*'))) rows = rows.map(row => Object.fromEntries([...state.columns, ...Object.keys(state.distinctCount || {})].map(c => [unqualify(c), row[unqualify(c)]])));
+
          return state.limitTo != null ? rows.slice(0, state.limitTo) : rows;
       };
       const runInsert = () =>
          state.insertRows.map(row => {
             const stored = { ...row };
+            for (const [key, value] of Object.entries(stored)) if (state.table === 'customer_jobs' && value && value.__raw === 'clock_timestamp()') stored[key] = new Date();
             const pkColumn = PK_COLUMN_BY_TABLE[state.table];
             if (pkColumn && stored[pkColumn] == null) {
                const currentMax = ensureTable().reduce((max, r) => Math.max(max, Number(r[pkColumn]) || 0), 0);

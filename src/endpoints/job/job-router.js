@@ -1,3 +1,4 @@
+const { requireAccountRow } = require('../../utils/relatedAccount');
 const express = require('express');
 const { enforceAccountId } = require('../auth/account-scope');
 const jobRouter = express.Router();
@@ -59,6 +60,7 @@ jobRouter.route('/createJob/:accountID/:userID').post(jsonParser, async (req, re
       const jobTableFields = restoreDataTypesJobTableOnCreate(sanitizedNewJob);
       // Trust the account from the (guard-verified) URL, never the request body.
       jobTableFields.account_id = Number(accountID);
+      jobTableFields.created_by_user_id = Number(req.user.user_id);
       // A brand new job is always a family ROOT. A client-supplied parentJobID
       // would attach it to (and corrupt) an existing family it doesn't belong
       // to — only updateRecentJobTotal creates real version rows, internally.
@@ -66,6 +68,7 @@ jobRouter.route('/createJob/:accountID/:userID').post(jsonParser, async (req, re
 
       await withTransaction(db, async trx => {
          await lockCustomerLedger(trx, accountID, jobTableFields.customer_id);
+         await requireAccountRow(trx, 'customer_job_types', 'job_type_id', jobTableFields.job_type_id, accountID, 'Job type');
 
          // Check for duplicate job
          const duplicateJob = await jobService.findDuplicateJob(trx, jobTableFields);
@@ -111,7 +114,7 @@ jobRouter.route('/getActiveCustomerJobs/:accountID/:userID/:customerID').get(asy
 
    const customerJobs = await jobService.getActiveCustomerJobs(db, accountID, customerID);
 
-   const activeCustomerJobs = findMostRecentJobRecords(customerJobs);
+   const activeCustomerJobs = jobService.latestFamilyVersions(customerJobs);
 
    // Add display_name field for autocomplete
    activeCustomerJobs.forEach(job => (job.display_name = `${job.job_description} - ${job.customer_job_category}`));
@@ -144,6 +147,7 @@ jobRouter.route('/updateJob/:accountID/:userID').put(jsonParser, async (req, res
 
       const warning = await withJobLedger(db, accountID, jobTableFields.customer_job_id, jobTableFields.customer_id, async (trx, jobRowBeforeEdits) => {
          jobTableFields.parent_job_id = jobRowBeforeEdits.parent_job_id;
+         await requireAccountRow(trx, 'customer_job_types', 'job_type_id', jobTableFields.job_type_id, accountID, 'Job type');
          let reassignWarning;
 
          // Repointing a job to a different customer is dangerous once billing
@@ -238,25 +242,6 @@ jobRouter.route('/deleteJob/:jobID/:accountID/:userID').delete(jsonParser, async
 });
 
 module.exports = jobRouter;
-
-/**
- * Finds the most recent job record for each job, the returns an array of those most recent records
- * @param {*} jobs
- * @returns
- */
-const findMostRecentJobRecords = jobs => {
-   // Jobs array must be oldest to newest when coming in from db
-   const mostRecentJobs = jobs.reduce((acc, curr) => {
-      if (!acc[curr.parent_job_id]) acc[curr.customer_job_id] = curr;
-      if (acc[curr.parent_job_id] && dayjs(curr.created_at).isAfter(dayjs(acc[curr.parent_job_id].created_at))) {
-         acc[curr.parent_job_id] = curr;
-      }
-
-      return acc;
-   }, {});
-
-   return Object.values(mostRecentJobs);
-};
 
 const sendUpdatedTableWith200Response = async (db, res, accountID, warning) => {
    // Get all jobs

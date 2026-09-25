@@ -136,6 +136,7 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
             customer_id: plan.customer_id,
             customer_invoice_id: parent.customer_invoice_id,
             invoice_number: parent.invoice_number,
+            invoice_file_location: parent.invoice_file_location,
             transactionsStamped,
             paymentsStamped,
             absorbedRows: Number(absorbed) || 0

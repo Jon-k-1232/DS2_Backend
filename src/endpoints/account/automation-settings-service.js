@@ -54,6 +54,8 @@ const automationSettingsService = {
    },
 
    async replaceAutomationRecipients(db, accountId, automationKey, recipientUserIds = []) {
+      if (!db.isTransaction) return db.transaction(trx => this.replaceAutomationRecipients(trx, accountId, automationKey, recipientUserIds));
+      await db('accounts').where({ account_id: accountId }).forNoKeyUpdate();
       if (!isValidAutomationKey(automationKey)) {
          const error = new Error('Invalid automation key.');
          error.status = 400;
@@ -68,14 +70,6 @@ const automationSettingsService = {
          )
       );
 
-      await db(RECIPIENTS_TABLE)
-         .where({ account_id: accountId, automation_key: automationKey })
-         .del();
-
-      if (!uniqueIds.length) {
-         return [];
-      }
-
       const validUsers = await db('users')
          .select('user_id')
          .where({ account_id: accountId, is_user_active: true })
@@ -86,6 +80,9 @@ const automationSettingsService = {
          error.status = 400;
          throw error;
       }
+
+      await db(RECIPIENTS_TABLE).where({ account_id: accountId, automation_key: automationKey }).del();
+      if (!uniqueIds.length) return [];
 
       const rowsToInsert = validUsers.map(user => ({
          account_id: accountId,
@@ -99,6 +96,8 @@ const automationSettingsService = {
    },
 
    async updateAutomationSetting(db, accountId, automationKey, updates = {}) {
+      if (!db.isTransaction) return db.transaction(trx => this.updateAutomationSetting(trx, accountId, automationKey, updates));
+      await db('accounts').where({ account_id: accountId }).forNoKeyUpdate();
       if (!isValidAutomationKey(automationKey)) {
          const error = new Error('Invalid automation key.');
          error.status = 400;

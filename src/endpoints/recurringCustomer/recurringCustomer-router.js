@@ -1,3 +1,5 @@
+const { lockCustomerLedger } = require('../payments/ledger-helpers');
+const { requireAccountRow } = require('../../utils/relatedAccount');
 const express = require('express');
 const dayjs = require('dayjs');
 const jsonParser = express.json();
@@ -27,13 +29,21 @@ recurringCustomerRouter.route('/createRecurringCustomer/:accountID/:userID').pos
    // Trust the account from the (guard-verified) URL, never the request body —
    // same rule the update route applies.
    recurringCustomerTableFields.account_id = Number(accountID);
+      recurringCustomerTableFields.created_by_user_id = Number(req.user.user_id);
 
    const { customerID } = sanitizedNewRecurringCustomer;
-   // update customer table
-   await customerService.updateCustomerRecurringField(db, customerID, accountID);
-
-   // Post new recurring customer
-   await recurringCustomerService.createRecurringCustomer(db, recurringCustomerTableFields);
+   await db.transaction(async trx => {
+      // Preserve the documented 422 ownership/selection error. The ledger
+      // lock's statusCode-only error otherwise reaches the global handler as
+      // HTTP 500. The lock still rechecks existence before any mutation.
+      await requireAccountRow(trx, 'customers', 'customer_id', customerID, accountID, 'Customer');
+      await lockCustomerLedger(trx, accountID, customerID);
+      // update customer table
+      await customerService.updateCustomerRecurringField(trx, customerID, accountID);
+   
+      // Post new recurring customer
+      await recurringCustomerService.createRecurringCustomer(trx, recurringCustomerTableFields);
+   });
    // Get all recurring customers
    const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, accountID);
 
@@ -95,6 +105,8 @@ recurringCustomerRouter.route('/updateRecurringCustomer').put(jsonParser, async 
    // Create new object with sanitized fields
    const recurringCustomerTableFields = restoreDataTypesRecurringCustomerTableOnUpdate(sanitizedUpdatedRecurringCustomer, existingRecurringCustomer.customer_id);
    recurringCustomerTableFields.account_id = accountID;
+
+   await requireAccountRow(db, 'customers', 'customer_id', existingRecurringCustomer.customer_id, accountID, 'Customer');
 
    // Update recurring customer
    await recurringCustomerService.updateRecurringCustomer(db, recurringCustomerTableFields);

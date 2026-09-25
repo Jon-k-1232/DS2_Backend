@@ -19,6 +19,8 @@
 const dayjs = require('dayjs');
 const { bootHttp, uniqueName, expectEnvelopeOk, expectEnvelopeRefused } = require('./_http');
 const { addNewTransaction, updateTransactionCore, retainerDrawMarker } = require('../../src/endpoints/transactions/sharedTransactionFunctions');
+const transactionsService = require('../../src/endpoints/transactions/transactions-service');
+const paymentsService = require('../../src/endpoints/payments/payments-service');
 
 describe('integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership)', function () {
    this.timeout(120_000);
@@ -180,13 +182,13 @@ describe('integration: transaction ledger seams (atomic + locked CRUD, retainer 
    const latestJobTotal = async jobId => num((await db('customer_jobs').where({ account_id: A, parent_job_id: jobId }).orderBy('customer_job_id', 'desc').first()).current_job_total);
 
    /** Every ledger row of the given customers — for "nothing changed" assertions. */
-   const ledgerState = async customers => {
+   const ledgerState = async (customers, connection = db) => {
       const ids = customers.map(c => c.customerId);
       const [transactions, payments, retainers, jobs] = await Promise.all([
-         db('customer_transactions').whereIn('customer_id', ids).orderBy('transaction_id'),
-         db('customer_payments').whereIn('customer_id', ids).orderBy('payment_id'),
-         db('customer_retainers_and_prepayments').whereIn('customer_id', ids).orderBy('retainer_id'),
-         db('customer_jobs').whereIn('customer_id', ids).orderBy('customer_job_id')
+         connection('customer_transactions').where({ account_id: A }).whereIn('customer_id', ids).orderBy('transaction_id'),
+         connection('customer_payments').where({ account_id: A }).whereIn('customer_id', ids).orderBy('payment_id'),
+         connection('customer_retainers_and_prepayments').where({ account_id: A }).whereIn('customer_id', ids).orderBy('retainer_id'),
+         connection('customer_jobs').where({ account_id: A }).whereIn('customer_id', ids).orderBy('customer_job_id')
       ]);
       return { transactions, payments, retainers, jobs };
    };
@@ -260,9 +262,23 @@ describe('integration: transaction ledger seams (atomic + locked CRUD, retainer 
          const root = await makeRetainer(cust, 500);
          const before = await ledgerState([cust]);
 
-         // FK violation on customer_transactions — after the draw + job version were written.
-         const res = await http.create(newForm(cust, job, { selectedRetainerID: root.retainer_id, selectedGeneralWorkDescriptionID: 987654321 }));
-         expectEnvelopeRefused(res, /foreign key/, 'createTransaction with a bad work description');
+         // Submit valid references; inject the bad FK only at persistence,
+         // after validation and actual job/draw writes inside the transaction.
+         const create = transactionsService.createTransaction;
+         let res, during;
+         try {
+            transactionsService.createTransaction = async (trx, fields) => {
+               during = await ledgerState([cust], trx);
+               return create(trx, { ...fields, general_work_description_id: 987654321 });
+            };
+            res = await http.create(newForm(cust, job, { selectedRetainerID: root.retainer_id }));
+         } finally { transactionsService.createTransaction = create; }
+         expectEnvelopeRefused(res, /foreign key/, 'createTransaction with an injected insert failure');
+         expect(during, 'the insert must be reached after validation').to.exist;
+         expect(during.retainers.map(r => num(r.current_amount))).to.deep.equal([-500, -450]);
+         expect(during.jobs.map(r => num(r.current_job_total))).to.deep.equal([0, 50]);
+         expect(during.transactions).to.have.lengthOf(0);
+         expect(during.payments).to.have.lengthOf(0);
 
          expect(await ledgerState([cust])).to.deep.equal(before);
       });
@@ -274,9 +290,47 @@ describe('integration: transaction ledger seams (atomic + locked CRUD, retainer 
          const entry = await createEntry(cust, job, { selectedRetainerID: root.retainer_id });
          const before = await ledgerState([cust]);
 
-         const res = await http.update(formFor(entry, { unitCost: 80, totalTransaction: 80, selectedGeneralWorkDescriptionID: 987654321 }));
-         expectEnvelopeRefused(res, /foreign key/, 'updateTransaction with a bad work description');
+         // The date passes field/reference/price validation and fails in the
+         // actual transaction UPDATE. Observe successful SQL responses so a
+         // rejection before job/draw writes cannot make this test pass.
+         const writes = [];
+         const observeWrite = (_response, query) => {
+            if (/^(insert into "customer_jobs"|update "customer_retainers_and_prepayments")/.test(query.sql)) writes.push(query.sql);
+         };
+         let res;
+         db.on('query-response', observeWrite);
+         try {
+            res = await http.update(formFor(entry, { unitCost: 80, totalTransaction: 80, transactionDate: 'not-a-date' }));
+         } finally { db.removeListener('query-response', observeWrite); }
+         expectEnvelopeRefused(res, /invalid input syntax for type date/, 'updateTransaction with a database date failure');
+         expect(writes.filter(sql => sql.startsWith('insert into "customer_jobs"')), 'job total was written before failure').to.have.lengthOf(1);
+         expect(writes.filter(sql => sql.startsWith('update "customer_retainers_and_prepayments"')), 'draw was repriced before failure').to.have.lengthOf(1);
 
+         expect(await ledgerState([cust])).to.deep.equal(before);
+      });
+
+      it('a database failure after payment sync rolls back the transaction, draw, payment and job together', async () => {
+         const cust = await makeCustomer('atomic-payment-sync');
+         const job = await makeJob(cust);
+         const root = await makeRetainer(cust, 500);
+         const entry = await createEntry(cust, job, { selectedRetainerID: root.retainer_id });
+         const before = await ledgerState([cust]);
+         const update = paymentsService.updatePayment;
+         let res, during;
+         try {
+            paymentsService.updatePayment = async (trx, fields, accountId) => {
+               await update(trx, fields, accountId);
+               during = await ledgerState([cust], trx);
+               return trx.raw('SELECT 1/0'); // genuine PostgreSQL error, after every ledger write
+            };
+            res = await http.update(formFor(entry, { unitCost: 80, totalTransaction: 80 }));
+         } finally { paymentsService.updatePayment = update; }
+         expectEnvelopeRefused(res, /division by zero/, 'updateTransaction after payment sync');
+         expect(during, 'payment sync must actually complete before failure').to.exist;
+         expect(num(during.transactions[0].total_transaction)).to.equal(80);
+         expect(during.retainers.map(r => num(r.current_amount))).to.deep.equal([-500, -420]);
+         expect(during.payments.map(r => num(r.payment_amount))).to.deep.equal([-80]);
+         expect(during.jobs.map(r => num(r.current_job_total))).to.deep.equal([0, 50, 80]);
          expect(await ledgerState([cust])).to.deep.equal(before);
       });
 

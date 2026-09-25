@@ -101,11 +101,11 @@ const ALL_KEYS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
 // ── EXPECTED LEDGER (hand-computed; see the entries each step makes) ──────────
 // Month 1
-//   A  time 1.25h×200=250 + 0.5h×100=50 + charge 45 (+ 0.75h×150=112.50 NON-billable) → 345
+//   A  time 1.2h×200=240 + 0.5h×100=50 + charge 55 (+ 0.8h×150=120 NON-billable) → 345
 //   B  2h×150=300 + 3.5h×100=350 + charge 30 → 680
 //   C  2h×150=300 retainer-funded (payment -300) + 1h×200=200 → charges 500, payments -300, due 200; retainer 1000-300=700
 //   D  2h×150=300 − job write-down 50 + charge 75 → 325
-//   E  4h×100=400 + 0.25h×200=50 (left unbilled)           F  1.5h×200=300 (left unbilled) + $40 write-down on a job with no time (credited on F's first statement)
+//   E  4h×100=400 + 0.5h×100=50 (left unbilled)           F  1.5h×200=300 (left unbilled) + $40 write-down on a job with no time (credited on F's first statement)
 const M1 = {
    A: { bb: 0, charges: 345, payments: 0, writeoffs: 0, retainers: 0, total: 345 },
    B: { bb: 0, charges: 680, payments: 0, writeoffs: 0, retainers: 0, total: 680 },
@@ -399,7 +399,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
          fs.unlinkSync(file);
       }
    };
-   const pdfNameFor = key => `${CUST[key].display.replace(/ /g, '_')}.pdf`;
+   const pdfNameFor = key => `${CUST[key].display.replace(/ /g, '_')}_customer_${CUST[key].id}.pdf`;
    const csvRowFor = (key, exp) => `${CUST[key].id},${CUST[key].display.replace(/,/g, '')},${exp.bb},${exp.payments},${exp.charges},${exp.writeoffs},${exp.retainers},${exp.total}`;
 
    // Record the newest parent statement of each customer under a slot name
@@ -433,6 +433,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       expect(pdf, `${key}: ${pdfNameFor(key)} in the run zip (${Object.keys(files).join(', ')})`).to.exist;
       const text = pdfText(pdf);
       expect(text, `${key}: PDF invoice number`).to.include(number);
+      expect(text, `${key}: beginning balance has one outstanding column`).to.include('Beginning Balance Invoice Date Invoice Outstanding');
       expect(text, `${key}: PDF Bill To`).to.include(`Bill To: ${CUST[key].billTo}`);
       expect(text, `${key}: PDF beginning balance`).to.include(`Beginning Balance: ${fmt(exp.bb)}`);
       expect(text, `${key}: PDF new charges`).to.include(`Total New Charges: ${fmt(exp.charges)}`);
@@ -535,12 +536,14 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
    // ═══════════════════════════════════════════════════════════════════════════
    // 1. month 1
    // ═══════════════════════════════════════════════════════════════════════════
-   it('1a. month-1 work: quarter hours at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs', async () => {
-      await logEntry('a1', 'A', { type: 'Time', qty: 1.25, rate: SA.rate, user: SA, jobId: CUST.A.jobs.form1040, desc: 'Return preparation', date: daysAgo(9) });
+   it('1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs', async () => {
+      // F11: direct Time entry now enforces the same six-minute increments as
+      // ingestion. Keep the hand-computed statement balances unchanged.
+      await logEntry('a1', 'A', { type: 'Time', qty: 1.2, rate: SA.rate, user: SA, jobId: CUST.A.jobs.form1040, desc: 'Return preparation', date: daysAgo(9) });
       await logEntry('a2', 'A', { type: 'Time', qty: 0.5, rate: STAFF.rate, user: STAFF, jobId: CUST.A.jobs.form1040, desc: 'Document intake', date: daysAgo(8) });
-      await logEntry('a3', 'A', { type: 'Charge', qty: 1, rate: 45, user: SA, jobId: CUST.A.jobs.form1040, desc: 'E-file fee', date: daysAgo(7) });
-      await logEntry('a4', 'A', { type: 'Time', qty: 0.75, rate: ADMIN.rate, user: ADMIN, jobId: CUST.A.jobs.form1040, desc: 'Internal review (no charge)', billable: false, date: daysAgo(6) });
-      expect(await jobFamilyTotal(CUST.A.jobs.form1040), 'job totals include non-billable work').to.equal(457.5);
+      await logEntry('a3', 'A', { type: 'Charge', qty: 1, rate: 55, user: SA, jobId: CUST.A.jobs.form1040, desc: 'E-file fee', date: daysAgo(7) });
+      await logEntry('a4', 'A', { type: 'Time', qty: 0.8, rate: ADMIN.rate, user: ADMIN, jobId: CUST.A.jobs.form1040, desc: 'Internal review (no charge)', billable: false, date: daysAgo(6) });
+      expect(await jobFamilyTotal(CUST.A.jobs.form1040), 'job totals include non-billable work').to.equal(465);
 
       await logEntry('b1', 'B', { type: 'Time', qty: 2, rate: ADMIN.rate, user: ADMIN, jobId: CUST.B.jobs.form1120s, desc: 'S-corp return', date: daysAgo(9) });
       await logEntry('b2', 'B', { type: 'Time', qty: 3.5, rate: STAFF.rate, user: STAFF, jobId: CUST.B.jobs.bookkeeping, desc: 'Monthly reconciliation', date: daysAgo(8) });
@@ -565,7 +568,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       await logEntry('d2', 'D', { type: 'Charge', qty: 1, rate: 75, user: SA, jobId: CUST.D.jobs.payroll, desc: 'Payroll filing', date: daysAgo(7) });
 
       await logEntry('e1', 'E', { type: 'Time', qty: 4, rate: STAFF.rate, user: STAFF, jobId: CUST.E.jobs.bookkeeping, desc: 'Books cleanup', date: daysAgo(9) });
-      await logEntry('e2', 'E', { type: 'Time', qty: 0.25, rate: SA.rate, user: SA, jobId: CUST.E.jobs.bookkeeping, desc: 'Quarter-hour call', date: daysAgo(8) });
+      await logEntry('e2', 'E', { type: 'Time', qty: 0.5, rate: STAFF.rate, user: STAFF, jobId: CUST.E.jobs.bookkeeping, desc: 'Half-hour call', date: daysAgo(8) });
 
       await logEntry('f1', 'F', { type: 'Time', qty: 1.5, rate: SA.rate, user: SA, jobId: CUST.F.jobs.form1040, desc: 'Return preparation', date: daysAgo(9) });
       // Job-level write-down on a job with NO time (see the DEFECT test in month 3).
@@ -630,8 +633,8 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       }
       expect((await paymentRow(payment.c1)).customer_invoice_id, 'retainer payment stamped with C1').to.equal(invoice.C1.customer_invoice_id);
       const a1 = await txnRow(txn.a1);
-      expect(num(a1.quantity), 'fractional hours survive the statement').to.equal(1.25);
-      expect(num(a1.total_transaction)).to.equal(250);
+      expect(num(a1.quantity), 'fractional hours survive the statement').to.equal(1.2);
+      expect(num(a1.total_transaction)).to.equal(240);
       // E and F untouched and still eligible
       for (const key of ['e1', 'e2', 'f1']) expect((await txnRow(txn[key])).customer_invoice_id, `${key} still unbilled`).to.equal(null);
       const eligible = await accountsWithBalance();
@@ -753,7 +756,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       expectRefused(await put(`/transactions/updateTransaction/${A}/${SA.id}`, { transaction: editPayload(a1, { quantity: 9, totalTransaction: '1800.00' }) }), 'edit billed transaction', 'attached to an invoice and cannot be updated');
       expectRefused(await del(`/transactions/deleteTransaction/${A}/${SA.id}`, { transaction: editPayload(a1) }), 'delete billed transaction', 'attached to an invoice and cannot be deleted');
       const a1After = await txnRow(txn.a1);
-      expect(num(a1After.quantity)).to.equal(1.25);
+      expect(num(a1After.quantity)).to.equal(1.2);
       expect(a1After.customer_invoice_id).to.equal(invoice.A1.customer_invoice_id);
 
       // Unbilled edit: 4h → 4.5h, job total follows.
@@ -906,14 +909,14 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       expect(csvLines).to.have.lengthOf(6);
 
       await expectStatement('A', M2.A, { number: invNo(5), files, csvLines, pdfExtras: ['Total Payments Received: -345.00 (reflected in Beginning Balance above)'] });
-      await expectStatement('B', M2.B, { number: invNo(6), files, csvLines, pdfExtras: [`${invoice.B1.invoice_number} 280.00 280.00`, 'Total Payments Received: -400.00 (reflected in Beginning Balance above)'] });
+      await expectStatement('B', M2.B, { number: invNo(6), files, csvLines, pdfExtras: [`${invoice.B1.invoice_number} 280.00`, 'Total Payments Received: -400.00 (reflected in Beginning Balance above)'] });
       await expectStatement('C', M2.C, {
          number: invNo(7),
          files,
          csvLines,
          pdfExtras: [`Retainer/ Pre-Payment Total: ${fmt(M2.C.retainers)}`, `Invoice Total Before Retainer/ Pre-Payment: ${fmt(M2.C.total)}`, 'Retainer/ Pre-Payment Applied to Invoice: 0.00', `Remaining Retainer/ Pre-Payment: ${fmt(M2.C.retainers)}`, 'Total Payments Received: -200.00 (reflected in Beginning Balance above)']
       });
-      await expectStatement('D', M2.D, { number: invNo(8), files, csvLines, pdfExtras: [`${invoice.D1.invoice_number} 300.00 300.00`, 'Total Revisions: -25.00 (reflected in invoice balance)'] });
+      await expectStatement('D', M2.D, { number: invNo(8), files, csvLines, pdfExtras: [`${invoice.D1.invoice_number} 300.00`, 'Total Revisions: -25.00 (reflected in invoice balance)'] });
       await expectStatement('E', M2.E, { number: invNo(9), files, csvLines });
       expect(ymd(invoice.B2.start_date), 'statement period starts at the prior statement').to.equal(ymd(invoice.B1.invoice_date));
       expect(ymd(invoice.E1.start_date), "E's first statement starts today").to.equal(todayBilling());
@@ -1010,10 +1013,10 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       const csvLines = files['Monthly_CSV_Report.csv'].toString('utf8').split('\n');
       expect(csvLines).to.have.lengthOf(6);
 
-      await expectStatement('A', M3.A, { number: invNo(10), files, csvLines, pdfExtras: [`${invoice.A2.invoice_number} 200.00 200.00`] });
-      await expectStatement('B', M3.B, { number: invNo(11), files, csvLines, pdfExtras: [`${invoice.B2.invoice_number} 380.00 380.00`, 'Total Payments Received: -100.00 (reflected in Beginning Balance above)'] });
+      await expectStatement('A', M3.A, { number: invNo(10), files, csvLines, pdfExtras: [`${invoice.A2.invoice_number} 200.00`] });
+      await expectStatement('B', M3.B, { number: invNo(11), files, csvLines, pdfExtras: [`${invoice.B2.invoice_number} 380.00`, 'Total Payments Received: -100.00 (reflected in Beginning Balance above)'] });
       await expectStatement('C', M3.C, { number: invNo(12), files, csvLines, pdfExtras: [`Retainer/ Pre-Payment Total: ${fmt(M3.C.retainers)}`, `Invoice Total Before Retainer/ Pre-Payment: ${fmt(M3.C.total)}`, `Remaining Retainer/ Pre-Payment: ${fmt(M3.C.retainers)}`] });
-      await expectStatement('D', M3.D, { number: invNo(13), files, csvLines, pdfExtras: [`${invoice.D2.invoice_number} 350.00 350.00`, 'Total New Charges: 0.00'] });
+      await expectStatement('D', M3.D, { number: invNo(13), files, csvLines, pdfExtras: [`${invoice.D2.invoice_number} 350.00`, 'Total New Charges: 0.00'] });
       await expectStatement('F', M3.F, { number: invNo(14), files, csvLines });
       expect(await parentsFor(CUST.E.id).then(rows => rows.length), 'no month-3 statement for E').to.equal(1);
       expect((await txnRow(txn.e4)).customer_invoice_id, "E's work stays unbilled").to.equal(null);
@@ -1057,7 +1060,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       const files = await downloadZip(rebill.fileLocation);
       const csvLines = files['Monthly_CSV_Report.csv'].toString('utf8').split('\n');
       const rebillExp = { bb: M3.B.total, charges: 0, payments: 0, writeoffs: 0, retainers: 0, total: M3.B.total };
-      await expectStatement('B', rebillExp, { number: invNo(15), files, csvLines, pdfExtras: [`${invoice.B3.invoice_number} 530.00 530.00`, 'Total New Charges: 0.00'] });
+      await expectStatement('B', rebillExp, { number: invNo(15), files, csvLines, pdfExtras: [`${invoice.B3.invoice_number} 530.00`, 'Total New Charges: 0.00'] });
       const b3 = await invoiceRow(invoice.B3.customer_invoice_id);
       expect(num(b3.remaining_balance_on_invoice), 'first statement of the day absorbed').to.equal(0);
       expect(b3.notes).to.include(`[absorbed_by:${invoice.B4.invoice_number}@`);

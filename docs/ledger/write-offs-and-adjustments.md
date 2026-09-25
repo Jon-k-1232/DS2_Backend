@@ -18,7 +18,7 @@ The write-off form offers prior-invoice and current-job selections. Its help say
 
 ## 2. Access rules
 
-All documented routes require active-user authentication and role `manager`, `admin`, `super admin`, or `owner`. `enforceAccountId` requires integer URL account ID equal to the authenticated user's account. No self-or-privileged check applies to URL user ID. Creates and adjustment events use the authenticated actor; ordinary write-off edits preserve the original creator. Wrong/missing authentication returns HTTP 401; wrong account/role returns 403. Frontend `owner` exclusion is [F37](../_review/findings.md#f37). (`src/app.js:146`, `src/app.js:160`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/writeOffs/writeOffs-router.js:6`, `src/endpoints/writeOffs/writeOffs-router.js:29`, `src/endpoints/billingReview/billingReview-router.js:317`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.)
+All documented routes require active-user authentication and role `manager`, `admin`, `super admin`, or `owner`. `enforceAccountId` requires integer URL account ID equal to the authenticated user's account. No self-or-privileged check applies to URL user ID. Creates and adjustment events use the authenticated actor; ordinary write-off edits preserve the original creator. Wrong/missing authentication returns HTTP 401; wrong account/role returns 403. Frontend manager-level routes include `owner`, matching the backend (fixed [F37](../_review/findings.md#f37)). (`src/app.js:146`, `src/app.js:160`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/writeOffs/writeOffs-router.js:6`, `src/endpoints/writeOffs/writeOffs-router.js:29`, `src/endpoints/billingReview/billingReview-router.js:317`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.)
 
 ## 3. API reference
 
@@ -124,7 +124,7 @@ Create normalizes `w=-round2(abs(unitCost))`. Invoice-linked remaining becomes `
 4. When shown, the engine write-off total sums all eligible credits; the listed total sums all displayed credit rows, including current-chain credits. Thus displayed and engine totals can differ by design. (`src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:31`, `src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:49`.)
 5. When hidden, invoice-linked eligible credits remain a separate write-off contribution. Job/general credits reduce job totals. A job with no unbilled work gets an adjustment-only group; a credit with no job gets `General credit`. Nonbillable work is retained in detail but does not add charge amount. (`src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:20`, `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:52`, `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:81`.)
 6. Example: $200 work and a new -$30 job credit become $170 transaction total with hidden credits, or $200 transaction total plus -$30 write-off total when shown. With no work, the -$30 remains as an adjustment-only group. A final negative customer balance is skipped rather than finalized; credit carry-forward/credit-memo policy remains open. (`src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:20`, `src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:4`, `src/endpoints/invoice/invoice-router.js:315`.)
-7. **Actual defect:** hidden-credit grouping includes invoice-linked rows too when a job already has unbilled work. A current invoice balance $80 after a -$20 invoice/job credit, plus $100 new work on that job, gives $160 with credits hidden versus $180 shown. The -$20 is counted twice in the hidden case. A pure helper invocation reproduced this; see [F8](../_review/findings.md#f8). (`src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:52`, `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:72`.)
+7. Hidden-credit grouping excludes every invoice-linked row, including credits sharing a job with unbilled work. A current invoice balance $80 after a -$20 invoice/job credit, plus $100 new work on that job, gives $180 in both display modes. Current-chain and absorbed-chain regression cases cover the fixed [F8](../_review/findings.md#f8). (`src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:52`, `test/endpoints/invoice/review-writeoff.spec.js`.)
 
 ### Work correction / adjustment
 
@@ -140,11 +140,11 @@ Update cannot move customer/invoice or convert an uninvoiced credit to an invoic
 
 Delete a latest unbilled child-linked credit by restoring parent balance/totals, deleting its invoice child, then deleting the write-off. A parent invoice is never deleted by this path. An uninvoiced credit just deletes its own row. A legacy direct-parent link that gets past the billed guard also bypasses parent restoration and snapshot deletion. No general write-off reversal endpoint exists in this router; after billing, ordinary delete/edit is refused. (`src/endpoints/writeOffs/writeOffs-logic.js:200`, `src/endpoints/writeOffs/writeOffs-router.js:18`.)
 
-Billing-review corrections have a separate lock, validation and snapshot sequence. See [cascade edits](../invoicing/billing-review.md#cascade-edit) for that sequence and its job-family limitation. Corrections do not create write-off rows or regenerate issued PDFs.
+Billing-review corrections have a separate lock, validation and snapshot sequence. See [cascade edits](../invoicing/billing-review.md#cascade-edit) for that sequence and the shared job-family recomputation. Corrections do not create write-off rows or regenerate issued PDFs.
 
 ## 8. Invariants and tests
 
-Tests were read, not run. The [F8](../_review/findings.md#f8) calculator reproduction was a read-only pure helper check, with no database.
+The original documentation review read existing tests. F8 and F9 now have executed regression tests; see the [remediation log](../_review/fixes-F8-F22.md) for red/green evidence and final verification.
 
 | Rule | Test evidence |
 | --- | --- |
@@ -153,17 +153,19 @@ Tests were read, not run. The [F8](../_review/findings.md#f8) calculator reprodu
 | Amount edit updates child/parent; billed immutability; symmetric deletion | `test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js:1198`, `test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js:1243`, `test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js:1260`. |
 | Detail/list/pagination errors and cap | `test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js:1309`, `test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js:1354`. |
 | Exact statement timestamp and job ownership even with invoice supplied | `test/integration/payment-reversal.integration.spec.js:1540`, `test/integration/payment-reversal.integration.spec.js:1592`. |
-| Single-count engine rule | `test/endpoints/payments/payment-integrity.spec.js:23`; mixed linked-credit plus same-job work remains the counterexample in [F8](../_review/findings.md#f8). |
+| Single-count engine rule | `test/endpoints/payments/payment-integrity.spec.js:23`; `test/endpoints/invoice/review-writeoff.spec.js` covers linked credits plus same-job work in both display modes. |
 | Financial delta adjustment, paid/absorbed guards and recomputation | `test/integration/cascade-edit-recompute.integration.spec.js:1`. |
 
 ## 9. Known limitations and open decisions
 
-[F8](../_review/findings.md#f8) is a current concrete double-credit defect; [F9](../_review/findings.md#f9) is the current billing-review job-version recomputation gap. These are separate from the report's historical accountant populations. The report lists 61 write-offs for 28 customers for accountant decision, parent mirror inconsistencies, job-family total drift, and negative-credit finalization policy. This documentation neither classifies those historical customers nor applies repairs. (`scripts/review-2026-09/FINAL_REPORT.md:48`, `scripts/review-2026-09/FINAL_REPORT.md:50`, `scripts/review-2026-09/FINAL_REPORT.md:54`, `scripts/review-2026-09/FINAL_REPORT.md:56`.)
+[F8](../_review/findings.md#f8) and [F9](../_review/findings.md#f9) are fixed and regression-tested. Historical accountant populations remain separate: the report lists 61 write-offs for 28 customers for accountant decision, parent mirror inconsistencies, job-family total drift, and negative-credit finalization policy. These fixes do not classify those historical customers or repair stored financial data. (`scripts/review-2026-09/FINAL_REPORT.md:48`, `scripts/review-2026-09/FINAL_REPORT.md:50`, `scripts/review-2026-09/FINAL_REPORT.md:54`, `scripts/review-2026-09/FINAL_REPORT.md:56`.)
 
 The UI help and backend adjustment capability differ; write-off edit UI is disabled despite the API. A generalized accountant-approved method to reverse every already-billed write-off is **not determined from the code**. Period locks, adjustment-only corrections, voids and persisted billing runs remain open choices. (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/WriteOff.js:89`, `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/WriteOffSubRoutes.js:43`, `scripts/review-2026-09/FINAL_REPORT.md:59`.)
 
-Use report section 6's migration sequencing, reviewed backfills and backend-before-frontend rollout requirements. No production execution or integration tests occurred in this task. (`scripts/review-2026-09/FINAL_REPORT.md:67`.)
+Use report section 6's migration sequencing, reviewed backfills and backend-before-frontend rollout requirements. Remediation tests ran only in the local sandbox; there was no production execution. (`scripts/review-2026-09/FINAL_REPORT.md:67`.)
 
 ## Completion summary
 
 Coverage: **5 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+F8 regression: `test/endpoints/invoice/review-writeoff.spec.js` verifies same-job current-chain and absorbed-chain invoice credits count once in both shown and hidden modes (2 passing). Invoice-linked credits are excluded before all hidden job grouping.

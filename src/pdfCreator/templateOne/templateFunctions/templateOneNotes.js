@@ -1,7 +1,9 @@
 const { startContinuationPage } = require('./pdfLayoutHelpers');
 
 const createNotesSection = (doc, invoiceDetails, preferenceSettings) => {
-   const { invoiceNote, globalInvoiceNote, accountBillingInformation } = invoiceDetails;
+   const { accountBillingInformation } = invoiceDetails;
+   const invoiceNote = String(invoiceDetails.invoiceNote ?? '');
+   const globalInvoiceNote = String(invoiceDetails.globalInvoiceNote ?? '');
    const { account_statement, account_interest_statement } = accountBillingInformation;
    const { normalFont, boldFont, lineHeight, leftMargin, rightMargin, pageWidth } = preferenceSettings;
 
@@ -69,7 +71,7 @@ const createNotesSection = (doc, invoiceDetails, preferenceSettings) => {
 
    drawBlock(account_statement);
 
-   if (invoiceNote) {
+   if (invoiceNote || globalInvoiceNote) {
       y += lineHeight;
 
       // Keep the "Notes" heading together with at least one line of what

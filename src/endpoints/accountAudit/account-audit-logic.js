@@ -1,3 +1,4 @@
+const { billingDateToday } = require('../invoice/billingDate');
 // Independent audit engine.
 //
 // This intentionally does NOT share code with invoice-service / postInvoiceCreation.
@@ -670,7 +671,7 @@ const summarizeRetainers = retainers => {
    };
 };
 
-const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transactions, retainers = [] }) => {
+const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transactions, retainers = [], billingDate = billingDateToday() }) => {
    const chains = buildInvoiceChains(invoices);
    const invoiceBreakdown = [];
    chains.forEach(chain => {
@@ -835,7 +836,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
    const unbilledByJob = {};
    let unbilled_billable_on_jobs = 0;
    transactions
-      .filter(t => !t.customer_invoice_id && t.customer_job_id)
+      .filter(t => !t.customer_invoice_id && t.customer_job_id && (!t.transaction_date || fmtDate(t.transaction_date) <= billingDate))
       .forEach(t => {
          if (!(t.customer_job_id in unbilledByJob)) unbilledByJob[t.customer_job_id] = 0;
          if (t.is_transaction_billable) {
@@ -1002,7 +1003,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          description:
             'Independent recomputation from raw customer_invoices, customer_payments, customer_writeoffs, and customer_transactions rows. Does not share code with the app balance engine.',
          audit_balance_formula:
-            'outstanding_invoices (latest-snapshot remaining of every parent chain dated on the newest statement date — the rolling-balance view; older parents whose balance was absorbed by a newer invoice\'s beginning_balance are flagged as stale_rolled_forward_balance discrepancies and NOT double-counted) + unbilled_billable_on_jobs - job_writeoffs_netted - adjustment_writeoffs (pending write-offs with no unbilled work on their job, or no job) - unbilled_payments - invoice_linked_writeoffs_recent. "Since the last statement" means created_at later than the newest statement row\'s created_at (the billing engine\'s statement gate), so bill-day entries made before the run are not counted twice. The printed lines are totals.audit_balance_lines.',
+            'outstanding_invoices (latest-snapshot remaining of every parent chain dated on the newest statement date — the rolling-balance view; older parents whose balance was absorbed by a newer invoice\'s beginning_balance are flagged as stale_rolled_forward_balance discrepancies and NOT double-counted) + unbilled_billable_on_jobs (through the billing date) - job_writeoffs_netted - adjustment_writeoffs (pending write-offs with no unbilled work on their job, or no job) - unbilled_payments - invoice_linked_writeoffs_recent. "Since the last statement" means created_at later than the newest statement row\'s created_at (the billing engine\'s statement gate), so bill-day entries made before the run are not counted twice. The printed lines are totals.audit_balance_lines.',
          strict_ledger_formula:
             'audit_balance - unbilled_writeoffs, where unbilled_writeoffs = write-offs entered since the last statement that the next bill will not apply. The billing engine applies every pending write-off (netted into its job\'s unbilled work or credited as an adjustment-only line), so this is currently 0 and the strict ledger equals the audit balance.',
          net_position_formula:

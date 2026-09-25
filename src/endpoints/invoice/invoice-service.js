@@ -1,3 +1,4 @@
+const { billingDateToday } = require('./billingDate');
 /**
  * Restrict a payments / write-offs sub-query to rows NOT yet reflected on the
  * customer's newest statement.
@@ -252,15 +253,15 @@ const invoiceService = {
    // billings (e.g. Wild West Jeep Tours tx#24719 — a $320 tax notice from
    // 2025-12-04 that was never picked up by the 2026-04-07 invoice).
    //
-   // New behavior: pull EVERY unbilled transaction for the customer, regardless
-   // of date.  The date filter was acting as a stealth bug: if a transaction
+   // New behavior: pull unbilled transactions through the billing date, with no lower
+   // date bound.  The date filter was acting as a stealth bug: if a transaction
    // got missed in one billing cycle, it would never bill at all because
    // every subsequent lastBillDate moved further ahead of its created_at.
    //
    // Non-billable transactions are still ignored downstream by
    // groupAndTotalTransactions (filters on is_transaction_billable), so this
    // change cannot cause non-billable work to start charging.
-   async getTransactionsByCustomerID(db, accountID, customerIDs /* lastBillDateLookup unused */) {
+   async getTransactionsByCustomerID(db, accountID, customerIDs, lastBillDateLookup, { billingDate = billingDateToday() } = {}) {
       // IMPORTANT column ordering: customer_transactions.* must come LAST so
       // its customer_id wins the duplicate-column race against customer_jobs.*.
       // Without this, a transaction linked to a job that belongs to a DIFFERENT
@@ -275,7 +276,8 @@ const invoiceService = {
          .select('customer_jobs.*', 'customer_job_types.*', 'customer_transactions.*')
          .where('customer_transactions.account_id', accountID)
          .whereIn('customer_transactions.customer_id', customerIDs)
-         .whereNull('customer_transactions.customer_invoice_id');
+         .whereNull('customer_transactions.customer_invoice_id')
+         .where('customer_transactions.transaction_date', '<=', billingDate);
 
       return data.reduce((result, transaction) => {
          const { customer_id } = transaction;

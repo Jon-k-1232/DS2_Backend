@@ -15,7 +15,7 @@ const restoreDataTypesQuotesTableOnUpdate = data => ({
   customer_job_id: Number(data.customer_job_id),
   amount_quoted: Number(data.amount_quoted),
   is_quote_active: Boolean(data.is_quote_active),
-  created_by_user_id: Number(data.created_by_user_id),
+
   notes: data.notes
 });
 

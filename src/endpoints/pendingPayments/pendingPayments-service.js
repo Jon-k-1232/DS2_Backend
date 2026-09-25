@@ -1,5 +1,11 @@
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 
+// source_file retains the legacy per-receipt dedup token. Physical file
+// identity strips only its reserved trailing duplicate suffix, including old rows.
+const DUPLICATE_SUFFIX = /#dup[0-9]+(?:-ref.*)?$/;
+const canonicalSourceFile = value => String(value || '').replace(DUPLICATE_SUFFIX, '');
+const SOURCE_FILE_SQL = "regexp_replace(source_file, '#dup[0-9]+(-ref.*){0,1}$', '')";
+
 const PAYMENTS_PENDING_PREFIX = 'James_F__Kimmel___Associates/payments/processing_pending';
 const PAYMENTS_PROCESSED_PREFIX = 'James_F__Kimmel___Associates/payments/processed_payments';
 
@@ -21,6 +27,8 @@ const PAYMENTS_AUTOMATION_ACCOUNT_ID = 1;
 const buildBaseQuery = (db, accountID) => {
    return db
       .select('customer_payments_processed.*')
+      .select(db.raw(`${SOURCE_FILE_SQL} as source_file`))
+      .select('customer_payments_processed.source_file as source_reference')
       .from('customer_payments_processed')
       .where('customer_payments_processed.account_id', accountID);
 };
@@ -100,7 +108,7 @@ const pendingPaymentsService = {
 
    softDeletePendingPayment(db, paymentID, accountID) {
       return db('customer_payments_processed')
-         .where({ payment_id: paymentID, account_id: accountID })
+         .where({ payment_id: paymentID, account_id: accountID, is_payment_processed: false, deleted: false })
          .update({ deleted: true })
          .returning('*')
          .then(rows => rows[0]);
@@ -133,30 +141,34 @@ const pendingPaymentsService = {
          .first();
    },
 
+   lockSourceFile(trx, sourceFile, accountID) {
+      return trx('customer_payments_processed').whereRaw(`${SOURCE_FILE_SQL} = ?`, [canonicalSourceFile(sourceFile)]).where({ account_id: accountID }).orderBy('payment_id').forUpdate();
+   },
+
    softDeleteBySourceFile(db, sourceFile, accountID) {
       return db('customer_payments_processed')
-         .where({ source_file: sourceFile, account_id: accountID, is_payment_processed: false })
+         .whereRaw(`${SOURCE_FILE_SQL} = ?`, [canonicalSourceFile(sourceFile)]).where({ account_id: accountID, is_payment_processed: false })
          .update({ deleted: true })
          .returning('*');
    },
 
    async hasProcessedPaymentsForFile(db, sourceFile, accountID) {
       const [result] = await db('customer_payments_processed')
-         .where({ source_file: sourceFile, account_id: accountID, is_payment_processed: true })
+         .whereRaw(`${SOURCE_FILE_SQL} = ?`, [canonicalSourceFile(sourceFile)]).where({ account_id: accountID, is_payment_processed: true })
          .count({ count: '*' });
       return Number(result?.count || 0) > 0;
    },
 
    async getDistinctSourceFiles(db, accountID) {
       return db('customer_payments_processed')
-         .select('source_file')
+         .select(db.raw(`${SOURCE_FILE_SQL} as source_file`))
          .select(db.raw('MIN(created_at) as uploaded_at'))
          .select(db.raw('COUNT(*) as payment_count'))
          .select(db.raw('SUM(CASE WHEN is_payment_processed = true THEN 1 ELSE 0 END) as processed_count'))
          .select(db.raw('bool_or(is_payment_processed) as has_processed'))
          .where({ account_id: accountID, deleted: false })
          .whereNot('source_file', '')
-         .groupBy('source_file')
+         .groupByRaw(SOURCE_FILE_SQL)
          .orderBy('uploaded_at', 'desc');
    },
 
@@ -181,13 +193,13 @@ const pendingPaymentsService = {
     * deliberately indistinguishable, so a 404 built on this never tells a
     * caller which case they hit.
     */
-   async accountOwnsSourceFile(db, sourceFile, accountID) {
-      const row = await db('customer_payments_processed')
+   async accountOwnsSourceFile(db, sourceFile, accountID, { includeDeleted = true } = {}) {
+      const query = db('customer_payments_processed')
          .select('payment_id')
-         .where({ source_file: sourceFile, account_id: accountID })
-         .first();
-      return Boolean(row);
+         .whereRaw(`${SOURCE_FILE_SQL} = ?`, [canonicalSourceFile(sourceFile)]).where({ account_id: accountID });
+      if (!includeDeleted) query.andWhere('deleted', false);
+      return Boolean(await query.first());
    }
 };
 
-module.exports = { pendingPaymentsService, PAYMENTS_PENDING_PREFIX, PAYMENTS_PROCESSED_PREFIX, PAYMENTS_AUTOMATION_ACCOUNT_ID };
+module.exports = { canonicalSourceFile, pendingPaymentsService, PAYMENTS_PENDING_PREFIX, PAYMENTS_PROCESSED_PREFIX, PAYMENTS_AUTOMATION_ACCOUNT_ID };

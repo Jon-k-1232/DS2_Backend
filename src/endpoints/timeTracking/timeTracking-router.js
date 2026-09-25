@@ -667,11 +667,11 @@ timeTrackingRouter.post(
             }
          }
 
-         const staffRecords = await timeTrackerStaffService.listActiveEmailsByAccount(db, accountIdNumber);
-         const billingStaffEmails = staffRecords.map(record => record.email).filter(Boolean);
-
+         let billingStaffEmails = [];
          let staffNotifiedCount = 0;
          try {
+            const staffRecords = await timeTrackerStaffService.listActiveEmailsByAccount(db, accountIdNumber);
+            billingStaffEmails = staffRecords.map(record => record.email).filter(Boolean);
             const info = await sendValidationSuccessEmail({
                billingStaffEmails,
                userRecord,
@@ -1349,12 +1349,12 @@ timeTrackingRouter.post(
       }
       const extension = resolveExtension(decodedOriginalName, fileTypeHeader) || '.xlsx';
       const timestamp = formatTimestamp();
-      const storedFileName = `timeTracker_${timestamp}${extension}`;
+      const storedFileName = `timeTracker_${timestamp}_${crypto.randomUUID()}${extension}`;
       const s3Key = `${TRACKER_VERSIONS_ROOT}/${storedFileName}`;
 
       await putObject(s3Key, req.body, fileTypeHeader || 'application/octet-stream', {
          'original-filename': encodeURIComponent(decodedOriginalName)
-      });
+      }, { ifNoneMatch: '*' });
 
       res.status(201).json({
          message: 'Tracker template uploaded successfully.',

@@ -1,4 +1,11 @@
 const jobService = {
+   // Input is ordered in SQL by the job timestamp, then ID (including sub-ms precision).
+   latestFamilyVersions(jobs) {
+      const families = new Map();
+      for (const job of jobs) families.set(job.parent_job_id || job.customer_job_id, job);
+      return [...families.values()];
+   },
+
    createJob(db, newJob) {
       return db
          .insert(newJob)
@@ -23,30 +30,54 @@ const jobService = {
       return db
          .select(
             'customer_jobs.*',
-            'customer_job_types.*',
+            'customer_job_types.job_description',
+            'customer_job_types.customer_job_category_id',
+            'customer_job_types.is_job_type_active',
+            'customer_job_types.estimated_straight_time',
+            'customer_job_types.book_rate',
             'customer_job_categories.customer_job_category',
             db.raw('customers.display_name as customer_name'),
             db.raw('users.display_name as created_by_user')
          )
          .from('customer_jobs')
-         .join('customer_job_types', 'customer_jobs.job_type_id', 'customer_job_types.job_type_id')
-         .join('customer_job_categories', 'customer_job_types.customer_job_category_id', 'customer_job_categories.customer_job_category_id')
-         .join('customers', 'customer_jobs.customer_id', 'customers.customer_id')
-         .join('users', 'customer_jobs.created_by_user_id', 'users.user_id')
+         .join('customer_job_types', function () {
+         this.on('customer_jobs.job_type_id', '=', 'customer_job_types.job_type_id')
+            .andOn('customer_job_types.account_id', '=', 'customer_jobs.account_id');
+      })
+         .join('customer_job_categories', function () {
+         this.on('customer_job_types.customer_job_category_id', '=', 'customer_job_categories.customer_job_category_id')
+            .andOn('customer_job_categories.account_id', '=', 'customer_job_types.account_id');
+      })
+         .join('customers', function () {
+         this.on('customer_jobs.customer_id', '=', 'customers.customer_id')
+            .andOn('customers.account_id', '=', 'customer_jobs.account_id');
+      })
+         .join('users', function () {
+         this.on('customer_jobs.created_by_user_id', '=', 'users.user_id')
+            .andOn('users.account_id', '=', 'customer_jobs.account_id');
+      })
          .where('customer_jobs.account_id', accountID)
-         .orderBy('customer_jobs.created_at', 'asc');
+         .orderBy('customer_jobs.created_at', 'asc')
+         .orderBy('customer_jobs.customer_job_id', 'asc');
    },
 
    // !! Must be in asc order, oldest to newest.
    getActiveCustomerJobs(db, accountID, customerID) {
       return db
-         .select()
+         .select('customer_jobs.*', 'customer_job_types.job_description', 'customer_job_types.customer_job_category_id', 'customer_job_categories.customer_job_category')
          .from('customer_jobs')
          .where('customer_jobs.account_id', accountID)
          .andWhere('customer_jobs.customer_id', customerID)
-         .join('customer_job_types', 'customer_jobs.job_type_id', 'customer_job_types.job_type_id')
-         .join('customer_job_categories', 'customer_job_types.customer_job_category_id', 'customer_job_categories.customer_job_category_id')
-         .orderBy('customer_jobs.created_at', 'asc');
+         .join('customer_job_types', function () {
+         this.on('customer_jobs.job_type_id', '=', 'customer_job_types.job_type_id')
+            .andOn('customer_job_types.account_id', '=', 'customer_jobs.account_id');
+      })
+         .join('customer_job_categories', function () {
+         this.on('customer_job_types.customer_job_category_id', '=', 'customer_job_categories.customer_job_category_id')
+            .andOn('customer_job_categories.account_id', '=', 'customer_job_types.account_id');
+      })
+         .orderBy('customer_jobs.created_at', 'asc')
+         .orderBy('customer_jobs.customer_job_id', 'asc');
    },
 
    updateJob(db, updatedJob, accountId) {
@@ -103,9 +134,11 @@ const jobService = {
     * @param {*} jobId
     * @returns
     */
-   getRecentJob(db, jobId, accountID) {
-      return db
+   async getRecentJob(db, jobId, accountID) {
+      const familyIds = await jobService.getJobFamilyIds(db, jobId, accountID);
+      const recent = await db
          .select(
+            'customer_job_id',
             'parent_job_id',
             'account_id',
             'customer_id',
@@ -120,11 +153,15 @@ const jobService = {
             'notes'
          )
          .from('customer_jobs')
-         .where('customer_job_id', jobId)
+         .whereIn('customer_job_id', familyIds)
          .andWhere('account_id', accountID)
          .orderBy('created_at', 'desc')
+         .orderBy('customer_job_id', 'desc')
          .limit(1)
          .first();
+      if (!recent) return undefined;
+      const { customer_job_id, ...metadata } = recent;
+      return { ...metadata, parent_job_id: recent.parent_job_id || customer_job_id };
    }
 };
 

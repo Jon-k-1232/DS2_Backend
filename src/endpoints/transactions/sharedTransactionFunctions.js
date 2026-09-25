@@ -1,3 +1,6 @@
+const internalCustomers = require('../timesheets/internal-customers');
+const { validateTransactionPrice } = require('./transactionPricing');
+const { requireAccountRow } = require('../../utils/relatedAccount');
 const dayjs = require('dayjs');
 const transactionsService = require('./transactions-service');
 const retainerService = require('../retainer/retainer-service');
@@ -475,7 +478,7 @@ const updateRecentJobTotal = async (db, customerJobID, accountID, transactionTot
    const parentJobID = !parent_job_id ? customerJobID : parent_job_id;
 
    // Create new object with updated job total
-   const updatedJob = { ...recentJob, parent_job_id: parentJobID, current_job_total: updatedJobAmount };
+   const updatedJob = { ...recentJob, parent_job_id: parentJobID, current_job_total: updatedJobAmount, created_at: ledgerNow(db) };
 
    // Post new Job record
    return jobService.createJob(db, updatedJob);
@@ -583,17 +586,29 @@ const recordCategoryTrainingExample = async (trx, input, created) => {
  * @param {*} sanitizedNewTransaction - camelCase form body (see restoreDataTypesTransactionsTableOnCreate)
  * @returns the created customer_transactions row
  */
+const applyBillabilityPolicy = async (trx, fields) => {
+   if (!fields.is_transaction_billable) return;
+   const customer = await trx('customers').where({ account_id: fields.account_id, customer_id: fields.customer_id }).first();
+   if (!customer || customer.is_billable === false || await internalCustomers.isInternalCustomer(trx, fields.account_id, fields.customer_id)) {
+      fields.is_transaction_billable = false;
+   }
+};
+
 const addNewTransaction = async (db, sanitizedNewTransaction) => {
    // Parse before taking any lock (pure; the transaction_type normaliser
    // throws on bad input). A new entry is never already billed: the invoice
    // link is set only by finalize.
-   const fields = { ...restoreDataTypesTransactionsTableOnCreate(sanitizedNewTransaction || {}), customer_invoice_id: null };
+   const fields = { ...restoreDataTypesTransactionsTableOnCreate(validateTransactionPrice(sanitizedNewTransaction || {})), customer_invoice_id: null };
 
    return withTransaction(db, async trx => {
-      const { account_id, customer_id, customer_job_id, retainer_id, is_transaction_billable } = fields;
+      const { account_id, customer_id, customer_job_id, retainer_id } = fields;
       const amount = round2(fields.total_transaction);
 
       await lockTransactionLedger(trx, account_id, customer_id);
+      await applyBillabilityPolicy(trx, fields);
+
+      await requireAccountRow(trx, 'users', 'user_id', fields.logged_for_user_id, fields.account_id, 'Employee');
+      await requireAccountRow(trx, 'customer_general_work_descriptions', 'general_work_description_id', fields.general_work_description_id, fields.account_id, 'Work description');
 
       // Cross-customer job guard - refuse before any writes happen.
       await assertJobBelongsToCustomer(trx, customer_job_id, customer_id, account_id);
@@ -601,7 +616,7 @@ const addNewTransaction = async (db, sanitizedNewTransaction) => {
       // A NON-billable (or $0) entry never draws on a retainer - there is no
       // charge for it to fund. Ownership + balance are validated before any write.
       const drawPlan =
-         retainer_id && is_transaction_billable && amount > 0 ? await planRetainerDraw(trx, { accountId: account_id, customerId: customer_id, retainerId: retainer_id, amount }) : null;
+         retainer_id && fields.is_transaction_billable && amount > 0 ? await planRetainerDraw(trx, { accountId: account_id, customerId: customer_id, retainerId: retainer_id, amount }) : null;
 
       await updateRecentJobTotal(trx, customer_job_id, account_id, fields.total_transaction);
 
@@ -633,7 +648,7 @@ const addNewTransaction = async (db, sanitizedNewTransaction) => {
  *    entirely so an edit can never overwrite the original creator.
  */
 const updateTransactionCore = async (db, { accountId, transaction, actorId }) => {
-   const fields = { ...restoreDataTypesTransactionsTableOnUpdate(transaction || {}), account_id: Number(accountId) };
+   const fields = { ...restoreDataTypesTransactionsTableOnUpdate(validateTransactionPrice(transaction || {})), account_id: Number(accountId) };
 
    return withTransaction(db, async trx => {
       const accountID = fields.account_id;
@@ -647,8 +662,13 @@ const updateTransactionCore = async (db, { accountId, transaction, actorId }) =>
       // If the STORED transaction is attached to an invoice, do not allow update.
       if (stored.customer_invoice_id) throw ruleError('Transaction is attached to an invoice and cannot be updated.', 423);
 
+      await requireAccountRow(trx, 'users', 'user_id', fields.logged_for_user_id, fields.account_id, 'Employee');
+      await requireAccountRow(trx, 'customer_general_work_descriptions', 'general_work_description_id', fields.general_work_description_id, fields.account_id, 'Work description');
+
       // Cross-customer job guard - refuse before any writes happen.
       await assertJobBelongsToCustomer(trx, fields.customer_job_id, fields.customer_id, accountID);
+
+      await applyBillabilityPolicy(trx, fields);
 
       const customerID = Number(stored.customer_id);
       const oldTotal = round2(stored.total_transaction);
@@ -756,7 +776,7 @@ const updateTransactionCore = async (db, { accountId, transaction, actorId }) =>
  *    transaction's own creator for internal callers with no request identity.
  */
 const deleteTransactionCore = async (db, { accountId, transaction, actorId }) => {
-   const fields = { ...restoreDataTypesTransactionsTableOnUpdate(transaction || {}), account_id: Number(accountId) };
+   const fields = { ...restoreDataTypesTransactionsTableOnUpdate(validateTransactionPrice(transaction || {})), account_id: Number(accountId) };
 
    return withTransaction(db, async trx => {
       const accountID = fields.account_id;

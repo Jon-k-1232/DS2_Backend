@@ -13,8 +13,8 @@
  * Sign conventions (DS2_REVIEW_CONTEXT.md): customer_payments.payment_amount,
  * customer_writeoffs.writeoff_amount and retainer current/starting_amount are
  * stored NEGATIVE (credits). customer_transactions.quantity is hours;
- * total_transaction is always stored as Math.abs(...) (positive); unit_cost is
- * stored as sent (can be negative for a credit-style charge).
+ * direct transaction pricing is finite and nonnegative. Historical rows can
+ * still contain a negative unit_cost; CSV export must preserve those numbers.
  *
  * ROLE GATE: matching /invoices and /accountsReceivable, the /transactions,
  * /retainers and /writeOffs routers are mounted with requireAuth AND
@@ -757,8 +757,12 @@ describe('integration: transactions / retainers / write-offs route coverage', fu
       it('happy path: CSV has the header row, and a negative unit_cost stays intact', async () => {
          const cust = await makeCustomer('txn-export');
          const jobId = await makeJob(cust);
-         await h.as('admin').post(routes.createTransaction()).send({ transaction: txnPayload(cust, jobId, { quantity: 1, unitCost: -18.75, totalTransaction: '-18.75' }) });
+         // F11 correctly disallows new negative-rate work. Seed a historical
+         // row through the DB so this remains an export-format regression.
+         expectEnvelopeOk(await h.as('admin').post(routes.createTransaction()).send({ transaction: txnPayload(cust, jobId, { quantity: 1, unitCost: 18.75, totalTransaction: '18.75' }) }));
          const created = await latestTxnFor(cust.customerId);
+         expect(created, 'valid transaction was created before the historical fixture edit').to.exist;
+         await db('customer_transactions').where({ account_id: A, transaction_id: created.transaction_id }).update({ unit_cost: -18.75 });
 
          const res = await h.as('admin').get(`${routes.exportTransactions()}?search=${encodeURIComponent(cust.displayName)}`);
          expect(res.status).to.equal(200);

@@ -14,8 +14,7 @@ const createOutstandingChargesSection = (doc, invoiceDetails, preferenceSettings
       startY: endOfGroupingHeight + bodyHeight,
       columns: [
          { header: 'Invoice Date', x: leftMargin + 10, width: 110, cell: row => dayjs(row.invoice_date).format('MM/DD/YYYY') },
-         { header: 'Invoice', x: 200, width: 180, cell: row => `${row.invoice_number}` },
-         { header: 'Original Amount', x: 400, width: amountX - 400 - 12, cell: row => `${Number(row.remaining_balance_on_invoice).toFixed(2)}` },
+         { header: 'Invoice', x: 200, width: amountX - 200 - 12, cell: row => `${row.invoice_number}` },
          { header: 'Outstanding', x: amountX, width: 100, align: 'right', cell: row => `${Number(row.remaining_balance_on_invoice).toFixed(2)}` }
       ],
       rows: outstandingInvoices.outstandingInvoiceRecords,

@@ -8,7 +8,7 @@ A separate **Statement of Account** PDF is downloaded from the customer profile 
 
 ## 2. Access rules
 
-Invoice generation/download and the customer statement route require authenticated manager/admin/super admin/owner and accountID matching the session account through enforceAccountId. userID is not self-only. Customer statement reads also scope customerID by account. Frontend manager gates omit owner ([F37](../_review/findings.md#f37)). Sources: `src/app.js:138`, `src/endpoints/customer/customer-router.js:5`, `src/endpoints/customer/customer-router.js:213`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`.
+Invoice generation/download and the customer statement route require authenticated manager/admin/super admin/owner and accountID matching the session account through enforceAccountId. userID is not self-only. Customer statement reads also scope customerID by account. Frontend manager gates include owner ([F37](../_review/findings.md#f37)). Sources: `src/app.js:138`, `src/endpoints/customer/customer-router.js:5`, `src/endpoints/customer/customer-router.js:213`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`.
 
 The renderer has no independent authentication: its caller supplies prepared data. Source: `src/pdfCreator/templateOne/templateOneOrchestrator.js:13`.
 
@@ -29,7 +29,7 @@ templateOne consumes an already-prepared invoiceDetails object: invoiceNumber, b
 
 Its values originate in account/account_information, customer/customer_information and the invoice/payment/write-off/transaction/job/retainer tables described in [create-invoice-engine.md](create-invoice-engine.md). Monetary credits stay signed negative; formatter code does not convert payments/write-offs/retainers to absolute positive amounts. Sources: `src/pdfCreator/templateOne/templateFunctions/templateOnePayments.js:25`, `src/pdfCreator/templateOne/templateFunctions/templateOneWriteOffs.js:21`, `src/pdfCreator/templateOne/templateFunctions/templateOneRetainers.js:13`.
 
-The customer Statement of Account uses the independent audit's raw customer and five ledger datasets. It persists neither an audit nor a new invoice. Source: `src/endpoints/customer/customer-statement.js:14`.
+The customer Statement of Account uses the independent audit's raw customer and five ledger datasets from one database snapshot, including its account header. It persists neither an audit nor a new invoice. Source: `src/endpoints/customer/customer-statement.js:14`.
 
 ## 5. Read logic and printed sections
 
@@ -39,17 +39,17 @@ Template data order is whatever the engine supplies; the renderer does not sort,
 |---|---|
 | Letterhead | 50-point-wide logo; account name/address/phone/email; INVOICE and generated invoice number; heavy rule. `src/pdfCreator/templateOne/templateFunctions/templateOneHeader.js:1`. |
 | Bill To | business_name or customer_name, mailing street/city/state/ZIP/phone; billingDate formatted MM/DD/YYYY, with server-current fallback only when absent; supplied dueDate. `src/pdfCreator/templateOne/templateFunctions/templateOneBillTo.js:3`. |
-| Beginning Balance | Engine-selected outstanding invoice date/number, Original Amount and Outstanding, subtotal outstandingInvoiceTotal. **Both amount columns currently print remaining_balance_on_invoice**, not original issue value ([F39](../_review/findings.md#f39)). `src/pdfCreator/templateOne/templateFunctions/templateOneOutstandingCharges.js:10`. |
+| Beginning Balance | Engine-selected invoice date/number and one Outstanding column from remaining_balance_on_invoice, plus subtotal outstandingInvoiceTotal. The redundant Original Amount column is removed (fixed [F39](../_review/findings.md#f39)); mutable root/snapshot totals are not presented as immutable issued amounts. `src/pdfCreator/templateOne/templateFunctions/templateOneOutstandingCharges.js:10`. |
 | Payments | All gated paymentRecords: payment_date, invoice number or No Attached Invoice, form, reference, signed amount. Null form/reference print empty. Subtotal paymentsReceivedTotal, falling back to paymentTotal. Difference from paymentTotal >$0.009 adds the reflected-in-beginning-balance note. `src/pdfCreator/templateOne/templateFunctions/templateOnePayments.js:14`. |
 | Professional Services | Grouped job ID, job description, jobTotal to 2 decimals; transactionsTotal subtotal. Not individual time entries/hours/rates. Hidden job write-offs are already netted here. Null General-credit job IDs stringify as null. `src/pdfCreator/templateOne/templateFunctions/templateOneTransactions.js:9`. |
 | Revisions | Only when writeOffRecords is nonempty: transaction_type, writeoff_reason, signed amount; no date/job column. Subtotal is writeOffsListedTotal, falling back to writeOffTotal; difference >$0.009 adds reflected-in-invoice-balance note. `src/pdfCreator/templateOne/templateFunctions/templateOneWriteOffs.js:12`. |
 | Retainers And Pre-Payments | Only when retainerRecords nonempty: type_of_hold, starting_amount, current_amount and retainerTotal subtotal; these are selected latest active balances, not every historical draw. `src/pdfCreator/templateOne/templateFunctions/templateOneRetainers.js:9`. |
 | Totals | If retainer records exist or retainerAppliedToInvoice!=0, print pre-retainer total, applied amount and remaining retainer. Always print Balance Due. Thus an exhausted retainer's draw is still shown. `src/pdfCreator/templateOne/templateFunctions/templateOneTotals.js:11`. |
-| Notes/footer | account_statement first. Notes heading/global note/individual note are inside if(invoiceNote), so a global note alone is omitted ([F31](../_review/findings.md#f31)). account_interest_statement, when present, is an 8-point centered footer on the last page. `src/pdfCreator/templateOne/templateFunctions/templateOneNotes.js:70`. |
+| Notes/footer | account_statement first. Global and individual notes normalize null/undefined to empty strings. A Notes heading appears if either is nonempty, followed independently by global then individual text (fixed [F31](../_review/findings.md#f31)). account_interest_statement, when present, is an 8-point centered footer on the last page. `src/pdfCreator/templateOne/templateFunctions/templateOneNotes.js:70`. |
 
 The PDFs do not display a draft watermark based on isRoughDraft: the same renderer receives calculated detail for all modes. The draft distinction is in artifact routing and whether the ledger commits. Sources: `src/endpoints/invoice/invoice-router.js:346`, `src/pdfCreator/templateOne/templateOneOrchestrator.js:13`.
 
-For the separate customer statement, the service reads all history without a repeatable-read wrapper, builds the independent chronological ledger, then filters by day. Events before start determine opening balance; events after end are omitted; closing is the last included running balance or opening if none. Header current amount due is the audit's **current all-history rolling balance**, even for a historical date range. Source: `src/endpoints/customer/customer-statement.js:14`.
+For the separate customer statement, the service reads customer, account header and all ledger history in one REPEATABLE READ READ ONLY transaction, builds the independent chronological ledger, then filters by day. Events before start determine opening balance; events after end are omitted; closing is the last included running balance or opening if none. Header current amount due is the audit's **current all-history rolling balance**, even for a historical date range. Source: `src/endpoints/customer/customer-statement.js:14`.
 
 ## 6. Calculations and pagination
 
@@ -92,7 +92,7 @@ Chronological running balance adds billable work, subtracts normal payments/writ
 
 templateOne builds a memory buffer; it does not write a local PDF file. The orchestrator wraps buffers into S3 ZIPs. Every selected PDF is generated before finalized ledger writes; an oversized row or invalid note prevents reaching finalization. CSV-only mode still generates PDFs first. Sources: `src/pdfCreator/templateOne/templateOneOrchestrator.js:18`, `src/endpoints/invoice/invoice-router.js:346`.
 
-Per-customer ZIPs upload before the DB transaction, combined final ZIP after commit. No compensation deletes are implemented. Combined ZIP members use displayName.pdf, so same-name customers collide ([F33](../_review/findings.md#f33)). Full key/order details: [month-end-finalize.md](month-end-finalize.md). Sources: `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:60`, `src/pdfCreator/zipOrchestrator.js:56`.
+Per-customer ZIPs upload before the DB transaction, combined final ZIP after commit. No compensation deletes are implemented. Combined PDF ZIP members include the customer ID and sanitize path characters, preserving same-name customers (fixed [F33](../_review/findings.md#f33)). Full key/order details: [month-end-finalize.md](month-end-finalize.md). Sources: `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:60`, `src/pdfCreator/zipOrchestrator.js:56`.
 
 No PDF edit/delete endpoint exists. Billed transaction edits copy invoice_file_location into snapshots and leave the already-generated document unchanged. The live invoice detail can therefore differ from its stored PDF. Source: `src/endpoints/billingReview/cascadeEdit.js:386`.
 
@@ -111,7 +111,7 @@ Tests were read, not run. No PDFs were generated or visually rendered during thi
 
 ## 9. Known limitations and open decisions
 
-[F31](../_review/findings.md#f31) records global-note omission and missing-global TypeError; [F39](../_review/findings.md#f39) records the incorrect Original Amount label/value; [F33](../_review/findings.md#f33) records duplicate archive member names. Saved artifacts are not regenerated after cascade edits. Dates, billed data and statement layout behavior above reflect current source, not a new accountant-approved design.
+[F31](../_review/findings.md#f31) records fixed global-note omission and missing-global TypeError; [F39](../_review/findings.md#f39) records removal of the incorrect Original Amount column; [F33](../_review/findings.md#f33) records fixed duplicate archive member names. Saved artifacts are not regenerated after cascade edits. Dates, billed data and statement layout behavior above reflect current source, not a new accountant-approved design.
 
 The historical report leaves closed-period adjustment policy, voiding, credit memos and true charge aging open. Its section 6 requires reviewed migrations/cutover, backend before frontend and BILLING_TIMEZONE. Production implementation of those steps is **not determined from the code**. Sources: `scripts/review-2026-09/FINAL_REPORT.md:56`, `scripts/review-2026-09/FINAL_REPORT.md:61`, `scripts/review-2026-09/FINAL_REPORT.md:67`.
 

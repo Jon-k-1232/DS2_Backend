@@ -52,6 +52,7 @@ const UNASSIGNED_JOB_KEY = 'unassigned';
 const groupWriteOffsByJob = (customerWriteOffRecords, showWriteOffs) => {
    if (!customerWriteOffRecords.length || showWriteOffs) return {};
    return customerWriteOffRecords.reduce((acc, curr) => {
+      if (curr.customer_invoice_id) return acc;
       const key = curr.customer_job_id == null ? UNASSIGNED_JOB_KEY : curr.customer_job_id;
       return { ...acc, [key]: [...(acc[key] || []), curr] };
    }, {});

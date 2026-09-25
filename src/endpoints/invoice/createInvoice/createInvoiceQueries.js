@@ -25,7 +25,7 @@ const fetchInitialQueryItems = async (db, invoicesToCreateMap, accountID, { bill
          invoiceService.getLastInvoiceNumber(db, accountID, { year: billingYear }),
          invoiceService.getAccountPayToInfo(db, accountID),
          invoiceService.getCustomerInformation(db, accountID, customerIDs),
-         invoiceService.getTransactionsByCustomerID(db, accountID, customerIDs, lastInvoiceDateByCustomerID),
+         invoiceService.getTransactionsByCustomerID(db, accountID, customerIDs, lastInvoiceDateByCustomerID, { billingDate }),
          invoiceService.getPaymentsByCustomerID(db, accountID, customerIDs, lastInvoiceMarkerByCustomerID),
          invoiceService.getWriteOffsByCustomerID(db, accountID, customerIDs, lastInvoiceMarkerByCustomerID),
          invoiceService.getRetainersByCustomerID(db, accountID, customerIDs, lastInvoiceDateByCustomerID),

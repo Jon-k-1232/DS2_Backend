@@ -18,8 +18,7 @@
  * which happily streamed back the shared object because it never checked.
  *
  * Fix shape: resolve the areas of the shared bucket this account is actually
- * allowed to be served bytes from (its own invoicing exports, its own audit
- * PDFs), then require BOTH a syntactically-safe key AND a prefix match
+ * allowed to be served bytes from (its own invoicing exports), then require BOTH a syntactically-safe key AND a prefix match
  * before ever calling S3. Nothing under time_tracking/tracker_versions/ (the
  * shared template) or another account's prefix can ever match.
  *
@@ -37,20 +36,15 @@
 
 // Areas of the bucket that legitimately belong to one account and may be
 // served back through a client-supplied-key download route.
-const resolveOwnDownloadPrefixes = ({ storageSlug, accountId } = {}) => {
+const resolveOwnDownloadPrefixes = ({ storageSlug } = {}) => {
    const slug = storageSlug;
-   const accountIdNumber = Number(accountId);
    const allowed = [];
 
    // Invoice PDF/CSV zip exports — see pdfCreator/zipOrchestrator.js
    // createAndSaveZip, which writes to `${slug}/invoicing/<subarea>/...`.
    if (slug) allowed.push(`${slug}/invoicing/`);
 
-   // Account-audit PDFs — see accountAudit/account-audit-router.js, which
-   // writes to `account_audits/<accountId>/<customerId>/audit-*.pdf`.
-   if (Number.isInteger(accountIdNumber) && accountIdNumber > 0) {
-      allowed.push(`account_audits/${accountIdNumber}/`);
-   }
+   // Audit PDFs are served only by the dedicated Super Admin audit route.
 
    return allowed;
 };

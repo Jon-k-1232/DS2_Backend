@@ -96,11 +96,13 @@ userRouter
             throw error;
          }
 
-         const [currentTarget] = await accountUserService.fetchUser(db, accountID, targetUserID);
-         const willLoseSuperAdmin = willDeactivate || userDataTypes.access_level !== 'Super Admin';
-         await assertNotLastSuperAdmin(db, accountID, currentTarget, targetUserID, willLoseSuperAdmin);
-
-         await accountUserService.updateUser(db, userDataTypes, accountID);
+         await db.transaction(async trx => {
+            await trx('accounts').where({ account_id: Number(accountID) }).forNoKeyUpdate().first();
+            const [currentTarget] = await accountUserService.fetchUser(trx, accountID, targetUserID);
+            const willLoseSuperAdmin = willDeactivate || userDataTypes.access_level !== 'Super Admin';
+            await assertNotLastSuperAdmin(trx, accountID, currentTarget, targetUserID, willLoseSuperAdmin);
+            await accountUserService.updateUser(trx, userDataTypes, accountID);
+         });
 
          await sendUpdatedTableWith200Response(db, res, accountID);
       } catch (err) {
@@ -128,10 +130,12 @@ userRouter
             throw error;
          }
 
-         const [targetUser] = await accountUserService.fetchUser(db, accountID, userID);
-         await assertNotLastSuperAdmin(db, accountID, targetUser, userID, true);
-
-         await accountUserService.deleteUser(db, userID, accountID);
+         await db.transaction(async trx => {
+            await trx('accounts').where({ account_id: Number(accountID) }).forNoKeyUpdate().first();
+            const [targetUser] = await accountUserService.fetchUser(trx, accountID, userID);
+            await assertNotLastSuperAdmin(trx, accountID, targetUser, userID, true);
+            await accountUserService.deleteUser(trx, userID, accountID);
+         });
          await sendUpdatedTableWith200Response(db, res, accountID);
       } catch (err) {
          console.log(err);
