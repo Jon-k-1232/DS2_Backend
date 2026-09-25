@@ -1,6 +1,8 @@
 # DS2 documentation
 
-Reviewed against the local source on 2026-09-24.
+Reviewed against the local source; owner decisions 1–6 implemented on 2026-09-25.
+
+Start with the [owner decision record](decisions/2026-09-24-owner-decisions.md), [sent invoice workflow](invoicing/invoices.md) and [run 1 results](decisions/2026-09-24-run-1-results.md). Run 2 adds [retainer events](ledger/retainers-and-prepayments.md) and [duplicate review](ledger/duplicates.md); see [run 2 results](decisions/2026-09-25-run-2-results.md). Run 3 adds [optional credit statements and time-increment validation](decisions/2026-09-25-run-3-results.md) and the [combined five-decision lifecycle](scenarios/16-owner-combined.md). Run 4 adds the deterministic [Audit Record](platform/audit-ledger.md), separate from AI Audit; see [run 4 results](decisions/2026-09-25-run-4-results.md). Run 5 adds readable Client and Full evidence records with verified source downloads; see [run 5 results](decisions/2026-09-25-run-5-results.md). Run 6 collapses archived statement copies and uses plain client verification wording; see [run 6 results](decisions/2026-09-25-run-6-results.md).
 
 DS2 is an account-scoped practice management and billing application. It connects customer and job records, staff time, invoice statements, payments, retainers and receivables. The browser lives in DS2_Frontend, the Express API in DS2_Backend, and the payment-image processor in DS2_Lambdas. This documentation describes their checked-out implementation, including known defects. It does not certify a deployed environment.
 
@@ -10,6 +12,7 @@ DS2 is an account-scoped practice management and billing application. It connect
 2. Read [ledger conventions](ledger/ledger-conventions.md) before interpreting balances or changing financial records.
 3. Open the owning feature guide from the catalog or endpoint index. Its API section defines inputs, responses, role checks and errors. Calculation and edit sections describe what the code actually does.
 4. Read [consolidated findings](_review/findings.md) for confirmed inconsistencies and proposed fixes. The four original review files remain historical evidence; their overlapping endpoint totals are superseded here.
+5. Run the [Pass 2 what-if and careless-user scenarios](scenarios/what-if-and-mistakes.md) and the [Pass 1 scenario catalogue](scenarios/README.md) for hand-written financial oracles and local-only reset instructions. Read the [Pass 2 execution report](scenarios/RESULTS-PASS2.md) and retained [Pass 1 report](scenarios/RESULTS.md) for exact results and open business decisions. Pass4 adds [actual-screen mistake scenarios](scenarios/ui-mistakes.md) and [fresh execution evidence](scenarios/RESULTS-PASS4.md), including both readable Audit Record print options and the supplied external browser connection.
 
 Source citations use `path:line`, relative to DS2_Backend. A `../DS2_Frontend/` or `../DS2_Lambdas/` prefix identifies a sibling repository. The original consistency pass inspected assertions without running tests. Subsequent F8–F22 fixes and their executed local regressions are recorded in the [remediation log](_review/fixes-F8-F22.md); affected guides describe the fixed behavior. This is local verification, not deployment evidence.
 
@@ -23,8 +26,9 @@ Every endpoint has exactly one owning **feature** contract. Supporting guides cr
 | [architecture.md](architecture.md) | Request flow, data relationships, background work, storage and month-end lifecycle. | — |
 | [ledger/ledger-conventions.md](ledger/ledger-conventions.md) | Shared signs, rounding, invoice/retainer chains, markers and ledger locks. | 0 |
 | [ledger/payments.md](ledger/payments.md) | Receipts, edits, deletion, NSF reversals and invoice/retainer effects. | 6 |
-| [ledger/retainers-and-prepayments.md](ledger/retainers-and-prepayments.md) | Retainer receipt chains, direct edits, available credit and draws. | 5 |
+| [ledger/retainers-and-prepayments.md](ledger/retainers-and-prepayments.md) | Retainer receipt chains, refunds, adjustments, available credit and draws. | 7 |
 | [ledger/write-offs-and-adjustments.md](ledger/write-offs-and-adjustments.md) | Write-off posting and lifecycle, with links to work corrections. | 5 |
+| [ledger/duplicates.md](ledger/duplicates.md) | Possible duplicate detection, review, dismissal and guarded removal. | 4 |
 | [ledger/pending-payments.md](ledger/pending-payments.md) | Payment extraction, review, atomic approval and source-file handling. | 10 |
 | [work/customers.md](work/customers.md) | Customer/contact profiles, recurring settings, statements and deletion rules. | 10 |
 | [work/initial-data-and-notifications.md](work/initial-data-and-notifications.md) | Bootstrap payload, role redaction, notifications and read status. | 5 |
@@ -37,11 +41,12 @@ Every endpoint has exactly one owning **feature** contract. Supporting guides cr
 | [invoicing/accounts-receivable.md](invoicing/accounts-receivable.md) | Current statement balances, aging buckets, open-charge estimates and CSV. | 2 |
 | [invoicing/analytics.md](invoicing/analytics.md) | Rates, time allocation, WIP, budgets, capacity and reporting exports. | 10 |
 | [invoicing/billing-review.md](invoicing/billing-review.md) | Held work, weekly/pre-invoice review, reprocessing and guarded corrections. | 10 |
-| [invoicing/create-invoice-engine.md](invoicing/create-invoice-engine.md) | Customer eligibility, snapshot inputs and invoice calculations. | 1 |
-| [invoicing/invoices.md](invoicing/invoices.md) | Invoice register, detail reads, history and guarded deletion. | 4 |
+| [invoicing/create-invoice-engine.md](invoicing/create-invoice-engine.md) | Signed customer eligibility, credit selection, snapshot inputs and invoice calculations. | 1 |
+| [invoicing/invoices.md](invoicing/invoices.md) | Invoice register, frozen detail, exceptions, revisions, history and guarded deletion. | 8 |
 | [invoicing/month-end-finalize.md](invoicing/month-end-finalize.md) | The shared generation request, drafts/CSV, final commit and artifacts. | 1 |
 | [invoicing/pdf-statements.md](invoicing/pdf-statements.md) | Invoice and customer-statement layout, amounts and pagination. | 0 |
 | [platform/accounts-users-auth.md](platform/accounts-users-auth.md) | Google sessions, account settings, users, roles and automation settings. | 12 |
+| [platform/audit-ledger.md](platform/audit-ledger.md) | Deterministic client Audit Record, append-only capture, verification and two immutable PDF types. | 7 |
 | [platform/operations.md](platform/operations.md) | Health aliases, configuration, migrations, reminders and repair procedures. | 4 |
 | [platform/storage-and-downloads.md](platform/storage-and-downloads.md) | S3 namespaces, key authorization and the generic export downloader. | 1 |
 | [platform/time-tracking.md](platform/time-tracking.md) | Tracker upload/history, templates, ownership and notification staff. | 13 |
@@ -55,9 +60,9 @@ Every endpoint has exactly one owning **feature** contract. Supporting guides cr
 
 ## Coverage and ownership
 
-The source contains **143 route contracts** across **28 mounts and 27 router modules**. They include all **135** method/path entries in `test/COVERAGE_MATRIX.md`, plus the eight below. Aliases count separately. The retired ALL-method catch-all counts once; implicit Express HEAD/OPTIONS behavior does not add contracts. The health root routes accept both trailing-slash and slashless forms under the current non-strict router settings.
+The source contains **160 route contracts** across **30 mounts and 29 router modules**. They include all **135** method/path entries in `test/COVERAGE_MATRIX.md`, plus the twenty-five below. Aliases count separately. The retired ALL-method catch-all counts once; implicit Express HEAD/OPTIONS behavior does not add contracts. The health root routes accept both trailing-slash and slashless forms under the current non-strict router settings.
 
-The matrix is a route-reference inventory, not proof that every branch was tested. Its omissions are retained here without editing the matrix or application code. Mount evidence: `src/app.js:121` through the analytics mount at `src/app.js:170`; each owning guide cites its router handlers.
+The matrix is a route-reference inventory, not proof that every branch was tested. Its omissions are retained here without editing the matrix or application code. Mount evidence: `src/app.js:124` through the analytics mount at `src/app.js:176`; each owning guide cites its router handlers.
 
 | Method | Route present in source but absent from matrix | Owning document |
 |---|---|---|
@@ -69,6 +74,23 @@ The matrix is a route-reference inventory, not proof that every branch was teste
 | POST | `/auth/logout` | [accounts-users-auth.md](platform/accounts-users-auth.md) |
 | POST | `/auth/renew` | [accounts-users-auth.md](platform/accounts-users-auth.md) |
 | GET | `/jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID` | [job-categories-and-types.md](work/job-categories-and-types.md) |
+| GET | `/invoices/:invoiceID/history/:accountID/:userID` | [invoices.md](invoicing/invoices.md) |
+| POST | `/invoices/:invoiceID/exceptions/:accountID/:userID` | [invoices.md](invoicing/invoices.md) |
+| POST | `/invoices/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID` | [invoices.md](invoicing/invoices.md) |
+| POST | `/invoices/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID` | [invoices.md](invoicing/invoices.md) |
+| GET | `/retainers/:retainerID/events/:accountID/:userID` | [retainers-and-prepayments.md](ledger/retainers-and-prepayments.md) |
+| POST | `/retainers/:retainerID/events/:accountID/:userID` | [retainers-and-prepayments.md](ledger/retainers-and-prepayments.md) |
+| GET | `/duplicates/:accountID/:userID` | [duplicates.md](ledger/duplicates.md) |
+| POST | `/duplicates/:accountID/:userID` | [duplicates.md](ledger/duplicates.md) |
+| POST | `/duplicates/scan/:accountID/:userID` | [duplicates.md](ledger/duplicates.md) |
+| POST | `/duplicates/:duplicateID/resolve/:accountID/:userID` | [duplicates.md](ledger/duplicates.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID` | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/verify` | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/records` | [audit-ledger.md](platform/audit-ledger.md) |
+| POST | `/auditRecord/customer/:customerID/:accountID/:userID/records` | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/pdf` | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/verify` | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/evidence` | [audit-ledger.md](platform/audit-ledger.md) |
 
 ### Router owners
 
@@ -77,6 +99,7 @@ Each router has one primary guide below. The invoice router delegates its calcul
 | Mount | Router source | Primary guide |
 |---|---|---|
 | `/account` | `src/endpoints/account/account-router.js` | [accounts-users-auth.md](platform/accounts-users-auth.md) |
+| `/auditRecord` | `src/endpoints/auditRecord/audit-record-router.js` | [audit-ledger.md](platform/audit-ledger.md) |
 | `/accountAudit` | `src/endpoints/accountAudit/account-audit-router.js` | [account-audit.md](invoicing/account-audit.md) |
 | `/accountsReceivable` | `src/endpoints/accountsReceivable/accounts-receivable-router.js` | [accounts-receivable.md](invoicing/accounts-receivable.md) |
 | `/ai-integration` | `src/endpoints/aiIntegration/aiIntegration-router.js` | [timesheets-and-ingestion.md](platform/timesheets-and-ingestion.md) |
@@ -84,6 +107,7 @@ Each router has one primary guide below. The invoice router delegates its calcul
 | `/api/health` | `src/endpoints/health/health-router.js` | [operations.md](platform/operations.md) |
 | `/auth` | `src/endpoints/auth/auth-router.js` | [accounts-users-auth.md](platform/accounts-users-auth.md) |
 | `/billing-review` | `src/endpoints/billingReview/billingReview-router.js` | [billing-review.md](invoicing/billing-review.md) |
+| `/duplicates` | `src/endpoints/duplicates/duplicates-router.js` | [duplicates.md](ledger/duplicates.md) |
 | `/customer` | `src/endpoints/customer/customer-router.js` | [customers.md](work/customers.md) |
 | `/healthz` | `src/endpoints/health/health-router.js` | [operations.md](platform/operations.md) |
 | `/initialData` | `src/endpoints/initialData/initialData-router.js` | [initial-data-and-notifications.md](work/initial-data-and-notifications.md) |
@@ -121,6 +145,13 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 
 | Method | Path | Role | Document |
 |---|---|---|---|
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID` | A | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/verify` | A | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/records` | A | [audit-ledger.md](platform/audit-ledger.md) |
+| POST | `/auditRecord/customer/:customerID/:accountID/:userID/records` | A | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/pdf` | A | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/verify` | A | [audit-ledger.md](platform/audit-ledger.md) |
+| GET | `/auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/evidence` | A | [audit-ledger.md](platform/audit-ledger.md) |
 | GET | `/account/AccountInformation/:accountID/:userID` | A | [accounts-users-auth.md](platform/accounts-users-auth.md#3-api-reference) |
 | GET | `/account/automations/:accountID/:userID` | A | [accounts-users-auth.md](platform/accounts-users-auth.md#3-api-reference) |
 | PUT | `/account/automations/:accountID/:userID` | A | [accounts-users-auth.md](platform/accounts-users-auth.md#3-api-reference) |
@@ -177,6 +208,10 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 | GET | `/invoices/getInvoiceDetails/:invoiceID/:accountID/:userID` | M | [invoices.md](invoicing/invoices.md#3-api-reference) |
 | GET | `/invoices/getInvoices/:accountID/:invoiceID` | M | [invoices.md](invoicing/invoices.md#3-api-reference) |
 | GET | `/invoices/getInvoicesPaginated/:accountID/:userID` | M | [invoices.md](invoicing/invoices.md#3-api-reference) |
+| GET | `/invoices/:invoiceID/history/:accountID/:userID` | M | [invoices.md](invoicing/invoices.md#3-api-reference) |
+| POST | `/invoices/:invoiceID/exceptions/:accountID/:userID` | M | [invoices.md](invoicing/invoices.md#3-api-reference) |
+| POST | `/invoices/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID` | M | [invoices.md](invoicing/invoices.md#3-api-reference) |
+| POST | `/invoices/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID` | M | [invoices.md](invoicing/invoices.md#3-api-reference) |
 | POST | `/jobCategories/createJobCategory/:accountID/:userID` | M | [job-categories-and-types.md](work/job-categories-and-types.md#3-api-reference) |
 | DELETE | `/jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID` | M | [job-categories-and-types.md](work/job-categories-and-types.md#3-api-reference) |
 | GET | `/jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID` | M | [job-categories-and-types.md](work/job-categories-and-types.md#3-api-reference) |
@@ -269,7 +304,21 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 
 - **25 feature documents checked and updated**, including calculation/edit sections, endpoint ownership, cross-links, source anchors and coverage notes.
 - **4 original findings files reviewed and retained unchanged**; **3 overview/index/review files added**. The catalog contains all **32 Markdown documents**.
-- **143 endpoints indexed**, each with one feature owner: ledger 26, work 43, invoicing 35 and platform 39. All 135 matrix entries and all 28 router mounts are covered.
+- **147 endpoints indexed**, each with one feature owner: ledger 26, work 43, invoicing 39 and platform 39. All 135 matrix entries and all 28 router mounts are covered.
 - Static checks found **no missing, extra or duplicate feature contracts**, no broken local document links/anchors, and no missing or out-of-range source citations.
 - **39 distinct findings confirmed: 7 P1, 29 P2 and 3 P3**. Eight duplicate notes were merged; no original finding was dropped as false.
 - Only documentation was written. No code edits, git commands, integration tests, database writes or cloud operations were performed.
+
+
+### Owner run 2 endpoint index additions
+
+| Method | Path | Role | Owning document |
+|---|---|---|---|
+| GET | `/retainers/:retainerID/events/:accountID/:userID` | M | [Retainer events](ledger/retainers-and-prepayments.md#manual-refunds-and-adjustments-run-2) |
+| POST | `/retainers/:retainerID/events/:accountID/:userID` | M | [Retainer events](ledger/retainers-and-prepayments.md#manual-refunds-and-adjustments-run-2) |
+| GET | `/duplicates/:accountID/:userID` | M | [Duplicates](ledger/duplicates.md) |
+| POST | `/duplicates/:accountID/:userID` | M | [Duplicates](ledger/duplicates.md) |
+| POST | `/duplicates/scan/:accountID/:userID` | M | [Duplicates](ledger/duplicates.md) |
+| POST | `/duplicates/:duplicateID/resolve/:accountID/:userID` | M | [Duplicates](ledger/duplicates.md) |
+
+Run 3 changes existing endpoint contracts without adding routes: Create Invoice eligibility/generation, signed Account Audit/AR, and shared time-pricing paths. See the [decision record](decisions/2026-09-24-owner-decisions.md) and [run 3 results](decisions/2026-09-25-run-3-results.md). Finalize means sent and locked; drafts remain editable and write nothing to the ledger.

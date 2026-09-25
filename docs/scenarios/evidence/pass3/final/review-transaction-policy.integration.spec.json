@@ -1,0 +1,598 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 22,
+    "passes": 22,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:41.524Z",
+    "end": "2026-09-25T13:24:43.651Z",
+    "duration": 2127
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses inconsistent total on create without ledger writes",
+      "state": "passed",
+      "duration": 43
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on create without ledger writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses negative quantity on create without ledger writes",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses negative rate on create without ledger writes",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses negative total on create without ledger writes",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses nonfinite rate on create without ledger writes",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses missing quantity on create without ledger writes",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses sub-cent rate on create without ledger writes",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses inconsistent total on update without ledger writes",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on update without ledger writes",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses negative quantity on update without ledger writes",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses negative rate on update without ledger writes",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses negative total on update without ledger writes",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses nonfinite rate on update without ledger writes",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses missing quantity on update without ledger writes",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing refuses sub-cent rate on update without ledger writes",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing creates and edits decimal-hour Time work without a supplied duration, preserving cents and notes",
+      "state": "passed",
+      "duration": 299
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F11 direct transaction pricing preserves zero quantity on update and accepts rounded Charge arithmetic",
+      "state": "passed",
+      "duration": 277
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F12 shared billability policy forces internal work nonbillable on create without a retainer draw",
+      "state": "passed",
+      "duration": 149
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F12 shared billability policy forces internal work nonbillable on update without a retainer draw",
+      "state": "passed",
+      "duration": 130
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F12 shared billability policy forces customer flag work nonbillable on create without a retainer draw",
+      "state": "passed",
+      "duration": 146
+    },
+    {
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "title": "F12 shared billability policy forces customer flag work nonbillable on update without a retainer draw",
+      "state": "passed",
+      "duration": 133
+    }
+  ],
+  "hits": {
+    "src/endpoints/transactions/transactions-router.js:68:5": [
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses inconsistent total on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative quantity on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative rate on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative total on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses nonfinite rate on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses missing quantity on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses sub-cent rate on create without ledger writes"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:70:6": [
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses inconsistent total on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative quantity on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative rate on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative total on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses nonfinite rate on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses missing quantity on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses sub-cent rate on create without ledger writes"
+      }
+    ],
+    "src/endpoints/transactions/transactionPricing.js:31:61": [
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses inconsistent total on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses inconsistent total on update without ledger writes"
+      }
+    ],
+    "src/endpoints/transactions/transactionPricing.js:24:12": [
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on update without ledger writes"
+      }
+    ],
+    "src/endpoints/transactions/transactionPricing.js:12:9": [
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative quantity on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative rate on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative total on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses nonfinite rate on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses missing quantity on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative quantity on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative rate on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative total on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses nonfinite rate on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses missing quantity on update without ledger writes"
+      }
+    ],
+    "src/endpoints/transactions/transactionPricing.js:14:62": [
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses sub-cent rate on create without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses sub-cent rate on update without ledger writes"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses inconsistent total on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative quantity on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative rate on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative total on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses nonfinite rate on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses missing quantity on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses sub-cent rate on update without ledger writes"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses inconsistent total on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative quantity on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative rate on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses negative total on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses nonfinite rate on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses missing quantity on update without ledger writes"
+      },
+      {
+        "file": "test/integration/review-transaction-policy.integration.spec.js",
+        "test": "F11 direct transaction pricing refuses sub-cent rate on update without ledger writes"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F11 direct transaction pricing refuses inconsistent total on create without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transaction total must equal quantity times rate rounded to cents."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on create without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Time quantity must match the duration rounded up to six-minute increments."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses negative quantity on create without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "quantity must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses negative rate on create without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "unitCost must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses negative total on create without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "totalTransaction must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses nonfinite rate on create without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "unitCost must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses missing quantity on create without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "quantity must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses sub-cent rate on create without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "unitCost supports at most two decimal places."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses inconsistent total on update without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transaction total must equal quantity times rate rounded to cents."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses quantity inconsistent with supplied duration on update without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Time quantity must match the duration rounded up to six-minute increments."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses negative quantity on update without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "quantity must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses negative rate on update without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "unitCost must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses negative total on update without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "totalTransaction must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses nonfinite rate on update without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "unitCost must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses missing quantity on update without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "quantity must be a finite nonnegative number within the supported range."
+    },
+    {
+      "test": "F11 direct transaction pricing refuses sub-cent rate on update without ledger writes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "unitCost supports at most two decimal places."
+    },
+    {
+      "test": "F11 direct transaction pricing creates and edits decimal-hour Time work without a supplied duration, preserving cents and notes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "F11 direct transaction pricing creates and edits decimal-hour Time work without a supplied duration, preserving cents and notes",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "F11 direct transaction pricing preserves zero quantity on update and accepts rounded Charge arithmetic",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "F11 direct transaction pricing preserves zero quantity on update and accepts rounded Charge arithmetic",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "F12 shared billability policy forces internal work nonbillable on create without a retainer draw",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "F12 shared billability policy forces internal work nonbillable on update without a retainer draw",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "F12 shared billability policy forces customer flag work nonbillable on create without a retainer draw",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "F12 shared billability policy forces customer flag work nonbillable on update without a retainer draw",
+      "file": "test/integration/review-transaction-policy.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    }
+  ]
+}

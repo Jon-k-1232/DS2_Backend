@@ -1,5 +1,10 @@
 # Timesheets and ingestion
 
+## Owner decision update — 2026-09-25
+
+Imported/approved/reprocessed transactions meet the same SQL sent-record guard as manual routes. A write attempting to edit/delete/relink frozen work raises P0409 and rolls back the transaction; user-facing route errors normalize to HTTP 409 with the invoice number. New unstamped work still ingests normally. Existing six-minute ingestion rounding remains unchanged. [Sent contract](../invoicing/invoices.md).
+
+
 Source review: 2026-09-24. Citations are backend-relative unless prefixed `../DS2_Frontend/`. Tests were read, not run. Workbook validation, duplicate detection and original-file ownership are in [time-tracking.md](time-tracking.md).
 
 ## 1. Purpose and UI
@@ -230,3 +235,8 @@ Restart can lose queued in-process ingestion. Counts use old suggestion statuses
 Historical accountant decisions remain: internal customers 5/6 with billable history are not repaired merely by setting INTERNAL_CUSTOMER_IDS; five no-job and nine wrong-customer job links need review; 151 historical job families can disagree with their newest totals; stale unbilled rows and credit-carry policy remain. These are dated report observations, not fresh counts. Production flag/model/IAM/cap readiness and rollout completion are not determined from the code. Sources: `scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:69`. See [operations.md](operations.md).
 
 Coverage: **9 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

@@ -1,5 +1,16 @@
 # Payments
 
+## Owner decision update — 2026-09-25
+
+Pass 4 UI correction: background grid refreshes preserve focus in open payment forms (`GridFocus.test.js`).
+
+Payment details tolerate customer lookups still loading and retain the stored customer ID. Sent receipts immediately show **Sent — locked** and **Open invoice history**, without an ordinary delete control (`SentScreens.test.js`).
+
+Delete requests also guard pending clicks and display HTTP/network failures while retaining the record for an explicit retry. `DeleteFinancial.failure.test.js` and `user-mistakes-delete.spec.js` cover refusal, cancel, transport failure and a successful retry of an eligible unissued receipt.
+
+An issued receipt cannot be edited, deleted or reversed through ordinary payment routes: HTTP 409 `SENT_INVOICE_LOCKED`, with the owning invoice number, even for metadata-only edits. Use the invoice detail exception flow to flag selected bounced receipts, reverse once and issue an archived revision or roll forward. New receipts against a sent invoice still append fresh balance snapshots; the parent remains unchanged. Payment pickers now use the latest child balance and exclude absorbed/settled chains. Unused bounced overpayment credit appends a zero retainer snapshot when locked; history/revision disclose the cancelled credit separately. Used excess refuses without writes. The mutation/mirror mechanics below apply only to unissued records. [Full contract](../invoicing/invoices.md).
+
+
 Source review dated 2026-09-24. Paths are relative to `DS2_Backend`. Shared middleware, schema conventions, and statement calculations are in [ledger-conventions.md](ledger-conventions.md).
 
 ## 1. Purpose and UI
@@ -21,7 +32,7 @@ All six routes require a valid active-user JWT and role `manager`, `admin`, `sup
 
 ## 3. API reference
 
-Paths below include the `/payments` mount. Common middleware can also return HTTP 400/413 for JSON parsing/size, 429 for rate limiting, or 500 for an uncaught failure; see [API conventions](ledger-conventions.md#3-api-conventions). Business failures in these mutation routes are **HTTP 200 with JSON `status:500`**, even when a core rule internally carries 400, 404, 422, or 423. (`src/app.js:70`, `src/app.js:94`, `src/endpoints/payments/payments-router.js:26`.)
+Paths below include the `/payments` mount. Common middleware can also return HTTP 400/413 for JSON parsing/size, 429 for rate limiting, or 500 for an uncaught failure; see [API conventions](ledger-conventions.md#3-api-conventions). Input validation failures return **HTTP400**. Other ledger-state failures in these mutation routes remain **HTTP200 with JSON `status:500`**, even when a core rule internally carries 400, 404, 422, or 423. (`src/app.js:70`, `src/app.js:94`, `src/endpoints/payments/payments-router.js:26`.)
 
 ### Payment input fields
 
@@ -30,12 +41,12 @@ Create and update use `{payment:{...}}`; fields are sanitized before mapping. De
 | Field | Type, requiredness, validation, and limits |
 | --- | --- |
 | `customerID` | Create: required numeric/coercible positive integer identifying a customer in this account; missing/invalid customer fails. Update: optional; a different valid positive ID is refused. It never reassigns the stored row. (`src/endpoints/payments/ledger-helpers.js:62`, `src/endpoints/payments/payment-logic.js:910`.) |
-| `unitCost` | Required on create **and update**, including metadata-only update. Number/coercible string; absolute value rounded to cents must be greater than zero. Stored negative. No separate request maximum; invoice/retainer limits apply. Database `numeric(10,2)`. (`src/endpoints/payments/payment-logic.js:435`, `src/endpoints/payments/payment-logic.js:922`, `migrations/schema-snapshot-2026-09-22.sql:589`.) |
-| `transactionDate` | Create: required and accepted by `dayjs(...).isValid()`; not a strict ISO-only validator. Update: optional; an absent/falsy/invalid date is ignored. Stored SQL `date`. No future-date prohibition here. (`src/endpoints/payments/payment-logic.js:438`, `src/endpoints/payments/payment-logic.js:989`.) |
+| `unitCost` | Required on create **and update**, including metadata-only update. Number/coercible string; absolute value rounded to cents must be greater than zero. Stored negative. Request maximum99999999.99; invoice/retainer limits also apply. Database `numeric(10,2)`. (`src/endpoints/payments/payment-logic.js:435`, `src/endpoints/payments/payment-logic.js:922`, `migrations/schema-snapshot-2026-09-22.sql:589`.) |
+| `transactionDate` | Create: required real calendar date (YYYY-MM-DD or supported ISO timestamp), validated before mapping. Update: optional; an omitted date is preserved; explicit invalid/null/empty date refuses. Stored SQL `date`. No future-date prohibition here. (`src/endpoints/payments/payment-logic.js:438`, `src/endpoints/payments/payment-logic.js:989`.) |
 | `selectedInvoiceID` | Create: required unless hold-only; convert with `Number(value)`, map falsy result to null, then account-scoped invoice lookup and customer check. A child or old parent can be selected; posting resolves the current chain. Update: no relinking; a nonzero different ID is refused when the stored row has an invoice. (`src/endpoints/payments/paymentsObjects.js:8`, `src/endpoints/payments/payment-logic.js:445`, `src/endpoints/payments/payment-logic.js:907`.) |
 | `selectedRetainerID` | Optional numeric/coercible ID; convert with `Number(value)` and map falsy result to null. When supplied, requires an invoice, same-customer latest active retainer balance, and sufficient funds. Update cannot change funding; null/omitted does not detach the stored link. (`src/endpoints/payments/paymentsObjects.js:7`, `src/endpoints/payments/payment-logic.js:446`, `src/endpoints/payments/payment-logic.js:913`, `src/endpoints/retainer/retainer-logic.js:27`.) |
-| `selectedJobID` | Optional positive integer/coercible ID; invalid/nonpositive becomes null. A supplied valid ID must belong to this customer/account. Update omission leaves unchanged; explicit null/invalid clears it. (`src/endpoints/payments/paymentsObjects.js:6`, `src/endpoints/payments/paymentsObjects.js:26`, `src/endpoints/payments/payment-logic.js:355`.) |
-| `formOfPayment`, `paymentReferenceNumber` | Optional nullable strings, SQL varchar(50) each; no method enum or request length check. Update omission preserves the field. (`src/endpoints/payments/paymentsObjects.js:11`, `src/endpoints/payments/paymentsObjects.js:31`, `migrations/schema-snapshot-2026-09-22.sql:590`.) |
+| `selectedJobID` | Optional positive integer scalar ID; malformed nonempty values refuse. A supplied valid ID must belong to this customer/account. Update omission leaves unchanged; explicit null/empty clears it. (`src/endpoints/payments/paymentsObjects.js:6`, `src/endpoints/payments/paymentsObjects.js:26`, `src/endpoints/payments/payment-logic.js:355`.) |
+| `formOfPayment`, `paymentReferenceNumber` | Optional nullable strings, SQL varchar(50) each; no method enum; request limit50 characters. Update omission preserves the field. (`src/endpoints/payments/paymentsObjects.js:11`, `src/endpoints/payments/paymentsObjects.js:31`, `migrations/schema-snapshot-2026-09-22.sql:590`.) |
 | `isTransactionBillable` | Optional boolean/coercible value; default true. Update omission preserves it. Its value does not bypass invoice movement. Parsing is described in conventions. (`src/endpoints/payments/paymentsObjects.js:13`, `src/endpoints/payments/paymentsObjects.js:33`, `src/endpoints/payments/payment-logic.js:540`.) |
 | `note` | Optional nullable text, no field-specific length limit; new system links are stripped, stored system markers survive edits. (`src/endpoints/payments/payment-logic.js:380`, `src/endpoints/payments/payment-logic.js:987`.) |
 | `holdAsPrepayment`, `captureOverpayment` | Create-only opt-ins; true only for boolean `true` or string `"true"`. Hold needs no invoice selection and no selected retainer. Split needs a positive invoice balance and no selected retainer. (`src/endpoints/payments/payment-logic.js:345`, `src/endpoints/payments/payment-logic.js:391`, `src/endpoints/payments/payment-logic.js:445`, `src/endpoints/payments/payment-logic.js:500`.) |
@@ -49,7 +60,7 @@ Create and update use `{payment:{...}}`; fields are sanitized before mapping. De
 | Method/path | `POST /payments/createPayment/:accountID/:userID` |
 | Body | `{payment:{...}}`, using the create fields above. |
 | Success | HTTP 200, `{status:200,message,...ledgerTables}`. It returns refreshed tables, not a dedicated `payment` field. `ledgerTables` is defined below. |
-| Errors | Common 401/403/400/413/429; otherwise HTTP 200/JSON 500: invalid amount/date/customer, missing invoice without hold, hold with retainer, missing/foreign invoice/job/retainer, no usable current chain, absorbed newest-chain inconsistency, excessive amount without an eligible split, inactive/exhausted/insufficient retainer, or database/refresh failure. See sections 6–7 for exact conditions. |
+| Errors | Common 401/403/400/413/429; input-validation HTTP400 takes precedence; otherwise HTTP200/JSON500 for ledger state, including missing invoice without hold, hold with retainer, missing/foreign invoice/job/retainer, no usable current chain, absorbed newest-chain inconsistency, excessive amount without an eligible split, inactive/exhausted/insufficient retainer, or precommit database failure. See sections 6–7 for exact conditions. |
 | Source | `src/endpoints/payments/payments-router.js:19`, `src/endpoints/payments/payment-logic.js:428`. |
 
 ### Single payment
@@ -69,7 +80,7 @@ Create and update use `{payment:{...}}`; fields are sanitized before mapping. De
 | Method/path | `PUT /payments/updatePayment/:accountID/:userID` |
 | Body | `{payment:{paymentID,unitCost,...optionalUpdateFields}}`. |
 | Success | HTTP 200, `{status:200,message,...ledgerTables}`. |
-| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing payment, billed event/draw, reversal row, attempted customer/invoice/retainer move, wrong-customer stored invoice or submitted job, zero/invalid amount, amount change on reversed original, direct-parent link repricing, newer child, invoice over-credit, missing/mismatched/ambiguous draw, newer retainer draw, transaction-owned draw, retainer overdraft, or database/refresh failure. |
+| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing payment, billed event/draw, reversal row, attempted customer/invoice/retainer move, wrong-customer stored invoice or submitted job, zero/invalid amount, amount change on reversed original, direct-parent link repricing, newer child, invoice over-credit, missing/mismatched/ambiguous draw, newer retainer draw, transaction-owned draw, retainer overdraft, or precommit database failure. |
 | Source | `src/endpoints/payments/payments-router.js:98`, `src/endpoints/payments/payment-logic.js:893`. |
 
 ### Delete
@@ -79,7 +90,7 @@ Create and update use `{payment:{...}}`; fields are sanitized before mapping. De
 | Method/path | `DELETE /payments/deletePayment/:accountID/:userID` |
 | Body | `{payment:{paymentID}}`; other supplied links/amounts are ignored for deletion. |
 | Success | HTTP 200, `{status:200,message,...ledgerTables}`. |
-| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing payment, billed event/draw, cross-customer stored invoice, newer invoice child, original still reversed, missing/mismatched/ambiguous or nonadjustable retainer draw, used/cancelled linked excess, unsafe reversal undo, or database/refresh failure. |
+| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing payment, billed event/draw, cross-customer stored invoice, newer invoice child, original still reversed, missing/mismatched/ambiguous or nonadjustable retainer draw, used/cancelled linked excess, unsafe reversal undo, or precommit database failure. |
 | Source | `src/endpoints/payments/payments-router.js:122`, `src/endpoints/payments/payment-logic.js:820`. |
 
 ### Reverse / NSF
@@ -87,9 +98,9 @@ Create and update use `{payment:{...}}`; fields are sanitized before mapping. De
 | Property | Contract |
 | --- | --- |
 | Method/path | `POST /payments/reversePayment/:accountID/:userID` |
-| Body | `{payment:{paymentID,reason}}`. Reason is required text, trimmed and stripped of client system markers; it must remain nonempty. No separate reason length limit. |
+| Body | `{payment:{paymentID,reason}}`. Reason is required text, trimmed and stripped of client system markers; it must remain nonempty. This includes `[reversal of payment #N]`, including nested attempts that become recognizable after another marker is removed. The same marker is stripped from ordinary receipt create/edit notes; only the server can create reversal identity. Genuine stored reversal markers survive edits. No separate reason length limit. |
 | Success | HTTP 200, `{status:200,message,...ledgerTables}`. |
-| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing ID/reason/actor, missing payment, nonnegative original, already reversed by status or actual reversal row, retainer-funded original, absent/current-chain inconsistency, used/unsafe excess prepayment, or database/refresh failure. Billed-original status alone does not prohibit reversal. |
+| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing ID/reason/actor, missing payment, nonnegative original, already reversed by status or actual reversal row, retainer-funded original, absent/current-chain inconsistency, used/unsafe excess prepayment, or precommit database failure. Billed-original status alone does not prohibit reversal. |
 | Source | `src/endpoints/payments/payments-router.js:40`, `src/endpoints/payments/payment-logic.js:1012`. |
 
 ### Paginated list
@@ -102,7 +113,13 @@ Create and update use `{payment:{...}}`; fields are sanitized before mapping. De
 | Errors | Common middleware errors; HTTP 400/JSON 400 for invalid pagination; HTTP 500/JSON 500 for other query/grid errors. |
 | Source | `src/endpoints/payments/payments-router.js:146`, `src/endpoints/payments/payments-service.js:32`. |
 
-`ledgerTables` contains `paymentsList.activePaymentsData.{activePayments,grid}`, `accountRetainersList.activeRetainerData.{activeRetainers,grid,treeGrid}`, and `invoicesList.activeInvoiceData.{invoicesList,grid,treeGrid}`. All are whole-account lists, not the user's current page/search. They are read after commit, so refresh failure can report failure after successful posting. (`src/endpoints/payments/payment-logic.js:273`, `src/endpoints/payments/payment-logic.js:305`.)
+`ledgerTables` contains `paymentsList.activePaymentsData.{activePayments,grid}`, `accountRetainersList.activeRetainerData.{activeRetainers,grid,treeGrid}`, and `invoicesList.activeInvoiceData.{invoicesList,grid,treeGrid}`. All are whole-account lists, not the user's current page/search. They are read after commit. A refresh failure returns committed success with a reload warning; it never reports that the completed posting failed. (`src/endpoints/payments/payment-logic.js:273`, `src/endpoints/payments/payment-logic.js:305`.)
+
+### Pass 2 input and committed-response contract
+
+Create/update requests validate their raw object before coercion and check sanitized text again before mapping (`src/utils/ledgerInput.js`). Money must be a finite number or numeric string, nonzero after cent rounding, with magnitude at most99999999.99. Booleans/arrays/objects are refused. Customer IDs must be positive integer scalars; malformed nonempty optional selections refuse instead of becoming null. Dates must be real YYYY-MM-DD calendar dates or supported ISO timestamps. Required text cannot be blank; bounded text is limited to the schema character count, and notes must be text without null characters. These input errors return real HTTP400 and make no writes. Omitted optional update fields retain their documented meaning.
+
+After a successful commit, a failed list refresh returns HTTP200 with `status:200`, `committed:true`, and a warning to reload without resubmitting. The write remains committed. Ordinary successful responses keep their existing tables. Tests: `scenario-what-if-01-values`, `02-retries` and `06-boundaries`.
 
 ## 4. Data model
 
@@ -123,7 +140,7 @@ Single payment returns a raw row array filtered by payment ID and account. Custo
 
 The customer profile packages that customer query as `customerPaymentData`. The invoice-detail screen resolves the selected invoice's root, obtains all root/child IDs, and selects account-scoped payments whose invoice link is any of those IDs, ordered by creation ascending. Thus its Payments tab covers the chain, not just payments linked directly to the selected parent. Initial application data uses the paginated account payment service. (`src/endpoints/customer/customer-router.js:125`, `src/endpoints/customer/customer-router.js:149`, `src/endpoints/invoice/invoice-router.js:476`, `src/endpoints/invoice/invoice-router.js:483`, `src/endpoints/initialData/initialData-router.js:105`.)
 
-For posting, query current roots/latest children as described in conventions. Keep a live requested chain; otherwise remap to the largest current balance. Do not use the balance on an old selected snapshot. The frontend picker instead uses positive parent mirrors on the newest date after filtering absorption markers; backend resolution is authoritative. (`src/endpoints/payments/payment-logic.js:99`, `src/endpoints/payments/payment-logic.js:179`, `src/endpoints/payments/payment-logic.js:537`, `../DS2_Frontend/src/Services/SharedFunctions.js:80`.)
+For posting, query current roots/latest children as described in conventions. Keep a live requested chain; otherwise remap to the largest current balance. Do not use the balance on an old selected snapshot. The frontend picker resolves latest children on the newest parent date and filters absorption markers; backend resolution is authoritative. (`src/endpoints/payments/payment-logic.js:99`, `src/endpoints/payments/payment-logic.js:179`, `src/endpoints/payments/payment-logic.js:537`, `../DS2_Frontend/src/Services/SharedFunctions.js:80`.)
 
 An exact retainer draw marker must resolve to an account-scoped child of the same customer's selected chain. Missing, mismatched, or ambiguous links are refused. Legacy fallback searches child draws within ±1 second of payment creation, excludes draws claimed by another payment, and requires exactly one candidate; it does not choose the closest row. (`src/endpoints/payments/ledger-helpers.js:309`.)
 
@@ -175,13 +192,13 @@ Deleting an unbilled latest reversal is the supported undo: remove its restored 
 
 ### NSF reversal
 
-Reason and authenticated creator are required. Lock the original's customer. Reject a nonnegative original, an existing reversal/status marker, and any retainer-funded payment. Resolve the current live chain; the chosen target may be paid at zero because reversal restores debt. A billed original can be reversed. Insert a new positive payment with current date, method `Reversal`, original reference/job, billable true, and `[reversal of payment #N] reason`; insert its invoice child and mirror the parent; append the original's `[reversed YYYY-MM-DD: reason]`. (`src/endpoints/payments/payment-logic.js:1012`.)
+Reason and authenticated creator are required. Lock the original's customer. Reject a nonnegative original, an existing reversal/status marker, and any retainer-funded payment. Resolve the current live chain; the chosen target may be paid at zero because reversal restores debt. A sent original can be reversed only through its selected-payment exception grant. Insert a new positive payment with current date, method `Reversal`, original reference/job, billable true, and `[reversal of payment #N] reason`; insert its invoice child. Mirror and annotate only unissued parents/originals; a sent original remains byte-for-byte unchanged and its exception history links the reversal. (`src/endpoints/payments/payment-logic.js:1012`.)
 
-A linked excess root must be untouched. There is one legacy exception: if already cancelled by this same original, its chain has one row and its current amount is zero, cancellation is treated as already done; that early-return condition does not check reference counts. Otherwise a spent/changed/referenced excess refuses the entire NSF transaction. Cancellation sets current zero/inactive and appends `[cancelled by reversal of payment #N]`, preserving starting amount for possible undo. While the reversal exists, the original cannot be deleted or repriced; ordinary metadata edits remain subject to the billed gate. (`src/endpoints/payments/payment-logic.js:248`, `src/endpoints/payments/payment-logic.js:731`, `src/endpoints/payments/payment-logic.js:926`.)
+A linked excess root must be untouched. There is one legacy exception: if already cancelled by this same original, its chain has one row and its current amount is zero, cancellation is treated as already done; that early-return condition does not check reference counts. Otherwise a spent/changed/referenced excess refuses the entire NSF transaction. Cancellation appends a zero/inactive retainer snapshot when the original is locked; otherwise it updates the unissued row, and records `[cancelled by reversal of payment #N]`, preserving starting amount for possible undo. While the reversal exists, the original cannot be deleted or repriced; ordinary metadata edits remain subject to the billed gate. (`src/endpoints/payments/payment-logic.js:248`, `src/endpoints/payments/payment-logic.js:731`, `src/endpoints/payments/payment-logic.js:926`.)
 
 ## 8. Invariants and tests
 
-Tests were read, not executed for this task.
+The original documentation pass inspected tests; owner run 2 executed the full local suites. See [run 2 results](../decisions/2026-09-25-run-2-results.md).
 
 | Rule | Test evidence |
 | --- | --- |
@@ -198,12 +215,26 @@ Tests were read, not executed for this task.
 
 The current review report still calls for accountant review of historical payment-sign exceptions, duplicate statements, and parent mirrors. It identifies period locks, adjustment-only corrections, and voids instead of physical deletes as open policy choices. This source implements narrower timestamp/latest-event rules, not a universal closed accounting period. (`scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:59`.)
 
-Manual create/reverse has no request idempotency key. Atomic pending approval adds its own row lock/link protection; it does not make repeated manual create calls idempotent. Route refresh errors can occur after commit. Dates are validated permissively with Day.js, not strict accounting-period rules. (`src/endpoints/payments/payments-router.js:19`, `src/endpoints/payments/payment-logic.js:305`, `src/endpoints/payments/payment-logic.js:438`, `src/endpoints/pendingPayments/pendingPayments-router.js:170`.)
+Manual create/reverse has no request idempotency key. Atomic pending approval adds its own row lock/link protection; it does not make repeated manual create calls idempotent. Postcommit refresh errors return committed success with a reload warning. Dates are calendar-validated at the HTTP boundary; accounting-period policy is unchanged. (`src/endpoints/payments/payments-router.js:19`, `src/endpoints/payments/payment-logic.js:305`, `src/endpoints/payments/payment-logic.js:438`, `src/endpoints/pendingPayments/pendingPayments-router.js:170`.)
 
 Retainer-funded receipts cannot be reversed by the NSF route. Once billed, the ordinary delete/edit escape is also refused; the intended accountant-approved correction for every such historical case is **not determined from the code**. Hold-only records must be managed as retainers because no payment row exists. (`src/endpoints/payments/payment-logic.js:201`, `src/endpoints/payments/payment-logic.js:445`, `src/endpoints/payments/payment-logic.js:1012`.)
 
-Rollout prerequisites and undecided credit/aging policies are listed in [ledger conventions](ledger-conventions.md#9-known-limitations-and-open-decisions), sourced from report sections 3 and 6. This documentation did not apply migrations or verify production rollout. (`scripts/review-2026-09/FINAL_REPORT.md:67`.)
+Rollout prerequisites, the settled optional-credit policy and remaining aging limitations are listed in [ledger conventions](ledger-conventions.md#9-known-limitations-and-open-decisions), sourced from report sections 3 and 6. This documentation did not apply migrations or verify production rollout. (`scripts/review-2026-09/FINAL_REPORT.md:67`.)
 
 ## Completion summary
 
 Coverage: **6 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+
+## Owner run 2 — retainers and duplicate review
+
+Manual create now detects possible duplicates in the posting transaction: same customer, negative stored amount, date within three days, nonblank reference and method. Retainer-funded, reversal and pending-import payments are excluded. A manually held prepayment is checked as a retainer receipt. Removing a duplicate uses `deletePaymentCore`, preserving newest-snapshot order, used-excess and sent locks; it never subtracts cash twice. See [duplicate review](duplicates.md).
+
+## Owner run 3 credit interaction
+
+A chosen negative statement uses the same immutable sent boundary and exception workflow. A$20 bounced receipt can turn an issued−$10 credit into$10 current debt; scenario15 checks this and archives a revision without changing the original−$10 statement. Issuing a credit never creates another payment or deducts a retainer. See [credit scenarios](../scenarios/15-credit-statements.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

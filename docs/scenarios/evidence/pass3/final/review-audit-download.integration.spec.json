@@ -1,0 +1,149 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:28.083Z",
+    "end": "2026-09-25T13:24:28.605Z",
+    "duration": 522
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "title": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for manager",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "title": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for admin",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "title": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for owner",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "title": "F4 audit PDF download role isolation serves the saved bytes only through the Super Admin audit endpoint",
+      "state": "passed",
+      "duration": 13
+    }
+  ],
+  "hits": {
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/review-audit-download.integration.spec.js",
+        "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for manager"
+      },
+      {
+        "file": "test/integration/review-audit-download.integration.spec.js",
+        "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for admin"
+      },
+      {
+        "file": "test/integration/review-audit-download.integration.spec.js",
+        "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for owner"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:429:16": [
+      {
+        "file": "test/integration/review-audit-download.integration.spec.js",
+        "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for manager"
+      },
+      {
+        "file": "test/integration/review-audit-download.integration.spec.js",
+        "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for admin"
+      },
+      {
+        "file": "test/integration/review-audit-download.integration.spec.js",
+        "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for owner"
+      },
+      {
+        "file": "test/integration/review-audit-download.integration.spec.js",
+        "test": "F4 audit PDF download role isolation serves the saved bytes only through the Super Admin audit endpoint"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for manager",
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1271/pdf/9001/91084",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for manager",
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/91084?fileLocation=account_audits%2F9001%2F900101%2FF4-40646-mugzss49-1.pdf",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for admin",
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1271/pdf/9001/91085",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for admin",
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/91085?fileLocation=account_audits%2F9001%2F900101%2FF4-40646-mugzss49-1.pdf",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for owner",
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1271/pdf/9001/91086",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "F4 audit PDF download role isolation refuses the same saved audit through both surfaces for owner",
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/91086?fileLocation=account_audits%2F9001%2F900101%2FF4-40646-mugzss49-1.pdf",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "F4 audit PDF download role isolation serves the saved bytes only through the Super Admin audit endpoint",
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1271/pdf/9001/91087",
+      "route": "/audit/:auditID/pdf/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "F4 audit PDF download role isolation serves the saved bytes only through the Super Admin audit endpoint",
+      "file": "test/integration/review-audit-download.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/91087?fileLocation=account_audits%2F9001%2F900101%2FF4-40646-mugzss49-1.pdf",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    }
+  ]
+}

@@ -1,0 +1,1502 @@
+{
+  "stats": {
+    "suites": 23,
+    "tests": 106,
+    "passes": 106,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:49:29.591Z",
+    "end": "2026-09-25T14:49:43.218Z",
+    "duration": 13627
+  },
+  "tests": [
+    {
+      "title": "admin: every ACTIVE user of the account (inactive excluded) with only id / name / email / role",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID admin: every ACTIVE user of the account (inactive excluded) with only id / name / email / role",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee (self): only their own row",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID employee (self): only their own row",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee addressing another :userID -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID employee addressing another :userID -> 403",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unknown :userID, or a user of another tenant -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID unknown :userID, or a user of another tenant -> 404",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: lists the owner\u2019s stored uploads (name = stored file name, gzip size, newest first); another employee\u2019s files are absent",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID admin: lists the owner\u2019s stored uploads (name = stored file name, gzip size, newest first); another employee\u2019s files are absent",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee (self) sees their own list; another owner\u2019s history -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID employee (self) sees their own list; another owner\u2019s history -> 403",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unknown owner -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID unknown owner -> 404",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "another account\u2019s same-named user\u2019s upload is neither listed nor downloadable",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID another account\u2019s same-named user\u2019s upload is neither listed nor downloadable",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin downloads the owner\u2019s tracker: the original workbook bytes, its content type and file name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID admin downloads the owner\u2019s tracker: the original workbook bytes, its content type and file name",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee downloads their own tracker",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID employee downloads their own tracker",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "missing key -> 400; a key outside the owner\u2019s folder (another employee\u2019s tracker, the template) -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID missing key -> 400; a key outside the owner\u2019s folder (another employee\u2019s tracker, the template) -> 403",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee addressing another owner -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID employee addressing another owner -> 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a key inside the owner\u2019s folder that does not exist -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID a key inside the owner\u2019s folder that does not exist -> 404",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin downloads an employee\u2019s tracker by the timesheet_name stored on its entry rows",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID admin downloads an employee\u2019s tracker by the timesheet_name stored on its entry rows",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a spaced variant of the stored name resolves to the same file (legacy name fallback)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID a spaced variant of the stored name resolves to the same file (legacy name fallback)",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee: own tracker -> 200; another owner\u2019s tracker -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID employee: own tracker -> 200; another owner\u2019s tracker -> 403",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "missing params -> 400; a path-like name -> 400; unknown name -> 404; owner outside the account -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID missing params -> 400; a path-like name -> 400; unknown name -> 404; owner outside the account -> 404",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the REAL Eliza (90011) does not see the other Eliza\u2019s legacy-layout file in her history",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) same-named employees within ONE account do not share history/downloads (C6) the REAL Eliza (90011) does not see the other Eliza\u2019s legacy-layout file in her history",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the REAL Eliza (90011) cannot download the other Eliza\u2019s legacy-layout file even though it sits under the shared name folder",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) same-named employees within ONE account do not share history/downloads (C6) the REAL Eliza (90011) cannot download the other Eliza\u2019s legacy-layout file even though it sits under the shared name folder",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "/download/by-name for the real Eliza 404s for a name only the OTHER Eliza owns (no owned matching file \u2014 200 with any non-victim bytes is still wrong)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) same-named employees within ONE account do not share history/downloads (C6) /download/by-name for the real Eliza 404s for a name only the OTHER Eliza owns (no owned matching file \u2014 200 with any non-victim bytes is still wrong)",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the OTHER Eliza (as herself) DOES see and can download her own legacy-layout file \u2014 the fix attributes it correctly, not just hides it from everyone",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) same-named employees within ONE account do not share history/downloads (C6) the OTHER Eliza (as herself) DOES see and can download her own legacy-layout file \u2014 the fix attributes it correctly, not just hides it from everyone",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag off (default), OWNER account: the stored latest template is served unchanged",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID flag off (default), OWNER account: the stored latest template is served unchanged",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag on for the account: hidden lookup sheets are re-stamped from account 9001\u2019s own catalogs; counts in headers; audit row written",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID flag on for the account: hidden lookup sheets are re-stamped from account 9001\u2019s own catalogs; counts in headers; audit row written",
+      "duration": 493,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee addressing another :userID -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID employee addressing another :userID -> 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the flag-on (re-stamped) template served to account 9001 carries no other tenant\u2019s customer or staff names",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID the flag-on (re-stamped) template served to account 9001 carries no other tenant\u2019s customer or staff names",
+      "duration": 443,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the flag-off (default) template served to account 9001 carries NOTHING from account 1 anywhere in the workbook (rebuilt, never passed through), and never damages the template\u2019s own Categories/Instructions vocabulary",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID the flag-off (default) template served to account 9001 carries NOTHING from account 1 anywhere in the workbook (rebuilt, never passed through), and never damages the template\u2019s own Categories/Instructions vocabulary",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a template-builder failure for a non-owner account returns 503 and never falls back to the shared bytes",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID a template-builder failure for a non-owner account returns 503 and never falls back to the shared bytes",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "super admin uploads a new version: 201, stored under tracker_versions/ byte-for-byte, and it becomes the latest template",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /time-tracking/template/upload/:accountID/:userID super admin uploads a new version: 201, stored under tracker_versions/ byte-for-byte, and it becomes the latest template",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "only a super admin may upload: account admin and employee -> 403; nothing is written",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /time-tracking/template/upload/:accountID/:userID only a super admin may upload: account admin and employee -> 403; nothing is written",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "missing x-file-name -> 400; a file over 1 MB -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /time-tracking/template/upload/:accountID/:userID missing x-file-name -> 400; a file over 1 MB -> 400",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /time-tracking/template/upload/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a non-owner account (9001 admin) gets an empty list, never the owner's raw keys or slug",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/list/:accountID/:userID a non-owner account (9001 admin) gets an empty list, never the owner's raw keys or slug",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "super admin (owner account) lists newest first \u2014 the new upload on top, the original still listed; employee -> 403 (admin only)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/list/:accountID/:userID super admin (owner account) lists newest first \u2014 the new upload on top, the original still listed; employee -> 403 (admin only)",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/list/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a manager addressing an ADMIN's URL id cannot borrow that admin's role (403)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/list/:accountID/:userID a manager addressing an ADMIN's URL id cannot borrow that admin's role (403)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses bad requests without deleting anything: no key / outside tracker_versions / the folder / a non-template name -> 400; employee -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /time-tracking/template/delete/:accountID/:userID refuses bad requests without deleting anything: no key / outside tracker_versions / the folder / a non-template name -> 400; employee -> 403",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants (nothing deleted)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /time-tracking/template/delete/:accountID/:userID 401 without a valid identity; 403 across tenants (nothing deleted)",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "super admin deletes the uploaded version: 204, gone from S3 and the list, and the original is the latest template again",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /time-tracking/template/delete/:accountID/:userID super admin deletes the uploaded version: 204, gone from S3 and the list, and the original is the latest template again",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an account admin (not super admin) cannot delete a firm-wide template version",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /time-tracking/template/delete/:accountID/:userID an account admin (not super admin) cannot delete a firm-wide template version",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: the account\u2019s unprocessed entries (safe columns only), with page metadata that matches the table",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID admin: the account\u2019s unprocessed entries (safe columns only), with page metadata that matches the table",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "pagination: page 2 of limit 1 returns one row; a huge limit is capped at 500",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID pagination: page 2 of limit 1 returns one row; a huge limit is capped at 500",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invalid pagination (page=0) -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID invalid pagination (page=0) -> 400",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a plain employee cannot read the whole account\u2019s pending entries",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID a plain employee cannot read the whole account\u2019s pending entries",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: only the queried employee\u2019s pending entries; grid rows carry ai_status; totals match the table",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID admin: only the queried employee\u2019s pending entries; grid rows carry ai_status; totals match the table",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee may read their own queue; an unknown employee is an empty page",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID employee may read their own queue; an unknown employee is an empty page",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot read another employee\u2019s pending entries",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID an employee cannot read another employee\u2019s pending entries",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: one summary row per uploaded tracker, internal ids stripped, count matches the table",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID admin: one summary row per uploaded tracker, internal ids stripped, count matches the table",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee may list their own trackers",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID employee may list their own trackers",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot list another employee\u2019s trackers",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID an employee cannot list another employee\u2019s trackers",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: only trackers whose window lies inside the CURRENT month (T1 yes, last month\u2019s T2 no)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID admin: only trackers whose window lies inside the CURRENT month (T1 yes, last month\u2019s T2 no)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot read another employee\u2019s monthly trackers",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID an employee cannot read another employee\u2019s monthly trackers",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: one row per active user with pending-entry / tracker / AI-status counts that match the tables",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/countsByEmployee/:accountID/:userID admin: one row per active user with pending-entry / tracker / AI-status counts that match the tables",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/countsByEmployee/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a plain employee cannot read every colleague\u2019s counts",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/countsByEmployee/:accountID/:userID a plain employee cannot read every colleague\u2019s counts",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag off -> 503 and nothing is processed; no timesheet_name / entry_ids -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID flag off -> 503 and nothing is processed; no timesheet_name / entry_ids -> 400",
+      "duration": 315,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag on + entry_ids: 202, the background orchestrator (stubbed Bedrock) auto-inserts the line once and notifies staff",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID flag on + entry_ids: 202, the background orchestrator (stubbed Bedrock) auto-inserts the line once and notifies staff",
+      "duration": 165,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag on + timesheet_name, called by the tracker OWNER: kicks off exactly that tracker\u2019s pending lines",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID flag on + timesheet_name, called by the tracker OWNER: kicks off exactly that tracker\u2019s pending lines",
+      "duration": 166,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an admin can kick off an employee\u2019s tracker by timesheet_name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID an admin can kick off an employee\u2019s tracker by timesheet_name",
+      "duration": 202,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot kick off another employee's tracker by entry_ids (403), and nothing is processed",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID an employee cannot kick off another employee's tracker by entry_ids (403), and nothing is processed",
+      "duration": 211,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot kick off another employee's tracker by timesheet_name (403), and nothing is processed",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID an employee cannot kick off another employee's tracker by timesheet_name (403), and nothing is processed",
+      "duration": 214,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the URL :userID cannot spoof the actor \u2014 the transaction records the AUTHENTICATED caller even when the URL names someone else",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID the URL :userID cannot spoof the actor \u2014 the transaction records the AUTHENTICATED caller even when the URL names someone else",
+      "duration": 453,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an internal customer (INTERNAL_CUSTOMER_IDS) is stored NON-billable even when the reviewer sends billable=true, and stale hundredth-hour pricing is ignored (C5-3)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID an internal customer (INTERNAL_CUSTOMER_IDS) is stored NON-billable even when the reviewer sends billable=true, and stale hundredth-hour pricing is ignored (C5-3)",
+      "duration": 52,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invalid or missing timesheetEntryID -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID invalid or missing timesheetEntryID -> 400",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "another tenant\u2019s entry id -> 409; nothing is written and the account-1 row is untouched",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID another tenant\u2019s entry id -> 409; nothing is written and the account-1 row is untouched",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a body without `entry` -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID a body without `entry` -> 400",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a plain employee cannot move a tracker line to billing",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID a plain employee cannot move a tracker line to billing",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a Doctor Appointment (non-work) row is applied non-billable ($0 billable) even though the reviewer sends billable=true",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID a Doctor Appointment (non-work) row is applied non-billable ($0 billable) even though the reviewer sends billable=true",
+      "duration": 813,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "another tenant's general_work_description_id -> 400, nothing written",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID another tenant's general_work_description_id -> 400, nothing written",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "loggedByUserID is the authenticated caller, never a client-supplied value",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID loggedByUserID is the authenticated caller, never a client-supplied value",
+      "duration": 974,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin soft-deletes an unprocessed entry: 200, is_deleted, gone from the pending queues and counts",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID admin soft-deletes an unprocessed entry: 200, is_deleted, gone from the pending queues and counts",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "another tenant\u2019s entry id is refused and the account-1 row is untouched",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID another tenant\u2019s entry id is refused and the account-1 row is untouched",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants (nothing deleted)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID 401 without a valid identity; 403 across tenants (nothing deleted)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an unknown entry id -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID an unknown entry id -> 404",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot delete another employee\u2019s entry",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID an employee cannot delete another employee\u2019s entry",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "deleting an UNPROCESSED row, then re-uploading the corrected tracker, inserts it (not treated as a duplicate of the deleted row)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker duplicate detection after a delete (C9) deleting an UNPROCESSED row, then re-uploading the corrected tracker, inserts it (not treated as a duplicate of the deleted row)",
+      "duration": 2015,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a PROCESSED row that also carries is_deleted=true (legacy data shape) still blocks a duplicate re-upload",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker duplicate detection after a delete (C9) a PROCESSED row that also carries is_deleted=true (legacy data shape) still blocks a duplicate re-upload",
+      "duration": 1996,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an owned tracker stays listed and downloadable after the account is renamed, and a new upload after the rename lands under the SAME immutable folder",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker namespace survives an account rename (Astra round 10, finding 5) an owned tracker stays listed and downloadable after the account is renamed, and a new upload after the rename lands under the SAME immutable folder",
+      "duration": 1021,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "account 1's folder derivation is unaffected by anything above (read-only assertion against its real row)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker namespace survives an account rename (Astra round 10, finding 5) account 1's folder derivation is unaffected by anything above (read-only assertion against its real row)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a key in another account's folder even when its file name is one this owner recorded",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) refuses a key in another account's folder even when its file name is one this owner recorded",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a key under another user's id folder in this account, even with a recorded file name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) refuses a key under another user's id folder in this account, even with a recorded file name",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses keys of unexpected depth, and a bare file directly under the processed root",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) refuses keys of unexpected depth, and a bare file directly under the processed root",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "compares ids exactly: leading zeros in the account or user id never match",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) compares ids exactly: leading zeros in the account or user id never match",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "history lists this account's files under a former account-name folder (id-keyed always, name-keyed only when recorded) and none of the other folders",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) history lists this account's files under a former account-name folder (id-keyed always, name-keyed only when recorded) and none of the other folders",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "downloads files in a former account-name folder of this account, and refuses an unrecorded name in the shared name folder",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) downloads files in a former account-name folder of this account, and refuses an unrecorded name in the shared name folder",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "download-by-name finds files in a former account-name folder and never resolves to another account or user",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) download-by-name finds files in a former account-name folder and never resolves to another account or user",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "never serves a same-named colleague's file whose name only matches this owner's recorded name after normalization",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) never serves a same-named colleague's file whose name only matches this owner's recorded name after normalization",
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "never serves a flat-layout file to an account that is not the legacy tenant, even with an exactly recorded name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) never serves a flat-layout file to an account that is not the legacy tenant, even with an exactly recorded name",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a malformed deeper key is skipped and the search continues to the valid match",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) a malformed deeper key is skipped and the search continues to the valid match",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "after a rename, a name-keyed file in the account's storage folder stays listed and downloadable by name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) after a rename, a name-keyed file in the account's storage folder stays listed and downloadable by name",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the legacy tenant's flat files are listed and downloadable once an ownership row exists (Astra round 13)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) the legacy tenant's flat files are listed and downloadable once an ownership row exists (Astra round 13)",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a renamed owner keeps their file, in both the old and new name folder; a same-named colleague never gets it \u2014 before or after the rename",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) a renamed owner keeps their file, in both the old and new name folder; a same-named colleague never gets it \u2014 before or after the rename",
+      "duration": 88,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a deleted employee's owned file is not transferred to a later employee created with the same name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) a deleted employee's owned file is not transferred to a later employee created with the same name",
+      "duration": 55,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a key in the owner's current name folder is refused and unlisted with NO ownership row, even when a timesheet row records its exact name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) a key in the owner's current name folder is refused and unlisted with NO ownership row, even when a timesheet row records its exact name",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "configured legacy flat files \u2014 gzipped and genuinely plain \u2014 list and download byte-exact once owned (P2 ownership + P3 gzip handling)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) configured legacy flat files \u2014 gzipped and genuinely plain \u2014 list and download byte-exact once owned (P2 ownership + P3 gzip handling)",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a real upload writes its own ownership row, source \"upload\", for the owner",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) a real upload writes its own ownership row, source \"upload\", for the owner",
+      "duration": 506,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "admin: every ACTIVE user of the account (inactive excluded) with only id / name / email / role",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID admin: every ACTIVE user of the account (inactive excluded) with only id / name / email / role",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee (self): only their own row",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID employee (self): only their own row",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee addressing another :userID -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID employee addressing another :userID -> 403",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unknown :userID, or a user of another tenant -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID unknown :userID, or a user of another tenant -> 404",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/users/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: lists the owner\u2019s stored uploads (name = stored file name, gzip size, newest first); another employee\u2019s files are absent",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID admin: lists the owner\u2019s stored uploads (name = stored file name, gzip size, newest first); another employee\u2019s files are absent",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee (self) sees their own list; another owner\u2019s history -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID employee (self) sees their own list; another owner\u2019s history -> 403",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unknown owner -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID unknown owner -> 404",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "another account\u2019s same-named user\u2019s upload is neither listed nor downloadable",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/:accountID/:userID another account\u2019s same-named user\u2019s upload is neither listed nor downloadable",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin downloads the owner\u2019s tracker: the original workbook bytes, its content type and file name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID admin downloads the owner\u2019s tracker: the original workbook bytes, its content type and file name",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee downloads their own tracker",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID employee downloads their own tracker",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "missing key -> 400; a key outside the owner\u2019s folder (another employee\u2019s tracker, the template) -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID missing key -> 400; a key outside the owner\u2019s folder (another employee\u2019s tracker, the template) -> 403",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee addressing another owner -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID employee addressing another owner -> 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a key inside the owner\u2019s folder that does not exist -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/history/download/:accountID/:userID a key inside the owner\u2019s folder that does not exist -> 404",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin downloads an employee\u2019s tracker by the timesheet_name stored on its entry rows",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID admin downloads an employee\u2019s tracker by the timesheet_name stored on its entry rows",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a spaced variant of the stored name resolves to the same file (legacy name fallback)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID a spaced variant of the stored name resolves to the same file (legacy name fallback)",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee: own tracker -> 200; another owner\u2019s tracker -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID employee: own tracker -> 200; another owner\u2019s tracker -> 403",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "missing params -> 400; a path-like name -> 400; unknown name -> 404; owner outside the account -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID missing params -> 400; a path-like name -> 400; unknown name -> 404; owner outside the account -> 404",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/download/by-name/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the REAL Eliza (90011) does not see the other Eliza\u2019s legacy-layout file in her history",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) same-named employees within ONE account do not share history/downloads (C6) the REAL Eliza (90011) does not see the other Eliza\u2019s legacy-layout file in her history",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the REAL Eliza (90011) cannot download the other Eliza\u2019s legacy-layout file even though it sits under the shared name folder",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) same-named employees within ONE account do not share history/downloads (C6) the REAL Eliza (90011) cannot download the other Eliza\u2019s legacy-layout file even though it sits under the shared name folder",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "/download/by-name for the real Eliza 404s for a name only the OTHER Eliza owns (no owned matching file \u2014 200 with any non-victim bytes is still wrong)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) same-named employees within ONE account do not share history/downloads (C6) /download/by-name for the real Eliza 404s for a name only the OTHER Eliza owns (no owned matching file \u2014 200 with any non-victim bytes is still wrong)",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the OTHER Eliza (as herself) DOES see and can download her own legacy-layout file \u2014 the fix attributes it correctly, not just hides it from everyone",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) same-named employees within ONE account do not share history/downloads (C6) the OTHER Eliza (as herself) DOES see and can download her own legacy-layout file \u2014 the fix attributes it correctly, not just hides it from everyone",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag off (default), OWNER account: the stored latest template is served unchanged",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID flag off (default), OWNER account: the stored latest template is served unchanged",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag on for the account: hidden lookup sheets are re-stamped from account 9001\u2019s own catalogs; counts in headers; audit row written",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID flag on for the account: hidden lookup sheets are re-stamped from account 9001\u2019s own catalogs; counts in headers; audit row written",
+      "duration": 493,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee addressing another :userID -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID employee addressing another :userID -> 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the flag-on (re-stamped) template served to account 9001 carries no other tenant\u2019s customer or staff names",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID the flag-on (re-stamped) template served to account 9001 carries no other tenant\u2019s customer or staff names",
+      "duration": 443,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the flag-off (default) template served to account 9001 carries NOTHING from account 1 anywhere in the workbook (rebuilt, never passed through), and never damages the template\u2019s own Categories/Instructions vocabulary",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID the flag-off (default) template served to account 9001 carries NOTHING from account 1 anywhere in the workbook (rebuilt, never passed through), and never damages the template\u2019s own Categories/Instructions vocabulary",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a template-builder failure for a non-owner account returns 503 and never falls back to the shared bytes",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/latest/:accountID/:userID a template-builder failure for a non-owner account returns 503 and never falls back to the shared bytes",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "super admin uploads a new version: 201, stored under tracker_versions/ byte-for-byte, and it becomes the latest template",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /time-tracking/template/upload/:accountID/:userID super admin uploads a new version: 201, stored under tracker_versions/ byte-for-byte, and it becomes the latest template",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "only a super admin may upload: account admin and employee -> 403; nothing is written",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /time-tracking/template/upload/:accountID/:userID only a super admin may upload: account admin and employee -> 403; nothing is written",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "missing x-file-name -> 400; a file over 1 MB -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /time-tracking/template/upload/:accountID/:userID missing x-file-name -> 400; a file over 1 MB -> 400",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /time-tracking/template/upload/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a non-owner account (9001 admin) gets an empty list, never the owner's raw keys or slug",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/list/:accountID/:userID a non-owner account (9001 admin) gets an empty list, never the owner's raw keys or slug",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "super admin (owner account) lists newest first \u2014 the new upload on top, the original still listed; employee -> 403 (admin only)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/list/:accountID/:userID super admin (owner account) lists newest first \u2014 the new upload on top, the original still listed; employee -> 403 (admin only)",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/list/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a manager addressing an ADMIN's URL id cannot borrow that admin's role (403)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /time-tracking/template/list/:accountID/:userID a manager addressing an ADMIN's URL id cannot borrow that admin's role (403)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses bad requests without deleting anything: no key / outside tracker_versions / the folder / a non-template name -> 400; employee -> 403",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /time-tracking/template/delete/:accountID/:userID refuses bad requests without deleting anything: no key / outside tracker_versions / the folder / a non-template name -> 400; employee -> 403",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants (nothing deleted)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /time-tracking/template/delete/:accountID/:userID 401 without a valid identity; 403 across tenants (nothing deleted)",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "super admin deletes the uploaded version: 204, gone from S3 and the list, and the original is the latest template again",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /time-tracking/template/delete/:accountID/:userID super admin deletes the uploaded version: 204, gone from S3 and the list, and the original is the latest template again",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an account admin (not super admin) cannot delete a firm-wide template version",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /time-tracking/template/delete/:accountID/:userID an account admin (not super admin) cannot delete a firm-wide template version",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: the account\u2019s unprocessed entries (safe columns only), with page metadata that matches the table",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID admin: the account\u2019s unprocessed entries (safe columns only), with page metadata that matches the table",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "pagination: page 2 of limit 1 returns one row; a huge limit is capped at 500",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID pagination: page 2 of limit 1 returns one row; a huge limit is capped at 500",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invalid pagination (page=0) -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID invalid pagination (page=0) -> 400",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a plain employee cannot read the whole account\u2019s pending entries",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntries/:accountID/:userID a plain employee cannot read the whole account\u2019s pending entries",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: only the queried employee\u2019s pending entries; grid rows carry ai_status; totals match the table",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID admin: only the queried employee\u2019s pending entries; grid rows carry ai_status; totals match the table",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee may read their own queue; an unknown employee is an empty page",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID employee may read their own queue; an unknown employee is an empty page",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot read another employee\u2019s pending entries",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID an employee cannot read another employee\u2019s pending entries",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: one summary row per uploaded tracker, internal ids stripped, count matches the table",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID admin: one summary row per uploaded tracker, internal ids stripped, count matches the table",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "employee may list their own trackers",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID employee may list their own trackers",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot list another employee\u2019s trackers",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID an employee cannot list another employee\u2019s trackers",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: only trackers whose window lies inside the CURRENT month (T1 yes, last month\u2019s T2 no)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID admin: only trackers whose window lies inside the CURRENT month (T1 yes, last month\u2019s T2 no)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot read another employee\u2019s monthly trackers",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID an employee cannot read another employee\u2019s monthly trackers",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin: one row per active user with pending-entry / tracker / AI-status counts that match the tables",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/countsByEmployee/:accountID/:userID admin: one row per active user with pending-entry / tracker / AI-status counts that match the tables",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/countsByEmployee/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a plain employee cannot read every colleague\u2019s counts",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) GET /timesheets/countsByEmployee/:accountID/:userID a plain employee cannot read every colleague\u2019s counts",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag off -> 503 and nothing is processed; no timesheet_name / entry_ids -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID flag off -> 503 and nothing is processed; no timesheet_name / entry_ids -> 400",
+      "duration": 315,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag on + entry_ids: 202, the background orchestrator (stubbed Bedrock) auto-inserts the line once and notifies staff",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID flag on + entry_ids: 202, the background orchestrator (stubbed Bedrock) auto-inserts the line once and notifies staff",
+      "duration": 165,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag on + timesheet_name, called by the tracker OWNER: kicks off exactly that tracker\u2019s pending lines",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID flag on + timesheet_name, called by the tracker OWNER: kicks off exactly that tracker\u2019s pending lines",
+      "duration": 166,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an admin can kick off an employee\u2019s tracker by timesheet_name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID an admin can kick off an employee\u2019s tracker by timesheet_name",
+      "duration": 202,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot kick off another employee's tracker by entry_ids (403), and nothing is processed",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID an employee cannot kick off another employee's tracker by entry_ids (403), and nothing is processed",
+      "duration": 211,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot kick off another employee's tracker by timesheet_name (403), and nothing is processed",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID an employee cannot kick off another employee's tracker by timesheet_name (403), and nothing is processed",
+      "duration": 214,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the URL :userID cannot spoof the actor \u2014 the transaction records the AUTHENTICATED caller even when the URL names someone else",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/ai/kickoff/:accountID/:userID the URL :userID cannot spoof the actor \u2014 the transaction records the AUTHENTICATED caller even when the URL names someone else",
+      "duration": 453,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an internal customer (INTERNAL_CUSTOMER_IDS) is stored NON-billable even when the reviewer sends billable=true, and stale hundredth-hour pricing is ignored (C5-3)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID an internal customer (INTERNAL_CUSTOMER_IDS) is stored NON-billable even when the reviewer sends billable=true, and stale hundredth-hour pricing is ignored (C5-3)",
+      "duration": 52,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invalid or missing timesheetEntryID -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID invalid or missing timesheetEntryID -> 400",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "another tenant\u2019s entry id -> 409; nothing is written and the account-1 row is untouched",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID another tenant\u2019s entry id -> 409; nothing is written and the account-1 row is untouched",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID 401 without a valid identity; 403 across tenants",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a body without `entry` -> 400",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID a body without `entry` -> 400",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a plain employee cannot move a tracker line to billing",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID a plain employee cannot move a tracker line to billing",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a Doctor Appointment (non-work) row is applied non-billable ($0 billable) even though the reviewer sends billable=true",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID a Doctor Appointment (non-work) row is applied non-billable ($0 billable) even though the reviewer sends billable=true",
+      "duration": 813,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "another tenant's general_work_description_id -> 400, nothing written",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID another tenant's general_work_description_id -> 400, nothing written",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "loggedByUserID is the authenticated caller, never a client-supplied value",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID loggedByUserID is the authenticated caller, never a client-supplied value",
+      "duration": 974,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "admin soft-deletes an unprocessed entry: 200, is_deleted, gone from the pending queues and counts",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID admin soft-deletes an unprocessed entry: 200, is_deleted, gone from the pending queues and counts",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "another tenant\u2019s entry id is refused and the account-1 row is untouched",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID another tenant\u2019s entry id is refused and the account-1 row is untouched",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a valid identity; 403 across tenants (nothing deleted)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID 401 without a valid identity; 403 across tenants (nothing deleted)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an unknown entry id -> 404",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID an unknown entry id -> 404",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee cannot delete another employee\u2019s entry",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID an employee cannot delete another employee\u2019s entry",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "deleting an UNPROCESSED row, then re-uploading the corrected tracker, inserts it (not treated as a duplicate of the deleted row)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker duplicate detection after a delete (C9) deleting an UNPROCESSED row, then re-uploading the corrected tracker, inserts it (not treated as a duplicate of the deleted row)",
+      "duration": 2015,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a PROCESSED row that also carries is_deleted=true (legacy data shape) still blocks a duplicate re-upload",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker duplicate detection after a delete (C9) a PROCESSED row that also carries is_deleted=true (legacy data shape) still blocks a duplicate re-upload",
+      "duration": 1996,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an owned tracker stays listed and downloadable after the account is renamed, and a new upload after the rename lands under the SAME immutable folder",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker namespace survives an account rename (Astra round 10, finding 5) an owned tracker stays listed and downloadable after the account is renamed, and a new upload after the rename lands under the SAME immutable folder",
+      "duration": 1021,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "account 1's folder derivation is unaffected by anything above (read-only assertion against its real row)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker namespace survives an account rename (Astra round 10, finding 5) account 1's folder derivation is unaffected by anything above (read-only assertion against its real row)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a key in another account's folder even when its file name is one this owner recorded",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) refuses a key in another account's folder even when its file name is one this owner recorded",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a key under another user's id folder in this account, even with a recorded file name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) refuses a key under another user's id folder in this account, even with a recorded file name",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses keys of unexpected depth, and a bare file directly under the processed root",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) refuses keys of unexpected depth, and a bare file directly under the processed root",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "compares ids exactly: leading zeros in the account or user id never match",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) compares ids exactly: leading zeros in the account or user id never match",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "history lists this account's files under a former account-name folder (id-keyed always, name-keyed only when recorded) and none of the other folders",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) history lists this account's files under a former account-name folder (id-keyed always, name-keyed only when recorded) and none of the other folders",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "downloads files in a former account-name folder of this account, and refuses an unrecorded name in the shared name folder",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) downloads files in a former account-name folder of this account, and refuses an unrecorded name in the shared name folder",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "download-by-name finds files in a former account-name folder and never resolves to another account or user",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) tracker key ownership is structural (Astra round 11) download-by-name finds files in a former account-name folder and never resolves to another account or user",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "never serves a same-named colleague's file whose name only matches this owner's recorded name after normalization",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) never serves a same-named colleague's file whose name only matches this owner's recorded name after normalization",
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "never serves a flat-layout file to an account that is not the legacy tenant, even with an exactly recorded name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) never serves a flat-layout file to an account that is not the legacy tenant, even with an exactly recorded name",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a malformed deeper key is skipped and the search continues to the valid match",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) a malformed deeper key is skipped and the search continues to the valid match",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "after a rename, a name-keyed file in the account's storage folder stays listed and downloadable by name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) after a rename, a name-keyed file in the account's storage folder stays listed and downloadable by name",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the legacy tenant's flat files are listed and downloadable once an ownership row exists (Astra round 13)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) download-by-name and history authorize before fetching (Astra round 12) the legacy tenant's flat files are listed and downloadable once an ownership row exists (Astra round 13)",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a renamed owner keeps their file, in both the old and new name folder; a same-named colleague never gets it \u2014 before or after the rename",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) a renamed owner keeps their file, in both the old and new name folder; a same-named colleague never gets it \u2014 before or after the rename",
+      "duration": 88,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a deleted employee's owned file is not transferred to a later employee created with the same name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) a deleted employee's owned file is not transferred to a later employee created with the same name",
+      "duration": 55,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a key in the owner's current name folder is refused and unlisted with NO ownership row, even when a timesheet row records its exact name",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) a key in the owner's current name folder is refused and unlisted with NO ownership row, even when a timesheet row records its exact name",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "configured legacy flat files \u2014 gzipped and genuinely plain \u2014 list and download byte-exact once owned (P2 ownership + P3 gzip handling)",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) configured legacy flat files \u2014 gzipped and genuinely plain \u2014 list and download byte-exact once owned (P2 ownership + P3 gzip handling)",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a real upload writes its own ownership row, source \"upload\", for the owner",
+      "fullTitle": "time-tracking + timesheets routes: HTTP coverage (account 9001) legacy tracker ownership is durable, not name-derived (Astra round 13) a real upload writes its own ownership row, source \"upload\", for the owner",
+      "duration": 506,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

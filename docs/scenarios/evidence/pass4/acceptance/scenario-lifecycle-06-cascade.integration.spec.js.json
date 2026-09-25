@@ -1,0 +1,144 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 9,
+    "passes": 9,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:51:23.921Z",
+    "end": "2026-09-25T14:51:28.818Z",
+    "duration": 4897
+  },
+  "tests": [
+    {
+      "title": "C01 bills $100 and receives $40, leaving $60",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C01 bills $100 and receives $40, leaving $60",
+      "duration": 578,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C02 refuses sent quantity, total, date, billability and no-op edits",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C02 refuses sent quantity, total, date, billability and no-op edits",
+      "duration": 610,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C03 freezes metadata and job links and retains original PDF bytes",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C03 freezes metadata and job links and retains original PDF bytes",
+      "duration": 162,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C04 carries $60 forward with $30 new work and still refuses historical annotations",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C04 carries $60 forward with $30 new work and still refuses historical annotations",
+      "duration": 435,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C05 refuses financial edits, notes and no-ops after settlement",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C05 refuses financial edits, notes and no-ops after settlement",
+      "duration": 500,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C06 cannot move sent work to another customer even with confirmation",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C06 cannot move sent work to another customer even with confirmation",
+      "duration": 594,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C06b still recomputes quantity/rate and permits explicit totals before issue",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C06b still recomputes quantity/rate and permits explicit totals before issue",
+      "duration": 248,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C07 refuses retainer-funded financial edits and explicit retainer fields",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C07 refuses retainer-funded financial edits and explicit retainer fields",
+      "duration": 413,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C08 preserves internal/nonbillable policy on cascade billability edits",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C08 preserves internal/nonbillable policy on cascade billability edits",
+      "duration": 981,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "C01 bills $100 and receives $40, leaving $60",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C01 bills $100 and receives $40, leaving $60",
+      "duration": 578,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C02 refuses sent quantity, total, date, billability and no-op edits",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C02 refuses sent quantity, total, date, billability and no-op edits",
+      "duration": 610,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C03 freezes metadata and job links and retains original PDF bytes",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C03 freezes metadata and job links and retains original PDF bytes",
+      "duration": 162,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C04 carries $60 forward with $30 new work and still refuses historical annotations",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C04 carries $60 forward with $30 new work and still refuses historical annotations",
+      "duration": 435,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C05 refuses financial edits, notes and no-ops after settlement",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C05 refuses financial edits, notes and no-ops after settlement",
+      "duration": 500,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C06 cannot move sent work to another customer even with confirmation",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C06 cannot move sent work to another customer even with confirmation",
+      "duration": 594,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C06b still recomputes quantity/rate and permits explicit totals before issue",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C06b still recomputes quantity/rate and permits explicit totals before issue",
+      "duration": 248,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C07 refuses retainer-funded financial edits and explicit retainer fields",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C07 refuses retainer-funded financial edits and explicit retainer fields",
+      "duration": 413,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C08 preserves internal/nonbillable policy on cascade billability edits",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C08 preserves internal/nonbillable policy on cascade billability edits",
+      "duration": 981,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

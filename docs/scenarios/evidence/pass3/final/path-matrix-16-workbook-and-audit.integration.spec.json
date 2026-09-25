@@ -1,0 +1,244 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 10,
+    "passes": 10,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:18.867Z",
+    "end": "2026-09-25T13:24:20.667Z",
+    "duration": 1800
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity _shrinkFullColumnSqrefs | archive read failure preserves input bytes and writes nothing",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity _stripBadValidations | archive read failure preserves input bytes and writes nothing",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity _restoreDefinedNames | archive read failure preserves input bytes and writes nothing",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity owner template | failed date-validation injection still returns a readable tenant workbook",
+      "state": "passed",
+      "duration": 486
+    },
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity lookup worksheet | protection failure retains hidden own-tenant lookup values without database writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity owner template | allowed package without Time refuses rather than selecting a lookup sheet",
+      "state": "passed",
+      "duration": 474
+    },
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity workbook XML | malformed sheet metadata refuses the package without writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity parsed worksheet set | unreviewed sheet refuses even after an upstream package check",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "state": "passed",
+      "duration": 222
+    },
+    {
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "title": "Path matrix: workbook fallbacks and immutable PDF integrity stubbed inference | failed S3 audit store preserves result and writes no database rows",
+      "state": "passed",
+      "duration": 18
+    }
+  ],
+  "hits": {
+    "src/endpoints/timeTracking/template-builder.js:39:5": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity _shrinkFullColumnSqrefs | archive read failure preserves input bytes and writes nothing"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:193:5": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity _stripBadValidations | archive read failure preserves input bytes and writes nothing"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:105:5": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity _restoreDefinedNames | archive read failure preserves input bytes and writes nothing"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:159:5": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity owner template | failed date-validation injection still returns a readable tenant workbook"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:289:5": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity lookup worksheet | protection failure retains hidden own-tenant lookup values without database writes"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:1085:6": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity owner template | allowed package without Time refuses rather than selecting a lookup sheet"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:390:6": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity workbook XML | malformed sheet metadata refuses the package without writes"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:402:9": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity parsed worksheet set | unreviewed sheet refuses even after an upstream package check"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:32:3": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:32:69": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-pdf.js:145:85": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write"
+      }
+    ],
+    "src/ai_integrations/bedrock/index.js:180:5": [
+      {
+        "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+        "test": "Path matrix: workbook fallbacks and immutable PDF integrity stubbed inference | failed S3 audit store preserves result and writes no database rows"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342660479-am964y/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342660479-am964y/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342660479-am964y/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: workbook fallbacks and immutable PDF integrity POST audit print | missing embedded digest refuses 500 and publishes no record or financial write",
+      "file": "test/integration/path-matrix-16-workbook-and-audit.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/1/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    }
+  ]
+}

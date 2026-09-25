@@ -1,0 +1,1707 @@
+[
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 99,
+    "source": "if (!job) throw new Error('Selected job was not found.');",
+    "hit_in": [
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 101,
+    "source": "throw new Error('Selected job does not belong to this customer.');",
+    "hit_in": [
+      "clean-room-regression.integration.spec",
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 123,
+    "source": "if (!chain.length) throw ruleError('Retainer was not found.', 404);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 125,
+    "source": "throw ruleError('The selected retainer/prepayment belongs to a different customer than this transaction.');",
+    "hit_in": [
+      "scenarios",
+      "transactions-ledger-seams.integration.spec",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 138,
+    "source": "throw ruleError('The selected retainer/prepayment has no remaining balance.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 141,
+    "source": "throw ruleError(`Retainer does not have enough balance to cover the transaction. Available: $${available.toFixed(2)}.`);",
+    "hit_in": [
+      "scenarios",
+      "transactions-ledger-seams.integration.spec",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 295,
+    "source": "throw ruleError(`Multiple payments are linked to this entry's retainer draw #${Number(transaction.retainer_id)} \u2014 contact support.`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 300,
+    "source": "if (legacy.length > 1) throw ruleError('Multiple candidate retainer payments found for this transaction \u2014 contact support.');",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 320,
+    "source": "throw new Error(refuseIfBilledMessage || 'The retainer payment linked to this transaction has already been billed. Contact support.');",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 336,
+    "source": "if (index <= 0 || !chain[index].parent_retainer_id) throw refuse('is not a draw-down row of its retainer');",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 341,
+    "source": "if (movement !== amount) throw refuse(`drew $${movement.toFixed(2)}, not this entry's $${amount.toFixed(2)}`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 344,
+    "source": "if (sharers.some(row => Number(row.transaction_id) !== Number(stored.transaction_id))) throw refuse('is also referenced by another entry');",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 347,
+    "source": "throw ruleError('The retainer draw for this entry is already on a statement and cannot be changed. Contact support.', 423);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 360,
+    "source": "if (payment && (await isPaymentBilled(trx, payment, newestParent))) throw ruleError(billedMessage, 423);",
+    "hit_in": [
+      "transactions-ledger-seams.integration.spec",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 368,
+    "source": "throw ruleError(`Retainer payment #${payment.payment_id} is not linked to this entry's retainer draw. Contact support to reconcile it.`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 371,
+    "source": "throw ruleError(`Retainer payment #${payment.payment_id} no longer matches this entry's amount. Contact support to reconcile it.`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 383,
+    "source": "throw ruleError(`Edited transaction amount is greater than the current retainer balance. This entry can increase by at most $${headroom.toFixed(2)}.`);",
+    "hit_in": [
+      "transactions-ledger-seams.integration.spec",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 436,
+    "source": "if (!originalTransaction || !Object.keys(originalTransaction).length) throw new Error('Transaction was not found.');",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 467,
+    "source": "if (!recentJob || !Object.keys(recentJob).length) throw new Error('Job was not found.');",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 501,
+    "source": "if (!requestedRetainerId) throw ruleError(RETAINER_REMOVE_MESSAGE);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 525,
+    "source": "if (!Number.isInteger(rowId) || rowId <= 0) throw ruleError('Transaction was not found.', 404);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 527,
+    "source": "if (!owner) throw ruleError('Transaction was not found.', 404);",
+    "hit_in": [
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 531,
+    "source": "if (!stored) throw ruleError('Transaction was not found.', 404);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 533,
+    "source": "throw ruleError('This transaction was changed by someone else while it was being saved. Refresh and try again.', 409);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 536,
+    "source": "throw customerMismatchMessage ? ruleError(customerMismatchMessage) : ruleError('Transaction was not found.', 404);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 663,
+    "source": "if (stored.customer_invoice_id) throw ruleError('Transaction is attached to an invoice and cannot be updated.', 423);",
+    "hit_in": [
+      "clean-room-regression.integration.spec",
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios",
+      "transactions-ledger-seams.integration.spec",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 698,
+    "source": "if (Number(requestedRoot) !== chainInfo.rootId) throw ruleError(RETAINER_CHANGE_MESSAGE);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/sharedTransactionFunctions.js",
+    "line": 790,
+    "source": "if (stored.customer_invoice_id) throw ruleError('Transaction is attached to an invoice and cannot be deleted.', 423);",
+    "hit_in": [
+      "clean-room-regression.integration.spec",
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/transactionPricing.js",
+    "line": 11,
+    "source": "throw new Error(`${key} must be a finite nonnegative number within the supported range.`);",
+    "hit_in": [
+      "review-transaction-policy.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/transactionPricing.js",
+    "line": 13,
+    "source": "if (Math.abs(n * 100 - Math.round(n * 100)) > 0.000001) throw new Error(`${key} supports at most two decimal places.`);",
+    "hit_in": [
+      "review-transaction-policy.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/transactionPricing.js",
+    "line": 23,
+    "source": "throw new Error('Time quantity must match the duration rounded up to six-minute increments.');",
+    "hit_in": [
+      "review-transaction-policy.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/transactions/transactionPricing.js",
+    "line": 30,
+    "source": "if (Math.abs(total - values.totalTransaction) > 0.000001) throw new Error('Transaction total must equal quantity times rate rounded to cents.');",
+    "hit_in": [
+      "review-transaction-policy.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 162,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 185,
+    "source": "if (target.remaining <= 0) throw ruleError(zeroRemainingMessage(target));",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 205,
+    "source": "if (!paymentRecord) throw ruleError('No matching payment record found.', 404);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 214,
+    "source": "throw ruleError('Payment is attached to an invoice and cannot be deleted or Modified.', 423);",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 229,
+    "source": "throw ruleError('Retainer is attached to an invoice and cannot be deleted or Modified.', 423);",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 251,
+    "source": "throw ruleError(`Payment #${paymentRecord.payment_id} has been reversed (reversal entry #${reversal.payment_id}). Delete the reversal first, then ${action} this payment.`);",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 360,
+    "source": "if (!job) throw ruleError('The selected job does not belong to this customer. Re-select the job.');",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 436,
+    "source": "if (!(tendered > 0)) throw ruleError('Payment amount must be greater than $0.00.', 400);",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 439,
+    "source": "throw ruleError('A valid payment date is required.', 400);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 446,
+    "source": "if (retainer_id) throw ruleError('A retainer-funded payment must be applied to an invoice.', 400);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 458,
+    "source": "throw ruleError('No invoice ID provided for this payment. If the customer has no open invoice, record the funds as a retainer/prepayment instead.', 400);",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 465,
+    "source": "throw ruleError('No matching invoice record found for this payment.', 404);",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 468,
+    "source": "throw ruleError(`Invoice ${requestedInvoice.invoice_number} belongs to a different customer than this payment. Re-select the invoice.`);",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 479,
+    "source": "throw ruleError('This customer has no invoices to apply a payment to. Record the funds as a retainer/prepayment instead.');",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 509,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 589,
+    "source": "throw ruleError(",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 596,
+    "source": "throw ruleError('A newer draw has been made on this retainer since this payment. Edit or delete the newer retainer-funded entries first.');",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 601,
+    "source": "throw ruleError(`This payment was recorded automatically for retainer-funded time/charge entry #${linkedTransaction.transaction_id}. Edit or delete that entry instead.`);",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 659,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 710,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 715,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 742,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 778,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 827,
+    "source": "throw ruleError(`Payment #${paymentRecord.payment_id} is linked to invoice ${paymentInvoiceRecord.invoice_number} of a different customer. Contact an administrator to correct the link.`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 836,
+    "source": "throw ruleError('A newer payment or write-off has been applied to this invoice since this payment. Delete the newer entries first, then retry.');",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 902,
+    "source": "throw ruleError('Reversal entries cannot be edited. Delete the reversal and re-enter it if the amount or reason was wrong.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 908,
+    "source": "throw ruleError('Moving a payment to a different invoice is not supported. Delete the payment and re-enter it against the correct invoice.');",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 911,
+    "source": "throw ruleError('Moving a payment to a different customer is not supported. Delete the payment and re-enter it for the correct customer.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 914,
+    "source": "throw ruleError('Changing the retainer that funded a payment is not supported. Delete the payment and re-enter it.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 917,
+    "source": "throw ruleError(`Payment #${paymentRecord.payment_id} is linked to invoice ${paymentInvoiceRecord.invoice_number} of a different customer. Contact an administrator to correct the link.`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 923,
+    "source": "if (!(newAmount > 0)) throw ruleError('Payment amount must be greater than $0.00.', 400);",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 932,
+    "source": "throw ruleError(`This payment is linked directly to invoice ${paymentInvoiceRecord.invoice_number} and cannot be re-priced. Delete it and re-enter it.`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 940,
+    "source": "throw ruleError('A newer payment or write-off has been applied to this invoice since this payment. Edit or delete the newer entries first.');",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 946,
+    "source": "throw ruleError(`Payment amount exceeds remaining balance on invoice ${paymentInvoiceRecord.invoice_number}. Max increase is $${snapshotRemaining}.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 958,
+    "source": "throw ruleError(`Payment amount exceeds remaining balance on retainer. Max increase is $${maxIncrease}.`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 1013,
+    "source": "if (!paymentId) throw ruleError('No payment ID provided for the reversal.', 400);",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 1016,
+    "source": "if (!cleanReason) throw ruleError('A reversal reason is required (e.g. \"NSF \u2014 check #1234 returned\").', 400);",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 1018,
+    "source": "if (!Number.isInteger(recordedBy) || recordedBy <= 0) throw ruleError('The user recording the reversal could not be identified.', 401);",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 1024,
+    "source": "if (Number(original.payment_amount) >= 0) throw ruleError('This entry is already a reversal and cannot be reversed.');",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 1025,
+    "source": "if ((original.note || '').includes('[reversed ')) throw ruleError('This payment has already been reversed.');",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 1027,
+    "source": "if (await findReversalOf(trx, accountId, paymentId)) throw ruleError('This payment has already been reversed.');",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 1028,
+    "source": "if (original.retainer_id) throw ruleError('Retainer-funded payments cannot be reversed here \u2014 adjust the retainer instead.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/payment-logic.js",
+    "line": 1033,
+    "source": "if (!targets.length) throw ruleError('This customer has no invoices; the reversal has nowhere to restore the balance.');",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/ledger-helpers.js",
+    "line": 64,
+    "source": "if (!Number.isInteger(id) || id <= 0) throw ruleError('No customer selected.', 400);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/ledger-helpers.js",
+    "line": 66,
+    "source": "if (!row) throw ruleError('Customer not found for this account.', 404);",
+    "hit_in": [
+      "coverage-account-users-auth-misc.integration.spec",
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "review-rate-agreements.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/ledger-helpers.js",
+    "line": 77,
+    "source": "if (!Number.isInteger(rowId) || rowId <= 0) throw ruleError(notFoundMessage, 404);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/ledger-helpers.js",
+    "line": 82,
+    "source": "if (!row) throw ruleError(notFoundMessage, 404);",
+    "hit_in": [
+      "coverage-payments-pending.integration.spec",
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/ledger-helpers.js",
+    "line": 121,
+    "source": "if (!key) throw new Error(`Unsupported ledger table for the billed gate: ${table}`);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/ledger-helpers.js",
+    "line": 144,
+    "source": "if (!anchor || !LEDGER_ROW_KEYS[anchor.table]) throw new Error(`Unsupported ledger table for the billed gate: ${anchor && anchor.table}`);",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/payments/ledger-helpers.js",
+    "line": 394,
+    "source": "throw drawError(",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/ledger-helpers.js",
+    "line": 405,
+    "source": "throw drawError(",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/payments/ledger-helpers.js",
+    "line": 410,
+    "source": "throw drawError(",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 31,
+    "source": "throw ruleError('No matching retainer found for this payment.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 34,
+    "source": "throw ruleError('The selected retainer belongs to a different customer than this payment.');",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 40,
+    "source": "throw ruleError('The selected retainer has no remaining balance.');",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 45,
+    "source": "throw ruleError(`Payment amount exceeds remaining balance on retainer. Max amount that can be applied to this invoice is $${available}.`);",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 65,
+    "source": "if (!(amount < 0)) throw ruleError('Retainer amount must be greater than $0.00.');",
+    "hit_in": [
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 66,
+    "source": "if (!fields.type_of_hold) throw ruleError('Select a type of hold (Retainer or Prepayment).');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 92,
+    "source": "throw ruleError('Moving a retainer to a different customer is not supported. Delete it and re-enter it for the correct customer.');",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 105,
+    "source": "if (!(newStarting < 0)) throw ruleError('Retainer amount must be greater than $0.00.');",
+    "hit_in": [
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 114,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 122,
+    "source": "throw ruleError(`Starting amount cannot be less than the $${drawn.toFixed(2)} already drawn from this retainer.`);",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 163,
+    "source": "throw ruleError(`This row is a draw-down entry on retainer #${rootID}. Delete the payment or time/charge entry that drew on it instead.`);",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 168,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 175,
+    "source": "throw ruleError('This retainer has already been drawn on and cannot be deleted. Delete the payments or time/charge entries that drew on it first.');",
+    "hit_in": [
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 184,
+    "source": "if (refs.transactions.length) throw ruleError('Transactions are linked to this retainer; it cannot be deleted.');",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 185,
+    "source": "if (refs.payments.length) throw ruleError('Payments are linked to this retainer; it cannot be deleted.');",
+    "hit_in": [
+      "payment-reversal.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/retainer/retainer-logic.js",
+    "line": 187,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 44,
+    "source": "throw ruleError(BILLED_MESSAGE, 423);",
+    "hit_in": [
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 47,
+    "source": "throw ruleError(`Write-off #${stored.writeoff_id} is linked to invoice ${linkedRow.invoice_number} of a different customer. Contact an administrator to correct the link.`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 56,
+    "source": "if (!job) throw ruleError('The selected job does not belong to this customer. Re-select the job.');",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 63,
+    "source": "throw ruleError(`A newer payment or write-off has been applied to this invoice since this write-off. ${verb} the newer entries first, then retry.`);",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 79,
+    "source": "if (!(amount > 0)) throw ruleError('Write-off amount must be greater than $0.00.', 400);",
+    "hit_in": [
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 81,
+    "source": "if (!fields.writeoff_reason) throw ruleError('A write-off reason is required.', 400);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 82,
+    "source": "if (!fields.writeoff_date || !dayjs(fields.writeoff_date).isValid()) throw ruleError('A valid write-off date is required.', 400);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 95,
+    "source": "if (!requestedInvoice) throw ruleError('No matching invoice record found for this write-off.', 404);",
+    "hit_in": [
+      "clean-room-regression.integration.spec",
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 97,
+    "source": "throw ruleError(`Invoice ${requestedInvoice.invoice_number} belongs to a different customer than this write-off. Re-select the invoice.`);",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 101,
+    "source": "if (!targets.length) throw ruleError('This customer has no invoices to write off against.');",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 116,
+    "source": "throw ruleError(",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 148,
+    "source": "throw ruleError('Moving a write-off to a different customer is not supported. Delete the write-off and re-enter it for the correct customer.');",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 151,
+    "source": "throw ruleError('Moving a write-off to a different invoice is not supported. Delete the write-off and re-enter it against the correct invoice.');",
+    "hit_in": [
+      "payment-reversal.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 154,
+    "source": "throw ruleError('A job-level write-off cannot be moved onto an invoice. Delete it and re-enter it against the invoice.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 158,
+    "source": "if (!(newAmount > 0)) throw ruleError('Write-off amount must be greater than $0.00.', 400);",
+    "hit_in": [
+      "coverage-transactions-retainers-writeoffs.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 163,
+    "source": "throw ruleError(`This write-off is linked directly to invoice ${linkedRow.invoice_number} and cannot be re-priced. Delete it and re-enter it.`);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/writeOffs/writeOffs-logic.js",
+    "line": 170,
+    "source": "throw ruleError(`Write-off amount exceeds remaining balance on invoice ${linkedRow.invoice_number}. Max increase is $${snapshotRemaining}.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 202,
+    "source": "throw _invalid(field, `${label} is required.`);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 205,
+    "source": "if (!Number.isInteger(n) || n <= 0) throw _invalid(field, `${label} must be a valid id.`);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 211,
+    "source": "if (!iso || !_isRealCalendarDate(iso)) throw _invalid(field, `${label} must be a valid date (YYYY-MM-DD).`);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 216,
+    "source": "if (_isBlank(raw)) throw _invalid(field, `${label} is required.`);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 218,
+    "source": "if (!Number.isFinite(n) || n < 0 || n > MAX_AMOUNT) throw _invalid(field, `${label} must be a number between 0 and ${MAX_AMOUNT}.`);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 224,
+    "source": "if (b === undefined) throw _invalid(field, `${label} must be true or false.`);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 229,
+    "source": "if (raw !== null && raw !== undefined && typeof raw === 'object') throw _invalid(field, `${label} must be text.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 347,
+    "source": "throw _err(ERRORS.INVOICE_LOCKED, MESSAGES.ABSORBED, {",
+    "hit_in": [
+      "cascade-edit-recompute.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 357,
+    "source": "throw _err(ERRORS.INVOICE_LOCKED, MESSAGES.PAID_IN_FULL, { invoiceId, invoiceNumber: root.invoice_number, reason: 'paid_in_full' });",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 363,
+    "source": "throw _err(",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 446,
+    "source": "throw _err(",
+    "hit_in": [
+      "cascade-edit-recompute.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 461,
+    "source": "if (!customer) throw _invalid('customer_id', `Customer #${requested.customer_id} was not found in this account.`);",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 465,
+    "source": "throw _err(ERRORS.JOB_REQUIRED_FOR_CUSTOMER_CHANGE, MESSAGES.JOB_MISSING_FOR_CUSTOMER_CHANGE, { field: 'customer_job_id' });",
+    "hit_in": [
+      "cascade-edit-recompute.integration.spec",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 469,
+    "source": "throw _err(ERRORS.JOB_REQUIRED_FOR_CUSTOMER_CHANGE, `Job #${jobId} does not belong to the new customer. Pick a job that belongs to the new customer.`, {",
+    "hit_in": [
+      "cascade-edit-recompute.integration.spec",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 474,
+    "source": "if (requested.customer_job_id == null) throw _invalid('customer_job_id', MESSAGES.JOB_REQUIRED);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 477,
+    "source": "throw _invalid('customer_job_id', `Job #${requested.customer_job_id} does not belong to this transaction's customer.`);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 485,
+    "source": "if (!gwd) throw _invalid('general_work_description_id', `Work description #${requested.general_work_description_id} was not found in this account.`);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 569,
+    "source": "throw _err(ERRORS.CUSTOMER_CHANGE_NEEDS_CONFIRM, MESSAGES.CUSTOMER_CHANGE_NEEDS_CONFIRM);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 576,
+    "source": "throw _err(ERRORS.RETAINER_NOT_EDITABLE_HERE, MESSAGES.RETAINER_FUNDED);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 626,
+    "source": "if (!e || !e.isLedgerRule) throw e;",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 628,
+    "source": "if (id === requestedCustomerId) throw _invalid('customer_id', `Customer #${id} was not found in this account.`);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 629,
+    "source": "throw _err(ERRORS.NOT_FOUND, MESSAGES.CUSTOMER_MISSING);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 650,
+    "source": "if (!original) throw _err(ERRORS.NOT_FOUND, MESSAGES.NOT_FOUND);",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 652,
+    "source": "if (!needed.every(id => locked.has(id))) throw _relock([...locked, ...needed]);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 676,
+    "source": "if (!chain) throw _err(ERRORS.INVOICE_LOCKED, MESSAGES.INVOICE_MISSING, { invoiceId: linkedInvoiceId, reason: 'invoice_missing' });",
+    "hit_in": [
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 680,
+    "source": "if (!locked.has(chainCustomerId)) throw _relock([...locked, chainCustomerId]);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 803,
+    "source": "throw _err(ERRORS.NOT_FOUND, MESSAGES.NOT_FOUND);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 807,
+    "source": "if (!preview) throw _err(ERRORS.NOT_FOUND, MESSAGES.NOT_FOUND);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 810,
+    "source": "if ('retainer_id' in safeUpdates) throw _err(ERRORS.RETAINER_NOT_EDITABLE_HERE, MESSAGES.RETAINER_FIELD);",
+    "hit_in": [
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 827,
+    "source": "if (!(e && e[RELOCK])) throw e;",
+    "hit_in": [
+      "cascade-edit-recompute.integration.spec",
+      "scenario-lifecycle-10-integrity.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/billingReview/cascadeEdit.js",
+    "line": 828,
+    "source": "if (attempt >= MAX_LOCK_ATTEMPTS) throw _err(ERRORS.CONCURRENT_EDIT, MESSAGES.CONCURRENT_EDIT);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 54,
+    "source": "if (duplicateCustomerDisplay) throw new Error('Customer already exists with that name.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 66,
+    "source": "if (!Object.keys(customerData).length) throw new Error('Error Inserting Customer Into Customer Table.');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 77,
+    "source": "if (!Object.keys(customerInfo).length) throw new Error('Error Inserting Customer Into Customer Information Table.');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 85,
+    "source": "if (!Object.keys(recurringCustomer).length) throw new Error('Error Inserting Customer Into Recurring Customer Table.');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 257,
+    "source": "if (Number(recurring.customer_id) !== Number(customerID)) throw new Error('Recurring row does not belong to this customer.');",
+    "hit_in": [
+      "review-related-ids.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 262,
+    "source": "if (!updatedCustomer) throw new Error('Customer was not found.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 264,
+    "source": "if (updatedContact !== 1) throw new Error('Customer contact was not found in this account.');",
+    "hit_in": [
+      "review-customer-recurring.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 344,
+    "source": "throw new Error('Cannot delete customer with associated jobs, retainers, invoices, payments, write-offs, transactions, recurring customers, or quotes. Please disable customer instead.');",
+    "hit_in": [
+      "coverage-account-users-auth-misc.integration.spec",
+      "review-customer-delete.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 38,
+    "source": "if (!before) throw ruleError('Job not found.', 404);",
+    "hit_in": [
+      "coverage-jobs-masterdata.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 47,
+    "source": "throw ruleError('Job changed while saving. Refresh and retry.', 409);",
+    "hit_in": [
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 75,
+    "source": "if (duplicateJob.length) throw new Error('Duplicate job');",
+    "hit_in": [
+      "clean-room-regression.integration.spec",
+      "coverage-jobs-masterdata.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 166,
+    "source": "if (linkedTransactions.length) throw new Error('Cannot reassign this job to a different customer: transactions are linked to it or one of its prior versions.');",
+    "hit_in": [
+      "coverage-jobs-masterdata.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 169,
+    "source": "if (writeOffResults.some(rows => rows.length)) throw new Error('Cannot reassign this job to a different customer: write offs are linked to it or one of its prior versions.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 173,
+    "source": "if (linkedPayments.length) throw new Error('Cannot reassign this job to a different customer: payments are linked to it or one of its prior versions.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 219,
+    "source": "if (!familyIds.length) throw new Error('Job not found.');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 222,
+    "source": "if (linkedTransactions.length) throw new Error('Transactions are linked to this job or one of its prior versions; it cannot be deleted.');",
+    "hit_in": [
+      "clean-room-regression.integration.spec",
+      "coverage-jobs-masterdata.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 225,
+    "source": "if (writeOffResults.some(rows => rows.length)) throw new Error('Write offs are linked to this job or one of its prior versions; it cannot be deleted.');",
+    "hit_in": [
+      "coverage-jobs-masterdata.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/job/job-router.js",
+    "line": 229,
+    "source": "if (linkedPayments.length) throw new Error('Payments are linked to this job or one of its prior versions; it cannot be deleted.');",
+    "hit_in": [
+      "coverage-jobs-masterdata.integration.spec",
+      "scenarios",
+      "unit"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 69,
+    "source": "if (!targetInvoice) throw new Error('Invoice not found.');",
+    "hit_in": [
+      "coverage-invoices-audit-ar-analytics.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 73,
+    "source": "throw new Error('This row is a payment/write-off snapshot. Delete or reverse the payment or write-off instead.');",
+    "hit_in": [
+      "finalize-engine.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 82,
+    "source": "throw new Error('Cannot delete invoice with transactions, retainers, payments, or writeoffs.');",
+    "hit_in": [
+      "coverage-invoices-audit-ar-analytics.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 90,
+    "source": "throw new Error(`Invoice ${targetInvoice.invoice_number} was rolled into a later statement (see its notes) and is part of that statement's history; it cannot be deleted.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 95,
+    "source": "throw new Error(`Invoice ${targetInvoice.invoice_number} has payment or write-off activity recorded against it and cannot be deleted. Delete or reverse those entries first.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 99,
+    "source": "throw new Error(",
+    "hit_in": [
+      "finalize-engine.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 115,
+    "source": "if (!current) throw new Error('Invoice not found.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 116,
+    "source": "if (Number(current.customer_id) !== Number(targetInvoice.customer_id)) throw new Error('Invoice changed customer while being deleted; refresh and try again.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 119,
+    "source": "throw new Error(`Invoice ${current.invoice_number} became part of statement history while being deleted (a later statement rolled it forward); it cannot be deleted.`);",
+    "hit_in": [
+      "finalize-snapshot.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 128,
+    "source": "throw new Error('Invoice gained linked activity while being deleted; refresh and try again.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 251,
+    "source": "throw new Error('Select at least one customer to invoice.');",
+    "hit_in": [
+      "coverage-invoices-audit-ar-analytics.integration.spec",
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 255,
+    "source": "throw new Error('Invalid customer selection.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 258,
+    "source": "throw new Error('A customer was selected more than once; select each customer once.');",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 415,
+    "source": "throw new Error('Invalid or no file path.');",
+    "hit_in": [
+      "coverage-downloads-authz.integration.spec",
+      "coverage-invoices-audit-ar-analytics.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 447,
+    "source": "throw new Error('File does not exist.');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 465,
+    "source": "throw new Error('File does not exist.');",
+    "hit_in": [
+      "coverage-invoices-audit-ar-analytics.integration.spec"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 34,
+    "source": "throw new Error('Missing necessary arguments for dataInsertionOrchestrator');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 48,
+    "source": "if (customerIDs.some(id => !Number.isSafeInteger(id) || id <= 0)) throw new Error('Invalid customer id in the billing batch.');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 49,
+    "source": "if (new Set(customerIDs).size !== customerIDs.length) throw new Error('A customer appears more than once in the billing batch; select each customer once.');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 52,
+    "source": "if (!Number.isFinite(total)) throw new Error(`Invoice total for customer ${invoice.customer_id} is not a number.`);",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 53,
+    "source": "if (total < 0) throw new Error(`Customer ${invoice.customer_id} has a credit balance (${total.toFixed(2)}); record it as a prepayment or adjust the ledger before finalizing.`);",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 58,
+    "source": "if (!Number.isSafeInteger(accountID)) throw new Error('Account id missing for the billing run.');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 62,
+    "source": "throw new Error(`Error in saving invoice images: ${err.message}`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 67,
+    "source": "if (new Set(plannedNumbers).size !== plannedNumbers.length) throw new Error('Duplicate invoice numbers in the billing batch.');",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 79,
+    "source": "throw new Error(`Customer(s) ${[...new Set(billedToday.map(r => r.customer_id))].join(', ')} were finalized today by another run. Refresh Create Invoice and submit again.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 85,
+    "source": "throw new Error(`Invoice number(s) ${taken.map(t => t.invoice_number).join(', ')} were just used by another billing run. Re-open Create Invoice and submit again.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 93,
+    "source": "throw new Error(`The ledger for customer(s) ${changed.join(', ')} changed while the statements were being generated (a payment, write-off, invoice row or transaction was added, edited or deleted). Nothing was finalized \u2014 re-run Create Invoice.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 106,
+    "source": "if (!parent) throw new Error(`Parent statement missing for customer ${plan.customer_id}.`);",
+    "hit_in": []
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 121,
+    "source": "throw new Error(`Customer ${plan.customer_id}: ${plan.transactionIDs.length - transactionsStamped} transaction(s) on the statement were changed or billed by another run. Nothing was finalized \u2014 re-run Create Invoice.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 132,
+    "source": "throw new Error(`Customer ${plan.customer_id}: a payment on the statement was changed by another run. Nothing was finalized \u2014 re-run Create Invoice.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 166,
+    "source": "throw new Error(",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 190,
+    "source": "throw new Error(`Transactions changed while the statements were being generated (${drift.slice(0, 5).join('; ')}${drift.length > 5 ? '; \u2026' : ''}). Nothing was finalized \u2014 re-run Create Invoice.`);",
+    "hit_in": [
+      "scenarios"
+    ]
+  },
+  {
+    "file": "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+    "line": 264,
+    "source": "if (!Number.isFinite(Number(invoiceTotal))) throw new Error(`Invoice total for customer ${customer_id} is not a number.`);",
+    "hit_in": []
+  }
+]

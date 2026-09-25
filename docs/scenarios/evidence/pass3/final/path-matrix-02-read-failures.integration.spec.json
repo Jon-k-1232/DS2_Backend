@@ -1,0 +1,1063 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 43,
+    "passes": 43,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:32:54.360Z",
+    "end": "2026-09-25T13:32:55.895Z",
+    "duration": 1535
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /account/AccountInformation/1/1 | getAccount failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /account/automations/1/1 | listAccountAutomations failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/customerByID/1/1/1 | getCustomerByID failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/1/1 | getActiveCustomersPaginated failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /initialData/initialBlob/1/1 | getActiveCustomers failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /jobs/getSingleJob/1/1/1 | getSingleJob failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /jobs/getActiveCustomerJobs/1/1/1 | getActiveCustomerJobs failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /jobCategories/getSingleJobCategory/1/1/1 | getSingleJobCategory failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /jobTypes/getSingleJobType/1/1/1 | getSingleJobType failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /workDescriptions/getSingleWorkDescription/1/1/1 | getSingleWorkDescription failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /quotes/getActiveQuotes/1/1 | getActiveQuotes failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /recurringCustomer/getActiveRecurringCustomers/1/1 | getActiveRecurringCustomers failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /user/fetchSingleUser/1/1 | fetchUser failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /notifications/1/1 | listForUser failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /notifications/1/1/unread-count | unreadCount failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /time-tracker-staff/1/1 | listByAccount failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1 | getAging failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1/export | getAging failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /accountAudit/customers/1/1 | getAuditableCustomers failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/pdf/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /accountAudit/customer/1/1/1 | getAuditsForCustomer failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1 | getClientRates failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1 | getTimeAllocation failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /analytics/wipAging/1/1 | getWipAging failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /analytics/jobBudgets/1/1 | getJobBudgets failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /analytics/taxSeasonCapacity/1/1 | getTaxSeasonCapacity failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /analytics/exclusions/1/1 | getExcludableCustomers failure: HTTP 200, envelope 500, no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1/export | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1/export | getTimeAllocation failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /analytics/yearEndPacket/1/1 | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /billing-review/distinct-entities/1/1 | listDistinctEntities failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /billing-review/earliest-unbilled-month/1/1 | earliestUnbilledMonth failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /billing-review/pending/1/1 | listPendingHeldEntries failure: HTTP 500, envelope global error, no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /account/AccountInformation | missing account response is 404 without writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /healthz/check | failed database probe is 503 without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /api/health/check | failed database probe is 503 without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /healthz/ | public liveness succeeds without database writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows GET /api/health/ | public liveness succeeds without database writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows DELETE /quotes/deleteQuote | database delete failure is refused with no rows changed",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows PUT /recurringCustomer/updateRecurringCustomer | missing row is 404 without writes",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows DELETE /customer/deleteCustomer | malformed ID is envelope 404 without writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "title": "Path matrix: database read failures preserve all rows POST /accountAudit/run | more than 200 customers refuses before registering a job",
+      "state": "passed",
+      "duration": 18
+    }
+  ],
+  "hits": {
+    "src/endpoints/account/account-router.js:263:8": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /account/AccountInformation/1/1 | getAccount failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:265:9": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /account/AccountInformation/1/1 | getAccount failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:320:8": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /account/automations/1/1 | listAccountAutomations failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:323:16": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /account/automations/1/1 | listAccountAutomations failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:194:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/customerByID/1/1/1 | getCustomerByID failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:199:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/customerByID/1/1/1 | getCustomerByID failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:422:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/1/1 | getActiveCustomersPaginated failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:426:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/1/1 | getActiveCustomersPaginated failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/initialData/initialData-router.js:28:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /initialData/initialBlob/1/1 | getActiveCustomers failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/initialData/initialData-router.js:30:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /initialData/initialBlob/1/1 | getActiveCustomers failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /jobs/getSingleJob/1/1/1 | getSingleJob failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /jobs/getActiveCustomerJobs/1/1/1 | getActiveCustomerJobs failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /jobCategories/getSingleJobCategory/1/1/1 | getSingleJobCategory failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /jobTypes/getSingleJobType/1/1/1 | getSingleJobType failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /recurringCustomer/getActiveRecurringCustomers/1/1 | getActiveRecurringCustomers failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /user/fetchSingleUser/1/1 | fetchUser failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /notifications/1/1 | listForUser failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /notifications/1/1/unread-count | unreadCount failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /time-tracker-staff/1/1 | listByAccount failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /billing-review/distinct-entities/1/1 | listDistinctEntities failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /billing-review/earliest-unbilled-month/1/1 | earliestUnbilledMonth failure: HTTP 500, envelope global error, no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /billing-review/pending/1/1 | listPendingHeldEntries failure: HTTP 500, envelope global error, no writes"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:54:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /workDescriptions/getSingleWorkDescription/1/1/1 | getSingleWorkDescription failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:56:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /workDescriptions/getSingleWorkDescription/1/1/1 | getSingleWorkDescription failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:79:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /quotes/getActiveQuotes/1/1 | getActiveQuotes failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:81:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /quotes/getActiveQuotes/1/1 | getActiveQuotes failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountsReceivable/accounts-receivable-router.js:108:8": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1 | getAging failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountsReceivable/accounts-receivable-router.js:112:16": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1 | getAging failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountsReceivable/accounts-receivable-router.js:148:8": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1/export | getAging failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountsReceivable/accounts-receivable-router.js:150:16": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1/export | getAging failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:109:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountAudit/customers/1/1 | getAuditableCustomers failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:111:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountAudit/customers/1/1 | getAuditableCustomers failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:379:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:381:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:425:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/pdf/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:427:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/pdf/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:465:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountAudit/customer/1/1/1 | getAuditsForCustomer failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:467:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /accountAudit/customer/1/1/1 | getAuditsForCustomer failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:153:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1 | getClientRates failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:155:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1 | getClientRates failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:180:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1 | getTimeAllocation failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:182:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1 | getTimeAllocation failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:234:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/wipAging/1/1 | getWipAging failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:236:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/wipAging/1/1 | getWipAging failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:247:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/jobBudgets/1/1 | getJobBudgets failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:249:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/jobBudgets/1/1 | getJobBudgets failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:311:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/taxSeasonCapacity/1/1 | getTaxSeasonCapacity failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:313:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/taxSeasonCapacity/1/1 | getTaxSeasonCapacity failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:324:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/exclusions/1/1 | getExcludableCustomers failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:326:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/exclusions/1/1 | getExcludableCustomers failure: HTTP 200, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:166:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1/export | getClientRates failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:168:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1/export | getClientRates failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:192:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1/export | getTimeAllocation failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:194:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1/export | getTimeAllocation failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:269:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/yearEndPacket/1/1 | getClientRates failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:298:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /analytics/yearEndPacket/1/1 | getClientRates failure: HTTP 500, envelope 500, no writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:241:19": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /account/AccountInformation | missing account response is 404 without writes"
+      }
+    ],
+    "src/endpoints/health/health-router.js:14:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /healthz/check | failed database probe is 503 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /api/health/check | failed database probe is 503 without writes"
+      }
+    ],
+    "src/endpoints/health/health-router.js:16:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /healthz/check | failed database probe is 503 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows GET /api/health/check | failed database probe is 503 without writes"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:164:5": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows DELETE /quotes/deleteQuote | database delete failure is refused with no rows changed"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:166:6": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows DELETE /quotes/deleteQuote | database delete failure is refused with no rows changed"
+      }
+    ],
+    "src/endpoints/recurringCustomer/recurringCustomer-router.js:105:13": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows PUT /recurringCustomer/updateRecurringCustomer | missing row is 404 without writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:335:19": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows DELETE /customer/deleteCustomer | malformed ID is envelope 404 without writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:291:16": [
+      {
+        "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+        "test": "Path matrix: database read failures preserve all rows POST /accountAudit/run | more than 200 customers refuses before registering a job"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /account/AccountInformation/1/1 | getAccount failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/account/AccountInformation/1/1",
+      "route": "/AccountInformation/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error retrieving account information."
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /account/automations/1/1 | listAccountAutomations failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/customerByID/1/1/1 | getCustomerByID failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/activeCustomers/customerByID/1/1/1",
+      "route": "/activeCustomers/customerByID/:accountID/:userID/:customerID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/1/1 | getActiveCustomersPaginated failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/activeCustomers/1/1",
+      "route": "/activeCustomers/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /initialData/initialBlob/1/1 | getActiveCustomers failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/1/1",
+      "route": "/initialBlob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /jobs/getSingleJob/1/1/1 | getSingleJob failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getSingleJob/1/1/1",
+      "route": "/getSingleJob/:customerJobID/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /jobs/getActiveCustomerJobs/1/1/1 | getActiveCustomerJobs failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getActiveCustomerJobs/1/1/1",
+      "route": "/getActiveCustomerJobs/:accountID/:userID/:customerID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /jobCategories/getSingleJobCategory/1/1/1 | getSingleJobCategory failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/jobCategories/getSingleJobCategory/1/1/1",
+      "route": "/getSingleJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /jobTypes/getSingleJobType/1/1/1 | getSingleJobType failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/jobTypes/getSingleJobType/1/1/1",
+      "route": "/getSingleJobType/:jobTypeID/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /workDescriptions/getSingleWorkDescription/1/1/1 | getSingleWorkDescription failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/workDescriptions/getSingleWorkDescription/1/1/1",
+      "route": "/getSingleWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /quotes/getActiveQuotes/1/1 | getActiveQuotes failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/quotes/getActiveQuotes/1/1",
+      "route": "/getActiveQuotes/:accountID/:quoteID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /recurringCustomer/getActiveRecurringCustomers/1/1 | getActiveRecurringCustomers failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/recurringCustomer/getActiveRecurringCustomers/1/1",
+      "route": "/getActiveRecurringCustomers/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /user/fetchSingleUser/1/1 | fetchUser failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/user/fetchSingleUser/1/1",
+      "route": "/fetchSingleUser/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /notifications/1/1 | listForUser failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/notifications/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /notifications/1/1/unread-count | unreadCount failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/notifications/1/1/unread-count",
+      "route": "/:accountID/:userID/unread-count",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /time-tracker-staff/1/1 | listByAccount failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracker-staff/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1 | getAging failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1",
+      "route": "/aging/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1/export | getAging failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1/export",
+      "route": "/aging/:accountID/:userID/export",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /accountAudit/customers/1/1 | getAuditableCustomers failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/1/1",
+      "route": "/customers/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/pdf/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/pdf/1/1",
+      "route": "/audit/:auditID/pdf/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /accountAudit/customer/1/1/1 | getAuditsForCustomer failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customer/1/1/1",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1 | getClientRates failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/1/1",
+      "route": "/clientRates/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1 | getTimeAllocation failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/1/1",
+      "route": "/timeAllocation/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /analytics/wipAging/1/1 | getWipAging failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/wipAging/1/1",
+      "route": "/wipAging/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /analytics/jobBudgets/1/1 | getJobBudgets failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/jobBudgets/1/1",
+      "route": "/jobBudgets/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /analytics/taxSeasonCapacity/1/1 | getTaxSeasonCapacity failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/taxSeasonCapacity/1/1",
+      "route": "/taxSeasonCapacity/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /analytics/exclusions/1/1 | getExcludableCustomers failure: HTTP 200, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/exclusions/1/1",
+      "route": "/exclusions/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1/export | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/1/1/export",
+      "route": "/clientRates/:accountID/:userID/export",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1/export | getTimeAllocation failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/1/1/export",
+      "route": "/timeAllocation/:accountID/:userID/export",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /analytics/yearEndPacket/1/1 | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/yearEndPacket/1/1",
+      "route": "/yearEndPacket/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /billing-review/distinct-entities/1/1 | listDistinctEntities failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/distinct-entities/1/1",
+      "route": "/distinct-entities/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /billing-review/earliest-unbilled-month/1/1 | earliestUnbilledMonth failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/earliest-unbilled-month/1/1",
+      "route": "/earliest-unbilled-month/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /billing-review/pending/1/1 | listPendingHeldEntries failure: HTTP 500, envelope global error, no writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pending/1/1",
+      "route": "/pending/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /account/AccountInformation | missing account response is 404 without writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/account/AccountInformation/1/1",
+      "route": "/AccountInformation/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Account not found."
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /healthz/check | failed database probe is 503 without writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/check",
+      "route": "/check",
+      "status": 503,
+      "envelope": "error",
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /api/health/check | failed database probe is 503 without writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/api/health/check",
+      "route": "/check",
+      "status": 503,
+      "envelope": "error",
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /healthz/ | public liveness succeeds without database writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows GET /api/health/ | public liveness succeeds without database writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/api/health/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows DELETE /quotes/deleteQuote | database delete failure is refused with no rows changed",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "DELETE",
+      "url": "/quotes/deleteQuote/1/1",
+      "route": "/deleteQuote/:accountID/:quoteID",
+      "status": 200,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows PUT /recurringCustomer/updateRecurringCustomer | missing row is 404 without writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "PUT",
+      "url": "/recurringCustomer/updateRecurringCustomer",
+      "route": "/updateRecurringCustomer",
+      "status": 404,
+      "envelope": 404,
+      "message": "Recurring customer not found."
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows DELETE /customer/deleteCustomer | malformed ID is envelope 404 without writes",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "DELETE",
+      "url": "/customer/deleteCustomer/not-an-id/1/1",
+      "route": "/deleteCustomer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching customer record found."
+    },
+    {
+      "test": "Path matrix: database read failures preserve all rows POST /accountAudit/run | more than 200 customers refuses before registering a job",
+      "file": "test/integration/path-matrix-02-read-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Limit 200 customers per batch."
+    }
+  ]
+}

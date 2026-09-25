@@ -1,0 +1,74 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:07.425Z",
+    "end": "2026-09-25T14:50:07.820Z",
+    "duration": 395
+  },
+  "tests": [
+    {
+      "title": "keeps enabled and recipients unchanged when a foreign recipient is rejected",
+      "fullTitle": "F19 atomic automation settings keeps enabled and recipients unchanged when a foreign recipient is rejected",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back both settings when a later replacement write fails",
+      "fullTitle": "F19 atomic automation settings rolls back both settings when a later replacement write fails",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects an overlength address without reserving an account or slug",
+      "fullTitle": "F20 atomic account provisioning rejects an overlength address without reserving an account or slug",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back account/slug when address persistence fails after validation",
+      "fullTitle": "F20 atomic account provisioning rolls back account/slug when address persistence fails after validation",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "keeps enabled and recipients unchanged when a foreign recipient is rejected",
+      "fullTitle": "F19 atomic automation settings keeps enabled and recipients unchanged when a foreign recipient is rejected",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back both settings when a later replacement write fails",
+      "fullTitle": "F19 atomic automation settings rolls back both settings when a later replacement write fails",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects an overlength address without reserving an account or slug",
+      "fullTitle": "F20 atomic account provisioning rejects an overlength address without reserving an account or slug",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back account/slug when address persistence fails after validation",
+      "fullTitle": "F20 atomic account provisioning rolls back account/slug when address persistence fails after validation",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

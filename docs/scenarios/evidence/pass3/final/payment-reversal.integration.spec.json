@@ -1,0 +1,722 @@
+{
+  "stats": {
+    "suites": 18,
+    "tests": 49,
+    "passes": 49,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:20.827Z",
+    "end": "2026-09-25T13:24:23.962Z",
+    "duration": 3135
+  },
+  "tests": [
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: payment reversal (NSF) restores the debt on the current chain and un-pays the parent",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: payment reversal (NSF) audit agrees: net paid is zero and outstanding equals the restored debt",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: payment reversal (NSF) refuses to reverse twice or reverse a reversal",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) HTTP delete of a plain payment leaves every retainer row untouched and restores the chain exactly",
+      "state": "passed",
+      "duration": 75
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) retainer-funded payments draw from the chain LATEST balance and delete/edit only their own draw snapshot",
+      "state": "passed",
+      "duration": 74
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) refuses to delete a payment whose retainer draw belongs to a time/charge entry",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed immutability from stored rows and the statement TIMESTAMP (B2) a payment / write-off entered on bill day BEFORE the run is billed; one entered after the run is not",
+      "state": "passed",
+      "duration": 52
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) multi-row ledger mutations are atomic and serialized per customer (B3) a failure after the snapshot insert leaves no orphan snapshot and no mirror change",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) multi-row ledger mutations are atomic and serialized per customer (B3) a second payment on the same chain waits for the first and builds on its snapshot (no lost update)",
+      "state": "passed",
+      "duration": 318
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) the picker skips an exhausted chain instead of resurrecting its root",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) updating the starting amount shifts the whole chain and keeps the draw history",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) delete refuses while any chain row is drawn on or referenced, and removes an unused root",
+      "state": "passed",
+      "duration": 43
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-1 — retainer creation strips a client-supplied cancellation marker create → note edit → amount edit → delete all succeed; the fabricated marker never survives",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-1 — retainer creation strips a client-supplied cancellation marker a GENUINE cancellation marker (written by an actual NSF-of-overpayment reversal) still blocks edits and deletes",
+      "state": "passed",
+      "duration": 29
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically",
+      "state": "passed",
+      "duration": 52
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) job-level write-offs create no snapshot and must credit one of the customer’s own jobs",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) records the prepayment id on the payment and removes the untouched prepayment on delete",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) refuses the delete once the prepayment has been drawn on",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) finds the prepayment of a legacy split that has no id marker",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) A1: a forged legacy-shaped split note on an unrelated payment never claims another receipt's already-linked prepayment",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) A1: the same forged note on a NOTE UPDATE cannot attach a claim to another receipt's prepayment either",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-1 — nested/multilevel link markers never survive sanitisation create: a nested marker is stripped to a fixed point, never manufacturing an executable link",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-1 — nested/multilevel link markers never survive sanitisation update: a nested marker cannot manufacture a claim on another receipt's prepayment; deleting the forged payment leaves the genuine prepayment and its receipt intact",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-1 — nested/multilevel link markers never survive sanitisation belt-and-suspenders: the exact resolver refuses a [prepayment_retainer:N] link already claimed by a different payment's marker",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 — client-written \"[reversed …]\" status text never survives sanitisation create: a complete fabricated \"[reversed …]\" marker is stripped; the payment can still be NSF-reversed",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 — client-written \"[reversed …]\" status text never survives sanitisation update: the same fabricated marker typed into a note edit is stripped too; a real NSF reversal still succeeds",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 — client-written \"[reversed …]\" status text never survives sanitisation nested and unterminated \"[reversed …\" variants are stripped to a fixed point too",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 — client-written \"[reversed …]\" status text never survives sanitisation a GENUINE [reversed …] marker (written by an actual NSF reversal) survives a note edit and still blocks a second reversal",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) deleting a reversal restores the original payment (item 7) strips the [reversed …] marker so the payment can be reversed again; the reversal row itself also blocks a second reversal",
+      "state": "passed",
+      "duration": 33
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused",
+      "state": "passed",
+      "duration": 41
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) a refused payment leaves the pending row unprocessed and posts nothing",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) the legacy PUT two-step flow is retired (A6) — it always answers 410 and never marks the row processed",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) records [retainer_draw:<id>] on the payment, drops client-typed link markers and keeps the link through note edits",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) reviewer probe: B's draw closer in time to payment A than A's own draw — deleting A never takes B's draw",
+      "state": "passed",
+      "duration": 55
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) legacy payments (no marker): a unique draw in the ±1 s window is used, several are refused and nothing changes",
+      "state": "passed",
+      "duration": 41
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) cancels the untouched $50 prepayment with the $100 debt restore; deleting the reversal restores both exactly",
+      "state": "passed",
+      "duration": 89
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) refuses the reversal once the prepayment has been drawn on — nothing is written; after adjusting the retainer it succeeds",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) a legacy split (no [prepayment_retainer:<id>] marker) is cancelled and restored the same way",
+      "state": "passed",
+      "duration": 32
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) a reversed payment cannot be re-priced or deleted while its reversal exists",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) payments and write-offs that reference the absorbed same-day statement land on the live statement, annotated",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) genuinely independent same-date statements (no marker) all stay live and are paid directly",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) A5: refuses a payment when every newest-date root is marked absorbed, with a message pointing at finalize/repair",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) A5: the reversal path refuses the same way once every newest-date root is marked absorbed",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed/immutability gate is decided in SQL, exactly like the engine statement gate (seam 10) a job-level write-off posted in the statement’s millisecond but AFTER it stays editable; one before it is billed",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed/immutability gate is decided in SQL, exactly like the engine statement gate (seam 10) a payment snapshot and its retainer draw in the statement’s millisecond: after → editable, at the same microsecond → billed",
+      "state": "passed",
+      "duration": 33
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 — payments and invoice-linked write-offs refuse a job that belongs to a different customer create: a payment against customer B's invoice naming customer A's job is refused; nothing is written",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 — payments and invoice-linked write-offs refuse a job that belongs to a different customer update: moving an existing payment onto customer A's job is refused; the row is unchanged",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "title": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 — payments and invoice-linked write-offs refuse a job that belongs to a different customer create: an invoice-linked write-off against customer A's job is refused; nothing is written",
+      "state": "passed",
+      "duration": 7
+    }
+  ],
+  "hits": {
+    "src/endpoints/payments/payment-logic.js:1042:48": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: payment reversal (NSF) refuses to reverse twice or reverse a reversal"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:1043:56": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: payment reversal (NSF) refuses to reverse twice or reverse a reversal"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 — client-written \"[reversed …]\" status text never survives sanitisation a GENUINE [reversed …] marker (written by an actual NSF reversal) survives a note edit and still blocks a second reversal"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:848:12": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) retainer-funded payments draw from the chain LATEST balance and delete/edit only their own draw snapshot"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:45:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) retainer-funded payments draw from the chain LATEST balance and delete/edit only their own draw snapshot"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:603:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) refuses to delete a payment whose retainer draw belongs to a time/charge entry"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:217:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed immutability from stored rows and the statement TIMESTAMP (B2) a payment / write-off entered on bill day BEFORE the run is billed; one entered after the run is not"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed/immutability gate is decided in SQL, exactly like the engine statement gate (seam 10) a payment snapshot and its retainer draw in the statement’s millisecond: after → editable, at the same microsecond → billed"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:45:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed immutability from stored rows and the statement TIMESTAMP (B2) a payment / write-off entered on bill day BEFORE the run is billed; one entered after the run is not"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed/immutability gate is decided in SQL, exactly like the engine statement gate (seam 10) a job-level write-off posted in the statement’s millisecond but AFTER it stays editable; one before it is billed"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:511:12": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) multi-row ledger mutations are atomic and serialized per customer (B3) a second payment on the same chain waits for the first and builds on its snapshot (no lost update)"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) a refused payment leaves the pending row unprocessed and posts nothing"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:34:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) the picker skips an exhausted chain instead of resurrecting its root"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:40:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) the picker skips an exhausted chain instead of resurrecting its root"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) cancels the untouched $50 prepayment with the $100 debt restore; deleting the reversal restores both exactly"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:92:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) updating the starting amount shifts the whole chain and keeps the draw history"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:125:12": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) updating the starting amount shifts the whole chain and keeps the draw history"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:169:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) delete refuses while any chain row is drawn on or referenced, and removes an unused root"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:181:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) delete refuses while any chain row is drawn on or referenced, and removes an unused root"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:190:36": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) delete refuses while any chain row is drawn on or referenced, and removes an unused root"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:191:32": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) delete refuses while any chain row is drawn on or referenced, and removes an unused root"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:117:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-1 — retainer creation strips a client-supplied cancellation marker a GENUINE cancellation marker (written by an actual NSF-of-overpayment reversal) still blocks edits and deletes"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) cancels the untouched $50 prepayment with the $100 debt restore; deleting the reversal restores both exactly"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:174:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-1 — retainer creation strips a client-supplied cancellation marker a GENUINE cancellation marker (written by an actual NSF-of-overpayment reversal) still blocks edits and deletes"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) cancels the untouched $50 prepayment with the $100 debt restore; deleting the reversal restores both exactly"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:64:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:98:12": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:117:12": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:149:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:152:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:57:13": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) job-level write-offs create no snapshot and must credit one of the customer’s own jobs"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 — payments and invoice-linked write-offs refuse a job that belongs to a different customer create: an invoice-linked write-off against customer A's job is refused; nothing is written"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:193:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) records the prepayment id on the payment and removes the untouched prepayment on delete"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:717:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) refuses the delete once the prepayment has been drawn on"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:1045:59": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) deleting a reversal restores the original payment (item 7) strips the [reversed …] marker so the payment can be reversed again; the reversal row itself also blocks a second reversal"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:173:11": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:174:12": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:203:5": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) a refused payment leaves the pending row unprocessed and posts nothing"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:209:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) a refused payment leaves the pending row unprocessed and posts nothing"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-logic.js:22:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:159:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) a refused payment leaves the pending row unprocessed and posts nothing"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:222:3": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) the legacy PUT two-step flow is retired (A6) — it always answers 410 and never marks the row processed"
+      }
+    ],
+    "src/endpoints/payments/ledger-helpers.js:396:9": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) records [retainer_draw:<id>] on the payment, drops client-typed link markers and keeps the link through note edits"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:598:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) reviewer probe: B's draw closer in time to payment A than A's own draw — deleting A never takes B's draw"
+      }
+    ],
+    "src/endpoints/payments/ledger-helpers.js:412:3": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) legacy payments (no marker): a unique draw in the ±1 s window is used, several are refused and nothing changes"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:744:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) refuses the reversal once the prepayment has been drawn on — nothing is written; after adjusting the retainer it succeeds"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:254:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) a reversed payment cannot be re-priced or deleted while its reversal exists"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:164:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) A5: refuses a payment when every newest-date root is marked absorbed, with a message pointing at finalize/repair"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) A5: the reversal path refuses the same way once every newest-date root is marked absorbed"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:232:6": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed/immutability gate is decided in SQL, exactly like the engine statement gate (seam 10) a payment snapshot and its retainer draw in the statement’s millisecond: after → editable, at the same microsecond → billed"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:362:13": [
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 — payments and invoice-linked write-offs refuse a job that belongs to a different customer create: a payment against customer B's invoice naming customer A's job is refused; nothing is written"
+      },
+      {
+        "file": "test/integration/payment-reversal.integration.spec.js",
+        "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 — payments and invoice-linked write-offs refuse a job that belongs to a different customer update: moving an existing payment onto customer A's job is refused; the row is unchanged"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) HTTP delete of a plain payment leaves every retainer row untouched and restores the chain exactly",
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90013",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused",
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused",
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This payment has already been processed."
+    },
+    {
+      "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment",
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This payment has already been processed."
+    },
+    {
+      "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment",
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) a refused payment leaves the pending row unprocessed and posts nothing",
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 422,
+      "envelope": 422,
+      "message": "Payment amount exceeds remaining balance on invoice A-LEDGER-916258-1790342662704-niif1. Max amount that can be applied to this invoice is $100."
+    },
+    {
+      "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) a refused payment leaves the pending row unprocessed and posts nothing",
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "pendingPaymentId is required."
+    },
+    {
+      "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) the legacy PUT two-step flow is retired (A6) — it always answers 410 and never marks the row processed",
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) the legacy PUT two-step flow is retired (A6) — it always answers 410 and never marks the row processed",
+      "file": "test/integration/payment-reversal.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/approve/2127/9001/90013",
+      "route": "/approve/:paymentID/:accountID/:userID",
+      "status": 410,
+      "envelope": 410,
+      "message": "This endpoint no longer posts payments. Use POST /pending-payments/approve/:accountID/:userID with { pendingPaymentId, payment } — it posts the ledger entry and marks the pending payment processed atomically."
+    }
+  ]
+}

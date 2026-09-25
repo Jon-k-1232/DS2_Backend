@@ -1,0 +1,2857 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 23,
+    "passes": 23,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:26:20.382Z",
+    "end": "2026-09-25T13:26:24.555Z",
+    "duration": 4173
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "state": "passed",
+      "duration": 338
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "state": "passed",
+      "duration": 169
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "state": "passed",
+      "duration": 141
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "state": "passed",
+      "duration": 459
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "state": "passed",
+      "duration": 410
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "state": "passed",
+      "duration": 199
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal",
+      "state": "passed",
+      "duration": 46
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "state": "passed",
+      "duration": 134
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal validates manual flag kind with no writes",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal validates manual flag ID with no writes",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal validates manual flag canonical ID with no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal validates manual flag self with no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal validates manual flag reason with no writes",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing with no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing canonical with no writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "state": "passed",
+      "duration": 146
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "state": "passed",
+      "duration": 332
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "state": "passed",
+      "duration": 115
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "state": "passed",
+      "duration": 203
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "state": "passed",
+      "duration": 180
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "state": "passed",
+      "duration": 335
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "state": "passed",
+      "duration": 161
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "title": "owner decision 4: visible duplicate review and guarded removal reports read failures with no writes and rejects changed duplicate history",
+      "state": "passed",
+      "duration": 30
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route"
+      }
+    ],
+    "src/utils/ledgerAction.js:16:3": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag kind with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag ID with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag canonical ID with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag self with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag reason with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing canonical with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal reports read failures with no writes and rejects changed duplicate history"
+      }
+    ],
+    "src/utils/ledgerAction.js:18:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag kind with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag ID with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag canonical ID with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag self with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag reason with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing canonical with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal reports read failures with no writes and rejects changed duplicate history"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:68:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:162:28": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:848:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:181:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:178:11": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:178:95": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:11:72": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag kind with no writes"
+      }
+    ],
+    "src/utils/ledgerAction.js:3:112": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag ID with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag canonical ID with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:89:56": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag self with no writes"
+      }
+    ],
+    "src/utils/ledgerAction.js:8:118": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag reason with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:41:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing canonical with no writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:107:42": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:131:62": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:133:105": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:155:51": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:159:17": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:95:63": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:170:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:46:23": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:64:23": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:96:94": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:182:17": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:53:20": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:68:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:70:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:38:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:40:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:38:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:40:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:44:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:46:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+        "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342780826-4f356f/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342780826-4f356f/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342780826-4f356f/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getSingleTransaction/7/2/1/1",
+      "route": "/getSingleTransaction/:customerID/:transactionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved specific transaction."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781022-p52r8p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781022-p52r8p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781022-p52r8p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781022-p52r8p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Marked not a duplicate."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "route": "/scan/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Review scan completed: 0 new possible duplicates."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?status=all&customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781167-xdka6x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781167-xdka6x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781167-xdka6x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781167-xdka6x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This duplicate review is already resolved."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This pair already has a duplicate review. Open its existing history."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/999",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/4/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781347-vkb0un/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781347-vkb0un/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781347-vkb0un/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781347-vkb0un/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/4/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This duplicate review is already resolved."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_21_ac01cb41-9c42-4a83-8f53-6970a5f8a906%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781601-jk43t8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781601-jk43t8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781601-jk43t8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781601-jk43t8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781722-85c2x2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781722-85c2x2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781722-85c2x2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781722-85c2x2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/5/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781839-cszm7e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781839-cszm7e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781839-cszm7e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781839-cszm7e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781960-bsfidd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781960-bsfidd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781960-bsfidd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342781960-bsfidd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/6/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782061-n9egrq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782061-n9egrq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782061-n9egrq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782061-n9egrq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782154-hownf0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782154-hownf0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782154-hownf0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782154-hownf0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/7/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782265-tq22vz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782265-tq22vz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782265-tq22vz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782265-tq22vz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "route": "/scan/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Review scan completed: 3 new possible duplicates."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "route": "/scan/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Review scan completed: 0 new possible duplicates."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/10/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/8/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782479-qffpu5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782479-qffpu5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782479-qffpu5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342782479-qffpu5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/999?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/14/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/14/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Marked not a duplicate."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/15/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This retainer has already been drawn on and cannot be deleted. Delete the payments or time/charge entries that drew on it first."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/16/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "A newer payment or write-off has been applied to this invoice since this payment. Delete the newer entries first, then retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag kind with no writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Choose transaction, payment, writeoff or retainer."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag ID with no writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag canonical ID with no writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag self with no writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A record cannot be its own duplicate."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag reason with no writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing with no writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Record not found for this account."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing canonical with no writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Record not found for this account."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "route": "/scan/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "route": "/scan/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/1?status=bad",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Status must be open or all."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/1?customerId=bad",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/4/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Choose dismiss or remove."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/4/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "route": "/scan/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Customer not found."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/1?customerId=999999",
+      "route": "/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Customer not found."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/999999/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Duplicate flag not found."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/1",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "route": "/scan/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/4/resolve/1/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/4/resolve/1/1",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/4/resolve/1/1",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Record not found for this account."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342783353-he4ahu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342783353-he4ahu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342783353-he4ahu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Both records must belong to the same customer."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/17/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Record changed since it was flagged. Dismiss this review and flag the current entry again if needed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/1/1",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/17/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Record not found for this account."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/17/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Marked not a duplicate."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/18/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Record changed since it was flagged. Dismiss this review and flag the current entry again if needed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/18/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Marked not a duplicate."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/18/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Flag the original retainer receipt, not a balance snapshot."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Flag the original retainer receipt, not a balance snapshot."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/bad/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/24/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/24/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/24/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/scan/1/1",
+      "route": "/scan/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/29/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/29/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/29/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/29/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/29/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/29/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"duplicate_history\" (\"account_id\", \"action\", \"actor_id\", \"after_value\", \"before_value\", \"duplicate_id\", \"reason\") values ($1, $2, $3, $4, $5, $6, $7) returning \"history_id\" - scenario injected database failure"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"duplicate_history\" (\"account_id\", \"action\", \"actor_id\", \"after_value\", \"before_value\", \"duplicate_id\", \"reason\") values ($1, $2, $3, $4, $5, $6, $7) returning \"history_id\" - scenario injected database failure"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"duplicate_history\" (\"account_id\", \"action\", \"actor_id\", \"after_value\", \"before_value\", \"duplicate_id\", \"reason\") values ($1, $2, $3, $4, $5, $6, $7) returning \"history_id\" - scenario injected database failure"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"duplicate_history\" (\"account_id\", \"action\", \"actor_id\", \"after_value\", \"before_value\", \"duplicate_id\", \"reason\") values ($1, $2, $3, $4, $5, $6, $7) returning \"history_id\" - scenario injected database failure"
+    },
+    {
+      "test": "owner decision 4: visible duplicate review and guarded removal reports read failures with no writes and rejects changed duplicate history",
+      "file": "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/1",
+      "route": "/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    }
+  ]
+}

@@ -1,0 +1,1905 @@
+{
+  "src/endpoints/transactions/sharedTransactionFunctions.js": {
+    "executed": 28,
+    "total": 28,
+    "sites": [
+      {
+        "line": 99,
+        "executed": true,
+        "text": "if (!job) throw new Error('Selected job was not found.');",
+        "suites": [
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 101,
+        "executed": true,
+        "text": "throw new Error('Selected job does not belong to this customer.');",
+        "suites": [
+          "clean-room-regression.integration.spec",
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 123,
+        "executed": true,
+        "text": "if (!chain.length) throw ruleError('Retainer was not found.', 404);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 125,
+        "executed": true,
+        "text": "throw ruleError('The selected retainer/prepayment belongs to a different customer than this transaction.');",
+        "suites": [
+          "scenarios",
+          "transactions-ledger-seams.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 138,
+        "executed": true,
+        "text": "throw ruleError('The selected retainer/prepayment has no remaining balance.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 141,
+        "executed": true,
+        "text": "throw ruleError(`Retainer does not have enough balance to cover the transaction. Available: $${available.toFixed(2)}.`);",
+        "suites": [
+          "scenarios",
+          "transactions-ledger-seams.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 295,
+        "executed": true,
+        "text": "throw ruleError(`Multiple payments are linked to this entry's retainer draw #${Number(transaction.retainer_id)} — contact support.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 300,
+        "executed": true,
+        "text": "if (legacy.length > 1) throw ruleError('Multiple candidate retainer payments found for this transaction — contact support.');",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 320,
+        "executed": true,
+        "text": "throw new Error(refuseIfBilledMessage || 'The retainer payment linked to this transaction has already been billed. Contact support.');",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 336,
+        "executed": true,
+        "text": "if (index <= 0 || !chain[index].parent_retainer_id) throw refuse('is not a draw-down row of its retainer');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 341,
+        "executed": true,
+        "text": "if (movement !== amount) throw refuse(`drew $${movement.toFixed(2)}, not this entry's $${amount.toFixed(2)}`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 344,
+        "executed": true,
+        "text": "if (sharers.some(row => Number(row.transaction_id) !== Number(stored.transaction_id))) throw refuse('is also referenced by another entry');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 347,
+        "executed": true,
+        "text": "throw ruleError('The retainer draw for this entry is already on a statement and cannot be changed. Contact support.', 423);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 360,
+        "executed": true,
+        "text": "if (payment && (await isPaymentBilled(trx, payment, newestParent))) throw ruleError(billedMessage, 423);",
+        "suites": [
+          "transactions-ledger-seams.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 368,
+        "executed": true,
+        "text": "throw ruleError(`Retainer payment #${payment.payment_id} is not linked to this entry's retainer draw. Contact support to reconcile it.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 371,
+        "executed": true,
+        "text": "throw ruleError(`Retainer payment #${payment.payment_id} no longer matches this entry's amount. Contact support to reconcile it.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 383,
+        "executed": true,
+        "text": "throw ruleError(`Edited transaction amount is greater than the current retainer balance. This entry can increase by at most $${headroom.toFixed(2)}.`);",
+        "suites": [
+          "transactions-ledger-seams.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 436,
+        "executed": true,
+        "text": "if (!originalTransaction || !Object.keys(originalTransaction).length) throw new Error('Transaction was not found.');",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 467,
+        "executed": true,
+        "text": "if (!recentJob || !Object.keys(recentJob).length) throw new Error('Job was not found.');",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 501,
+        "executed": true,
+        "text": "if (!requestedRetainerId) throw ruleError(RETAINER_REMOVE_MESSAGE);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 525,
+        "executed": true,
+        "text": "if (!Number.isInteger(rowId) || rowId <= 0) throw ruleError('Transaction was not found.', 404);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 527,
+        "executed": true,
+        "text": "if (!owner) throw ruleError('Transaction was not found.', 404);",
+        "suites": [
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 531,
+        "executed": true,
+        "text": "if (!stored) throw ruleError('Transaction was not found.', 404);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 533,
+        "executed": true,
+        "text": "throw ruleError('This transaction was changed by someone else while it was being saved. Refresh and try again.', 409);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 536,
+        "executed": true,
+        "text": "throw customerMismatchMessage ? ruleError(customerMismatchMessage) : ruleError('Transaction was not found.', 404);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 663,
+        "executed": true,
+        "text": "if (stored.customer_invoice_id) throw ruleError('Transaction is attached to an invoice and cannot be updated.', 423);",
+        "suites": [
+          "clean-room-regression.integration.spec",
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "scenarios",
+          "transactions-ledger-seams.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 698,
+        "executed": true,
+        "text": "if (Number(requestedRoot) !== chainInfo.rootId) throw ruleError(RETAINER_CHANGE_MESSAGE);",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 790,
+        "executed": true,
+        "text": "if (stored.customer_invoice_id) throw ruleError('Transaction is attached to an invoice and cannot be deleted.', 423);",
+        "suites": [
+          "clean-room-regression.integration.spec",
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/transactions/transactionPricing.js": {
+    "executed": 4,
+    "total": 4,
+    "sites": [
+      {
+        "line": 11,
+        "executed": true,
+        "text": "throw new Error(`${key} must be a finite nonnegative number within the supported range.`);",
+        "suites": [
+          "review-transaction-policy.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 13,
+        "executed": true,
+        "text": "if (Math.abs(n * 100 - Math.round(n * 100)) > 0.000001) throw new Error(`${key} supports at most two decimal places.`);",
+        "suites": [
+          "review-transaction-policy.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 23,
+        "executed": true,
+        "text": "throw new Error('Time quantity must match the duration rounded up to six-minute increments.');",
+        "suites": [
+          "review-transaction-policy.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 30,
+        "executed": true,
+        "text": "if (Math.abs(total - values.totalTransaction) > 0.000001) throw new Error('Transaction total must equal quantity times rate rounded to cents.');",
+        "suites": [
+          "review-transaction-policy.integration.spec",
+          "scenarios"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/payments/payment-logic.js": {
+    "executed": 38,
+    "total": 43,
+    "sites": [
+      {
+        "line": 163,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 186,
+        "executed": true,
+        "text": "if (target.remaining <= 0) throw ruleError(zeroRemainingMessage(target));",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 206,
+        "executed": true,
+        "text": "if (!paymentRecord) throw ruleError('No matching payment record found.', 404);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 215,
+        "executed": true,
+        "text": "throw ruleError('Payment is attached to an invoice and cannot be deleted or Modified.', 423);",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 230,
+        "executed": true,
+        "text": "throw ruleError('Retainer is attached to an invoice and cannot be deleted or Modified.', 423);",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 252,
+        "executed": true,
+        "text": "throw ruleError(`Payment #${paymentRecord.payment_id} has been reversed (reversal entry #${reversal.payment_id}). Delete the reversal first, then ${action} this payment.`);",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 360,
+        "executed": true,
+        "text": "if (!job) throw ruleError('The selected job does not belong to this customer. Re-select the job.');",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 436,
+        "executed": false,
+        "text": "if (!(tendered > 0)) throw ruleError('Payment amount must be greater than $0.00.', 400);",
+        "suites": []
+      },
+      {
+        "line": 439,
+        "executed": false,
+        "text": "throw ruleError('A valid payment date is required.', 400);",
+        "suites": []
+      },
+      {
+        "line": 446,
+        "executed": true,
+        "text": "if (retainer_id) throw ruleError('A retainer-funded payment must be applied to an invoice.', 400);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 458,
+        "executed": true,
+        "text": "throw ruleError('No invoice ID provided for this payment. If the customer has no open invoice, record the funds as a retainer/prepayment instead.', 400);",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 465,
+        "executed": true,
+        "text": "throw ruleError('No matching invoice record found for this payment.', 404);",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 468,
+        "executed": true,
+        "text": "throw ruleError(`Invoice ${requestedInvoice.invoice_number} belongs to a different customer than this payment. Re-select the invoice.`);",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 479,
+        "executed": true,
+        "text": "throw ruleError('This customer has no invoices to apply a payment to. Record the funds as a retainer/prepayment instead.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 509,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 589,
+        "executed": false,
+        "text": "throw ruleError(",
+        "suites": []
+      },
+      {
+        "line": 596,
+        "executed": true,
+        "text": "throw ruleError('A newer draw has been made on this retainer since this payment. Edit or delete the newer retainer-funded entries first.');",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 601,
+        "executed": true,
+        "text": "throw ruleError(`This payment was recorded automatically for retainer-funded time/charge entry #${linkedTransaction.transaction_id}. Edit or delete that entry instead.`);",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 659,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 710,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 715,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 742,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 778,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 827,
+        "executed": true,
+        "text": "throw ruleError(`Payment #${paymentRecord.payment_id} is linked to invoice ${paymentInvoiceRecord.invoice_number} of a different customer. Contact an administrator to correct the link.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 836,
+        "executed": true,
+        "text": "throw ruleError('A newer payment or write-off has been applied to this invoice since this payment. Delete the newer entries first, then retry.');",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 902,
+        "executed": true,
+        "text": "throw ruleError('Reversal entries cannot be edited. Delete the reversal and re-enter it if the amount or reason was wrong.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 908,
+        "executed": true,
+        "text": "throw ruleError('Moving a payment to a different invoice is not supported. Delete the payment and re-enter it against the correct invoice.');",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 911,
+        "executed": true,
+        "text": "throw ruleError('Moving a payment to a different customer is not supported. Delete the payment and re-enter it for the correct customer.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 914,
+        "executed": true,
+        "text": "throw ruleError('Changing the retainer that funded a payment is not supported. Delete the payment and re-enter it.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 917,
+        "executed": true,
+        "text": "throw ruleError(`Payment #${paymentRecord.payment_id} is linked to invoice ${paymentInvoiceRecord.invoice_number} of a different customer. Contact an administrator to correct the link.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 923,
+        "executed": false,
+        "text": "if (!(newAmount > 0)) throw ruleError('Payment amount must be greater than $0.00.', 400);",
+        "suites": []
+      },
+      {
+        "line": 932,
+        "executed": true,
+        "text": "throw ruleError(`This payment is linked directly to invoice ${paymentInvoiceRecord.invoice_number} and cannot be re-priced. Delete it and re-enter it.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 940,
+        "executed": true,
+        "text": "throw ruleError('A newer payment or write-off has been applied to this invoice since this payment. Edit or delete the newer entries first.');",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 946,
+        "executed": true,
+        "text": "throw ruleError(`Payment amount exceeds remaining balance on invoice ${paymentInvoiceRecord.invoice_number}. Max increase is $${snapshotRemaining}.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 958,
+        "executed": true,
+        "text": "throw ruleError(`Payment amount exceeds remaining balance on retainer. Max increase is $${maxIncrease}.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 1013,
+        "executed": true,
+        "text": "if (!paymentId) throw ruleError('No payment ID provided for the reversal.', 400);",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 1016,
+        "executed": true,
+        "text": "if (!cleanReason) throw ruleError('A reversal reason is required (e.g. \"NSF — check #1234 returned\").', 400);",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 1018,
+        "executed": false,
+        "text": "if (!Number.isInteger(recordedBy) || recordedBy <= 0) throw ruleError('The user recording the reversal could not be identified.', 401);",
+        "suites": []
+      },
+      {
+        "line": 1024,
+        "executed": true,
+        "text": "if (Number(original.payment_amount) >= 0) throw ruleError('This entry is already a reversal and cannot be reversed.');",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 1025,
+        "executed": true,
+        "text": "if ((original.note || '').includes('[reversed ')) throw ruleError('This payment has already been reversed.');",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 1027,
+        "executed": true,
+        "text": "if (await findReversalOf(trx, accountId, paymentId)) throw ruleError('This payment has already been reversed.');",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 1028,
+        "executed": true,
+        "text": "if (original.retainer_id) throw ruleError('Retainer-funded payments cannot be reversed here — adjust the retainer instead.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 1033,
+        "executed": true,
+        "text": "if (!targets.length) throw ruleError('This customer has no invoices; the reversal has nowhere to restore the balance.');",
+        "suites": [
+          "scenarios"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/payments/ledger-helpers.js": {
+    "executed": 8,
+    "total": 9,
+    "sites": [
+      {
+        "line": 64,
+        "executed": true,
+        "text": "if (!Number.isInteger(id) || id <= 0) throw ruleError('No customer selected.', 400);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 66,
+        "executed": true,
+        "text": "if (!row) throw ruleError('Customer not found for this account.', 404);",
+        "suites": [
+          "coverage-account-users-auth-misc.integration.spec",
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "review-rate-agreements.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 77,
+        "executed": true,
+        "text": "if (!Number.isInteger(rowId) || rowId <= 0) throw ruleError(notFoundMessage, 404);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 82,
+        "executed": true,
+        "text": "if (!row) throw ruleError(notFoundMessage, 404);",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 121,
+        "executed": true,
+        "text": "if (!key) throw new Error(`Unsupported ledger table for the billed gate: ${table}`);",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 144,
+        "executed": false,
+        "text": "if (!anchor || !LEDGER_ROW_KEYS[anchor.table]) throw new Error(`Unsupported ledger table for the billed gate: ${anchor && anchor.table}`);",
+        "suites": []
+      },
+      {
+        "line": 394,
+        "executed": true,
+        "text": "throw drawError(",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 405,
+        "executed": true,
+        "text": "throw drawError(",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 410,
+        "executed": true,
+        "text": "throw drawError(",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/retainer/retainer-logic.js": {
+    "executed": 13,
+    "total": 16,
+    "sites": [
+      {
+        "line": 31,
+        "executed": true,
+        "text": "throw ruleError('No matching retainer found for this payment.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 34,
+        "executed": true,
+        "text": "throw ruleError('The selected retainer belongs to a different customer than this payment.');",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 40,
+        "executed": true,
+        "text": "throw ruleError('The selected retainer has no remaining balance.');",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 45,
+        "executed": true,
+        "text": "throw ruleError(`Payment amount exceeds remaining balance on retainer. Max amount that can be applied to this invoice is $${available}.`);",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 65,
+        "executed": false,
+        "text": "if (!(amount < 0)) throw ruleError('Retainer amount must be greater than $0.00.');",
+        "suites": []
+      },
+      {
+        "line": 66,
+        "executed": false,
+        "text": "if (!fields.type_of_hold) throw ruleError('Select a type of hold (Retainer or Prepayment).');",
+        "suites": []
+      },
+      {
+        "line": 92,
+        "executed": true,
+        "text": "throw ruleError('Moving a retainer to a different customer is not supported. Delete it and re-enter it for the correct customer.');",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 105,
+        "executed": false,
+        "text": "if (!(newStarting < 0)) throw ruleError('Retainer amount must be greater than $0.00.');",
+        "suites": []
+      },
+      {
+        "line": 114,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 122,
+        "executed": true,
+        "text": "throw ruleError(`Starting amount cannot be less than the $${drawn.toFixed(2)} already drawn from this retainer.`);",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 163,
+        "executed": true,
+        "text": "throw ruleError(`This row is a draw-down entry on retainer #${rootID}. Delete the payment or time/charge entry that drew on it instead.`);",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 168,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 175,
+        "executed": true,
+        "text": "throw ruleError('This retainer has already been drawn on and cannot be deleted. Delete the payments or time/charge entries that drew on it first.');",
+        "suites": [
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 184,
+        "executed": true,
+        "text": "if (refs.transactions.length) throw ruleError('Transactions are linked to this retainer; it cannot be deleted.');",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 185,
+        "executed": true,
+        "text": "if (refs.payments.length) throw ruleError('Payments are linked to this retainer; it cannot be deleted.');",
+        "suites": [
+          "payment-reversal.integration.spec"
+        ]
+      },
+      {
+        "line": 187,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/writeOffs/writeOffs-logic.js": {
+    "executed": 13,
+    "total": 17,
+    "sites": [
+      {
+        "line": 44,
+        "executed": true,
+        "text": "throw ruleError(BILLED_MESSAGE, 423);",
+        "suites": [
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 47,
+        "executed": true,
+        "text": "throw ruleError(`Write-off #${stored.writeoff_id} is linked to invoice ${linkedRow.invoice_number} of a different customer. Contact an administrator to correct the link.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 56,
+        "executed": true,
+        "text": "if (!job) throw ruleError('The selected job does not belong to this customer. Re-select the job.');",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 63,
+        "executed": true,
+        "text": "throw ruleError(`A newer payment or write-off has been applied to this invoice since this write-off. ${verb} the newer entries first, then retry.`);",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 79,
+        "executed": false,
+        "text": "if (!(amount > 0)) throw ruleError('Write-off amount must be greater than $0.00.', 400);",
+        "suites": []
+      },
+      {
+        "line": 81,
+        "executed": false,
+        "text": "if (!fields.writeoff_reason) throw ruleError('A write-off reason is required.', 400);",
+        "suites": []
+      },
+      {
+        "line": 82,
+        "executed": false,
+        "text": "if (!fields.writeoff_date || !dayjs(fields.writeoff_date).isValid()) throw ruleError('A valid write-off date is required.', 400);",
+        "suites": []
+      },
+      {
+        "line": 95,
+        "executed": true,
+        "text": "if (!requestedInvoice) throw ruleError('No matching invoice record found for this write-off.', 404);",
+        "suites": [
+          "clean-room-regression.integration.spec",
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 97,
+        "executed": true,
+        "text": "throw ruleError(`Invoice ${requestedInvoice.invoice_number} belongs to a different customer than this write-off. Re-select the invoice.`);",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 101,
+        "executed": true,
+        "text": "if (!targets.length) throw ruleError('This customer has no invoices to write off against.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 116,
+        "executed": true,
+        "text": "throw ruleError(",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 148,
+        "executed": true,
+        "text": "throw ruleError('Moving a write-off to a different customer is not supported. Delete the write-off and re-enter it for the correct customer.');",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 151,
+        "executed": true,
+        "text": "throw ruleError('Moving a write-off to a different invoice is not supported. Delete the write-off and re-enter it against the correct invoice.');",
+        "suites": [
+          "payment-reversal.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 154,
+        "executed": true,
+        "text": "throw ruleError('A job-level write-off cannot be moved onto an invoice. Delete it and re-enter it against the invoice.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 158,
+        "executed": false,
+        "text": "if (!(newAmount > 0)) throw ruleError('Write-off amount must be greater than $0.00.', 400);",
+        "suites": []
+      },
+      {
+        "line": 163,
+        "executed": true,
+        "text": "throw ruleError(`This write-off is linked directly to invoice ${linkedRow.invoice_number} and cannot be re-priced. Delete it and re-enter it.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 170,
+        "executed": true,
+        "text": "throw ruleError(`Write-off amount exceeds remaining balance on invoice ${linkedRow.invoice_number}. Max increase is $${snapshotRemaining}.`);",
+        "suites": [
+          "scenarios"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/billingReview/cascadeEdit.js": {
+    "executed": 30,
+    "total": 31,
+    "sites": [
+      {
+        "line": 202,
+        "executed": true,
+        "text": "throw _invalid(field, `${label} is required.`);",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 205,
+        "executed": true,
+        "text": "if (!Number.isInteger(n) || n <= 0) throw _invalid(field, `${label} must be a valid id.`);",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 211,
+        "executed": true,
+        "text": "if (!iso || !_isRealCalendarDate(iso)) throw _invalid(field, `${label} must be a valid date (YYYY-MM-DD).`);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 216,
+        "executed": true,
+        "text": "if (_isBlank(raw)) throw _invalid(field, `${label} is required.`);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 218,
+        "executed": true,
+        "text": "if (!Number.isFinite(n) || n < 0 || n > MAX_AMOUNT) throw _invalid(field, `${label} must be a number between 0 and ${MAX_AMOUNT}.`);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 224,
+        "executed": true,
+        "text": "if (b === undefined) throw _invalid(field, `${label} must be true or false.`);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 229,
+        "executed": true,
+        "text": "if (raw !== null && raw !== undefined && typeof raw === 'object') throw _invalid(field, `${label} must be text.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 347,
+        "executed": true,
+        "text": "throw _err(ERRORS.INVOICE_LOCKED, MESSAGES.ABSORBED, {",
+        "suites": [
+          "cascade-edit-recompute.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 357,
+        "executed": true,
+        "text": "throw _err(ERRORS.INVOICE_LOCKED, MESSAGES.PAID_IN_FULL, { invoiceId, invoiceNumber: root.invoice_number, reason: 'paid_in_full' });",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 363,
+        "executed": true,
+        "text": "throw _err(",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 446,
+        "executed": true,
+        "text": "throw _err(",
+        "suites": [
+          "cascade-edit-recompute.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 461,
+        "executed": false,
+        "text": "if (!customer) throw _invalid('customer_id', `Customer #${requested.customer_id} was not found in this account.`);",
+        "suites": []
+      },
+      {
+        "line": 465,
+        "executed": true,
+        "text": "throw _err(ERRORS.JOB_REQUIRED_FOR_CUSTOMER_CHANGE, MESSAGES.JOB_MISSING_FOR_CUSTOMER_CHANGE, { field: 'customer_job_id' });",
+        "suites": [
+          "cascade-edit-recompute.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 469,
+        "executed": true,
+        "text": "throw _err(ERRORS.JOB_REQUIRED_FOR_CUSTOMER_CHANGE, `Job #${jobId} does not belong to the new customer. Pick a job that belongs to the new customer.`, {",
+        "suites": [
+          "cascade-edit-recompute.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 474,
+        "executed": true,
+        "text": "if (requested.customer_job_id == null) throw _invalid('customer_job_id', MESSAGES.JOB_REQUIRED);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 477,
+        "executed": true,
+        "text": "throw _invalid('customer_job_id', `Job #${requested.customer_job_id} does not belong to this transaction's customer.`);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 485,
+        "executed": true,
+        "text": "if (!gwd) throw _invalid('general_work_description_id', `Work description #${requested.general_work_description_id} was not found in this account.`);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 569,
+        "executed": true,
+        "text": "throw _err(ERRORS.CUSTOMER_CHANGE_NEEDS_CONFIRM, MESSAGES.CUSTOMER_CHANGE_NEEDS_CONFIRM);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 576,
+        "executed": true,
+        "text": "throw _err(ERRORS.RETAINER_NOT_EDITABLE_HERE, MESSAGES.RETAINER_FUNDED);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 626,
+        "executed": true,
+        "text": "if (!e || !e.isLedgerRule) throw e;",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 628,
+        "executed": true,
+        "text": "if (id === requestedCustomerId) throw _invalid('customer_id', `Customer #${id} was not found in this account.`);",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 629,
+        "executed": true,
+        "text": "throw _err(ERRORS.NOT_FOUND, MESSAGES.CUSTOMER_MISSING);",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 650,
+        "executed": true,
+        "text": "if (!original) throw _err(ERRORS.NOT_FOUND, MESSAGES.NOT_FOUND);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 652,
+        "executed": true,
+        "text": "if (!needed.every(id => locked.has(id))) throw _relock([...locked, ...needed]);",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 676,
+        "executed": true,
+        "text": "if (!chain) throw _err(ERRORS.INVOICE_LOCKED, MESSAGES.INVOICE_MISSING, { invoiceId: linkedInvoiceId, reason: 'invoice_missing' });",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 680,
+        "executed": true,
+        "text": "if (!locked.has(chainCustomerId)) throw _relock([...locked, chainCustomerId]);",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 803,
+        "executed": true,
+        "text": "throw _err(ERRORS.NOT_FOUND, MESSAGES.NOT_FOUND);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 807,
+        "executed": true,
+        "text": "if (!preview) throw _err(ERRORS.NOT_FOUND, MESSAGES.NOT_FOUND);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 810,
+        "executed": true,
+        "text": "if ('retainer_id' in safeUpdates) throw _err(ERRORS.RETAINER_NOT_EDITABLE_HERE, MESSAGES.RETAINER_FIELD);",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 827,
+        "executed": true,
+        "text": "if (!(e && e[RELOCK])) throw e;",
+        "suites": [
+          "cascade-edit-recompute.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 828,
+        "executed": true,
+        "text": "if (attempt >= MAX_LOCK_ATTEMPTS) throw _err(ERRORS.CONCURRENT_EDIT, MESSAGES.CONCURRENT_EDIT);",
+        "suites": [
+          "unit"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/customer/customer-router.js": {
+    "executed": 5,
+    "total": 8,
+    "sites": [
+      {
+        "line": 54,
+        "executed": true,
+        "text": "if (duplicateCustomerDisplay) throw new Error('Customer already exists with that name.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 66,
+        "executed": false,
+        "text": "if (!Object.keys(customerData).length) throw new Error('Error Inserting Customer Into Customer Table.');",
+        "suites": []
+      },
+      {
+        "line": 77,
+        "executed": false,
+        "text": "if (!Object.keys(customerInfo).length) throw new Error('Error Inserting Customer Into Customer Information Table.');",
+        "suites": []
+      },
+      {
+        "line": 85,
+        "executed": false,
+        "text": "if (!Object.keys(recurringCustomer).length) throw new Error('Error Inserting Customer Into Recurring Customer Table.');",
+        "suites": []
+      },
+      {
+        "line": 257,
+        "executed": true,
+        "text": "if (Number(recurring.customer_id) !== Number(customerID)) throw new Error('Recurring row does not belong to this customer.');",
+        "suites": [
+          "review-related-ids.integration.spec"
+        ]
+      },
+      {
+        "line": 262,
+        "executed": true,
+        "text": "if (!updatedCustomer) throw new Error('Customer was not found.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 264,
+        "executed": true,
+        "text": "if (updatedContact !== 1) throw new Error('Customer contact was not found in this account.');",
+        "suites": [
+          "review-customer-recurring.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 344,
+        "executed": true,
+        "text": "throw new Error('Cannot delete customer with associated jobs, retainers, invoices, payments, write-offs, transactions, recurring customers, or quotes. Please disable customer instead.');",
+        "suites": [
+          "coverage-account-users-auth-misc.integration.spec",
+          "review-customer-delete.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/job/job-router.js": {
+    "executed": 9,
+    "total": 10,
+    "sites": [
+      {
+        "line": 38,
+        "executed": true,
+        "text": "if (!before) throw ruleError('Job not found.', 404);",
+        "suites": [
+          "coverage-jobs-masterdata.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 47,
+        "executed": true,
+        "text": "throw ruleError('Job changed while saving. Refresh and retry.', 409);",
+        "suites": [
+          "unit"
+        ]
+      },
+      {
+        "line": 75,
+        "executed": true,
+        "text": "if (duplicateJob.length) throw new Error('Duplicate job');",
+        "suites": [
+          "clean-room-regression.integration.spec",
+          "coverage-jobs-masterdata.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 166,
+        "executed": true,
+        "text": "if (linkedTransactions.length) throw new Error('Cannot reassign this job to a different customer: transactions are linked to it or one of its prior versions.');",
+        "suites": [
+          "coverage-jobs-masterdata.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 169,
+        "executed": true,
+        "text": "if (writeOffResults.some(rows => rows.length)) throw new Error('Cannot reassign this job to a different customer: write offs are linked to it or one of its prior versions.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 173,
+        "executed": true,
+        "text": "if (linkedPayments.length) throw new Error('Cannot reassign this job to a different customer: payments are linked to it or one of its prior versions.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 219,
+        "executed": false,
+        "text": "if (!familyIds.length) throw new Error('Job not found.');",
+        "suites": []
+      },
+      {
+        "line": 222,
+        "executed": true,
+        "text": "if (linkedTransactions.length) throw new Error('Transactions are linked to this job or one of its prior versions; it cannot be deleted.');",
+        "suites": [
+          "clean-room-regression.integration.spec",
+          "coverage-jobs-masterdata.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 225,
+        "executed": true,
+        "text": "if (writeOffResults.some(rows => rows.length)) throw new Error('Write offs are linked to this job or one of its prior versions; it cannot be deleted.');",
+        "suites": [
+          "coverage-jobs-masterdata.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 229,
+        "executed": true,
+        "text": "if (linkedPayments.length) throw new Error('Payments are linked to this job or one of its prior versions; it cannot be deleted.');",
+        "suites": [
+          "coverage-jobs-masterdata.integration.spec",
+          "scenarios",
+          "unit"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/invoice/invoice-router.js": {
+    "executed": 15,
+    "total": 16,
+    "sites": [
+      {
+        "line": 69,
+        "executed": true,
+        "text": "if (!targetInvoice) throw new Error('Invoice not found.');",
+        "suites": [
+          "coverage-invoices-audit-ar-analytics.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 73,
+        "executed": true,
+        "text": "throw new Error('This row is a payment/write-off snapshot. Delete or reverse the payment or write-off instead.');",
+        "suites": [
+          "finalize-engine.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 82,
+        "executed": true,
+        "text": "throw new Error('Cannot delete invoice with transactions, retainers, payments, or writeoffs.');",
+        "suites": [
+          "coverage-invoices-audit-ar-analytics.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 90,
+        "executed": true,
+        "text": "throw new Error(`Invoice ${targetInvoice.invoice_number} was rolled into a later statement (see its notes) and is part of that statement's history; it cannot be deleted.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 95,
+        "executed": true,
+        "text": "throw new Error(`Invoice ${targetInvoice.invoice_number} has payment or write-off activity recorded against it and cannot be deleted. Delete or reverse those entries first.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 99,
+        "executed": true,
+        "text": "throw new Error(",
+        "suites": [
+          "finalize-engine.integration.spec"
+        ]
+      },
+      {
+        "line": 115,
+        "executed": true,
+        "text": "if (!current) throw new Error('Invoice not found.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 116,
+        "executed": true,
+        "text": "if (Number(current.customer_id) !== Number(targetInvoice.customer_id)) throw new Error('Invoice changed customer while being deleted; refresh and try again.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 119,
+        "executed": true,
+        "text": "throw new Error(`Invoice ${current.invoice_number} became part of statement history while being deleted (a later statement rolled it forward); it cannot be deleted.`);",
+        "suites": [
+          "finalize-snapshot.integration.spec"
+        ]
+      },
+      {
+        "line": 128,
+        "executed": true,
+        "text": "throw new Error('Invoice gained linked activity while being deleted; refresh and try again.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 251,
+        "executed": true,
+        "text": "throw new Error('Select at least one customer to invoice.');",
+        "suites": [
+          "coverage-invoices-audit-ar-analytics.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 255,
+        "executed": true,
+        "text": "throw new Error('Invalid customer selection.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 258,
+        "executed": true,
+        "text": "throw new Error('A customer was selected more than once; select each customer once.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 415,
+        "executed": true,
+        "text": "throw new Error('Invalid or no file path.');",
+        "suites": [
+          "coverage-downloads-authz.integration.spec",
+          "coverage-invoices-audit-ar-analytics.integration.spec"
+        ]
+      },
+      {
+        "line": 447,
+        "executed": false,
+        "text": "throw new Error('File does not exist.');",
+        "suites": []
+      },
+      {
+        "line": 465,
+        "executed": true,
+        "text": "throw new Error('File does not exist.');",
+        "suites": [
+          "coverage-invoices-audit-ar-analytics.integration.spec"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js": {
+    "executed": 8,
+    "total": 17,
+    "sites": [
+      {
+        "line": 34,
+        "executed": false,
+        "text": "throw new Error('Missing necessary arguments for dataInsertionOrchestrator');",
+        "suites": []
+      },
+      {
+        "line": 48,
+        "executed": false,
+        "text": "if (customerIDs.some(id => !Number.isSafeInteger(id) || id <= 0)) throw new Error('Invalid customer id in the billing batch.');",
+        "suites": []
+      },
+      {
+        "line": 49,
+        "executed": false,
+        "text": "if (new Set(customerIDs).size !== customerIDs.length) throw new Error('A customer appears more than once in the billing batch; select each customer once.');",
+        "suites": []
+      },
+      {
+        "line": 52,
+        "executed": false,
+        "text": "if (!Number.isFinite(total)) throw new Error(`Invoice total for customer ${invoice.customer_id} is not a number.`);",
+        "suites": []
+      },
+      {
+        "line": 53,
+        "executed": false,
+        "text": "if (total < 0) throw new Error(`Customer ${invoice.customer_id} has a credit balance (${total.toFixed(2)}); record it as a prepayment or adjust the ledger before finalizing.`);",
+        "suites": []
+      },
+      {
+        "line": 58,
+        "executed": false,
+        "text": "if (!Number.isSafeInteger(accountID)) throw new Error('Account id missing for the billing run.');",
+        "suites": []
+      },
+      {
+        "line": 62,
+        "executed": true,
+        "text": "throw new Error(`Error in saving invoice images: ${err.message}`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 67,
+        "executed": false,
+        "text": "if (new Set(plannedNumbers).size !== plannedNumbers.length) throw new Error('Duplicate invoice numbers in the billing batch.');",
+        "suites": []
+      },
+      {
+        "line": 79,
+        "executed": true,
+        "text": "throw new Error(`Customer(s) ${[...new Set(billedToday.map(r => r.customer_id))].join(', ')} were finalized today by another run. Refresh Create Invoice and submit again.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 85,
+        "executed": true,
+        "text": "throw new Error(`Invoice number(s) ${taken.map(t => t.invoice_number).join(', ')} were just used by another billing run. Re-open Create Invoice and submit again.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 93,
+        "executed": true,
+        "text": "throw new Error(`The ledger for customer(s) ${changed.join(', ')} changed while the statements were being generated (a payment, write-off, invoice row or transaction was added, edited or deleted). Nothing was finalized — re-run Create Invoice.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 106,
+        "executed": false,
+        "text": "if (!parent) throw new Error(`Parent statement missing for customer ${plan.customer_id}.`);",
+        "suites": []
+      },
+      {
+        "line": 121,
+        "executed": true,
+        "text": "throw new Error(`Customer ${plan.customer_id}: ${plan.transactionIDs.length - transactionsStamped} transaction(s) on the statement were changed or billed by another run. Nothing was finalized — re-run Create Invoice.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 132,
+        "executed": true,
+        "text": "throw new Error(`Customer ${plan.customer_id}: a payment on the statement was changed by another run. Nothing was finalized — re-run Create Invoice.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 166,
+        "executed": true,
+        "text": "throw new Error(",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 190,
+        "executed": true,
+        "text": "throw new Error(`Transactions changed while the statements were being generated (${drift.slice(0, 5).join('; ')}${drift.length > 5 ? '; …' : ''}). Nothing was finalized — re-run Create Invoice.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 264,
+        "executed": false,
+        "text": "if (!Number.isFinite(Number(invoiceTotal))) throw new Error(`Invoice total for customer ${customer_id} is not a number.`);",
+        "suites": []
+      }
+    ]
+  },
+  "src/utils/ledgerInput.js": {
+    "executed": 11,
+    "total": 11,
+    "sites": [
+      {
+        "line": 10,
+        "executed": true,
+        "text": "throw error;",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 27,
+        "executed": true,
+        "text": "if (!data || typeof data !== 'object' || Array.isArray(data)) invalid(`${kind} must be an object.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 30,
+        "executed": true,
+        "text": "if (!scalarNumber(data.unitCost)) invalid(`${label} amount must be a finite number.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 32,
+        "executed": true,
+        "text": "if (!(amount > 0)) invalid(`${label} amount must be greater than $0.00.`);",
+        "suites": [
+          "coverage-payments-pending.integration.spec",
+          "coverage-transactions-retainers-writeoffs.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 33,
+        "executed": true,
+        "text": "if (amount > 99999999.99) invalid(`${label} amount exceeds the supported maximum of $99999999.99.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 38,
+        "executed": true,
+        "text": "if (!scalarNumber(id) || !Number.isSafeInteger(Number(id)) || Number(id) < 1 || Number(id) > 2147483647) invalid('customerID must be a positive integer ID.');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 45,
+        "executed": true,
+        "text": "if (!scalarNumber(value) || !Number.isSafeInteger(Number(value)) || Number(value) < 1 || Number(value) > 2147483647) invalid(`${field} must be a positive integer ID or an empty selection.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 49,
+        "executed": true,
+        "text": "if (dateField && (!update || data[dateField] !== undefined) && !validLedgerDate(data[dateField])) invalid(`A valid ${kind === 'payment' ? 'payment' : 'write-off'} date is required.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 55,
+        "executed": true,
+        "text": "if (typeof value !== 'string' || !value.trim() || ['null', 'undefined'].includes(value)) invalid(kind === 'writeoff' ? 'A write-off reason is required.' : 'Select a type of hold (Retainer or Prepayment).');",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 61,
+        "executed": true,
+        "text": "if (typeof value !== 'string' || value.includes('\\0')) invalid(`${field} must be text without null characters.`);",
+        "suites": [
+          "scenarios"
+        ]
+      },
+      {
+        "line": 62,
+        "executed": true,
+        "text": "if (max && [...value].length > max) invalid(`${field} supports at most ${max} characters.`);",
+        "suites": [
+          "scenarios"
+        ]
+      }
+    ]
+  },
+  "src/utils/committedResponse.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  },
+  "src/endpoints/user/user-router.js": {
+    "executed": 6,
+    "total": 6,
+    "sites": [
+      {
+        "line": 35,
+        "executed": true,
+        "text": "throw error;",
+        "suites": [
+          "clean-room-regression.integration.spec",
+          "review-user-guards.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 98,
+        "executed": true,
+        "text": "throw error;",
+        "suites": [
+          "clean-room-regression.integration.spec",
+          "review-user-guards.integration.spec",
+          "unit"
+        ]
+      },
+      {
+        "line": 107,
+        "executed": true,
+        "text": "throw error;",
+        "suites": [
+          "coverage-account-users-auth-misc.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 137,
+        "executed": true,
+        "text": "throw error;",
+        "suites": [
+          "scenarios",
+          "unit"
+        ]
+      },
+      {
+        "line": 151,
+        "executed": true,
+        "text": "throw error;",
+        "suites": [
+          "coverage-account-users-auth-misc.integration.spec",
+          "scenarios"
+        ]
+      },
+      {
+        "line": 161,
+        "executed": true,
+        "text": "throw error;",
+        "suites": [
+          "scenarios"
+        ]
+      }
+    ]
+  },
+  "src/endpoints/retainer/retainer-router.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  },
+  "src/endpoints/payments/payments-router.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  },
+  "src/endpoints/writeOffs/writeOffs-router.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  },
+  "src/endpoints/transactions/transactions-router.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  }
+}

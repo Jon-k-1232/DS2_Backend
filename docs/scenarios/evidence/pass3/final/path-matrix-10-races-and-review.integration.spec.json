@@ -1,0 +1,644 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 14,
+    "passes": 14,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:09.614Z",
+    "end": "2026-09-25T13:33:10.812Z",
+    "duration": 1198
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT held entry | customer_id=999999 refuses 400 and preserves every row",
+      "state": "passed",
+      "duration": 27
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=-1 refuses 400 and preserves every row",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=NaN refuses 400 and preserves every row",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT transaction | row disappears after owner lookup: legacy refusal without writes",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT transaction | row changes customer under lock: legacy conflict refusal without writes",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation update recurring | row disappears between route validation and locked service: 500 without writes",
+      "state": "passed",
+      "duration": 34
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation delete recurring | row disappears between route validation and locked service: 500 without writes",
+      "state": "passed",
+      "duration": 32
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT recurring | conditional update loses its row: 500 with complete rollback",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT cascade edit | Comprehend failure uses deterministic email redaction and preserves the ledger edit",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional training savepoint failure preserves the requested ledger edit",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "state": "passed",
+      "duration": 140
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation POST account | nested account insert failure rolls back both account and address",
+      "state": "passed",
+      "duration": 27
+    },
+    {
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "title": "Path matrix: concurrent edits and review degradation POST account | unique storage-slug race retries once using a savepoint and saves one account",
+      "state": "passed",
+      "duration": 15
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "[fixture]"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:138:8": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT held entry | customer_id=999999 refuses 400 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=-1 refuses 400 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=NaN refuses 400 and preserves every row"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:141:9": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT held entry | customer_id=999999 refuses 400 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=-1 refuses 400 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=NaN refuses 400 and preserves every row"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-service.js:271:18": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT held entry | customer_id=999999 refuses 400 and preserves every row"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-service.js:296:6": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=-1 refuses 400 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=NaN refuses 400 and preserves every row"
+      }
+    ],
+    "src/endpoints/payments/ledger-helpers.js:66:13": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:334:8": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:337:9": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:625:8": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:628:41": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:830:8": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:831:32": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT transaction | row disappears after owner lookup: legacy refusal without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT transaction | row changes customer under lock: legacy conflict refusal without writes"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT transaction | row disappears after owner lookup: legacy refusal without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT transaction | row changes customer under lock: legacy conflict refusal without writes"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:532:16": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT transaction | row disappears after owner lookup: legacy refusal without writes"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:534:6": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT transaction | row changes customer under lock: legacy conflict refusal without writes"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation update recurring | row disappears between route validation and locked service: 500 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation delete recurring | row disappears between route validation and locked service: 500 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT recurring | conditional update loses its row: 500 with complete rollback"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation POST account | nested account insert failure rolls back both account and address"
+      }
+    ],
+    "src/endpoints/recurringCustomer/recurringCustomer-service.js:14:28": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation update recurring | row disappears between route validation and locked service: 500 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation delete recurring | row disappears between route validation and locked service: 500 without writes"
+      }
+    ],
+    "src/endpoints/recurringCustomer/recurringCustomer-service.js:22:22": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT recurring | conditional update loses its row: 500 with complete rollback"
+      }
+    ],
+    "src/utils/comprehend.js:64:5": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | Comprehend failure uses deterministic email redaction and preserves the ledger edit"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:505:5": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional training savepoint failure preserves the requested ledger edit"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:530:5": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move"
+      }
+    ],
+    "src/endpoints/account/account-service.js:57:11": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation POST account | nested account insert failure rolls back both account and address"
+      },
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation POST account | unique storage-slug race retries once using a savepoint and saves one account"
+      }
+    ],
+    "src/endpoints/account/account-service.js:65:12": [
+      {
+        "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+        "test": "Path matrix: concurrent edits and review degradation POST account | nested account insert failure rolls back both account and address"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343190052-gvjo8i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343190052-gvjo8i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343190052-gvjo8i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT held entry | customer_id=999999 refuses 400 and preserves every row",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/1/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 400,
+      "message": "Customer #999999 was not found in this account."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=-1 refuses 400 and preserves every row",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/2/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 400,
+      "message": "Rate must be a number of zero or more."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=NaN refuses 400 and preserves every row",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/3/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 400,
+      "message": "Rate must be a number of zero or more."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/1/1/1",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 400,
+      "message": "Customer #999999 was not found in this account."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT transaction | row disappears after owner lookup: legacy refusal without writes",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transaction was not found."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT transaction | row changes customer under lock: legacy conflict refusal without writes",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This transaction was changed by someone else while it was being saved. Refresh and try again."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation update recurring | row disappears between route validation and locked service: 500 without writes",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/1/1",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new recurring customer."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation update recurring | row disappears between route validation and locked service: 500 without writes",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/recurringCustomer/updateRecurringCustomer",
+      "route": "/updateRecurringCustomer",
+      "status": 500,
+      "message": "Recurring customer not found."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation delete recurring | row disappears between route validation and locked service: 500 without writes",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/1/1",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new recurring customer."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation delete recurring | row disappears between route validation and locked service: 500 without writes",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "DELETE",
+      "url": "/recurringCustomer/deleteRecurringCustomer/1/3",
+      "route": "/deleteRecurringCustomer/:accountID/:recurringCustomerId",
+      "status": 500,
+      "message": "Recurring customer not found."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT recurring | conditional update loses its row: 500 with complete rollback",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/recurringCustomer/updateRecurringCustomer",
+      "route": "/updateRecurringCustomer",
+      "status": 500,
+      "message": "Recurring customer changed; refresh before saving."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | Comprehend failure uses deterministic email redaction and preserves the ledger edit",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/1/1/1",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional training savepoint failure preserves the requested ledger edit",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/1/1/1",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343190632-jyzho9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343190632-jyzho9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343190632-jyzho9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343190632-jyzho9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/1/1/1",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation POST account | nested account insert failure rolls back both account and address",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "POST",
+      "url": "/account/createAccount",
+      "route": "/createAccount",
+      "status": 500,
+      "message": "path-matrix injected database failure"
+    },
+    {
+      "test": "Path matrix: concurrent edits and review degradation POST account | unique storage-slug race retries once using a savepoint and saves one account",
+      "file": "test/integration/path-matrix-10-races-and-review.integration.spec.js",
+      "method": "POST",
+      "url": "/account/createAccount",
+      "route": "/createAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:40:27.549Z",
+    "end": "2026-09-25T06:40:28.148Z",
+    "duration": 599
+  },
+  "tests": [
+    {
+      "title": "F16 refuses stale soft-delete after approval commits and preserves visible posted evidence",
+      "fullTitle": "F16-F18 pending payment file integrity F16 refuses stale soft-delete after approval commits and preserves visible posted evidence",
+      "duration": 53,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F17 removes pending and archived copies and denies later preview",
+      "fullTitle": "F16-F18 pending payment file integrity F17 removes pending and archived copies and denies later preview",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F17 reports archive deletion failure and keeps queue rows retryable",
+      "fullTitle": "F16-F18 pending payment file integrity F17 reports archive deletion failure and keeps queue rows retryable",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F17 rechecks processed siblings under the file lock after an approval wins",
+      "fullTitle": "F16-F18 pending payment file integrity F17 rechecks processed siblings under the file lock after an approval wins",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F18 groups duplicate receipt identities into one physical file and previews either name",
+      "fullTitle": "F16-F18 pending payment file integrity F18 groups duplicate receipt identities into one physical file and previews either name",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F18 refuses canonical file deletion when only a suffixed sibling was approved",
+      "fullTitle": "F16-F18 pending payment file integrity F18 refuses canonical file deletion when only a suffixed sibling was approved",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F18 deleting via a duplicate receipt identity dismisses all siblings",
+      "fullTitle": "F16-F18 pending payment file integrity F18 deleting via a duplicate receipt identity dismisses all siblings",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "F16 refuses stale soft-delete after approval commits and preserves visible posted evidence",
+      "fullTitle": "F16-F18 pending payment file integrity F16 refuses stale soft-delete after approval commits and preserves visible posted evidence",
+      "duration": 53,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F17 removes pending and archived copies and denies later preview",
+      "fullTitle": "F16-F18 pending payment file integrity F17 removes pending and archived copies and denies later preview",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F17 reports archive deletion failure and keeps queue rows retryable",
+      "fullTitle": "F16-F18 pending payment file integrity F17 reports archive deletion failure and keeps queue rows retryable",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F17 rechecks processed siblings under the file lock after an approval wins",
+      "fullTitle": "F16-F18 pending payment file integrity F17 rechecks processed siblings under the file lock after an approval wins",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F18 groups duplicate receipt identities into one physical file and previews either name",
+      "fullTitle": "F16-F18 pending payment file integrity F18 groups duplicate receipt identities into one physical file and previews either name",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F18 refuses canonical file deletion when only a suffixed sibling was approved",
+      "fullTitle": "F16-F18 pending payment file integrity F18 refuses canonical file deletion when only a suffixed sibling was approved",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F18 deleting via a duplicate receipt identity dismisses all siblings",
+      "fullTitle": "F16-F18 pending payment file integrity F18 deleting via a duplicate receipt identity dismisses all siblings",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

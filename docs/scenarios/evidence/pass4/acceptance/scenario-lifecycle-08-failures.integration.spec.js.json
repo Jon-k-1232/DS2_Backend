@@ -1,0 +1,354 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 24,
+    "passes": 24,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:51:46.005Z",
+    "end": "2026-09-25T14:51:49.647Z",
+    "duration": 3642
+  },
+  "tests": [
+    {
+      "title": "F atomic rollback: customer contact insert",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "duration": 84,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: job insert",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: work insert after job snapshot",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "duration": 86,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: funded work payment after job, draw and work inserts",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "duration": 96,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: work delete after family snapshot",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "duration": 86,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: retainer insert",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: retainer update",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: payment after invoice snapshot",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "duration": 84,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: writeoff after invoice snapshot",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: cascade unissued work update",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: finalize stamping after parent insert",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "duration": 112,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: customer/customer-service.getCustomerByID",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: job/job-service.getSingleJob",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "duration": 135,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: transactions/transactions-service.getSingleTransaction",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "duration": 137,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: retainer/retainer-service.getSingleRetainer",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "duration": 134,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: payments/payments-service.getSinglePayment",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "duration": 135,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "duration": 130,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: accountAudit/account-audit-service.getAuditById",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F precommit storage failure refuses issuance and preserves all ledger rows",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "duration": 99,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F stale snapshot refuses finalize after work arrives during PDF upload",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "duration": 180,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "duration": 92,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "F atomic rollback: customer contact insert",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "duration": 84,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: job insert",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: work insert after job snapshot",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "duration": 86,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: funded work payment after job, draw and work inserts",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "duration": 96,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: work delete after family snapshot",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "duration": 86,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: retainer insert",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: retainer update",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: payment after invoice snapshot",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "duration": 84,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: writeoff after invoice snapshot",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: cascade unissued work update",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F atomic rollback: finalize stamping after parent insert",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "duration": 112,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: customer/customer-service.getCustomerByID",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: job/job-service.getSingleJob",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "duration": 135,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: transactions/transactions-service.getSingleTransaction",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "duration": 137,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: retainer/retainer-service.getSingleRetainer",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "duration": 134,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: payments/payments-service.getSinglePayment",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "duration": 135,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "duration": 130,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F read failure: accountAudit/account-audit-service.getAuditById",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F precommit storage failure refuses issuance and preserves all ledger rows",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "duration": 99,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F stale snapshot refuses finalize after work arrives during PDF upload",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "duration": 180,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "fullTitle": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "duration": 92,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,772 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 20,
+    "passes": 20,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:11.259Z",
+    "end": "2026-09-25T13:33:12.850Z",
+    "duration": 1591
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent header row refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 42
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent entry rows refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 29
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing employee refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid start date refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid end date refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | end before start refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing header refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | duplicate header refuses before any storage or row writes",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | owner with empty email refuses validation and writes nothing",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces no sheets: 400 and no writes",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces empty sheet: 400 and no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser failure refuses corrupt workbook",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures POST template upload | missing raw bytes refuses 400 without writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "title": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | audit-row insertion failure still returns a tenant-only workbook",
+      "state": "passed",
+      "duration": 527
+    }
+  ],
+  "hits": {
+    "src/endpoints/timeTracking/timeTracking-router.js:433:19": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent header row refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent entry rows refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing employee refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid start date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid end date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | end before start refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing header refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | duplicate header refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | owner with empty email refuses validation and writes nothing"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces no sheets: 400 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces empty sheet: 400 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser failure refuses corrupt workbook"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:118:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent header row refuses before any storage or row writes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:149:3": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent header row refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent entry rows refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing employee refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid start date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid end date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | end before start refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing header refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | duplicate header refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | owner with empty email refuses validation and writes nothing"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:124:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent entry rows refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing header refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | duplicate header refuses before any storage or row writes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:132:9": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent entry rows refuses before any storage or row writes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:105:5": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing employee refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid start date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid end date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | end before start refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | owner with empty email refuses validation and writes nothing"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:106:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing employee refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid start date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid end date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | end before start refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | owner with empty email refuses validation and writes nothing"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateNameBlock.js:20:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing employee refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateNameBlock.js:30:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid start date refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateNameBlock.js:35:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid end date refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateNameBlock.js:40:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | end before start refuses before any storage or row writes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:30:8": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:31:9": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:136:12": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateTimeBlock.js:82:14": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateTimeBlock.js:83:15": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateField.js:40:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes"
+      },
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateField.js:52:15": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/csvHeaderPropertyConfig.js:81:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing header refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/csvHeaderPropertyConfig.js:88:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | duplicate header refuses before any storage or row writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateNameBlock.js:46:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | owner with empty email refuses validation and writes nothing"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:70:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces no sheets: 400 and no writes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:81:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces empty sheet: 400 and no writes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:60:5": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser failure refuses corrupt workbook"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:61:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser failure refuses corrupt workbook"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1335:16": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures POST template upload | missing raw bytes refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1284:11": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1289:22": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:965:5": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:966:6": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes"
+      }
+    ],
+    "src/endpoints/timeTracking/template-builder.js:1249:5": [
+      {
+        "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+        "test": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | audit-row insertion failure still returns a tenant-only workbook"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent header row refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent entry rows refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing employee refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid start date refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid end date refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | end before start refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing header refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | duplicate header refuses before any storage or row writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | owner with empty email refuses validation and writes nothing",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces no sheets: 400 and no writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces empty sheet: 400 and no writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser failure refuses corrupt workbook",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures POST template upload | missing raw bytes refuses 400 without writes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/template/upload/1/1",
+      "route": "/template/upload/:accountID/:userID",
+      "status": 400,
+      "message": "Uploaded file is empty or missing."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/latest/700/70001",
+      "route": "/template/latest/:accountID/:userID",
+      "status": 503,
+      "message": "We could not prepare your time tracker template right now. Please try again shortly, or contact support if this continues."
+    },
+    {
+      "test": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | audit-row insertion failure still returns a tenant-only workbook",
+      "file": "test/integration/path-matrix-11-tracker-validation.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/latest/700/70001",
+      "route": "/template/latest/:accountID/:userID",
+      "status": 200
+    }
+  ]
+}

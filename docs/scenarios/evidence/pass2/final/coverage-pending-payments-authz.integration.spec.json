@@ -1,0 +1,158 @@
+{
+  "stats": {
+    "suites": 4,
+    "tests": 10,
+    "passes": 10,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:39:42.656Z",
+    "end": "2026-09-25T06:39:43.132Z",
+    "duration": 476
+  },
+  "tests": [
+    {
+      "title": "403: a non-owner account (9001) is refused before any S3 write, even with an otherwise perfectly valid request",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 403: a non-owner account (9001) is refused before any S3 write, even with an otherwise perfectly valid request",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 \u2014 hygiene runs before the account gate)",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 \u2014 hygiene runs before the account gate)",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the owner account (1) is unaffected by the new gate \u2014 still 400, not 403, for an invalid extension; no real upload is attempted",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID the owner account (1) is unaffected by the new gate \u2014 still 400, not 403, for an invalid extension; no real upload is attempted",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FINDING 6: the owner account (1) \u2014 a valid PDF upload actually succeeds, with exact bytes/key/metadata, cleaned up immediately after",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID FINDING 6: the owner account (1) \u2014 a valid PDF upload actually succeeds, with exact bytes/key/metadata, cleaned up immediately after",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404: a REAL, fetchable object with no owning row for this account is refused \u2014 the object is left untouched",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is refused \u2014 the object is left untouched",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200: an object this account DOES own (per the DB) is deleted normally \u2014 the fix does not break legitimate access",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 200: an object this account DOES own (per the DB) is deleted normally \u2014 the fix does not break legitimate access",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404: a REAL, fetchable object with no owning row for this account is never streamed back",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is never streamed back",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200: an object this account DOES own (per the DB) previews normally \u2014 the fix does not break legitimate access",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 200: an object this account DOES own (per the DB) previews normally \u2014 the fix does not break legitimate access",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "403: a non-owner account (9001) is refused before any S3 write, even with an otherwise perfectly valid request",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 403: a non-owner account (9001) is refused before any S3 write, even with an otherwise perfectly valid request",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 \u2014 hygiene runs before the account gate)",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 \u2014 hygiene runs before the account gate)",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the owner account (1) is unaffected by the new gate \u2014 still 400, not 403, for an invalid extension; no real upload is attempted",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID the owner account (1) is unaffected by the new gate \u2014 still 400, not 403, for an invalid extension; no real upload is attempted",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FINDING 6: the owner account (1) \u2014 a valid PDF upload actually succeeds, with exact bytes/key/metadata, cleaned up immediately after",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID FINDING 6: the owner account (1) \u2014 a valid PDF upload actually succeeds, with exact bytes/key/metadata, cleaned up immediately after",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404: a REAL, fetchable object with no owning row for this account is refused \u2014 the object is left untouched",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is refused \u2014 the object is left untouched",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200: an object this account DOES own (per the DB) is deleted normally \u2014 the fix does not break legitimate access",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 200: an object this account DOES own (per the DB) is deleted normally \u2014 the fix does not break legitimate access",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404: a REAL, fetchable object with no owning row for this account is never streamed back",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is never streamed back",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200: an object this account DOES own (per the DB) previews normally \u2014 the fix does not break legitimate access",
+      "fullTitle": "integration: coverage \u2014 pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 200: an object this account DOES own (per the DB) previews normally \u2014 the fix does not break legitimate access",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:35.181Z",
+    "end": "2026-09-25T13:24:35.691Z",
+    "duration": 510
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-job-selection.integration.spec.js",
+      "title": "F23 latest job family selection keeps job timestamps and selects the latest version with an ID tie-break",
+      "state": "passed",
+      "duration": 61
+    },
+    {
+      "file": "test/integration/review-job-selection.integration.spec.js",
+      "title": "F23 latest job family selection preserves the job creator and creation date on account-wide joined lists",
+      "state": "passed",
+      "duration": 35
+    }
+  ],
+  "hits": {},
+  "requests": [
+    {
+      "test": "F23 latest job family selection keeps job timestamps and selects the latest version with an ID tie-break",
+      "file": "test/integration/review-job-selection.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getActiveCustomerJobs/9001/90013/916304",
+      "route": "/getActiveCustomerJobs/:accountID/:userID/:customerID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved active customer jobs."
+    },
+    {
+      "test": "F23 latest job family selection keeps job timestamps and selects the latest version with an ID tie-break",
+      "file": "test/integration/review-job-selection.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/activeCustomers/customerByID/9001/90013/916304",
+      "route": "/activeCustomers/customerByID/:accountID/:userID/:customerID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully Retrieved Data."
+    }
+  ]
+}

@@ -1,5 +1,10 @@
 # Time tracking: templates, uploads, history and ownership
 
+## Owner decision update — 2026-09-25
+
+A tracker re-upload/reprocess cannot rewrite work already captured on a sent invoice: the ledger SQL guard rejects the mutation, including indirect writes. New rows retain existing ingestion and rounding behavior. The tracker-to-invoice integration remains covered using account 9001 only. [Sent contract](../invoicing/invoices.md).
+
+
 Source review: 2026-09-24. Paths beginning `src/`, `test/`, `scripts/` or `migrations/` are relative to DS2_Backend. `../DS2_Frontend/` identifies the frontend. This is a code review, not evidence of a running deployment. Tests below were read, not run.
 
 ## 1. Purpose and UI
@@ -233,3 +238,12 @@ Pending accountant decisions about historical internal billing, job totals and c
 Coverage: **13 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
 
 F7 regression: `test/endpoints/timeTracking/template-versions.spec.js` freezes the clock and uploads distinct bytes concurrently, then verifies both keys/bytes/history entries. A forced UUID collision checks the real S3 adapter sends IfNoneMatch and refuses overwrite (2 passing; fake SDK/auth, no shared template mutation).
+
+## Owner run 3
+
+Upload duration parsing retains whole raw minutes (explicit hours convert to nearest minute); automatic ingestion and manual/held apply bill up to six minutes using the shared helper. No quarter-hour billing path was found. The full inventory and boundary oracle are in the owner decision record. See the [owner decisions](../decisions/2026-09-24-owner-decisions.md) and [combined scenario](../scenarios/16-owner-combined.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

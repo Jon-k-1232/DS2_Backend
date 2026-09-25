@@ -1,0 +1,480 @@
+{
+  "stats": {
+    "suites": 9,
+    "tests": 33,
+    "passes": 33,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:21.298Z",
+    "end": "2026-09-25T14:50:25.388Z",
+    "duration": 4090
+  },
+  "tests": [
+    {
+      "title": "(1) returns the REAL template from tracker_versions/ byte-for-byte (xlsx with Time / Employee Names / Instructions / Categories / Entity sheets)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) GET /time-tracking/template/latest/:accountID/:userID (1) returns the REAL template from tracker_versions/ byte-for-byte (xlsx with Time / Employee Names / Instructions / Categories / Entity sheets)",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(2) a dummy tracker for Eliza Smith is filled INTO that downloaded workbook (quarter-hour and odd durations, 12 lines over one week)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) GET /time-tracking/template/latest/:accountID/:userID (2) a dummy tracker for Eliza Smith is filled INTO that downloaded workbook (quarter-hour and odd durations, 12 lines over one week)",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(3) admin upload on behalf of Eliza (?ownerUserID) -> 201; every non-lunch line lands in timesheet_entries (duration = minutes) and the gzip copy in S3",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (3) admin upload on behalf of Eliza (?ownerUserID) -> 201; every non-lunch line lands in timesheet_entries (duration = minutes) and the gzip copy in S3",
+      "duration": 53,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(4a) re-uploading the identical file -> 409 duplicate_of the first upload; no rows and no S3 object added",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4a) re-uploading the identical file -> 409 duplicate_of the first upload; no rows and no S3 object added",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(4b) a cumulative tracker (old lines + one new line) -> 201 inserting ONLY the new line; the rest reported in duplicates_skipped",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4b) a cumulative tracker (old lines + one new line) -> 201 inserting ONLY the new line; the rest reported in duplicates_skipped",
+      "duration": 983,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(5) stubbed classifier: 10 lines auto-inserted, the missing-year and ambiguous lines HELD; every transaction = ceil(min/6)/10 h (6-min increments, rounded UP) \u00d7 $75",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) processEntries \u2014 auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) (5) stubbed classifier: 10 lines auto-inserted, the missing-year and ambiguous lines HELD; every transaction = ceil(min/6)/10 h (6-min increments, rounded UP) \u00d7 $75",
+      "duration": 181,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(5b) each job\u2019s newest rolling child row carries \u03a3(all its transactions) after the batch",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) processEntries \u2014 auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) (5b) each job\u2019s newest rolling child row carries \u03a3(all its transactions) after the batch",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "fuzzy customer scores do not depend on the order of the customer catalog",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) processEntries \u2014 auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) fuzzy customer scores do not depend on the order of the customer catalog",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(6a) finalize Alpha + Beta: one parent statement each = \u03a3 auto-inserted BILLABLE time; non-billable lines stamped but not charged",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6a) finalize Alpha + Beta: one parent statement each = \u03a3 auto-inserted BILLABLE time; non-billable lines stamped but not charged",
+      "duration": 134,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(6b) GET /invoices/downloadFile zip -> pdftotext: invoice number, Bill To, each job line, Total New Charges and Balance Due",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6b) GET /invoices/downloadFile zip -> pdftotext: invoice number, Bill To, each job line, Total New Charges and Balance Due",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(6c) billing engine, Account Audit and Accounts Receivable agree with each new statement",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6c) billing engine, Account Audit and Accounts Receivable agree with each new statement",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta\u2019s NEXT statement",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta\u2019s NEXT statement",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(7b) a sub-cent rate override on a manual Time apply is refused (400) and the claim rolls back",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7b) a sub-cent rate override on a manual Time apply is refused (400) and the claim rolls back",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(8a) an UNPROCESSED (held) entry is soft-deleted and leaves the review queue",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8a) an UNPROCESSED (held) entry is soft-deleted and leaves the review queue",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(8b) a PROCESSED entry (already billed) is refused and stays live",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8b) a PROCESSED entry (already billed) is refused and stays live",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(8c) an entry that becomes processed between being read and being deleted (concurrent-apply interleaving) is refused, never corrupted",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8c) an entry that becomes processed between being read and being deleted (concurrent-apply interleaving) is refused, never corrupted",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a negative duration -> 400 naming the row",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an entry dated before the tracker window (Start Date - 7 days) -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an entry dated in the future (tracker window extends past today) -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "\"1.5h\" in the Duration column is accepted and stored as 90 minutes",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"1.5h\" in the Duration column is accepted and stored as 90 minutes",
+      "duration": 537,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two uploads for the same employee within the same second get distinct stored file names (no S3 overwrite)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) two uploads for the same employee within the same second get distinct stored file names (no S3 overwrite)",
+      "duration": 57,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "\"7.5\" (hours typed into the minutes column) -> 400 naming the row",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an Apple Numbers file name -> 400 before any parsing",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an Apple Numbers file name -> 400 before any parsing",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invalid percent-encoding in x-file-name -> 400, not a 500",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) invalid percent-encoding in x-file-name -> 400, not a 500",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a file larger than 1 MB -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a file larger than 1 MB -> 400",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee token uploading for another owner -> 403 (both the ?ownerUserID and the :userID form)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an employee token uploading for another owner -> 403 (both the ?ownerUserID and the :userID form)",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a tracker whose B1 names a different employee than the owner -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a tracker whose B1 names a different employee than the owner -> 400",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "no token -> 401; a token for another tenant -> 403",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) no token -> 401; a token for another tenant -> 403",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "download: account 9001 receives a REBUILT workbook (never the owner\u2019s raw bytes), scoped to its own catalogs",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) download: account 9001 receives a REBUILT workbook (never the owner\u2019s raw bytes), scoped to its own catalogs",
+      "duration": 583,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "fill -> upload: the rebuilt workbook fills and uploads exactly like the owner template",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) fill -> upload: the rebuilt workbook fills and uploads exactly like the owner template",
+      "duration": 266,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "auto-ingest -> finalize: transactions and the statement total match the independently-computed 6-minute-rounded figures",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) auto-ingest -> finalize: transactions and the statement total match the independently-computed 6-minute-rounded figures",
+      "duration": 155,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "(1) returns the REAL template from tracker_versions/ byte-for-byte (xlsx with Time / Employee Names / Instructions / Categories / Entity sheets)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) GET /time-tracking/template/latest/:accountID/:userID (1) returns the REAL template from tracker_versions/ byte-for-byte (xlsx with Time / Employee Names / Instructions / Categories / Entity sheets)",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(2) a dummy tracker for Eliza Smith is filled INTO that downloaded workbook (quarter-hour and odd durations, 12 lines over one week)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) GET /time-tracking/template/latest/:accountID/:userID (2) a dummy tracker for Eliza Smith is filled INTO that downloaded workbook (quarter-hour and odd durations, 12 lines over one week)",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(3) admin upload on behalf of Eliza (?ownerUserID) -> 201; every non-lunch line lands in timesheet_entries (duration = minutes) and the gzip copy in S3",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (3) admin upload on behalf of Eliza (?ownerUserID) -> 201; every non-lunch line lands in timesheet_entries (duration = minutes) and the gzip copy in S3",
+      "duration": 53,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(4a) re-uploading the identical file -> 409 duplicate_of the first upload; no rows and no S3 object added",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4a) re-uploading the identical file -> 409 duplicate_of the first upload; no rows and no S3 object added",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(4b) a cumulative tracker (old lines + one new line) -> 201 inserting ONLY the new line; the rest reported in duplicates_skipped",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4b) a cumulative tracker (old lines + one new line) -> 201 inserting ONLY the new line; the rest reported in duplicates_skipped",
+      "duration": 983,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(5) stubbed classifier: 10 lines auto-inserted, the missing-year and ambiguous lines HELD; every transaction = ceil(min/6)/10 h (6-min increments, rounded UP) \u00d7 $75",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) processEntries \u2014 auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) (5) stubbed classifier: 10 lines auto-inserted, the missing-year and ambiguous lines HELD; every transaction = ceil(min/6)/10 h (6-min increments, rounded UP) \u00d7 $75",
+      "duration": 181,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(5b) each job\u2019s newest rolling child row carries \u03a3(all its transactions) after the batch",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) processEntries \u2014 auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) (5b) each job\u2019s newest rolling child row carries \u03a3(all its transactions) after the batch",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "fuzzy customer scores do not depend on the order of the customer catalog",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) processEntries \u2014 auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) fuzzy customer scores do not depend on the order of the customer catalog",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(6a) finalize Alpha + Beta: one parent statement each = \u03a3 auto-inserted BILLABLE time; non-billable lines stamped but not charged",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6a) finalize Alpha + Beta: one parent statement each = \u03a3 auto-inserted BILLABLE time; non-billable lines stamped but not charged",
+      "duration": 134,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(6b) GET /invoices/downloadFile zip -> pdftotext: invoice number, Bill To, each job line, Total New Charges and Balance Due",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6b) GET /invoices/downloadFile zip -> pdftotext: invoice number, Bill To, each job line, Total New Charges and Balance Due",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(6c) billing engine, Account Audit and Accounts Receivable agree with each new statement",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6c) billing engine, Account Audit and Accounts Receivable agree with each new statement",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta\u2019s NEXT statement",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta\u2019s NEXT statement",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(7b) a sub-cent rate override on a manual Time apply is refused (400) and the claim rolls back",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7b) a sub-cent rate override on a manual Time apply is refused (400) and the claim rolls back",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(8a) an UNPROCESSED (held) entry is soft-deleted and leaves the review queue",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8a) an UNPROCESSED (held) entry is soft-deleted and leaves the review queue",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(8b) a PROCESSED entry (already billed) is refused and stays live",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8b) a PROCESSED entry (already billed) is refused and stays live",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "(8c) an entry that becomes processed between being read and being deleted (concurrent-apply interleaving) is refused, never corrupted",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8c) an entry that becomes processed between being read and being deleted (concurrent-apply interleaving) is refused, never corrupted",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a negative duration -> 400 naming the row",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an entry dated before the tracker window (Start Date - 7 days) -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an entry dated in the future (tracker window extends past today) -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "\"1.5h\" in the Duration column is accepted and stored as 90 minutes",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"1.5h\" in the Duration column is accepted and stored as 90 minutes",
+      "duration": 537,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two uploads for the same employee within the same second get distinct stored file names (no S3 overwrite)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) two uploads for the same employee within the same second get distinct stored file names (no S3 overwrite)",
+      "duration": 57,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "\"7.5\" (hours typed into the minutes column) -> 400 naming the row",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an Apple Numbers file name -> 400 before any parsing",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an Apple Numbers file name -> 400 before any parsing",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invalid percent-encoding in x-file-name -> 400, not a 500",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) invalid percent-encoding in x-file-name -> 400, not a 500",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a file larger than 1 MB -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a file larger than 1 MB -> 400",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an employee token uploading for another owner -> 403 (both the ?ownerUserID and the :userID form)",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an employee token uploading for another owner -> 403 (both the ?ownerUserID and the :userID form)",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a tracker whose B1 names a different employee than the owner -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a tracker whose B1 names a different employee than the owner -> 400",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "no token -> 401; a token for another tenant -> 403",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) no token -> 401; a token for another tenant -> 403",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "download: account 9001 receives a REBUILT workbook (never the owner\u2019s raw bytes), scoped to its own catalogs",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) download: account 9001 receives a REBUILT workbook (never the owner\u2019s raw bytes), scoped to its own catalogs",
+      "duration": 583,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "fill -> upload: the rebuilt workbook fills and uploads exactly like the owner template",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) fill -> upload: the rebuilt workbook fills and uploads exactly like the owner template",
+      "duration": 266,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "auto-ingest -> finalize: transactions and the statement total match the independently-computed 6-minute-rounded figures",
+      "fullTitle": "tracker Excel end-to-end: template \u2192 upload \u2192 auto-ingest \u2192 invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) auto-ingest -> finalize: transactions and the statement total match the independently-computed 6-minute-rounded figures",
+      "duration": 155,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

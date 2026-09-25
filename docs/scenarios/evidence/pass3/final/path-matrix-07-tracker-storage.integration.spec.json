@@ -1,0 +1,882 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 29,
+    "passes": 29,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:03.730Z",
+    "end": "2026-09-25T13:33:05.084Z",
+    "duration": 1354
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | owner bad refuses before persistence",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | owner 0 refuses before persistence",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | owner 1.5 refuses before persistence",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET users | nonnumeric requester refuses 400",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET history | missing account refuses 404",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | account query failure refuses 500 without rows",
+      "state": "passed",
+      "duration": 34
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET history/download | missing object preserves all rows",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET history/download | unavailable storage preserves all rows",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET history/download | corrupt gzip preserves all rows",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET history/download | gzip success returns exactly the original bytes",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET history | object-list failure refuses 500 after folder-discovery fallback",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET download/by-name | list and candidate failures end in 404 with no writes",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET download/by-name | listed candidate and durable legacy candidate failures end in 404",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET download/by-name | corrupt resolved gzip refuses 500",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET template/latest | empty list refuses 404",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET template/latest | without base list refuses 404",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET template/latest | storage failure refuses 500",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures GET template/list | storage failure refuses 500",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST template/upload | malformed filename encoding refuses 400",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup removes saved bytes",
+      "state": "passed",
+      "duration": 32
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup fails visibly in logs",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | storage put failure rolls back without any object or database rows",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | owner-record insert failure rolls back holding rows and removes stored file",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | initial query and error-email failures refuse 500 without database writes",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | staff-recipient query failure does not undo the saved upload",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "title": "Path matrix: tracker persistence and storage failures POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes",
+      "state": "passed",
+      "duration": 55
+    }
+  ],
+  "hits": {
+    "src/endpoints/timeTracking/timeTracking-router.js:326:16": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner bad refuses before persistence"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:333:16": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner 0 refuses before persistence"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner 1.5 refuses before persistence"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:800:16": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET users | nonnumeric requester refuses 400"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history | missing account refuses 404"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history/download | unavailable storage preserves all rows"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history | object-list failure refuses 500 after folder-discovery fallback"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET template/latest | storage failure refuses 500"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET template/list | storage failure refuses 500"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:112:6": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history | missing account refuses 404"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:766:8": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | account query failure refuses 500 without rows"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | initial query and error-email failures refuse 500 without database writes"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:784:16": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | account query failure refuses 500 without rows"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | initial query and error-email failures refuse 500 without database writes"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:953:8": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history/download | missing object preserves all rows"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history/download | unavailable storage preserves all rows"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:955:19": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history/download | missing object preserves all rows"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:957:9": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history/download | unavailable storage preserves all rows"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:974:8": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history/download | corrupt gzip preserves all rows"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:976:16": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history/download | corrupt gzip preserves all rows"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:271:5": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET history | object-list failure refuses 500 after folder-discovery fallback"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | list and candidate failures end in 404 with no writes"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1100:11": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | list and candidate failures end in 404 with no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | listed candidate and durable legacy candidate failures end in 404"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1130:14": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | list and candidate failures end in 404 with no writes"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1151:19": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | list and candidate failures end in 404 with no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | listed candidate and durable legacy candidate failures end in 404"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1125:23": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | listed candidate and durable legacy candidate failures end in 404"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1144:14": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | listed candidate and durable legacy candidate failures end in 404"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1177:8": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | corrupt resolved gzip refuses 500"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1179:16": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET download/by-name | corrupt resolved gzip refuses 500"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1218:16": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET template/latest | empty list refuses 404"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1235:16": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures GET template/latest | without base list refuses 404"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1347:8": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST template/upload | malformed filename encoding refuses 400"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1348:16": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST template/upload | malformed filename encoding refuses 400"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:622:11": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup removes saved bytes"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup fails visibly in logs"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | storage put failure rolls back without any object or database rows"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner-record insert failure rolls back holding rows and removes stored file"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:647:19": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup removes saved bytes"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup fails visibly in logs"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | storage put failure rolls back without any object or database rows"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner-record insert failure rolls back holding rows and removes stored file"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:124:6": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup removes saved bytes"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup fails visibly in logs"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | storage put failure rolls back without any object or database rows"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner-record insert failure rolls back holding rows and removes stored file"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | staff-recipient query failure does not undo the saved upload"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:149:3": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup removes saved bytes"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup fails visibly in logs"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | storage put failure rolls back without any object or database rows"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner-record insert failure rolls back holding rows and removes stored file"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | staff-recipient query failure does not undo the saved upload"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:630:17": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup fails visibly in logs"
+      }
+    ],
+    "src/utils/email/sendEmail.js:112:5": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | initial query and error-email failures refuse 500 without database writes"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload"
+      }
+    ],
+    "src/utils/email/sendEmail.js:114:6": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | initial query and error-email failures refuse 500 without database writes"
+      },
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:636:21": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:769:18": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | initial query and error-email failures refuse 500 without database writes"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:623:18": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:709:17": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:720:17": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload"
+      }
+    ],
+    "src/utils/email/sendSuccessEmail.js:35:5": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload"
+      }
+    ],
+    "src/utils/email/sendSuccessEmail.js:37:6": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:687:11": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | staff-recipient query failure does not undo the saved upload"
+      }
+    ],
+    "src/timeTrackerValidation/notifications.js:45:5": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | staff-recipient query failure does not undo the saved upload"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:592:22": [
+      {
+        "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+        "test": "Path matrix: tracker persistence and storage failures POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | owner bad refuses before persistence",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=bad",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "Invalid account or user information provided."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | owner 0 refuses before persistence",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=0",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "Account and user identifiers must be positive integers."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | owner 1.5 refuses before persistence",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=1.5",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "Account and user identifiers must be positive integers."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET users | nonnumeric requester refuses 400",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/users/1/not-number",
+      "route": "/users/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid account or user information provided."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET history | missing account refuses 404",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/1/1",
+      "route": "/history/:accountID/:userID",
+      "status": 404,
+      "message": "Unable to locate account details for upload."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | account query failure refuses 500 without rows",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 500,
+      "message": "An unexpected error occurred while uploading the time tracker."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET history/download | missing object preserves all rows",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/download/1/1?key=James_F__Kimmel___Associates%2Ftime_tracking%2Fprocessed%2FClean_Room_CPA_1%2Fuser_1%2FPM.xlsx.gz",
+      "route": "/history/download/:accountID/:userID",
+      "status": 404,
+      "message": "That time tracker file could not be found."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET history/download | unavailable storage preserves all rows",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/download/1/1?key=James_F__Kimmel___Associates%2Ftime_tracking%2Fprocessed%2FClean_Room_CPA_1%2Fuser_1%2FPM.xlsx.gz",
+      "route": "/history/download/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix storage down"
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET history/download | corrupt gzip preserves all rows",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/download/1/1?key=James_F__Kimmel___Associates%2Ftime_tracking%2Fprocessed%2FClean_Room_CPA_1%2Fuser_1%2FPM.xlsx.gz",
+      "route": "/history/download/:accountID/:userID",
+      "status": 500,
+      "message": "We were unable to open that time tracker file. It may be corrupted. Please contact support if this continues."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET history/download | gzip success returns exactly the original bytes",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/download/1/1?key=James_F__Kimmel___Associates%2Ftime_tracking%2Fprocessed%2FClean_Room_CPA_1%2Fuser_1%2FPM.xlsx.gz",
+      "route": "/history/download/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET history | object-list failure refuses 500 after folder-discovery fallback",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/1/1",
+      "route": "/history/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET download/by-name | list and candidate failures end in 404 with no writes",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/download/by-name/1/1?ownerUserID=1&timesheetName=PM.xlsx",
+      "route": "/download/by-name/:accountID/:userID",
+      "status": 404,
+      "message": "We could not locate that time tracker. It may have been archived or renamed."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET download/by-name | listed candidate and durable legacy candidate failures end in 404",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/download/by-name/1/1?ownerUserID=1&timesheetName=PM.xlsx",
+      "route": "/download/by-name/:accountID/:userID",
+      "status": 404,
+      "message": "We could not locate that time tracker. It may have been archived or renamed."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET download/by-name | corrupt resolved gzip refuses 500",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/download/by-name/1/1?ownerUserID=1&timesheetName=PM.xlsx",
+      "route": "/download/by-name/:accountID/:userID",
+      "status": 500,
+      "message": "We were unable to open that time tracker file. It may be corrupted. Please contact support if this continues."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET template/latest | empty list refuses 404",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/latest/1/1",
+      "route": "/template/latest/:accountID/:userID",
+      "status": 404,
+      "message": "No tracker templates are available in S3."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET template/latest | without base list refuses 404",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/latest/1/1",
+      "route": "/template/latest/:accountID/:userID",
+      "status": 404,
+      "message": "Unable to find a base tracker template."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET template/latest | storage failure refuses 500",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/latest/1/1",
+      "route": "/template/latest/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures GET template/list | storage failure refuses 500",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/list/1/1",
+      "route": "/template/list/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST template/upload | malformed filename encoding refuses 400",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/template/upload/1/1",
+      "route": "/template/upload/:accountID/:userID",
+      "status": 400,
+      "message": "Invalid file name encoding."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup removes saved bytes",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 500,
+      "message": "An unexpected error occurred while saving the time tracker. Please try again later."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup fails visibly in logs",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 500,
+      "message": "An unexpected error occurred while saving the time tracker. Please try again later."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | storage put failure rolls back without any object or database rows",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 500,
+      "message": "An unexpected error occurred while saving the time tracker. Please try again later."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | owner-record insert failure rolls back holding rows and removes stored file",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 500,
+      "message": "An unexpected error occurred while saving the time tracker. Please try again later."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 500,
+      "message": "An unexpected error occurred while saving the time tracker. Please try again later."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | initial query and error-email failures refuse 500 without database writes",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 500,
+      "message": "An unexpected error occurred while uploading the time tracker."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 500,
+      "message": "An unexpected error occurred while saving the time tracker. Please try again later."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | staff-recipient query failure does not undo the saved upload",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully."
+    },
+    {
+      "test": "Path matrix: tracker persistence and storage failures POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes",
+      "file": "test/integration/path-matrix-07-tracker-storage.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/1?ownerUserID=3",
+      "route": "/upload/:accountID/:userID",
+      "status": 409,
+      "message": "All 2 rows in this tracker were already uploaded (\"User_Uma_September-25-2026_06-33-05AM-026-02a92d80.xlsx\", \"User_Uma_September-25-2026_06-33-05AM-041-95df1d54.xlsx\"). Nothing new was saved."
+    }
+  ]
+}

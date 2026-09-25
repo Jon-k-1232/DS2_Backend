@@ -1,5 +1,10 @@
 # Pending payments and the payment-image pipeline
 
+## Owner decision update — 2026-09-25
+
+Atomic approval uses the shared payment core. Referencing a sent invoice for a **new receipt** creates a fresh balance snapshot, preserving the original statement; it cannot insert/edit a receipt into the frozen statement itself. SQL guards refuse a direct locked link with HTTP 409 and roll back approval/payment state. Later issuance locks the new receipt. Tests inject payment failure and verify the pending row remains unprocessed. [Sent contract](../invoicing/invoices.md).
+
+
 Source review dated 2026-09-24. Backend paths are relative to `DS2_Backend`; Lambda paths start `../DS2_Lambdas/Process_Payment_Images/`. The Lambda virtual environment was excluded. The original review was read-only; subsequent local F16–F18 regressions and verification are in the [F8–F22 log](../_review/fixes-F8-F22.md).
 
 ## 1. Purpose and UI
@@ -264,3 +269,12 @@ F5 regression: `test/lambda/payment-durability.spec.js` invokes the actual Pytho
 F6 regression: `test/lambda/payment-durability.spec.js` F6Cases covers failed upload/HEAD/size/bucket, retry after committed DB rows, mixed batch archival, verified redacted PDF bytes, image input, and Lambda failure propagation. F5+F6 total: 13 passing. HEAD checks object presence/length; it is not an independent content checksum or retention guarantee.
 
 F36 fixed: accepted `.pdf`, `.PDF` and mixed-case extensions are stored with a lowercase `.pdf` suffix, matching the checked-in notification. `fileName` and `s3Key` return the canonical identity; basename case is preserved. `review-upload-extension.spec.js` checks the real upload router against the Terraform suffix with no cloud call. Existing uppercase objects are not renamed by this change.
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+### Response after a committed queue action
+
+Approval, item deletion and file deletion remain successful if refreshing the response counts or ledger lists fails after commit. The API returns `status: 200`, `committed: true` and a reload warning instructing the operator not to submit the change again. Failures before commit retain their refusal response and roll back queue and financial rows. Pass 3 proves these distinctions in `path-matrix-06-pending-payments.integration.spec.js`.

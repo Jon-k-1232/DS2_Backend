@@ -1,0 +1,284 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 19,
+    "passes": 19,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:49:52.165Z",
+    "end": "2026-09-25T14:49:53.714Z",
+    "duration": 1549
+  },
+  "tests": [
+    {
+      "title": "1. creates a customer with a mailing address and a job for it",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 1. creates a customer with a mailing address and a job for it",
+      "duration": 149,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2. logs two time entries, one charge and one non-billable entry (total = quantity \u00d7 unit_cost)",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 2. logs two time entries, one charge and one non-billable entry (total = quantity \u00d7 unit_cost)",
+      "duration": 485,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3. Create Invoice eligibility lists the customer with the billable total and the engine total",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 3. Create Invoice eligibility lists the customer with the billable total and the engine total",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4. month 1 finalize creates one parent invoice, stamps the transactions and stores the PDF zip in S3",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 4. month 1 finalize creates one parent invoice, stamps the transactions and stores the PDF zip in S3",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4b. time-travel: re-dates the month-1 statement 31 days back so the next finalize is a real month 2",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 4b. time-travel: re-dates the month-1 statement 31 days back so the next finalize is a real month 2",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5. partial payment inserts a child snapshot and preserves the issued parent",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 5. partial payment inserts a child snapshot and preserves the issued parent",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "6. write-off of part of the remainder inserts a snapshot and preserves the issued parent",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 6. write-off of part of the remainder inserts a snapshot and preserves the issued parent",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "7. billing engine, Account Audit and Accounts Receivable agree on the month-1 remaining",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 7. billing engine, Account Audit and Accounts Receivable agree on the month-1 remaining",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "8a. month 2 finalize rolls the remaining forward as beginning_balance and zeroes the absorbed month-1 rows",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 8a. month 2 finalize rolls the remaining forward as beginning_balance and zeroes the absorbed month-1 rows",
+      "duration": 207,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "8b. the three views agree on the month-2 remaining and the audit reports no stale rolled-forward rows",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 8b. the three views agree on the month-2 remaining and the audit reports no stale rolled-forward rows",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "8d. the closing snapshot carries the statement date as YYYY-MM-DD",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 8d. the closing snapshot carries the statement date as YYYY-MM-DD",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "8c. right after the month-2 finalize the engine has nothing new to bill (no re-credited write-off)",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 8c. right after the month-2 finalize the engine has nothing new to bill (no re-credited write-off)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "9. a payment referencing the ABSORBED month-1 statement is remapped to the current chain and annotated",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 9. a payment referencing the ABSORBED month-1 statement is remapped to the current chain and annotated",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "10. an overpayment with captureOverpayment settles the chain and banks the excess as a Prepayment retainer",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 10. an overpayment with captureOverpayment settles the chain and banks the excess as a Prepayment retainer",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "11. reversing the overpayment (NSF) restores the chain remaining with a positive payment row",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 11. reversing the overpayment (NSF) restores the chain remaining with a positive payment row",
+      "duration": 33,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "12a. deleting the reversal (latest snapshot) restores the chain exactly to its post-overpayment state",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 12a. deleting the reversal (latest snapshot) restores the chain exactly to its post-overpayment state",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "12b. deleting the reversal restores the original payment note (it must be reversible again)",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 12b. deleting the reversal restores the original payment note (it must be reversible again)",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "12c. deleting a non-retainer payment leaves unrelated retainers untouched",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 12c. deleting a non-retainer payment leaves unrelated retainers untouched",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "1. creates a customer with a mailing address and a job for it",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 1. creates a customer with a mailing address and a job for it",
+      "duration": 149,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2. logs two time entries, one charge and one non-billable entry (total = quantity \u00d7 unit_cost)",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 2. logs two time entries, one charge and one non-billable entry (total = quantity \u00d7 unit_cost)",
+      "duration": 485,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3. Create Invoice eligibility lists the customer with the billable total and the engine total",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 3. Create Invoice eligibility lists the customer with the billable total and the engine total",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4. month 1 finalize creates one parent invoice, stamps the transactions and stores the PDF zip in S3",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 4. month 1 finalize creates one parent invoice, stamps the transactions and stores the PDF zip in S3",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4b. time-travel: re-dates the month-1 statement 31 days back so the next finalize is a real month 2",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 4b. time-travel: re-dates the month-1 statement 31 days back so the next finalize is a real month 2",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5. partial payment inserts a child snapshot and preserves the issued parent",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 5. partial payment inserts a child snapshot and preserves the issued parent",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "6. write-off of part of the remainder inserts a snapshot and preserves the issued parent",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 6. write-off of part of the remainder inserts a snapshot and preserves the issued parent",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "7. billing engine, Account Audit and Accounts Receivable agree on the month-1 remaining",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 7. billing engine, Account Audit and Accounts Receivable agree on the month-1 remaining",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "8a. month 2 finalize rolls the remaining forward as beginning_balance and zeroes the absorbed month-1 rows",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 8a. month 2 finalize rolls the remaining forward as beginning_balance and zeroes the absorbed month-1 rows",
+      "duration": 207,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "8b. the three views agree on the month-2 remaining and the audit reports no stale rolled-forward rows",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 8b. the three views agree on the month-2 remaining and the audit reports no stale rolled-forward rows",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "8d. the closing snapshot carries the statement date as YYYY-MM-DD",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 8d. the closing snapshot carries the statement date as YYYY-MM-DD",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "8c. right after the month-2 finalize the engine has nothing new to bill (no re-credited write-off)",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 8c. right after the month-2 finalize the engine has nothing new to bill (no re-credited write-off)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "9. a payment referencing the ABSORBED month-1 statement is remapped to the current chain and annotated",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 9. a payment referencing the ABSORBED month-1 statement is remapped to the current chain and annotated",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "10. an overpayment with captureOverpayment settles the chain and banks the excess as a Prepayment retainer",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 10. an overpayment with captureOverpayment settles the chain and banks the excess as a Prepayment retainer",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "11. reversing the overpayment (NSF) restores the chain remaining with a positive payment row",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 11. reversing the overpayment (NSF) restores the chain remaining with a positive payment row",
+      "duration": 33,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "12a. deleting the reversal (latest snapshot) restores the chain exactly to its post-overpayment state",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 12a. deleting the reversal (latest snapshot) restores the chain exactly to its post-overpayment state",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "12b. deleting the reversal restores the original payment note (it must be reversible again)",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 12b. deleting the reversal restores the original payment note (it must be reversible again)",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "12c. deleting a non-retainer payment leaves unrelated retainers untouched",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 12c. deleting a non-retainer payment leaves unrelated retainers untouched",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "fullTitle": "integration: month-end ledger lifecycle (HTTP) 13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

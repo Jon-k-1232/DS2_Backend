@@ -1,5 +1,10 @@
 # Account audit
 
+## Owner decision update — 2026-09-25
+
+Audit reads `sent_locked` from the SQL lock function. For issued parents, a different latest-child balance is expected and is no longer `stale_parent_remaining`; paid-flag consistency uses the latest child. Unissued legacy mirrors retain their old diagnostic. Absorption markers on new closing children preserve chain detection. No arithmetic is changed: Audit balance equals Create Invoice; its billed component equals AR. Bounced reversals contribute once. [Contract](invoices.md).
+
+
 ## 1. Purpose and UI
 
 Account Audit independently recomputes customer balances from raw ledger rows, compares them with the billing engine, records discrepancies and saves an audit report/PDF. UI route `/invoices/accountAudit` uses AccountAuditPage, AuditDetailDialog and AuditPrintView in `../DS2_Frontend/src/Pages/AccountAudit/`. The route has an auditor gate. The page polls a batch every two seconds and initially hides customers whose saved app balance is zero or missing. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:28`, `../DS2_Frontend/src/Pages/AccountAudit/AccountAuditPage.js:66`, `../DS2_Frontend/src/Pages/AccountAudit/AccountAuditPage.js:200`.
@@ -127,7 +132,7 @@ The audit reads `absorbed_by:` markers and `[cancelled by reversal of payment #.
 
 ## 5. Read logic
 
-Customer listing begins with account-owned active customers. Without search, require any open positive NULL-parent invoice or any unbilled billable transaction. Searching lifts this activity gate, but not the active-only gate. billing_ready means an open parent exists; it can include a stale older parent. needs_audit means a transaction created after the most recent completed audit (or 1970). It does not detect payments, write-offs, edits or deletes since an audit. Source: `src/endpoints/accountAudit/account-audit-service.js:53`.
+Customer listing begins with account-owned active customers. Without search, require any open nonzero signed NULL-parent invoice or any unbilled billable transaction. Searching lifts this activity gate, but not the active-only gate. billing_ready means an open parent exists; it can include a stale older parent. needs_audit means a transaction created after the most recent completed audit (or 1970). It does not detect payments, write-offs, edits or deletes since an audit. Source: `src/endpoints/accountAudit/account-audit-service.js:53`.
 
 Left join latest completed audit using DISTINCT ON customer, created_at DESC then audit_id DESC. matched requires both saved balances and abs(difference)<0.01; mismatched requires >=0.01. hideZeroAppBalance requires a nonnull saved app total with abs(total)>=0.01, so never-audited customers disappear too. Count and page are separate reads, not an audit snapshot. Source: `src/endpoints/accountAudit/account-audit-service.js:146`.
 
@@ -149,7 +154,7 @@ Example: parent due $80 already includes an issue-time -$20 payment. Later -$30 
 
 ### Current audit balance
 
-1. Sum nonnegative latest balances for chains whose parent invoice_date is the latest statement date. Earlier positive chains are stale_rolled_forward, not added again. Same-date live parents are summed and flagged when multiple.
+1. Sum signed latest balances for chains whose parent invoice_date is the latest statement date. Earlier nonzero chains of either sign are stale_rolled_forward, not added again. Same-date nonzero live chains are summed and flagged when multiple.
 2. Sum all unbilled billable work for diagnostics; for current billing parity, use work through the billing date with a truthy job ID and group by that job. Future work remains in lifetime diagnostics. F14 regression: `test/endpoints/accountAudit/review-future.spec.js`.
 3. Among statement-gated, uninvoiced write-offs, net job credits against corresponding unbilled groups; credit the others as adjustment-only write-offs.
 4. unbilled_payments = negative of the signed sum of gated payments with no invoice link.
@@ -174,12 +179,12 @@ Audit severities below are its info/low/medium/high labels, distinct from docume
 | Kind | Trigger and severity |
 |---|---|
 | duplicate_same_day_parent_invoices | More than one live parent on newest date; medium. |
-| stale_rolled_forward_balance | Older positive chain still holds >$0.009 after a newer statement; info. |
+| stale_rolled_forward_balance | Older chain of either sign still holds more than$0.009 in magnitude after a newer statement; info. |
 | writeoff_on_paid_invoice | Pending linked write-off targets a paid invoice; info, requiring accountant judgment. |
 | invoice_remaining_drift | abs(expected-actual)>=0.01, except deliberately absorbed zero chains. Positive drift can consume a pool of historical uninvoiced job-write-off magnitudes, oldest invoices first. Fully explained drift is info; unexplained amount sets severity. This is a heuristic, not a causal allocation record. |
 | stale_parent_remaining | Positive-due parent differs from latest by >=0.01, except absorbed-zero chains; medium. |
-| paid_flag_mismatch_open | Paid flag true but latest remaining >0.009; amount-based severity. |
-| paid_flag_mismatch_closed | Paid flag false, latest remaining <=0.009 and original due positive, not deliberately absorbed; low. |
+| paid_flag_mismatch_open | Paid flag true but absolute latest remaining >0.009; amount-based severity. |
+| paid_flag_mismatch_closed | Paid flag false, absolute latest remaining <=0.009 and original due positive, not deliberately absorbed; low. |
 | writeoff_exceeds_invoice | Linked write-off magnitude > amount due +0.01; high. |
 | unlinked_payments | Any invoice-unlinked payments, including historical rows; one low, multiple medium. |
 | unbilled_pre_bill_transactions | Billable unbilled transaction date strictly before last bill date; medium. The description's on/before wording is broader than the predicate. |
@@ -227,3 +232,19 @@ The unsupported ar_60 filter is refused with HTTP 400 (fixed [F38](../_review/fi
 FINAL_REPORT section 3 identifies specific duplicate parents, bill-day write-offs, sign exceptions, mirror desynchronization, broken jobs, stale WIP, retainer double subtraction, stale job totals and internal billing. Audit discrepancy text is advisory; delete recommendations still face invoice delete guards. Accountant decisions and rollout status are **not determined from the code**. Follow section 6's reviewed migration/backup/cutover sequence and environment settings. Sources: `scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:67`.
 
 Coverage: **7 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+
+## Owner run 2 — retainers and duplicate review
+
+The snapshot reader includes `retainer_events`. The chronological ledger prints refund/adjustment amount, availability before/after and evidence as zero-charge/zero-credit informational entries. Retainer summary separately reports refunds and net adjustment credit; drawn-to-date excludes those events. Current credit follows the latest retainer snapshot. Audit debt and engine comparison remain unchanged. Duplicate review has no balance effect until an existing guarded deletion core commits; then the next audit recomputes from surviving ledger rows.
+
+## Run 3 signed statement credits
+
+Outstanding invoices now sum the latest signed balances of the newest-date chains. A negative balance is credit, not paid-in-full; exactly zero is paid. Credit customers appear in the default/billing-ready customer gate. Zero-only settled chains do not create duplicate-debt findings. No-write-off negative statements do not trigger writeoff-exceeds-invoice; actual excess invoice-linked write-offs remain checked. Saved audit totals/PDFs and engine comparisons use the signed result. Migration025 selection evidence remains frozen with the issued statement. Scenario15 and the combined scenario16 assert zero differences at each transition.
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+Pass 3 verifies optional comparison/PDF-store failures independently of numerical audit completion. An unavailable stored PDF may be rebuilt; if rendering also fails, the response is JSON 500. PDF headers are set only after bytes are ready, so error JSON is never mislabeled as a PDF. Failed audit recording cannot create partial financial writes. See `path-matrix-08-reports.integration.spec.js`.

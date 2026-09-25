@@ -1,0 +1,2945 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 17,
+    "tests": 102,
+    "passes": 102,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:31:58.263Z",
+    "end": "2026-09-25T13:32:02.443Z",
+    "duration": 4180
+  },
+  "tests": [
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID happy path: inserts a snapshot and mirrors remaining/total_payments onto the parent",
+      "state": "passed",
+      "duration": 73
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID validation failure: $0 payment is refused and writes nothing",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 401: an unauthenticated request is rejected before touching the ledger",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 403: a token from a different tenant is refused by enforceAccountId",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID not-found: an invoice id that does not exist is refused",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead",
+      "state": "passed",
+      "duration": 34
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: a payment on the current chain inserts a snapshot and mirrors the parent exactly",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: a payment referencing an ABSORBED older statement is remapped to the current chain and annotated",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: an invoice belonging to a different customer is refused",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer",
+      "state": "passed",
+      "duration": 47
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID happy path: creates a positive payment row and un-pays the parent",
+      "state": "passed",
+      "duration": 61
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing reason is refused",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing payment id is refused",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 32
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID audit trail: the reversal is attributed to the authenticated user, never the URL :userID",
+      "state": "passed",
+      "duration": 55
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID not-found: a nonexistent payment id is refused",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused",
+      "state": "passed",
+      "duration": 72
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID happy path: returns the payment row",
+      "state": "passed",
+      "duration": 38
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found, without leaking SQL",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID not-found: a well-formed but nonexistent payment id is refused",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID tenancy: a payment id belonging to a different account is treated as not found (row-level scoping)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID happy path: re-prices the latest snapshot and the parent mirror",
+      "state": "passed",
+      "duration": 58
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID validation failure: $0 is refused and leaves the stored amount untouched",
+      "state": "passed",
+      "duration": 33
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID not-found: a nonexistent payment id is refused",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once a newer payment exists on the chain",
+      "state": "passed",
+      "duration": 62
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once the payment is billed (a newer statement exists)",
+      "state": "passed",
+      "duration": 36
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: moving a payment to a different invoice is not supported",
+      "state": "passed",
+      "duration": 39
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID happy path: round trip — deleting a payment restores the parent exactly",
+      "state": "passed",
+      "duration": 56
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID validation failure / not-found: a nonexistent payment id is refused",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: refuses out-of-order deletion (a newer payment exists on the chain)",
+      "state": "passed",
+      "duration": 66
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: a plain (non-retainer) payment delete leaves every retainer row on the account untouched",
+      "state": "passed",
+      "duration": 63
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: deleting the reversal restores the original payment's note (reversible again)",
+      "state": "passed",
+      "duration": 100
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID happy path: returns a paginated, filtered page with the grid and search term echoed",
+      "state": "passed",
+      "duration": 36
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID domain edge: the page-size cap holds even for a very large requested limit",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID domain edge: a hostile search string is treated as a literal filter, not SQL — 200 with no match",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID happy path: lists a pending row; status/month/year/search all narrow correctly",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID validation failure: invalid pagination is refused with HTTP 400 (same contract as GET /payments/getPayments)",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID domain edge: a hostile search string is a literal filter, not SQL",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID happy path: counts reflect new/processed/all as rows change",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID happy path: returns the pending payment row",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found (HTTP 404), without leaking SQL",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID not-found: a nonexistent payment id is refused with HTTP 404 (same as the atomic approve route below)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID happy path: soft-deletes the row and the counts drop",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID validation failure: soft-deleting an already-processed row is refused",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID domain edge: soft-deleting an already-deleted row is refused",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID not-found: a nonexistent (or malformed) payment id is refused with HTTP 404",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID happy path: posts exactly one payment and marks the pending row processed, in one transaction",
+      "state": "passed",
+      "duration": 38
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing pendingPaymentId is refused with HTTP 400",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing payment object is refused with HTTP 400",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID not-found: a nonexistent pendingPaymentId is refused with HTTP 404",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment",
+      "state": "passed",
+      "duration": 34
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: an invalid payment payload (overpayment) is refused with HTTP 422 and the pending row stays unprocessed",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID atomicity: a failure after the payment posts but before the pending row is marked processed rolls back BOTH",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) always answers 410 and never marks a real, unprocessed row processed",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for an already-processed row — it no longer performs (or refuses) an approval, just refuses to run",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for a nonexistent payment id — it no longer looks the row up at all",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) 401 / 403 (account + auth guards still run ahead of the retired handler)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) role gate: 403 for an employee (manager+ required) — enforced before the retired handler runs",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): account 9001 is refused with HTTP 403 before any S3 write",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a missing x-file-name header is refused with HTTP 400",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: an empty body is refused with HTTP 400",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a non-.pdf extension is refused with HTTP 400",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a file over the 10MB cap is refused with HTTP 400",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID happy path: groups pending rows by source_file with correct counts",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID domain edge: a soft-deleted row is excluded from every file group",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID happy path: removes unprocessed pending rows for the file and the S3 object",
+      "state": "passed",
+      "duration": 33
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID domain edge: refused once any payment from the file has been processed",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): a fileName with no rows for this account is now refused with HTTP 404, not silently \"succeeded\"",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID happy path: streams back the exact bytes that were uploaded",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID 401 / 403",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "title": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID not-found: a nonexistent file name is refused with HTTP 404",
+      "state": "passed",
+      "duration": 5
+    }
+  ],
+  "hits": {
+    "src/endpoints/payments/payments-router.js:38:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID validation failure: $0 payment is refused and writes nothing"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID not-found: an invoice id that does not exist is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: an invoice belonging to a different customer is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:40:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID validation failure: $0 payment is refused and writes nothing"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID not-found: an invoice id that does not exist is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: an invoice belonging to a different customer is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer"
+      }
+    ],
+    "src/utils/ledgerInput.js:10:3": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID validation failure: $0 payment is refused and writes nothing"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID validation failure: $0 is refused and leaves the stored amount untouched"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 401: an unauthenticated request is rejected before touching the ledger"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) 401 / 403 (account + auth guards still run ahead of the retired handler)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID 401 / 403"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 403: a token from a different tenant is refused by enforceAccountId"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) 401 / 403 (account + auth guards still run ahead of the retired handler)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID 401 / 403"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID 401 / 403"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) role gate: 403 for an employee (manager+ required) — enforced before the retired handler runs"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID role gate: 403 for an employee (manager+ required)"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:467:9": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID not-found: an invoice id that does not exist is refused"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:460:9": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:470:9": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: an invoice belonging to a different customer is refused"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:511:12": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: an invalid payment payload (overpayment) is refused with HTTP 422 and the pending row stays unprocessed"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:1028:21": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing reason is refused"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:64:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing reason is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID not-found: a nonexistent payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:66:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing reason is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID not-found: a nonexistent payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:1025:19": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing payment id is refused"
+      }
+    ],
+    "src/endpoints/payments/ledger-helpers.js:82:13": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID not-found: a nonexistent payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID not-found: a nonexistent payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID validation failure / not-found: a nonexistent payment id is refused"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:1042:48": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:1043:56": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:124:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID validation failure: $0 is refused and leaves the stored amount untouched"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID not-found: a nonexistent payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once a newer payment exists on the chain"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once the payment is billed (a newer statement exists)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: moving a payment to a different invoice is not supported"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:126:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID validation failure: $0 is refused and leaves the stored amount untouched"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID not-found: a nonexistent payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once a newer payment exists on the chain"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once the payment is billed (a newer statement exists)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: moving a payment to a different invoice is not supported"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:952:15": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once a newer payment exists on the chain"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:217:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once the payment is billed (a newer statement exists)"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:920:9": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: moving a payment to a different invoice is not supported"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:148:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID validation failure / not-found: a nonexistent payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: refuses out-of-order deletion (a newer payment exists on the chain)"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:150:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID validation failure / not-found: a nonexistent payment id is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: refuses out-of-order deletion (a newer payment exists on the chain)"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:848:12": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: refuses out-of-order deletion (a newer payment exists on the chain)"
+      }
+    ],
+    "src/utils/pagination.js:13:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID validation failure: invalid pagination is refused with HTTP 400 (same contract as GET /payments/getPayments)"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:192:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:196:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:64:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID validation failure: invalid pagination is refused with HTTP 400 (same contract as GET /payments/getPayments)"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:69:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID validation failure: invalid pagination is refused with HTTP 400 (same contract as GET /payments/getPayments)"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:30:3": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found (HTTP 404), without leaking SQL"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID not-found: a nonexistent payment id is refused with HTTP 404 (same as the atomic approve route below)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID validation failure: soft-deleting an already-processed row is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID domain edge: soft-deleting an already-deleted row is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID not-found: a nonexistent (or malformed) payment id is refused with HTTP 404"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:100:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found (HTTP 404), without leaking SQL"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID not-found: a nonexistent payment id is refused with HTTP 404 (same as the atomic approve route below)"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-logic.js:12:41": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found (HTTP 404), without leaking SQL"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID not-found: a nonexistent (or malformed) payment id is refused with HTTP 404"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-logic.js:15:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID not-found: a nonexistent payment id is refused with HTTP 404 (same as the atomic approve route below)"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID not-found: a nonexistent (or malformed) payment id is refused with HTTP 404"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:122:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID validation failure: soft-deleting an already-processed row is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID domain edge: soft-deleting an already-deleted row is refused"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID not-found: a nonexistent (or malformed) payment id is refused with HTTP 404"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-logic.js:31:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID validation failure: soft-deleting an already-processed row is refused"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-logic.js:34:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID domain edge: soft-deleting an already-deleted row is refused"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:159:9": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing pendingPaymentId is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:203:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing pendingPaymentId is refused with HTTP 400"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing payment object is refused with HTTP 400"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID not-found: a nonexistent pendingPaymentId is refused with HTTP 404"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: an invalid payment payload (overpayment) is refused with HTTP 422 and the pending row stays unprocessed"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID atomicity: a failure after the payment posts but before the pending row is marked processed rolls back BOTH"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:209:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing pendingPaymentId is refused with HTTP 400"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing payment object is refused with HTTP 400"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID not-found: a nonexistent pendingPaymentId is refused with HTTP 404"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: an invalid payment payload (overpayment) is refused with HTTP 422 and the pending row stays unprocessed"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID atomicity: a failure after the payment posts but before the pending row is marked processed rolls back BOTH"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:163:9": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing payment object is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:170:23": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID not-found: a nonexistent pendingPaymentId is refused with HTTP 404"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:173:11": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:174:12": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-logic.js:22:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:222:3": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) always answers 410 and never marks a real, unprocessed row processed"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for an already-processed row — it no longer performs (or refuses) an approval, just refuses to run"
+      },
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for a nonexistent payment id — it no longer looks the row up at all"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:272:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): account 9001 is refused with HTTP 403 before any S3 write"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:237:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a missing x-file-name header is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:241:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: an empty body is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:252:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a non-.pdf extension is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:245:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a file over the 10MB cap is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:320:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:346:57": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID domain edge: refused once any payment from the file has been processed"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:356:5": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID domain edge: refused once any payment from the file has been processed"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:358:6": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID domain edge: refused once any payment from the file has been processed"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:338:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): a fileName with no rows for this account is now refused with HTTP 404, not silently \"succeeded\""
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:371:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:390:16": [
+      {
+        "file": "test/integration/coverage-payments-pending.integration.spec.js",
+        "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID not-found: a nonexistent file name is refused with HTTP 404"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID happy path: inserts a snapshot and mirrors remaining/total_payments onto the parent",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID validation failure: $0 payment is refused and writes nothing",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Payment amount must be greater than $0.00."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 401: an unauthenticated request is rejected before touching the ledger",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 403: a token from a different tenant is refused by enforceAccountId",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID not-found: an invoice id that does not exist is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No matching invoice record found for this payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No invoice ID provided for this payment. If the customer has no open invoice, record the funds as a retainer/prepayment instead."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Recorded $150.00 as a prepayment retainer — no open invoice."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: a payment on the current chain inserts a snapshot and mirrors the parent exactly",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: a payment referencing an ABSORBED older statement is remapped to the current chain and annotated",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Applied to current invoice COVTEST-51563-muh02ftc-18 — the referenced invoice COVTEST-51563-muh02ftb-17 was already rolled into it."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: an invoice belonging to a different customer is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invoice COVTEST-51563-muh02fuo-21 belongs to a different customer than this payment. Re-select the invoice."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Payment amount exceeds remaining balance on invoice COVTEST-51563-muh02fvg-23. Max amount that can be applied to this invoice is $400."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Applied $400.00 to COVTEST-51563-muh02fvg-23; $100.00 held as a prepayment retainer."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID happy path: creates a positive payment row and un-pays the parent",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID happy path: creates a positive payment row and un-pays the parent",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Reversed payment #8623: $300.00 restored to COVTEST-51563-muh02fx0-25."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing reason is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing reason is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A reversal reason is required (e.g. \"NSF — check #1234 returned\")."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing payment id is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No payment ID provided for the reversal."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID audit trail: the reversal is attributed to the authenticated user, never the URL :userID",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID audit trail: the reversal is attributed to the authenticated user, never the URL :userID",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90011",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Reversed payment #8628: $100.00 restored to COVTEST-51563-muh02g32-33."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID not-found: a nonexistent payment id is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No matching payment record found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Reversed payment #8630: $150.00 restored to COVTEST-51563-muh02g5e-35."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This payment has already been reversed."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This entry is already a reversal and cannot be reversed."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID happy path: returns the payment row",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID happy path: returns the payment row",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getSinglePayment/8632/9001/90013",
+      "route": "/getSinglePayment/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved single payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found, without leaking SQL",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getSinglePayment/not-a-number/9001/90013",
+      "route": "/getSinglePayment/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching payment record found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getSinglePayment/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getSinglePayment/999999999/9001/90013",
+      "route": "/getSinglePayment/:paymentID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getSinglePayment/8633/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID not-found: a well-formed but nonexistent payment id is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getSinglePayment/999999999/9001/90013",
+      "route": "/getSinglePayment/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching payment record found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID tenancy: a payment id belonging to a different account is treated as not found (row-level scoping)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getSinglePayment/1/9001/90013",
+      "route": "/getSinglePayment/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching payment record found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID happy path: re-prices the latest snapshot and the parent mirror",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID happy path: re-prices the latest snapshot and the parent mirror",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/9001/90013",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID validation failure: $0 is refused and leaves the stored amount untouched",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID validation failure: $0 is refused and leaves the stored amount untouched",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/9001/90013",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Payment amount must be greater than $0.00."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/9001/90013",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID not-found: a nonexistent payment id is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/9001/90013",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No matching payment record found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once a newer payment exists on the chain",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once a newer payment exists on the chain",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once a newer payment exists on the chain",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/9001/90013",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A newer payment or write-off has been applied to this invoice since this payment. Edit or delete the newer entries first."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once the payment is billed (a newer statement exists)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once the payment is billed (a newer statement exists)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/9001/90013",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Payment is attached to an invoice and cannot be deleted or Modified."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: moving a payment to a different invoice is not supported",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: moving a payment to a different invoice is not supported",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/9001/90013",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Moving a payment to a different invoice is not supported. Delete the payment and re-enter it against the correct invoice."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID happy path: round trip — deleting a payment restores the parent exactly",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID happy path: round trip — deleting a payment restores the parent exactly",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90013",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID validation failure / not-found: a nonexistent payment id is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90013",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No matching payment record found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90013",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: refuses out-of-order deletion (a newer payment exists on the chain)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: refuses out-of-order deletion (a newer payment exists on the chain)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: refuses out-of-order deletion (a newer payment exists on the chain)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90013",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A newer payment or write-off has been applied to this invoice since this payment. Delete the newer entries first, then retry."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: a plain (non-retainer) payment delete leaves every retainer row on the account untouched",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: a plain (non-retainer) payment delete leaves every retainer row on the account untouched",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90013",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: deleting the reversal restores the original payment's note (reversible again)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: deleting the reversal restores the original payment's note (reversible again)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Reversed payment #8648: $300.00 restored to COVTEST-51563-muh02gwa-69."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: deleting the reversal restores the original payment's note (reversible again)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90013",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: deleting the reversal restores the original payment's note (reversible again)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Reversed payment #8648: $300.00 restored to COVTEST-51563-muh02gwa-69."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID happy path: returns a paginated, filtered page with the grid and search term echoed",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID happy path: returns a paginated, filtered page with the grid and search term echoed",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getPayments/9001/90013?page=1&limit=5",
+      "route": "/getPayments/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID happy path: returns a paginated, filtered page with the grid and search term echoed",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getPayments/9001/90013?search=REF-51563-muh02gzf-72",
+      "route": "/getPayments/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getPayments/9001/90013?limit=0",
+      "route": "/getPayments/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination parameters. Page and limit must be positive integers."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getPayments/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getPayments/9001/90013",
+      "route": "/getPayments/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getPayments/9001/90011?limit=1",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID domain edge: the page-size cap holds even for a very large requested limit",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getPayments/9001/90013?limit=999999",
+      "route": "/getPayments/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID domain edge: a hostile search string is treated as a literal filter, not SQL — 200 with no match",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getPayments/9001/90013?search=foo%27%20OR%20%271%27%3D%271%27%3B%20DROP%20TABLE%20customer_payments%3B%20--%25_",
+      "route": "/getPayments/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID domain edge: a hostile search string is treated as a literal filter, not SQL — 200 with no match",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getPayments/9001/90013?limit=1",
+      "route": "/getPayments/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID happy path: lists a pending row; status/month/year/search all narrow correctly",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/list/9001/90013?status=new",
+      "route": "/list/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved pending payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID happy path: lists a pending row; status/month/year/search all narrow correctly",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/list/9001/90013?status=new&month=9&year=2026",
+      "route": "/list/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved pending payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID happy path: lists a pending row; status/month/year/search all narrow correctly",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/list/9001/90013?status=all&search=COVPEND-51563-muh02h2r-74",
+      "route": "/list/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved pending payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID happy path: lists a pending row; status/month/year/search all narrow correctly",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/list/9001/90013?status=processed",
+      "route": "/list/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved pending payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID validation failure: invalid pagination is refused with HTTP 400 (same contract as GET /payments/getPayments)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/list/9001/90013?limit=-1",
+      "route": "/list/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination parameters. Page and limit must be positive integers."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/list/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/list/9001/90013",
+      "route": "/list/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/list/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID domain edge: a hostile search string is a literal filter, not SQL",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/list/9001/90013?status=all&search=x%27%20OR%20%271%27%3D%271%27%3B%20--%25_",
+      "route": "/list/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved pending payments."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID happy path: counts reflect new/processed/all as rows change",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/counts/9001/90013",
+      "route": "/counts/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID happy path: counts reflect new/processed/all as rows change",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/counts/9001/90013",
+      "route": "/counts/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID happy path: counts reflect new/processed/all as rows change",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/counts/9001/90013",
+      "route": "/counts/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/counts/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/counts/9001/90013",
+      "route": "/counts/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/counts/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID happy path: returns the pending payment row",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/single/2140/9001/90013",
+      "route": "/single/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found (HTTP 404), without leaking SQL",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/single/not-a-number/9001/90013",
+      "route": "/single/:paymentID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Pending payment record not found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/single/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/single/999999999/9001/90013",
+      "route": "/single/:paymentID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/single/2141/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID not-found: a nonexistent payment id is refused with HTTP 404 (same as the atomic approve route below)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/single/999999999/9001/90013",
+      "route": "/single/:paymentID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Pending payment record not found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID happy path: soft-deletes the row and the counts drop",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/counts/9001/90013",
+      "route": "/counts/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID happy path: soft-deletes the row and the counts drop",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/2142/9001/90013",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Payment deleted successfully."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID validation failure: soft-deleting an already-processed row is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/2143/9001/90013",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "This payment has already been processed and cannot be deleted."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID domain edge: soft-deleting an already-deleted row is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/2144/9001/90013",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Payment deleted successfully."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID domain edge: soft-deleting an already-deleted row is refused",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/2144/9001/90013",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "This payment is already deleted."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/999999999/9001/90013",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/2145/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID not-found: a nonexistent (or malformed) payment id is refused with HTTP 404",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/999999999/9001/90013",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Pending payment record not found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID not-found: a nonexistent (or malformed) payment id is refused with HTTP 404",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/not-a-number/9001/90013",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Pending payment record not found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID happy path: posts exactly one payment and marks the pending row processed, in one transaction",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing pendingPaymentId is refused with HTTP 400",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "pendingPaymentId is required."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing payment object is refused with HTTP 400",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "payment is required."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID not-found: a nonexistent pendingPaymentId is refused with HTTP 404",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Pending payment record not found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This payment has already been processed."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This payment has already been processed."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: an invalid payment payload (overpayment) is refused with HTTP 422 and the pending row stays unprocessed",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 422,
+      "envelope": 422,
+      "message": "Payment amount exceeds remaining balance on invoice COVTEST-51563-muh02hiu-125. Max amount that can be applied to this invoice is $100."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID atomicity: a failure after the payment posts but before the pending row is marked processed rolls back BOTH",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "simulated failure after the payment posted"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) always answers 410 and never marks a real, unprocessed row processed",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/approve/2154/9001/90013",
+      "route": "/approve/:paymentID/:accountID/:userID",
+      "status": 410,
+      "envelope": 410,
+      "message": "This endpoint no longer posts payments. Use POST /pending-payments/approve/:accountID/:userID with { pendingPaymentId, payment } — it posts the ledger entry and marks the pending payment processed atomically."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for an already-processed row — it no longer performs (or refuses) an approval, just refuses to run",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/approve/2155/9001/90013",
+      "route": "/approve/:paymentID/:accountID/:userID",
+      "status": 410,
+      "envelope": 410,
+      "message": "This endpoint no longer posts payments. Use POST /pending-payments/approve/:accountID/:userID with { pendingPaymentId, payment } — it posts the ledger entry and marks the pending payment processed atomically."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for a nonexistent payment id — it no longer looks the row up at all",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/approve/999999999/9001/90013",
+      "route": "/approve/:paymentID/:accountID/:userID",
+      "status": 410,
+      "envelope": 410,
+      "message": "This endpoint no longer posts payments. Use POST /pending-payments/approve/:accountID/:userID with { pendingPaymentId, payment } — it posts the ledger entry and marks the pending payment processed atomically."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) 401 / 403 (account + auth guards still run ahead of the retired handler)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/approve/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) 401 / 403 (account + auth guards still run ahead of the retired handler)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/approve/999999999/9001/90013",
+      "route": "/approve/:paymentID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) role gate: 403 for an employee (manager+ required) — enforced before the retired handler runs",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/approve/2156/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): account 9001 is refused with HTTP 403 before any S3 write",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Automatic payment PDF processing is not available for this account."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a missing x-file-name header is refused with HTTP 400",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Missing file name header."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: an empty body is refused with HTTP 400",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Uploaded file is empty or missing."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a non-.pdf extension is refused with HTTP 400",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Only PDF files are accepted."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a file over the 10MB cap is refused with HTTP 400",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "File exceeds the 10MB size limit."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID happy path: groups pending rows by source_file with correct counts",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/files/9001/90013",
+      "route": "/files/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/files/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/files/9001/90013",
+      "route": "/files/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/files/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID domain edge: a soft-deleted row is excluded from every file group",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/2159/9001/90013",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Payment deleted successfully."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID domain edge: a soft-deleted row is excluded from every file group",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/files/9001/90013",
+      "route": "/files/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID happy path: removes unprocessed pending rows for the file and the S3 object",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "File and associated pending payments deleted."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "File name is required."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID domain edge: refused once any payment from the file has been processed",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Cannot delete this file because some payments have already been processed."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): a fileName with no rows for this account is now refused with HTTP 404, not silently \"succeeded\"",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "File not found."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID happy path: streams back the exact bytes that were uploaded",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=coverage-preview-51563-muh02hx1-168.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "File name is required."
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=x.pdf",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID 401 / 403",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=x.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90011?fileName=coverage-preview-employee-51563-muh02hyv-171.pdf",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID not-found: a nonexistent file name is refused with HTTP 404",
+      "file": "test/integration/coverage-payments-pending.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=never-51563-muh02hzc-172.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "File not found."
+    }
+  ]
+}

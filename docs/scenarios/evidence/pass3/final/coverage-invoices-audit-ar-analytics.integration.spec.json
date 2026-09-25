@@ -1,0 +1,2607 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 27,
+    "tests": 131,
+    "passes": 131,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:31:48.364Z",
+    "end": "2026-09-25T13:31:51.712Z",
+    "duration": 3348
+  },
+  "tests": [
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 401 without a token",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID lists custA's unbilled balance with the engine-computed invoice_total, before it is billed",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID validation failure: no customers selected",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isRoughDraft + isCsvOnly build a downloadable zip but persist no invoice or transaction rows",
+      "state": "passed",
+      "duration": 94
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isFinalized creates a parent invoice and stamps the transaction",
+      "state": "passed",
+      "duration": 107
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID a same-day re-run without allowSameDayRebill reports custA in skippedCustomers and creates no second parent",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID lists the freshly finalized custA invoice, in the grid and tree grid",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 400 for invalid pagination (page=0)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID search finds the invoice by a substring of its invoice_number",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID search finds the invoice by custA's display name",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID a search with no matches returns an empty page, not an error",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 404 for an unknown invoice id",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID returns the transactions billed on custA's freshly finalized parent",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID returns chain-wide payments tagged to a snapshot row, not just the parent",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID not-found: refuses a bogus invoice id",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID refuses a parent with linked transactions (\"linked rows\")",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID cleanly deletes a zero-history parent with no linked rows",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a missing fileLocation query param",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a bogus path that does not exist in S3",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 200 streams back the uploaded bytes with the right filename",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 400 validation failure: no customers selected",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total",
+      "state": "passed",
+      "duration": 268
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID search by id lists custA with the audit fields just computed",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID filter=billing_ready restricts to customers with an open parent invoice",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID READ-ONLY: lists real customers for account 1",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID returns custA's audit history including the run we just created",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID returns an empty list for a customer with no audits",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID READ-ONLY: returns a real account-1 customer's audit history",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 404 for an unknown audit id",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID returns the full audit detail and its audit_balance equals the engine total (fetchInitialQueryItems + calculateInvoices)",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID READ-ONLY: returns a real account-1 audit detail",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 404 for an unknown audit id",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID returns application/pdf bytes for the audit",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID READ-ONLY: returns application/pdf bytes for a real account-1 audit",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 404 for an unknown job id",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID returns the completed job's results",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID FIXED (was DEFECT): job results are scoped to the account that created them",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 400 for invalid pagination (page=0)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID returns custB's aging row: bucket, statement_date and is_customer_active",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID search narrows the list to the matching customer only",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export returns text/csv with a header row and quote-guards custB's name (starts with '=')",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID returns numeric per-year fields for account 1 (read-only)",
+      "state": "passed",
+      "duration": 49
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export returns text/csv with a header row and quote-guards custB's name",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID returns numeric summary fields for account 1 (read-only)",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export returns text/csv with a header row for account 1",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID validation failure: missing customer/year/rate",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID creates the rate agreement row for custB",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID returns numeric aging fields for account 1 (read-only)",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID returns numeric budget fields for account 1 (read-only)",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID returns a zip for account 1 (read-only)",
+      "state": "passed",
+      "duration": 64
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID returns numeric capacity fields for account 1 (read-only)",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID returns the customer list and default-excluded ids for account 1 (read-only)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 401 without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 cross-tenant (right role, wrong account)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID unknown customer id returns a clean error envelope, not a crash",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "title": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID returns application/pdf bytes for custA's statement",
+      "state": "passed",
+      "duration": 18
+    }
+  ],
+  "hits": {
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 401 without a token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 401 without a token"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 for a non-super-admin (admin) token"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 for an employee (manager+ required)"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 cross-tenant (right role, wrong account)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 cross-tenant (right role, wrong account)"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:384:5": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID validation failure: no customers selected"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:394:6": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID validation failure: no customers selected"
+      }
+    ],
+    "src/endpoints/invoice/creditSelection.js:8:45": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID validation failure: no customers selected"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isRoughDraft + isCsvOnly build a downloadable zip but persist no invoice or transaction rows"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isFinalized creates a parent invoice and stamps the transaction"
+      }
+    ],
+    "src/utils/pagination.js:13:6": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 400 for invalid pagination (page=0)"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 400 for invalid pagination (page=0)"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:611:5": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 400 for invalid pagination (page=0)"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:615:6": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 400 for invalid pagination (page=0)"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:488:13": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 404 for an unknown invoice id"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:72:29": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID not-found: refuses a bogus invoice id"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:144:8": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID not-found: refuses a bogus invoice id"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID refuses a parent with linked transactions (\"linked rows\")"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:145:9": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID not-found: refuses a bogus invoice id"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID refuses a parent with linked transactions (\"linked rows\")"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID refuses a parent with linked transactions (\"linked rows\")"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:404:9": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a missing fileLocation query param"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:474:5": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a missing fileLocation query param"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a bogus path that does not exist in S3"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:475:6": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a missing fileLocation query param"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a bogus path that does not exist in S3"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:469:8": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a bogus path that does not exist in S3"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:473:6": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a bogus path that does not exist in S3"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:288:16": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 400 validation failure: no customers selected"
+      }
+    ],
+    "src/ai_integrations/bedrock/index.js:118:5": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total"
+      }
+    ],
+    "src/ai_integrations/bedrock/index.js:199:6": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-narrative.js:89:5": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-narrative.js:94:8": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:349:25": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 404 for an unknown audit id"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:392:25": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 404 for an unknown audit id"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:404:11": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID READ-ONLY: returns application/pdf bytes for a real account-1 audit"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:328:78": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 404 for an unknown job id"
+      },
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID FIXED (was DEFECT): job results are scoped to the account that created them"
+      }
+    ],
+    "src/endpoints/accountsReceivable/accounts-receivable-router.js:108:8": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 400 for invalid pagination (page=0)"
+      }
+    ],
+    "src/endpoints/accountsReceivable/accounts-receivable-router.js:112:16": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 400 for invalid pagination (page=0)"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:211:9": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID validation failure: missing customer/year/rate"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:221:5": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID validation failure: missing customer/year/rate"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:223:6": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID validation failure: missing customer/year/rate"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:223:5": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID unknown customer id returns a clean error envelope, not a crash"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:225:6": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID unknown customer id returns a clean error envelope, not a crash"
+      }
+    ],
+    "src/endpoints/customer/customer-statement.js:18:18": [
+      {
+        "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+        "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID unknown customer id returns a clean error envelope, not a crash"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/9001/90013",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID lists custA's unbilled balance with the engine-computed invoice_total, before it is billed",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/9001/90013",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID validation failure: no customers selected",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Select at least one customer to invoice."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isRoughDraft + isCsvOnly build a downloadable zip but persist no invoice or transaction rows",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isFinalized creates a parent invoice and stamps the transaction",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID a same-day re-run without allowSameDayRebill reports custA in skippedCustomers and creates no second parent",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (see details)."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoices/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoices/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoices/9001/90013",
+      "route": "/getInvoices/:accountID/:invoiceID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID lists the freshly finalized custA invoice, in the grid and tree grid",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoices/9001/90013",
+      "route": "/getInvoices/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoices."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoicesPaginated/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoicesPaginated/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoicesPaginated/9001/90013",
+      "route": "/getInvoicesPaginated/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 400 for invalid pagination (page=0)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoicesPaginated/9001/90013?page=0",
+      "route": "/getInvoicesPaginated/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination parameters. Page and limit must be positive integers."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID search finds the invoice by a substring of its invoice_number",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoicesPaginated/9001/90013?search=-00022",
+      "route": "/getInvoicesPaginated/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoices."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID search finds the invoice by custA's display name",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoicesPaginated/9001/90013?search=CovA-51557-muh027sp-2",
+      "route": "/getInvoicesPaginated/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoices."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID a search with no matches returns an empty page, not an error",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoicesPaginated/9001/90013?search=NoSuchInvoice-51557-muh0289n-5",
+      "route": "/getInvoicesPaginated/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoices."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17558/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17558/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17558/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 404 for an unknown invoice id",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/999999999/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Invoice not found."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID returns the transactions billed on custA's freshly finalized parent",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17558/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoice details."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID returns chain-wide payments tagged to a snapshot row, not just the parent",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17559/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoice details."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17558",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17558",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17558",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID not-found: refuses a bogus invoice id",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/999999999",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invoice not found."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID refuses a parent with linked transactions (\"linked rows\")",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17558",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00022"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID cleanly deletes a zero-history parent with no linked rows",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17561",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted invoice."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Fcoverage-spec%2Fdownload-51557-muh028hc-9.pdf",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Fcoverage-spec%2Fdownload-51557-muh028hc-9.pdf",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Fcoverage-spec%2Fdownload-51557-muh028hc-9.pdf",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a missing fileLocation query param",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 400,
+      "message": "Invalid or no file path."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a bogus path that does not exist in S3",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Fcoverage-spec%2Fdoes-not-exist-x-51557-muh028ji-10.pdf",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 400,
+      "message": "File does not exist."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 200 streams back the uploaded bytes with the right filename",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Fcoverage-spec%2Fdownload-51557-muh028hc-9.pdf",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/9001/21",
+      "route": "/run/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 400 validation failure: no customers selected",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/9001/91104",
+      "route": "/run/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "No customers selected."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/9001/91104",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343109693-kx70fa/9001/91104",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343109693-kx70fa/9001/91104",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/9001/21",
+      "route": "/customers/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID search by id lists custA with the audit fields just computed",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/9001/91104?search=916373",
+      "route": "/customers/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID filter=billing_ready restricts to customers with an open parent invoice",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/9001/91104?filter=billing_ready&limit=200",
+      "route": "/customers/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID READ-ONLY: lists real customers for account 1",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/1/21?search=228",
+      "route": "/customers/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customer/916373/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customer/916373/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customer/916373/9001/21",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID returns custA's audit history including the run we just created",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customer/916373/9001/91104",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID returns an empty list for a customer with no audits",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customer/916374/9001/91104",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID READ-ONLY: returns a real account-1 customer's audit history",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customer/228/1/21",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/9001/21",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 404 for an unknown audit id",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/999999999/9001/91104",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit not found."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID returns the full audit detail and its audit_balance equals the engine total (fetchInitialQueryItems + calculateInvoices)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1272/9001/91104",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID READ-ONLY: returns a real account-1 audit detail",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1179/1/21",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1272/pdf/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1272/pdf/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1272/pdf/9001/21",
+      "route": "/audit/:auditID/pdf/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 404 for an unknown audit id",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/999999999/pdf/9001/91104",
+      "route": "/audit/:auditID/pdf/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit not found."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID returns application/pdf bytes for the audit",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1272/pdf/9001/91104",
+      "route": "/audit/:auditID/pdf/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID READ-ONLY: returns application/pdf bytes for a real account-1 audit",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1179/pdf/1/21",
+      "route": "/audit/:auditID/pdf/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343109693-kx70fa/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343109693-kx70fa/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343109693-kx70fa/9001/21",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 404 for an unknown job id",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/not-a-real-job-id/9001/91104",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job not found or expired."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID returns the completed job's results",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343109693-kx70fa/9001/91104",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID FIXED (was DEFECT): job results are scoped to the account that created them",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343109693-kx70fa/1/21",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job not found or expired."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013",
+      "route": "/aging/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 400 for invalid pagination (page=0)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013?page=0",
+      "route": "/aging/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination parameters. Page and limit must be positive integers."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID returns custB's aging row: bucket, statement_date and is_customer_active",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013?search=916374",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID search narrows the list to the matching customer only",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013?search=%3DCovB-51557-muh027t0-3",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013/export",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013/export",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013/export",
+      "route": "/aging/:accountID/:userID/export",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export returns text/csv with a header row and quote-guards custB's name (starts with '=')",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/9001/90013/export?search=916374",
+      "route": "/aging/:accountID/:userID/export",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/1/21",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/1/21",
+      "route": "/clientRates/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID returns numeric per-year fields for account 1 (read-only)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/1/21?yearsBack=3",
+      "route": "/clientRates/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved client rates."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/9001/90013/export",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/9001/90013/export",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/9001/90013/export",
+      "route": "/clientRates/:accountID/:userID/export",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export returns text/csv with a header row and quote-guards custB's name",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/clientRates/9001/91104/export?yearsBack=1",
+      "route": "/clientRates/:accountID/:userID/export",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/1/21",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/1/21",
+      "route": "/timeAllocation/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID returns numeric summary fields for account 1 (read-only)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/1/21",
+      "route": "/timeAllocation/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved time allocation."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/1/21/export",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/9001/90013/export",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/1/21/export",
+      "route": "/timeAllocation/:accountID/:userID/export",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export returns text/csv with a header row for account 1",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/1/21/export",
+      "route": "/timeAllocation/:accountID/:userID/export",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90013",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID validation failure: missing customer/year/rate",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/91104",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A customer, a year, and a positive agreed rate are required."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID creates the rate agreement row for custB",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/91104",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved rate agreement."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/wipAging/1/21",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/wipAging/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/wipAging/1/21",
+      "route": "/wipAging/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID returns numeric aging fields for account 1 (read-only)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/wipAging/1/21",
+      "route": "/wipAging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved WIP aging."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/jobBudgets/1/21",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/jobBudgets/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/jobBudgets/1/21",
+      "route": "/jobBudgets/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID returns numeric budget fields for account 1 (read-only)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/jobBudgets/1/21",
+      "route": "/jobBudgets/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved job budgets."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/yearEndPacket/1/21",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/yearEndPacket/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/yearEndPacket/1/21",
+      "route": "/yearEndPacket/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID returns a zip for account 1 (read-only)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/yearEndPacket/1/21?year=2025",
+      "route": "/yearEndPacket/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/taxSeasonCapacity/1/21",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/taxSeasonCapacity/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/taxSeasonCapacity/1/21",
+      "route": "/taxSeasonCapacity/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID returns numeric capacity fields for account 1 (read-only)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/taxSeasonCapacity/1/21",
+      "route": "/taxSeasonCapacity/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved tax season capacity."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/exclusions/1/21",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/exclusions/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/exclusions/1/21",
+      "route": "/exclusions/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID returns the customer list and default-excluded ids for account 1 (read-only)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/exclusions/1/21",
+      "route": "/exclusions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved exclusion options."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 401 without a token",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/statement/9001/90013/916373",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/statement/9001/90013/916373",
+      "route": "/statement/:accountID/:userID/:customerID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 cross-tenant (right role, wrong account)",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/statement/9001/90013/916373",
+      "route": "/statement/:accountID/:userID/:customerID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID unknown customer id returns a clean error envelope, not a crash",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/statement/9001/90013/999999999",
+      "route": "/statement/:accountID/:userID/:customerID",
+      "status": 500,
+      "envelope": 500,
+      "message": "No matching customer record found."
+    },
+    {
+      "test": "integration: coverage — invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID returns application/pdf bytes for custA's statement",
+      "file": "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/statement/9001/90013/916373",
+      "route": "/statement/:accountID/:userID/:customerID",
+      "status": 200
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:31.188Z",
+    "end": "2026-09-25T13:24:31.650Z",
+    "duration": 462
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-customer-response.integration.spec.js",
+      "title": "F1 customer update response account isolation refreshes customers and recurring rows only from the verified URL account",
+      "state": "passed",
+      "duration": 39
+    },
+    {
+      "file": "test/integration/review-customer-response.integration.spec.js",
+      "title": "F1 customer update response account isolation does not return foreign lists when an update fails",
+      "state": "passed",
+      "duration": 12
+    }
+  ],
+  "hits": {
+    "src/endpoints/customer/customer-router.js:315:5": [
+      {
+        "file": "test/integration/review-customer-response.integration.spec.js",
+        "test": "F1 customer update response account isolation does not return foreign lists when an update fails"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:317:6": [
+      {
+        "file": "test/integration/review-customer-response.integration.spec.js",
+        "test": "F1 customer update response account isolation does not return foreign lists when an update fails"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F1 customer update response account isolation refreshes customers and recurring rows only from the verified URL account",
+      "file": "test/integration/review-customer-response.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/9001/90013",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "F1 customer update response account isolation does not return foreign lists when an update fails",
+      "file": "test/integration/review-customer-response.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/9001/90013",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "update \"customers\" set \"customer_id\" = $1, \"account_id\" = $2, \"business_name\" = $3, \"customer_name\" = $4, \"display_name\" = $5, \"is_commercial_customer\" = $6, \"is_customer_active\" = $7, \"is_billable\" = $8, \"is_recurring\" = $9 where \"customer_id\" = $10 and \"account_id\" = $11 returning * - null value in column \"customer_name\" of relation \"customers\" violates not-null constraint"
+    }
+  ]
+}

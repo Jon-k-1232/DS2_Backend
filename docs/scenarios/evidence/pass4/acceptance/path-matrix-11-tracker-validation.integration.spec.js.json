@@ -1,0 +1,298 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 20,
+    "passes": 20,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:56.153Z",
+    "end": "2026-09-25T14:50:57.473Z",
+    "duration": 1320
+  },
+  "tests": [
+    {
+      "title": "POST upload | absent header row refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent header row refuses before any storage or row writes",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | absent entry rows refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent entry rows refuses before any storage or row writes",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing employee refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing employee refuses before any storage or row writes",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | invalid start date refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid start date refuses before any storage or row writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | invalid end date refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid end date refuses before any storage or row writes",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | end before start refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | end before start refuses before any storage or row writes",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing entity refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing category refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing date refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | invalid date refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing notes refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing header refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing header refuses before any storage or row writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | duplicate header refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | duplicate header refuses before any storage or row writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner with empty email refuses validation and writes nothing",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | owner with empty email refuses validation and writes nothing",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | workbook parser produces no sheets: 400 and no writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces no sheets: 400 and no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | workbook parser produces empty sheet: 400 and no writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces empty sheet: 400 and no writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | workbook parser failure refuses corrupt workbook",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser failure refuses corrupt workbook",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST template upload | missing raw bytes refuses 400 without writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST template upload | missing raw bytes refuses 400 without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET non-owner template | audit-row insertion failure still returns a tenant-only workbook",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | audit-row insertion failure still returns a tenant-only workbook",
+      "duration": 509,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "POST upload | absent header row refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent header row refuses before any storage or row writes",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | absent entry rows refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | absent entry rows refuses before any storage or row writes",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing employee refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing employee refuses before any storage or row writes",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | invalid start date refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid start date refuses before any storage or row writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | invalid end date refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid end date refuses before any storage or row writes",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | end before start refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | end before start refuses before any storage or row writes",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing entity refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing entity refuses before any storage or row writes",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing category refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing category refuses before any storage or row writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing date refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing date refuses before any storage or row writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | invalid date refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | invalid date refuses before any storage or row writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing notes refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing notes refuses before any storage or row writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | missing header refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | missing header refuses before any storage or row writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | duplicate header refuses before any storage or row writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | duplicate header refuses before any storage or row writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner with empty email refuses validation and writes nothing",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | owner with empty email refuses validation and writes nothing",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | workbook parser produces no sheets: 400 and no writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces no sheets: 400 and no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | workbook parser produces empty sheet: 400 and no writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser produces empty sheet: 400 and no writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | workbook parser failure refuses corrupt workbook",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST upload | workbook parser failure refuses corrupt workbook",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST template upload | missing raw bytes refuses 400 without writes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures POST template upload | missing raw bytes refuses 400 without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | unreadable neutral manifest refuses 503 and never returns owner bytes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET non-owner template | audit-row insertion failure still returns a tenant-only workbook",
+      "fullTitle": "Path matrix: tracker parser and tenant-safe template failures GET non-owner template | audit-row insertion failure still returns a tenant-only workbook",
+      "duration": 509,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

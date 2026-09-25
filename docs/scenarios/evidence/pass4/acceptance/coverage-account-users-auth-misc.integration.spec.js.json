@@ -1,0 +1,2818 @@
+{
+  "stats": {
+    "suites": 34,
+    "tests": 200,
+    "passes": 200,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:49:17.928Z",
+    "end": "2026-09-25T14:49:19.593Z",
+    "duration": 1665
+  },
+  "tests": [
+    {
+      "title": "happy path: returns the account row + logo metadata for the caller's own account",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID happy path: returns the account row + logo metadata for the caller's own account",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 401s with no token at all",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns all 4 known automation definitions with defaults",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID happy path: returns all 4 known automation definitions with defaults",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: toggles isEnabled and replaces recipientUserIds, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID happy path: toggles isEnabled and replaces recipientUserIds, proven in the DB",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an unknown automationKey is refused with 400",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID validation failure: an unknown automationKey is refused with 400",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 401s with an expired token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates the caller's own account (9001) and is provable in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount happy path: updates the caller's own account (9001) and is provable in the DB",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "account-1-untouchable: account_id:1 injected in the body is ignored \u2014 account_id is taken from the caller's own session (9001), never the body",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount account-1-untouchable: account_id:1 injected in the body is ignored \u2014 account_id is taken from the caller's own session (9001), never the body",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an explicit null for a required field (account_type) raises a real 500 (no NOT NULL guard before the DB)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount validation failure: an explicit null for a required field (account_type) raises a real 500 (no NOT NULL guard before the DB)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount 403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "business-settings-only save (formObjectForUpdateAccountPost shape) leaves is_account_active and created_at untouched",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount partial-payload regressions (business-only / address-only forms) business-settings-only save (formObjectForUpdateAccountPost shape) leaves is_account_active and created_at untouched",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "address-only save (formObjectForAccountAddressUpdate shape) leaves is_account_active and created_at untouched",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount partial-payload regressions (business-only / address-only forms) address-only save (formObjectForAccountAddressUpdate shape) leaves is_account_active and created_at untouched",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "address fields with a missing or invalid account_info_id \u2192 400, and nothing is written",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount partial-payload regressions (business-only / address-only forms) address fields with a missing or invalid account_info_id \u2192 400, and nothing is written",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a well-formed but nonexistent account_info_id rolls back the account fields written in the same request (single transaction)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount partial-payload regressions (business-only / address-only forms) a well-formed but nonexistent account_info_id rolls back the account fields written in the same request (single transaction)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a Super Admin can provision a brand-new account (not account 1 or 9001), proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount happy path: a Super Admin can provision a brand-new account (not account 1 or 9001), proven in the DB",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two accounts whose names sanitize to the same base slug get distinct storage_slug values \u2014 the second is suffixed with its own account_id",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount two accounts whose names sanitize to the same base slug get distinct storage_slug values \u2014 the second is suffixed with its own account_id",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two CONCURRENT create-account requests whose names sanitize to the same base slug both succeed, each with a distinct storage_slug",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount two CONCURRENT create-account requests whose names sanitize to the same base slug both succeed, each with a distinct storage_slug",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a sequential create whose naive `_<id>` candidate is already occupied by an unrelated account escalates to `_<id>_2` instead of failing",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount a sequential create whose naive `_<id>` candidate is already occupied by an unrelated account escalates to `_<id>_2` instead of failing",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an empty account body returns 400 without creating an account or address",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount validation failure: an empty account body returns 400 without creating an account or address",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a Super Admin creates a new user, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID happy path: a Super Admin creates a new user, proven in the DB",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "honours isActive:false on create",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID honours isActive:false on create",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-canonical accessLevel is refused with 400 before any DB write",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID validation failure: a non-canonical accessLevel is refused with 400 before any DB write",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a Super Admin updates a different user's record, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID happy path: a Super Admin updates a different user's record, proven in the DB",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-canonical accessLevel is refused with 400 and does not change the row",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID validation failure: a non-canonical accessLevel is refused with 400 and does not change the row",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: updating a nonexistent userID returns404 without changing users",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID not-found: updating a nonexistent userID returns404 without changing users",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a Super Admin deletes a different plain user, proven gone from the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID happy path: a Super Admin deletes a different plain user, proven gone from the DB",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: deleting a nonexistent userID returns404 without changing users",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID not-found: deleting a nonexistent userID returns404 without changing users",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a caller fetches their own record and it matches the DB row",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID happy path: a caller fetches their own record and it matches the DB row",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns 404 for a privileged caller looking up a nonexistent userID",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID returns 404 for a privileged caller looking up a nonexistent userID",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400s when the credential is missing",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/google 400s when the credential is missing",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s when the credential is not a valid Google ID token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/google 401s when the credential is not a valid Google ID token",
+      "duration": 636,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "carries rate-limit headers (authLimiter applies to every /auth/* route)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/google carries rate-limit headers (authLimiter applies to every /auth/* route)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a valid token is renewed \u2014 200 and a fresh ds2_auth cookie is set",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew happy path: a valid token is renewed \u2014 200 and a fresh ds2_auth cookie is set",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew 401s with no token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "carries rate-limit headers",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew carries rate-limit headers",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: clears the ds2_auth cookie even with no token at all (logout needs no auth)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/logout happy path: clears the ds2_auth cookie even with no token at all (logout needs no auth)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "also clears the cookie when a valid token IS presented",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/logout also clears the cookie when a valid token IS presented",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "carries rate-limit headers",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/logout carries rate-limit headers",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists the caller's own notifications, newest first, proven against the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID happy path: lists the caller's own notifications, newest first, proven against the DB",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unreadOnly=true filters out already-read notifications",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID unreadOnly=true filters out already-read notifications",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" reading a DIFFERENT user's notifications (self-or-privileged)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 403s an \"employee\" reading a DIFFERENT user's notifications (self-or-privileged)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: count increases by exactly the number of unread rows this test added",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count happy path: count increases by exactly the number of unread rows this test added",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" reading a DIFFERENT user's unread-count (self-or-privileged)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 403s an \"employee\" reading a DIFFERENT user's unread-count (self-or-privileged)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: marks the caller's own notification read, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read happy path: marks the caller's own notification read, proven in the DB",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent notificationID returns a clean 404",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read not-found: a nonexistent notificationID returns a clean 404",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" marking read on behalf of a DIFFERENT user (self-or-privileged)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 403s an \"employee\" marking read on behalf of a DIFFERENT user (self-or-privileged)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: marks every one of the caller's unread notifications read, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all happy path: marks every one of the caller's unread notifications read, proven in the DB",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" marking another user's notifications read-all (self-or-privileged)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 403s an \"employee\" marking another user's notifications read-all (self-or-privileged)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: 200 ok, no auth required, no DB probe",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /healthz happy path: 200 ok, no auth required, no DB probe",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: 200 with a real DB probe against the sandbox",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /healthz/check happy path: 200 with a real DB probe against the sandbox",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: 200 with a real DB probe against the sandbox (same handler, different mount)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /api/health/check happy path: 200 with a real DB probe against the sandbox (same handler, different mount)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path (light): 200 with the customersList key present",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID happy path (light): 200 with the customersList key present",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: honours the chosen start date and active flag, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID happy path: honours the chosen start date and active flag, proven in the DB",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing customerID is rejected before writing recurring data",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID validation failure: a missing customerID is rejected before writing recurring data",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: the list includes the fixture row just inserted",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID happy path: the list includes the fixture row just inserted",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "updates a recurring customer's billing amount",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer updates a recurring customer's billing amount",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer 401s a stranger (unprovisioned email)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: soft-deletes (is_recurring_customer_active -> false), proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId happy path: soft-deletes (is_recurring_customer_active -> false), proven in the DB",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a nonexistent recurringCustomerId",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId returns a clean 404 for a nonexistent recurringCustomerId",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: the seeded staff row (90013) is present with the expected shape",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID happy path: the seeded staff row (90013) is present with the expected shape",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: adds a user as time-tracker staff, proven in the DB (201)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID happy path: adds a user as time-tracker staff, proven in the DB (201)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an empty userIds array is refused with 400",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID validation failure: an empty userIds array is refused with 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: toggles is_active, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID happy path: toggles is_active, proven in the DB",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-boolean isActive is refused with 400",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID validation failure: a non-boolean isActive is refused with 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent staffID silently no-ops with 200 (GAP \u2014 no 404)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID not-found: a nonexistent staffID silently no-ops with 200 (GAP \u2014 no 404)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: removes the staff row, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID happy path: removes the staff row, proven in the DB",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent staffID silently no-ops with 200 (GAP \u2014 no 404)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID not-found: a nonexistent staffID silently no-ops with 200 (GAP \u2014 no 404)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: paginated, includes the seeded Acme fixture, correct pagination metadata",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID happy path: paginated, includes the seeded Acme fixture, correct pagination metadata",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search proof: ?search=Acme finds the fixture customer; a non-matching term finds nothing",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID search proof: ?search=Acme finds the fixture customer; a non-matching term finds nothing",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a negative page number is refused with 400",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID validation failure: a negative page number is refused with 400",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the full customer profile bundle for the seeded Acme fixture",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID happy path: returns the full customer profile bundle for the seeded Acme fixture",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns 404 for a nonexistent customerID",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID returns 404 for a nonexistent customerID",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deactivating a clean customer (no balance/unbilled work) succeeds with an empty warnings array",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) happy path: deactivating a clean customer (no balance/unbilled work) succeeds with an empty warnings array",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent customerID returns the customer error envelope without response lists",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) not-found: a nonexistent customerID returns the customer error envelope without response lists",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: refuses to delete a customer with a linked job, customer survives",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) happy path: refuses to delete a customer with a linked job, customer survives",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent customerID returns a clean 404 envelope",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) not-found: a nonexistent customerID returns a clean 404 envelope",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses to delete a customer with a recurring-billing row (guard keyed by customer_id, not recurring_customer_id), then deletes once it is gone",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) refuses to delete a customer with a recurring-billing row (guard keyed by customer_id, not recurring_customer_id), then deletes once it is gone",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "happy path: returns the account row + logo metadata for the caller's own account",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID happy path: returns the account row + logo metadata for the caller's own account",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 401s with no token at all",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/AccountInformation/:accountID/:userID 403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns all 4 known automation definitions with defaults",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID happy path: returns all 4 known automation definitions with defaults",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /account/automations/:accountID/:userID 403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: toggles isEnabled and replaces recipientUserIds, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID happy path: toggles isEnabled and replaces recipientUserIds, proven in the DB",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an unknown automationKey is refused with 400",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID validation failure: an unknown automationKey is refused with 400",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 401s with an expired token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/automations/:accountID/:userID 403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates the caller's own account (9001) and is provable in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount happy path: updates the caller's own account (9001) and is provable in the DB",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "account-1-untouchable: account_id:1 injected in the body is ignored \u2014 account_id is taken from the caller's own session (9001), never the body",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount account-1-untouchable: account_id:1 injected in the body is ignored \u2014 account_id is taken from the caller's own session (9001), never the body",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an explicit null for a required field (account_type) raises a real 500 (no NOT NULL guard before the DB)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount validation failure: an explicit null for a required field (account_type) raises a real 500 (no NOT NULL guard before the DB)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount 403s an \"employee\" (non-admin) caller \u2014 requireAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "business-settings-only save (formObjectForUpdateAccountPost shape) leaves is_account_active and created_at untouched",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount partial-payload regressions (business-only / address-only forms) business-settings-only save (formObjectForUpdateAccountPost shape) leaves is_account_active and created_at untouched",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "address-only save (formObjectForAccountAddressUpdate shape) leaves is_account_active and created_at untouched",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount partial-payload regressions (business-only / address-only forms) address-only save (formObjectForAccountAddressUpdate shape) leaves is_account_active and created_at untouched",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "address fields with a missing or invalid account_info_id \u2192 400, and nothing is written",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount partial-payload regressions (business-only / address-only forms) address fields with a missing or invalid account_info_id \u2192 400, and nothing is written",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a well-formed but nonexistent account_info_id rolls back the account fields written in the same request (single transaction)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /account/updateAccount partial-payload regressions (business-only / address-only forms) a well-formed but nonexistent account_info_id rolls back the account fields written in the same request (single transaction)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a Super Admin can provision a brand-new account (not account 1 or 9001), proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount happy path: a Super Admin can provision a brand-new account (not account 1 or 9001), proven in the DB",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two accounts whose names sanitize to the same base slug get distinct storage_slug values \u2014 the second is suffixed with its own account_id",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount two accounts whose names sanitize to the same base slug get distinct storage_slug values \u2014 the second is suffixed with its own account_id",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two CONCURRENT create-account requests whose names sanitize to the same base slug both succeed, each with a distinct storage_slug",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount two CONCURRENT create-account requests whose names sanitize to the same base slug both succeed, each with a distinct storage_slug",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a sequential create whose naive `_<id>` candidate is already occupied by an unrelated account escalates to `_<id>_2` instead of failing",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount a sequential create whose naive `_<id>` candidate is already occupied by an unrelated account escalates to `_<id>_2` instead of failing",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an empty account body returns 400 without creating an account or address",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount validation failure: an empty account body returns 400 without creating an account or address",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /account/createAccount 403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a Super Admin creates a new user, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID happy path: a Super Admin creates a new user, proven in the DB",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "honours isActive:false on create",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID honours isActive:false on create",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-canonical accessLevel is refused with 400 before any DB write",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID validation failure: a non-canonical accessLevel is refused with 400 before any DB write",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /user/createUser/:accountID/:userID 403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a Super Admin updates a different user's record, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID happy path: a Super Admin updates a different user's record, proven in the DB",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-canonical accessLevel is refused with 400 and does not change the row",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID validation failure: a non-canonical accessLevel is refused with 400 and does not change the row",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: updating a nonexistent userID returns404 without changing users",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID not-found: updating a nonexistent userID returns404 without changing users",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /user/updateUser/:accountID/:userID 403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a Super Admin deletes a different plain user, proven gone from the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID happy path: a Super Admin deletes a different plain user, proven gone from the DB",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: deleting a nonexistent userID returns404 without changing users",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID not-found: deleting a nonexistent userID returns404 without changing users",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 403s an \"employee\" caller \u2014 requireSuperAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /user/deleteUser/:accountID/:userID 403s a plain \"admin\" caller \u2014 Super Admin is strictly narrower than Admin",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a caller fetches their own record and it matches the DB row",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID happy path: a caller fetches their own record and it matches the DB row",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns 404 for a privileged caller looking up a nonexistent userID",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID returns 404 for a privileged caller looking up a nonexistent userID",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /user/fetchSingleUser/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400s when the credential is missing",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/google 400s when the credential is missing",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s when the credential is not a valid Google ID token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/google 401s when the credential is not a valid Google ID token",
+      "duration": 636,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "carries rate-limit headers (authLimiter applies to every /auth/* route)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/google carries rate-limit headers (authLimiter applies to every /auth/* route)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a valid token is renewed \u2014 200 and a fresh ds2_auth cookie is set",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew happy path: a valid token is renewed \u2014 200 and a fresh ds2_auth cookie is set",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew 401s with no token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "carries rate-limit headers",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/renew carries rate-limit headers",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: clears the ds2_auth cookie even with no token at all (logout needs no auth)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/logout happy path: clears the ds2_auth cookie even with no token at all (logout needs no auth)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "also clears the cookie when a valid token IS presented",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/logout also clears the cookie when a valid token IS presented",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "carries rate-limit headers",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /auth/logout carries rate-limit headers",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists the caller's own notifications, newest first, proven against the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID happy path: lists the caller's own notifications, newest first, proven against the DB",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unreadOnly=true filters out already-read notifications",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID unreadOnly=true filters out already-read notifications",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" reading a DIFFERENT user's notifications (self-or-privileged)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID 403s an \"employee\" reading a DIFFERENT user's notifications (self-or-privileged)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: count increases by exactly the number of unread rows this test added",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count happy path: count increases by exactly the number of unread rows this test added",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" reading a DIFFERENT user's unread-count (self-or-privileged)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /notifications/:accountID/:userID/unread-count 403s an \"employee\" reading a DIFFERENT user's unread-count (self-or-privileged)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: marks the caller's own notification read, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read happy path: marks the caller's own notification read, proven in the DB",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent notificationID returns a clean 404",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read not-found: a nonexistent notificationID returns a clean 404",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" marking read on behalf of a DIFFERENT user (self-or-privileged)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:notificationID/:accountID/:userID/read 403s an \"employee\" marking read on behalf of a DIFFERENT user (self-or-privileged)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: marks every one of the caller's unread notifications read, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all happy path: marks every one of the caller's unread notifications read, proven in the DB",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" marking another user's notifications read-all (self-or-privileged)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /notifications/:accountID/:userID/read-all 403s an \"employee\" marking another user's notifications read-all (self-or-privileged)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: 200 ok, no auth required, no DB probe",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /healthz happy path: 200 ok, no auth required, no DB probe",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: 200 with a real DB probe against the sandbox",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /healthz/check happy path: 200 with a real DB probe against the sandbox",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: 200 with a real DB probe against the sandbox (same handler, different mount)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /api/health/check happy path: 200 with a real DB probe against the sandbox (same handler, different mount)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path (light): 200 with the customersList key present",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID happy path (light): 200 with the customersList key present",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /initialData/initialBlob/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: honours the chosen start date and active flag, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID happy path: honours the chosen start date and active flag, proven in the DB",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing customerID is rejected before writing recurring data",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID validation failure: a missing customerID is rejected before writing recurring data",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /recurringCustomer/createRecurringCustomer/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: the list includes the fixture row just inserted",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID happy path: the list includes the fixture row just inserted",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "updates a recurring customer's billing amount",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer updates a recurring customer's billing amount",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer 401s a stranger (unprovisioned email)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /recurringCustomer/updateRecurringCustomer 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: soft-deletes (is_recurring_customer_active -> false), proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId happy path: soft-deletes (is_recurring_customer_active -> false), proven in the DB",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a nonexistent recurringCustomerId",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId returns a clean 404 for a nonexistent recurringCustomerId",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: the seeded staff row (90013) is present with the expected shape",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID happy path: the seeded staff row (90013) is present with the expected shape",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /time-tracker-staff/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: adds a user as time-tracker staff, proven in the DB (201)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID happy path: adds a user as time-tracker staff, proven in the DB (201)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an empty userIds array is refused with 400",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID validation failure: an empty userIds array is refused with 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer POST /time-tracker-staff/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: toggles is_active, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID happy path: toggles is_active, proven in the DB",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-boolean isActive is refused with 400",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID validation failure: a non-boolean isActive is refused with 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent staffID silently no-ops with 200 (GAP \u2014 no 404)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID not-found: a nonexistent staffID silently no-ops with 200 (GAP \u2014 no 404)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /time-tracker-staff/:accountID/:userID/:staffID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: removes the staff row, proven in the DB",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID happy path: removes the staff row, proven in the DB",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent staffID silently no-ops with 200 (GAP \u2014 no 404)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID not-found: a nonexistent staffID silently no-ops with 200 (GAP \u2014 no 404)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /time-tracker-staff/:accountID/:userID/:staffID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: paginated, includes the seeded Acme fixture, correct pagination metadata",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID happy path: paginated, includes the seeded Acme fixture, correct pagination metadata",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search proof: ?search=Acme finds the fixture customer; a non-matching term finds nothing",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID search proof: ?search=Acme finds the fixture customer; a non-matching term finds nothing",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a negative page number is refused with 400",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID validation failure: a negative page number is refused with 400",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 401s with no token at all",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the full customer profile bundle for the seeded Acme fixture",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID happy path: returns the full customer profile bundle for the seeded Acme fixture",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns 404 for a nonexistent customerID",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID returns 404 for a nonexistent customerID",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 401s a stranger (unprovisioned email)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deactivating a clean customer (no balance/unbilled work) succeeds with an empty warnings array",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) happy path: deactivating a clean customer (no balance/unbilled work) succeeds with an empty warnings array",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent customerID returns the customer error envelope without response lists",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) not-found: a nonexistent customerID returns the customer error envelope without response lists",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 401s with an expired token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer PUT /customer/updateCustomer/:accountID/:userID (deactivate -> warnings[]) 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: refuses to delete a customer with a linked job, customer survives",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) happy path: refuses to delete a customer with a linked job, customer survives",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent customerID returns a clean 404 envelope",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) not-found: a nonexistent customerID returns a clean 404 envelope",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses to delete a customer with a recurring-billing row (guard keyed by customer_id, not recurring_customer_id), then deletes once it is gone",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) refuses to delete a customer with a recurring-billing row (guard keyed by customer_id, not recurring_customer_id), then deletes once it is gone",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with no token at all",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 401s with no token at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s with an expired token",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 401s with an expired token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s a stranger (unprovisioned email)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 401s a stranger (unprovisioned email)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "fullTitle": "integration: coverage \u2014 account / user / auth / notifications / health / initialData / recurringCustomer / timeTrackerStaff / customer DELETE /customer/deleteCustomer/:customerID/:accountID/:userID (refusal with linked rows) 403s an \"employee\" caller \u2014 requireManagerOrAdmin gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

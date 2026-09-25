@@ -1,0 +1,2864 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 13,
+    "passes": 13,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:44.976Z",
+    "end": "2026-09-25T13:24:48.524Z",
+    "duration": 3548
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "state": "passed",
+      "duration": 355
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "state": "passed",
+      "duration": 113
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "state": "passed",
+      "duration": 107
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "state": "passed",
+      "duration": 93
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "state": "passed",
+      "duration": 103
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "state": "passed",
+      "duration": 90
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "state": "passed",
+      "duration": 98
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "state": "passed",
+      "duration": 162
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "state": "passed",
+      "duration": 343
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "state": "passed",
+      "duration": 217
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "state": "passed",
+      "duration": 407
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "state": "passed",
+      "duration": 549
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "title": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "state": "passed",
+      "duration": 341
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:55:36": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:112:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:114:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs"
+      }
+    ],
+    "src/endpoints/job/job-router.js:85:34": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs"
+      }
+    ],
+    "src/endpoints/job/job-router.js:91:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs"
+      }
+    ],
+    "src/endpoints/job/job-router.js:93:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:375:8": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:377:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:112:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:114:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      }
+    ],
+    "src/endpoints/job/job-router.js:249:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      }
+    ],
+    "src/endpoints/job/job-router.js:251:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:140:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+        "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685438-x6neo3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685438-x6neo3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685438-x6neo3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685438-x6neo3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685548-f8gae0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685548-f8gae0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685548-f8gae0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685548-f8gae0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685638-ynqeod/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685638-ynqeod/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685638-ynqeod/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685638-ynqeod/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/activeCustomers/customerByID/1/1/7",
+      "route": "/activeCustomers/customerByID/:accountID/:userID/:customerID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully Retrieved Data."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getActiveCustomerJobs/1/1/7",
+      "route": "/getActiveCustomerJobs/:accountID/:userID/:customerID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved active customer jobs."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685784-exktkb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685784-exktkb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685784-exktkb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685784-exktkb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685908-yv38dz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685908-yv38dz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685908-yv38dz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342685908-yv38dz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686032-ta0vny/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686032-ta0vny/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686032-ta0vny/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686132-z8whov/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686132-z8whov/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686132-z8whov/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686132-z8whov/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 × $12.50",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686243-0q0qxq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686243-0q0qxq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686243-0q0qxq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686350-yy7y7p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686350-yy7y7p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686350-yy7y7p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686350-yy7y7p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/1/1",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686455-3cfp9x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686455-3cfp9x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686455-3cfp9x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686541-0i50l7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686541-0i50l7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686541-0i50l7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/1/1",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686631-h6yq2o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686631-h6yq2o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686631-h6yq2o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/1/1",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686701-7sp68f/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686701-7sp68f/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686701-7sp68f/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Customer already exists with that name."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686787-y13l0r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686787-y13l0r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686787-y13l0r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686787-y13l0r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/14/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Duplicate job"
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686881-8ns8s1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686881-8ns8s1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686881-8ns8s1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342686881-8ns8s1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/15/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_24_47_1ac906a4-7b40-4324-a2a7-6377ac52eab9%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687112-yfy2mj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687112-yfy2mj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687112-yfy2mj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687112-yfy2mj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/16/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687230-4h3ag9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687230-4h3ag9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687230-4h3ag9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687230-4h3ag9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/17/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/1/1",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687330-d8we3g/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687330-d8we3g/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687330-d8we3g/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687330-d8we3g/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/18/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/11/1/1",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687435-zzjmp0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687435-zzjmp0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687435-zzjmp0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687435-zzjmp0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/19/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "DELETE",
+      "url": "/customer/deleteCustomer/7/1/1",
+      "route": "/deleteCustomer/:customerID/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687534-r3gflx/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687534-r3gflx/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687534-r3gflx/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687534-r3gflx/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/20/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687636-hv5reg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687636-hv5reg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687636-hv5reg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/21/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687722-mawnrq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687722-mawnrq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687722-mawnrq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/22/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687819-uu4ted/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687819-uu4ted/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687819-uu4ted/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687819-uu4ted/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/23/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687902-7jqwwl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687902-7jqwwl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687902-7jqwwl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687902-7jqwwl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/24/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687999-va2f1b/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687999-va2f1b/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687999-va2f1b/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342687999-va2f1b/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/25/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688097-odta8r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688097-odta8r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688097-odta8r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688097-odta8r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/26/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688197-7r8bpr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688197-7r8bpr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688197-7r8bpr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/27/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getSingleJob/25/1/1",
+      "route": "/getSingleJob/:customerJobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved single job."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/1/1",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688277-4nyblk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688277-4nyblk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688277-4nyblk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/28/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/25/1/1",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688359-1m1npe/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688359-1m1npe/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688359-1m1npe/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688359-1m1npe/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/29/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/1/1",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688438-49toyb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688438-49toyb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342688438-49toyb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/30/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "DELETE",
+      "url": "/customer/deleteCustomer/10/1/1",
+      "route": "/deleteCustomer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted customer."
+    },
+    {
+      "test": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "file": "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/activeCustomers/customerByID/1/1/10",
+      "route": "/activeCustomers/customerByID/:accountID/:userID/:customerID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Customer not found."
+    }
+  ]
+}

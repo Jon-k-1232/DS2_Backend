@@ -1,0 +1,340 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 23,
+    "passes": 23,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:52:25.978Z",
+    "end": "2026-09-25T14:52:29.341Z",
+    "duration": 3363
+  },
+  "tests": [
+    {
+      "title": "flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "duration": 313,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "dismisses without ledger changes and a review scan does not reopen the pair",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "duration": 138,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "duration": 114,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "duration": 395,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "duration": 356,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "duration": 163,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "duration": 121,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag kind with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag kind with no writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag ID with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag ID with no writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag canonical ID with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag canonical ID with no writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag self with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag self with no writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag reason with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag reason with no writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag missing with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing with no writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag missing canonical with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing canonical with no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates scan/list/filter/action and checks missing records",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "enforces authentication, roles and tenancy on every new route",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "duration": 291,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses stale source reviews and missing sources without deleting changed money",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "duration": 93,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "duration": 183,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "duration": 142,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "duration": 295,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back each manual create route when automatic duplicate evidence fails",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "duration": 142,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reports read failures with no writes and rejects changed duplicate history",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal reports read failures with no writes and rejects changed duplicate history",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal flags matching manual work on creation; badge data and actor are visible without changing balances",
+      "duration": 313,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "dismisses without ledger changes and a review scan does not reopen the pair",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal dismisses without ledger changes and a review scan does not reopen the pair",
+      "duration": 138,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal manually flags an unpaired entry and removes it through the work deletion core: $200 -> $100",
+      "duration": 114,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal detects and removes duplicate payments atomically: $1000 - $100 - $100 -> $900",
+      "duration": 395,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal detects/removes duplicate writeoffs and retainers without double counting available credit",
+      "duration": 356,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal scans existing matching entries, supports idempotent concurrent scans and resolves all pairs for a removed source",
+      "duration": 163,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal locks sent duplicates, preserves original rows, and still permits not-a-duplicate dismissal",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal refuses a retainer with draws and a payment with a later balance event without partial writes",
+      "duration": 121,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag kind with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag kind with no writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag ID with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag ID with no writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag canonical ID with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag canonical ID with no writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag self with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag self with no writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag reason with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag reason with no writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag missing with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing with no writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates manual flag missing canonical with no writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates manual flag missing canonical with no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates scan/list/filter/action and checks missing records",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal validates scan/list/filter/action and checks missing records",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "enforces authentication, roles and tenancy on every new route",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal enforces authentication, roles and tenancy on every new route",
+      "duration": 291,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses stale source reviews and missing sources without deleting changed money",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal refuses stale source reviews and missing sources without deleting changed money",
+      "duration": 93,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal allows an explicit fresh review of a changed dismissed source, preserving prior evidence",
+      "duration": 183,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal rejects retainer snapshot flags, malformed resolution IDs and suppressed resolution writes",
+      "duration": 142,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal rolls back flag, scan, dismissal and removal when evidence cannot be saved",
+      "duration": 295,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back each manual create route when automatic duplicate evidence fails",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal rolls back each manual create route when automatic duplicate evidence fails",
+      "duration": 142,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reports read failures with no writes and rejects changed duplicate history",
+      "fullTitle": "owner decision 4: visible duplicate review and guarded removal reports read failures with no writes and rejects changed duplicate history",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

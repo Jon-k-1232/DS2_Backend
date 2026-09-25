@@ -1,0 +1,2760 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:25:02.427Z",
+    "end": "2026-09-25T13:25:06.121Z",
+    "duration": 3694
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "title": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "state": "passed",
+      "duration": 1058
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "title": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "state": "passed",
+      "duration": 270
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "title": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "state": "passed",
+      "duration": 138
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "title": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "state": "passed",
+      "duration": 138
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "title": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "state": "passed",
+      "duration": 145
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "title": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "state": "passed",
+      "duration": 657
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "title": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "state": "passed",
+      "duration": 809
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:72:29": [
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:144:8": [
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:145:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+        "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342702875-qyh1ti/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342702875-qyh1ti/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342702875-qyh1ti/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342702993-lbnyco/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342702993-lbnyco/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342702993-lbnyco/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342702993-lbnyco/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703089-mq4ome/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703089-mq4ome/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703089-mq4ome/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703089-mq4ome/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703231-l5h1gi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703231-l5h1gi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703231-l5h1gi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703327-o0o0kw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703327-o0o0kw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703327-o0o0kw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703407-ba2zkq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703407-ba2zkq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703407-ba2zkq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703480-82ghl8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703480-82ghl8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703480-82ghl8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s). Skipped 1 customer(s) (see details)."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_25_03_0a553f8c-6dbc-485e-821f-e2303a7f2f89%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703663-g74uw6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703663-g74uw6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703663-g74uw6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703663-g74uw6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703740-lzewh8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703740-lzewh8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703740-lzewh8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703800-6zefrc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703800-6zefrc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703800-6zefrc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703800-6zefrc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (see details)."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703916-zm5c1r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703916-zm5c1r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703916-zm5c1r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342703916-zm5c1r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_25_04_6c0214ab-d2cd-4c90-b09c-5e7feb759576%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704086-0z8ue8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704086-0z8ue8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704086-0z8ue8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704086-0z8ue8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704185-61zbza/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704185-61zbza/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704185-61zbza/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704185-61zbza/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704260-roa1vi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704260-roa1vi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704260-roa1vi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/14/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704341-eouz9i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704341-eouz9i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704341-eouz9i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/15/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704401-rcm3nu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704401-rcm3nu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704401-rcm3nu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/16/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704491-6dzgxl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704491-6dzgxl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704491-6dzgxl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704491-6dzgxl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/17/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704570-vmm82m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704570-vmm82m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704570-vmm82m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/18/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704668-1i790h/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704668-1i790h/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704668-1i790h/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/19/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704756-dehzds/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704756-dehzds/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704756-dehzds/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704756-dehzds/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/20/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 2 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_25_04_e9a3268b-b905-43d1-b38d-2a1622054008%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704972-2extna/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704972-2extna/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704972-2extna/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342704972-2extna/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/21/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_25_04_e9a3268b-b905-43d1-b38d-2a1622054008%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705073-6pexm5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705073-6pexm5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705073-6pexm5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705073-6pexm5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/22/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705149-2hbg4a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705149-2hbg4a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705149-2hbg4a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705149-2hbg4a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/23/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705226-q0j7po/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705226-q0j7po/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705226-q0j7po/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705226-q0j7po/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/24/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705331-0g2aqz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705331-0g2aqz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705331-0g2aqz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705331-0g2aqz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/25/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_25_05_57968e99-869b-4edd-901e-74d2da5dd047%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705493-zjgaje/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705493-zjgaje/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705493-zjgaje/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/26/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/8",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00005"
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705573-v69dwj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705573-v69dwj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705573-v69dwj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/27/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/1",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705659-vsjgss/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705659-vsjgss/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705659-vsjgss/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705659-vsjgss/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/28/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/2",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00002"
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705757-v0y60k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705757-v0y60k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705757-v0y60k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705757-v0y60k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/29/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/5",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00003"
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705856-ak5vpf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705856-ak5vpf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705856-ak5vpf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705856-ak5vpf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/30/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/4",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00003"
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705953-ukcfmh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705953-ukcfmh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705953-ukcfmh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342705953-ukcfmh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/31/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/999999",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invoice not found."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342706052-r5givi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342706052-r5givi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342706052-r5givi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342706052-r5givi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/32/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices",
+      "file": "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    }
+  ]
+}

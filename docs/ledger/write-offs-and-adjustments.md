@@ -1,5 +1,18 @@
 # Write-offs and adjustments
 
+Pass 4 UI correction: background grid refreshes preserve focus in open write-off forms (`GridFocus.test.js`).
+
+Write-off details tolerate customer/job lookups still loading and retain their stored IDs. Sent write-offs immediately show **Sent — locked** and **Open invoice history**, without an ordinary delete control (`SentScreens.test.js`).
+
+Delete requests guard pending clicks and display HTTP/network failures while retaining the record. Cancelling or failing the request changes no money; an explicit retry can remove an eligible unissued write-off (`DeleteFinancial.failure.test.js`, `user-mistakes-delete.spec.js`).
+
+Creation now guards repeated clicks while pending and catches failed requests. Failure messages remain visible with form values intact, allowing an explicit retry. Empty/zero/nonfinite amounts are refused. Receipt sign normalization remains unchanged.
+
+## Owner decision update — 2026-09-25
+
+Hidden/netted credits as well as visibly printed write-offs are captured in immutable statement membership. Update/delete of any such row returns HTTP 409 naming its statement, with no writes. A new invoice-level credit still appends a child and changes current debt, leaving issued totals/paid status unchanged. A later statement locks that child/credit. Billing Review cannot cascade through sent work. [Sent contract](../invoicing/invoices.md).
+
+
 Source review dated 2026-09-24. This file owns five write-off endpoints. The [billing-review guide](../invoicing/billing-review.md) owns transaction corrections and invoice adjustment events. Shared rules are in [ledger-conventions.md](ledger-conventions.md).
 
 ## 1. Purpose and UI
@@ -22,7 +35,7 @@ All documented routes require active-user authentication and role `manager`, `ad
 
 ## 3. API reference
 
-Write-off mutations and single-record errors use HTTP 200 with a JSON error status. The write-off list and billing-review adjustment route use real HTTP statuses. All also have the common middleware errors in [conventions](ledger-conventions.md#3-api-conventions), including 401/403, JSON parser 400/413, and rate-limit 429. Billing-review mutations additionally use the 30-requests-per-minute expensive-operation limiter, subject to the same disable/test conditions. (`src/endpoints/writeOffs/writeOffs-router.js:35`, `src/endpoints/writeOffs/writeOffs-router.js:167`, `src/endpoints/billingReview/billingReview-router.js:330`, `src/app.js:111`, `src/app.js:160`.)
+Create/update input errors return HTTP400. Other write-off mutation and single-record errors retain HTTP200 with a JSON error status. The write-off list and billing-review adjustment route use real HTTP statuses. All also have the common middleware errors in [conventions](ledger-conventions.md#3-api-conventions), including 401/403, JSON parser 400/413, and rate-limit 429. Billing-review mutations additionally use the 30-requests-per-minute expensive-operation limiter, subject to the same disable/test conditions. (`src/endpoints/writeOffs/writeOffs-router.js:35`, `src/endpoints/writeOffs/writeOffs-router.js:167`, `src/endpoints/billingReview/billingReview-router.js:330`, `src/app.js:111`, `src/app.js:160`.)
 
 ### Write-off fields
 
@@ -30,10 +43,10 @@ Write-off mutations and single-record errors use HTTP 200 with a JSON error stat
 | --- | --- |
 | `customerID` | Required create numeric/coercible positive integer in this account. Optional update; a different valid positive ID is refused. (`src/endpoints/writeOffs/writeOffsObjects.js:13`, `src/endpoints/writeOffs/writeOffs-logic.js:84`, `src/endpoints/writeOffs/writeOffs-logic.js:147`.) |
 | `unitCost` | Required create/update, including metadata-only update. Number/coercible string; `round2(abs(value)) > 0`; stored negative. SQL `numeric(10,2)`. Linked invoice remaining caps the amount; uninvoiced credit has no job-total cap. (`src/endpoints/writeOffs/writeOffs-logic.js:78`, `src/endpoints/writeOffs/writeOffs-logic.js:114`, `src/endpoints/writeOffs/writeOffs-logic.js:157`, `migrations/schema-snapshot-2026-09-22.sql:806`.) |
-| `selectedDate` | Required create, truthy and Day.js-valid; SQL date. Optional update: absent/falsy/invalid ignored. No future-date or accounting-period validation here. (`src/endpoints/writeOffs/writeOffs-logic.js:82`, `src/endpoints/writeOffs/writeOffs-logic.js:187`.) |
-| `writeoffReason` or `writeOffReason` | Required truthy nullable string on create; first spelling wins unless null/undefined. SQL varchar(50), no request length/pattern check or trimming in mapper. Optional update; null/empty is ignored, so it cannot clear the required reason. (`src/endpoints/writeOffs/writeOffsObjects.js:5`, `src/endpoints/writeOffs/writeOffs-logic.js:81`, `src/endpoints/writeOffs/writeOffs-logic.js:185`.) |
+| `selectedDate` | Required create, a real YYYY-MM-DD date or supported ISO timestamp; SQL date. Optional update: omission preserves the date; explicit invalid/null/empty refuses. No future-date or accounting-period validation here. (`src/endpoints/writeOffs/writeOffs-logic.js:82`, `src/endpoints/writeOffs/writeOffs-logic.js:187`.) |
+| `writeoffReason` or `writeOffReason` | Required truthy nullable string on create; first spelling wins unless null/undefined. SQL varchar(50), a request limit of50 characters; the mapper does not trim. Optional update; omission preserves the reason; explicit null/empty/blank refuses. (`src/endpoints/writeOffs/writeOffsObjects.js:5`, `src/endpoints/writeOffs/writeOffs-logic.js:81`, `src/endpoints/writeOffs/writeOffs-logic.js:185`.) |
 | `customerInvoiceID` | Optional; convert with `Number(value)` and map falsy result to null. If supplied, must resolve within account to this customer's invoice. Old chains remap to a live current chain. Update cannot move to another invoice or attach a previously uninvoiced credit; omitted/null retains stored link. (`src/endpoints/writeOffs/writeOffsObjects.js:15`, `src/endpoints/writeOffs/writeOffs-logic.js:93`, `src/endpoints/writeOffs/writeOffs-logic.js:150`.) |
-| `selectedJobID` | Optional positive integer/coercible; invalid becomes null. Create validates it against account/customer even when an invoice is also supplied. Update can change/clear it only on an uninvoiced write-off; omission leaves unchanged. (`src/endpoints/writeOffs/writeOffsObjects.js:16`, `src/endpoints/writeOffs/writeOffs-logic.js:85`, `src/endpoints/writeOffs/writeOffs-logic.js:179`.) |
+| `selectedJobID` | Optional positive integer scalar; malformed nonempty values refuse. Create validates it against account/customer even when an invoice is also supplied. Update can change/clear it only on an uninvoiced write-off; omission leaves unchanged. (`src/endpoints/writeOffs/writeOffsObjects.js:16`, `src/endpoints/writeOffs/writeOffs-logic.js:85`, `src/endpoints/writeOffs/writeOffs-logic.js:179`.) |
 | `note` | Optional nullable text; XSS-sanitized by router. Create does not call `stripLinkMarkers`; update preserves stored system markers and strips recognized new links via `preserveSystemMarkers`. (`src/endpoints/writeOffs/writeOffs-router.js:23`, `src/endpoints/writeOffs/writeOffs-logic.js:77`, `src/endpoints/writeOffs/writeOffs-logic.js:188`.) |
 | `writeoffID` or `writeOffID` | Required update/delete ID; first spelling wins unless null/undefined; coerced numeric and validated on stored-row lock/lookup. (`src/endpoints/writeOffs/writeOffsObjects.js:28`, `src/endpoints/payments/ledger-helpers.js:75`.) |
 | `accountID`, `loggedByUserID`, `transactionType` | Client cannot choose account/creator/type. Create type is `Writeoff`; update keeps stored type and creator. (`src/endpoints/writeOffs/writeOffsObjects.js:19`, `src/endpoints/writeOffs/writeOffs-router.js:29`, `src/endpoints/writeOffs/writeOffs-logic.js:177`.) |
@@ -45,7 +58,7 @@ Write-off mutations and single-record errors use HTTP 200 with a JSON error stat
 | Method/path | `POST /writeOffs/createWriteOffs/:accountID/:userID` |
 | Body | `{writeOff:{customerID,unitCost,selectedDate,writeoffReason,...optionalFields}}`. |
 | Success | HTTP 200, `{status:200,message,...writeOffTables}`; tables defined below. |
-| Errors | Common middleware errors; otherwise HTTP 200/JSON 500 for invalid amount/reason/date/customer, wrong/missing job or invoice, cross-customer invoice, no current chain/all-newest-chains-absorbed inconsistency, remapped nonpositive balance, amount exceeding linked balance, DB or refresh failure. |
+| Errors | Common middleware errors; input-validation HTTP400 takes precedence; otherwise HTTP200/JSON500 for ledger state, including wrong/missing job or invoice, cross-customer invoice, no current chain/all-newest-chains-absorbed inconsistency, remapped nonpositive balance, amount exceeding linked balance, precommit DB failure. |
 | Source | `src/endpoints/writeOffs/writeOffs-router.js:18`, `src/endpoints/writeOffs/writeOffs-logic.js:75`. |
 
 ### Single write-off
@@ -65,7 +78,7 @@ Write-off mutations and single-record errors use HTTP 200 with a JSON error stat
 | Method/path | `PUT /writeOffs/updateWriteOffs/:accountID/:userID` |
 | Body | `{writeOff:{writeoffID,unitCost,...optionalUpdateFields}}`. |
 | Success | HTTP 200, `{status:200,message,...writeOffTables}`. |
-| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing record; billed event; cross-customer stored invoice; attempted customer/invoice movement; invalid amount; direct-parent repricing; newer child; negative resulting invoice balance; wrong-customer new job; DB/refresh failure. |
+| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing record; billed event; cross-customer stored invoice; attempted customer/invoice movement; invalid amount; direct-parent repricing; newer child; negative resulting invoice balance; wrong-customer new job; precommit DB failure. |
 | Source | `src/endpoints/writeOffs/writeOffs-router.js:84`, `src/endpoints/writeOffs/writeOffs-logic.js:143`. |
 
 ### Delete write-off
@@ -75,7 +88,7 @@ Write-off mutations and single-record errors use HTTP 200 with a JSON error stat
 | Method/path | `DELETE /writeOffs/deleteWriteOffs/:accountID/:userID` |
 | Body | `{writeOff:{writeoffID}}` (alias `writeOffID` accepted). Only ID is trusted for selecting what to undo. |
 | Success | HTTP 200, `{status:200,message,...writeOffTables}`. |
-| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing record, billed event, cross-customer stored invoice, newer child, DB/refresh failure. |
+| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing record, billed event, cross-customer stored invoice, newer child, precommit DB failure. |
 | Source | `src/endpoints/writeOffs/writeOffs-router.js:108`, `src/endpoints/writeOffs/writeOffs-logic.js:200`. |
 
 ### Paginated write-offs
@@ -93,6 +106,12 @@ Write-off mutations and single-record errors use HTTP 200 with a JSON error stat
 ### Billing-review transaction adjustment
 
 The [billing-review guide](../invoicing/billing-review.md#3-api-reference) owns the adjustment endpoint, accepted fields, validation and error contract. It corrects a work transaction; it does not create a write-off row.
+
+### Pass 2 input and committed-response contract
+
+Create/update requests validate their raw object before coercion and check sanitized text again before mapping (`src/utils/ledgerInput.js`). Money must be a finite number or numeric string, nonzero after cent rounding, with magnitude at most99999999.99. Booleans/arrays/objects are refused. Customer IDs must be positive integer scalars; malformed nonempty optional selections refuse instead of becoming null. Dates must be real YYYY-MM-DD calendar dates or supported ISO timestamps. Required text cannot be blank; bounded text is limited to the schema character count, and notes must be text without null characters. These input errors return real HTTP400 and make no writes. Omitted optional update fields retain their documented meaning.
+
+After a successful commit, a failed list refresh returns HTTP200 with `status:200`, `committed:true`, and a warning to reload without resubmitting. The write remains committed. Ordinary successful responses keep their existing tables. Tests: `scenario-what-if-01-values`, `02-retries` and `06-boundaries`.
 
 ## 4. Data model
 
@@ -123,7 +142,7 @@ Create normalizes `w=-round2(abs(unitCost))`. Invoice-linked remaining becomes `
 3. An uninvoiced credit is eligible for a separate deduction. An invoice-linked credit is separately deducted only if its chain date is earlier than the last bill date, or either date is unknown. Current-chain credit is excluded because it already reduced outstanding balance. The comparison is strictly `<`, not `<=`. (`src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:23`.)
 4. When shown, the engine write-off total sums all eligible credits; the listed total sums all displayed credit rows, including current-chain credits. Thus displayed and engine totals can differ by design. (`src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:31`, `src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:49`.)
 5. When hidden, invoice-linked eligible credits remain a separate write-off contribution. Job/general credits reduce job totals. A job with no unbilled work gets an adjustment-only group; a credit with no job gets `General credit`. Nonbillable work is retained in detail but does not add charge amount. (`src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:20`, `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:52`, `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:81`.)
-6. Example: $200 work and a new -$30 job credit become $170 transaction total with hidden credits, or $200 transaction total plus -$30 write-off total when shown. With no work, the -$30 remains as an adjustment-only group. A final negative customer balance is skipped rather than finalized; credit carry-forward/credit-memo policy remains open. (`src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:20`, `src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:4`, `src/endpoints/invoice/invoice-router.js:315`.)
+6. Example: $200 work and a new -$30 job credit become $170 transaction total with hidden credits, or $200 transaction total plus -$30 write-off total when shown. With no work, the -$30 remains as an adjustment-only group. A final negative customer balance is skipped unless explicitly selected for a credit statement; selected credits carry forward once under owner decision2. (`src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:20`, `src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:4`, `src/endpoints/invoice/invoice-router.js:315`.)
 7. Hidden-credit grouping excludes every invoice-linked row, including credits sharing a job with unbilled work. A current invoice balance $80 after a -$20 invoice/job credit, plus $100 new work on that job, gives $180 in both display modes. Current-chain and absorbed-chain regression cases cover the fixed [F8](../_review/findings.md#f8). (`src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:52`, `test/endpoints/invoice/review-writeoff.spec.js`.)
 
 ### Work correction / adjustment
@@ -136,7 +155,7 @@ Write-off cores share the customer `FOR NO KEY UPDATE` lock and one transaction.
 
 Update/delete lock the stored owner's customer. A linked invoice row is the billed anchor; otherwise the write-off row is. SQL `created_at <= newestParent.created_at` refuses already billed data, including pending job credits consumed by an intervening bill. Cross-customer stored invoice links are refused. The router translates even this core 423 refusal into HTTP 200/JSON 500. (`src/endpoints/writeOffs/writeOffs-logic.js:36`, `src/endpoints/writeOffs/writeOffs-router.js:98`.)
 
-Update cannot move customer/invoice or convert an uninvoiced credit to an invoice credit. Amount changes on linked data require a child, latest-child status and resulting remaining at least zero, then edit that child and parent. Same-amount metadata edits do not need latest-child status. Only uninvoiced rows can change job; a valid new job must belong to the customer. Falsy reasons and invalid dates are ignored; note updates preserve system markers. Creator/type/creation time stay stored. (`src/endpoints/writeOffs/writeOffs-logic.js:143`.)
+Update cannot move customer/invoice or convert an uninvoiced credit to an invoice credit. Amount changes on linked data require a child, latest-child status and resulting remaining at least zero, then edit that child and parent. Same-amount metadata edits do not need latest-child status. Only uninvoiced rows can change job; a valid new job must belong to the customer. Omitted reason/date fields are preserved; explicitly invalid values refuse at the request boundary; note updates preserve system markers. Creator/type/creation time stay stored. (`src/endpoints/writeOffs/writeOffs-logic.js:143`.)
 
 Delete a latest unbilled child-linked credit by restoring parent balance/totals, deleting its invoice child, then deleting the write-off. A parent invoice is never deleted by this path. An uninvoiced credit just deletes its own row. A legacy direct-parent link that gets past the billed guard also bypasses parent restoration and snapshot deletion. No general write-off reversal endpoint exists in this router; after billing, ordinary delete/edit is refused. (`src/endpoints/writeOffs/writeOffs-logic.js:200`, `src/endpoints/writeOffs/writeOffs-router.js:18`.)
 
@@ -169,3 +188,13 @@ Use report section 6's migration sequencing, reviewed backfills and backend-befo
 Coverage: **5 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
 
 F8 regression: `test/endpoints/invoice/review-writeoff.spec.js` verifies same-job current-chain and absorbed-chain invoice credits count once in both shown and hidden modes (2 passing). Invoice-linked credits are excluded before all hidden job grouping.
+
+
+## Owner run 2 — retainers and duplicate review
+
+Manual write-off creation flags possible duplicates atomically when same customer/type/job/amount/reason and date within three days. Deleting an unissued duplicate invokes `deleteWriteOffCore`; sent/dependent credits refuse unchanged. This workflow is separate from [retainer adjustments](retainers-and-prepayments.md), which change available funds only. See [duplicate review](duplicates.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

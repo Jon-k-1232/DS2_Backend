@@ -1,0 +1,357 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 19,
+    "passes": 19,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:32:31.705Z",
+    "end": "2026-09-25T13:32:33.735Z",
+    "duration": 2030
+  },
+  "tests": [
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 1. creates a customer with a mailing address and a job for it",
+      "state": "passed",
+      "duration": 173
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 2. logs two time entries, one charge and one non-billable entry (total = quantity × unit_cost)",
+      "state": "passed",
+      "duration": 595
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 3. Create Invoice eligibility lists the customer with the billable total and the engine total",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 4. month 1 finalize creates one parent invoice, stamps the transactions and stores the PDF zip in S3",
+      "state": "passed",
+      "duration": 132
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 4b. time-travel: re-dates the month-1 statement 31 days back so the next finalize is a real month 2",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 5. partial payment inserts a child snapshot and preserves the issued parent",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 6. write-off of part of the remainder inserts a snapshot and preserves the issued parent",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 7. billing engine, Account Audit and Accounts Receivable agree on the month-1 remaining",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 8a. month 2 finalize rolls the remaining forward as beginning_balance and zeroes the absorbed month-1 rows",
+      "state": "passed",
+      "duration": 234
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 8b. the three views agree on the month-2 remaining and the audit reports no stale rolled-forward rows",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 8d. the closing snapshot carries the statement date as YYYY-MM-DD",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 8c. right after the month-2 finalize the engine has nothing new to bill (no re-credited write-off)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 9. a payment referencing the ABSORBED month-1 statement is remapped to the current chain and annotated",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 10. an overpayment with captureOverpayment settles the chain and banks the excess as a Prepayment retainer",
+      "state": "passed",
+      "duration": 29
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 11. reversing the overpayment (NSF) restores the chain remaining with a positive payment row",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 12a. deleting the reversal (latest snapshot) restores the chain exactly to its post-overpayment state",
+      "state": "passed",
+      "duration": 39
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 12b. deleting the reversal restores the original payment note (it must be reversible again)",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 12c. deleting a non-retainer payment leaves unrelated retainers untouched",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "title": "integration: month-end ledger lifecycle (HTTP) 13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "state": "passed",
+      "duration": 357
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/month-end-lifecycle.integration.spec.js",
+        "test": "integration: month-end ledger lifecycle (HTTP) 4. month 1 finalize creates one parent invoice, stamps the transactions and stores the PDF zip in S3"
+      },
+      {
+        "file": "test/integration/month-end-lifecycle.integration.spec.js",
+        "test": "integration: month-end ledger lifecycle (HTTP) 8a. month 2 finalize rolls the remaining forward as beginning_balance and zeroes the absorbed month-1 rows"
+      },
+      {
+        "file": "test/integration/month-end-lifecycle.integration.spec.js",
+        "test": "integration: month-end ledger lifecycle (HTTP) 13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 1. creates a customer with a mailing address and a job for it",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 1. creates a customer with a mailing address and a job for it",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 2. logs two time entries, one charge and one non-billable entry (total = quantity × unit_cost)",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 2. logs two time entries, one charge and one non-billable entry (total = quantity × unit_cost)",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 2. logs two time entries, one charge and one non-billable entry (total = quantity × unit_cost)",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 2. logs two time entries, one charge and one non-billable entry (total = quantity × unit_cost)",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 3. Create Invoice eligibility lists the customer with the billable total and the engine total",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/9001/90013",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 4. month 1 finalize creates one parent invoice, stamps the transactions and stores the PDF zip in S3",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 5. partial payment inserts a child snapshot and preserves the issued parent",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 6. write-off of part of the remainder inserts a snapshot and preserves the issued parent",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 8a. month 2 finalize rolls the remaining forward as beginning_balance and zeroes the absorbed month-1 rows",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 8a. month 2 finalize rolls the remaining forward as beginning_balance and zeroes the absorbed month-1 rows",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 9. a payment referencing the ABSORBED month-1 statement is remapped to the current chain and annotated",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Applied to current invoice INV-2026-00023 — the referenced invoice INV-2026-00022 was already rolled into it."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 10. an overpayment with captureOverpayment settles the chain and banks the excess as a Prepayment retainer",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Applied $400.00 to INV-2026-00023; $100.00 held as a prepayment retainer."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 11. reversing the overpayment (NSF) restores the chain remaining with a positive payment row",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/9001/90013",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Reversed payment #8666: $400.00 restored to INV-2026-00023."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 12a. deleting the reversal (latest snapshot) restores the chain exactly to its post-overpayment state",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/9001/90013",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "integration: month-end ledger lifecycle (HTTP) 13. finalizing the same customer twice on the same day does not create a second parent or double the outstanding",
+      "file": "test/integration/month-end-lifecycle.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (see details)."
+    }
+  ]
+}

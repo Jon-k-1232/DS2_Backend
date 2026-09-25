@@ -1,0 +1,130 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 8,
+    "passes": 8,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:10.240Z",
+    "end": "2026-09-25T14:50:10.816Z",
+    "duration": 576
+  },
+  "tests": [
+    {
+      "title": "rolls back customer/contact on invalid contact state",
+      "fullTitle": "F21 atomic customer and recurring saves rolls back customer/contact on invalid contact state",
+      "duration": 53,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back customer/contact on missing owned contact",
+      "fullTitle": "F21 atomic customer and recurring saves rolls back customer/contact on missing owned contact",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back customer/contact on invalid recurring insert",
+      "fullTitle": "F21 atomic customer and recurring saves rolls back customer/contact on invalid recurring insert",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back the customer flag when dedicated recurring insertion fails",
+      "fullTitle": "F21 atomic customer and recurring saves rolls back the customer flag when dedicated recurring insertion fails",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "clears the flag when delete ends the last subscription",
+      "fullTitle": "F22 recurring flag follows active subscriptions clears the flag when delete ends the last subscription",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "clears the flag when update ends the last subscription",
+      "fullTitle": "F22 recurring flag follows active subscriptions clears the flag when update ends the last subscription",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "keeps the flag with another active subscription, including embedded customer edits",
+      "fullTitle": "F22 recurring flag follows active subscriptions keeps the flag with another active subscription, including embedded customer edits",
+      "duration": 45,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "inactive creation leaves the flag false and reactivation restores it regardless of dates",
+      "fullTitle": "F22 recurring flag follows active subscriptions inactive creation leaves the flag false and reactivation restores it regardless of dates",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "rolls back customer/contact on invalid contact state",
+      "fullTitle": "F21 atomic customer and recurring saves rolls back customer/contact on invalid contact state",
+      "duration": 53,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back customer/contact on missing owned contact",
+      "fullTitle": "F21 atomic customer and recurring saves rolls back customer/contact on missing owned contact",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back customer/contact on invalid recurring insert",
+      "fullTitle": "F21 atomic customer and recurring saves rolls back customer/contact on invalid recurring insert",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back the customer flag when dedicated recurring insertion fails",
+      "fullTitle": "F21 atomic customer and recurring saves rolls back the customer flag when dedicated recurring insertion fails",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "clears the flag when delete ends the last subscription",
+      "fullTitle": "F22 recurring flag follows active subscriptions clears the flag when delete ends the last subscription",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "clears the flag when update ends the last subscription",
+      "fullTitle": "F22 recurring flag follows active subscriptions clears the flag when update ends the last subscription",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "keeps the flag with another active subscription, including embedded customer edits",
+      "fullTitle": "F22 recurring flag follows active subscriptions keeps the flag with another active subscription, including embedded customer edits",
+      "duration": 45,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "inactive creation leaves the flag false and reactivation restores it regardless of dates",
+      "fullTitle": "F22 recurring flag follows active subscriptions inactive creation leaves the flag false and reactivation restores it regardless of dates",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

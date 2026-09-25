@@ -1,0 +1,1726 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 122,
+    "passes": 122,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:51:29.206Z",
+    "end": "2026-09-25T14:51:45.592Z",
+    "duration": 16386
+  },
+  "tests": [
+    {
+      "title": "X guard refuses {\"DB_DEV_HOST\":\"db.example.invalid\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DB_DEV_HOST\":\"db.example.invalid\"} before connection",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DB_DEV_HOST\":\"::1\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DB_DEV_HOST\":\"::1\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DB_DEV_PORT\":\"5432\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DB_DEV_PORT\":\"5432\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_NAME\":\"ds2_local\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_NAME\":\"ds2_local\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_NAME\":\"ds2_ref_20260922\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_NAME\":\"ds2_ref_20260922\"} before connection",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_NAME\":\"ds2_clean\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_NAME\":\"ds2_clean\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_NAME\":\"ds2_scenarios;DROP DATABASE ds2_local\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_NAME\":\"ds2_scenarios;DROP DATABASE ds2_local\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_URL\":\"postgres://remote/db\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_URL\":\"postgres://remote/db\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DB_PROD_HOST\":\"remote\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DB_PROD_HOST\":\"remote\"} before connection",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"S3_ENDPOINT\":\"https://s3.amazonaws.com\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"S3_ENDPOINT\":\"https://s3.amazonaws.com\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"S3_BUCKET_NAME\":\"production\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"S3_BUCKET_NAME\":\"production\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth customer create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth customer create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 302,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth customer update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth customer update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 317,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth customer delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth customer delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 298,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth customer detail: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth customer detail: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 288,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth job create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth job create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 282,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth job update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth job update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 299,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth job delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth job delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 304,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth work create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth work create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 280,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth work update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth work update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 296,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth work delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth work delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 291,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth retainer create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth retainer create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 288,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth retainer update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth retainer update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 299,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth retainer delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth retainer delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 298,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth payment create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth payment create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 301,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth payment update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth payment update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 356,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth payment delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth payment delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 279,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth payment reverse: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth payment reverse: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 299,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth writeoff create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth writeoff create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 289,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth writeoff update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth writeoff update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 307,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth writeoff delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth writeoff delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 287,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth finalize: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth finalize: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 275,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth invoice delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth invoice delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth AR: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth AR: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 303,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth audit: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth audit: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 319,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth cascade: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth cascade: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 323,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X audit also refuses an Admin; malformed and foreign account URL cannot bypass scope",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X audit also refuses an Admin; malformed and foreign account URL cannot bypass scope",
+      "duration": 331,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=undefined with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=undefined with no ledger movement",
+      "duration": 84,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=null with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=null with no ledger movement",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity= with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity= with no ledger movement",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=true with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=true with no ledger movement",
+      "duration": 66,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=NaN with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=NaN with no ledger movement",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=Infinity with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=Infinity with no ledger movement",
+      "duration": 85,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=-1 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=-1 with no ledger movement",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=100000000 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=100000000 with no ledger movement",
+      "duration": 66,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=0.001 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=0.001 with no ledger movement",
+      "duration": 78,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=undefined with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=undefined with no ledger movement",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=null with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=null with no ledger movement",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost= with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost= with no ledger movement",
+      "duration": 89,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=true with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=true with no ledger movement",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=NaN with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=NaN with no ledger movement",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=Infinity with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=Infinity with no ledger movement",
+      "duration": 87,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=-1 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=-1 with no ledger movement",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=100000000 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=100000000 with no ledger movement",
+      "duration": 79,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=0.001 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=0.001 with no ledger movement",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=undefined with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=undefined with no ledger movement",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=null with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=null with no ledger movement",
+      "duration": 89,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction= with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction= with no ledger movement",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=true with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=true with no ledger movement",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=NaN with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=NaN with no ledger movement",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=Infinity with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=Infinity with no ledger movement",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=-1 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=-1 with no ledger movement",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=100000000 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=100000000 with no ledger movement",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=0.001 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=0.001 with no ledger movement",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work incorrect product",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work incorrect product",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work wrong duration",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work wrong duration",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work negative duration",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work negative duration",
+      "duration": 70,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work nonnumeric duration",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work nonnumeric duration",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work invalid type",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work invalid type",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work missing customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work missing customer",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work foreign customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work foreign customer",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work missing job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work missing job",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work other customer job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work other customer job",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work foreign job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work foreign job",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work foreign employee",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work foreign employee",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work missing description",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work missing description",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work foreign retainer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work foreign retainer",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work missing retainer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work missing retainer",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work deletion uses stored price even when caller submits forged invalid price",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work deletion uses stored price even when caller submits forged invalid price",
+      "duration": 154,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt zero",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt zero",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt subcent",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt subcent",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt nan",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt nan",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt date",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt date",
+      "duration": 78,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt missing invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt missing invoice",
+      "duration": 107,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt unknown invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt unknown invoice",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt foreign job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt foreign job",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt other customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt other customer",
+      "duration": 79,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt foreign customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt foreign customer",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt wrong retainer owner",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt wrong retainer owner",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt unknown retainer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt unknown retainer",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt funding without invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt funding without invoice",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt overpayment",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt overpayment",
+      "duration": 70,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff zero",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff zero",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff subcent",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff subcent",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff nan",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff nan",
+      "duration": 66,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff date",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff date",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff reason",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff reason",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff foreign customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff foreign customer",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff wrong customer invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff wrong customer invoice",
+      "duration": 91,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff unknown invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff unknown invoice",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff other customer job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff other customer job",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff over-credit",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff over-credit",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"unitCost\":0}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"unitCost\":0}",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"unitCost\":0.001}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"unitCost\":0.001}",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"unitCost\":\"NaN\"}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"unitCost\":\"NaN\"}",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"typeOfHold\":\"\"}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"typeOfHold\":\"\"}",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"customerID\":70001}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"customerID\":70001}",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"customerID\":999999}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"customerID\":999999}",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer update refuses a subcent amount that rounds to zero",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer update refuses a subcent amount that rounds to zero",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid quantity=-1",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid quantity=-1",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid unit_cost=\"\"",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid unit_cost=\"\"",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid total_transaction=100000000",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid total_transaction=100000000",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid total_transaction=\"NaN\"",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid total_transaction=\"NaN\"",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid is_transaction_billable=\"maybe\"",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid is_transaction_billable=\"maybe\"",
+      "duration": 70,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid note={}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid note={}",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid transaction_date=\"2026-02-30\"",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid transaction_date=\"2026-02-30\"",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid customer_job_id=null",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid customer_job_id=null",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid customer_job_id=70001",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid customer_job_id=70001",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid general_work_description_id=999999",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid general_work_description_id=999999",
+      "duration": 78,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X read and mutation missing/foreign ID bogus",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X read and mutation missing/foreign ID bogus",
+      "duration": 425,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X read and mutation missing/foreign ID 999999",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X read and mutation missing/foreign ID 999999",
+      "duration": 434,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X read and mutation missing/foreign ID 70001",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X read and mutation missing/foreign ID 70001",
+      "duration": 409,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "X guard refuses {\"DB_DEV_HOST\":\"db.example.invalid\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DB_DEV_HOST\":\"db.example.invalid\"} before connection",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DB_DEV_HOST\":\"::1\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DB_DEV_HOST\":\"::1\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DB_DEV_PORT\":\"5432\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DB_DEV_PORT\":\"5432\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_NAME\":\"ds2_local\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_NAME\":\"ds2_local\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_NAME\":\"ds2_ref_20260922\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_NAME\":\"ds2_ref_20260922\"} before connection",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_NAME\":\"ds2_clean\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_NAME\":\"ds2_clean\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_NAME\":\"ds2_scenarios;DROP DATABASE ds2_local\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_NAME\":\"ds2_scenarios;DROP DATABASE ds2_local\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DATABASE_URL\":\"postgres://remote/db\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DATABASE_URL\":\"postgres://remote/db\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"DB_PROD_HOST\":\"remote\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"DB_PROD_HOST\":\"remote\"} before connection",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"S3_ENDPOINT\":\"https://s3.amazonaws.com\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"S3_ENDPOINT\":\"https://s3.amazonaws.com\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X guard refuses {\"S3_BUCKET_NAME\":\"production\"} before connection",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X guard refuses {\"S3_BUCKET_NAME\":\"production\"} before connection",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth customer create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth customer create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 302,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth customer update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth customer update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 317,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth customer delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth customer delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 298,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth customer detail: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth customer detail: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 288,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth job create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth job create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 282,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth job update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth job update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 299,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth job delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth job delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 304,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth work create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth work create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 280,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth work update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth work update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 296,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth work delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth work delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 291,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth retainer create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth retainer create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 288,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth retainer update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth retainer update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 299,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth retainer delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth retainer delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 298,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth payment create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth payment create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 301,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth payment update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth payment update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 356,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth payment delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth payment delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 279,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth payment reverse: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth payment reverse: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 299,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth writeoff create: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth writeoff create: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 289,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth writeoff update: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth writeoff update: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 307,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth writeoff delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth writeoff delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 287,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth finalize: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth finalize: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 275,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth invoice delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth invoice delete: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth AR: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth AR: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 303,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth audit: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth audit: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 319,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X auth cascade: missing, expired, absent user, staff role and foreign tenant refused",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X auth cascade: missing, expired, absent user, staff role and foreign tenant refused",
+      "duration": 323,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X audit also refuses an Admin; malformed and foreign account URL cannot bypass scope",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X audit also refuses an Admin; malformed and foreign account URL cannot bypass scope",
+      "duration": 331,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=undefined with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=undefined with no ledger movement",
+      "duration": 84,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=null with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=null with no ledger movement",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity= with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity= with no ledger movement",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=true with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=true with no ledger movement",
+      "duration": 66,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=NaN with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=NaN with no ledger movement",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=Infinity with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=Infinity with no ledger movement",
+      "duration": 85,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=-1 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=-1 with no ledger movement",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=100000000 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=100000000 with no ledger movement",
+      "duration": 66,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses quantity=0.001 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses quantity=0.001 with no ledger movement",
+      "duration": 78,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=undefined with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=undefined with no ledger movement",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=null with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=null with no ledger movement",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost= with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost= with no ledger movement",
+      "duration": 89,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=true with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=true with no ledger movement",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=NaN with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=NaN with no ledger movement",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=Infinity with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=Infinity with no ledger movement",
+      "duration": 87,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=-1 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=-1 with no ledger movement",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=100000000 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=100000000 with no ledger movement",
+      "duration": 79,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses unitCost=0.001 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses unitCost=0.001 with no ledger movement",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=undefined with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=undefined with no ledger movement",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=null with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=null with no ledger movement",
+      "duration": 89,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction= with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction= with no ledger movement",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=true with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=true with no ledger movement",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=NaN with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=NaN with no ledger movement",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=Infinity with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=Infinity with no ledger movement",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=-1 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=-1 with no ledger movement",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=100000000 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=100000000 with no ledger movement",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X price refuses totalTransaction=0.001 with no ledger movement",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X price refuses totalTransaction=0.001 with no ledger movement",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work incorrect product",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work incorrect product",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work wrong duration",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work wrong duration",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work negative duration",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work negative duration",
+      "duration": 70,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work nonnumeric duration",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work nonnumeric duration",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work invalid type",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work invalid type",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work missing customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work missing customer",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work foreign customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work foreign customer",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work missing job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work missing job",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work other customer job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work other customer job",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work foreign job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work foreign job",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work foreign employee",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work foreign employee",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work missing description",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work missing description",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work foreign retainer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work foreign retainer",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work missing retainer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work missing retainer",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X work deletion uses stored price even when caller submits forged invalid price",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X work deletion uses stored price even when caller submits forged invalid price",
+      "duration": 154,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt zero",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt zero",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt subcent",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt subcent",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt nan",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt nan",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt date",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt date",
+      "duration": 78,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt missing invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt missing invoice",
+      "duration": 107,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt unknown invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt unknown invoice",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt foreign job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt foreign job",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt other customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt other customer",
+      "duration": 79,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt foreign customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt foreign customer",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt wrong retainer owner",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt wrong retainer owner",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt unknown retainer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt unknown retainer",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt funding without invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt funding without invoice",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X receipt overpayment",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X receipt overpayment",
+      "duration": 70,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff zero",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff zero",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff subcent",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff subcent",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff nan",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff nan",
+      "duration": 66,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff date",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff date",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff reason",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff reason",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff foreign customer",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff foreign customer",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff wrong customer invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff wrong customer invoice",
+      "duration": 91,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff unknown invoice",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff unknown invoice",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff other customer job",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff other customer job",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X writeoff over-credit",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X writeoff over-credit",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"unitCost\":0}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"unitCost\":0}",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"unitCost\":0.001}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"unitCost\":0.001}",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"unitCost\":\"NaN\"}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"unitCost\":\"NaN\"}",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"typeOfHold\":\"\"}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"typeOfHold\":\"\"}",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"customerID\":70001}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"customerID\":70001}",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer create refuses {\"customerID\":999999}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer create refuses {\"customerID\":999999}",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X retainer update refuses a subcent amount that rounds to zero",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X retainer update refuses a subcent amount that rounds to zero",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid quantity=-1",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid quantity=-1",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid unit_cost=\"\"",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid unit_cost=\"\"",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid total_transaction=100000000",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid total_transaction=100000000",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid total_transaction=\"NaN\"",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid total_transaction=\"NaN\"",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid is_transaction_billable=\"maybe\"",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid is_transaction_billable=\"maybe\"",
+      "duration": 70,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid note={}",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid note={}",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid transaction_date=\"2026-02-30\"",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid transaction_date=\"2026-02-30\"",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid customer_job_id=null",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid customer_job_id=null",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid customer_job_id=70001",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid customer_job_id=70001",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X cascade refuses invalid general_work_description_id=999999",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X cascade refuses invalid general_work_description_id=999999",
+      "duration": 78,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X read and mutation missing/foreign ID bogus",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X read and mutation missing/foreign ID bogus",
+      "duration": 425,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X read and mutation missing/foreign ID 999999",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X read and mutation missing/foreign ID 999999",
+      "duration": 434,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X read and mutation missing/foreign ID 70001",
+      "fullTitle": "scenario lifecycle X: input, permission, ownership and state refusals (07-refusals.md) X read and mutation missing/foreign ID 70001",
+      "duration": 409,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

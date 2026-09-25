@@ -1,0 +1,534 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 11,
+    "passes": 11,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:05.533Z",
+    "end": "2026-09-25T13:33:06.534Z",
+    "duration": 1001
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports POST accountAudit/run | customer read failure finishes with one failed report and unchanged money",
+      "state": "passed",
+      "duration": 49
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "state": "passed",
+      "duration": 58
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports POST accountAudit/run | missing customer returns failed job entry and writes no report",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "state": "passed",
+      "duration": 58
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "state": "passed",
+      "duration": 42
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "state": "passed",
+      "duration": 78
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports GET audit PDF | malformed report returns JSON 500 without writes or PDF headers",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "state": "passed",
+      "duration": 73
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive event before bytes returns JSON 500 without writes",
+      "state": "passed",
+      "duration": 38
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive throw before bytes returns JSON 500 without writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "title": "Path matrix: audit reports and interrupted exports GET yearEndPacket | failure after initial bytes terminates the stream without waiting for timeout",
+      "state": "passed",
+      "duration": 51
+    }
+  ],
+  "hits": {
+    "src/endpoints/accountAudit/account-audit-router.js:256:8": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | customer read failure finishes with one failed report and unchanged money"
+      },
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:268:11": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/createInvoiceQueries.js:50:5": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/createInvoiceQueries.js:52:6": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:154:14": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:239:11": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | PDF store failure keeps completed report with no published PDF"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:404:11": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:425:5": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports GET audit PDF | malformed report returns JSON 500 without writes or PDF headers"
+      },
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:427:6": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports GET audit PDF | malformed report returns JSON 500 without writes or PDF headers"
+      },
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-pdf.js:335:8": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:269:6": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive event before bytes returns JSON 500 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive throw before bytes returns JSON 500 without writes"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:298:5": [
+      {
+        "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+        "test": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive throw before bytes returns JSON 500 without writes"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | customer read failure finishes with one failed report and unchanged money",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | customer read failure finishes with one failed report and unchanged money",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343185915-3uczrp/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | customer read failure finishes with one failed report and unchanged money",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343185915-3uczrp/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343185972-rrqgaw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343185972-rrqgaw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343185972-rrqgaw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343185972-rrqgaw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | missing customer returns failed job entry and writes no report",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | missing customer returns failed job entry and writes no report",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186037-99un1n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186064-c5huei/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186064-c5huei/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186064-c5huei/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186064-c5huei/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186136-s0gw9p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186136-s0gw9p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186136-s0gw9p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186136-s0gw9p/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186190-8vkmu6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186190-8vkmu6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186190-8vkmu6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186190-8vkmu6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186190-8vkmu6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/pdf/1/1",
+      "route": "/audit/:auditID/pdf/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | malformed report returns JSON 500 without writes or PDF headers",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/42/pdf/1/1",
+      "route": "/audit/:auditID/pdf/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Expected property name or '}' in JSON at position 1"
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186309-ldak8a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186309-ldak8a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186309-ldak8a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186309-ldak8a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343186309-ldak8a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/pdf/1/1",
+      "route": "/audit/:auditID/pdf/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix render failure"
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive event before bytes returns JSON 500 without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/yearEndPacket/1/1",
+      "route": "/yearEndPacket/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix archive failed"
+    },
+    {
+      "test": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive throw before bytes returns JSON 500 without writes",
+      "file": "test/integration/path-matrix-08-reports.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/yearEndPacket/1/1",
+      "route": "/yearEndPacket/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix archive failed"
+    }
+  ]
+}

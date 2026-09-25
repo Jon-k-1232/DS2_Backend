@@ -1,0 +1,144 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 9,
+    "passes": 9,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:43:24.457Z",
+    "end": "2026-09-25T06:43:26.853Z",
+    "duration": 2396
+  },
+  "tests": [
+    {
+      "title": "R01 receives $500 before work without creating invoice debt or an applied payment",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "duration": 200,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "duration": 150,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "duration": 263,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R05 unwinds and re-enters one unbilled funded work item",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "duration": 133,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "duration": 308,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R07 finalizes a zero bill, keeps $70 credit, then permits a $20 unused-balance edit",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then permits a $20 unused-balance edit",
+      "duration": 281,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "duration": 445,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "duration": 303,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "R01 receives $500 before work without creating invoice debt or an applied payment",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "duration": 200,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "duration": 150,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "duration": 263,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R05 unwinds and re-enters one unbilled funded work item",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "duration": 133,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "duration": 308,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R07 finalizes a zero bill, keeps $70 credit, then permits a $20 unused-balance edit",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then permits a $20 unused-balance edit",
+      "duration": 281,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "duration": 445,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "fullTitle": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "duration": 303,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

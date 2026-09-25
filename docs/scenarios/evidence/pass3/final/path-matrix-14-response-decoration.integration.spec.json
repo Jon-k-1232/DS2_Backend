@@ -1,0 +1,387 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:15.956Z",
+    "end": "2026-09-25T13:33:16.986Z",
+    "duration": 1030
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "title": "Path matrix: sent-lock response decoration failures GET transactions | failed lock lookup refuses 500 without writing or exposing unannotated rows",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "title": "Path matrix: sent-lock response decoration failures POST work | failed lock decoration reports one committed ten-dollar charge and a reload warning",
+      "state": "passed",
+      "duration": 27
+    },
+    {
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "title": "Path matrix: sent-lock response decoration failures POST finalize | failed lock decoration preserves sent status, exact 110-dollar statement and immutable issue",
+      "state": "passed",
+      "duration": 125
+    },
+    {
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "title": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "state": "passed",
+      "duration": 200
+    },
+    {
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "title": "Path matrix: sent-lock response decoration failures GET transactions | failed root-invoice lookup refuses 500 without changing the sent ledger",
+      "state": "passed",
+      "duration": 22
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "[fixture]"
+      },
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures POST finalize | failed lock decoration preserves sent status, exact 110-dollar statement and immutable issue"
+      },
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures GET transactions | failed lock lookup refuses 500 without writing or exposing unannotated rows"
+      },
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures GET transactions | failed root-invoice lookup refuses 500 without changing the sent ledger"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:89:12": [
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures GET transactions | failed lock lookup refuses 500 without writing or exposing unannotated rows"
+      },
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures POST work | failed lock decoration reports one committed ten-dollar charge and a reload warning"
+      },
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures POST finalize | failed lock decoration preserves sent status, exact 110-dollar statement and immutable issue"
+      },
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch"
+      },
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures GET transactions | failed root-invoice lookup refuses 500 without changing the sent ledger"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:144:8": [
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures POST finalize | failed lock decoration preserves sent status, exact 110-dollar statement and immutable issue"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:145:9": [
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures POST finalize | failed lock decoration preserves sent status, exact 110-dollar statement and immutable issue"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+        "test": "Path matrix: sent-lock response decoration failures POST finalize | failed lock decoration preserves sent status, exact 110-dollar statement and immutable issue"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343196391-4mfy0z/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343196391-4mfy0z/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343196391-4mfy0z/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343196391-4mfy0z/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures GET transactions | failed lock lookup refuses 500 without writing or exposing unannotated rows",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/1/1",
+      "route": "/getTransactions/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected database failure"
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST work | failed lock decoration reports one committed ten-dollar charge and a reload warning",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful. Your change was saved. Reload the page to refresh the lists; do not submit the change again."
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed lock decoration preserves sent status, exact 110-dollar statement and immutable issue",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s). Your change was saved. Reload the page to refresh the lists; do not submit the change again."
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed lock decoration preserves sent status, exact 110-dollar statement and immutable issue",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/1",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343196775-z2x9qc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343196775-z2x9qc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343196775-z2x9qc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343196775-z2x9qc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures POST finalize | failed decoration preserves the download and skipped-customer identities in a partial batch",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s). Skipped 1 customer(s) (see details). Your change was saved. Reload the page to refresh the lists; do not submit the change again."
+    },
+    {
+      "test": "Path matrix: sent-lock response decoration failures GET transactions | failed root-invoice lookup refuses 500 without changing the sent ledger",
+      "file": "test/integration/path-matrix-14-response-decoration.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/1/1",
+      "route": "/getTransactions/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected database failure"
+    }
+  ]
+}

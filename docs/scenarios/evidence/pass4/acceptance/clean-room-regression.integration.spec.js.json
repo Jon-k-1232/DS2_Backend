@@ -1,0 +1,270 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 18,
+    "passes": 18,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:31.542Z",
+    "end": "2026-09-25T14:50:34.440Z",
+    "duration": 2898
+  },
+  "tests": [
+    {
+      "title": "0. the clean room starts from the seed alone",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 0. the clean room starts from the seed alone",
+      "duration": 33,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "duration": 358,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "1b. month-1 finalize A\u2013D: numbers 00001\u201300004, PDFs and CSV match the ledger, rows stamped, E and F untouched",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 1b. month-1 finalize A\u2013D: numbers 00001\u201300004, PDFs and CSV match the ledger, rows stamped, E and F untouched",
+      "duration": 283,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "1c. C's statement prints the remaining retainer the ledger shows (1,000 \u2212 300 drawn = 700)",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 1c. C's statement prints the remaining retainer the ledger shows (1,000 \u2212 300 drawn = 700)",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2a. the calendar advances a month; A pays in full, an NSF reversal restores the debt, deleting the reversal restores the payment",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2a. the calendar advances a month; A pays in full, an NSF reversal restores the debt, deleting the reversal restores the payment",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2b. B pays part, C overpays with captureOverpayment (prepayment retainer), payments on statements agree everywhere",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2b. B pays part, C overpays with captureOverpayment (prepayment retainer), payments on statements agree everywhere",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "duration": 134,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3a. month-2 finalize A\u2013E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A\u2013E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "duration": 370,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3b. right after the month-2 run nothing is re-credited: the bill-day write-off stays on month 1",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 3b. right after the month-2 run nothing is re-credited: the bill-day write-off stays on month 1",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4a. next month: a payment against the absorbed month-1 statement is remapped to the current one; E settles; D still owes 350",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 4a. next month: a payment against the absorbed month-1 statement is remapped to the current one; E settles; D still owes 350",
+      "duration": 54,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "duration": 393,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5b. a job-level write-down on a job without time is credited once and stops being pending",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5b. a job-level write-down on a job without time is credited once and stops being pending",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5c. a same-day re-run is refused for everyone; allowSameDayRebill absorbs the statement instead of doubling it",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5c. a same-day re-run is refused for everyone; allowSameDayRebill absorbs the statement instead of doubling it",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5d. AR aging: rows, buckets and the FIFO oldest-open-charge date agree with the ledger",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5d. AR aging: rows, buckets and the FIFO oldest-open-charge date agree with the ledger",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "duration": 542,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5f. zero drift: engine, audit and AR agree for all six customers, and every chain matches the expected ledger",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5f. zero drift: engine, audit and AR agree for all six customers, and every chain matches the expected ledger",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "0. the clean room starts from the seed alone",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 0. the clean room starts from the seed alone",
+      "duration": 33,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "duration": 358,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "1b. month-1 finalize A\u2013D: numbers 00001\u201300004, PDFs and CSV match the ledger, rows stamped, E and F untouched",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 1b. month-1 finalize A\u2013D: numbers 00001\u201300004, PDFs and CSV match the ledger, rows stamped, E and F untouched",
+      "duration": 283,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "1c. C's statement prints the remaining retainer the ledger shows (1,000 \u2212 300 drawn = 700)",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 1c. C's statement prints the remaining retainer the ledger shows (1,000 \u2212 300 drawn = 700)",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2a. the calendar advances a month; A pays in full, an NSF reversal restores the debt, deleting the reversal restores the payment",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2a. the calendar advances a month; A pays in full, an NSF reversal restores the debt, deleting the reversal restores the payment",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2b. B pays part, C overpays with captureOverpayment (prepayment retainer), payments on statements agree everywhere",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2b. B pays part, C overpays with captureOverpayment (prepayment retainer), payments on statements agree everywhere",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "duration": 134,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3a. month-2 finalize A\u2013E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A\u2013E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "duration": 370,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3b. right after the month-2 run nothing is re-credited: the bill-day write-off stays on month 1",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 3b. right after the month-2 run nothing is re-credited: the bill-day write-off stays on month 1",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4a. next month: a payment against the absorbed month-1 statement is remapped to the current one; E settles; D still owes 350",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 4a. next month: a payment against the absorbed month-1 statement is remapped to the current one; E settles; D still owes 350",
+      "duration": 54,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "duration": 393,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5b. a job-level write-down on a job without time is credited once and stops being pending",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5b. a job-level write-down on a job without time is credited once and stops being pending",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5c. a same-day re-run is refused for everyone; allowSameDayRebill absorbs the statement instead of doubling it",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5c. a same-day re-run is refused for everyone; allowSameDayRebill absorbs the statement instead of doubling it",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5d. AR aging: rows, buckets and the FIFO oldest-open-charge date agree with the ledger",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5d. AR aging: rows, buckets and the FIFO oldest-open-charge date agree with the ledger",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "duration": 542,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "5f. zero drift: engine, audit and AR agree for all six customers, and every chain matches the expected ledger",
+      "fullTitle": "clean-room regression: three statement cycles on ds2_clean 5f. zero drift: engine, audit and AR agree for all six customers, and every chain matches the expected ledger",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,2892 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:58.238Z",
+    "end": "2026-09-25T13:25:01.974Z",
+    "duration": 3736
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "title": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "state": "passed",
+      "duration": 657
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "title": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "state": "passed",
+      "duration": 669
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "title": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "state": "passed",
+      "duration": 715
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "title": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "state": "passed",
+      "duration": 588
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "title": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "state": "passed",
+      "duration": 416
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "title": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "state": "passed",
+      "duration": 234
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:44:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:46:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:109:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:111:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:134:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:136:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:117:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:155:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+        "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698680-y132vr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698680-y132vr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698680-y132vr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698680-y132vr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698837-c1twjg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698837-c1twjg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698837-c1twjg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698837-c1twjg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698939-bzcl22/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698939-bzcl22/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698939-bzcl22/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342698939-bzcl22/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/1/1",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699033-lmdsoi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699033-lmdsoi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699033-lmdsoi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699033-lmdsoi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/writeOffs/deleteWriteOffs/1/1",
+      "route": "/deleteWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699122-igqz3w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699122-igqz3w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699122-igqz3w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699122-igqz3w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699218-w5ewi7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699218-w5ewi7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699218-w5ewi7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699305-a9ceas/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699305-a9ceas/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699305-a9ceas/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699403-a7m3ap/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699403-a7m3ap/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699403-a7m3ap/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699480-4v5f9o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699480-4v5f9o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699480-4v5f9o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699480-4v5f9o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_24_59_0a2cac32-93de-4cf0-a264-275c8a5dc5c1%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699706-lb2wke/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699706-lb2wke/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699706-lb2wke/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699706-lb2wke/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_24_59_3df8fdb2-c63e-48d6-85f7-a216d5f1efb4%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699886-zd2r7z/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699886-zd2r7z/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699886-zd2r7z/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342699886-zd2r7z/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/1/1",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700009-wmkf3c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700009-wmkf3c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700009-wmkf3c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700009-wmkf3c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/writeOffs/deleteWriteOffs/1/1",
+      "route": "/deleteWriteOffs/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700108-4tdcef/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700108-4tdcef/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700108-4tdcef/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700187-c8zicw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700187-c8zicw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700187-c8zicw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/14/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/1/1",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700262-npn1go/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700262-npn1go/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700262-npn1go/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/15/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/writeOffs/deleteWriteOffs/1/1",
+      "route": "/deleteWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700337-pljvro/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700337-pljvro/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700337-pljvro/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700337-pljvro/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/16/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700428-gtpmum/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700428-gtpmum/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700428-gtpmum/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700428-gtpmum/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/17/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Write-off amount exceeds remaining balance on invoice INV-2026-00001. Max amount that can be written off on this invoice is $150."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700522-iy56l3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700522-iy56l3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700522-iy56l3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700522-iy56l3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/18/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700620-5vp9sm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700620-5vp9sm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700620-5vp9sm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/19/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700718-6eqxxe/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700718-6eqxxe/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700718-6eqxxe/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/20/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700789-49lus3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700789-49lus3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700789-49lus3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700789-49lus3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/21/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (already finalized today or credit balance)."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700898-9vwgxb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700898-9vwgxb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700898-9vwgxb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/22/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/1/1",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A job-level write-off cannot be moved onto an invoice. Delete it and re-enter it against the invoice."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700973-kzkr3t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700973-kzkr3t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700973-kzkr3t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342700973-kzkr3t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/23/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701070-jhi7uu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701070-jhi7uu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701070-jhi7uu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/24/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_25_01_a1cdf12c-9eec-4bc8-9670-eaab744229d3%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701224-7pqink/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701224-7pqink/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701224-7pqink/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701224-7pqink/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/25/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701328-0c4cui/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701328-0c4cui/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701328-0c4cui/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/26/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701420-0g61gy/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701420-0g61gy/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701420-0g61gy/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/27/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701489-3wyrs8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701489-3wyrs8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701489-3wyrs8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/28/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (already finalized today or credit balance)."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701568-oliw3t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701568-oliw3t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701568-oliw3t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/29/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Write-off amount exceeds remaining balance on invoice INV-2026-00001. Max amount that can be written off on this invoice is $150."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701657-4l0996/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701657-4l0996/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701657-4l0996/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701657-4l0996/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/30/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701755-6qw8gq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701755-6qw8gq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701755-6qw8gq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/31/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_25_01_d80b7f84-6e9a-4bf7-ba05-65b8d163ce99%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701921-nrcu9x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701921-nrcu9x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342701921-nrcu9x/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/32/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "file": "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    }
+  ]
+}

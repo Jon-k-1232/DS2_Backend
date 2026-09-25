@@ -1,0 +1,57 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:27.411Z",
+    "end": "2026-09-25T13:24:27.908Z",
+    "duration": 497
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-analytics-identities.integration.spec.js",
+      "title": "F35 analytics stable identities returns two customers and their IDs in the time report and CSV",
+      "state": "passed",
+      "duration": 43
+    },
+    {
+      "file": "test/integration/review-analytics-identities.integration.spec.js",
+      "title": "F35 analytics stable identities returns distinct weekly capacity rows for employees with the same display name",
+      "state": "passed",
+      "duration": 8
+    }
+  ],
+  "hits": {},
+  "requests": [
+    {
+      "test": "F35 analytics stable identities returns two customers and their IDs in the time report and CSV",
+      "file": "test/integration/review-analytics-identities.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/9001/91082?year=2090",
+      "route": "/timeAllocation/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved time allocation."
+    },
+    {
+      "test": "F35 analytics stable identities returns two customers and their IDs in the time report and CSV",
+      "file": "test/integration/review-analytics-identities.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/timeAllocation/9001/91082/export?year=2090",
+      "route": "/timeAllocation/:accountID/:userID/export",
+      "status": 200
+    },
+    {
+      "test": "F35 analytics stable identities returns distinct weekly capacity rows for employees with the same display name",
+      "file": "test/integration/review-analytics-identities.integration.spec.js",
+      "method": "GET",
+      "url": "/analytics/taxSeasonCapacity/9001/91082?year=2090",
+      "route": "/taxSeasonCapacity/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved tax season capacity."
+    }
+  ]
+}

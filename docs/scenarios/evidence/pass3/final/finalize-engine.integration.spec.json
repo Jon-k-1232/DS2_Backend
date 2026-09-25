@@ -1,0 +1,585 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 15,
+    "passes": 15,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:32:27.992Z",
+    "end": "2026-09-25T13:32:30.349Z",
+    "duration": 2357
+  },
+  "tests": [
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "state": "passed",
+      "duration": 1179
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 1b. month-1 finalize stamps only customer_invoice_id — 0.25 h / $18.75 / NULL note survive",
+      "state": "passed",
+      "duration": 136
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 6. AccountsWithBalance flags billed_today and counts only write-offs entered after the newest statement",
+      "state": "passed",
+      "duration": 52
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 4a/5. a same-day re-run is skipped by default, the rest of the batch finalizes, and a non-conforming invoice_number is ignored",
+      "state": "passed",
+      "duration": 98
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 4b. allowSameDayRebill creates a second parent that absorbs the first by chain identity, and every view reports the balance once",
+      "state": "passed",
+      "duration": 89
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 4b-ii. …and the audit does not report the absorbed same-day statement as a live duplicate",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 4b-iii. …and the absorbed marker carries the statement date as YYYY-MM-DD",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 3a. getInvoiceDetails preserves issued items and exposes the current balance separately",
+      "state": "passed",
+      "duration": 78
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 3a-ii. getInvoiceDetails on a snapshot row reports the chain's latest remaining",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "state": "passed",
+      "duration": 302
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 3c. the audit balance agrees with the engine total after a bill-day write-off",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 2b. deleteInvoice refuses a payment snapshot row",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 2b-ii. …and identifies the sent statement lock",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "title": "integration: finalize engine (HTTP) 2c. an issued zero-history parent with no stamped rows is still locked",
+      "state": "passed",
+      "duration": 87
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 1b. month-1 finalize stamps only customer_invoice_id — 0.25 h / $18.75 / NULL note survive"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 4a/5. a same-day re-run is skipped by default, the rest of the batch finalizes, and a non-conforming invoice_number is ignored"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 4b. allowSameDayRebill creates a second parent that absorbs the first by chain identity, and every view reports the balance once"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2c. an issued zero-history parent with no stamped rows is still locked"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:144:8": [
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2b. deleteInvoice refuses a payment snapshot row"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2b-ii. …and identifies the sent statement lock"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2c. an issued zero-history parent with no stamped rows is still locked"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:145:9": [
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2b. deleteInvoice refuses a payment snapshot row"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2b-ii. …and identifies the sent statement lock"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2c. an issued zero-history parent with no stamped rows is still locked"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2b. deleteInvoice refuses a payment snapshot row"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2b-ii. …and identifies the sent statement lock"
+      },
+      {
+        "file": "test/integration/finalize-engine.integration.spec.js",
+        "test": "integration: finalize engine (HTTP) 2c. an issued zero-history parent with no stamped rows is still locked"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/9001/90013",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 1b. month-1 finalize stamps only customer_invoice_id — 0.25 h / $18.75 / NULL note survive",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 6. AccountsWithBalance flags billed_today and counts only write-offs entered after the newest statement",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/9001/90013",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 6. AccountsWithBalance flags billed_today and counts only write-offs entered after the newest statement",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 6. AccountsWithBalance flags billed_today and counts only write-offs entered after the newest statement",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/9001/90013",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 6. AccountsWithBalance flags billed_today and counts only write-offs entered after the newest statement",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/9001/90013",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 4a/5. a same-day re-run is skipped by default, the rest of the batch finalizes, and a non-conforming invoice_number is ignored",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s). Skipped 1 customer(s) (see details)."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 4a/5. a same-day re-run is skipped by default, the rest of the batch finalizes, and a non-conforming invoice_number is ignored",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 2 customer(s) skipped (see details)."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 4b. allowSameDayRebill creates a second parent that absorbs the first by chain identity, and every view reports the balance once",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17658",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00024"
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3a. getInvoiceDetails preserves issued items and exposes the current balance separately",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3a. getInvoiceDetails preserves issued items and exposes the current balance separately",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3a. getInvoiceDetails preserves issued items and exposes the current balance separately",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17655/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoice details."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3a. getInvoiceDetails preserves issued items and exposes the current balance separately",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17660/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoice details."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3a-ii. getInvoiceDetails on a snapshot row reports the chain's latest remaining",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17660/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoice details."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/9001/90013",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/9001/90013",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17662/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoice details."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/9001/90013",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17662/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoice details."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17655/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoice details."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 2b. deleteInvoice refuses a payment snapshot row",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17660",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00025"
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 2b-ii. …and identifies the sent statement lock",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17660",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00025"
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 2c. an issued zero-history parent with no stamped rows is still locked",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "integration: finalize engine (HTTP) 2c. an issued zero-history parent with no stamped rows is still locked",
+      "file": "test/integration/finalize-engine.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17665",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00026"
+    }
+  ]
+}

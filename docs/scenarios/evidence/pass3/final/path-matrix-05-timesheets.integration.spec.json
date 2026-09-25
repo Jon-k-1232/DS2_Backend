@@ -1,0 +1,736 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 27,
+    "passes": 27,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:00.231Z",
+    "end": "2026-09-25T13:33:01.577Z",
+    "duration": 1346
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntries/1/1 | getOutstandingTimesheetEntries database failure: 500 and no writes",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntriesByUserID/3/1/1 | getPendingTimesheetEntriesByUserID database failure: 500 and no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /timesheets/getAllTimesheetsForEmployeeByUserID/3/1/1 | getTimesheetSummariesByUser database failure: 500 and no writes",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /timesheets/fetchTimesheetsByMonth/3/1/1 | getTimesheetSummariesByUserAndMonth database failure: 500 and no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /timesheets/countsByEmployee/1/1 | getActiveAccountUsers database failure: 500 and no writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /timesheets/countsByEmployee | per-employee count failure degrades to zero without writes",
+      "state": "passed",
+      "duration": 27
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | malformed ID is 400 without writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | lost conditional claim is 409 without writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | database update failure is 500 without writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "state": "passed",
+      "duration": 196
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess/1/1 | disabled feature refuses 503 without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess-with-overrides/1/1/1 | disabled feature refuses 503 without writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures POST /timesheets/ai/kickoff/1/1 | disabled feature refuses 503 without writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | invalid mode refuses 400 without writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | query failure refuses 500 without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | no matching entries succeeds without writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /notifications/1/1 | staff cannot access another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /notifications/1/1/unread-count | staff cannot access another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /user/fetchSingleUser/1/1 | staff cannot access another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntriesByUserID/1/1/3 | staff cannot access another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /timesheets/getAllTimesheetsForEmployeeByUserID/1/1/3 | staff cannot access another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /timesheets/fetchTimesheetsByMonth/1/1/3 | staff cannot access another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /time-tracking/history/1/1 | staff cannot access another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /time-tracking/history/download/1/1 | staff cannot access another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures GET /time-tracking/download/by-name/1/1 | staff cannot access another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures PUT /notifications/1/1/read-all | staff cannot mutate another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "title": "Path matrix: timesheet and billing review failures PUT /notifications/9999/1/1/read | staff cannot mutate another employee: 403 and no writes",
+      "state": "passed",
+      "duration": 18
+    }
+  ],
+  "hits": {
+    "src/endpoints/timesheets/timesheets-router.js:79:8": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntries/1/1 | getOutstandingTimesheetEntries database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:81:9": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntries/1/1 | getOutstandingTimesheetEntries database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:179:8": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntriesByUserID/3/1/1 | getPendingTimesheetEntriesByUserID database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:181:9": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntriesByUserID/3/1/1 | getPendingTimesheetEntriesByUserID database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:207:8": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/getAllTimesheetsForEmployeeByUserID/3/1/1 | getTimesheetSummariesByUser database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:209:9": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/getAllTimesheetsForEmployeeByUserID/3/1/1 | getTimesheetSummariesByUser database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:239:8": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/fetchTimesheetsByMonth/3/1/1 | getTimesheetSummariesByUserAndMonth database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:241:9": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/fetchTimesheetsByMonth/3/1/1 | getTimesheetSummariesByUserAndMonth database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:268:8": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/countsByEmployee/1/1 | getActiveAccountUsers database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:270:9": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/countsByEmployee/1/1 | getActiveAccountUsers database failure: 500 and no writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:618:11": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/countsByEmployee | per-employee count failure degrades to zero without writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:417:16": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | malformed ID is 400 without writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:450:19": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | lost conditional claim is 409 without writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:461:8": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | database update failure is 500 without writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:463:9": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | database update failure is 500 without writes"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:397:8": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:402:9": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:250:16": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess/1/1 | disabled feature refuses 503 without writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:294:16": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess-with-overrides/1/1/1 | disabled feature refuses 503 without writes"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:108:16": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /timesheets/ai/kickoff/1/1 | disabled feature refuses 503 without writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:262:11": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | invalid mode refuses 400 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | query failure refuses 500 without writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:263:48": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | invalid mode refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-service.js:399:6": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | invalid mode refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:265:19": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | query failure refuses 500 without writes"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:39:13": [
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /notifications/1/1 | staff cannot access another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /notifications/1/1/unread-count | staff cannot access another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /user/fetchSingleUser/1/1 | staff cannot access another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntriesByUserID/1/1/3 | staff cannot access another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/getAllTimesheetsForEmployeeByUserID/1/1/3 | staff cannot access another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /timesheets/fetchTimesheetsByMonth/1/1/3 | staff cannot access another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /time-tracking/history/1/1 | staff cannot access another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /time-tracking/history/download/1/1 | staff cannot access another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures GET /time-tracking/download/by-name/1/1 | staff cannot access another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures PUT /notifications/1/1/read-all | staff cannot mutate another employee: 403 and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+        "test": "Path matrix: timesheet and billing review failures PUT /notifications/9999/1/1/read | staff cannot mutate another employee: 403 and no writes"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntries/1/1 | getOutstandingTimesheetEntries database failure: 500 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/getTimesheetEntries/1/1",
+      "route": "/getTimesheetEntries/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntriesByUserID/3/1/1 | getPendingTimesheetEntriesByUserID database failure: 500 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/getTimesheetEntriesByUserID/3/1/1",
+      "route": "/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /timesheets/getAllTimesheetsForEmployeeByUserID/3/1/1 | getTimesheetSummariesByUser database failure: 500 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/getAllTimesheetsForEmployeeByUserID/3/1/1",
+      "route": "/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /timesheets/fetchTimesheetsByMonth/3/1/1 | getTimesheetSummariesByUserAndMonth database failure: 500 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/fetchTimesheetsByMonth/3/1/1",
+      "route": "/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /timesheets/countsByEmployee/1/1 | getActiveAccountUsers database failure: 500 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/countsByEmployee/1/1",
+      "route": "/countsByEmployee/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /timesheets/countsByEmployee | per-employee count failure degrades to zero without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/countsByEmployee/1/1",
+      "route": "/countsByEmployee/:accountID/:userID",
+      "status": 200,
+      "message": "Successfully retrieved timesheet counts by employee."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | malformed ID is 400 without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "DELETE",
+      "url": "/timesheets/deleteTimesheetEntry/bad/1/1",
+      "route": "/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A valid timesheetEntryID is required to delete a timesheet entry."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | lost conditional claim is 409 without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "DELETE",
+      "url": "/timesheets/deleteTimesheetEntry/1/1/1",
+      "route": "/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This timesheet entry was processed or deleted by someone else; refresh before retrying."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures DELETE /timesheets/deleteTimesheetEntry | database update failure is 500 without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "DELETE",
+      "url": "/timesheets/deleteTimesheetEntry/2/1/1",
+      "route": "/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343180938-r0tmqh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343180938-r0tmqh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343180938-r0tmqh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343180938-r0tmqh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/moveToTransactions | final suggestion-write failure rolls back work, claim and audit",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/timesheets/moveToTransactions/1/1",
+      "route": "/moveToTransactions/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess/1/1 | disabled feature refuses 503 without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess-with-overrides/1/1/1 | disabled feature refuses 503 without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess-with-overrides/1/1/1",
+      "route": "/reprocess-with-overrides/:entryID/:accountID/:userID",
+      "status": 503,
+      "message": "AI pipeline is not enabled for this account."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /timesheets/ai/kickoff/1/1 | disabled feature refuses 503 without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/timesheets/ai/kickoff/1/1",
+      "route": "/ai/kickoff/:accountID/:userID",
+      "status": 503,
+      "envelope": 503,
+      "message": "Auto-ingest is not enabled for this account (TIME_TRACKER_AI_FEATURE_FLAG)."
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | invalid mode refuses 400 without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 400,
+      "message": "unknown reprocess mode: wrong"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | query failure refuses 500 without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures POST /billing-review/reprocess | no matching entries succeeds without writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 200,
+      "message": "no entries match the reprocess criteria"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /notifications/1/1 | staff cannot access another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/notifications/1/1",
+      "route": "/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /notifications/1/1/unread-count | staff cannot access another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/notifications/1/1/unread-count",
+      "route": "/:accountID/:userID/unread-count",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /user/fetchSingleUser/1/1 | staff cannot access another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/user/fetchSingleUser/1/1",
+      "route": "/fetchSingleUser/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /timesheets/getTimesheetEntriesByUserID/1/1/3 | staff cannot access another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/getTimesheetEntriesByUserID/1/1/3",
+      "route": "/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /timesheets/getAllTimesheetsForEmployeeByUserID/1/1/3 | staff cannot access another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/getAllTimesheetsForEmployeeByUserID/1/1/3",
+      "route": "/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /timesheets/fetchTimesheetsByMonth/1/1/3 | staff cannot access another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/fetchTimesheetsByMonth/1/1/3",
+      "route": "/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /time-tracking/history/1/1 | staff cannot access another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/1/1",
+      "route": "/history/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /time-tracking/history/download/1/1 | staff cannot access another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/download/1/1",
+      "route": "/history/download/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures GET /time-tracking/download/by-name/1/1 | staff cannot access another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/download/by-name/1/1",
+      "route": "/download/by-name/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures PUT /notifications/1/1/read-all | staff cannot mutate another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "PUT",
+      "url": "/notifications/1/1/read-all",
+      "route": "/:accountID/:userID/read-all",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "Path matrix: timesheet and billing review failures PUT /notifications/9999/1/1/read | staff cannot mutate another employee: 403 and no writes",
+      "file": "test/integration/path-matrix-05-timesheets.integration.spec.js",
+      "method": "PUT",
+      "url": "/notifications/9999/1/1/read",
+      "route": "/:notificationID/:accountID/:userID/read",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    }
+  ]
+}

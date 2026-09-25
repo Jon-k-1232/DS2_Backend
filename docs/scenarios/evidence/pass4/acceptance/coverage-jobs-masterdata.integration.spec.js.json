@@ -1,0 +1,1754 @@
+{
+  "stats": {
+    "suites": 22,
+    "tests": 124,
+    "passes": 124,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:49:22.578Z",
+    "end": "2026-09-25T14:49:26.202Z",
+    "duration": 3624
+  },
+  "tests": [
+    {
+      "title": "happy path: creates a job and returns the updated jobs list",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID happy path: creates a job and returns the updated jobs list",
+      "duration": 148,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no job payload (synchronous validation failure, no row written)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no job payload (synchronous validation failure, no row written)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a duplicate customer+jobType combination and writes no second row",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a duplicate customer+jobType combination and writes no second row",
+      "duration": 123,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the job by id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID happy path: returns the job by id",
+      "duration": 112,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 111,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean empty result for a not-found id (no crash)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists the customer's jobs with a computed display_name",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID happy path: lists the customer's jobs with a computed display_name",
+      "duration": 113,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns an empty list for a customer with no jobs, without crashing",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID returns an empty list for a customer with no jobs, without crashing",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates job fields and toggles is_job_complete",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID happy path: updates job fields and toggles is_job_complete",
+      "duration": 210,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no job payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no job payload",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean refusal for a not-found customerJobID",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID returns a clean refusal for a not-found customerJobID",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses reassigning a job to a different customer while a transaction is linked to it",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID refuses reassigning a job to a different customer while a transaction is linked to it",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "allows reassigning a job to a different customer when nothing is linked to it, and returns a warning",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID allows reassigning a job to a different customer when nothing is linked to it, and returns a warning",
+      "duration": 220,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A2: reassigning an unlinked job moves EVERY version row in its family, not just the one named in the request",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: reassigning an unlinked job moves EVERY version row in its family, not just the one named in the request",
+      "duration": 224,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers",
+      "duration": 236,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot update an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID cannot update an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes a job family with no linked rows",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID happy path: deletes a job family with no linked rows",
+      "duration": 206,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean refusal for a not-found jobID",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID returns a clean refusal for a not-found jobID",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a transaction references the job",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a transaction references the job",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a write-off references the job",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a write-off references the job",
+      "duration": 116,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a payment references the job",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a payment references the job",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "checks links across the whole version family, not just the row named in the URL",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID checks links across the whole version family, not just the row named in the URL",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "deletes every row in a clean version family together",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID deletes every row in a clean version family together",
+      "duration": 209,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot delete an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID cannot delete an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates an active job category",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID happy path: creates an active job category",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no jobCategory payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no jobCategory payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the authenticated creator when body createdBy is omitted",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID uses the authenticated creator when body createdBy is omitted",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: renames a category",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID happy path: renames a category",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no jobCategory payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no jobCategory payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id (0 rows affected)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "persists is_job_category_active = false and removes the category from the active list",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID persists is_job_category_active = false and removes the category from the active list",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot update an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID cannot update an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes an unused category",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID happy path: deletes an unused category",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID returns a clean 404 for a not-found id",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a job type references the category",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID is blocked while a job type references the category",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot delete an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID cannot delete an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the category by id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID happy path: returns the category by id",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean empty result for a not-found id (no crash)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates a job type, defaulting is_job_type_active to true",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID happy path: creates a job type, defaulting is_job_type_active to true",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no jobType payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no jobType payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the authenticated creator when body userID is omitted",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID uses the authenticated creator when body userID is omitted",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the job type by id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID happy path: returns the job type by id",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean empty result for a not-found id (no crash)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates job type fields",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID happy path: updates job type fields",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no jobType payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no jobType payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id (0 rows affected)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "persists is_job_type_active = false",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID persists is_job_type_active = false",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "excludes a deactivated job type from the active jobTypesList",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID excludes a deactivated job type from the active jobTypesList",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot update an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID cannot update an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes an unused job type",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID happy path: deletes an unused job type",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID returns a clean 404 for a not-found id",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a job references the job type",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID is blocked while a job references the job type",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot delete an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID cannot delete an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates an active work description",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID happy path: creates an active work description",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no workDescription payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no workDescription payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the work description by id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID happy path: returns the work description by id",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean empty result for a not-found id (no crash)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates work description fields",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID happy path: updates work description fields",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no workDescription payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no workDescription payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id (0 rows affected)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "persists is_general_work_description_active = false and removes it from the active list",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID persists is_general_work_description_active = false and removes it from the active list",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot update an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID cannot update an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes an unused work description",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID happy path: deletes an unused work description",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID returns a clean 404 for a not-found id",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a transaction references the work description",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID is blocked while a transaction references the work description",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot delete an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID cannot delete an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates a quote for the caller's own account",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote happy path: creates a quote for the caller's own account",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no quote payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no quote payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ignores a spoofed account_id in the body and scopes the new row to the caller's real account (no :accountID in this route to guard)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote ignores a spoofed account_id in the body and scopes the new row to the caller's real account (no :accountID in this route to guard)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote 403 for an employee (manager+ required)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists quotes scoped to the caller's account",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID happy path: lists quotes scoped to the caller's account",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates quote fields",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote happy path: updates quote fields",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no quote payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no quote payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ignores a spoofed account_id in the body and still updates the caller's own row (no :accountID in this route to guard)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote ignores a spoofed account_id in the body and still updates the caller's own row (no :accountID in this route to guard)",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id (0 rows affected)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote returns a clean 404 for a not-found id (0 rows affected)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote 403 for an employee (manager+ required)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes a quote",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID happy path: deletes a quote",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID returns a clean 404 for a not-found id",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001's own fixture customers",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001's own fixture customers",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "happy path: creates a job and returns the updated jobs list",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID happy path: creates a job and returns the updated jobs list",
+      "duration": 148,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no job payload (synchronous validation failure, no row written)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no job payload (synchronous validation failure, no row written)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a duplicate customer+jobType combination and writes no second row",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a duplicate customer+jobType combination and writes no second row",
+      "duration": 123,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the job by id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID happy path: returns the job by id",
+      "duration": 112,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 111,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean empty result for a not-found id (no crash)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists the customer's jobs with a computed display_name",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID happy path: lists the customer's jobs with a computed display_name",
+      "duration": 113,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns an empty list for a customer with no jobs, without crashing",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID returns an empty list for a customer with no jobs, without crashing",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates job fields and toggles is_job_complete",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID happy path: updates job fields and toggles is_job_complete",
+      "duration": 210,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no job payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no job payload",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean refusal for a not-found customerJobID",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID returns a clean refusal for a not-found customerJobID",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses reassigning a job to a different customer while a transaction is linked to it",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID refuses reassigning a job to a different customer while a transaction is linked to it",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "allows reassigning a job to a different customer when nothing is linked to it, and returns a warning",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID allows reassigning a job to a different customer when nothing is linked to it, and returns a warning",
+      "duration": 220,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A2: reassigning an unlinked job moves EVERY version row in its family, not just the one named in the request",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: reassigning an unlinked job moves EVERY version row in its family, not just the one named in the request",
+      "duration": 224,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers",
+      "duration": 236,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot update an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID cannot update an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes a job family with no linked rows",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID happy path: deletes a job family with no linked rows",
+      "duration": 206,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean refusal for a not-found jobID",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID returns a clean refusal for a not-found jobID",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a transaction references the job",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a transaction references the job",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a write-off references the job",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a write-off references the job",
+      "duration": 116,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a payment references the job",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a payment references the job",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "checks links across the whole version family, not just the row named in the URL",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID checks links across the whole version family, not just the row named in the URL",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "deletes every row in a clean version family together",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID deletes every row in a clean version family together",
+      "duration": 209,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot delete an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID cannot delete an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates an active job category",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID happy path: creates an active job category",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no jobCategory payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no jobCategory payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the authenticated creator when body createdBy is omitted",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID uses the authenticated creator when body createdBy is omitted",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: renames a category",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID happy path: renames a category",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no jobCategory payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no jobCategory payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id (0 rows affected)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "persists is_job_category_active = false and removes the category from the active list",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID persists is_job_category_active = false and removes the category from the active list",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot update an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID cannot update an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes an unused category",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID happy path: deletes an unused category",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID returns a clean 404 for a not-found id",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a job type references the category",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID is blocked while a job type references the category",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot delete an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID cannot delete an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the category by id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID happy path: returns the category by id",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean empty result for a not-found id (no crash)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates a job type, defaulting is_job_type_active to true",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID happy path: creates a job type, defaulting is_job_type_active to true",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no jobType payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no jobType payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the authenticated creator when body userID is omitted",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID uses the authenticated creator when body userID is omitted",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the job type by id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID happy path: returns the job type by id",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean empty result for a not-found id (no crash)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates job type fields",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID happy path: updates job type fields",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no jobType payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no jobType payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id (0 rows affected)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "persists is_job_type_active = false",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID persists is_job_type_active = false",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "excludes a deactivated job type from the active jobTypesList",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID excludes a deactivated job type from the active jobTypesList",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot update an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID cannot update an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes an unused job type",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID happy path: deletes an unused job type",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID returns a clean 404 for a not-found id",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a job references the job type",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID is blocked while a job references the job type",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot delete an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID cannot delete an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates an active work description",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID happy path: creates an active work description",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no workDescription payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no workDescription payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the work description by id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID happy path: returns the work description by id",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean empty result for a not-found id (no crash)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates work description fields",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID happy path: updates work description fields",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no workDescription payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no workDescription payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id (0 rows affected)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "persists is_general_work_description_active = false and removes it from the active list",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID persists is_general_work_description_active = false and removes it from the active list",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot update an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID cannot update an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes an unused work description",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID happy path: deletes an unused work description",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID returns a clean 404 for a not-found id",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "is blocked while a transaction references the work description",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID is blocked while a transaction references the work description",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cannot delete an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID cannot delete an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates a quote for the caller's own account",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote happy path: creates a quote for the caller's own account",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no quote payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no quote payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ignores a spoofed account_id in the body and scopes the new row to the caller's real account (no :accountID in this route to guard)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote ignores a spoofed account_id in the body and scopes the new row to the caller's real account (no :accountID in this route to guard)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote 403 for an employee (manager+ required)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists quotes scoped to the caller's account",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID happy path: lists quotes scoped to the caller's account",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a URL account that is not the caller's tenant",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates quote fields",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote happy path: updates quote fields",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no quote payload",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no quote payload",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ignores a spoofed account_id in the body and still updates the caller's own row (no :accountID in this route to guard)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote ignores a spoofed account_id in the body and still updates the caller's own row (no :accountID in this route to guard)",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id (0 rows affected)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote returns a clean 404 for a not-found id (0 rows affected)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote 403 for an employee (manager+ required)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes a quote",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID happy path: deletes a quote",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a request with no token",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a request with no token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a URL account that is not the caller's tenant",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a URL account that is not the caller's tenant",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a clean 404 for a not-found id",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID returns a clean 404 for a not-found id",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001's own fixture customers",
+      "fullTitle": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001's own fixture customers",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 11,
+    "passes": 11,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:52:29.773Z",
+    "end": "2026-09-25T14:52:34.418Z",
+    "duration": 4645
+  },
+  "tests": [
+    {
+      "title": "shows -$50 clearly; preview and default skip preserve every pending record",
+      "fullTitle": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "duration": 167,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "fullTitle": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "duration": 276,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "fullTitle": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "duration": 294,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "crosses credit to zero then debt without another credit payment or dropped activity",
+      "fullTitle": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "duration": 419,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "fullTitle": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "duration": 366,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "fullTitle": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "duration": 591,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "fullTitle": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "duration": 574,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates every new raw option and customer shape before writing",
+      "fullTitle": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "duration": 756,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "fullTitle": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "duration": 186,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "fullTitle": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "duration": 448,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "eligibility fails closed when pricing is unavailable rather than labelling credits zero",
+      "fullTitle": "owner decision 2: optional signed credit statements eligibility fails closed when pricing is unavailable rather than labelling credits zero",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "shows -$50 clearly; preview and default skip preserve every pending record",
+      "fullTitle": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "duration": 167,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "fullTitle": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "duration": 276,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "fullTitle": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "duration": 294,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "crosses credit to zero then debt without another credit payment or dropped activity",
+      "fullTitle": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "duration": 419,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "fullTitle": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "duration": 366,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "fullTitle": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "duration": 591,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "fullTitle": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "duration": 574,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates every new raw option and customer shape before writing",
+      "fullTitle": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "duration": 756,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "fullTitle": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "duration": 186,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "fullTitle": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "duration": 448,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "eligibility fails closed when pricing is unavailable rather than labelling credits zero",
+      "fullTitle": "owner decision 2: optional signed credit statements eligibility fails closed when pricing is unavailable rather than labelling credits zero",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

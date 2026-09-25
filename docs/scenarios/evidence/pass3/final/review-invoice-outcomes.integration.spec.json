@@ -1,0 +1,134 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:33.139Z",
+    "end": "2026-09-25T13:24:34.029Z",
+    "duration": 890
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+      "title": "F14 invoice work cutoff uses the same billing calendar date in WIP and preview across server date boundaries",
+      "state": "passed",
+      "duration": 33
+    },
+    {
+      "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+      "title": "F14 invoice work cutoff includes stale past and billing-day work but leaves future work unbilled on finalize",
+      "state": "passed",
+      "duration": 176
+    },
+    {
+      "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+      "title": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after combined ZIP failure",
+      "state": "passed",
+      "duration": 119
+    },
+    {
+      "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+      "title": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after invoice list failure",
+      "state": "passed",
+      "duration": 91
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+        "test": "F14 invoice work cutoff includes stale past and billing-day work but leaves future work unbilled on finalize"
+      },
+      {
+        "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+        "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after combined ZIP failure"
+      },
+      {
+        "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+        "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after invoice list failure"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:384:5": [
+      {
+        "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+        "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after combined ZIP failure"
+      },
+      {
+        "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+        "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after invoice list failure"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:394:6": [
+      {
+        "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+        "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after combined ZIP failure"
+      },
+      {
+        "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+        "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after invoice list failure"
+      }
+    ],
+    "src/pdfCreator/zipOrchestrator.js:80:5": [
+      {
+        "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+        "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after combined ZIP failure"
+      }
+    ],
+    "src/pdfCreator/zipOrchestrator.js:82:6": [
+      {
+        "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+        "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after combined ZIP failure"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F14 invoice work cutoff includes stale past and billing-day work but leaves future work unbilled on finalize",
+      "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after combined ZIP failure",
+      "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after combined ZIP failure",
+      "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_24_33_a77e5666-17c5-4d2a-a3bb-33b00c0f2410%2Fcustomer_916298%2FF8-F22-40654-mugzsw9m-3.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after invoice list failure",
+      "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "F15 postcommit invoice outcomes returns committed identities and retrievable individual files after invoice list failure",
+      "file": "test/integration/review-invoice-outcomes.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_24_33_8e1a8f2e-cfd0-45bd-b949-d65631eadd1f%2Fcustomer_916299%2FF8-F22-40654-mugzswdf-4.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    }
+  ]
+}

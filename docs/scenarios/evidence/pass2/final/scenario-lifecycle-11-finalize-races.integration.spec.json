@@ -1,0 +1,228 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 15,
+    "passes": 15,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:44:07.836Z",
+    "end": "2026-09-25T06:44:12.605Z",
+    "duration": 4769
+  },
+  "tests": [
+    {
+      "title": "J job with only a writeoff cannot be reassigned or deleted",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J job with only a writeoff cannot be reassigned or deleted",
+      "duration": 410,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J job with only a payment cannot be reassigned or deleted",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J job with only a payment cannot be reassigned or deleted",
+      "duration": 391,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J missing customer and suppressed profile update refuse without changing rows",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J missing customer and suppressed profile update refuse without changing rows",
+      "duration": 126,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J a legacy parent with only a payment child refuses deletion until that payment is removed",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J a legacy parent with only a payment child refuses deletion until that payment is removed",
+      "duration": 332,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J a queued invoice delete refuses a payment committed while it waited",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J a queued invoice delete refuses a payment committed while it waited",
+      "duration": 311,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J double invoice deletion and changed-owner races preserve the surviving ledger",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J double invoice deletion and changed-owner races preserve the surviving ledger",
+      "duration": 408,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J same-customer concurrent finalize issues one statement and refuses its stale competitor",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J same-customer concurrent finalize issues one statement and refuses its stale competitor",
+      "duration": 225,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J different-customer finalize number collision refuses one run and its retry uses the next number",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J different-customer finalize number collision refuses one run and its retry uses the next number",
+      "duration": 484,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J finalize refuses a selected transaction's concurrent amount change",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J finalize refuses a selected transaction's concurrent amount change",
+      "duration": 175,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J finalize refuses a selected transaction's concurrent billable change",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J finalize refuses a selected transaction's concurrent billable change",
+      "duration": 195,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J finalize refuses a selected transaction's concurrent delete change",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J finalize refuses a selected transaction's concurrent delete change",
+      "duration": 188,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J finalize refuses a selected transaction's concurrent customer change",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J finalize refuses a selected transaction's concurrent customer change",
+      "duration": 324,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J a receipt posted during rendering invalidates rebill and survives the refusal",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J a receipt posted during rendering invalidates rebill and survives the refusal",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J suppressed customer_transactions stamp refuses and rolls back every finalize write",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J suppressed customer_transactions stamp refuses and rolls back every finalize write",
+      "duration": 214,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J suppressed customer_payments stamp refuses and rolls back every finalize write",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J suppressed customer_payments stamp refuses and rolls back every finalize write",
+      "duration": 254,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "J job with only a writeoff cannot be reassigned or deleted",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J job with only a writeoff cannot be reassigned or deleted",
+      "duration": 410,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J job with only a payment cannot be reassigned or deleted",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J job with only a payment cannot be reassigned or deleted",
+      "duration": 391,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J missing customer and suppressed profile update refuse without changing rows",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J missing customer and suppressed profile update refuse without changing rows",
+      "duration": 126,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J a legacy parent with only a payment child refuses deletion until that payment is removed",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J a legacy parent with only a payment child refuses deletion until that payment is removed",
+      "duration": 332,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J a queued invoice delete refuses a payment committed while it waited",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J a queued invoice delete refuses a payment committed while it waited",
+      "duration": 311,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J double invoice deletion and changed-owner races preserve the surviving ledger",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J double invoice deletion and changed-owner races preserve the surviving ledger",
+      "duration": 408,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J same-customer concurrent finalize issues one statement and refuses its stale competitor",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J same-customer concurrent finalize issues one statement and refuses its stale competitor",
+      "duration": 225,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J different-customer finalize number collision refuses one run and its retry uses the next number",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J different-customer finalize number collision refuses one run and its retry uses the next number",
+      "duration": 484,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J finalize refuses a selected transaction's concurrent amount change",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J finalize refuses a selected transaction's concurrent amount change",
+      "duration": 175,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J finalize refuses a selected transaction's concurrent billable change",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J finalize refuses a selected transaction's concurrent billable change",
+      "duration": 195,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J finalize refuses a selected transaction's concurrent delete change",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J finalize refuses a selected transaction's concurrent delete change",
+      "duration": 188,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J finalize refuses a selected transaction's concurrent customer change",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J finalize refuses a selected transaction's concurrent customer change",
+      "duration": 324,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J a receipt posted during rendering invalidates rebill and survives the refusal",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J a receipt posted during rendering invalidates rebill and survives the refusal",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J suppressed customer_transactions stamp refuses and rolls back every finalize write",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J suppressed customer_transactions stamp refuses and rolls back every finalize write",
+      "duration": 214,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "J suppressed customer_payments stamp refuses and rolls back every finalize write",
+      "fullTitle": "scenario lifecycle J: finalization races and dependency guards (08-integrity-and-races.md) J suppressed customer_payments stamp refuses and rolls back every finalize write",
+      "duration": 254,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

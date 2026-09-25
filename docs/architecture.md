@@ -1,5 +1,10 @@
 # DS2 architecture
 
+## Owner decision update — 2026-09-25
+
+Finalization now commits immutable issuance evidence (migration 023). Issued parents and the ledger rows supporting them are frozen. New balance snapshots carry current debt; closing snapshots absorb prior chains. Bounced-check exceptions authorize only an append-only reversal, followed by an archived revision or carry-forward resolution. See [invoice workflow](invoicing/invoices.md) and the [owner record](decisions/2026-09-24-owner-decisions.md).
+
+
 Source review: 2026-09-24. This describes the checked-out code, not a verified deployment. Start with the [document and endpoint index](README.md). Detailed monetary rules belong to [ledger conventions](ledger/ledger-conventions.md); confirmed source defects belong to [findings](_review/findings.md).
 
 ## System boundaries
@@ -114,9 +119,23 @@ The [storage guide](platform/storage-and-downloads.md#4-data-model-and-s3-layout
 1. **Capture time and charges.** Employees upload trackers. Ingestion can create reviewed candidates or work automatically. Staff can also enter work directly. Tracker Time pricing rounds up in six-minute increments; direct entry has different validation. Consult [timesheets](platform/timesheets-and-ingestion.md#six-minute-pricing-and-retainer-funding) and [transactions](work/transactions.md#6-calculations).
 2. **Review work.** Managers resolve held rows, examine weekly and pre-invoice lists, and correct customer, job, date, amount or billability. Held apply does not select a retainer; legacy manual movement can. Cascade edits append totals across the whole job family using its latest metadata ([F9](_review/findings.md#f9), [F10](_review/findings.md#f10), fixed). See [billing review](invoicing/billing-review.md).
 3. **Select customers and preview.** The eligibility read and invoice engine collect unbilled work, statement history, payments, write-offs and retainer state. The generation request reads a consistent snapshot before rendering. Work through the server billing date is eligible, including old unbilled work; future work remains unstamped. WIP and audit current balance use the same calendar date ([F14](_review/findings.md#f14), fixed). See [invoice engine](invoicing/create-invoice-engine.md).
-4. **Choose draft, CSV or final.** One generation endpoint handles these modes. It derives billingDate using BILLING_TIMEZONE, default America/Phoenix, assigns the invoice year/number, requires mailing details and sets a due date 16 days later. Final same-day rebilling requires the explicit override; negative/nonfinite final balances are skipped, while zero is allowed. See [finalization](invoicing/month-end-finalize.md).
+4. **Choose draft, CSV or final.** One generation endpoint handles these modes. It derives billingDate using BILLING_TIMEZONE, default America/Phoenix, assigns the invoice year/number, requires mailing details and sets a due date 16 days later. Final same-day rebilling requires the explicit override; negative final balances require individual explicit credit-statement selection; unselected credits are skipped with pending activity preserved. Nonfinite totals fail, zero is allowed. Finalize means sent and locked; drafts stay editable and write nothing to the ledger. See [finalization](invoicing/month-end-finalize.md).
 5. **Commit final statements.** Individual PDFs/ZIPs are prepared first. A database transaction locks the account and sorted customers, rechecks ledger fingerprints, numbering and same-day rules, inserts parents, absorbs carried balances and stamps the exact selected transactions/payments. Finalization does not stamp write-offs or create retainer draws. The combined download ZIP and refreshed list follow commit, so their failure does not roll billing back. See [finalization order](invoicing/month-end-finalize.md#orchestration-order) and [F15](_review/findings.md#f15).
 6. **Post receipts and adjustments.** Enter payments directly or approve extracted candidates atomically. Apply write-offs or record NSF reversals through their own guarded workflows. Issued PDFs remain generation-time artifacts after later ledger changes. See [payments](ledger/payments.md), [pending payments](ledger/pending-payments.md) and [write-offs](ledger/write-offs-and-adjustments.md).
 7. **Review AR and audit.** AR ages current rolling statement balances by statement date. Its oldest-open-charge view is an allocation estimate, not a second ledger. Account Audit compares independently calculated ledger evidence with the application preview from the same snapshot and saves the result. Customer Statement of Account is a separate PDF whose customer, ledger and header reads also share one REPEATABLE READ READ ONLY snapshot ([F27](_review/findings.md#f27)). See [AR](invoicing/accounts-receivable.md), [audit](invoicing/account-audit.md), [customers](work/customers.md#statement-pdf) and [PDF layouts](invoicing/pdf-statements.md).
 
 This cycle is initiated through requests and review actions; there is no scheduled month-end finalizer or customer invoice-email step in the inspected generation route. Sources: `src/endpoints/invoice/invoice-router.js:236`, `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:70`, `src/automations/automationOrchestrator.js:10`.
+
+
+## Owner run 2 — retainers and duplicate review
+
+Migration 024 adds append-only retainer-event and duplicate-history journals plus duplicate review state. New routes reuse customer-ledger transaction helpers and set transaction-local session actor/reason. Events are independent availability movements represented on later statements; duplicate review is nonfinancial until guarded removal. Run 3's account-wide audit ledger is not implemented by these feature journals.
+
+
+## Deterministic audit capture
+
+Migration026 and the central transaction context capture financial/customer mutations at the database boundary. The separate Admin/Super Admin client **Audit Record** tab replays database evidence and creates immutable stored PDFs; no AI output is used. See [audit ledger](platform/audit-ledger.md).
+
+## Run 5 presentation
+
+Run 5 adds a server presentation shared by the Audit Record tab and two PDF types. Each new print archives its source JSON and PDF with immutable metadata and verified retrieval; migration 027 adds only their presentation/archive metadata. Capture and financial calculations stay at the existing boundaries. See [Audit Record](platform/audit-ledger.md).

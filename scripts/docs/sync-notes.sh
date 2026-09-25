@@ -12,7 +12,9 @@ VAULT=${1:-"$ROOT/DS2_Notes"}
 [ -d "$VAULT/.obsidian" ] || { echo "Refusing: $VAULT is not an Obsidian vault (no .obsidian folder)." >&2; exit 1; }
 [ -d "$BACKEND/docs" ] || { echo "No docs folder at $BACKEND/docs" >&2; exit 1; }
 mkdir -p "$VAULT/Documentation" "$VAULT/Reports"
-rsync -a --delete --exclude '.DS_Store' "$BACKEND/docs/" "$VAULT/Documentation/"
+# Notes and sample PDFs only: raw test evidence (logs, JSON, renders) stays in the repo under
+# docs/**/evidence and is not mirrored into the vault.
+rsync -a -m --delete --delete-excluded --exclude '.DS_Store' --include '*/' --include '*.md' --include '*.pdf' --exclude '*' "$BACKEND/docs/" "$VAULT/Documentation/"
 cp "$BACKEND/scripts/review-2026-09/FINAL_REPORT.md" "$VAULT/Reports/Full Review 2026-09.md"
 [ -f "$ROOT/MEMORY.md" ] && cp "$ROOT/MEMORY.md" "$VAULT/Change Log.md"
 echo "Synced $(find "$VAULT/Documentation" -name '*.md' | wc -l | tr -d ' ') documentation notes into $VAULT"

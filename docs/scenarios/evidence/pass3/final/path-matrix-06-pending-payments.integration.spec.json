@@ -1,0 +1,555 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 12,
+    "passes": 12,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:02.026Z",
+    "end": "2026-09-25T13:33:03.306Z",
+    "duration": 1280
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures GET /pending-payments/counts/1/1 | query failure refuses 500 without writes",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures GET /pending-payments/files/1/1 | query failure refuses 500 without writes",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures GET /pending-payments/single/1/1/1 | query failure refuses 500 without writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | deleted payment refuses 409 without writes",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | posted marker refuses retry even if queue flag is false",
+      "state": "passed",
+      "duration": 27
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures DELETE /pending-payments/file | file disappears after ownership check: 404 without writes",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures POST /pending-payments/upload | storage failure refuses 500 without database writes",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | both storage locations unavailable: 404 without writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | processed-list failure falls back to exact pending bytes",
+      "state": "passed",
+      "duration": 38
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "state": "passed",
+      "duration": 519
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures soft-delete | postcommit count failure reports saved outcome, never a failed write",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "title": "Path matrix: pending-payment queue and storage failures file | postcommit count failure reports saved outcome, never a failed write",
+      "state": "passed",
+      "duration": 12
+    }
+  ],
+  "hits": {
+    "src/endpoints/pendingPayments/pendingPayments-router.js:85:5": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/counts/1/1 | query failure refuses 500 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:87:6": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/counts/1/1 | query failure refuses 500 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:305:5": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/files/1/1 | query failure refuses 500 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:307:6": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/files/1/1 | query failure refuses 500 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:30:3": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/single/1/1/1 | query failure refuses 500 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:100:5": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/single/1/1/1 | query failure refuses 500 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:173:11": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | deleted payment refuses 409 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:174:12": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | deleted payment refuses 409 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:203:5": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | deleted payment refuses 409 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | posted marker refuses retry even if queue flag is false"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:209:6": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | deleted payment refuses 409 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | posted marker refuses retry even if queue flag is false"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-logic.js:25:6": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | deleted payment refuses 409 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:178:12": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | posted marker refuses retry even if queue flag is false"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:345:27": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures DELETE /pending-payments/file | file disappears after ownership check: 404 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:356:5": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures DELETE /pending-payments/file | file disappears after ownership check: 404 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:358:6": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures DELETE /pending-payments/file | file disappears after ownership check: 404 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:290:5": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/upload | storage failure refuses 500 without database writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:292:6": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/upload | storage failure refuses 500 without database writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:405:8": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | both storage locations unavailable: 404 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | processed-list failure falls back to exact pending bytes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:416:5": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | both storage locations unavailable: 404 without writes"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:418:6": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | both storage locations unavailable: 404 without writes"
+      }
+    ],
+    "src/utils/committedResponse.js:20:5": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write"
+      },
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures soft-delete | postcommit count failure reports saved outcome, never a failed write"
+      },
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures file | postcommit count failure reports saved outcome, never a failed write"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+        "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/counts/1/1 | query failure refuses 500 without writes",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/counts/1/1",
+      "route": "/counts/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/files/1/1 | query failure refuses 500 without writes",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/files/1/1",
+      "route": "/files/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/single/1/1/1 | query failure refuses 500 without writes",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/single/1/1/1",
+      "route": "/single/:paymentID/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | deleted payment refuses 409 without writes",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/1/1",
+      "route": "/approve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This payment has been deleted and cannot be processed."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | posted marker refuses retry even if queue flag is false",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/1/1",
+      "route": "/approve/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Payment #1 was already posted from this pending payment."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures DELETE /pending-payments/file | file disappears after ownership check: 404 without writes",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/1/1",
+      "route": "/file/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "File not found."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures POST /pending-payments/upload | storage failure refuses 500 without database writes",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/1/1",
+      "route": "/upload/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | both storage locations unavailable: 404 without writes",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/1/1?fileName=PM-4.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "File not found."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | processed-list failure falls back to exact pending bytes",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/1/1?fileName=PM-5.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343182769-bw9644/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343182769-bw9644/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343182769-bw9644/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_33_02_2494bac3-b221-4b50-b2de-e5917dd82d09%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343183157-qyaonj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343183157-qyaonj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343183157-qyaonj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343183157-qyaonj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/1/1",
+      "route": "/approve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Your change was saved. Reload the page to refresh the lists; do not submit the change again."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures soft-delete | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/7/1/1",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Payment deleted successfully. Your change was saved. Reload the page to refresh the lists; do not submit the change again."
+    },
+    {
+      "test": "Path matrix: pending-payment queue and storage failures file | postcommit count failure reports saved outcome, never a failed write",
+      "file": "test/integration/path-matrix-06-pending-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/1/1",
+      "route": "/file/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "File and associated pending payments deleted. Your change was saved. Reload the page to refresh the lists; do not submit the change again."
+    }
+  ]
+}

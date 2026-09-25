@@ -1,0 +1,130 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 8,
+    "passes": 8,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:43:37.054Z",
+    "end": "2026-09-25T06:43:40.430Z",
+    "duration": 3376
+  },
+  "tests": [
+    {
+      "title": "C01 bills $100 and receives $40, leaving $60",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C01 bills $100 and receives $40, leaving $60",
+      "duration": 416,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C02 recomputes quantity \u00d7 rate, permits explicit override, refuses a credit and out-of-period date",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C02 recomputes quantity \u00d7 rate, permits explicit override, refuses a credit and out-of-period date",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C03 updates metadata and job family without financial duplication, original PDF stays unchanged",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C03 updates metadata and job family without financial duplication, original PDF stays unchanged",
+      "duration": 144,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C04 carries the corrected $70 forward with $30 new work; absorbed financial edits refuse",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C04 carries the corrected $70 forward with $30 new work; absorbed financial edits refuse",
+      "duration": 337,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C05 refuses financial edits on paid invoices, permits harmless notes and no-ops",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C05 refuses financial edits on paid invoices, permits harmless notes and no-ops",
+      "duration": 374,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C06 requires confirmation and target job for a billed customer move, then transfers $100 exactly",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C06 requires confirmation and target job for a billed customer move, then transfers $100 exactly",
+      "duration": 470,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C07 refuses retainer-funded financial edits and explicit retainer fields",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C07 refuses retainer-funded financial edits and explicit retainer fields",
+      "duration": 303,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C08 preserves internal/nonbillable policy on cascade billability edits",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C08 preserves internal/nonbillable policy on cascade billability edits",
+      "duration": 797,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "C01 bills $100 and receives $40, leaving $60",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C01 bills $100 and receives $40, leaving $60",
+      "duration": 416,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C02 recomputes quantity \u00d7 rate, permits explicit override, refuses a credit and out-of-period date",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C02 recomputes quantity \u00d7 rate, permits explicit override, refuses a credit and out-of-period date",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C03 updates metadata and job family without financial duplication, original PDF stays unchanged",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C03 updates metadata and job family without financial duplication, original PDF stays unchanged",
+      "duration": 144,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C04 carries the corrected $70 forward with $30 new work; absorbed financial edits refuse",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C04 carries the corrected $70 forward with $30 new work; absorbed financial edits refuse",
+      "duration": 337,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C05 refuses financial edits on paid invoices, permits harmless notes and no-ops",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C05 refuses financial edits on paid invoices, permits harmless notes and no-ops",
+      "duration": 374,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C06 requires confirmation and target job for a billed customer move, then transfers $100 exactly",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C06 requires confirmation and target job for a billed customer move, then transfers $100 exactly",
+      "duration": 470,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C07 refuses retainer-funded financial edits and explicit retainer fields",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C07 refuses retainer-funded financial edits and explicit retainer fields",
+      "duration": 303,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C08 preserves internal/nonbillable policy on cascade billability edits",
+      "fullTitle": "scenario lifecycle C: billed corrections (hand oracle 06-cascade.md) C08 preserves internal/nonbillable policy on cascade billability edits",
+      "duration": 797,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

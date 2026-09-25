@@ -1,0 +1,354 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 24,
+    "passes": 24,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:52:22.397Z",
+    "end": "2026-09-25T14:52:25.351Z",
+    "duration": 2954
+  },
+  "tests": [
+    {
+      "title": "starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "duration": 510,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "duration": 197,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "prints all events exactly once and preserves the original artifact",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "duration": 221,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid kind without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid kind without writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid zero without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid zero without writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid negative without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid negative without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid nonfinite without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid nonfinite without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid precision without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid precision without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid maximum without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid maximum without writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid date without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid date without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid reason without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid reason without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid method without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid method without writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid reference without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid reference without writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid direction without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid direction without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "duration": 171,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "duration": 214,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reports retainer history database failure without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments reports retainer history database failure without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "duration": 129,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "preserves pending events when statement storage fails before commit",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back snapshot and journal on each database write failure",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "duration": 251,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serializes racing refunds; only one $40 refund can consume $50",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "duration": 109,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "duration": 445,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "duration": 510,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "duration": 197,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "prints all events exactly once and preserves the original artifact",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "duration": 221,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid kind without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid kind without writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid zero without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid zero without writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid negative without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid negative without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid nonfinite without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid nonfinite without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid precision without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid precision without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid maximum without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid maximum without writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid date without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid date without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid reason without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid reason without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid method without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid method without writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid reference without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid reference without writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid direction without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects invalid direction without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "duration": 171,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "duration": 214,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reports retainer history database failure without writes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments reports retainer history database failure without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "duration": 129,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "preserves pending events when statement storage fails before commit",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back snapshot and journal on each database write failure",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "duration": 251,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serializes racing refunds; only one $40 refund can consume $50",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "duration": 109,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "fullTitle": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "duration": 445,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

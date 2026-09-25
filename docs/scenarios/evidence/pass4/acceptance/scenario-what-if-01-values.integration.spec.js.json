@@ -1,0 +1,4330 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 308,
+    "passes": 308,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:52:46.407Z",
+    "end": "2026-09-25T14:52:51.956Z",
+    "duration": 5549
+  },
+  "tests": [
+    {
+      "title": "V01 payment create refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount 0",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount 0.001",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount null",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"\"",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"  \"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"not-money\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"Infinity\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"-Infinity\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"NaN\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount true",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount false",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount []",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount [10]",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount 100000000",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount -100000000",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount 99999999.995",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=true",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=[]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=[]",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID={}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID={}",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID={}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=\"text\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=\"text\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=-1",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=-1",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=-1",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=1.5",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=1.5",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=1.5",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=\"9007199254740992\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=\"9007199254740992\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=\"9007199254740992\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses formOfPayment longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses formOfPayment longer than 50",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses paymentReferenceNumber longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses paymentReferenceNumber longer than 50",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses invalid note true",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses invalid note []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses invalid note {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses invalid note \"\\u0000\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount 0",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount 0.001",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"\"",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"  \"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"not-money\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"Infinity\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"-Infinity\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"NaN\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount true",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount false",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount [10]",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount 100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount -100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount 99999999.995",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=true",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=[]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=[]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID={}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID={}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID={}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=\"text\"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=\"text\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=-1",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=-1",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=-1",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=1.5",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=1.5",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=1.5",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=\"9007199254740992\"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=\"9007199254740992\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=\"9007199254740992\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses formOfPayment longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses formOfPayment longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses paymentReferenceNumber longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses paymentReferenceNumber longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses invalid note true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses invalid note []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses invalid note {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses invalid note \"\\u0000\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount 0",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount 0.001",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount null",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"  \"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"not-money\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"Infinity\"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"-Infinity\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"NaN\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount false",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount [10]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount 100000000",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount -100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount 99999999.995",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=true",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=[]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID={}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID={}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=\"text\"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=-1",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=-1",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=1.5",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=1.5",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=\"9007199254740992\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=\"9007199254740992\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses writeoffReason longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses writeoffReason longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses invalid note true",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses invalid note []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses invalid note {}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses invalid note \"\\u0000\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount 0",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount 0.001",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"  \"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"not-money\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"Infinity\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"-Infinity\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"NaN\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount false",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount [10]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount 100000000",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount -100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount 99999999.995",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=[]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID={}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID={}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=-1",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=-1",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=1.5",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=1.5",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=\"9007199254740992\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=\"9007199254740992\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses writeoffReason longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses writeoffReason longer than 50",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses invalid note true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses invalid note []",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses invalid note {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses invalid note \"\\u0000\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount 0",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount 0.001",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount null",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"  \"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"not-money\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"Infinity\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"-Infinity\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"NaN\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount false",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount [10]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount 100000000",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount -100000000",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount 99999999.995",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses formOfPayment longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses formOfPayment longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses paymentReferenceNumber longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses paymentReferenceNumber longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses displayName longer than 100",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses displayName longer than 100",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses typeOfHold longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses typeOfHold longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses invalid note true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses invalid note []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses invalid note {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses invalid note \"\\u0000\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount 0",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount 0.001",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"  \"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"not-money\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"Infinity\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"-Infinity\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"NaN\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount false",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount []",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount [10]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount 100000000",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount -100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount 99999999.995",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses formOfPayment longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses formOfPayment longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses paymentReferenceNumber longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses paymentReferenceNumber longer than 50",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses displayName longer than 100",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses displayName longer than 100",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses typeOfHold longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses typeOfHold longer than 50",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses invalid note true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses invalid note []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses invalid note {}",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses invalid note \"\\u0000\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date null",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"\"",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"no-date\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"no-date\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"2025-02-29\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"2025-02-29\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"2026-02-30\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"2026-02-30\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"2026-13-01\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"2026-13-01\"",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"2026-01-32\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"2026-01-32\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date null",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"no-date\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"no-date\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"2025-02-29\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"2025-02-29\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"2026-02-30\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"2026-02-30\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"2026-13-01\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"2026-13-01\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"2026-01-32\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"2026-01-32\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date []",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"no-date\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"no-date\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"2025-02-29\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"2025-02-29\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"2026-02-30\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"2026-02-30\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"2026-13-01\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"2026-13-01\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"2026-01-32\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"2026-01-32\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date []",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date {}",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"no-date\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"no-date\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"2025-02-29\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"2025-02-29\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"2026-02-30\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"2026-02-30\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"2026-13-01\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"2026-13-01\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"2026-01-32\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"2026-01-32\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date {}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=\"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=\"\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=\"   \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=\"   \"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=true",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=[]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason={}",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=\"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=\"\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=\"   \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=\"   \"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason={}",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=\"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=\"\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=\"   \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=\"   \"",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=true",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=[]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold={}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=\"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=\"\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=\"   \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=\"   \"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=[]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold={}",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 10 stores -10.00",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit -10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit -10 stores -10.00",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 0.005 stores -0.01",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit -0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit -0.005 stores -0.01",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 1.005 stores -1.01",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit -1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit -1.005 stores -1.01",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 1.015 stores -1.02",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 1.015 stores -1.02",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 2.675 stores -2.68",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 2.675 stores -2.68",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 12.345 stores -12.35",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 12.345 stores -12.35",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 10 stores -10.00",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit -10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit -10 stores -10.00",
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 0.005 stores -0.01",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit -0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit -0.005 stores -0.01",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 1.005 stores -1.01",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit -1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit -1.005 stores -1.01",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 1.015 stores -1.02",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 1.015 stores -1.02",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 2.675 stores -2.68",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 2.675 stores -2.68",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 12.345 stores -12.35",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 12.345 stores -12.35",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 10 stores -10.00",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit -10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit -10 stores -10.00",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 0.005 stores -0.01",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit -0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit -0.005 stores -0.01",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 1.005 stores -1.01",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit -1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit -1.005 stores -1.01",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 1.015 stores -1.02",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 1.015 stores -1.02",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 2.675 stores -2.68",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 2.675 stores -2.68",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 12.345 stores -12.35",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 12.345 stores -12.35",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment long unicode note round-trips with no financial edit",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment long unicode note round-trips with no financial edit",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff long unicode note round-trips with no financial edit",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff long unicode note round-trips with no financial edit",
+      "duration": 60,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer long unicode note round-trips with no financial edit",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer long unicode note round-trips with no financial edit",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 omitted retainer amount allows metadata update but explicit NaN cannot do so",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 omitted retainer amount allows metadata update but explicit NaN cannot do so",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment leap-day create and omitted date edit preserve February29",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment leap-day create and omitted date edit preserve February29",
+      "duration": 44,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff leap-day create and omitted date edit preserve February29",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff leap-day create and omitted date edit preserve February29",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V04 zero work and half-cent multiplication use literal expected cents",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V04 zero work and half-cent multiplication use literal expected cents",
+      "duration": 607,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "V01 payment create refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount 0",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount 0.001",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount null",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"\"",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"  \"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"not-money\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"Infinity\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"-Infinity\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount \"NaN\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount true",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount false",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount []",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount [10]",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount 100000000",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount -100000000",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment create refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment create refuses amount 99999999.995",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=true",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=[]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=[]",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID={}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID={}",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID={}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=\"text\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=\"text\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=-1",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=-1",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=-1",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=1.5",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=1.5",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=1.5",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedInvoiceID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedInvoiceID=\"9007199254740992\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedJobID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedJobID=\"9007199254740992\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment create refuses selectedRetainerID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment create refuses selectedRetainerID=\"9007199254740992\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses formOfPayment longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses formOfPayment longer than 50",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses paymentReferenceNumber longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses paymentReferenceNumber longer than 50",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses invalid note true",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses invalid note []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses invalid note {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment create refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment create refuses invalid note \"\\u0000\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount 0",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount 0.001",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"\"",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"  \"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"not-money\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"Infinity\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"-Infinity\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount \"NaN\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount true",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount false",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount [10]",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount 100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount -100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 payment edit refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 payment edit refuses amount 99999999.995",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=true",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=[]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=[]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID={}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID={}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID={}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=\"text\"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=\"text\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=-1",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=-1",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=-1",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=1.5",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=1.5",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=1.5",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedInvoiceID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedInvoiceID=\"9007199254740992\"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedJobID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedJobID=\"9007199254740992\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 payment edit refuses selectedRetainerID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 payment edit refuses selectedRetainerID=\"9007199254740992\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses formOfPayment longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses formOfPayment longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses paymentReferenceNumber longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses paymentReferenceNumber longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses invalid note true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses invalid note []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses invalid note {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment edit refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment edit refuses invalid note \"\\u0000\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount 0",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount 0.001",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount null",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"  \"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"not-money\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"Infinity\"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"-Infinity\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount \"NaN\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount false",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount [10]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount 100000000",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount -100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff create refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff create refuses amount 99999999.995",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=true",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=[]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID={}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID={}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=\"text\"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=-1",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=-1",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=1.5",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=1.5",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses customerInvoiceID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses customerInvoiceID=\"9007199254740992\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff create refuses selectedJobID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff create refuses selectedJobID=\"9007199254740992\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses writeoffReason longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses writeoffReason longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses invalid note true",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses invalid note []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses invalid note {}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses invalid note \"\\u0000\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount 0",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount 0.001",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"  \"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"not-money\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"Infinity\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"-Infinity\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount \"NaN\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount false",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount [10]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount 100000000",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount -100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 writeoff edit refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 writeoff edit refuses amount 99999999.995",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=[]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID={}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID={}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=\"text\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=\"text\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=-1",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=-1",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=-1",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=1.5",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=1.5",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=1.5",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses customerInvoiceID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses customerInvoiceID=\"9007199254740992\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V07 writeoff edit refuses selectedJobID=\"9007199254740992\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V07 writeoff edit refuses selectedJobID=\"9007199254740992\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses writeoffReason longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses writeoffReason longer than 50",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses invalid note true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses invalid note []",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses invalid note {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses invalid note \"\\u0000\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount 0",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount 0.001",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount null",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"  \"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"not-money\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"Infinity\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"-Infinity\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount \"NaN\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount false",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount [10]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount 100000000",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount -100000000",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer create refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer create refuses amount 99999999.995",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses formOfPayment longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses formOfPayment longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses paymentReferenceNumber longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses paymentReferenceNumber longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses displayName longer than 100",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses displayName longer than 100",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses typeOfHold longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses typeOfHold longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses invalid note true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses invalid note []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses invalid note {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses invalid note \"\\u0000\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount 0",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount 0",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount 0.001",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount 0.001",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"  \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"  \"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"not-money\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"not-money\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"Infinity\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"-Infinity\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"-Infinity\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount \"NaN\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount \"NaN\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount false",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount false",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount []",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount [10]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount [10]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount 100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount 100000000",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount -100000000",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount -100000000",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 retainer edit refuses amount 99999999.995",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 retainer edit refuses amount 99999999.995",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses formOfPayment longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses formOfPayment longer than 50",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses paymentReferenceNumber longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses paymentReferenceNumber longer than 50",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses displayName longer than 100",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses displayName longer than 100",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses typeOfHold longer than 50",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses typeOfHold longer than 50",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses invalid note true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses invalid note true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses invalid note []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses invalid note []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses invalid note {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses invalid note {}",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses invalid note \"\\u0000\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses invalid note \"\\u0000\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date null",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"\"",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"no-date\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"no-date\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"2025-02-29\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"2025-02-29\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"2026-02-30\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"2026-02-30\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"2026-13-01\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"2026-13-01\"",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date \"2026-01-32\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date \"2026-01-32\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date []",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment create refuses date {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment create refuses date {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date null",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"no-date\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"no-date\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"2025-02-29\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"2025-02-29\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"2026-02-30\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"2026-02-30\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"2026-13-01\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"2026-13-01\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date \"2026-01-32\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date \"2026-01-32\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date []",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment edit refuses date {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment edit refuses date {}",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"\"",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"no-date\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"no-date\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"2025-02-29\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"2025-02-29\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"2026-02-30\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"2026-02-30\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"2026-13-01\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"2026-13-01\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date \"2026-01-32\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date \"2026-01-32\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date []",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff create refuses date {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff create refuses date {}",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"no-date\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"no-date\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"2025-02-29\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"2025-02-29\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"2026-02-30\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"2026-02-30\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"2026-13-01\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"2026-13-01\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date \"2026-01-32\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date \"2026-01-32\"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date true",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date []",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date []",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff edit refuses date {}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff edit refuses date {}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=\"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=\"\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=\"   \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=\"   \"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=true",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason=[]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff create refuses required writeoffReason={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff create refuses required writeoffReason={}",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=\"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=\"\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=\"   \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=\"   \"",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason=[]",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff edit refuses required writeoffReason={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff edit refuses required writeoffReason={}",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=\"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=\"\"",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=\"   \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=\"   \"",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=null",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=true",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold=[]",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer create refuses required typeOfHold={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer create refuses required typeOfHold={}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=\"\"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=\"\"",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=\"   \"",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=\"   \"",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=null",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=true",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=true",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold=[]",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold=[]",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer edit refuses required typeOfHold={}",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer edit refuses required typeOfHold={}",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 10 stores -10.00",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit -10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit -10 stores -10.00",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 0.005 stores -0.01",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit -0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit -0.005 stores -0.01",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 1.005 stores -1.01",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit -1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit -1.005 stores -1.01",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 1.015 stores -1.02",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 1.015 stores -1.02",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 2.675 stores -2.68",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 2.675 stores -2.68",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 payment create and edit 12.345 stores -12.35",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 payment create and edit 12.345 stores -12.35",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 10 stores -10.00",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit -10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit -10 stores -10.00",
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 0.005 stores -0.01",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit -0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit -0.005 stores -0.01",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 1.005 stores -1.01",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit -1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit -1.005 stores -1.01",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 1.015 stores -1.02",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 1.015 stores -1.02",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 2.675 stores -2.68",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 2.675 stores -2.68",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 writeoff create and edit 12.345 stores -12.35",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 writeoff create and edit 12.345 stores -12.35",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 10 stores -10.00",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit -10 stores -10.00",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit -10 stores -10.00",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 0.005 stores -0.01",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit -0.005 stores -0.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit -0.005 stores -0.01",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 1.005 stores -1.01",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit -1.005 stores -1.01",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit -1.005 stores -1.01",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 1.015 stores -1.02",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 1.015 stores -1.02",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 2.675 stores -2.68",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 2.675 stores -2.68",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V02/V03 retainer create and edit 12.345 stores -12.35",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V02/V03 retainer create and edit 12.345 stores -12.35",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 payment long unicode note round-trips with no financial edit",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 payment long unicode note round-trips with no financial edit",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 writeoff long unicode note round-trips with no financial edit",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 writeoff long unicode note round-trips with no financial edit",
+      "duration": 60,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V06 retainer long unicode note round-trips with no financial edit",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V06 retainer long unicode note round-trips with no financial edit",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V01 omitted retainer amount allows metadata update but explicit NaN cannot do so",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V01 omitted retainer amount allows metadata update but explicit NaN cannot do so",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 payment leap-day create and omitted date edit preserve February29",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 payment leap-day create and omitted date edit preserve February29",
+      "duration": 44,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V05 writeoff leap-day create and omitted date edit preserve February29",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V05 writeoff leap-day create and omitted date edit preserve February29",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "V04 zero work and half-cent multiplication use literal expected cents",
+      "fullTitle": "what-if V: explicit inputs, cent rounding and unchanged-state refusals V04 zero work and half-cent multiplication use literal expected cents",
+      "duration": 607,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

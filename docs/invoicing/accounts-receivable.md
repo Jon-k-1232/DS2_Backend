@@ -1,5 +1,10 @@
 # Accounts receivable
 
+## Owner decision update — 2026-09-25
+
+Issued parent balances now remain original evidence. AR continues resolving current chains using the latest child (timestamp then ID), including zero closing snapshots and positive reversal snapshots. Do not sum immutable historical parent balances. AR remains billed debt only; Create Invoice and Audit may also contain unbilled work. The owner scenario suite verifies agreement after each correction/roll-forward. [Contract](invoices.md).
+
+
 ## 1. Purpose and UI
 
 Accounts Receivable shows current issued-statement balances, statement-age buckets and an estimated oldest unpaid charge date. It excludes unbilled work from AR dollars. Route `/invoices/accountsReceivable` renders `../DS2_Frontend/src/Pages/AccountsReceivable/AccountsReceivablePage.js:81`. It has customer search, age filters, sort, pagination and CSV export. Displayed page totals sum only the loaded page. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:35`, `../DS2_Frontend/src/Pages/AccountsReceivable/AccountsReceivablePage.js:102`, `../DS2_Frontend/src/Pages/AccountsReceivable/AccountsReceivablePage.js:171`.
@@ -53,7 +58,7 @@ Customer response fields: customer_id, display_name, business_name, customer_nam
 | Table | Columns read |
 |---|---|
 | customer_invoices | account/customer IDs, invoice ID/parent, invoice_date, created_at, remaining_balance_on_invoice. Paid flag, due_date and original charges do not decide AR bucket totals. |
-| customers | Account and names, active/commercial flags. Inactive customers with positive AR remain included. |
+| customers | Account and names, active/commercial flags. Inactive customers with any signed nonzero billed balance remain included. |
 | customer_transactions | Account/customer, ID/date, billable flag, invoice link, positive total_transaction for oldest-open-charge estimate; billable flag/date for work-since-payment. |
 | customer_payments | Account/customer, payment_date, payment_id, signed payment_amount; latest amount displayed as ABS. |
 | Evidence | `src/endpoints/accountsReceivable/accounts-receivable-service.js:80`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:167`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:194`. |
@@ -64,13 +69,13 @@ No write-off or retainer table is read directly. Their effect reaches AR only th
 
 1. current_chains selects account-owned **NULL-parent** invoices. Compute MAX(invoice_date) over customer; keep every parent on that latest date.
 2. For each root, LATERAL-select its account-owned newest child by created_at DESC, invoice ID DESC; use child remaining if present, otherwise parent remaining.
-3. Group customer/date. Sum GREATEST(remaining,0), count all those roots and keep only positive summed AR.
+3. Group customer/date. Sum signed remaining, count those roots and keep every nonzero customer balance.
 4. Compute statement age/buckets. Join account-owned customers, estimated oldest open charge and latest payment; apply search/age filters.
 5. Sort and limit/offset. A separate count query repeats balance/customer/filter logic. Data and count run concurrently without a shared snapshot.
 
 Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:80`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:233`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:243`.
 
-This intentionally drops earlier rolled-forward parent dates even when old rows retain stale balances. Same-date duplicate roots are added together. Negative chain balances are clipped to zero, not used to offset a positive chain. Self-parent legacy invoice rows are not roots here, although the billing marker helper recognizes them. Sources: `src/endpoints/accountsReceivable/accounts-receivable-service.js:94`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:111`, `src/endpoints/invoice/invoice-service.js:183`.
+This intentionally drops earlier rolled-forward parent dates even when old rows retain stale balances. Same-date duplicate roots are added together. Negative chain balances offset positive chains; a negative total is shown as Credit — no payment due. Self-parent legacy invoice rows are not roots here, although the billing marker helper recognizes them. Sources: `src/endpoints/accountsReceivable/accounts-receivable-service.js:94`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:111`, `src/endpoints/invoice/invoice-service.js:183`.
 
 Latest payment uses DISTINCT ON customer and payment_date DESC, payment_id DESC. It does not exclude unlinked payments, retainer draws or positive NSF/reversal rows. Therefore “last payment” means the most recent payment-table event, not necessarily the last receipt of cash. Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:194`.
 
@@ -118,7 +123,7 @@ Both routes are read-only and generate CSV in memory. No database transaction wr
 | test/integration/cascade-edit-recompute.integration.spec.js | AR follows billed financial deltas alongside engine/audit. |
 | test/endpoints/analytics/csv-util.spec.js | Shared CSV safety and formatting. |
 
-Tests were read, not executed. The oldest-charge calculation is an estimate, not a stored payment-allocation ledger.
+The original documentation pass inspected tests; owner run 2 executed the full local suites. See [run 2 results](../decisions/2026-09-25-run-2-results.md). The oldest-charge calculation is an estimate, not a stored payment-allocation ledger.
 
 ## 9. Known limitations and open decisions
 
@@ -127,3 +132,17 @@ FINAL_REPORT explicitly separates statement aging from FIFO oldest-open-charge e
 The report's migration/cutover and environment settings are rollout requirements. Whether they have been applied to production is **not determined from the code**. Source: `scripts/review-2026-09/FINAL_REPORT.md:67`.
 
 Coverage: **2 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+
+## Owner run 2 — retainers and duplicate review
+
+Retainer refund/adjustment events affect held credit, not billed debt. AR therefore remains unchanged by either event or duplicate flag/dismissal. Duplicate removal follows current invoice snapshot rules; AR, invoice outstanding and Audit outstanding reconcile on the new surviving chain. Engine/Audit additionally price unbilled work, as before. Run 2 money-path oracles assert both components explicitly.
+
+## Run 3 credit balances
+
+AR now includes negative billed balances and signed statement-age buckets, with a Balance / credit column and Credit — no payment due label. These ages are statement ages, not an assertion that the customer owes overdue money. The CSV retains signed numbers. This is the same billed component used by Create Invoice and Account Audit; unbilled work is still separate. Scenario15 verifies−50→−30→0→61 and a bounced credit receipt crossing into debt; scenario16 verifies the combined lifecycle.
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

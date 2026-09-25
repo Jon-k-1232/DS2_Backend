@@ -1,5 +1,12 @@
 # PDF statements
 
+Revision packaging: each revision ZIP contains its clearly marked correction PDF **and the exact unchanged original PDF**. Reprint/resend both together; this preserves full original itemization for modern and historical invoices. Missing/corrupt original archives fail before resolution commits.
+
+## Owner decision update — 2026-09-25
+
+Original finalized PDFs stay archived byte-for-byte. A bounced-check revision retains the invoice number, adds a visible REVISION N label and correction schedule, and archives under a new unique key. It uses frozen renderer input, not current contacts/rates/work. Original due plus reversed applied receipts yields revised issued due; cancelled overpayment credit is disclosed separately. Negative original/revised amounts are labeled credit balance; a revised credit says No payment due and carries forward. Current balance remains separately visible. Legacy revisions accompany their original PDF when full historical renderer data is unavailable. The PDFKit revision is rendered/visually checked and scenario-tested with pdftotext. [Workflow](invoices.md).
+
+
 ## 1. Purpose and UI
 
 templateOne renders the invoice PDFs created by the Create Invoice page at /invoices/createInvoice and downloaded from the invoice register. The renderer is `src/pdfCreator/templateOne/templateOneOrchestrator.js:13`; UI page and route are `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:17` and `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:26`.
@@ -107,12 +114,32 @@ Customer Statement of Account renders current reads directly to response; it wri
 | test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js | Customer statement access, account isolation, unknown-customer error and PDF bytes; invoice generation/download routes. |
 | test/endpoints/accountAudit/audit-pdf-breakdown.spec.js | Separate audit PDF arithmetic and legacy breakdown handling, not templateOne layout. |
 
-Tests were read, not run. No PDFs were generated or visually rendered during this Markdown-only task.
+The original Markdown-only documentation pass read those tests without executing them. Owner run 2 executed the full suites and rendered/visually inspected generated refund-event PDFs; see [run 2 results](../decisions/2026-09-25-run-2-results.md).
 
 ## 9. Known limitations and open decisions
 
 [F31](../_review/findings.md#f31) records fixed global-note omission and missing-global TypeError; [F39](../_review/findings.md#f39) records removal of the incorrect Original Amount column; [F33](../_review/findings.md#f33) records fixed duplicate archive member names. Saved artifacts are not regenerated after cascade edits. Dates, billed data and statement layout behavior above reflect current source, not a new accountant-approved design.
 
-The historical report leaves closed-period adjustment policy, voiding, credit memos and true charge aging open. Its section 6 requires reviewed migrations/cutover, backend before frontend and BILLING_TIMEZONE. Production implementation of those steps is **not determined from the code**. Sources: `scripts/review-2026-09/FINAL_REPORT.md:56`, `scripts/review-2026-09/FINAL_REPORT.md:61`, `scripts/review-2026-09/FINAL_REPORT.md:67`.
+The historical report left closed-period adjustment policy, voiding, credit memos and true charge aging open. Owner decisions now implement sent-record locks, bounced-payment revisions and optional credit statements; broader period/void policies and charge-level aging remain separate work. Its section 6 requires reviewed migrations/cutover, backend before frontend and BILLING_TIMEZONE. Production implementation of those steps is **not determined from the code**. Sources: `scripts/review-2026-09/FINAL_REPORT.md:56`, `scripts/review-2026-09/FINAL_REPORT.md:61`, `scripts/review-2026-09/FINAL_REPORT.md:67`.
 
 Coverage: **0 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+
+## Owner run 2 — retainers and duplicate review
+
+Invoice PDFs include a paginated Retainer Refunds and Adjustments section when pending events exist, even with no remaining retainers. Rows show event date/kind/direction, amount, reason/method/reference and available-after balance. Activity is informational; invoice debt is unchanged. Frozen invoice detail exposes the exact event payload. Customer statements use Audit informational events and retain unchanged running debt. Previously archived originals stay byte-identical.
+
+Long retainer reasons on customer statements split across repeated table headers with continued rows; charges/credits/balance print once, on the final segment. Run2 includes a maximum-length reason and visual inspection of actual generated pages.
+
+## Run 3 credit layout
+
+Negative totals print CREDIT STATEMENT, signed Credit balance, No payment due, and a credit-carry-forward line instead of Payment Due Date. No cash-payment or retainer deduction is invented. Original credit PDFs stay immutable after finalize (= sent); draft generation writes nothing to the ledger. Customer statements label a negative current rolling balance Credit balance (no payment due), while retaining their separate transaction-based opening/closing ledger. Time quantities and dollars are stored billed values, never rerounded to another time increment during rendering. Scenario15 validates archived text/bytes and scenario16 validates the complete correction/refund/credit workflow.
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## Run 5 presentation
+
+Run 5 adds Client record and Full evidence record layouts to the separate Audit Record PDF, with aligned money columns, grouped human changes and source-archive verification. These do not change invoice/statement PDFs, issued totals, six-minute pricing, retainer application or finalize=sent locks. See [Audit Record presentation](../platform/audit-ledger.md#client-and-full-evidence-presentation-run-5).

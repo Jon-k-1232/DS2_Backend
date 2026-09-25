@@ -1,0 +1,1194 @@
+{
+  "stats": {
+    "suites": 18,
+    "tests": 84,
+    "passes": 84,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:39:57.396Z",
+    "end": "2026-09-25T06:40:00.761Z",
+    "duration": 3365
+  },
+  "tests": [
+    {
+      "title": "happy path: creates a Time transaction, normalizes lowercase type, keeps decimal precision, and updates the job total",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID happy path: creates a Time transaction, normalizes lowercase type, keeps decimal precision, and updates the job total",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an unrecognized transaction_type is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent job id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID not-found: a nonexistent job id is refused",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cross-customer job refused: a job belonging to a different customer cannot be used",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID cross-customer job refused: a job belonging to a different customer cannot be used",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a non-billable transaction never draws a retainer, even when one is selected",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID a non-billable transaction never draws a retainer, even when one is selected",
+      "duration": 70,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a retainer-funded billable transaction draws the chain and creates the auto \"Retainer\" payment",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID a retainer-funded billable transaction draws the chain and creates the auto \"Retainer\" payment",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates fields and the DB reflects the new values",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID happy path: updates fields and the DB reflects the new values",
+      "duration": 127,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an unrecognized transaction_type is refused and nothing changes",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused and nothing changes",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent transaction id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cross-customer job refused on update too",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID cross-customer job refused on update too",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an unbilled transaction cannot have its invoice link set via update (customerInvoicesID is not a mapped field)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID an unbilled transaction cannot have its invoice link set via update (customerInvoicesID is not a mapped field)",
+      "duration": 133,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "job totals follow the newest job-family row through create, amount edit, move to another job, and delete",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID job totals follow the newest job-family row through create, amount edit, move to another job, and delete",
+      "duration": 254,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A4-4: an edit that moves a transaction between VERSIONS of the SAME job family applies its amount delta exactly once",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID A4-4: an edit that moves a transaction between VERSIONS of the SAME job family applies its amount delta exactly once",
+      "duration": 194,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes the row and decrements the job total",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID happy path: deletes the row and decrements the job total",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent transaction id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an unrecognized transaction_type on the delete payload is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID validation failure: an unrecognized transaction_type on the delete payload is refused",
+      "duration": 78,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a billed transaction (customer_invoice_id set directly) cannot be deleted",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be deleted",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "deleting a retainer-funded transaction removes its auto \"Retainer\" payment and restores the retainer balance",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID deleting a retainer-funded transaction removes its auto \"Retainer\" payment and restores the retainer balance",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: paginated list finds a row by a unique search term",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-positive limit is refused with HTTP 400",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found-equivalent: a search matching nothing returns an empty list, not an error",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID not-found-equivalent: a search matching nothing returns an empty list, not an error",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "pagination: a limit over 500 is capped at 500",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID pagination: a limit over 500 is capped at 500",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: CSV has the header row, and a negative unit_cost stays intact",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID happy path: CSV has the header row, and a negative unit_cost stays intact",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search containing quotes, semicolons and -- returns a clean CSV (no 500)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID search containing quotes, semicolons and -- returns a clean CSV (no 500)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "neutralizes a detailed_work_description starting with \"=\" so it cannot execute as a formula on open",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID neutralizes a detailed_work_description starting with \"=\" so it cannot execute as a formula on open",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the transaction",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID happy path: returns the transaction",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 66,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent transaction id is refused in the app envelope ({ status: 404 }), like getSingleRetainer",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID not-found: a nonexistent transaction id is refused in the app envelope ({ status: 404 }), like getSingleRetainer",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-numeric transaction id is the same clean 404 refusal, not a raw HTTP 500",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID validation failure: a non-numeric transaction id is the same clean 404 refusal, not a raw HTTP 500",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: attributes a Time transaction's hours to the logged-for employee within the date range",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID happy path: attributes a Time transaction's hours to the logged-for employee within the date range",
+      "duration": 116,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found-equivalent: a date range with nothing logged still returns 200 with a zeroed roster",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID not-found-equivalent: a date range with nothing logged still returns 200 with a zeroed roster",
+      "duration": 54,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: stores starting_amount and current_amount NEGATIVE from a positive unitCost",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID happy path: stores starting_amount and current_amount NEGATIVE from a positive unitCost",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a $0 amount is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID validation failure: a $0 amount is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent customer id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID not-found: a nonexistent customer id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: re-prices the whole chain by the starting-amount delta and keeps draw-down history",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID happy path: re-prices the whole chain by the starting-amount delta and keeps draw-down history",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a $0 amount is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID validation failure: a $0 amount is refused",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent retainer id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID not-found: a nonexistent retainer id is refused",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes an unused retainer",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID happy path: deletes an unused retainer",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent retainer id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refused when referenced: a retainer already drawn on cannot be deleted",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID refused when referenced: a retainer already drawn on cannot be deleted",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the retainer",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID happy path: returns the retainer",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent retainer id returns a clean 404 envelope",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id returns a clean 404 envelope",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a malformed retainer id is refused before any SQL runs (no driver text leaks)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a malformed retainer id is refused before any SQL runs (no driver text leaks)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: another tenant's retainer id is a 404, not a leak",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: another tenant's retainer id is a 404, not a leak",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists a live retainer for the customer",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID happy path: lists a live retainer for the customer",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found-equivalent: a customer with none returns an empty array",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID not-found-equivalent: a customer with none returns an empty array",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an exhausted retainer (drawn to $0) is not offered",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID an exhausted retainer (drawn to $0) is not offered",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a job-level write-off (no invoice) stores a NEGATIVE amount",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID happy path: a job-level write-off (no invoice) stores a NEGATIVE amount",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a $0 amount is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID validation failure: a $0 amount is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent invoice id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID not-found: a nonexistent invoice id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "applies directly to the customer's current chain",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID applies directly to the customer's current chain",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "remaps a reference to an absorbed chain onto the current chain and annotates the note",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID remaps a reference to an absorbed chain onto the current chain and annotates the note",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updating an unbilled invoice-linked write-off re-prices its snapshot and the parent mirror",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID happy path: updating an unbilled invoice-linked write-off re-prices its snapshot and the parent mirror",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a $0 amount is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID validation failure: a $0 amount is refused",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent write-off id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a billed write-off is immutable",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID a billed write-off is immutable",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: symmetric delete removes the snapshot and restores the parent remaining",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID happy path: symmetric delete removes the snapshot and restores the parent remaining",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent write-off id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a billed write-off cannot be deleted",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID a billed write-off cannot be deleted",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the write-off",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID happy path: returns the write-off",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent write-off id returns a clean 404 envelope (same contract as getSingleRetainer)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a nonexistent write-off id returns a clean 404 envelope (same contract as getSingleRetainer)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a malformed write-off id is refused before any SQL runs (no driver text leaks)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a malformed write-off id is refused before any SQL runs (no driver text leaks)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: paginated list finds a row by a unique search term",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-positive limit is refused with HTTP 400",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "pagination: a limit over 500 is capped at 500",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID pagination: a limit over 500 is capped at 500",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "happy path: creates a Time transaction, normalizes lowercase type, keeps decimal precision, and updates the job total",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID happy path: creates a Time transaction, normalizes lowercase type, keeps decimal precision, and updates the job total",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an unrecognized transaction_type is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent job id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID not-found: a nonexistent job id is refused",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cross-customer job refused: a job belonging to a different customer cannot be used",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID cross-customer job refused: a job belonging to a different customer cannot be used",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a non-billable transaction never draws a retainer, even when one is selected",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID a non-billable transaction never draws a retainer, even when one is selected",
+      "duration": 70,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a retainer-funded billable transaction draws the chain and creates the auto \"Retainer\" payment",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID a retainer-funded billable transaction draws the chain and creates the auto \"Retainer\" payment",
+      "duration": 71,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updates fields and the DB reflects the new values",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID happy path: updates fields and the DB reflects the new values",
+      "duration": 127,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an unrecognized transaction_type is refused and nothing changes",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused and nothing changes",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent transaction id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cross-customer job refused on update too",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID cross-customer job refused on update too",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an unbilled transaction cannot have its invoice link set via update (customerInvoicesID is not a mapped field)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID an unbilled transaction cannot have its invoice link set via update (customerInvoicesID is not a mapped field)",
+      "duration": 133,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "job totals follow the newest job-family row through create, amount edit, move to another job, and delete",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID job totals follow the newest job-family row through create, amount edit, move to another job, and delete",
+      "duration": 254,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A4-4: an edit that moves a transaction between VERSIONS of the SAME job family applies its amount delta exactly once",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID A4-4: an edit that moves a transaction between VERSIONS of the SAME job family applies its amount delta exactly once",
+      "duration": 194,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes the row and decrements the job total",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID happy path: deletes the row and decrements the job total",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent transaction id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an unrecognized transaction_type on the delete payload is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID validation failure: an unrecognized transaction_type on the delete payload is refused",
+      "duration": 78,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a billed transaction (customer_invoice_id set directly) cannot be deleted",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be deleted",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "deleting a retainer-funded transaction removes its auto \"Retainer\" payment and restores the retainer balance",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID deleting a retainer-funded transaction removes its auto \"Retainer\" payment and restores the retainer balance",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: paginated list finds a row by a unique search term",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-positive limit is refused with HTTP 400",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found-equivalent: a search matching nothing returns an empty list, not an error",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID not-found-equivalent: a search matching nothing returns an empty list, not an error",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "pagination: a limit over 500 is capped at 500",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID pagination: a limit over 500 is capped at 500",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: CSV has the header row, and a negative unit_cost stays intact",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID happy path: CSV has the header row, and a negative unit_cost stays intact",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search containing quotes, semicolons and -- returns a clean CSV (no 500)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID search containing quotes, semicolons and -- returns a clean CSV (no 500)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "neutralizes a detailed_work_description starting with \"=\" so it cannot execute as a formula on open",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID neutralizes a detailed_work_description starting with \"=\" so it cannot execute as a formula on open",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the transaction",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID happy path: returns the transaction",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 66,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent transaction id is refused in the app envelope ({ status: 404 }), like getSingleRetainer",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID not-found: a nonexistent transaction id is refused in the app envelope ({ status: 404 }), like getSingleRetainer",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-numeric transaction id is the same clean 404 refusal, not a raw HTTP 500",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID validation failure: a non-numeric transaction id is the same clean 404 refusal, not a raw HTTP 500",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: attributes a Time transaction's hours to the logged-for employee within the date range",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID happy path: attributes a Time transaction's hours to the logged-for employee within the date range",
+      "duration": 116,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found-equivalent: a date range with nothing logged still returns 200 with a zeroed roster",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID not-found-equivalent: a date range with nothing logged still returns 200 with a zeroed roster",
+      "duration": 54,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: stores starting_amount and current_amount NEGATIVE from a positive unitCost",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID happy path: stores starting_amount and current_amount NEGATIVE from a positive unitCost",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a $0 amount is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID validation failure: a $0 amount is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent customer id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID not-found: a nonexistent customer id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: re-prices the whole chain by the starting-amount delta and keeps draw-down history",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID happy path: re-prices the whole chain by the starting-amount delta and keeps draw-down history",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a $0 amount is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID validation failure: a $0 amount is refused",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent retainer id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID not-found: a nonexistent retainer id is refused",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: deletes an unused retainer",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID happy path: deletes an unused retainer",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent retainer id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refused when referenced: a retainer already drawn on cannot be deleted",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID refused when referenced: a retainer already drawn on cannot be deleted",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the retainer",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID happy path: returns the retainer",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent retainer id returns a clean 404 envelope",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id returns a clean 404 envelope",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a malformed retainer id is refused before any SQL runs (no driver text leaks)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a malformed retainer id is refused before any SQL runs (no driver text leaks)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: another tenant's retainer id is a 404, not a leak",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: another tenant's retainer id is a 404, not a leak",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists a live retainer for the customer",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID happy path: lists a live retainer for the customer",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found-equivalent: a customer with none returns an empty array",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID not-found-equivalent: a customer with none returns an empty array",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an exhausted retainer (drawn to $0) is not offered",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID an exhausted retainer (drawn to $0) is not offered",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a job-level write-off (no invoice) stores a NEGATIVE amount",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID happy path: a job-level write-off (no invoice) stores a NEGATIVE amount",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a $0 amount is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID validation failure: a $0 amount is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent invoice id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID not-found: a nonexistent invoice id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "applies directly to the customer's current chain",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID applies directly to the customer's current chain",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "remaps a reference to an absorbed chain onto the current chain and annotates the note",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID remaps a reference to an absorbed chain onto the current chain and annotates the note",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: updating an unbilled invoice-linked write-off re-prices its snapshot and the parent mirror",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID happy path: updating an unbilled invoice-linked write-off re-prices its snapshot and the parent mirror",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a $0 amount is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID validation failure: a $0 amount is refused",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent write-off id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a billed write-off is immutable",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID a billed write-off is immutable",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: symmetric delete removes the snapshot and restores the parent remaining",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID happy path: symmetric delete removes the snapshot and restores the parent remaining",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent write-off id is refused",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a billed write-off cannot be deleted",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID a billed write-off cannot be deleted",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the write-off",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID happy path: returns the write-off",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent write-off id returns a clean 404 envelope (same contract as getSingleRetainer)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a nonexistent write-off id returns a clean 404 envelope (same contract as getSingleRetainer)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a malformed write-off id is refused before any SQL runs (no driver text leaks)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a malformed write-off id is refused before any SQL runs (no driver text leaks)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: paginated list finds a row by a unique search term",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-positive limit is refused with HTTP 400",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "pagination: a limit over 500 is capped at 500",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID pagination: a limit over 500 is capped at 500",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "fullTitle": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

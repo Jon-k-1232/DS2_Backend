@@ -1,0 +1,1133 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 17,
+    "passes": 17,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:06.957Z",
+    "end": "2026-09-25T13:33:09.175Z",
+    "duration": 2218
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued snapshot refuses 200/500 and preserves every row",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued linked work refuses 200/500 and preserves every row",
+      "state": "passed",
+      "duration": 63
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed refuses 200/500 and preserves every row",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued beginning balance refuses 200/500 and preserves every row",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed predecessor refuses 200/500 and preserves every row",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | postcommit refresh failure reports exactly one saved deletion",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses GET eligibility | failed optional audit lookup preserves calculated balances and writes nothing",
+      "state": "passed",
+      "duration": 58
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving",
+      "state": "passed",
+      "duration": 36
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving",
+      "state": "passed",
+      "duration": 34
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt outstanding snapshot refuses 500 without saving",
+      "state": "passed",
+      "duration": 33
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total",
+      "state": "passed",
+      "duration": 33
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST exception flag | disappeared invoice under the ledger lock refuses 404 without writes",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "state": "passed",
+      "duration": 240
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "state": "passed",
+      "duration": 394
+    },
+    {
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "title": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "state": "passed",
+      "duration": 358
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "[fixture]"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:77:12": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued snapshot refuses 200/500 and preserves every row"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:144:8": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued snapshot refuses 200/500 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued linked work refuses 200/500 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed refuses 200/500 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued beginning balance refuses 200/500 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed predecessor refuses 200/500 and preserves every row"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:145:9": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued snapshot refuses 200/500 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued linked work refuses 200/500 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed refuses 200/500 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued beginning balance refuses 200/500 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed predecessor refuses 200/500 and preserves every row"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:86:12": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued linked work refuses 200/500 and preserves every row"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:94:12": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed refuses 200/500 and preserves every row"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:103:15": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued beginning balance refuses 200/500 and preserves every row"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed predecessor refuses 200/500 and preserves every row"
+      }
+    ],
+    "src/utils/committedResponse.js:20:5": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | postcommit refresh failure reports exactly one saved deletion"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:195:5": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses GET eligibility | failed optional audit lookup preserves calculated balances and writes nothing"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:384:5": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt outstanding snapshot refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:394:6": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt outstanding snapshot refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/invoiceCalculations/calculateInvoices.js:39:5": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt outstanding snapshot refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/invoiceCalculations/calculateInvoices.js:41:6": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt outstanding snapshot refuses 500 without saving"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/invoiceCalculations/paymentsCalculations.js:27:6": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/invoiceCalculations/retainerCalculations.js:9:6": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:38:6": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:109:9": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/invoiceCalculations/outstandingInvoicesCalculations.js:15:6": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt outstanding snapshot refuses 500 without saving"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/invoiceCalculations/transactionRetainerPaymentCalculations.js:17:6": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:631:5": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception flag | disappeared invoice under the ledger lock refuses 404 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:633:13": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception flag | disappeared invoice under the ledger lock refuses 404 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically"
+      }
+    ],
+    "src/endpoints/invoice/invoiceExceptions.js:23:17": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception flag | disappeared invoice under the ledger lock refuses 404 without writes"
+      }
+    ],
+    "src/utils/ledgerAction.js:16:3": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row"
+      }
+    ],
+    "src/utils/ledgerAction.js:18:6": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row"
+      }
+    ],
+    "src/endpoints/duplicates/duplicates-service.js:190:24": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row"
+      }
+    ],
+    "src/endpoints/invoice/invoiceExceptions.js:137:35": [
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically"
+      },
+      {
+        "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+        "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343187400-53znmi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343187400-53znmi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343187400-53znmi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343187400-53znmi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued snapshot refuses 200/500 and preserves every row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/2",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This row is a payment/write-off snapshot. Delete or reverse the payment or write-off instead."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued linked work refuses 200/500 and preserves every row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued linked work refuses 200/500 and preserves every row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/3",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot delete invoice with transactions, retainers, payments, or writeoffs."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed refuses 200/500 and preserves every row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/4",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invoice LEGACY-4 was rolled into a later statement (see its notes) and is part of that statement's history; it cannot be deleted."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued beginning balance refuses 200/500 and preserves every row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/5",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invoice LEGACY-5 rolled 0 earlier statement row(s) into its beginning balance ($100.00). Deleting it would erase that debt; void it with an adjustment instead."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed predecessor refuses 200/500 and preserves every row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/6",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invoice LEGACY-6 rolled 1 earlier statement row(s) into its beginning balance ($0.00). Deleting it would erase that debt; void it with an adjustment instead."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | postcommit refresh failure reports exactly one saved deletion",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/1/8",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted invoice. Your change was saved. Reload the page to refresh the lists; do not submit the change again."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses GET eligibility | failed optional audit lookup preserves calculated balances and writes nothing",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses GET eligibility | failed optional audit lookup preserves calculated balances and writes nothing",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/1/1",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error calculating invoices: Payment Total on customerID:1 is NaN"
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error calculating invoices: Retainer Total on customerID:1 is NaN"
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error calculating invoices: Write Off Total on customerID:1 is NaN"
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error calculating invoices: Transaction Total is NaN"
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt outstanding snapshot refuses 500 without saving",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error calculating invoices: Outstanding Invoice Total on customerID:1 is NaN"
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error calculating invoices: Transaction Retainer Payment Total on customerID:1 is NaN"
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception flag | disappeared invoice under the ledger lock refuses 404 without writes",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/9/exceptions/1/1",
+      "route": "/:invoiceID/exceptions/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Invoice not found."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188170-ik9l88/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188170-ik9l88/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188170-ik9l88/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188170-ik9l88/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/2/resolve/1/1",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188422-co0ujm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188422-co0ujm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188422-co0ujm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/12/exceptions/1/1",
+      "route": "/:invoiceID/exceptions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/12/exceptions/1/reverse/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/12/exceptions/1/resolve/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Invoice operation failed. No changes were committed; retry after checking the service."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188833-1t3tra/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188833-1t3tra/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343188833-1t3tra/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/17/exceptions/1/1",
+      "route": "/:invoiceID/exceptions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/17/exceptions/2/reverse/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "file": "test/integration/path-matrix-09-ledger-defenses.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/17/exceptions/2/resolve/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Invoice operation failed. No changes were committed; retry after checking the service."
+    }
+  ]
+}

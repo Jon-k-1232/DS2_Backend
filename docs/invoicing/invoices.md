@@ -1,138 +1,84 @@
-# Invoice list, detail and deletion
+# Invoice register, immutable statements and exceptions
 
-## 1. Purpose and UI
+Revision packaging: each revision ZIP contains its clearly marked correction PDF **and the exact unchanged original PDF**. Reprint/resend both together; this preserves full original itemization for modern and historical invoices. Missing/corrupt original archives fail before resolution commits.
 
-The invoice register lists issued parent statements and balance snapshots. UI route `/invoices/invoices` renders `../DS2_Frontend/src/Pages/Invoices/InvoiceGrids/InvoicesGrid.js`. Nested `/invoices/invoices/invoiceDetail/*` renders InvoiceSubRoutes with Transactions, Payments, Write-offs, Outstanding Invoices and Retainers tabs. The selected invoice comes from client context; the frontend chooses parent_invoice_id || customer_invoice_id and redirects when no selection exists. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:24`, `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceSubRoutes.js:31`.
+See the [owner decision record](../decisions/2026-09-24-owner-decisions.md) for the five-decision contract. This guide describes run 1, decisions 3 and 5.
 
-Create/export and calculations are in [create-invoice-engine.md](create-invoice-engine.md) and [month-end-finalize.md](month-end-finalize.md).
+## 1. Screens and issuance
+
+Month-end **finalize commits issuance**. DS2 has no separate emailed/mailed status, so this is the precise meaning of **Sent — locked**; it does not assert delivery. Draft previews are not issued. The register at `/invoices/invoices` and protected ledger rows display the lock and invoice number. Edit/delete/reversal forms direct the operator to the owning invoice's history.
+
+**Owner confirmation (2026-09-25):** drafts stay editable; finalizing an invoice is the same as sending it, so a finalized invoice and its transactions, payments, write-offs and retainers are locked. See the [decision record](../decisions/2026-09-24-owner-decisions.md#shared-rules-and-issuance-boundary).
+
+Details at `/invoices/invoices/invoiceDetail/*` show original totals and frozen Transactions, Payments, Write-offs, Retainers and Beginning Balance inputs, alongside `current_remaining_balance` from the newest child. Original issued values never become a current-balance cache. For example, an issued $500 parent remains $500 after a new $100 receipt; current balance is $400. Once the next statement includes that receipt, it too becomes locked.
+
+The history panel provides a required condition/reason/payment selection, Record exception, Reverse selected payments, then Issue revision for reprint/resend or Roll into next invoice. An uncorrected flag can be cancelled. Archived versions and actor/time/reason/record/balance history remain visible. The original downloader and each revision download fetch archived bytes. Delivery is an operator action.
 
 ## 2. Access rules
 
-Every route below requires authentication and backend role manager, admin, super admin or owner. The current role is loaded from the database. enforceAccountId rejects a noninteger/foreign numeric account with 403; missing authentication/account context produces 401. userID is not a self-only restriction; these are account-wide operations. Sources: `src/app.js:138`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/invoice/invoice-router.js:5`, `src/endpoints/auth/account-scope.js:7`.
-
-The frontend manager gate includes owner ([F37](../_review/findings.md#f37)). Source: `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
+All invoice routes require an active authenticated user with role manager, admin, super admin or owner and an account matching the session. No cross-tenant administrator bypass exists. The actor is the session user, never the `userID` route argument. Shared authentication/authorization failures are HTTP 401/403; the API limiter may return 429. Unexpected errors are 500.
 
 ## 3. API reference
 
-Unexpected database failure in the role middleware can return HTTP 500 through the global handler. Source: `src/endpoints/auth/jwt-auth.js:77`, `src/app.js:178`.
+| Method and path | Request | Response and refusals |
+|---|---|---|
+| GET `/invoices/getInvoices/:accountID/:invoiceID` | Final segment retained for compatibility, unused as a filter | `activeInvoiceData:{activeInvoices,grid,treeGrid}`, message/status. Account parent and child rows, lock metadata. |
+| GET `/invoices/getInvoicesPaginated/:accountID/:userID` | page default 1, limit default 20 capped 500, search default empty | `invoicesList.activeInvoiceData` with grid, rows, pagination and searchTerm; 400 invalid pagination, 500 DB/grid failure. Fixed invoice-date DESC order. |
+| GET `/invoices/getInvoiceDetails/:invoiceID/:accountID/:userID` | Scoped invoice ID | Original invoiceDetails plus current_remaining_balance, sentHistory, and five named ledger Data groups with arrays/grids. 404 missing row/contact; 500 database failure. |
+| DELETE `/invoices/deleteInvoice/:accountID/:invoiceID` | No force parameter | Sent record: **HTTP 409**, `{status:409,code:'SENT_INVOICE_LOCKED',message:'locked: part of sent invoice INV-…'}`. Unissued safe empty parent: 200 refreshed invoicesList. Existing unissued structural/missing/DB refusals retain legacy HTTP 200/body500 envelopes. |
+| GET `/invoices/:invoiceID/history/:accountID/:userID` | Positive integer invoice ID (child resolves to root) | Lock metadata, current_remaining_balance, conditions, original issue, revisions, exceptions with selected payments, chronological events and statementPayments with eligibility. 400 malformed ID, 404 missing, 500 DB failure. GET never creates historical metadata. |
+| POST `/invoices/:invoiceID/exceptions/:accountID/:userID` | `{condition:'bounced_check',reason,paymentIds:[…]}` | Created exception (`flagged`). Reason 1–2000 characters; 1–100 distinct positive integer payment IDs. 400 invalid input; 404 missing invoice/payment on this statement; 409 unissued/child target, existing active exception or ineligible payment; 500 DB failure. |
+| POST `/invoices/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID` | No correction amounts accepted | Atomic positive reversals for exactly the selected receipts; reversal IDs, cancelled excess-retainer evidence, before/after balance and `state:'reversed'`. 400 malformed IDs; 404 missing; 409 wrong state, already reversed, retainer-funded or used overpayment excess; 500 DB failure. |
+| POST `/invoices/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID` | `{action:'revision'|'roll_forward'|'cancel'}` | State/result; revision includes immutable artifact_key, revision number and issued_amount. 400 invalid action/IDs; 404 missing; 409 wrong state or revision of an absorbed historical invoice; 500 DB/storage failure with state unchanged. |
 
-All routes share 401/403 above and HTTP 429 from the 300/minute API limiter. Unexpected rejected promises without a route catch are forwarded by express-async-errors to the global HTTP 500 handler. Sources: `src/app.js:7`, `src/app.js:100`, `src/app.js:178`.
+File downloads remain at `/invoices/downloadFile/:accountID/:userID`; see [storage](../platform/storage-and-downloads.md). Account-scoped lookup never discloses a foreign record. Unexpected transition errors expose a generic message, not SQL. Every unsuccessful precommit transition rolls back money, exception state and history together.
 
-### GET /invoices/getInvoices/:accountID/:invoiceID
+## 4. Data model and locks
 
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/invoices/getInvoices/:accountID/:invoiceID` |
-| Inputs | Required scoped accountID; invoiceID route segment is ignored. No query/body consumed; no pagination, filter or sort parameter. |
-| Success | HTTP 200 `{activeInvoiceData:{activeInvoices,grid,treeGrid},message,status:200}`. activeInvoices includes parent and child rows. |
-| Errors | Shared 401/403/429. Unexpected DB/grid errors reach the global **HTTP 500** handler. |
-| Evidence | `src/endpoints/invoice/invoice-router.js:37`. |
+Migration `023.sent_invoice_locks.sql` adds `invoice_issues`, `invoice_statement_members`, `invoice_exceptions`, `invoice_exception_payments`, `invoice_revisions`, `invoice_history` and the single migration-cutover row `invoice_lock_policy`. It does not rewrite existing business rows.
 
-### GET /invoices/getInvoicesPaginated/:accountID/:userID
+An issue saves the exact renderer input, artifact key, actor and timestamp. Membership saves row IDs and JSON snapshots for the customer ledger basis through issuance, including previously stamped work, balance-forward snapshots, receipts, hidden/netted write-offs and retainers. A row may support multiple statements. Pending unbilled work remains editable. Details use the exact frozen renderer groups, not cumulative membership as a period filter; legacy snapshots fall back to saved membership.
 
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/invoices/getInvoicesPaginated/:accountID/:userID` |
-| Inputs | accountID scoped; userID required route segment but not a user filter. Optional page default 1, limit default 20, search default ''. page/limit use parseInt; values <1 or NaN fail; limit capped at 500. Numeric prefixes/fractions are parsed, not strictly validated as integers. |
-| Search/sort | String search is trimmed; nonstring becomes ''. Matches customer display name, invoice number, invoice/due dates in YYYY-MM-DD. Fixed invoice_date DESC, no sort parameter. |
-| Success | HTTP 200 `{invoicesList:{activeInvoiceData:{activeInvoices,grid,pagination,searchTerm}},message,status:200}`. pagination = {page,limit,totalItems,totalPages}; no treeGrid. |
-| Errors | Shared 401/403/429; HTTP 400 Invalid pagination; HTTP 500 other caught failures, each with message/status. |
-| Evidence | `src/endpoints/invoice/invoice-router.js:538`, `src/utils/pagination.js:4`. |
+SQL triggers refuse changes/deletion of every protected invoice, transaction, receipt, write-off and retainer, plus direct insertion/relinking into an issued statement. Customer deletion and job reassignment/deletion cannot strand protected work. Imports receive the same barrier. Customer row locks serialize ledger writers with finalize. Application preflight and response normalization expose HTTP 409 before any partial mutation can commit.
 
-### GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID
+`invoice_issues`, membership, revisions and history are append-only. The exception state/selected reversal references are changed only by their transactional service. An exception grants a specific correcting event, never ordinary edit/delete access. Corrective payment/snapshot/retainer rows are immediately added to immutable membership.
 
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/invoices/getInvoiceDetails/:invoiceID/:accountID/:userID` |
-| Inputs | Required invoiceID/accountID/userID; account-scoped exact invoice-row lookup. No explicit numeric ID validation beyond the account guard. No query/paging/filter parameters. |
-| Success | HTTP 200 `{invoiceDetails,invoiceTransactionsData,invoicePaymentsData,invoiceWriteoffsData,invoiceRetainersData,invoiceOutstandingInvoicesData,message,status:200}`. Each Data member has its named array plus grid; retainer/outstanding groups also have treeGrid. |
-| Errors | Shared 401/403/429; HTTP 404 when the account-scoped invoice/contact query finds no row; unexpected failures go to the global HTTP 500 handler. |
-| Evidence | `src/endpoints/invoice/invoice-router.js:464`, `src/endpoints/invoice/invoice-router.js:495`, `src/app.js:178`. |
+Pre-cutover artifact-bearing parent statements lock conservatively without backfilling business rows. First explicit exception archives their available historical metadata and records `legacy_issue_recorded` with the current operator; original parent time/creator identify the historical issue. Their original PDF supplies the full original itemization. Statements without an artifact require archival review before production rollout; absence of evidence is not evidence of historical non-delivery.
 
-### DELETE /invoices/deleteInvoice/:accountID/:invoiceID
+## 5. Balances and revisions
 
-| Item | Contract |
-|---|---|
-| Method | DELETE |
-| Path | `/invoices/deleteInvoice/:accountID/:invoiceID` |
-| Inputs | accountID scoped; invoiceID required; no body/query. No numeric validation or force-delete flag. |
-| Success | HTTP 200 `{invoicesList:{activeInvoiceData},message,status:200}`, refreshed raw/grid/tree invoice list. |
-| Refusals/errors | Shared 401/403/429. Missing invoice, child/snapshot target, direct transactions/payments/write-offs, absorbed marker, child history, absorbed source chains, nonzero beginning balance, changed customer/links during locking, or DB failure all return **HTTP 200 with body status:500** and message. |
-| Evidence | `src/endpoints/invoice/invoice-router.js:59`, `src/endpoints/invoice/invoice-router.js:146`. |
+Payments/write-offs after issuance create new children and leave parent totals, dates, paid status and notes unchanged. The latest child is the current balance. Absorption appends a zero child carrying `[absorbed_by:INV-…@YYYY-MM-DD]`; it never zeroes issued rows in place. Engine, Audit, AR and payment pickers use this chain model.
 
-Artifact downloads are documented in [storage and downloads](../platform/storage-and-downloads.md#3-api-reference).
+A bounced receipt appends a positive payment to the current live chain; the original receipt is unchanged. Unused overpayment excess is cancelled with a new zero retainer snapshot when its original is locked. Used excess refuses atomically. Revision amount = original issued due + all selected reversed receipt amounts for this invoice across exceptions. Cancelled excess is disclosed separately, not added to debt twice. Later payments/work remain separate activity; the UI shows current balance separately.
 
-## 4. Data model
+Revision uses the same invoice number and increasing revision number, a clearly marked PDF with frozen original content and explicit corrections, and a unique new object key. Original bytes/key never change. Revision is allowed only for a live statement. For an older absorbed statement, reverse onto the live chain and choose roll forward. Roll forward records resolution without posting money again. A storage failure leaves state retryable; a later database failure can leave an unreferenced unique blob but cannot overwrite or break a referenced original.
 
-| Source | Fields/behavior |
-|---|---|
-| customer_invoices | All invoice columns, including parent_invoice_id, invoice_number/date, due_date, remaining_balance_on_invoice, beginning_balance, monetary totals, paid status, notes, contact/creator and invoice_file_location. Only a guarded row deletion mutates them here. |
-| customers / users | display_name becomes customer_name and created_by_user_name in lists; both are inner joins. |
-| customer_information | Joined by the invoice's stored customer_info_id for detail; it need not still be active. |
-| customer_transactions / customer_payments / customer_writeoffs | Full account-scoped rows linked to any ID in the selected invoice chain. Payments/write-offs are signed credits or reversals, not display-normalized absolute values. |
-| customer_retainers_and_prepayments | Account/date-window history filtered to this customer; not limited to active/latest snapshots. |
-| accounts / S3 | storage_slug determines allowed download prefixes; stored objects are fetched unchanged. |
-| Evidence | `src/endpoints/invoice/invoice-service.js:31`, `src/endpoints/invoice/invoice-service.js:114`, `src/endpoints/invoice/invoice-router.js:480`, `src/endpoints/invoice/invoice-router.js:423`. |
+## 6. Unissued deletion and prior behavior
 
-Markers `[absorbed_by:...]` prevent deleting rolled-forward chains. Adjustment/payment snapshots are children, not independent issued statements. Source: `src/endpoints/invoice/invoice-router.js:81`, `src/endpoints/invoice/invoice-service.js:597`.
+Only an unissued empty parent with no linked rows/children, nonzero beginning balance, absorption source or marker may be deleted. These structural checks repeat under customer/invoice locks. Even an issued $0 empty invoice now refuses deletion.
 
-## 5. Read logic
+Billing Review's old post-issue cascade edit is deliberately replaced with 409. Ordinary edits to unissued fixtures retain cascade/rollback coverage. Direct reversal of a locked receipt now requires the audited exception route. Direct locked-retainer editing refuses; decision 1's append-only refund/adjustment interface is implemented in run2.
 
-Both list methods select invoice.* and joined customer/creator display names, filter invoice.account_id and order invoice_date DESC. They do not filter active customers, unpaid status or NULL parent. The paginated method counts a cloned filtered query, then fetches limit/offset; this is not a shared repeatable-read snapshot. Equal dates have no ID tie-break, so stable paging under ties/concurrent edits is not guaranteed. Source: `src/endpoints/invoice/invoice-service.js:31`.
+## 7. Verification
 
-Search uses case-insensitive LIKE on display name/number and TO_CHAR(date,'YYYY-MM-DD') LIKE. User % and _ retain SQL wildcard meaning. Count and page use identical filters. Source: `src/endpoints/invoice/invoice-service.js:39`.
+`scenario-lifecycle-12-sent-exceptions.integration.spec.js` tests the full workflow, preserved row/PDF bytes, all mutation surfaces, invalid inputs, tenant/role boundaries, races and injected DB/storage failures with unchanged-state checks. It hand-calculates $500 → $400 → $500 and a $150 overpayment split into $100 debt restoration plus $50 credit cancellation. The updated month-end/finalize/clean-room suites retain arithmetic and PDF/CSV coverage. Frontend jest covers history, errors, selection, transitions, archived downloads, lock indicators and current-snapshot payment selection. Exact final counts are in the [run results](../decisions/2026-09-24-run-1-results.md).
 
-Detail first joins the selected account invoice to customer and its stored contact. Resolve root = parent_invoice_id || requested ID. Read root/children scoped to account, ordered created_at DESC then ID DESC, and overlay **only remaining_balance_on_invoice** from the latest row. Other selected invoice fields remain as stored, so the result is not a fully reconstructed historical snapshot. Sources: `src/endpoints/invoice/invoice-service.js:82`, `src/endpoints/invoice/invoice-service.js:114`, `src/endpoints/invoice/invoice-router.js:473`.
 
-Then retrieve all chain IDs. Transactions have no explicit order; payments/write-offs order created_at ASC without an ID tie-break. These are chain-wide records, not rows gated by the statement timestamp. Source: `src/endpoints/invoice/invoice-router.js:483`.
+## Owner run 2 — retainers and duplicate review
 
-Retainer history uses created_at >= start_date AND created_at < end_date + 1 day, then customer filtering. Both business dates are inclusive, including the final microsecond of the ending day (fixed [F34](../_review/findings.md#f34); `review-retainer-dates.integration.spec.js`). Older still-active retainers created before start_date are also not returned. It is a history-window query, despite the route comment saying active retainers. Sources: `src/endpoints/invoice/invoice-router.js:487`, `src/endpoints/retainer/retainer-service.js:20`.
+Invoice Retainers detail now includes frozen `invoiceRetainersData.events` from issuance payload and displays refund/adjustment evidence. Duplicate review links locked candidates to invoice history but never unlocks them; currently only bounced-payment exceptions are supported. Zero-dollar statements carrying pending retainer events remain issuable. See [retainer events](../ledger/retainers-and-prepayments.md) and [duplicates](../ledger/duplicates.md).
 
-The outstanding tab fetches the customer's **current latest statement date** and today's outstanding candidate chains, even when opening an old invoice. It is not the saved beginning-balance section of that invoice. Source: `src/endpoints/invoice/invoice-router.js:490`.
+## Run 3 credit statements
 
-Grid columns derive from keys in the first row; rows receive index-based grid IDs. Tree data nests on parent IDs; rows whose parent is absent are promoted to roots. Empty input gives empty rows/columns. Source: `src/utils/gridFunctions.js:6`, `src/utils/gridFunctions.js:68`.
+A selected credit finalizes at the same sent/lock boundary. Invoice detail shows its original signed credit and no payment due at issuance, separately from its later current balance. The archived PDF is titled CREDIT STATEMENT and remains unchanged after carry-forward or a bounced-payment correction. Selection actor/time/reason is retained in invoice_issues/history (migration025). Existing exception/revision/roll-forward rules apply equally to credits. Drafts remain editable and write nothing to the ledger.
 
-## 6. Calculations
 
-These endpoints do not recompute billing amounts. Detail replaces selected-row remaining balance with the latest chain balance. Pagination offset = (page-1) × capped limit; totalPages = ceil(totalItems/limit), including zero pages for no items. Sources: `src/endpoints/invoice/invoice-router.js:476`, `src/utils/pagination.js:4`.
+## Owner decision 6 — hard Audit Record
 
-Example: a parent is $500 and its latest payment child is $350. Detail shows remaining $350 while its other fields still come from the originally selected parent. The Payments tab includes payments linked to any child. Source: `src/endpoints/invoice/invoice-router.js:473`.
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
 
-## 7. Create, edit and delete
+Opening an issued original/revision through the invoice downloader now records an `invoice_reprint` action after reading the archive and before returning bytes. This is nonfinancial and does not imply email delivery. Draft exports produce no issuance/reprint event.
 
-No create/update endpoint exists in this register subset. Creation uses finalize; billed changes use the cascade route. The following delete sequence is narrower than voiding a statement:
+### Pass 3 response failure checks
 
-1. Read account-scoped invoice; refuse if missing or parent_invoice_id is truthy.
-2. Refuse any directly linked transaction, payment or write-off, any absorption marker or children.
-3. Refuse if other invoice rows contain this invoice's absorption marker, or beginning_balance is nonzero.
-4. Begin transaction; lock the owning customer FOR NO KEY UPDATE, then the invoice FOR NO KEY UPDATE. Re-read and refuse a changed customer.
-5. Recheck structural/absorption conditions and all linked row counts under locks; delete only the account-scoped invoice row.
-6. Fetch refreshed register data after commit.
-
-Source: `src/endpoints/invoice/invoice-router.js:59`, `src/endpoints/invoice/invoice-router.js:105`.
-
-There is no S3 delete, child deletion, ledger unlink/reprice, retainer restoration or notification in this handler. Its wording mentions retainers, but the explicit direct-link count queries are transactions, payments and write-offs. A post-delete list failure can return an error after the row is gone. Source: `src/endpoints/invoice/invoice-router.js:66`, `src/endpoints/invoice/invoice-router.js:134`.
-
-The [generic download contract](../platform/storage-and-downloads.md#3-api-reference) authorizes account prefixes rather than invoice-row membership. It refuses audit PDFs for every role; these are served only by the dedicated Super Admin audit endpoint. Fixed [F4](../_review/findings.md#f4), regression `review-audit-download.integration.spec.js`. Sources: `src/utils/downloadAuthorization.js:40`, `src/endpoints/accountAudit/account-audit-router.js:37`.
-
-## 8. Invariants and tests
-
-| Existing spec | Evidence |
-|---|---|
-| test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js | Register/list/detail/delete/download status contracts, linked-ledger guards and tenant scoping. |
-| test/integration/coverage-downloads-authz.integration.spec.js | Key ownership, foreign paths and download authorization boundaries. |
-| test/utils/downloadAuthorization.spec.js | Traversal/encoding/control-character refusals and account namespaces. |
-| ../DS2_Frontend/src/Pages/Invoices/InvoiceGrids/InvoicesGrid.test.js | Frontend register behavior. |
-
-No tests were executed for this documentation task. Stored PDF content is evidence of generation time, not proof that the current detail rows still match it. Sources: `src/endpoints/invoice/invoice-router.js:398`, `src/endpoints/billingReview/cascadeEdit.js:386`.
-
-## 9. Known limitations and open decisions
-
-The report leaves void-versus-delete and adjustment-only closed-period behavior open. It identifies duplicate parents, stale mirrors and rolled-forward balances needing accountant decisions, not automatic deletion. Source: `scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:61`.
-
-Storage authorization depends on migration 020 and the backend cutover; production completion is **not determined from the code**. Follow FINAL_REPORT section 6 for backup, migration ordering, backend-before-frontend and environment settings. Source: `scripts/review-2026-09/FINAL_REPORT.md:67`.
-
-Coverage: **4 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+Deleting an allowed empty, unissued legacy invoice confirms the committed deletion even if the refreshed invoice list fails. Likewise, failure of the shared sent-lock/duplicate-status decoration after a committed change returns success with `committed: true` and a reload warning; it does not expose rows missing their lock state or invite a duplicate submission. This fallback retains the finalized download link, skipped-customer identities and committed invoice IDs, so a partial batch remains actionable. Read-only decoration failure remains an error with no writes. Drafts remain editable and write nothing to the ledger; finalize is the sent/lock boundary. See `path-matrix-09-ledger-defenses` and `path-matrix-14-response-decoration` integration tests.

@@ -1,0 +1,228 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 15,
+    "passes": 15,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:40:01.373Z",
+    "end": "2026-09-25T06:40:02.536Z",
+    "duration": 1163
+  },
+  "tests": [
+    {
+      "title": "1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "fullTitle": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "duration": 573,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "1b. month-1 finalize stamps only customer_invoice_id \u2014 0.25 h / $18.75 / NULL note survive",
+      "fullTitle": "integration: finalize engine (HTTP) 1b. month-1 finalize stamps only customer_invoice_id \u2014 0.25 h / $18.75 / NULL note survive",
+      "duration": 89,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "6. AccountsWithBalance flags billed_today and counts only write-offs entered after the newest statement",
+      "fullTitle": "integration: finalize engine (HTTP) 6. AccountsWithBalance flags billed_today and counts only write-offs entered after the newest statement",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4a/5. a same-day re-run is skipped by default, the rest of the batch finalizes, and a non-conforming invoice_number is ignored",
+      "fullTitle": "integration: finalize engine (HTTP) 4a/5. a same-day re-run is skipped by default, the rest of the batch finalizes, and a non-conforming invoice_number is ignored",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4b. allowSameDayRebill creates a second parent that absorbs the first by chain identity, and every view reports the balance once",
+      "fullTitle": "integration: finalize engine (HTTP) 4b. allowSameDayRebill creates a second parent that absorbs the first by chain identity, and every view reports the balance once",
+      "duration": 48,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4b-ii. \u2026and the audit does not report the absorbed same-day statement as a live duplicate",
+      "fullTitle": "integration: finalize engine (HTTP) 4b-ii. \u2026and the audit does not report the absorbed same-day statement as a live duplicate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4b-iii. \u2026and the absorbed marker carries the statement date as YYYY-MM-DD",
+      "fullTitle": "integration: finalize engine (HTTP) 4b-iii. \u2026and the absorbed marker carries the statement date as YYYY-MM-DD",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance",
+      "fullTitle": "integration: finalize engine (HTTP) 2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3a. getInvoiceDetails lists the payments and write-offs tagged to the statement's snapshots",
+      "fullTitle": "integration: finalize engine (HTTP) 3a. getInvoiceDetails lists the payments and write-offs tagged to the statement's snapshots",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3a-ii. getInvoiceDetails on a snapshot row reports the chain's latest remaining",
+      "fullTitle": "integration: finalize engine (HTTP) 3a-ii. getInvoiceDetails on a snapshot row reports the chain's latest remaining",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "fullTitle": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "duration": 157,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3c. the audit balance agrees with the engine total after a bill-day write-off",
+      "fullTitle": "integration: finalize engine (HTTP) 3c. the audit balance agrees with the engine total after a bill-day write-off",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2b. deleteInvoice refuses a payment snapshot row",
+      "fullTitle": "integration: finalize engine (HTTP) 2b. deleteInvoice refuses a payment snapshot row",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2b-ii. \u2026and names the row as a snapshot",
+      "fullTitle": "integration: finalize engine (HTTP) 2b-ii. \u2026and names the row as a snapshot",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2c. a fresh zero-history parent with no stamped rows deletes cleanly",
+      "fullTitle": "integration: finalize engine (HTTP) 2c. a fresh zero-history parent with no stamped rows deletes cleanly",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "fullTitle": "integration: finalize engine (HTTP) 1a. sets up four customers and month-1 work including a quarter-hour row and a pre-statement job write-off",
+      "duration": 573,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "1b. month-1 finalize stamps only customer_invoice_id \u2014 0.25 h / $18.75 / NULL note survive",
+      "fullTitle": "integration: finalize engine (HTTP) 1b. month-1 finalize stamps only customer_invoice_id \u2014 0.25 h / $18.75 / NULL note survive",
+      "duration": 89,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "6. AccountsWithBalance flags billed_today and counts only write-offs entered after the newest statement",
+      "fullTitle": "integration: finalize engine (HTTP) 6. AccountsWithBalance flags billed_today and counts only write-offs entered after the newest statement",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4a/5. a same-day re-run is skipped by default, the rest of the batch finalizes, and a non-conforming invoice_number is ignored",
+      "fullTitle": "integration: finalize engine (HTTP) 4a/5. a same-day re-run is skipped by default, the rest of the batch finalizes, and a non-conforming invoice_number is ignored",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4b. allowSameDayRebill creates a second parent that absorbs the first by chain identity, and every view reports the balance once",
+      "fullTitle": "integration: finalize engine (HTTP) 4b. allowSameDayRebill creates a second parent that absorbs the first by chain identity, and every view reports the balance once",
+      "duration": 48,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4b-ii. \u2026and the audit does not report the absorbed same-day statement as a live duplicate",
+      "fullTitle": "integration: finalize engine (HTTP) 4b-ii. \u2026and the audit does not report the absorbed same-day statement as a live duplicate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "4b-iii. \u2026and the absorbed marker carries the statement date as YYYY-MM-DD",
+      "fullTitle": "integration: finalize engine (HTTP) 4b-iii. \u2026and the absorbed marker carries the statement date as YYYY-MM-DD",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance",
+      "fullTitle": "integration: finalize engine (HTTP) 2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3a. getInvoiceDetails lists the payments and write-offs tagged to the statement's snapshots",
+      "fullTitle": "integration: finalize engine (HTTP) 3a. getInvoiceDetails lists the payments and write-offs tagged to the statement's snapshots",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3a-ii. getInvoiceDetails on a snapshot row reports the chain's latest remaining",
+      "fullTitle": "integration: finalize engine (HTTP) 3a-ii. getInvoiceDetails on a snapshot row reports the chain's latest remaining",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "fullTitle": "integration: finalize engine (HTTP) 3b. getInvoiceDetails lists only this customer's retainers for the statement window, and the month-2 chain's own payments",
+      "duration": 157,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "3c. the audit balance agrees with the engine total after a bill-day write-off",
+      "fullTitle": "integration: finalize engine (HTTP) 3c. the audit balance agrees with the engine total after a bill-day write-off",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2b. deleteInvoice refuses a payment snapshot row",
+      "fullTitle": "integration: finalize engine (HTTP) 2b. deleteInvoice refuses a payment snapshot row",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2b-ii. \u2026and names the row as a snapshot",
+      "fullTitle": "integration: finalize engine (HTTP) 2b-ii. \u2026and names the row as a snapshot",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "2c. a fresh zero-history parent with no stamped rows deletes cleanly",
+      "fullTitle": "integration: finalize engine (HTTP) 2c. a fresh zero-history parent with no stamped rows deletes cleanly",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:31:35.418Z",
+    "end": "2026-09-25T13:31:35.673Z",
+    "duration": 255
+  },
+  "tests": [
+    {
+      "file": "test/integration/billing-regression.integration.spec.js",
+      "title": "integration: billing-correctness regression total_transaction = Σ(hours × billing_rate) for every auto-inserted row",
+      "state": "passed",
+      "duration": 152
+    },
+    {
+      "file": "test/integration/billing-regression.integration.spec.js",
+      "title": "integration: billing-correctness regression cascade-edit recomputes invoice total_charges to match Σ of its transactions",
+      "state": "passed",
+      "duration": 33
+    }
+  ],
+  "hits": {
+    "src/utils/comprehend.js:64:5": [
+      {
+        "file": "test/integration/billing-regression.integration.spec.js",
+        "test": "integration: billing-correctness regression total_transaction = Σ(hours × billing_rate) for every auto-inserted row"
+      },
+      {
+        "file": "test/integration/billing-regression.integration.spec.js",
+        "test": "integration: billing-correctness regression cascade-edit recomputes invoice total_charges to match Σ of its transactions"
+      }
+    ]
+  },
+  "requests": []
+}

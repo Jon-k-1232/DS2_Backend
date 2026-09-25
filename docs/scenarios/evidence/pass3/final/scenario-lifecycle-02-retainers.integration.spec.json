@@ -1,0 +1,3054 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 9,
+    "passes": 9,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:48.964Z",
+    "end": "2026-09-25T13:24:52.719Z",
+    "duration": 3755
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "title": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "state": "passed",
+      "duration": 281
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "title": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "state": "passed",
+      "duration": 244
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "title": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "state": "passed",
+      "duration": 117
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "title": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "state": "passed",
+      "duration": 342
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "title": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "state": "passed",
+      "duration": 191
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "title": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "state": "passed",
+      "duration": 476
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "title": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "state": "passed",
+      "duration": 483
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "title": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "state": "passed",
+      "duration": 681
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "title": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "state": "passed",
+      "duration": 444
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:125:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:66:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:68:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:68:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:70:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:141:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:501:32": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:1046:32": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:169:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:181:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:64:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:66:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:86:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:88:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:112:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:114:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:138:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:110:16": [
+      {
+        "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+        "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689406-vtk5a7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689406-vtk5a7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689406-vtk5a7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689406-vtk5a7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689534-e9pt7d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689534-e9pt7d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689534-e9pt7d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689534-e9pt7d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R01 receives $500 before work without creating invoice debt or an applied payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689690-uqjsas/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689690-uqjsas/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689690-uqjsas/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689690-uqjsas/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689809-nqbj2q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689809-nqbj2q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689809-nqbj2q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689809-nqbj2q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R02 draws $120 then $80, each creates exactly one offsetting payment",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689935-yoryss/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689935-yoryss/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689935-yoryss/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342689935-yoryss/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R03 reprices the first draw, preserves the later $80 draw and shifts both snapshots",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/1/1",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690047-ew4mj2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690047-ew4mj2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690047-ew4mj2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/1/1",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Starting amount cannot be less than the $230.00 already drawn from this retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690136-9mj747/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690136-9mj747/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690136-9mj747/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690136-9mj747/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/1/1",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690223-pj027a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690223-pj027a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690223-pj027a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/1/1",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690296-5zw1m8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690296-5zw1m8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690296-5zw1m8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690296-5zw1m8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R04 reduces starting funds, refuses less than used, permits exact exhaustion",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/1/1",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690414-9i4y6t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690414-9i4y6t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690414-9i4y6t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690501-koed3i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690501-koed3i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690501-koed3i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690501-koed3i/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R05 unwinds and re-enters one unbilled funded work item",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Retainer does not have enough balance to cover the transaction. Available: $70.00."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690622-51rn49/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690622-51rn49/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690622-51rn49/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690622-51rn49/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/2/1/1",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This retainer has already been drawn on and cannot be deleted. Delete the payments or time/charge entries that drew on it first."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690718-30i3zu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690718-30i3zu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690718-30i3zu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/5/1/1",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This row is a draw-down entry on retainer #2. Delete the payment or time/charge entry that drew on it instead."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690807-9zocux/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690807-9zocux/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690807-9zocux/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/14/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This entry is paid from a retainer/prepayment. Removing the retainer from it is not supported — mark the entry non-billable (which returns the amount to the retainer), or delete it and re-enter it."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690893-m1unpm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690893-m1unpm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690893-m1unpm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690893-m1unpm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/15/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/1/1",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Retainer-funded payments cannot be reversed here — adjust the retainer instead."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690994-n69eud/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690994-n69eud/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690994-n69eud/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342690994-n69eud/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/16/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R06 refuses overdraft, root/child deletion, detaching funding and reversing a draw",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_24_51_b4f54724-1cfb-442d-9d6e-6691888ddf48%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691208-e1xi84/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691208-e1xi84/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691208-e1xi84/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691208-e1xi84/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/17/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/1/1",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691314-t6vh4d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691314-t6vh4d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691314-t6vh4d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691314-t6vh4d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/18/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/1/1",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691411-5f31ok/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691411-5f31ok/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691411-5f31ok/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/19/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691492-6ev2ad/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691492-6ev2ad/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691492-6ev2ad/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691492-6ev2ad/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/20/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R07 finalizes a zero bill, keeps $70 credit, then locks the displayed retainer against edits",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691592-1velnf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691592-1velnf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691592-1velnf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691592-1velnf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/21/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691678-s4zaxk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691678-s4zaxk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691678-s4zaxk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691678-s4zaxk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/22/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Retainer does not have enough balance to cover the transaction. Available: $100.00."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691778-adousg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691778-adousg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691778-adousg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691778-adousg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/23/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691876-ot21c4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691876-ot21c4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691876-ot21c4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/24/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The selected retainer/prepayment has no remaining balance."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691970-8cu7ky/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691970-8cu7ky/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342691970-8cu7ky/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/25/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692048-3b5p40/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692048-3b5p40/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692048-3b5p40/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/26/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_24_52_7b917b48-84a1-4e26-bea9-b15ff60b6734%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692206-gz279m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692206-gz279m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692206-gz279m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/27/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R08 smaller retainer cannot part-fund a single entry; separate $100 draw plus $50 work bills $50",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692292-yay50e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692292-yay50e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692292-yay50e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/28/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692361-bhe189/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692361-bhe189/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692361-bhe189/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/29/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/8/1/1",
+      "route": "/getSingleRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved single retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/1/1",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692439-oc38kt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692439-oc38kt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692439-oc38kt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/30/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/8/1/1",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted retainer."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692514-65okml/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692514-65okml/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692514-65okml/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/31/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/8/1/1",
+      "route": "/getSingleRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching retainer record found."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692589-82i32v/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692589-82i32v/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692589-82i32v/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/32/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Recorded $90.00 as a prepayment retainer — no open invoice."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692666-tueo8k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692666-tueo8k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342692666-tueo8k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/33/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle R: retainers (hand oracle 02-retainers.md) R09 completes unused retainer CRUD and banks a hold-only payment without a payment row",
+      "file": "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    }
+  ]
+}

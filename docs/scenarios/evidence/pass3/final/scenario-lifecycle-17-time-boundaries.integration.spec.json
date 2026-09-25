@@ -1,0 +1,1241 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 10,
+    "passes": 10,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:26:33.567Z",
+    "end": "2026-09-25T13:26:35.759Z",
+    "duration": 2192
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "state": "passed",
+      "duration": 176
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "state": "passed",
+      "duration": 149
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "state": "passed",
+      "duration": 143
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "state": "passed",
+      "duration": 138
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "state": "passed",
+      "duration": 124
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "state": "passed",
+      "duration": 144
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "state": "passed",
+      "duration": 136
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "state": "passed",
+      "duration": 139
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "state": "passed",
+      "duration": 149
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "title": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "state": "passed",
+      "duration": 222
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "[fixture]"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+        "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794003-l31r3r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794003-l31r3r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794003-l31r3r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/1/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794211-464jq6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794211-464jq6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794211-464jq6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794211-464jq6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 1 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/2/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794380-bla9bv/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794380-bla9bv/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794380-bla9bv/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794380-bla9bv/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 6 min manually and through held tracker review cost $13.75 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/3/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794537-4himwj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794537-4himwj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794537-4himwj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794537-4himwj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 7 min manually and through held tracker review cost $27.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/4/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794688-uqqxa7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794688-uqqxa7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794688-uqqxa7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794688-uqqxa7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 14 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/5/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794841-tvqg02/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794841-tvqg02/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794841-tvqg02/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 15 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/6/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794983-hzxvy8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794983-hzxvy8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794983-hzxvy8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342794983-hzxvy8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 16 min manually and through held tracker review cost $41.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/7/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795142-rl40nw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795142-rl40nw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795142-rl40nw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 59 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/8/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795296-2b2zv3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795296-2b2zv3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795296-2b2zv3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 60 min manually and through held tracker review cost $137.5 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/9/1/1",
+      "route": "/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795449-2n3gfm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795449-2n3gfm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795449-2n3gfm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795449-2n3gfm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics 61 min manually and through held tracker review cost $151.25 each",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_35_fd0d4459-5640-4127-beb6-b74f5ac7cda8%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795681-aee4d1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795681-aee4d1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795681-aee4d1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342795681-aee4d1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "duration boundaries through manual, held review, invoice, audit, AR and analytics keeps actual tracker hours separate from rounded billed hours and freezes $1210 in the PDF",
+      "file": "test/integration/scenario-lifecycle-17-time-boundaries.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    }
+  ]
+}

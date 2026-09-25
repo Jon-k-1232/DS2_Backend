@@ -1,0 +1,513 @@
+--- src/endpoints/payments/payment-logic.js (before)
++++ src/endpoints/payments/payment-logic.js
+@@ -1,4 +1,5 @@
+ const dayjs = require('dayjs');
++const { committedResponse } = require('../../utils/committedResponse');
+ const paymentsService = require('./payments-service');
+ const invoiceService = require('../invoice/invoice-service');
+ const retainersService = require('../retainer/retainer-service');
+@@ -303,8 +304,7 @@
+  * @param {*} paymentTableFields
+  */
+ const returnTablesWithSuccessResponse = async (db, res, paymentTableFields, message) => {
+-   const tables = await buildLedgerTablesPayload(db, paymentTableFields.account_id);
+-   res.send({ ...tables, message, status: 200 });
++   return committedResponse(res, message, () => buildLedgerTablesPayload(db, paymentTableFields.account_id));
+ };
+ 
+ /**
+--- src/endpoints/payments/payments-router.js (before)
++++ src/endpoints/payments/payments-router.js
+@@ -1,3 +1,4 @@
++const { validateLedgerInput } = require('../../utils/ledgerInput');
+ const express = require('express');
+ const jsonParser = express.json();
+ const { sanitizeFields } = require('../../utils/sanitizeFields');
+@@ -19,15 +20,17 @@
+ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async (req, res) => {
+    const db = req.app.get('db');
+    try {
++      validateLedgerInput(req.body.payment, 'payment', { update: false });
+       const sanitizedNewPayment = sanitizeFields(req.body.payment || {});
++      validateLedgerInput(sanitizedNewPayment, 'payment', { update: false });
+       const input = buildCreatePaymentInput(sanitizedNewPayment, req.params.accountID, req.user?.user_id);
+       const { message, paymentTableFields } = await createPaymentCore(db, input);
+       return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
+    } catch (err) {
+       console.log(err);
+-      res.send({
++      res.status(err.inputValidation ? 400 : 200).send({
+          message: err.message || 'An error occurred while creating the Payment.',
+-         status: 500
++         status: err.inputValidation ? 400 : 500
+       });
+    }
+ });
+@@ -98,7 +101,9 @@
+ paymentsRouter.route('/updatePayment/:accountID/:userID').put(jsonParser, async (req, res) => {
+    const db = req.app.get('db');
+    try {
++      validateLedgerInput(req.body.payment, 'payment', { update: true });
+       const sanitizedUpdatedPayment = sanitizeFields(req.body.payment || {});
++      validateLedgerInput(sanitizedUpdatedPayment, 'payment', { update: true });
+ 
+       // Create new object with sanitized fields
+       const paymentTableFields = restoreDataTypesPaymentsTableOnUpdate(sanitizedUpdatedPayment);
+@@ -109,9 +114,9 @@
+       return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
+    } catch (err) {
+       console.log(err);
+-      res.send({
++      res.status(err.inputValidation ? 400 : 200).send({
+          message: err.message || 'An error occurred while updating the Payment.',
+-         status: 500
++         status: err.inputValidation ? 400 : 500
+       });
+    }
+ });
+--- src/endpoints/retainer/retainer-logic.js (before)
++++ src/endpoints/retainer/retainer-logic.js
+@@ -61,7 +61,7 @@
+       const fields = { ...retainerFields, note: stripLinkMarkers(retainerFields.note), account_id: Number(accountId), parent_retainer_id: null };
+       await lockCustomerLedger(trx, accountId, fields.customer_id);
+ 
+-      const amount = round2(-Math.abs(Number(fields.starting_amount)));
++      const amount = -round2(Math.abs(Number(fields.starting_amount)));
+       if (!(amount < 0)) throw ruleError('Retainer amount must be greater than $0.00.');
+       if (!fields.type_of_hold) throw ruleError('Select a type of hold (Retainer or Prepayment).');
+ 
+@@ -101,7 +101,7 @@
+       const requested = Number(retainerFields.starting_amount);
+       let newStarting = oldStarting;
+       if (Number.isFinite(requested)) {
+-         newStarting = round2(-Math.abs(requested));
++         newStarting = -round2(Math.abs(requested));
+          if (!(newStarting < 0)) throw ruleError('Retainer amount must be greater than $0.00.');
+       }
+ 
+--- src/endpoints/retainer/retainer-router.js (before)
++++ src/endpoints/retainer/retainer-router.js
+@@ -1,3 +1,5 @@
++const { committedResponse } = require('../../utils/committedResponse');
++const { validateLedgerInput } = require('../../utils/ledgerInput');
+ const express = require('express');
+ const jsonParser = express.json();
+ const { sanitizeFields } = require('../../utils/sanitizeFields');
+@@ -15,7 +17,9 @@
+    const { accountID } = req.params;
+ 
+    try {
++      validateLedgerInput(req.body.retainer, 'retainer', { update: false });
+       const sanitizedNewRetainer = sanitizeFields(req.body.retainer || {});
++      validateLedgerInput(sanitizedNewRetainer, 'retainer', { update: false });
+ 
+       // Create new object with sanitized fields
+       const retainerTableFields = restoreDataTypesRetainersTableOnCreate(sanitizedNewRetainer);
+@@ -29,9 +33,9 @@
+       await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully created new retainer.');
+    } catch (err) {
+       console.log(err);
+-      res.send({
++      res.status(err.inputValidation ? 400 : 200).send({
+          message: err.message || 'An error occurred while creating the Retainer.',
+-         status: 500
++         status: err.inputValidation ? 400 : 500
+       });
+    }
+ });
+@@ -42,7 +46,9 @@
+    const { accountID } = req.params;
+ 
+    try {
++      validateLedgerInput(req.body.retainer, 'retainer', { update: true });
+       const sanitizedUpdatedRetainer = sanitizeFields(req.body.retainer || {});
++      validateLedgerInput(sanitizedUpdatedRetainer, 'retainer', { update: true });
+ 
+       // Create new object with sanitized fields
+       const retainerTableFields = restoreDataTypesRetainersTableOnUpdate(sanitizedUpdatedRetainer);
+@@ -55,9 +61,9 @@
+       await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully updated retainer.');
+    } catch (err) {
+       console.log(err);
+-      res.send({
++      res.status(err.inputValidation ? 400 : 200).send({
+          message: err.message || 'An error occurred while updating the Retainer.',
+-         status: 500
++         status: err.inputValidation ? 400 : 500
+       });
+    }
+ });
+@@ -148,18 +154,20 @@
+ module.exports = retainerRouter;
+ 
+ const sendUpdatedTableWith200Response = async (db, res, accountID, message = 'Successfully created new retainer.') => {
+-   // Get all retainers
+-   const activeRetainers = await retainerService.getActiveRetainers(db, accountID);
++   return committedResponse(res, message, async () => {
++      // Get all retainers
++      const activeRetainers = await retainerService.getActiveRetainers(db, accountID);
+ 
+-   const activeRetainerData = {
+-      activeRetainers,
+-      grid: createGrid(activeRetainers),
+-      treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
+-   };
++      const activeRetainerData = {
++         activeRetainers,
++         grid: createGrid(activeRetainers),
++         treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
++      };
+ 
+-   res.send({
+-      accountRetainersList: { activeRetainerData },
+-      message,
+-      status: 200
++      return {
++         accountRetainersList: { activeRetainerData },
++         message,
++         status: 200
++      };
+    });
+ };
+--- src/endpoints/transactions/transactions-router.js (before)
++++ src/endpoints/transactions/transactions-router.js
+@@ -1,3 +1,4 @@
++const { committedResponse } = require('../../utils/committedResponse');
+ const express = require('express');
+ const jsonParser = express.json();
+ const { sanitizeFields } = require('../../utils/sanitizeFields');
+@@ -221,7 +222,7 @@
+       const userTime = fetchUserTime(activeUsers, transactions, 'Time');
+       // const userChargeCount = fetchUserTime(activeUsers, transactions, 'Charge');
+ 
+-      return sendUpdatedTableWith200Response(db, res, accountID, { userTime });
++      return await sendUpdatedTableWith200Response(db, res, accountID, { userTime }, false);
+    } catch (err) {
+       console.log(err);
+       res.send({
+@@ -262,40 +263,43 @@
+    };
+ }
+ 
+-const sendUpdatedTableWith200Response = async (db, res, accountID, additionalItems = {}) => {
+-   const [transactionsList, activeRetainers, activeJobs, activePayments] = await Promise.all([
+-      buildActiveTransactionsList(db, accountID),
+-      retainerService.getActiveRetainers(db, accountID),
+-      jobService.getActiveJobs(db, accountID),
+-      paymentsService.getActivePayments(db, accountID)
+-   ]);
+-
+-   const activePaymentsData = {
+-      activePayments,
+-      grid: createGrid(activePayments)
++const sendUpdatedTableWith200Response = async (db, res, accountID, additionalItems = {}, afterCommit = true) => {
++   const loadTables = async () => {
++      const [transactionsList, activeRetainers, activeJobs, activePayments] = await Promise.all([
++         buildActiveTransactionsList(db, accountID),
++         retainerService.getActiveRetainers(db, accountID),
++         jobService.getActiveJobs(db, accountID),
++         paymentsService.getActivePayments(db, accountID)
++      ]);
++
++      const activePaymentsData = {
++         activePayments,
++         grid: createGrid(activePayments)
++      };
++
++      const activeRetainerData = {
++         activeRetainers,
++         grid: createGrid(activeRetainers),
++         treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
++      };
++
++      const activeJobData = {
++         activeJobs,
++         grid: createGrid(activeJobs),
++         treeGrid: generateTreeGridData(activeJobs, 'customer_job_id', 'parent_job_id')
++      };
++
++      return {
++         ...additionalItems,
++         transactionsList,
++         accountRetainersList: { activeRetainerData },
++         accountJobsList: { activeJobData },
++         paymentsList: { activePaymentsData },
++         message: 'Successful.',
++         status: 200
++      };
+    };
+-
+-   const activeRetainerData = {
+-      activeRetainers,
+-      grid: createGrid(activeRetainers),
+-      treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
+-   };
+-
+-   const activeJobData = {
+-      activeJobs,
+-      grid: createGrid(activeJobs),
+-      treeGrid: generateTreeGridData(activeJobs, 'customer_job_id', 'parent_job_id')
+-   };
+-
+-   res.send({
+-      ...additionalItems,
+-      transactionsList,
+-      accountRetainersList: { activeRetainerData },
+-      accountJobsList: { activeJobData },
+-      paymentsList: { activePaymentsData },
+-      message: 'Successful.',
+-      status: 200
+-   });
++   return afterCommit ? committedResponse(res, 'Successful.', loadTables) : res.send(await loadTables());
+ };
+ 
+ // Cells go through the shared csv-util: user-entered text that a spreadsheet
+--- src/endpoints/user/user-router.js (before)
++++ src/endpoints/user/user-router.js
+@@ -84,7 +84,9 @@
+          userDataTypes.access_level = normalizeAccessLevel(userDataTypes.access_level);
+ 
+          const targetUserID = Number(userDataTypes.user_id);
+-         const isSelf = targetUserID === Number(req.user.user_id);
++         const validTargetID = ['string', 'number'].includes(typeof userDataTypes.user_id) &&
++            Number.isSafeInteger(targetUserID) && targetUserID > 0 && targetUserID <= 2147483647;
++         const isSelf = validTargetID && targetUserID === Number(req.user.user_id);
+          // is_user_active on the mapped object is `undefined` (not `false`)
+          // when the caller omits it, so this only fires on an explicit
+          // deactivation, never on an unrelated field edit.
+@@ -98,7 +100,12 @@
+ 
+          await db.transaction(async trx => {
+             await trx('accounts').where({ account_id: Number(accountID) }).forNoKeyUpdate().first();
+-            const [currentTarget] = await accountUserService.fetchUser(trx, accountID, targetUserID);
++            const [currentTarget] = validTargetID ? await accountUserService.fetchUser(trx, accountID, targetUserID) : [];
++            if (!currentTarget) {
++               const error = new Error('User not found.');
++               error.status = 404;
++               throw error;
++            }
+             const willLoseSuperAdmin = willDeactivate || userDataTypes.access_level !== 'Super Admin';
+             await assertNotLastSuperAdmin(trx, accountID, currentTarget, targetUserID, willLoseSuperAdmin);
+             await accountUserService.updateUser(trx, userDataTypes, accountID);
+@@ -132,8 +139,27 @@
+ 
+          await db.transaction(async trx => {
+             await trx('accounts').where({ account_id: Number(accountID) }).forNoKeyUpdate().first();
+-            const [targetUser] = await accountUserService.fetchUser(trx, accountID, userID);
++            // Keep a concurrently inserted FK reference from slipping between
++            // this history check and DELETE (matched_user_id uses SET NULL).
++            const id = Number(userID);
++            const targetUser = Number.isSafeInteger(id) && id > 0 && id <= 2147483647
++               ? await trx('users').where({ account_id: Number(accountID), user_id: id }).forUpdate().first()
++               : null;
++            if (!targetUser) {
++               const error = new Error('User not found.');
++               error.status = 404;
++               throw error;
++            }
+             await assertNotLastSuperAdmin(trx, accountID, targetUser, userID, true);
++            const entry = await trx('timesheet_entries').where({ account_id: Number(accountID) })
++               .andWhere(q => q.where('user_id', id).orWhere('matched_user_id', id)).first();
++            const work = await trx('customer_transactions').where({ account_id: Number(accountID) })
++               .andWhere(q => q.where('logged_for_user_id', id).orWhere('created_by_user_id', id)).first();
++            if (entry || work) {
++               const error = new Error('This user has time entries or work history. Deactivate the user instead to preserve attribution.');
++               error.status = 409;
++               throw error;
++            }
+             await accountUserService.deleteUser(trx, userID, accountID);
+          });
+          await sendUpdatedTableWith200Response(db, res, accountID);
+--- src/endpoints/writeOffs/writeOffs-router.js (before)
++++ src/endpoints/writeOffs/writeOffs-router.js
+@@ -1,3 +1,5 @@
++const { committedResponse } = require('../../utils/committedResponse');
++const { validateLedgerInput } = require('../../utils/ledgerInput');
+ const express = require('express');
+ const jsonParser = express.json();
+ const { sanitizeFields } = require('../../utils/sanitizeFields');
+@@ -20,7 +22,9 @@
+    const accountID = Number(req.params.accountID);
+ 
+    try {
++      validateLedgerInput(req.body.writeOff, 'writeoff');
+       const sanitizedNewWriteOffs = sanitizeFields(req.body.writeOff || {});
++      validateLedgerInput(sanitizedNewWriteOffs, 'writeoff', { update: false });
+ 
+       // Create new object with sanitized fields
+       const writeOffTableFields = restoreDataTypesWriteOffsTableOnCreate(sanitizedNewWriteOffs);
+@@ -34,9 +38,9 @@
+       await sendUpdatedTableWith200Response(db, res, accountID, message);
+    } catch (err) {
+       console.log(err);
+-      res.send({
++      res.status(err.inputValidation ? 400 : 200).send({
+          message: err.message || 'An error occurred while creating the writeOff.',
+-         status: 500
++         status: err.inputValidation ? 400 : 500
+       });
+    }
+ });
+@@ -84,7 +88,9 @@
+ writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(jsonParser, async (req, res) => {
+    const db = req.app.get('db');
+    try {
++      validateLedgerInput(req.body.writeOff, 'writeoff', { update: true });
+       const sanitizedUpdatedWriteOffs = sanitizeFields(req.body.writeOff || {});
++      validateLedgerInput(sanitizedUpdatedWriteOffs, 'writeoff', { update: true });
+ 
+       // Create new object with sanitized fields
+       const writeOffTableFields = restoreDataTypesWriteOffsTableOnUpdate(sanitizedUpdatedWriteOffs);
+@@ -97,9 +103,9 @@
+       await sendUpdatedTableWith200Response(db, res, account_id, message);
+    } catch (err) {
+       console.log(err);
+-      res.send({
++      res.status(err.inputValidation ? 400 : 200).send({
+          message: err.message || 'An error occurred while updating the writeOff.',
+-         status: 500
++         status: err.inputValidation ? 400 : 500
+       });
+    }
+ });
+@@ -176,26 +182,28 @@
+ });
+ 
+ const sendUpdatedTableWith200Response = async (db, res, accountID, message) => {
+-   // Get all writeOff
+-   const activeWriteOffs = await writeOffsService.getActiveWriteOffs(db, accountID);
+-   const activeInvoices = await invoiceService.getInvoices(db, accountID);
+-
+-   // Return Object
+-   const activeWriteOffsData = {
+-      activeWriteOffs,
+-      grid: createGrid(activeWriteOffs)
+-   };
+-
+-   const activeInvoiceData = {
+-      activeInvoices,
+-      grid: createGrid(activeInvoices),
+-      treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id')
+-   };
+-
+-   res.send({
+-      invoicesList: { activeInvoiceData },
+-      writeOffsList: { activeWriteOffsData },
+-      message,
+-      status: 200
++   return committedResponse(res, message, async () => {
++      // Get all writeOff
++      const activeWriteOffs = await writeOffsService.getActiveWriteOffs(db, accountID);
++      const activeInvoices = await invoiceService.getInvoices(db, accountID);
++
++      // Return Object
++      const activeWriteOffsData = {
++         activeWriteOffs,
++         grid: createGrid(activeWriteOffs)
++      };
++
++      const activeInvoiceData = {
++         activeInvoices,
++         grid: createGrid(activeInvoices),
++         treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id')
++      };
++
++      return {
++         invoicesList: { activeInvoiceData },
++         writeOffsList: { activeWriteOffsData },
++         message,
++         status: 200
++      };
+    });
+ };
+--- /dev/null
++++ src/utils/committedResponse.js
+@@ -0,0 +1,18 @@
++'use strict';
++
++// Call only after a mutation's transaction has committed. A failed grid reload
++// cannot undo that write and must not instruct the user to submit it again.
++async function committedResponse(res, message, loadTables) {
++   try {
++      return res.send({ ...await loadTables(), message, status: 200 });
++   } catch (error) {
++      console.error('Committed mutation: response refresh failed', error);
++      return res.send({
++         status: 200,
++         committed: true,
++         message,
++         warnings: ['Your change was saved. Reload the page to refresh the lists; do not submit the change again.']
++      });
++   }
++}
++module.exports = { committedResponse };
+--- /dev/null
++++ src/utils/ledgerInput.js
+@@ -0,0 +1,67 @@
++'use strict';
++const { round2, ruleError } = require('../endpoints/payments/ledger-helpers');
++
++// Validate the submitted values before the legacy mappers coerce them. In
++// particular Number(true), Number([10]) and invalid optional IDs must not turn
++// a malformed request into a different, valid financial event.
++const invalid = message => {
++   const error = ruleError(message, 400);
++   error.inputValidation = true;
++   throw error;
++};
++const emptySelection = value => value == null || value === '';
++const scalarNumber = value => (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '')) && Number.isFinite(Number(value));
++
++function validLedgerDate(value) {
++   if (typeof value !== 'string') return false;
++   const match = /^(\d{4})-(\d{2})-(\d{2})(?:T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2}))?$/.exec(value);
++   if (!match) return false;
++   const [, yearText, monthText, dayText] = match;
++   const year = Number(yearText), month = Number(monthText), day = Number(dayText);
++   const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
++   const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
++   return year >= 1 && month >= 1 && month <= 12 && day >= 1 && day <= days[month - 1] && Number.isFinite(Date.parse(value));
++}
++
++function validateLedgerInput(data, kind, { update = false } = {}) {
++   if (!data || typeof data !== 'object' || Array.isArray(data)) invalid(`${kind} must be an object.`);
++   const label = { payment: 'Payment', writeoff: 'Write-off', retainer: 'Retainer' }[kind];
++   if (!(kind === 'retainer' && update && data.unitCost === undefined)) {
++      if (!scalarNumber(data.unitCost)) invalid(`${label} amount must be a finite number.`);
++      const amount = round2(Math.abs(Number(data.unitCost)));
++      if (!(amount > 0)) invalid(`${label} amount must be greater than $0.00.`);
++      if (amount > 99999999.99) invalid(`${label} amount exceeds the supported maximum of $99999999.99.`);
++   }
++
++   if (!update || data.customerID !== undefined) {
++      const id = data.customerID;
++      if (!scalarNumber(id) || !Number.isSafeInteger(Number(id)) || Number(id) < 1 || Number(id) > 2147483647) invalid('customerID must be a positive integer ID.');
++   }
++
++   const optionalIDs = kind === 'payment' ? ['selectedJobID', 'selectedInvoiceID', 'selectedRetainerID'] : kind === 'writeoff' ? ['selectedJobID', 'customerInvoiceID'] : [];
++   for (const field of optionalIDs) {
++      const value = data[field];
++      if (emptySelection(value)) continue;
++      if (!scalarNumber(value) || !Number.isSafeInteger(Number(value)) || Number(value) < 1 || Number(value) > 2147483647) invalid(`${field} must be a positive integer ID or an empty selection.`);
++   }
++
++   const dateField = kind === 'payment' ? 'transactionDate' : kind === 'writeoff' ? 'selectedDate' : null;
++   if (dateField && (!update || data[dateField] !== undefined) && !validLedgerDate(data[dateField])) invalid(`A valid ${kind === 'payment' ? 'payment' : 'write-off'} date is required.`);
++
++   const reasonKey = data.writeoffReason == null && data.writeOffReason !== undefined ? 'writeOffReason' : 'writeoffReason';
++   const required = kind === 'writeoff' ? reasonKey : kind === 'retainer' ? 'typeOfHold' : null;
++   if (required && (!update || data[required] !== undefined)) {
++      const value = data[required];
++      if (typeof value !== 'string' || !value.trim() || ['null', 'undefined'].includes(value)) invalid(kind === 'writeoff' ? 'A write-off reason is required.' : 'Select a type of hold (Retainer or Prepayment).');
++   }
++   const textFields = kind === 'writeoff' ? [[reasonKey, 50]] : [['formOfPayment', 50], ['paymentReferenceNumber', 50], ...(kind === 'retainer' ? [['displayName', 100], ['typeOfHold', 50]] : [])];
++   for (const [field, max] of [...textFields, ['note', null]]) {
++      const value = data[field];
++      if (value == null) continue;
++      if (typeof value !== 'string' || value.includes('\0')) invalid(`${field} must be text without null characters.`);
++      if (max && [...value].length > max) invalid(`${field} supports at most ${max} characters.`);
++   }
++   return data;
++}
++
++module.exports = { validateLedgerInput, validLedgerDate };

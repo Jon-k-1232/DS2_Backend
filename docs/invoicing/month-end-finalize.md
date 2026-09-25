@@ -1,5 +1,12 @@
 # Month-end finalization
 
+## Owner decision update — 2026-09-25
+
+The successful finalize transaction is the issuance/sent boundary; draft generation is not sent. After parent creation/stamping, capture the exact renderer payload, artifact key and ledger basis into invoice_issues/membership/revision 0/history in the same transaction. Existing issued chains are absorbed by appending zero closing children, never editing their rows. Storage/DB failures before commit leave no issued metadata; concurrent writers serialize on customer locks. New same-day issuance uses the existing explicit rebill rule. [Full contract](invoices.md).
+
+**Owner confirmation (2026-09-25):** a draft run is not sent and writes nothing to the ledger; a finalize run is the same as sending the invoices it issues, and locks them. No separate "mark as sent" step exists or is planned.
+
+
 ## 1. Purpose and UI
 
 Finalization issues rolling statements, links newly billed transactions/payments, absorbs prior statement balances and creates download artifacts. The same Create Invoice page also offers drafts and CSV-only output. Route: `/invoices/createInvoice`; page: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:17`; output defaults are CSV=true, draft=false, finalize=false. At least one selected customer and one output option are required by the UI, and finalized billing opens a confirmation dialog. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:26`, `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:10`, `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:62`.
@@ -20,13 +27,13 @@ Unexpected database failure in the role middleware can return HTTP 500 through t
 |---|---|
 | Method | POST |
 | Path | `/invoices/createInvoice/:accountID/:userID` |
-| Required body | invoiceConfiguration.invoicesToCreate: nonempty array of unique positive safe-integer customer_id values after Number conversion. |
-| Optional per customer | showWriteOffs true/'true'; invoiceNote; names used in skip messages. No explicit note length/type validation. |
-| Optional settings | invoiceConfiguration.invoiceCreationSettings: isFinalized, isRoughDraft, isCsvOnly (truthiness), allowSameDayRebill (only true/'true'), globalInvoiceNote. Absent flags are false. |
+| Required body | invoiceConfiguration.invoicesToCreate: nonempty array of unique positive int32 customer_id scalar number/numeric-string values. |
+| Optional per customer | showWriteOffs true/'true'; invoiceNote; strict boolean includeCreditStatement (default false); optional nonblank issueReason, max2000 characters; names used in skip messages. No explicit note length/type validation. |
+| Optional settings | invoiceConfiguration.invoiceCreationSettings: isFinalized, isRoughDraft, isCsvOnly, allowSameDayRebill (strict JSON booleans), globalInvoiceNote. Absent flags are false. |
 | Query/pagination | None consumed. No date parameter: billingDate is computed on the server. |
 | Success | HTTP 200 `{invoicesWithDetail,fileLocation,skippedCustomers,invoicesList:{activeInvoiceData},message,status:200}`. A wholly skipped batch has empty detail/fileLocation and succeeds. |
 | Authentication/errors | 401 missing/invalid/expired authentication; 403 role/account mismatch; 429 general 300/min limiter; 400 malformed JSON; 413 JSON >1 MB. |
-| Handler errors | **HTTP 200, body status:500** for invalid IDs/selection, missing mailing data, numbering overflow/collision, schema rejection, concurrent ledger change, lock-time same-day conflict, stale stamping, precommit PDF/CSV/S3/DB failure. After commit, export/readback failure returns status 200, committed=true, committedInvoices with IDs/numbers/individual invoice_file_location, and warnings; invoicesList may be absent. Errors in pre-try sanitization/settings destructuring instead reach global HTTP 500. |
+| Handler errors | Actual HTTP400 invalid IDs/options/reason,404 missing/foreign customer,409 concurrent ledger/number/same-day conflict,500 missing mailing data, numbering overflow, schema or PDF/CSV/storage/DB failure. After commit, export/readback failure remains200 with committed=true, IDs/artifact keys and warnings. |
 | Evidence | `src/endpoints/invoice/invoice-router.js:236`, `src/endpoints/invoice/invoice-router.js:249`, `src/endpoints/invoice/invoice-router.js:287`, `src/endpoints/invoice/invoice-router.js:389`, `src/app.js:70`, `src/app.js:100`. |
 
 This is the sole contract for compute-only, draft, CSV and final modes. Selection and calculation rules are in [create-invoice-engine.md](create-invoice-engine.md).
@@ -34,12 +41,12 @@ This is the sole contract for compute-only, draft, CSV and final modes. Selectio
 | Configuration field | Type, default and validation |
 |---|---|
 | invoicesToCreate | Required nonempty array. No explicit batch-count ceiling. |
-| invoicesToCreate[].customer_id | Number-converted positive safe integer, unique after conversion. Account-scoped reads supply authoritative customer data. |
+| invoicesToCreate[].customer_id | Positive int32 scalar number/numeric string, unique after conversion; ownership checked before pricing. Account-scoped reads supply authoritative customer data. |
 | invoicesToCreate[].showWriteOffs | Optional; true or 'true' selects shown mode. An automatic override is described below. |
 | invoicesToCreate[].invoiceNote | Optional individual PDF note; no explicit type/length validation. |
 | invoicesToCreate[].display_name / customer_name | Optional labels for skipped-customer messages. Billing contact details come from the database. |
 | invoiceCreationSettings | Optional, defaults to {}. |
-| invoiceCreationSettings.isFinalized / isRoughDraft / isCsvOnly | Optional, default false; JavaScript truthiness. The string 'false' is true. |
+| invoiceCreationSettings.isFinalized / isRoughDraft / isCsvOnly | Optional strict JSON booleans, default false; strings are refused. |
 | invoiceCreationSettings.allowSameDayRebill | Optional, true only for true or 'true'. |
 | invoiceCreationSettings.globalInvoiceNote | Optional PDF note; no explicit type/length validation. Global and individual notes render independently; null/undefined become empty strings (fixed [F31](../_review/findings.md#f31)). |
 | Evidence | `src/endpoints/invoice/invoice-router.js:243`, `src/endpoints/invoice/invoice-router.js:249`, `src/endpoints/invoice/createInvoice/invoiceCalculations/calculateInvoices.js:45`, `src/pdfCreator/templateOne/templateFunctions/templateOneNotes.js:72`. |
@@ -90,9 +97,9 @@ Example: last number INV-2026-00124 and three accepted customers produce 00125, 
 
 ### Orchestration order
 
-1. Sanitize configuration; validate nonempty unique positive customer IDs; compute billingDate and a new UUID runID.
+1. Validate raw configuration/strict booleans/customer IDs/reason, then sanitize and verify account ownership; compute billingDate and a new UUID runID.
 2. If finalized and allowSameDayRebill is false, remove customers already having a NULL-parent invoice on that date. Return successful skips if none remain.
-3. Take the repeatable-read billing snapshot; calculate invoices. For finalized output, skip negative or nonfinite totals. Zero is allowed. Drafts can expose negative totals for review.
+3. Take the repeatable-read billing snapshot; calculate invoices. For finalized output, skip negative totals unless that customer explicitly sent includeCreditStatement:true. Nonfinite totals fail. Zero is allowed. Drafts can expose negative totals and remain editable without ledger writes.
 4. Enrich contacts/numbering/logo/notes. Whenever any output flag is truthy, generate **both** CSV data and every PDF, even CSV-only mode.
 5. For finalized output, run the insertion orchestrator below. After it commits, upload the combined final ZIP.
 6. Read the current invoice list and return the detailed results, artifact key and skips.
@@ -101,7 +108,7 @@ Sources: `src/endpoints/invoice/invoice-router.js:243`, `src/endpoints/invoice/i
 
 ### Insertion orchestrator and locks
 
-The actual code uploads each customer's PDF ZIP **before** it constructs/validates all new invoice rows and enters the write transaction. The header comment's stronger validation-before-artifacts claim is not the executable order. It validates IDs, uniqueness, finite/nonnegative totals and a stamping plan; invoice schema checks include required keys, numeric/date/boolean/string types and permitted nulls. Sources: `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:32`, `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:60`, `src/endpoints/invoice/invoiceDataInsertions/schemaValidation/invoiceValidation.js:2`.
+The actual code uploads each customer's PDF ZIP **before** it constructs/validates all new invoice rows and enters the write transaction. The header comment's stronger validation-before-artifacts claim is not the executable order. It validates IDs, uniqueness, finite signed totals with explicit credit selection and a stamping plan; invoice schema checks include required keys, numeric/date/boolean/string types and permitted nulls. Sources: `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:32`, `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:60`, `src/endpoints/invoice/invoiceDataInsertions/schemaValidation/invoiceValidation.js:2`.
 
 Within **one transaction for the accepted batch**:
 
@@ -142,7 +149,7 @@ S3 is outside the database transaction. Failed validation/commit can leave orpha
 
 ### Edits/deletes after billing
 
-This route does not revise an issued invoice in place. Transaction edits use delta snapshots; deletion uses guarded invoice deletion. Existing saved PDF ZIPs are not regenerated by those edits. See [billing-review.md](billing-review.md) and [invoices.md](invoices.md). Sources: `src/endpoints/billingReview/cascadeEdit.js:386`, `src/endpoints/invoice/invoice-router.js:59`.
+This route does not revise an issued invoice in place. Sent transaction edits and issued-invoice deletion now refuse with HTTP409. A flagged bounced receipt creates a permitted positive reversal, followed by an archived revision package or carry-forward resolution. Unissued edits retain their existing delta-snapshot logic. Original saved PDF ZIPs are never regenerated or overwritten. See [billing-review.md](billing-review.md) and [invoices.md](invoices.md). Sources: `src/endpoints/billingReview/cascadeEdit.js:386`, `src/endpoints/invoice/invoice-router.js:59`.
 
 ## 8. Invariants and tests
 
@@ -174,12 +181,30 @@ These are the report's historical findings and amounts, not a new database audit
 | Retainer double subtraction | Customer 228, INV-2024-00397, remaining $472 includes a second subtraction of a $153 retainer payment. `scripts/review-2026-09/FINAL_REPORT.md:53`. |
 | Stored job totals | 151 families, net -$485, range -$275 to +$4; family 1343 stored $1,235 versus recomputed $960. Billing Review now appends whole-family totals under the customer lock; the historical report predates this correction ([F9](../_review/findings.md#f9)). `scripts/review-2026-09/FINAL_REPORT.md:54`. |
 | Internal billing | Customers 5 and 6 contain about $1.43 million of internal time labeled billable; configure INTERNAL_CUSTOMER_IDS and decide whether to add an explicit internal flag. `scripts/review-2026-09/FINAL_REPORT.md:55`. |
-| Credit/aging policy | Credit carry-forward/memos remain open; AR buckets age statements and oldest_open_charge_date is a FIFO estimate. `scripts/review-2026-09/FINAL_REPORT.md:56`. |
+| Credit/aging policy | Run 3 implements optional signed credit statements and carry-forward. AR buckets still age statements; oldest_open_charge_date is a FIFO estimate. `scripts/review-2026-09/FINAL_REPORT.md:56`. |
 
-The historical report requires accountant decisions for duplicate parents, bill-day write-offs, the 14 excluded sign exceptions, stale parent mirrors, broken job links, stale WIP, retainer double subtraction and job-family totals. Credit memos/carry-forward, adjustment-only period locks, void versus delete and persisted billing_runs remain open. Source: `scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:61`.
+The historical report requires accountant decisions for duplicate parents, bill-day write-offs, the 14 excluded sign exceptions, stale parent mirrors, broken job links, stale WIP, retainer double subtraction and job-family totals. The owner decisions now provide optional credit statements/carry-forward, sent-record locks, duplicate review and narrow bounced-payment corrections. Broader period policies, general void/reissue workflows and persisted billing_runs remain outside this implementation. Source: `scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:61`.
 
 Rollout requires backup and reviewed migration rehearsal; 019 then 020 and 021 as described by the migration guide. Apply 020 immediately before the new backend with no account creation in between; deploy backend before frontend. The tracker ownership backfill follows the new backend and requires reviewed manifests. Set INTERNAL_CUSTOMER_IDS and BILLING_TIMEZONE=America/Phoenix. These are recorded rollout requirements, not actions performed here. Source: `scripts/review-2026-09/FINAL_REPORT.md:67`.
 
 Coverage: **1 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
 
 F14 cutoff: preview, eligibility and finalization include unbilled work through the server billing date (America/Phoenix by default), including stale past work. Future transactions remain unlinked and are eligible on their date; there is no advance-billing option. Regression: `review-invoice-outcomes.integration.spec.js`.
+
+
+## Owner run 2 — retainers and duplicate review
+
+Migration 024 events participate in the repeatable-read billing inputs/fingerprint. Customer locks serialize refunds/adjustments, duplicate deletion and finalize. Issuance captures event membership and frozen rendering payload; no prior event/retainer row is rewritten. Pending events survive precommit DB/storage refusal and appear on the next successful statement once. Duplicate flags never change totals or authorize finalization edits.
+
+## Run 3 credit selection and errors
+
+A customer with `invoiceTotal < 0` is skipped by finalize unless `invoicesToCreate[].includeCreditStatement === true`. The skip reports `code:CREDIT_NOT_SELECTED` and preserves all pending rows and billing markers. Selection is per customer; no global opt-in. A stale positive grid total never authorizes a newly negative statement. Drafts can show signed credits without the flag. Finalize means sent and locked for both signs.
+
+`issueReason` is optional trimmed nonblank text of at most2000 characters; omission uses a descriptive server reason. Output flags (`isFinalized`, `isRoughDraft`, `isCsvOnly`, `allowSameDayRebill`) and credit selection are strict JSON booleans. Real HTTP statuses are400 for malformed options/IDs,401/403 for session/role/account denial,404 for missing or foreign selected customers,409 for concurrent ledger/number/finalization conflict,500 for DB/storage failures. A committed export/list-refresh failure remains200 with `committed:true` and a warning; never resubmit it.
+
+Migration025 adds immutable `invoice_issues.credit_selection_reason`; session actor, server time, exact signed payload and original artifact are already stored there. The `issued` history detail now carries reason, selection and signed amount; transaction-local actor/reason is set for the ledger writes. A chosen credit issues a normal locked parent with negative remaining, zero payment due, no new credit payment, and paid-in-full=false. Exact carried chains of either sign close once. Tests: scenario15 (selection/refusals/faults),16 (all five decisions),17 (time boundaries), existing finalize race/fault suites.
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

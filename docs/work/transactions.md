@@ -1,5 +1,18 @@
 # Time and charge transactions
 
+## Owner decision update — 2026-09-25
+
+Pass 4 UI correction: a transaction-grid refresh preserves keyboard focus in an open form. It no longer forcibly focuses the background search field and interrupts customer selection. The same correction applies to payment and write-off grids; `GridFocus.test.js` covers all three.
+
+Delete details can load before customer/job/employee lookup lists. They retain the stored record IDs while those lists load, then fill in the available labels. A sent record immediately shows **Sent — locked** and **Open invoice history**, with no ordinary delete control. A delete opened before another session finalizes still reaches the server, whose refusal is displayed without changing the record. `SentScreens.test.js`, `DeleteTimeOrCharge.failure.test.js` and the two-session browser case cover these paths.
+
+Time and charge creation now guard pending submissions and display request failures while preserving form values. An empty/negative duration cannot fall back to quantity1/rate0 and save a meaningless time entry. Required customer/job/employee/work description/date and nonnegative numeric quantity/rate are checked before posting; the backend remains authoritative. Six-minute time pricing and explicit charge quantities are unchanged. `FinancialSubmission.test.js` and the real browser mistakes suite cover these paths.
+
+A stale transaction-delete screen now displays the backend's sent-lock refusal (or request failure) and remains usable. Finalization in another session never permits deletion; `DeleteTimeOrCharge.failure.test.js` and the two-session browser case cover the error display and unchanged issued rows.
+
+Sent stamped transactions now refuse every edit/delete and Billing Review cascade with HTTP 409 naming the invoice. Work entry for new activity is still allowed and follows existing rounding. A trigger also protects raw imports/relinks, and family/retainer side effects roll back on conflict. GET rows expose sent_locked, locked_invoice_number and locked_invoice_id; grids/forms show the lock and history link. [Contract](../invoicing/invoices.md).
+
+
 ## 1. Purpose and UI
 
 Transactions record employee time or a charge against a customer and job. `/transactions/customerTransactions` renders `TransactionsGrid`; its Time and Charge dialogs use `Time.js`, `Charge.js`, `TimeOptions.js` and `ChargeOptions.js`. Customer profiles also show the customer's transactions (`../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:27`, `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/TransactionsGrid.js:99`, `../DS2_Frontend/src/Routes/GroupedRoutes/CustomerRoutes/CustomerProfileSubRoutes.js:93`).
@@ -24,19 +37,19 @@ Common transport errors: HTTP 401/403 above; HTTP 429 from the general 300/minut
 
 | Method | Path | Inputs | Success | Errors and triggers |
 |---|---|---|---|---|
-| POST | `/transactions/createTransaction/:accountID/:userID` | Required path IDs; body `{transaction:{...}}`, fields below | HTTP 200 refresh envelope T | Common errors; E500 for invalid type/customer/job, wrong customer job, unavailable/foreign/insufficient retainer, SQL/FK/date/amount failure. A rejected post-commit refresh reaches the global HTTP 500 handler because this route returns that promise without awaiting it. `src/endpoints/transactions/transactions-router.js:49` |
+| POST | `/transactions/createTransaction/:accountID/:userID` | Required path IDs; body `{transaction:{...}}`, fields below | HTTP 200 refresh envelope T | Common errors; E500 for invalid type/customer/job, wrong customer job, unavailable/foreign/insufficient retainer, SQL/FK/date/amount failure. A rejected postcommit refresh returns status200 with committed:true and a reload warning. `src/endpoints/transactions/transactions-router.js:49` |
 
 ### Update
 
 | Method | Path | Inputs | Success | Errors and triggers |
 |---|---|---|---|---|
-| PUT | `/transactions/updateTransaction/:accountID/:userID` | Required path IDs; full `{transaction:{...}}` including `transactionID` | HTTP 200 T, optional `warning` | Common errors; E500 for missing/changed entry, customer move, stored invoice link, invalid job, all funding refusals listed in section 7, invalid fields/SQL, or refresh failure. `src/endpoints/transactions/transactions-router.js:73` |
+| PUT | `/transactions/updateTransaction/:accountID/:userID` | Required path IDs; full `{transaction:{...}}` including `transactionID` | HTTP 200 T, optional `warning` | Common errors; E500 for missing/changed entry, customer move, stored invoice link, invalid job, all funding refusals listed in section 7, invalid fields or SQL failure; postcommit refresh failure returns committed success. `src/endpoints/transactions/transactions-router.js:73` |
 
 ### Delete
 
 | Method | Path | Inputs | Success | Errors and triggers |
 |---|---|---|---|---|
-| DELETE | `/transactions/deleteTransaction/:accountID/:userID` | Required path IDs; body `{transaction:{transactionID,customerID,transactionType}}`. Type must still be Time/Charge because the update mapper runs before deletion | HTTP 200 T, optional `warning` | Common errors; E500 for invalid type, missing/changed/wrong-customer entry, billed entry/payment/draw, ambiguous/inconsistent funding, absent job/customer, SQL or refresh failure. Stored amounts/job/retainer decide deletion, not body copies. `src/endpoints/transactions/transactions-router.js:95`, `src/endpoints/transactions/sharedTransactionFunctions.js:758` |
+| DELETE | `/transactions/deleteTransaction/:accountID/:userID` | Required path IDs; body `{transaction:{transactionID,customerID}}`. Identity fields are required; pricing and type are not required and cannot override stored values. If an optional transactionType is supplied, it must still be Time/Charge. | HTTP 200 T, optional `warning` | Common errors; E500 for missing/changed/wrong-customer entry, billed entry/payment/draw, ambiguous/inconsistent funding, absent job/customer, SQL failure; postcommit refresh failure returns committed success. Stored amounts/job/retainer decide deletion, not body copies. `src/endpoints/transactions/transactions-router.js:95`, `src/endpoints/transactions/sharedTransactionFunctions.js:758` |
 
 ### Paginated list
 
@@ -62,7 +75,7 @@ Common transport errors: HTTP 401/403 above; HTTP 429 from the general 300/minut
 
 | Method | Path | Inputs | Success | Errors and triggers |
 |---|---|---|---|---|
-| GET | `/transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID` | All path fields required; dates passed through dayjs `.format()`, no explicit validity/range check | HTTP 200 T plus `userTime:[{user,time,customers:[{customer,time,jobs:[{job,time,transactions:[...]}]}]}]` | Common errors; E500 for query/date failure; rejected returned refresh promise reaches global HTTP 500. Inverted valid range simply finds no matching time. `src/endpoints/transactions/transactions-router.js:209`, `src/endpoints/transactions/transactionLogic.js:1` |
+| GET | `/transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID` | All path fields required; dates passed through dayjs `.format()`, no explicit validity/range check | HTTP 200 T plus `userTime:[{user,time,customers:[{customer,time,jobs:[{job,time,transactions:[...]}]}]}]` | Common errors; E500 for query/date failure; refresh failure returns E500 without a committed flag. Inverted valid range simply finds no matching time. `src/endpoints/transactions/transactions-router.js:209`, `src/endpoints/transactions/transactionLogic.js:1` |
 
 Refresh **T** is `{transactionsList,accountRetainersList:{activeRetainerData:{activeRetainers,grid,treeGrid}},accountJobsList:{activeJobData:{activeJobs,grid,treeGrid}},paymentsList:{activePaymentsData:{activePayments,grid}},message:'Successful.',status:200,warning?,userTime?}`. Transactions reset to page 1, limit 20, empty search; other lists are unpaginated. No newly created transaction ID is returned separately (`src/endpoints/transactions/transactions-router.js:242`, `src/endpoints/transactions/transactions-router.js:265`).
 
@@ -122,9 +135,9 @@ CSV columns, in order: `transaction_id`, `customer_id`, `customer_name`, `transa
 
 ### Manual time and charges
 
-The hours input converts hours to `Math.round(hours*60)` minutes. For a positive manual duration M, whole hours plus `ceil(remainderMinutes/6)/10` is equivalent to `ceil(M/6)/10` hours. Selected employee `billing_rate` becomes unit cost. The displayed/submitted minutes become `Math.round(roundedHours*60)`. The post builder calculates `(quantity*unitCost).toFixed(2)`; Charge uses caller-entered quantity and unit cost. Missing employee or falsy/NaN duration resets quantity=1, unitCost=0, minutes=null (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeOptions.js:64`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeTrackingIncrements.js:4`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/SharedTransactionsFunctions.js:20`, `../DS2_Frontend/src/Services/SharedPostObjects/SharedPostObjects.js:53`).
+The hours input converts hours to `Math.round(hours*60)` minutes. For a positive manual duration M, whole hours plus `ceil(remainderMinutes/6)/10` is equivalent to `ceil(M/6)/10` hours. Selected employee `billing_rate` becomes unit cost. The submitted minutes retain the raw entered duration. Display and the post builder use integer-hundredth × integer-cent pricing rounded once to cents; Charge uses caller-entered quantity and unit cost. Missing employee or falsy/NaN duration resets quantity=1, unitCost=0, minutes=null (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeOptions.js:64`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeTrackingIncrements.js:4`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/SharedTransactionsFunctions.js:20`, `../DS2_Frontend/src/Services/SharedPostObjects/SharedPostObjects.js:53`).
 
-Examples at $150/hour: 1 minute ->0.1h->$15; 60 minutes ->1h->$150; 63 minutes ->1.1h->$165; 68 minutes ->1.2h->$180. The helper's unused-manual-duration branch is different: it uses `endTime.diff(startTime,'minutes',true)`, then dayjs minute remainder **plus 1**, and ceil/6. It should not be described as exactly the same formula at six-minute boundaries (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeTrackingIncrements.js:5`).
+Examples at $150/hour: 1 minute ->0.1h->$15; 60 minutes ->1h->$150; 63 minutes ->1.1h->$165; 68 minutes ->1.2h->$180. The timer branch now uses the same ceiling formula directly on elapsed minutes; the former extra minute was removed. See the run3 boundary tests and owner time-increment audit.
 
 Tracker ingestion and held-entry application calculate server-side: `quantityHundredths=ceil(Number(minutes)/6)*10`; `rateCents=round(Number(rate||0)*100)`; `totalCents=round(quantityHundredths*rateCents/100)`; return quantity/100, rate/100 and total/100. These flows require finite positive duration before applying. The shared transaction core verifies finite nonnegative cents pricing, `round2(quantity*unitCost)=totalTransaction`, and agreement with supplied minutes rounded up to six minutes ([F11](../_review/findings.md#f11)). A direct entry with absent/null/empty minutes can use two-decimal hours: 0.25 hours × $75 = $18.75 remains unchanged. Supplying 15 minutes instead requires 0.3 hours and $22.50 at that rate. The UI and tracker duration calculators retain their six-minute policy (`src/endpoints/transactions/transactionPricing.js`, `src/endpoints/timesheets/auto-ingest-orchestrator.js:541`, `src/endpoints/billingReview/billingReview-service.js:290`).
 
@@ -204,10 +217,28 @@ See [consolidated findings](../_review/findings.md): [F2](../_review/findings.md
 
 The prior review reports 5 billable jobless entries ($365), 9 cross-customer job links, 51 customers with about $14.8K stale unbilled work, 151 mismatched job-family totals, and roughly $1.43M of legacy billable internal work on customers 5/6. These are historical report figures. The accountant must decide treatment; current guards/calculations do not repair every old record (`scripts/review-2026-09/FINAL_REPORT.md:51`, `scripts/review-2026-09/FINAL_REPORT.md:55`).
 
-The report also flags duplicate statements, bill-day write-off inclusion/sign exceptions, invoice parent/snapshot disagreement, a suspected double retainer subtraction, negative-statement credit carry, and statement-age versus oldest-charge aging. Period locking, adjustment-only corrections, voids instead of deleting billing history, and persisted billing runs remain decisions (`scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:59`). Rollout requires reviewed migrations/backups and 019 rehearsal, 020/021 ordering and tracker backfill, backend before frontend, plus explicit `INTERNAL_CUSTOMER_IDS` and `BILLING_TIMEZONE=America/Phoenix` review (`scripts/review-2026-09/FINAL_REPORT.md:67`).
+The report also flags duplicate statements, bill-day write-off inclusion/sign exceptions, invoice parent/snapshot disagreement, a suspected double retainer subtraction, negative-statement credit carry, and statement-age versus oldest-charge aging. Owner decisions now provide sent-record locks, narrow bounced-payment exceptions, duplicate review and optional signed credit statements. Broader account-period policies, general void/reissue workflows and persisted billing runs remain separate work (`scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:59`). Rollout requires reviewed migrations/backups and 019 rehearsal, 020/021 ordering and tracker backfill, backend before frontend, plus explicit `INTERNAL_CUSTOMER_IDS` and `BILLING_TIMEZONE=America/Phoenix` review (`scripts/review-2026-09/FINAL_REPORT.md:67`).
 
 Coverage: **7 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
 
 F2 verification: `test/integration/review-related-ids.integration.spec.js` covers forged related IDs on create/update, session creators, preserved update attribution, and historical malformed label joins. No historical production-copy rows are repaired by this change.
 
 F11 verification: `review-transaction-policy.integration.spec.js` covers create/update rejection without ledger writes, supplied-duration mismatches, direct decimal-hour create/update with preserved cents/notes, and zero-quantity/Charge arithmetic. `finalize-engine.integration.spec.js` preserves the original 0.25 hours, $18.75 and NULL notes through statement creation. CSV export still preserves negative numeric rates in historical rows; new direct entries require nonnegative pricing. Billing Review retains its separately documented explicit total override for historical corrections.
+
+## Pass 2 retry and export verification
+
+Create/update/delete list-refresh failures after commit return status200, `committed:true` and an explicit reload-without-resubmission warning. Read-only employee report failures remain failures; they never claim a saved change. The invoice query defers future-dated work until the Phoenix billing date, while preserving older unbilled work. CSV descriptions beginning =,+,-,@,tab or CR are exported as text, quoted cells and unicode round-trip, and numeric amounts stay numeric. See [what-if scenarios](../scenarios/what-if-and-mistakes.md) for red/green evidence and exact oracles.
+
+
+## Owner run 2 — retainers and duplicate review
+
+The manual creation route runs duplicate detection inside the same transaction as job totals, funded draws and auto payments. Same customer/type/job/employee/description/quantity/rate/billability/amount and date within three days can produce a visible badge. Known tracker-linked rows are excluded. Flag/dismiss leaves work unchanged; removal invokes `deleteTransactionCore` and preserves sent/dependency checks. Event-bearing retainer snapshots cannot be rewritten by an earlier draw correction. See [duplicate review](../ledger/duplicates.md).
+
+## Owner run 3
+
+Manual duration pricing, tracker ingestion and held review use ceil(minutes/6)/10 hours and integer-cent multiplication. Direct supplied duration must match quantity; explicit quantity without duration preserves the existing decimal-hour contract. Manual edit preserves loaded quantity; frontend display/post use the same half-cent rule. Boundary scenarios cover1,6,7,14,15,16,59,60,61 minutes. See the [owner decisions](../decisions/2026-09-24-owner-decisions.md) and [combined scenario](../scenarios/16-owner-combined.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

@@ -1,4 +1,4 @@
-# DS2 full review and fix pass — 2026-09-22 → 2026-09-23
+# DS2 full review and fix pass — 2026-09-22 → 2026-09-25
 
 Branch `review/full-audit-2026-09` in DS2_Backend and DS2_Frontend (cut from `master`, which equals GitHub `master`: backend 45a57e9, frontend 53863d1). Nothing was deployed. The production database was only read (one `pg_dump` into a local Docker Postgres). Every fix, migration and test ran against that local copy (`ds2_local`), a clean-room database (`ds2_clean`) and a local MinIO standing in for S3.
 
@@ -53,18 +53,24 @@ Money/data defects found in the production copy, all FIXED on the branch with re
 - Customer 228 INV-2024-00397: remaining $472 double-subtracts a $153 retainer payment.
 - Job totals: 151 job families whose stored `current_job_total` on the newest version differs from the recomputed family total (net −$485, range −$275 to +$4; largest: family 1343 stored $1,235 vs $960). Pre-existing; the code now sums the whole version family, and the next edit on each job recomputes it (`job-family-totals-stored-vs-recomputed.csv`).
 - Internal entities (customers 5 and 6) carry $1.43M of "billable" internal time; set `INTERNAL_CUSTOMER_IDS` in prod and consider an internal flag.
-- Credit balances: finalize now skips negative statements with a reason; a carry-forward/credit-memo design is still open.
+- Credit balances: owner run 3 now skips negative statements by default and supports individually selected credit statements with signed carry-forward. See section 6 and the owner decision record.
 - AR aging ages the statement, not the charge; `oldest_open_charge_date` is a FIFO estimate.
 
 ## 4. Is the month-end model industry standard?
 
-Balance-forward monthly statements are standard for a small CPA firm; the bookkeeping underneath was not (mutable history, date gates, non-atomic runs, integer truncation) and is now fixed. Remaining design gaps to plan for: charge-level AR aging, a period lock with adjustment-only corrections, credit carry-forward, voids instead of deletes for anything that appeared on a statement, and a persisted `billing_runs` table. Full assessment: `industry-standard-assessment.md`.
+Balance-forward monthly statements are standard for a small CPA firm; the bookkeeping underneath was not (mutable history, date gates, non-atomic runs, integer truncation) and is now fixed. Owner runs 1–3 add sent-record locks, bounced-payment exceptions, retainer events, duplicate review and optional credit carry-forward. Remaining broader work includes charge-level AR aging, account-period policies, general void/reissue workflows and a persisted `billing_runs` table. Full assessment: `industry-standard-assessment.md`.
 
 ## 5. Tests (final counts filled in section 8)
 
 Backend unit (mocha), integration specs against the sandbox (one process per file), clean-room three-month regression against `ds2_clean`, drift check (engine vs audit vs AR for every customer), frontend jest, CI build, Playwright browser suite in `DS2/e2e`.
 
 ## 6. Migration and rollout notes
+
+**Start with section 12.3 (rollout at a glance)**. It gives the whole production order for migrations 017–027, the deploys, the backfill, the runtime database role and archive retention on one screen. The subsections below give the detail for each migration.
+
+
+- **Owner run 1 — 023 (`sent_invoice_locks`)**: applied by hand only to loopback ds2_local/ds2_clean/ds2_scenarios. Production remains an operator step: backup and rehearsal, review historical issued rows without artifacts, pause financial/import writers, apply 023 after 022 using `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/023.sent_invoice_locks.sql`, deploy the matching backend then frontend, verify immutable originals + exception reversal/revision + three-view agreement, then resume writers. Old code updates parent mirrors and is incompatible with the new triggers, so do not separate schema and app cutover or roll back code alone. Migration changes no existing business rows and preserves its initial cutover timestamp on rerun. See `docs/platform/operations.md` and `docs/decisions/2026-09-24-run-1-results.md` for exact run evidence.
+
 
 - Dev: `npm run migrate -- --baseline 18` once (dev has no runner history), then `npm run migrate`.
 - Prod: has no `schemaversion`; apply migration files by hand in order with `psql -X -1 -v ON_ERROR_STOP=1 -f`, then 019, then 020 (`accounts.storage_slug`, additive, idempotent; account 1 backfills to its existing `James_F__Kimmel___Associates` slug so no S3 key changes), then **021** (`tracker_file_owners` — additive, idempotent, no cutover ordering constraint of its own; see the paragraph below). Its manifest block is already populated (904 rows from the 2026-09-22 snapshot); run the BEGIN / file / audit SELECT / ROLLBACK rehearsal from `migrations/README.md` first and save its output — any row whose live data changed since 2026-09-22 shows as SKIPPED and stays on the review list. Take a backup first.
@@ -73,6 +79,36 @@ Backend unit (mocha), integration specs against the sandbox (one process per fil
 - **`021` (`tracker_file_owners`, Astra round 13 finding P2 — full writeup in `migrations/README.md` and section 10.9 below) has no cutover-ordering hazard of its own** — it only adds a table nothing existing reads or writes, so it is safe to apply with the old backend still serving traffic, any time after `020`. Apply it, then deploy the new backend (which queries this table unconditionally in `timeTracking-router.js`'s `buildKeyAuthorizer`, so the table must exist first). **After** that deploy, run the backfill with the production environment as a dry run (`DS2_ENV_FILE=.env.prod DATABASE_NAME=ds2_prod node scripts/timeTracking/backfill-tracker-owners.js`), review the rows CSV it writes to `scripts/timeTracking/out/` (each row names the owner's current display name; delete any line you do not approve; the unattributed CSV lists what it will not assign), and then apply exactly that reviewed file with `--apply --manifest <reviewed rows CSV> --i-know-this-is-prod`. The apply never re-plans: it validates that every row was reviewed against this database, bucket and legacy account, re-plans read-only only to detect drift, and refuses if an approved file is gone or would now be attributed differently (for example after a rename since the review); `--accept-drift` proceeds with the approved owners, never the recomputed ones. An approved file already owned by someone else is refused. After the apply, confirm it before telling staff: (1) the apply output's `inserted` plus `alreadyApplied` equals the number of rows in the reviewed CSV; (2) `SELECT source, count(*) FROM tracker_file_owners GROUP BY source` shows the reviewed `recorded-upload` and `folder-at-backfill` counts (410 and 140 in the preview, plus `upload` rows for anything uploaded since the deploy); (3) pick two or three reviewed rows and read them back (`SELECT account_id, user_id, source FROM tracker_file_owners WHERE s3_key = '<key>'`); (4) signed in as one of those employees (or as an admin viewing that employee), open time-tracker history and download one older file, and confirm a second employee's history does not list it. If any check fails, stop and investigate before re-running anything: the apply never overwrites an existing row, so a mistaken row is corrected by a reviewed, targeted `DELETE` of that one key followed by a new reviewed manifest for it. Between the backend deploy and that `--apply` run, employees' older tracker files (everything uploaded before the deploy; the deployed code shows them today) are hidden from history and refused for download, never exposed to the wrong person, so run the backfill immediately after the deploy. Files uploaded after the deploy are unaffected: the upload writes its own ownership row. An offline preview on production's read-only key listing and the 2026-09-22 snapshot attributes 550 of 551 keys (410 from exact upload records, 140 older files by folder at backfill time) across 14 employees; the one remaining key is the empty folder placeholder; nothing is ambiguous or unowned.
 - Deploy backend before frontend (the frontend depends on `skippedCustomers`, `allowSameDayRebill`, the 404 envelopes and the 410 on the legacy pending-approval route).
 - Set `INTERNAL_CUSTOMER_IDS` and `BILLING_TIMEZONE=America/Phoenix` in the prod task definition.
+
+### Owner run 2 rollout: migration 024
+
+After migration023 and before deploying the run2 backend, apply `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/024.retainer_events_duplicates.sql` by hand to the separately authorized target. Back up/rehearse first; pause financial writers until the paired backend/frontend are active. Migration024 adds retainer events, duplicate flags/history, immutable journal/snapshot guards and statement event membership. No historical business rows are changed; rerun preserves evidence. Do not restore an old backend that omits events or remove guards to undo a cutover. Validate session actor/reason, a refund/adjustment's next PDF, duplicate detection/dismiss/removal and sent refusal; reconcile available credit and the three debt views. A review scan writes flags and must be run as an authorized operator action.
+
+Run2 local hand applications cover ds2_local, ds2_clean and ds2_scenarios only (loopback5433, MinIO9000), with the protected account1 counts independently checked. The run2 results disclose a corrected test-runner isolation mistake involving temporary non-fixture accounts; provisioning specs now enforce ds2_clean. Scenario reset includes024. Production execution remains an unperformed operator step. Full commands, counts, limits and evidence: `docs/decisions/2026-09-25-run-2-results.md`; operational guide: `docs/platform/operations.md`.
+
+### Owner run 3 rollout: migration025 and optional credit statements
+
+Future authorized operator action: after backup/rehearsal and migrations through024, pause financial writers and apply `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/025.credit_statement_selection.sql`, then backend and frontend. The additive nullable immutable issue-selection reason does not rewrite business rows. Verify credit default-skip/explicit-select, signed carry-forward/zero crossing, finalize=sent locks, original artifact preservation, actor/reason, all five owner workflows and engine/Audit/AR drift0. Old clients safely skip credits; old server arithmetic is unsafe after credits are issued, so rollback must preserve signed carry-forward support. Decision6 follows later.
+
+025 was applied only to ds2_local, ds2_clean and ds2_scenarios on loopback5433; artifacts use MinIO9000. No production or AWS execution. The complete local evidence/output is `docs/decisions/2026-09-25-run-3-results.md`, with individual integration counts and account1 protection verification.
+
+
+
+### Owner run 4 rollout — migration026
+
+Future authorized operator step only: back up and rehearse; pause financial/import writers; apply migrations through025, then `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/026.audit_ledger.sql`; deploy the matching backend and frontend before resuming writers. Use a non-owner runtime database role without superuser, replication or schema-DDL rights. Grant the runtime SELECT on audit tables, INSERT on audit_records/audit_actions and usage on their sequences; do not grant direct event/head mutation. Capture functions run as the migration owner. Restrict the `audit-records/` storage prefix to conditional unique creates and authorized reads; retain objects and independent hashes/backups outside runtime deletion authority. Verify raw SQL capture as system, authenticated write actors, UPDATE/DELETE/TRUNCATE refusal, chain verification, admin-only profile tab, stored PDF hashes and identical reopening, then reconcile engine/Audit/AR (drift0). Keep existing finalize=sent locks. Never roll back by deleting audit evidence or restoring a backend that omits actor context.
+
+026 was applied by hand only to local ds2_local/ds2_clean/ds2_scenarios, without business-row backfill. Scenario reset includes it; clean-room reset rebuilds its disposable schema instead of truncating protected evidence. The runtime, archive and reconstructed-history limits are in `docs/platform/audit-ledger.md`; executed results are in `docs/decisions/2026-09-25-run-4-results.md`. Production/AWS execution is not authorized or performed.
+
+### Owner run 5 rollout — migration027
+
+Future authorized operator step only: back up and rehearse; apply `027.audit_record_presentations.sql` after 026 using `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/027.audit_record_presentations.sql`, then deploy the matching backend and frontend. Existing capture/issued-lock triggers and runtime role protections stay in place. Extend existing create-only/read-only archive retention to `.evidence.json` objects in the same private `audit-records/` prefix. No new cloud service or permission to delete/overwrite evidence is needed. Smoke-test both print choices, record-type metadata, JSON source digest/anchor verification, legacy PDF verification, and exact reopening of both files, then confirm three-view drift 0. Rollback must preserve both files and all new immutable metadata.
+
+027 was applied by hand only to the three allowed local databases, with scenario/clean-room reset inclusion and no business-row backfill. No production/AWS operation was performed. See `docs/decisions/2026-09-25-run-5-results.md` and `docs/platform/audit-ledger.md`.
+
+### Owner run 6 presentation follow-up
+
+No new migration or data operation. A future authorized release deploys the matching backend formatter/PDF renderer and frontend tab; smoke-test client archive-summary counts, plain verification wording, unchanged full-evidence itemization/API paths, and exact reopening of earlier stored artifacts. Migration027, hashing, storage, capture, finalize=sent locks and financial behavior are unchanged. Local samples and complete sequential acceptance are recorded in `docs/decisions/2026-09-25-run-6-results.md`; no production deployment occurred.
 
 ## 7. Environment notes
 
@@ -264,3 +300,59 @@ Complete feature and API documentation now lives in `DS2_Backend/docs/` (and is 
 The documentation pass surfaced 39 verified defects (`docs/_review/findings.md`: 7 P1, 29 P2, 3 P3). Astra fixed all of them with failing-first regression tests and updated the affected documents; none were deferred (`docs/_review/fixes-*.md`). A full regression then showed five older specs encoding the previous behaviour; Astra repaired them without weakening what they prove, and corrected two fixes that had been too strict (`docs/_review/regression-repair.md`). The payment-image Lambda received the atomic-import and verified-archive fixes (F5, F6) on its own review branch. Migration 022 was added (see section 6).
 
 Final state: backend unit 1,006 (including test/scripts 158); integration 1,139 across all 40 files, 0 failing, 0 pending; clean-room 18; three-view drift 0 of 320; account-1 rows unchanged; Lambda pytest 17; frontend jest 106 (25 suites); production build clean; Playwright 69 of 69. Commits: backend `cc035e1`, frontend `09c2082`, Lambda `07a2105`, all on `review/full-audit-2026-09` and pushed; nothing deployed.
+
+## 12. Scenario testing and Jon's billing decisions (2026-09-24 → 2026-09-25)
+
+Astra (`gpt-6-astra`, maximum reasoning effort) built and tested everything in this section, with Claude reviewing each run. All dummy data lived in the local sandbox only: `ds2_scenarios`, `ds2_clean` and fixture account 9001 in `ds2_local`. Production and AWS were not touched. After every run, account 1 in `ds2_local` still matched the pristine snapshot `ds2_ref_20260922` in row counts. Its content differs from the snapshot only where migration 019 was designed to change it: 33,129 literal "null" or "undefined" notes, 5,130 transaction-type capitalizations, 1 payment note, and 904 invoice payment-total signs. Claude checked this independently after run 2.
+
+### 12.1 Scenario suites
+
+| Pass | What it covers | Defects fixed |
+|---|---|---|
+| Lifecycle (S1) | Hand-computed math for work, retainers, payments before and after invoicing, write-offs, month-end, cascade edits, refusals, failures, state boundaries and integrity | 5 |
+| What-if and user mistakes (S2) | Bad values, retries, history edits, calendar races, CSV, boundaries | 5 (input validation, retainer half-cent rounding, post-commit refresh reporting, user delete erasing attribution, false success on missing or foreign users) |
+| Route path matrix (pass 3) | All 160 routes, 158 live contracts and 2 retired. 793 reachable error and fallback paths proven, 707 new tests | 4 response-handling defects: a save that committed could report failure, lock decoration could return 500 after commit, audit PDF errors carried PDF headers, a failed year-end ZIP could hang |
+| Browser (pass 4) | 40 new real-browser scenarios on top of the 69-test suite | 11 frontend defects, including double-submit on the four money-entry forms, invalid input reaching the API, and lost error messages. The full list is in `docs/scenarios/RESULTS-PASS4.md` |
+
+### 12.2 Jon's decisions and where they are built
+
+| # | Decision (Jon's words are in `docs/decisions/2026-09-24-owner-decisions.md`) | Built in | Migration |
+|---|---|---|---|
+| 1 | Retainers can be refunded or adjusted manually, with a reason and an immutable history | Run 2 | 024 |
+| 2 | Credit-balance invoices are optional. Create Invoice leaves them out by default, and each one can be opted in | Run 3 | 025 |
+| 3 | A sent invoice and every record on it are locked. **Finalize = sent**; drafts stay editable (Jon confirmed on 2026-09-25) | Run 1 | 023 |
+| 4 | Possible duplicates are flagged and visible, and can be dismissed or removed with a reason | Run 2 | 024 |
+| 5 | A bounced check is flagged, then reversed, then either reprinted as a numbered revision (correction plus the untouched original) or rolled forward | Run 1 | 023 |
+| 6 | Time follows the app's existing rule: round up to 6 minutes (0.1 h) everywhere. A timer that ended exactly on a 6-minute mark had billed one extra tenth; that is fixed | Run 3 | none |
+| 7 | Audit ledger: every change is logged with who, when, before, after and reason, in an append-only hash chain. An **Audit Record** tab on each client profile (admin and super admin) sits next to AI Audit, with printable immutable records: a "Client record" (default) and a "Full evidence record" | Runs 4–6 | 026, 027 |
+
+**Model change for the rolling balance:** issued parent invoices are now frozen original records. Payments, write-offs and reversals after issue append child balance snapshots. Carry-forward appends a zero child with the existing `[absorbed_by:…]` marker. A customer's balance is the latest snapshot of the newest statement chain; same-day chains are summed, and a negative balance is a credit. Create Invoice, Account Audit and AR agree, with 0 drift across 319 audit and 320 AR customers.
+
+**Claude's review interventions.** The first printed record was 32 pages of internal field names and JSON. Runs 5 and 6 made it a 6-page client-readable record, with a completeness test proving every change is still shown. Chromium cannot launch inside the Codex sandbox, so a Playwright browser server now runs outside the sandbox and Astra's tests connect to it; the sandbox itself was not loosened. The path-matrix pass was stopped after two read-only minutes and re-queued after run 5, so it covered the final routes.
+
+### 12.3 Rollout at a glance (future, authorized operator step; not performed)
+
+1. Back up and rehearse on a restored copy. Pause financial and import writers and account creation.
+2. Apply 017 → 027 in order with `psql -X -1 -v ON_ERROR_STOP=1 -f`. Run the 019 rehearsal first (section 10.1). The 020 constraint means the new backend must follow immediately.
+3. Deploy the backend, then the frontend. Run the tracker-owner backfill (section 6, 021).
+4. Run the app as a restricted database role (not owner or superuser) so the audit guards cannot be disabled. Set create-only retention on the `audit-records/` storage prefix.
+5. Verify Jon's decisions end to end and 0 drift across the three views, then resume writers.
+6. Before or at rollout, review historical issued invoices that lack an archived PDF (run 1 results). The locks treat only statements with an artifact as sent.
+
+### 12.4 Final independent regression (Claude, after all runs)
+
+Run on 2026-09-25 against the final code, after every Astra run, with the backend restarted on that code. Each command ran by itself, and every integration file ran in its own process.
+
+| Suite | Result |
+|---|---|
+| Backend unit (all of `test/` except integration) | 1,073 passing, 0 failing, 0 pending |
+| Integration: all 81 files, each run alone | 2,759 passing, 0 failing, 0 pending |
+| Dedicated scenario run (`npm run test:scenarios`) | 1,602 passing |
+| Clean-room (`npm run test:cleanroom`) | 18 passing |
+| Drift, read-only on `ds2_local` | 0 mismatches: engine vs Account Audit across 319 customers, engine vs AR across 320 |
+| Payment-image Lambda (pytest) | 17 passing |
+| Frontend Jest | 264 tests in 49 suites passing |
+| Frontend production build | passed |
+| Playwright, real browser | 114 passed, 0 failed, 0 flaky, 0 skipped |
+
+The dedicated scenario and clean-room runs repeat files that are also in the integration row, so their counts should not be added together. `ds2_local` holds only accounts 1 and 9001. Account 1 matches the snapshot `ds2_ref_20260922` except for migration 019's intended normalizations, listed at the top of this section.

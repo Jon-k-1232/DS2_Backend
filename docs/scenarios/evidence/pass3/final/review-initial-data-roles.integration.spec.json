@@ -1,0 +1,211 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 18,
+    "passes": 18,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:31.805Z",
+    "end": "2026-09-25T13:24:32.945Z",
+    "duration": 1140
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty customersList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty recurringCustomersList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty transactionsList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty invoicesList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty accountJobsList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty jobCategoriesList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty jobTypesList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty writeOffsList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty paymentsList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty accountRetainersList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns an empty workDescriptionsList including grids and counts to ordinary staff",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection returns only the session user ID and display name even with a different URL user ID",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection denies the dedicated ledger route and never queries financial/contact tables for the staff blob",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection keeps the documented projection for User",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection keeps the documented projection for Manager",
+      "state": "passed",
+      "duration": 137
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection keeps the documented projection for Admin",
+      "state": "passed",
+      "duration": 120
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection keeps the documented projection for Super Admin",
+      "state": "passed",
+      "duration": 117
+    },
+    {
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "title": "F3 initial data role projection keeps the documented projection for owner",
+      "state": "passed",
+      "duration": 125
+    }
+  ],
+  "hits": {
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/review-initial-data-roles.integration.spec.js",
+        "test": "F3 initial data role projection denies the dedicated ledger route and never queries financial/contact tables for the staff blob"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/initialData/initialBlob/9001/90013",
+      "route": "/initialBlob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully Retrieved Data."
+    },
+    {
+      "test": "F3 initial data role projection denies the dedicated ledger route and never queries financial/contact tables for the staff blob",
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "F3 initial data role projection denies the dedicated ledger route and never queries financial/contact tables for the staff blob",
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/9001/90011",
+      "route": "/initialBlob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully Retrieved Data."
+    },
+    {
+      "test": "F3 initial data role projection keeps the documented projection for User",
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/9001/90013",
+      "route": "/initialBlob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully Retrieved Data."
+    },
+    {
+      "test": "F3 initial data role projection keeps the documented projection for Manager",
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/9001/90013",
+      "route": "/initialBlob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully Retrieved Data."
+    },
+    {
+      "test": "F3 initial data role projection keeps the documented projection for Admin",
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/9001/90013",
+      "route": "/initialBlob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully Retrieved Data."
+    },
+    {
+      "test": "F3 initial data role projection keeps the documented projection for Super Admin",
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/9001/90013",
+      "route": "/initialBlob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully Retrieved Data."
+    },
+    {
+      "test": "F3 initial data role projection keeps the documented projection for owner",
+      "file": "test/integration/review-initial-data-roles.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/9001/90013",
+      "route": "/initialBlob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully Retrieved Data."
+    }
+  ]
+}

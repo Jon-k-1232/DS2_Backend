@@ -1,0 +1,33 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:39.106Z",
+    "end": "2026-09-25T13:24:39.576Z",
+    "duration": 470
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-retainer-dates.integration.spec.js",
+      "title": "F34 inclusive invoice retainer dates includes midnight, noon and the final microsecond of end day; excludes adjacent days and other customers",
+      "state": "passed",
+      "duration": 60
+    }
+  ],
+  "hits": {},
+  "requests": [
+    {
+      "test": "F34 inclusive invoice retainer dates includes midnight, noon and the final microsecond of end day; excludes adjacent days and other customers",
+      "file": "test/integration/review-retainer-dates.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/17533/9001/90013",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved invoice details."
+    }
+  ]
+}

@@ -1,0 +1,651 @@
+{
+  "status": "passed",
+  "process_policy": "serial; integration specs one at a time; no server lifecycle changes",
+  "unit": 1008,
+  "integration_files": 59,
+  "integration_passing": 1948,
+  "scenarios": 791,
+  "cleanroom": 18,
+  "frontend_jest": 127,
+  "frontend_suites": 31,
+  "frontend_build": "passed",
+  "drift_customers": 319,
+  "drift_differences": 0,
+  "failed": 0,
+  "pending": 0,
+  "account1_counts": {
+    "before": {
+      "customers": 338,
+      "customer_transactions": 39052,
+      "customer_payments": 1005,
+      "customer_writeoffs": 657,
+      "customer_invoices": 2253,
+      "timesheet_entries": 28255,
+      "users": 23
+    },
+    "after": {
+      "users": 23,
+      "customers": 338,
+      "customer_writeoffs": 657,
+      "customer_payments": 1005,
+      "customer_invoices": 2253,
+      "timesheet_entries": 28255,
+      "customer_transactions": 39052
+    },
+    "reference": {
+      "customers": 338,
+      "customer_transactions": 39052,
+      "customer_payments": 1005,
+      "customer_writeoffs": 657,
+      "customer_invoices": 2253,
+      "timesheet_entries": 28255,
+      "users": 23
+    }
+  },
+  "validation_runs": [
+    {
+      "label": "unit",
+      "exit": 0,
+      "seconds": 36.32,
+      "log": "/tmp/ds2-owner-final/unit.log",
+      "passing": 1008,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "analytics.integration.spec",
+      "exit": 0,
+      "seconds": 0.99,
+      "log": "/tmp/ds2-owner-final/analytics.integration.spec.log",
+      "passing": 11,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "billing-regression.integration.spec",
+      "exit": 0,
+      "seconds": 1.02,
+      "log": "/tmp/ds2-owner-final/billing-regression.integration.spec.log",
+      "passing": 2,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "cascade-edit-recompute.integration.spec",
+      "exit": 0,
+      "seconds": 0.99,
+      "log": "/tmp/ds2-owner-final/cascade-edit-recompute.integration.spec.log",
+      "passing": 11,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "clean-room-regression.integration.spec",
+      "exit": 0,
+      "seconds": 2.63,
+      "log": "/tmp/ds2-owner-final/clean-room-regression.integration.spec.log",
+      "passing": 18,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "coverage-account-users-auth-misc.integration.spec",
+      "exit": 0,
+      "seconds": 1.96,
+      "log": "/tmp/ds2-owner-final/coverage-account-users-auth-misc.integration.spec.log",
+      "passing": 200,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "coverage-billing-review.integration.spec",
+      "exit": 0,
+      "seconds": 0.93,
+      "log": "/tmp/ds2-owner-final/coverage-billing-review.integration.spec.log",
+      "passing": 31,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "coverage-downloads-authz.integration.spec",
+      "exit": 0,
+      "seconds": 0.98,
+      "log": "/tmp/ds2-owner-final/coverage-downloads-authz.integration.spec.log",
+      "passing": 36,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "coverage-invoices-audit-ar-analytics.integration.spec",
+      "exit": 0,
+      "seconds": 1.41,
+      "log": "/tmp/ds2-owner-final/coverage-invoices-audit-ar-analytics.integration.spec.log",
+      "passing": 131,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "coverage-jobs-masterdata.integration.spec",
+      "exit": 0,
+      "seconds": 2.23,
+      "log": "/tmp/ds2-owner-final/coverage-jobs-masterdata.integration.spec.log",
+      "passing": 124,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "coverage-payments-pending.integration.spec",
+      "exit": 0,
+      "seconds": 1.8,
+      "log": "/tmp/ds2-owner-final/coverage-payments-pending.integration.spec.log",
+      "passing": 102,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "coverage-pending-payments-authz.integration.spec",
+      "exit": 0,
+      "seconds": 0.97,
+      "log": "/tmp/ds2-owner-final/coverage-pending-payments-authz.integration.spec.log",
+      "passing": 10,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "coverage-timetracking-timesheets.integration.spec",
+      "exit": 0,
+      "seconds": 13.56,
+      "log": "/tmp/ds2-owner-final/coverage-timetracking-timesheets.integration.spec.log",
+      "passing": 106,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "coverage-transactions-retainers-writeoffs.integration.spec",
+      "exit": 0,
+      "seconds": 3.84,
+      "log": "/tmp/ds2-owner-final/coverage-transactions-retainers-writeoffs.integration.spec.log",
+      "passing": 84,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "finalize-engine.integration.spec",
+      "exit": 0,
+      "seconds": 1.49,
+      "log": "/tmp/ds2-owner-final/finalize-engine.integration.spec.log",
+      "passing": 15,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "finalize-snapshot.integration.spec",
+      "exit": 0,
+      "seconds": 0.93,
+      "log": "/tmp/ds2-owner-final/finalize-snapshot.integration.spec.log",
+      "passing": 9,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "month-end-lifecycle.integration.spec",
+      "exit": 0,
+      "seconds": 1.3,
+      "log": "/tmp/ds2-owner-final/month-end-lifecycle.integration.spec.log",
+      "passing": 19,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "orchestrator.integration.spec",
+      "exit": 0,
+      "seconds": 8.81,
+      "log": "/tmp/ds2-owner-final/orchestrator.integration.spec.log",
+      "passing": 7,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "payment-reversal.integration.spec",
+      "exit": 0,
+      "seconds": 2.97,
+      "log": "/tmp/ds2-owner-final/payment-reversal.integration.spec.log",
+      "passing": 49,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "pii-leak.integration.spec",
+      "exit": 0,
+      "seconds": 2.53,
+      "log": "/tmp/ds2-owner-final/pii-leak.integration.spec.log",
+      "passing": 2,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-account-atomicity.integration.spec",
+      "exit": 0,
+      "seconds": 0.97,
+      "log": "/tmp/ds2-owner-final/review-account-atomicity.integration.spec.log",
+      "passing": 4,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-analytics-identities.integration.spec",
+      "exit": 0,
+      "seconds": 0.95,
+      "log": "/tmp/ds2-owner-final/review-analytics-identities.integration.spec.log",
+      "passing": 2,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-audit-download.integration.spec",
+      "exit": 0,
+      "seconds": 1.0,
+      "log": "/tmp/ds2-owner-final/review-audit-download.integration.spec.log",
+      "passing": 4,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-audit-filter.integration.spec",
+      "exit": 0,
+      "seconds": 0.92,
+      "log": "/tmp/ds2-owner-final/review-audit-filter.integration.spec.log",
+      "passing": 3,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-customer-delete.integration.spec",
+      "exit": 0,
+      "seconds": 0.92,
+      "log": "/tmp/ds2-owner-final/review-customer-delete.integration.spec.log",
+      "passing": 4,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-customer-recurring.integration.spec",
+      "exit": 0,
+      "seconds": 0.99,
+      "log": "/tmp/ds2-owner-final/review-customer-recurring.integration.spec.log",
+      "passing": 8,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-customer-response.integration.spec",
+      "exit": 0,
+      "seconds": 1.04,
+      "log": "/tmp/ds2-owner-final/review-customer-response.integration.spec.log",
+      "passing": 2,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-initial-data-roles.integration.spec",
+      "exit": 0,
+      "seconds": 1.01,
+      "log": "/tmp/ds2-owner-final/review-initial-data-roles.integration.spec.log",
+      "passing": 18,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-invoice-outcomes.integration.spec",
+      "exit": 0,
+      "seconds": 1.0,
+      "log": "/tmp/ds2-owner-final/review-invoice-outcomes.integration.spec.log",
+      "passing": 4,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-job-family.integration.spec",
+      "exit": 0,
+      "seconds": 0.93,
+      "log": "/tmp/ds2-owner-final/review-job-family.integration.spec.log",
+      "passing": 4,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-job-selection.integration.spec",
+      "exit": 0,
+      "seconds": 0.98,
+      "log": "/tmp/ds2-owner-final/review-job-selection.integration.spec.log",
+      "passing": 2,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-pending-files.integration.spec",
+      "exit": 0,
+      "seconds": 1.0,
+      "log": "/tmp/ds2-owner-final/review-pending-files.integration.spec.log",
+      "passing": 7,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-rate-agreements.integration.spec",
+      "exit": 0,
+      "seconds": 0.97,
+      "log": "/tmp/ds2-owner-final/review-rate-agreements.integration.spec.log",
+      "passing": 10,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-related-ids.integration.spec",
+      "exit": 0,
+      "seconds": 1.01,
+      "log": "/tmp/ds2-owner-final/review-related-ids.integration.spec.log",
+      "passing": 24,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-retainer-dates.integration.spec",
+      "exit": 0,
+      "seconds": 0.97,
+      "log": "/tmp/ds2-owner-final/review-retainer-dates.integration.spec.log",
+      "passing": 1,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-statement-snapshot.integration.spec",
+      "exit": 0,
+      "seconds": 1.01,
+      "log": "/tmp/ds2-owner-final/review-statement-snapshot.integration.spec.log",
+      "passing": 1,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-template-storage.integration.spec",
+      "exit": 0,
+      "seconds": 1.0,
+      "log": "/tmp/ds2-owner-final/review-template-storage.integration.spec.log",
+      "passing": 1,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-tracker-outcome.integration.spec",
+      "exit": 0,
+      "seconds": 1.02,
+      "log": "/tmp/ds2-owner-final/review-tracker-outcome.integration.spec.log",
+      "passing": 1,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-transaction-policy.integration.spec",
+      "exit": 0,
+      "seconds": 1.14,
+      "log": "/tmp/ds2-owner-final/review-transaction-policy.integration.spec.log",
+      "passing": 22,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "review-user-guards.integration.spec",
+      "exit": 0,
+      "seconds": 1.0,
+      "log": "/tmp/ds2-owner-final/review-user-guards.integration.spec.log",
+      "passing": 7,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-01-work.integration.spec",
+      "exit": 0,
+      "seconds": 2.57,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-01-work.integration.spec.log",
+      "passing": 13,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-02-retainers.integration.spec",
+      "exit": 0,
+      "seconds": 2.69,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-02-retainers.integration.spec.log",
+      "passing": 9,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-03-payments.integration.spec",
+      "exit": 0,
+      "seconds": 3.24,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-03-payments.integration.spec.log",
+      "passing": 7,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-04-writeoffs.integration.spec",
+      "exit": 0,
+      "seconds": 2.67,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-04-writeoffs.integration.spec.log",
+      "passing": 6,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-05-monthend.integration.spec",
+      "exit": 0,
+      "seconds": 2.74,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-05-monthend.integration.spec.log",
+      "passing": 7,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-06-cascade.integration.spec",
+      "exit": 0,
+      "seconds": 3.97,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-06-cascade.integration.spec.log",
+      "passing": 9,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-07-refusals.integration.spec",
+      "exit": 0,
+      "seconds": 11.91,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-07-refusals.integration.spec.log",
+      "passing": 122,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-08-failures.integration.spec",
+      "exit": 0,
+      "seconds": 3.59,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-08-failures.integration.spec.log",
+      "passing": 24,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-09-state-boundaries.integration.spec",
+      "exit": 0,
+      "seconds": 6.32,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-09-state-boundaries.integration.spec.log",
+      "passing": 21,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-10-integrity.integration.spec",
+      "exit": 0,
+      "seconds": 4.78,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-10-integrity.integration.spec.log",
+      "passing": 22,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-11-finalize-races.integration.spec",
+      "exit": 0,
+      "seconds": 4.77,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-11-finalize-races.integration.spec.log",
+      "passing": 15,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-lifecycle-12-sent-exceptions.integration.spec",
+      "exit": 0,
+      "seconds": 8.27,
+      "log": "/tmp/ds2-owner-final/scenario-lifecycle-12-sent-exceptions.integration.spec.log",
+      "passing": 72,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-what-if-01-values.integration.spec",
+      "exit": 0,
+      "seconds": 4.68,
+      "log": "/tmp/ds2-owner-final/scenario-what-if-01-values.integration.spec.log",
+      "passing": 308,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-what-if-02-retries.integration.spec",
+      "exit": 0,
+      "seconds": 3.99,
+      "log": "/tmp/ds2-owner-final/scenario-what-if-02-retries.integration.spec.log",
+      "passing": 23,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-what-if-03-history.integration.spec",
+      "exit": 0,
+      "seconds": 2.85,
+      "log": "/tmp/ds2-owner-final/scenario-what-if-03-history.integration.spec.log",
+      "passing": 25,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-what-if-04-calendar-races.integration.spec",
+      "exit": 0,
+      "seconds": 2.82,
+      "log": "/tmp/ds2-owner-final/scenario-what-if-04-calendar-races.integration.spec.log",
+      "passing": 13,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-what-if-05-csv.integration.spec",
+      "exit": 0,
+      "seconds": 1.45,
+      "log": "/tmp/ds2-owner-final/scenario-what-if-05-csv.integration.spec.log",
+      "passing": 13,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenario-what-if-06-boundaries.integration.spec",
+      "exit": 0,
+      "seconds": 2.22,
+      "log": "/tmp/ds2-owner-final/scenario-what-if-06-boundaries.integration.spec.log",
+      "passing": 82,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "tracker-excel-end-to-end.integration.spec",
+      "exit": 0,
+      "seconds": 3.81,
+      "log": "/tmp/ds2-owner-final/tracker-excel-end-to-end.integration.spec.log",
+      "passing": 33,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "transactions-ledger-seams.integration.spec",
+      "exit": 0,
+      "seconds": 3.67,
+      "log": "/tmp/ds2-owner-final/transactions-ledger-seams.integration.spec.log",
+      "passing": 28,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "scenarios",
+      "exit": 0,
+      "seconds": 72.33,
+      "log": "/tmp/ds2-owner-final/scenarios.log",
+      "passing": 791,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "cleanroom",
+      "exit": 0,
+      "seconds": 2.5,
+      "log": "/tmp/ds2-owner-final/cleanroom.log",
+      "passing": 18,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "drift",
+      "exit": 0,
+      "seconds": 0.84,
+      "log": "/tmp/ds2-owner-final/drift.log",
+      "passing": 0,
+      "failing": 0,
+      "pending": 0
+    },
+    {
+      "label": "frontend-jest",
+      "exit": 0,
+      "seconds": 13.45,
+      "log": "/tmp/ds2-owner-final/frontend-jest.log",
+      "passing": 127,
+      "failing": 0,
+      "pending": 0,
+      "suites": 31
+    },
+    {
+      "label": "frontend-build",
+      "exit": 0,
+      "seconds": 11.55,
+      "log": "/tmp/ds2-owner-final/frontend-build.log",
+      "passing": 0,
+      "failing": 0,
+      "pending": 0
+    }
+  ],
+  "migration_sha256": "3d856093f4635ef7e5ef0af155c52d8d070b7e9998f83a7c08e3002eb639fb94",
+  "guard_inventory": {
+    "ds2_local": {
+      "triggers": 11,
+      "job_credit_guard": true,
+      "cutover_policy_rows": 1
+    },
+    "ds2_clean": {
+      "triggers": 11,
+      "job_credit_guard": true,
+      "cutover_policy_rows": 1
+    },
+    "ds2_scenarios": {
+      "triggers": 11,
+      "job_credit_guard": true,
+      "cutover_policy_rows": 1
+    }
+  }
+}

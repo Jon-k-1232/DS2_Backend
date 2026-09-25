@@ -1,0 +1,452 @@
+{
+  "stats": {
+    "suites": 7,
+    "tests": 31,
+    "passes": 31,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:39:35.020Z",
+    "end": "2026-09-25T06:39:35.518Z",
+    "duration": 498
+  },
+  "tests": [
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 401s without a token",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the account's distinct entity list",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID happy path: returns the account's distinct entity list",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns a YYYY-MM-DD start (or null when nothing is unbilled)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID happy path: returns a YYYY-MM-DD start (or null when nothing is unbilled)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a paginated list of held entries with a total",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID happy path: a paginated list of held entries with a total",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: a hold_reason filter never returns rows with another hold reason",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID validation: a hold_reason filter never returns rows with another hold reason",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: a nonsense page or page size is refused with 400, never a 500",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID validation: a nonsense page or page size is refused with 400, never a 500",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: start and end are required",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start and end are required",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: start/end must be YYYY-MM-DD",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start/end must be YYYY-MM-DD",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a valid week returns the consolidated transaction list",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID happy path: a valid week returns the consolidated transaction list",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: customerId, start and end are all required",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID validation: customerId, start and end are all required",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a customer/period returns the consolidated list plus an anomaly check",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID happy path: a customer/period returns the consolidated list plus an anomaly check",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "tenancy: another account's customer id yields an empty/anomaly-free result, never that tenant's rows",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID tenancy: another account's customer id yields an empty/anomaly-free result, never that tenant's rows",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: default mode is \"unprocessed\" and reports a count + eligibility",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID happy path: default mode is \"unprocessed\" and reports a count + eligibility",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: an unknown mode is refused with a 4xx, never a 500",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID validation: an unknown mode is refused with a 4xx, never a 500",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 401s without a token",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the account's distinct entity list",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID happy path: returns the account's distinct entity list",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns a YYYY-MM-DD start (or null when nothing is unbilled)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID happy path: returns a YYYY-MM-DD start (or null when nothing is unbilled)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a paginated list of held entries with a total",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID happy path: a paginated list of held entries with a total",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: a hold_reason filter never returns rows with another hold reason",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID validation: a hold_reason filter never returns rows with another hold reason",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: a nonsense page or page size is refused with 400, never a 500",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pending/:accountID/:userID validation: a nonsense page or page size is refused with 400, never a 500",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: start and end are required",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start and end are required",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: start/end must be YYYY-MM-DD",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start/end must be YYYY-MM-DD",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a valid week returns the consolidated transaction list",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/weekly/:accountID/:userID happy path: a valid week returns the consolidated transaction list",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: customerId, start and end are all required",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID validation: customerId, start and end are all required",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: a customer/period returns the consolidated list plus an anomaly check",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID happy path: a customer/period returns the consolidated list plus an anomaly check",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "tenancy: another account's customer id yields an empty/anomaly-free result, never that tenant's rows",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID tenancy: another account's customer id yields an empty/anomaly-free result, never that tenant's rows",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401s without a token",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 401s without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s an \"employee\" caller \u2014 requireManagerOrAdmin mount gate",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403s when the URL account is not the caller's own (cross-tenant)",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: default mode is \"unprocessed\" and reports a count + eligibility",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID happy path: default mode is \"unprocessed\" and reports a count + eligibility",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation: an unknown mode is refused with a 4xx, never a 500",
+      "fullTitle": "integration: coverage \u2014 billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID validation: an unknown mode is refused with a 4xx, never a 500",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

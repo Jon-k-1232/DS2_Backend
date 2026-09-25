@@ -1,0 +1,101 @@
+{
+  "checked_at": "2026-09-25T11:42:22.092479+00:00",
+  "databases": {
+    "ds2_local": {
+      "database": "ds2_local",
+      "verification": [
+        {
+          "account_id": 1,
+          "result": {
+            "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+            "valid": true,
+            "event_id": null,
+            "checked_events": 0
+          }
+        },
+        {
+          "account_id": 9001,
+          "result": {
+            "hash": "13cde39c98a9b59d9a4d0aba267c8efa845ecf2c2f01cc24806e3c60185bdd77",
+            "valid": true,
+            "event_id": 30287,
+            "checked_events": 30103
+          }
+        }
+      ],
+      "capture_tables": 33,
+      "immutable_record_guard": true,
+      "presentation_columns": [
+        "evidence_byte_length",
+        "evidence_sha256",
+        "evidence_storage_key",
+        "record_type"
+      ],
+      "presentation_constraints": [
+        "audit_record_evidence_valid",
+        "audit_record_type_valid"
+      ]
+    },
+    "ds2_clean": {
+      "database": "ds2_clean",
+      "verification": [
+        {
+          "account_id": 1,
+          "result": {
+            "hash": "fdcb06a0475463b03f11479ac316e345fb686427259b4e6a90b14b3d2ca82a73",
+            "valid": true,
+            "event_id": 390,
+            "checked_events": 390
+          }
+        }
+      ],
+      "capture_tables": 33,
+      "immutable_record_guard": true,
+      "presentation_columns": [
+        "evidence_byte_length",
+        "evidence_sha256",
+        "evidence_storage_key",
+        "record_type"
+      ],
+      "presentation_constraints": [
+        "audit_record_evidence_valid",
+        "audit_record_type_valid"
+      ]
+    },
+    "ds2_scenarios": {
+      "database": "ds2_scenarios",
+      "verification": [
+        {
+          "account_id": 700,
+          "result": {
+            "hash": "a1949e671c7109ebe987223217bd4852dc76efa86347ba4c13b0916f37c990bb",
+            "valid": true,
+            "event_id": 117,
+            "checked_events": 10
+          }
+        },
+        {
+          "account_id": 1,
+          "result": {
+            "hash": "1219444d138242e949ffb0c343686cc9263a5c4d05d50374a37f247238f968b2",
+            "valid": true,
+            "event_id": 121,
+            "checked_events": 111
+          }
+        }
+      ],
+      "capture_tables": 33,
+      "immutable_record_guard": true,
+      "presentation_columns": [
+        "evidence_byte_length",
+        "evidence_sha256",
+        "evidence_storage_key",
+        "record_type"
+      ],
+      "presentation_constraints": [
+        "audit_record_evidence_valid",
+        "audit_record_type_valid"
+      ]
+    }
+  }
+}

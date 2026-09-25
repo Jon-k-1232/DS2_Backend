@@ -1,0 +1,75 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:28.755Z",
+    "end": "2026-09-25T13:24:29.258Z",
+    "duration": 503
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-audit-filter.integration.spec.js",
+      "title": "F38 unsupported audit age filter keeps normal audit listing available for both recent and old statements",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/review-audit-filter.integration.spec.js",
+      "title": "F38 unsupported audit age filter explicitly refuses ar_60 instead of silently including the 10-day statement",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/review-audit-filter.integration.spec.js",
+      "title": "F38 unsupported audit age filter explicitly refuses ar_60 instead of silently including the 80-day statement",
+      "state": "passed",
+      "duration": 4
+    }
+  ],
+  "hits": {
+    "src/endpoints/accountAudit/account-audit-router.js:61:16": [
+      {
+        "file": "test/integration/review-audit-filter.integration.spec.js",
+        "test": "F38 unsupported audit age filter explicitly refuses ar_60 instead of silently including the 10-day statement"
+      },
+      {
+        "file": "test/integration/review-audit-filter.integration.spec.js",
+        "test": "F38 unsupported audit age filter explicitly refuses ar_60 instead of silently including the 80-day statement"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F38 unsupported audit age filter keeps normal audit listing available for both recent and old statements",
+      "file": "test/integration/review-audit-filter.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/9001/91088?search=F38-40647-mugzssnt-1",
+      "route": "/customers/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "F38 unsupported audit age filter explicitly refuses ar_60 instead of silently including the 10-day statement",
+      "file": "test/integration/review-audit-filter.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/9001/91088?search=F38-40647-mugzssnt-1-10&filter=ar_60",
+      "route": "/customers/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "ar_60 is not supported. Use the Accounts Receivable aging report."
+    },
+    {
+      "test": "F38 unsupported audit age filter explicitly refuses ar_60 instead of silently including the 80-day statement",
+      "file": "test/integration/review-audit-filter.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/customers/9001/91088?search=F38-40647-mugzssnt-1-80&filter=ar_60",
+      "route": "/customers/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "ar_60 is not supported. Use the Accounts Receivable aging report."
+    }
+  ]
+}

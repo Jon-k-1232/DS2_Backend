@@ -1,0 +1,304 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 10,
+    "passes": 10,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:36.782Z",
+    "end": "2026-09-25T13:24:37.411Z",
+    "duration": 629
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution refuses a foreign customer without creating an own-account association",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution takes the creator from the authenticated user and preserves it on rate edits",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution validates {\"customerId\":-1} before writing",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution validates {\"customerId\":1.5} before writing",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution validates {\"year\":2026.5} before writing",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution validates {\"year\":1999} before writing",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution validates {\"agreedRate\":\"Infinity\"} before writing",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution validates {\"agreedRate\":0} before writing",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution validates {\"agreedRate\":100000000} before writing",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "title": "F32 rate agreement ownership and attribution validates {\"agreedRate\":125.555} before writing",
+      "state": "passed",
+      "duration": 6
+    }
+  ],
+  "hits": {
+    "src/endpoints/payments/ledger-helpers.js:66:13": [
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution refuses a foreign customer without creating an own-account association"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:221:5": [
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution refuses a foreign customer without creating an own-account association"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"customerId\":-1} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"customerId\":1.5} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"year\":2026.5} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"year\":1999} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":\"Infinity\"} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":0} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":100000000} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":125.555} before writing"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:223:6": [
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution refuses a foreign customer without creating an own-account association"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"customerId\":-1} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"customerId\":1.5} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"year\":2026.5} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"year\":1999} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":\"Infinity\"} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":0} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":100000000} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":125.555} before writing"
+      }
+    ],
+    "src/endpoints/analytics/analytics-router.js:211:9": [
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"customerId\":-1} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"customerId\":1.5} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"year\":2026.5} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"year\":1999} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":\"Infinity\"} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":0} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":100000000} before writing"
+      },
+      {
+        "file": "test/integration/review-rate-agreements.integration.spec.js",
+        "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":125.555} before writing"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F32 rate agreement ownership and attribution refuses a foreign customer without creating an own-account association",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Customer not found for this account."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution takes the creator from the authenticated user and preserves it on rate edits",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved rate agreement."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution takes the creator from the authenticated user and preserves it on rate edits",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved rate agreement."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution validates {\"customerId\":-1} before writing",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A customer, a year, and a positive agreed rate are required."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution validates {\"customerId\":1.5} before writing",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A customer, a year, and a positive agreed rate are required."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution validates {\"year\":2026.5} before writing",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A customer, a year, and a positive agreed rate are required."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution validates {\"year\":1999} before writing",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A customer, a year, and a positive agreed rate are required."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":\"Infinity\"} before writing",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A customer, a year, and a positive agreed rate are required."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":0} before writing",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A customer, a year, and a positive agreed rate are required."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":100000000} before writing",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A customer, a year, and a positive agreed rate are required."
+    },
+    {
+      "test": "F32 rate agreement ownership and attribution validates {\"agreedRate\":125.555} before writing",
+      "file": "test/integration/review-rate-agreements.integration.spec.js",
+      "method": "POST",
+      "url": "/analytics/rateAgreement/9001/90011",
+      "route": "/rateAgreement/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A customer, a year, and a positive agreed rate are required."
+    }
+  ]
+}

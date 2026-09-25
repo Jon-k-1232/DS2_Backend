@@ -1,0 +1,136 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 2,
+    "tests": 11,
+    "passes": 11,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:31:35.861Z",
+    "end": "2026-09-25T13:31:36.396Z",
+    "duration": 535
+  },
+  "tests": [
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) the three views agree before any edit (sanity)",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) posts a billable delta to the parent AND a new adjustment snapshot; views move together",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) ignores non-billable rows (no invoice rows touched)",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) a note edit sent as the full grid row does not touch the invoice",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) an unchanged out-of-period date does not 409",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) lists each transaction once even with several AI training examples (lateral join)",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) refuses a customer change without a job for the new customer",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) a customer change keeps the new job, unbills the row and takes it off the old statement",
+      "state": "passed",
+      "duration": 55
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) locks amount changes once the statement is rolled into a newer one (absorbed)",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) concurrent saves (two connections, customer ledger lock) two overlapping saves of one row serialize: A plans $150, B saves $200 first → A posts -$50 on top of B",
+      "state": "passed",
+      "duration": 74
+    },
+    {
+      "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+      "title": "integration: cascadeEdit delta posting (billing review) concurrent saves (two connections, customer ledger lock) an adjustment that waited on the lock while a payment committed sorts AFTER that payment snapshot",
+      "state": "passed",
+      "duration": 68
+    }
+  ],
+  "hits": {
+    "src/endpoints/billingReview/cascadeEdit.js:446:6": [
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) an unchanged out-of-period date does not 409"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:830:8": [
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) an unchanged out-of-period date does not 409"
+      },
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) refuses a customer change without a job for the new customer"
+      },
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) locks amount changes once the statement is rolled into a newer one (absorbed)"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:831:32": [
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) an unchanged out-of-period date does not 409"
+      },
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) refuses a customer change without a job for the new customer"
+      },
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) locks amount changes once the statement is rolled into a newer one (absorbed)"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:465:9": [
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) refuses a customer change without a job for the new customer"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:469:9": [
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) refuses a customer change without a job for the new customer"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:347:6": [
+      {
+        "file": "test/integration/cascade-edit-recompute.integration.spec.js",
+        "test": "integration: cascadeEdit delta posting (billing review) locks amount changes once the statement is rolled into a newer one (absorbed)"
+      }
+    ]
+  },
+  "requests": []
+}

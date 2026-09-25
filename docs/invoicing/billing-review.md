@@ -1,5 +1,10 @@
 # Billing Review
 
+## Owner decision update — 2026-09-25
+
+Cascade edit now checks the statement lock before planning, optional text processing, no-op return or financial changes, then rechecks under the customer lock. Sent transactions return HTTP 409 `SENT_INVOICE_LOCKED` for every edit (including notes/date/job/customer moves). The consolidated row displays Sent — locked and disables Edit. The financial cascade algorithm below remains available only for unissued records; old issued-edit success tests were replaced by stable-evidence refusal tests plus retained unissued recomputation/rollback coverage. Reprocessing/import writes meet the same database barrier. [Exception alternative](invoices.md).
+
+
 ## 1. Purpose and UI
 
 Billing Review resolves held time-tracker entries and reviews processed transactions before billing. Route `/time-tracking/billingReview` uses `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js:6`. Its mounted tabs are NeedsReviewTab and ConsolidatedTab with period='unbilled'. PreInvoiceTab exists in the folder but is not mounted by BillingReviewPage. The edit dialog is components/ReviewBillingDialog.js; cascade effects are displayed by components/CascadeImpactPanel.js. Sources: `../DS2_Frontend/src/Routes/PrimaryRouter.js:151`, `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:40`, `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js:25`. API calls are in `../DS2_Frontend/src/Services/ApiCalls/BillingReviewCalls.js:49`.
@@ -146,7 +151,7 @@ All paths below include the shown required accountID/userID route segments. user
 | Path | `/billing-review/transaction/:transactionID/:accountID/:userID` |
 | Body | {updates:{...},confirmCustomerChange:false}. Nonobject/array updates become {}. Unknown fields ignored. confirmCustomerChange true only for true/'true'. |
 | Success | HTTP 200 {message:'ok',updatedTransaction,sideEffects,diff}; no-op has [] effects and {} diff. |
-| 404 | transaction_not_found. |
+| 404 | transaction_not_found, including malformed/nonpositive transaction IDs rejected before querying PostgreSQL (pass-1 scenario fix). |
 | 400 | job_required_for_customer_change; invalid_field_value for invalid fields or foreign/mismatched references. |
 | 409 | invoice_locked; date_outside_invoice_period; retainer_not_editable_here; customer_change_needs_confirm; edit_would_create_credit_balance; concurrent_edit. Triggers detailed below. |
 | Other errors | Shared errors; unexpected 500. Responses include message/code where known, with unexpected server details sanitized. |
@@ -201,7 +206,7 @@ Reprocess selection always requires unprocessed/nondeleted account entries, orde
 
 ### Held apply
 
-The live helper uses six-minute increments despite a stale minutes/60 comment in billingReview-service:
+The shared helper uses six-minute increments; run3 corrected the stale minutes/60 comment:
 
 1. quantityHundredths = ceil(minutes / 6) × 10.
 2. rateCents = round(rate × 100).
@@ -224,7 +229,7 @@ Normalize fields before deciding whether anything changed. If quantity/rate chan
 
 Old contribution = old total if billable, else 0. New contribution = new total if billable, else 0; a customer move contributes 0 to the old invoice. Delta = new contribution - old contribution. A nonbillable amount edit has delta 0. Source: `src/endpoints/billingReview/cascadeEdit.js:549`.
 
-For delta +$20 on a $100 charge with current invoice remaining $60: increase parent total_charges/total_amount_due by $20, create a latest adjustment snapshot with remaining $80, and add $20 to the parent's existing remaining mirror. The code preserves any preexisting parent/latest drift; it does not rebuild balances from payments. Source: `src/endpoints/billingReview/cascadeEdit.js:386`.
+For an **unissued** chain only, delta +$20 on a $100 charge with current invoice remaining $60: increase parent total_charges/total_amount_due by $20, create a latest adjustment snapshot with remaining $80, and add $20 to the parent's existing remaining mirror. The code preserves any preexisting parent/latest drift; it does not rebuild balances from payments. Source: `src/endpoints/billingReview/cascadeEdit.js:386`.
 
 ## 7. Create, edit and delete
 
@@ -242,7 +247,11 @@ For financial deltas, the chain root and latest snapshot are locked FOR UPDATE. 
 
 A customer move requires explicit confirmCustomerChange and a job for the target customer. For billed rows it removes the old contribution and clears customer_invoice_id so the target customer receives unbilled work. A retainer-funded row cannot change customer, total or billable flag here; any explicit retainer_id field is rejected. Sources: `src/endpoints/billingReview/cascadeEdit.js:456`, `src/endpoints/billingReview/cascadeEdit.js:549`, `src/endpoints/billingReview/cascadeEdit.js:641`.
 
-A nonzero delta copies the latest invoice snapshot, removes ID/created_at, sets parent=root, timestamp=clock_timestamp(), authenticated actor, adjustment note and revised financial amounts. It updates the parent's mirror; earlier snapshots and payment/write-off/retainer totals stay unchanged. Saved invoice_file_location is copied, **not regenerated**, so PDFs remain the original artifacts. Source: `src/endpoints/billingReview/cascadeEdit.js:386`.
+Pass-1 scenario correction: customer moves and billable toggles apply the shared internal/nonbillable-customer policy under the customer ledger locks, before computing invoice deltas. A request to make such work billable stays false, and moving billable work to an internal/nonbillable customer makes it nonbillable. Ordinary note edits do not silently repair historical financial flags. Regression: `scenario-lifecycle-06-cascade.integration.spec.js` C08.
+
+Pass-1 ID validation: a malformed, nonpositive or unsafe transaction ID returns HTTP404 with `transaction_not_found` before querying PostgreSQL. It must not turn a careless URL into a database conversion error. The scenario refusal suite covers malformed, absent and foreign identities.
+
+For an unissued chain, a nonzero delta copies the latest invoice snapshot, removes ID/created_at, sets parent=root, timestamp=clock_timestamp(), authenticated actor, adjustment note and revised financial amounts. It updates the parent's mirror; earlier snapshots and payment/write-off/retainer totals stay unchanged. Saved invoice_file_location is copied, **not regenerated**, so PDFs remain the original artifacts. Source: `src/endpoints/billingReview/cascadeEdit.js:386`.
 
 Changed customer/job/total triggers _recomputeJobTotal. That helper uses the shared family-history creator to sum every version after the transaction save, with delta zero, and appends a snapshot using current family metadata. Same-family moves recompute once; cross-family moves recompute both families ([F9](../_review/findings.md#f9), fixed). Source: `src/endpoints/billingReview/cascadeEdit.js:281`.
 
@@ -278,3 +287,17 @@ Weekly paging is less strict than pending paging; pre-invoice returns only its f
 The report identifies 151 stale job families, broken/missing job links, stale WIP and internal customers that must remain nonbillable. Closed-period adjustment policy is still open. Rollout includes INTERNAL_CUSTOMER_IDS and the reviewed migration/backend/frontend order. Live resolution is **not determined from the code**. Sources: `scripts/review-2026-09/FINAL_REPORT.md:51`, `scripts/review-2026-09/FINAL_REPORT.md:54`, `scripts/review-2026-09/FINAL_REPORT.md:61`, `scripts/review-2026-09/FINAL_REPORT.md:67`.
 
 Coverage: **10 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+
+## Owner run 2 — retainers and duplicate review
+
+Sent locks remain unchanged. Duplicate work removal goes through the ordinary guarded transaction deletion core; it is not a Billing Review bypass. An earlier funded work correction cannot rewrite an immutable retainer-event snapshot. Use a new retainer adjustment for availability corrections; issued work itself remains frozen.
+
+## Owner run 3
+
+Held review prices raw duration using the same six-minute helper as manual entry and ingestion, and carries session actor/reason inside its transaction. Transaction quantity/rate correction uses shared cent multiplication; explicit total overrides remain supported only on unissued records. Actual tracker hours shown next to billed quantities are not repriced. See the [owner decisions](../decisions/2026-09-24-owner-decisions.md) and [combined scenario](../scenarios/16-owner-combined.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

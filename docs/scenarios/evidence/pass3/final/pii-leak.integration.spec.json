@@ -1,0 +1,61 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:24.296Z",
+    "end": "2026-09-25T13:24:26.568Z",
+    "duration": 2272
+  },
+  "tests": [
+    {
+      "file": "test/integration/pii-leak.integration.spec.js",
+      "title": "integration: PII-leak invariant auto-inserts the adversarial tracker without leaking names / PII into prompts or persisted AI artifacts",
+      "state": "passed",
+      "duration": 2093
+    },
+    {
+      "file": "test/integration/pii-leak.integration.spec.js",
+      "title": "integration: PII-leak invariant held rows (ambiguous / unmatched / no job) persist only IDs, scores and reason codes",
+      "state": "passed",
+      "duration": 104
+    }
+  ],
+  "hits": {
+    "src/timeTrackerValidation/validateUploadedTracker.js:124:6": [
+      {
+        "file": "test/integration/pii-leak.integration.spec.js",
+        "test": "integration: PII-leak invariant auto-inserts the adversarial tracker without leaking names / PII into prompts or persisted AI artifacts"
+      },
+      {
+        "file": "test/integration/pii-leak.integration.spec.js",
+        "test": "integration: PII-leak invariant held rows (ambiguous / unmatched / no job) persist only IDs, scores and reason codes"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:149:3": [
+      {
+        "file": "test/integration/pii-leak.integration.spec.js",
+        "test": "integration: PII-leak invariant auto-inserts the adversarial tracker without leaking names / PII into prompts or persisted AI artifacts"
+      },
+      {
+        "file": "test/integration/pii-leak.integration.spec.js",
+        "test": "integration: PII-leak invariant held rows (ambiguous / unmatched / no job) persist only IDs, scores and reason codes"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:582:6": [
+      {
+        "file": "test/integration/pii-leak.integration.spec.js",
+        "test": "integration: PII-leak invariant held rows (ambiguous / unmatched / no job) persist only IDs, scores and reason codes"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:840:8": [
+      {
+        "file": "test/integration/pii-leak.integration.spec.js",
+        "test": "integration: PII-leak invariant held rows (ambiguous / unmatched / no job) persist only IDs, scores and reason codes"
+      }
+    ]
+  },
+  "requests": []
+}

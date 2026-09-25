@@ -1,0 +1,319 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 4,
+    "tests": 10,
+    "passes": 10,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:32:02.656Z",
+    "end": "2026-09-25T13:32:03.392Z",
+    "duration": 736
+  },
+  "tests": [
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 403: a non-owner account (9001) is refused before any S3 write, even with an otherwise perfectly valid request",
+      "state": "passed",
+      "duration": 40
+    },
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 — hygiene runs before the account gate)",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID the owner account (1) is unaffected by the new gate — still 400, not 403, for an invalid extension; no real upload is attempted",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID FINDING 6: the owner account (1) — a valid PDF upload actually succeeds, with exact bytes/key/metadata, cleaned up immediately after",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is refused — the object is left untouched",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 200: an object this account DOES own (per the DB) is deleted normally — the fix does not break legitimate access",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is never streamed back",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "title": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 200: an object this account DOES own (per the DB) previews normally — the fix does not break legitimate access",
+      "state": "passed",
+      "duration": 14
+    }
+  ],
+  "hits": {
+    "src/endpoints/pendingPayments/pendingPayments-router.js:272:16": [
+      {
+        "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+        "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 403: a non-owner account (9001) is refused before any S3 write, even with an otherwise perfectly valid request"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:260:16": [
+      {
+        "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+        "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 — hygiene runs before the account gate)"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:252:16": [
+      {
+        "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+        "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID the owner account (1) is unaffected by the new gate — still 400, not 403, for an invalid extension; no real upload is attempted"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:324:16": [
+      {
+        "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+        "test": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:338:16": [
+      {
+        "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+        "test": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is refused — the object is left untouched"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:375:16": [
+      {
+        "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+        "test": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:390:16": [
+      {
+        "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+        "test": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is never streamed back"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 403: a non-owner account (9001) is refused before any S3 write, even with an otherwise perfectly valid request",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Automatic payment PDF processing is not available for this account."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 — hygiene runs before the account gate)",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 — hygiene runs before the account gate)",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 — hygiene runs before the account gate)",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 — hygiene runs before the account gate)",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID 400: filename hygiene rejects traversal, a leading slash, a backslash, an embedded slash, and a residual percent (account 9001 — hygiene runs before the account gate)",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/9001/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID the owner account (1) is unaffected by the new gate — still 400, not 403, for an invalid extension; no real upload is attempted",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/1/21",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Only PDF files are accepted."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) POST /pending-payments/upload/:accountID/:userID FINDING 6: the owner account (1) — a valid PDF upload actually succeeds, with exact bytes/key/metadata, cleaned up immediately after",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/upload/1/21",
+      "route": "/upload/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "File uploaded successfully. Processing will begin shortly."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is refused — the object is left untouched",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "File not found."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) DELETE /pending-payments/file/:accountID/:userID 200: an object this account DOES own (per the DB) is deleted normally — the fix does not break legitimate access",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "File and associated pending payments deleted."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=..%2F..%2F..%2Fetc%2Fpasswd.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=sub%5Cdir%5Cevil.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=sub%2Fdir%2Fevil.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 400: filename hygiene rejects traversal, a backslash, an embedded slash, and a residual percent",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=%252e%252e%252fx-51567-muh02j51-9.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid file name."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 404: a REAL, fetchable object with no owning row for this account is never streamed back",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=coverage-ppauthz-unowned-51567-muh02j5t-10.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "File not found."
+    },
+    {
+      "test": "integration: coverage — pendingPayments S3 authorization (HTTP) GET /pending-payments/file-preview/:accountID/:userID 200: an object this account DOES own (per the DB) previews normally — the fix does not break legitimate access",
+      "file": "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=coverage-ppauthz-51567-muh02j6h-11.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 200
+    }
+  ]
+}

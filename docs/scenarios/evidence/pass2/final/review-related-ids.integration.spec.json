@@ -1,0 +1,354 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 24,
+    "passes": 24,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:40:29.108Z",
+    "end": "2026-09-25T06:40:29.906Z",
+    "duration": 798
+  },
+  "tests": [
+    {
+      "title": "refuses foreign transaction loggedForUserID on create before any writes",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on create before any writes",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign transaction loggedForUserID on update before any writes",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on update before any writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign transaction selectedGeneralWorkDescriptionID on create before any writes",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on create before any writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign transaction selectedGeneralWorkDescriptionID on update before any writes",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on update before any writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign job type on job create",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign job type on job create",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign category on job-type create",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign category on job-type create",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses customer on quote create",
+      "fullTitle": "F2 related IDs and creator attribution refuses customer on quote create",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses job on quote create",
+      "fullTitle": "F2 related IDs and creator attribution refuses job on quote create",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses mismatched customer on quote create",
+      "fullTitle": "F2 related IDs and creator attribution refuses mismatched customer on quote create",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign job type on job update",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign job type on job update",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign category on job-type update",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign category on job-type update",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses customer on quote update",
+      "fullTitle": "F2 related IDs and creator attribution refuses customer on quote update",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses job on quote update",
+      "fullTitle": "F2 related IDs and creator attribution refuses job on quote update",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses mismatched customer on quote update",
+      "fullTitle": "F2 related IDs and creator attribution refuses mismatched customer on quote update",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a foreign customer before recurring creation",
+      "fullTitle": "F2 related IDs and creator attribution refuses a foreign customer before recurring creation",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on job category edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on job category edits",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on job type edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on job type edits",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on work description edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on work description edits",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on job edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on job edits",
+      "duration": 125,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on quote edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on quote edits",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on recurring customer edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on recurring customer edits",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses and preserves the session creator for recurring changes embedded in a customer update",
+      "fullTitle": "F2 related IDs and creator attribution uses and preserves the session creator for recurring changes embedded in a customer update",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects another customer recurring ID before changing the customer or subscription",
+      "fullTitle": "F2 related IDs and creator attribution rejects another customer recurring ID before changing the customer or subscription",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "does not disclose labels through existing malformed relations",
+      "fullTitle": "F2 related IDs and creator attribution does not disclose labels through existing malformed relations",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "refuses foreign transaction loggedForUserID on create before any writes",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on create before any writes",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign transaction loggedForUserID on update before any writes",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on update before any writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign transaction selectedGeneralWorkDescriptionID on create before any writes",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on create before any writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign transaction selectedGeneralWorkDescriptionID on update before any writes",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on update before any writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign job type on job create",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign job type on job create",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign category on job-type create",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign category on job-type create",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses customer on quote create",
+      "fullTitle": "F2 related IDs and creator attribution refuses customer on quote create",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses job on quote create",
+      "fullTitle": "F2 related IDs and creator attribution refuses job on quote create",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses mismatched customer on quote create",
+      "fullTitle": "F2 related IDs and creator attribution refuses mismatched customer on quote create",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign job type on job update",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign job type on job update",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses foreign category on job-type update",
+      "fullTitle": "F2 related IDs and creator attribution refuses foreign category on job-type update",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses customer on quote update",
+      "fullTitle": "F2 related IDs and creator attribution refuses customer on quote update",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses job on quote update",
+      "fullTitle": "F2 related IDs and creator attribution refuses job on quote update",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses mismatched customer on quote update",
+      "fullTitle": "F2 related IDs and creator attribution refuses mismatched customer on quote update",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a foreign customer before recurring creation",
+      "fullTitle": "F2 related IDs and creator attribution refuses a foreign customer before recurring creation",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on job category edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on job category edits",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on job type edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on job type edits",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on work description edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on work description edits",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on job edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on job edits",
+      "duration": 125,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on quote edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on quote edits",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses the session creator and preserves it on recurring customer edits",
+      "fullTitle": "F2 related IDs and creator attribution uses the session creator and preserves it on recurring customer edits",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "uses and preserves the session creator for recurring changes embedded in a customer update",
+      "fullTitle": "F2 related IDs and creator attribution uses and preserves the session creator for recurring changes embedded in a customer update",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects another customer recurring ID before changing the customer or subscription",
+      "fullTitle": "F2 related IDs and creator attribution rejects another customer recurring ID before changing the customer or subscription",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "does not disclose labels through existing malformed relations",
+      "fullTitle": "F2 related IDs and creator attribution does not disclose labels through existing malformed relations",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

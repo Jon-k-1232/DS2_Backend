@@ -1,0 +1,3691 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 24,
+    "passes": 24,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:25:32.977Z",
+    "end": "2026-09-25T13:25:37.417Z",
+    "duration": 4440
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "state": "passed",
+      "duration": 105
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "state": "passed",
+      "duration": 100
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "state": "passed",
+      "duration": 96
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "state": "passed",
+      "duration": 94
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "state": "passed",
+      "duration": 95
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "state": "passed",
+      "duration": 88
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "state": "passed",
+      "duration": 123
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "state": "passed",
+      "duration": 93
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "state": "passed",
+      "duration": 88
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "state": "passed",
+      "duration": 107
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "state": "passed",
+      "duration": 124
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "state": "passed",
+      "duration": 148
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "state": "passed",
+      "duration": 146
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "state": "passed",
+      "duration": 161
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "state": "passed",
+      "duration": 156
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "state": "passed",
+      "duration": 155
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "state": "passed",
+      "duration": 171
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "state": "passed",
+      "duration": 146
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "state": "passed",
+      "duration": 130
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "state": "passed",
+      "duration": 169
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "state": "passed",
+      "duration": 101
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "state": "passed",
+      "duration": 116
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "state": "passed",
+      "duration": 187
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "title": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "state": "passed",
+      "duration": 93
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "[fixture]"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:112:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:114:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert"
+      }
+    ],
+    "src/endpoints/job/job-router.js:91:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert"
+      }
+    ],
+    "src/endpoints/job/job-router.js:93:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:68:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:70:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:112:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:114:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:38:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:40:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:66:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:68:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:38:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:40:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:44:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:46:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:334:8": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:337:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:830:8": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:831:32": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:384:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:394:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:194:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:199:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:204:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:206:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:124:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:125:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:98:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:100:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:81:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:83:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff"
+      }
+    ],
+    "src/endpoints/accountsReceivable/accounts-receivable-router.js:108:8": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging"
+      }
+    ],
+    "src/endpoints/accountsReceivable/accounts-receivable-router.js:112:16": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:379:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:381:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById"
+      }
+    ],
+    "src/pdfCreator/zipOrchestrator.js:80:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement"
+      }
+    ],
+    "src/pdfCreator/zipOrchestrator.js:82:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:61:34": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:62:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:94:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:511:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+        "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733423-ol5s3r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733423-ol5s3r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733423-ol5s3r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733423-ol5s3r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733568-76czpo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733568-76czpo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733568-76czpo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733568-76czpo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_25_33_6b204d44-bb87-4df8-b2a0-b12d779e40a9%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733780-9hs9yu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733780-9hs9yu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733780-9hs9yu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733780-9hs9yu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733875-9w0rd4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733875-9w0rd4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733875-9w0rd4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342733875-9w0rd4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734000-mgcbdi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734000-mgcbdi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734000-mgcbdi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734000-mgcbdi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_information\" (\"account_id\", \"created_by_user_id\", \"customer_city\", \"customer_email\", \"customer_id\", \"customer_phone\", \"customer_state\", \"customer_street\", \"customer_zip\", \"is_customer_billing_address\", \"is_customer_mailing_address\", \"is_customer_physical_address\", \"is_this_address_active\") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning * - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734118-2vnxhu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734118-2vnxhu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734118-2vnxhu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734118-2vnxhu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: customer contact insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_jobs\" (\"account_id\", \"agreed_job_amount\", \"created_by_user_id\", \"current_job_total\", \"customer_id\", \"is_job_complete\", \"is_quote\", \"job_quote_amount\", \"job_status\", \"job_type_id\", \"notes\", \"parent_job_id\") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning * - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734234-bqfao2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734234-bqfao2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734234-bqfao2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734234-bqfao2/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: job insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_transactions\" (\"account_id\", \"created_at\", \"created_by_user_id\", \"customer_id\", \"customer_invoice_id\", \"customer_job_id\", \"detailed_work_description\", \"general_work_description_id\", \"is_excess_to_subscription\", \"is_transaction_billable\", \"logged_for_user_id\", \"note\", \"quantity\", \"retainer_id\", \"total_transaction\", \"transaction_date\", \"transaction_type\", \"unit_cost\") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) returning * - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734362-sydetc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734362-sydetc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734362-sydetc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work insert after job snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_payments\" (\"account_id\", \"created_at\", \"created_by_user_id\", \"customer_id\", \"customer_invoice_id\", \"customer_job_id\", \"form_of_payment\", \"is_transaction_billable\", \"note\", \"payment_amount\", \"payment_date\", \"payment_reference_number\", \"retainer_id\") values ($1, clock_timestamp(), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning * - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734473-b4e22a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734473-b4e22a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734473-b4e22a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: funded work payment after job, draw and work inserts",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/1/1",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "delete from \"customer_transactions\" where \"transaction_id\" = $1 and \"account_id\" = $2 - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734576-qzz7an/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734576-qzz7an/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734576-qzz7an/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: work delete after family snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_retainers_and_prepayments\" (\"account_id\", \"created_at\", \"created_by_user_id\", \"current_amount\", \"customer_id\", \"display_name\", \"form_of_payment\", \"is_retainer_active\", \"note\", \"parent_retainer_id\", \"payment_reference_number\", \"starting_amount\", \"type_of_hold\") values ($1, clock_timestamp(), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning * - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734675-rfobd6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734675-rfobd6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734675-rfobd6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/1/1",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "update \"customer_retainers_and_prepayments\" set \"starting_amount\" = $1, \"current_amount\" = current_amount + $2 where \"account_id\" = $3 and (\"retainer_id\" = $4 or \"parent_retainer_id\" = $5) - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734799-nhy566/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734799-nhy566/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734799-nhy566/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734799-nhy566/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: retainer update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_payments\" (\"account_id\", \"created_at\", \"created_by_user_id\", \"customer_id\", \"customer_invoice_id\", \"customer_job_id\", \"form_of_payment\", \"is_transaction_billable\", \"note\", \"payment_amount\", \"payment_date\", \"payment_reference_number\", \"retainer_id\") values ($1, clock_timestamp(), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning * - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734930-07aq18/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734930-07aq18/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342734930-07aq18/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: payment after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_writeoffs\" (\"account_id\", \"created_at\", \"created_by_user_id\", \"customer_id\", \"customer_invoice_id\", \"customer_job_id\", \"note\", \"transaction_type\", \"writeoff_amount\", \"writeoff_date\", \"writeoff_reason\") values ($1, clock_timestamp(), $2, $3, $4, $5, $6, $7, $8, $9, $10) returning * - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735033-s3z39a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735033-s3z39a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735033-s3z39a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/14/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: writeoff after invoice snapshot",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/2/1/1",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 500,
+      "message": "update \"customer_transactions\" set \"total_transaction\" = $1 where \"account_id\" = $2 and \"transaction_id\" = $3 - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735136-sz99xc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735136-sz99xc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735136-sz99xc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735136-sz99xc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/15/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: cascade unissued work update",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "update \"customer_transactions\" set \"customer_invoice_id\" = $1 where \"account_id\" = $2 and \"customer_id\" = $3 and \"transaction_id\" in ($4) and \"customer_invoice_id\" is null - scenario injected database failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735292-qsvple/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735292-qsvple/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735292-qsvple/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/16/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F atomic rollback: finalize stamping after parent insert",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/customer/activeCustomers/customerByID/1/1/7",
+      "route": "/activeCustomers/customerByID/:accountID/:userID/:customerID",
+      "status": 200,
+      "envelope": 500,
+      "message": "scenario injected read failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735390-xsqt2w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735390-xsqt2w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735390-xsqt2w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/17/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735456-c894cy/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735456-c894cy/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735456-c894cy/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/18/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: customer/customer-service.getCustomerByID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getSingleJob/11/1/1",
+      "route": "/getSingleJob/:customerJobID/:accountID/:userID",
+      "status": 500,
+      "message": "scenario injected read failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735554-7ubn0e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735554-7ubn0e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735554-7ubn0e/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/19/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735618-08uaj8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735618-08uaj8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735618-08uaj8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/20/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: job/job-service.getSingleJob",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getSingleTransaction/8/2/1/1",
+      "route": "/getSingleTransaction/:customerID/:transactionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Failure to retrieve single transaction."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735715-uf1xuz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735715-uf1xuz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735715-uf1xuz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735715-uf1xuz/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/21/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735793-ub59tr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735793-ub59tr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735793-ub59tr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/22/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: transactions/transactions-service.getSingleTransaction",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/2/1/1",
+      "route": "/getSingleRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Failure to retrieve single retainer."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735887-efkvsm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735887-efkvsm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735887-efkvsm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735887-efkvsm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/23/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735964-nvu46w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735964-nvu46w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342735964-nvu46w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/24/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: retainer/retainer-service.getSingleRetainer",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/payments/getSinglePayment/999999/1/1",
+      "route": "/getSinglePayment/:paymentID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "scenario injected read failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736056-ktx0a6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736056-ktx0a6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736056-ktx0a6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/25/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736119-fuervr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736119-fuervr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736119-fuervr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736119-fuervr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/26/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: payments/payments-service.getSinglePayment",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getSingleWriteOff/999999/1/1",
+      "route": "/getSingleWriteOff/:writeOffID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "scenario injected read failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736225-y4phn9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736225-y4phn9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736225-y4phn9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736225-y4phn9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/27/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736303-j3q2en/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736303-j3q2en/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736303-j3q2en/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736303-j3q2en/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/28/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: writeOffs/writeOffs-service.getSingleWriteOff",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/getInvoiceDetails/1/1/1",
+      "route": "/getInvoiceDetails/:invoiceID/:accountID/:userID",
+      "status": 500,
+      "message": "scenario injected read failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736407-le9fhx/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736407-le9fhx/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736407-le9fhx/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/29/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736465-gfhm15/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736465-gfhm15/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736465-gfhm15/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736465-gfhm15/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/30/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: invoice/invoice-service.getInvoiceByInvoiceRowID",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1",
+      "route": "/aging/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "scenario injected read failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736569-ozon2n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736569-ozon2n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736569-ozon2n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/31/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736627-cimebr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736627-cimebr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736627-cimebr/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/32/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountsReceivable/accounts-receivable-service.getAging",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/999999/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "scenario injected read failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736717-ev0he1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736717-ev0he1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736717-ev0he1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736717-ev0he1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/33/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736790-mfiqel/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736790-mfiqel/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736790-mfiqel/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736790-mfiqel/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/34/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F read failure: accountAudit/account-audit-service.getAuditById",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error in saving invoice images: scenario local storage failure"
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736921-a4ioa3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736921-a4ioa3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342736921-a4ioa3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/35/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F precommit storage failure refuses issuance and preserves all ledger rows",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "The ledger for customer(s) 8 changed while the statements were being generated (a payment, write-off, invoice row or transaction was added, edited or deleted). Nothing was finalized — re-run Create Invoice."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342737056-xutpsl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342737056-xutpsl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342737056-xutpsl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/36/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F stale snapshot refuses finalize after work arrives during PDF upload",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_25_37_88263ab5-3d15-4645-9fa6-0917584dfb05%2Fcustomer_8%2FScenario_Failure_Pending.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342737225-1qd9rq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342737225-1qd9rq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342737225-1qd9rq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/37/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F postcommit ZIP failure reports committed $110 and individually retrievable statement",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (see details)."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Payment amount exceeds remaining balance on invoice INV-2026-00001. Max amount that can be applied to this invoice is $80."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342737365-y49t1s/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342737365-y49t1s/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342737365-y49t1s/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/38/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle F: database, storage and concurrent ledger failures (07-refusals.md) F two simultaneous $120 receipts cannot overpay a $200 balance",
+      "file": "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    }
+  ]
+}

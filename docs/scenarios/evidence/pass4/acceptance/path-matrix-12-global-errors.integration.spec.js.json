@@ -1,0 +1,116 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:57.856Z",
+    "end": "2026-09-25T14:50:58.596Z",
+    "duration": 740
+  },
+  "tests": [
+    {
+      "title": "global error | database sent-lock code is normalized to HTTP 409 and SENT_INVOICE_LOCKED",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global error | database sent-lock code is normalized to HTTP 409 and SENT_INVOICE_LOCKED",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "global error | production presentation hides internal database text and preserves rows",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global error | production presentation hides internal database text and preserves rows",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "global JSON parser | malformed JSON refuses HTTP 400 before any writes",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | malformed JSON refuses HTTP 400 before any writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "global JSON parser | oversized JSON refuses HTTP 413 before any writes",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | oversized JSON refuses HTTP 413 before any writes",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "duration": 154,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expensive limiter | repeated GET polls do not consume the mutation budget",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "global error | database sent-lock code is normalized to HTTP 409 and SENT_INVOICE_LOCKED",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global error | database sent-lock code is normalized to HTTP 409 and SENT_INVOICE_LOCKED",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "global error | production presentation hides internal database text and preserves rows",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global error | production presentation hides internal database text and preserves rows",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "global JSON parser | malformed JSON refuses HTTP 400 before any writes",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | malformed JSON refuses HTTP 400 before any writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "global JSON parser | oversized JSON refuses HTTP 413 before any writes",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | oversized JSON refuses HTTP 413 before any writes",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "duration": 154,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expensive limiter | repeated GET polls do not consume the mutation budget",
+      "fullTitle": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -142,3 +142,8 @@ Section6 requires backups/reviewed migration rehearsal, schema020 immediately be
 Coverage: **5 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
 
 Staff upload/history uses its existing self-scoped endpoints; initialBlob retains all twelve shell keys but exposes no financial/contact selectors or counts to ordinary staff. Local regression: `test/integration/review-initial-data-roles.integration.spec.js` (18 passing).
+
+
+## Owner run 2 — retainers and duplicate review
+
+Financial rows in initial-data, customer profiles, single-row reads and mutation refresh payloads now carry `possible_duplicate` and `duplicate_ids` from open account-scoped reviews. Common grid columns render the badge even when a feature hides ordinary metadata columns. No new notification or automatic deletion is produced; review lives at `/transactions/possibleDuplicates`.

@@ -1,0 +1,172 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 11,
+    "passes": 11,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:39:32.322Z",
+    "end": "2026-09-25T06:39:32.660Z",
+    "duration": 338
+  },
+  "tests": [
+    {
+      "title": "the three views agree before any edit (sanity)",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) the three views agree before any edit (sanity)",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "posts a billable delta to the parent AND a new adjustment snapshot; views move together",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) posts a billable delta to the parent AND a new adjustment snapshot; views move together",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ignores non-billable rows (no invoice rows touched)",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) ignores non-billable rows (no invoice rows touched)",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a note edit sent as the full grid row does not touch the invoice",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) a note edit sent as the full grid row does not touch the invoice",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an unchanged out-of-period date does not 409",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) an unchanged out-of-period date does not 409",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "lists each transaction once even with several AI training examples (lateral join)",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) lists each transaction once even with several AI training examples (lateral join)",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a customer change without a job for the new customer",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) refuses a customer change without a job for the new customer",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a customer change keeps the new job, unbills the row and takes it off the old statement",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) a customer change keeps the new job, unbills the row and takes it off the old statement",
+      "duration": 45,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "locks amount changes once the statement is rolled into a newer one (absorbed)",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) locks amount changes once the statement is rolled into a newer one (absorbed)",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two overlapping saves of one row serialize: A plans $150, B saves $200 first \u2192 A posts -$50 on top of B",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) concurrent saves (two connections, customer ledger lock) two overlapping saves of one row serialize: A plans $150, B saves $200 first \u2192 A posts -$50 on top of B",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an adjustment that waited on the lock while a payment committed sorts AFTER that payment snapshot",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) concurrent saves (two connections, customer ledger lock) an adjustment that waited on the lock while a payment committed sorts AFTER that payment snapshot",
+      "duration": 55,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "the three views agree before any edit (sanity)",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) the three views agree before any edit (sanity)",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "posts a billable delta to the parent AND a new adjustment snapshot; views move together",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) posts a billable delta to the parent AND a new adjustment snapshot; views move together",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ignores non-billable rows (no invoice rows touched)",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) ignores non-billable rows (no invoice rows touched)",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a note edit sent as the full grid row does not touch the invoice",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) a note edit sent as the full grid row does not touch the invoice",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an unchanged out-of-period date does not 409",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) an unchanged out-of-period date does not 409",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "lists each transaction once even with several AI training examples (lateral join)",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) lists each transaction once even with several AI training examples (lateral join)",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a customer change without a job for the new customer",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) refuses a customer change without a job for the new customer",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a customer change keeps the new job, unbills the row and takes it off the old statement",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) a customer change keeps the new job, unbills the row and takes it off the old statement",
+      "duration": 45,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "locks amount changes once the statement is rolled into a newer one (absorbed)",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) locks amount changes once the statement is rolled into a newer one (absorbed)",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two overlapping saves of one row serialize: A plans $150, B saves $200 first \u2192 A posts -$50 on top of B",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) concurrent saves (two connections, customer ledger lock) two overlapping saves of one row serialize: A plans $150, B saves $200 first \u2192 A posts -$50 on top of B",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an adjustment that waited on the lock while a payment committed sorts AFTER that payment snapshot",
+      "fullTitle": "integration: cascadeEdit delta posting (billing review) concurrent saves (two connections, customer ledger lock) an adjustment that waited on the lock while a payment committed sorts AFTER that payment snapshot",
+      "duration": 55,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:43:34.128Z",
+    "end": "2026-09-25T06:43:36.475Z",
+    "duration": 2347
+  },
+  "tests": [
+    {
+      "title": "M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "duration": 738,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "duration": 170,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "duration": 85,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "duration": 92,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "duration": 417,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M05 deletes only a truly empty statement; refuses linked, absorbed, child and absent invoices",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 deletes only a truly empty statement; refuses linked, absorbed, child and absent invoices",
+      "duration": 509,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M01 prepares three clients and finalizes a subset; skips the -$25 credit",
+      "duration": 738,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M02 refuses ordinary same-day rerun, explicit rebill absorbs instead of doubling debt",
+      "duration": 170,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 31 days into bucket_31_60 without inventing new receivables",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_61_90 without inventing new receivables",
+      "duration": 85,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M03 advances 30 days into bucket_over_90 without inventing new receivables",
+      "duration": 92,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging",
+      "duration": 417,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "M05 deletes only a truly empty statement; refuses linked, absorbed, child and absent invoices",
+      "fullTitle": "scenario lifecycle M: selective month-end and aging (hand oracle 05-month-end.md) M05 deletes only a truly empty statement; refuses linked, absorbed, child and absent invoices",
+      "duration": 509,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

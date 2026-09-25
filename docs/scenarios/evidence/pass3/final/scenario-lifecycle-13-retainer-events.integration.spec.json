@@ -1,0 +1,2473 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 24,
+    "passes": 24,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:26:16.288Z",
+    "end": "2026-09-25T13:26:19.933Z",
+    "duration": 3645
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "state": "passed",
+      "duration": 534
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "state": "passed",
+      "duration": 213
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "state": "passed",
+      "duration": 263
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid kind without writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid zero without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid negative without writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid nonfinite without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid precision without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid maximum without writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid date without writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid reason without writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid method without writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid reference without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects invalid direction without writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "state": "passed",
+      "duration": 206
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "state": "passed",
+      "duration": 252
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments reports retainer history database failure without writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "state": "passed",
+      "duration": 140
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit",
+      "state": "passed",
+      "duration": 41
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure",
+      "state": "passed",
+      "duration": 90
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "state": "passed",
+      "duration": 296
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "state": "passed",
+      "duration": 97
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "state": "passed",
+      "duration": 124
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "title": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "state": "passed",
+      "duration": 505
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages"
+      }
+    ],
+    "src/utils/ledgerAction.js:16:3": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid kind without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid zero without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid negative without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid nonfinite without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid precision without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid maximum without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid date without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid reason without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid method without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid reference without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid direction without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments reports retainer history database failure without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50"
+      }
+    ],
+    "src/utils/ledgerAction.js:18:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid kind without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid zero without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid negative without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid nonfinite without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid precision without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid maximum without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid date without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid reason without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid method without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid reference without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid direction without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments reports retainer history database failure without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:7:53": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid kind without writes"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:10:173": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid zero without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid negative without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid nonfinite without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid precision without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid maximum without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:11:242": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid date without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/utils/ledgerAction.js:8:118": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid reason without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid method without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid reference without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:9:132": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects invalid direction without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes"
+      }
+    ],
+    "src/utils/ledgerAction.js:3:112": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:17:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:45:21": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:97:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:165:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:66:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:68:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:86:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:88:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:40:88": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:46:31": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:20:68": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:42:68": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:384:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:394:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages"
+      }
+    ],
+    "src/pdfCreator/zipOrchestrator.js:80:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit"
+      }
+    ],
+    "src/pdfCreator/zipOrchestrator.js:82:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:61:34": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:62:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit"
+      }
+    ],
+    "src/endpoints/retainer/retainer-events.js:51:18": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:68:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:70:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:138:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:94:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+        "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342776732-mt8huq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342776732-mt8huq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342776732-mt8huq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342776732-mt8huq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342776903-pnlp5s/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342776903-pnlp5s/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342776903-pnlp5s/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342776903-pnlp5s/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_17_b2530867-7801-4a54-804f-7bd30d2713b4%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777127-3ytkvk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777127-3ytkvk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777127-3ytkvk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777127-3ytkvk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments starts with $500, draws $120 and issues a frozen $0 statement with $380 available",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777263-kh2ar1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777263-kh2ar1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777263-kh2ar1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777263-kh2ar1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777332-5oeeol/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777332-5oeeol/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777332-5oeeol/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777332-5oeeol/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds $80 then increases $50 and decreases $30: availability 380-80+50-30=$320, debt $0",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/1/1",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_17_7760a420-dff7-493b-9715-6bcda7801f86%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777581-7r9kjb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777581-7r9kjb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777581-7r9kjb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342777581-7r9kjb/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments prints all events exactly once and preserves the original artifact",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_17_b2530867-7801-4a54-804f-7bd30d2713b4%2Fcustomer_7%2FRetainer_event_lifecycle.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid kind without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Choose refund or adjustment."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid zero without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Amount must be between 0.01 and 99,999,999.99 with at most two decimal places."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid negative without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Amount must be between 0.01 and 99,999,999.99 with at most two decimal places."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid nonfinite without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Amount must be between 0.01 and 99,999,999.99 with at most two decimal places."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid precision without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Amount must be between 0.01 and 99,999,999.99 with at most two decimal places."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid maximum without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Amount must be between 0.01 and 99,999,999.99 with at most two decimal places."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid date without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A valid calendar date (YYYY-MM-DD) is required."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid reason without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid method without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Method is required and must be at most 50 characters."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid reference without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reference is required and must be at most 100 characters."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects invalid direction without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Choose increase or decrease; refunds decrease credit."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Only $320.00 is available. Funds already applied cannot be refunded or removed."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/999999/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Retainer not found."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/2/events/1/777",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/2/events/1/777",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/2/events/700/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/70001/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Retainer not found."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/bad/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/700/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/70001/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Retainer not found."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects insufficient availability, missing/cross-tenant IDs and permissions without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/bad/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Choose increase or decrease; refunds decrease credit."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Choose increase or decrease; refunds decrease credit."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Amount must be between 0.01 and 99,999,999.99 with at most two decimal places."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Amount must be between 0.01 and 99,999,999.99 with at most two decimal places."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Amount must be between 0.01 and 99,999,999.99 with at most two decimal places."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A valid calendar date (YYYY-MM-DD) is required."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A valid calendar date (YYYY-MM-DD) is required."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Method is required and must be at most 50 characters."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reference is required and must be at most 100 characters."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Resulting retainer credit exceeds 99,999,999.99."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/7/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This prepayment was cancelled by a payment reversal. It cannot be adjusted."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/8/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/1/1",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Retainer event history is immutable; record a new adjustment instead."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses cancellation revival, overflow, malformed adjustment fields and direct journal-chain edits",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/8/1/1",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Retainer event history is immutable; record a new adjustment instead."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments reports retainer history database failure without writes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/10/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Retainer state is inconsistent; review the account before adjusting."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/10/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Retainer state is inconsistent; review the account before adjusting."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342778607-jxhnf8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342778607-jxhnf8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342778607-jxhnf8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/10/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Retainer chain is inconsistent; review the account before adjusting."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refuses inconsistent retainer balances and cross-customer chains on both event routes",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/10/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Retainer chain is inconsistent; review the account before adjusting."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments preserves pending events when statement storage fails before commit",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error in saving invoice images: scenario local storage failure"
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rolls back snapshot and journal on each database write failure",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "The operation failed. No changes were saved. Please retry."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342778882-edeghp/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342778882-edeghp/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342778882-edeghp/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342778882-edeghp/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_19_a860b110-1a47-49e2-8138-101604c8873f%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779055-zy5lxw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779055-zy5lxw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779055-zy5lxw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779055-zy5lxw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments refunds all $320, prints the event even with zero retainers, then increases an exhausted chain",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Only $50.00 is available. Funds already applied cannot be refunded or removed."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Only $10.00 is available. Funds already applied cannot be refunded or removed."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779201-ca6wba/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779201-ca6wba/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779201-ca6wba/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779201-ca6wba/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes racing refunds; only one $40 refund can consume $50",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/777",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The selected retainer/prepayment has no remaining balance."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779312-iqnb8n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779312-iqnb8n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779312-iqnb8n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779312-iqnb8n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments serializes a $10 draw against a $10 refund and leaves event evidence immutable",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779441-ilmu1w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779441-ilmu1w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779441-ilmu1w/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/20/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "The ledger for customer(s) 9 changed while the statements were being generated (a payment, write-off, invoice row or transaction was added, edited or deleted). Nothing was finalized — re-run Create Invoice."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779610-hsvl58/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779610-hsvl58/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779610-hsvl58/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779610-hsvl58/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779852-52l2i1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779852-52l2i1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342779852-52l2i1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/14/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 1: retainer refunds and adjustments rejects a finalize priced before a refund and prints long reasons across statement pages",
+      "file": "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_19_36b78460-f70f-4538-8e87-ed320e3a0cc5%2Fcustomer_9%2FLong_reason_and_finalize_race.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    }
+  ]
+}

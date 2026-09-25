@@ -1,0 +1,102 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:51:16.641Z",
+    "end": "2026-09-25T14:51:19.987Z",
+    "duration": 3346
+  },
+  "tests": [
+    {
+      "title": "O01 creates, edits and deletes a pending job credit without changing the work total",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "duration": 636,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "duration": 559,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "duration": 618,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "duration": 534,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "duration": 397,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "duration": 235,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "O01 creates, edits and deletes a pending job credit without changing the work total",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O01 creates, edits and deletes a pending job credit without changing the work total",
+      "duration": 636,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O02 shown and hidden write-offs have identical $170 totals and different PDF presentation",
+      "duration": 559,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O03 refuses billed pending-credit edits/deletes and applies current invoice credits once",
+      "duration": 618,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O04 credit-only job is not lost; a negative bill is skipped until work exceeds the credit",
+      "duration": 534,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O05 uninvoiced write-off greater than work carries -$50; equivalent invoice over-credit is refused",
+      "duration": 397,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "fullTitle": "scenario lifecycle O: write-offs (hand oracle 04-writeoffs.md) O06 next statement carries $150 and charges $50 without repeating the applied $20 credit",
+      "duration": 235,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

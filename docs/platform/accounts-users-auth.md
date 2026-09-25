@@ -1,5 +1,10 @@
 # Accounts, users and authentication
 
+## Owner decision update — 2026-09-25
+
+New invoice history/exception routes inherit manager/admin/super-admin/owner plus matching-account authorization. Each exception/reversal/revision records the authenticated user ID; URL userID cannot spoof the actor. Invoice issuance/history evidence adds user/account references and preserves ordinary deletion dependencies. [Routes](../invoicing/invoices.md#3-api-reference).
+
+
 Source review: 2026-09-24. Backend-relative `path:line` citations describe checked-out code, not verified production configuration. Frontend paths begin `../DS2_Frontend/`. The original review inspected tests; executed F19/F20 regressions and final local checks are in the [F8–F22 log](../_review/fixes-F8-F22.md).
 
 ## 1. Purpose and UI
@@ -136,8 +141,8 @@ In the matrix, **M** = Manager, Admin, Super Admin, legacy Owner; **A** = Admin,
 |---|---|
 | Method/path | `PUT /user/updateUser/A/U` |
 | Input | S; `user.userID` is target (different from URL actor), `accessLevel` required, other accepted fields below. |
-| Success | **200** updated active roster/grid as above; nonexistent target is a zero-row success. |
-| Errors | **400** invalid role, nonboolean active flag, self-deactivation, or removal of last active Super Admin by deactivation/demotion; **500** DB/constraint/conversion error. |
+| Success | **200** updated active roster/grid as above. The target must exist in the caller's account. |
+| Errors | **404** malformed, missing, deleted or other-account target; **400** invalid role, nonboolean active flag, self-deactivation, or removal of last active Super Admin by deactivation/demotion; **500** DB/constraint/conversion error. |
 | Source | `src/endpoints/user/user-router.js:73` |
 
 ### Delete user
@@ -146,8 +151,8 @@ In the matrix, **M** = Manager, Admin, Super Admin, legacy Owner; **A** = Admin,
 |---|---|
 | Method/path | `DELETE /user/deleteUser/A/U` |
 | Input | S; U is target to delete; no body. |
-| Success | **200** roster/grid as above, even if target does not exist. |
-| Errors | **400** deleting self or last active Super Admin; **500** FK/database error, reported as data tied to user. |
+| Success | **200** roster/grid after deleting an existing, unused account-owned user. |
+| Errors | **404** malformed/missing/other-account user; **400** deleting self or last active Super Admin; **409** uploaded/matched time entries or created/logged-for work; **500** other FK/database error. |
 | Source | `src/endpoints/user/user-router.js:118` |
 
 ### Fetch user
@@ -240,7 +245,7 @@ Logout clears only the cookie; it does not revoke a separately held JWT or write
 |---|---|
 | Account body cannot redirect update across tenants; partial updates preserve omitted fields; invalid address rolls back | `test/integration/coverage-account-users-auth-misc.integration.spec.js:305`, `test/integration/coverage-account-users-auth-misc.integration.spec.js:409`. |
 | Concurrent/suffixed slug allocation; canonical role validation; inactive create honored | `test/integration/coverage-account-users-auth-misc.integration.spec.js:527`, `test/integration/coverage-account-users-auth-misc.integration.spec.js:732`. |
-| Unknown user update/delete return 200; fetch missing gives 404 | `test/integration/coverage-account-users-auth-misc.integration.spec.js:830`, `test/integration/coverage-account-users-auth-misc.integration.spec.js:865`, `test/integration/coverage-account-users-auth-misc.integration.spec.js:910`. |
+| Missing user update, delete and fetch return 404 | `test/integration/coverage-account-users-auth-misc.integration.spec.js`; Pass 2 history/boundary tests additionally require unchanged users and time attribution on refused mutation. |
 | Google missing/invalid credential and renew cookie | `test/integration/coverage-account-users-auth-misc.integration.spec.js:931`. Real Google account verification is not established by those invalid-token cases. |
 | Role and self/last-super guards | `test/endpoints/auth/roleGates.integration.spec.js:1`, `test/endpoints/user/userGuards.integration.spec.js:1`. |
 | Slug input dropped by mappers; migration collision/Unicode behavior | `test/endpoints/account/accountObjects.spec.js:1`, `test/scripts/migration-020.spec.js:1`. |
@@ -252,3 +257,14 @@ Provisioning a DS2 row does not provision a Google Workspace account. Account-ac
 Migration 020 must immediately precede the updated backend, with no old-backend account-creation interval: old code cannot populate the new NOT NULL slug. Migrations/backfill and unresolved historical financial questions are detailed in [operations.md](operations.md), from `scripts/review-2026-09/FINAL_REPORT.md:45` and `scripts/review-2026-09/FINAL_REPORT.md:69`. Findings linked here are [F3](../_review/findings.md#f3), [F4](../_review/findings.md#f4), [F19](../_review/findings.md#f19), [F20](../_review/findings.md#f20) and [F29](../_review/findings.md#f29) in [consolidated findings](../_review/findings.md).
 
 Coverage: **12 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+Pass2 user-deletion checks run under the account lock and a target-user `FOR UPDATE` lock. Both `timesheet_entries.user_id` and `matched_user_id` count as history; deleting an employee must not silently null matched attribution. Work creator and logged-for references also refuse deletion. The existing work FK protects a concurrent work insert: deletion commits first and the work transaction rolls back, or the work commits first and deletion refuses. Use deactivation to preserve staff history. Tests: `scenario-what-if-03-history` and `06-boundaries`.
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## Pass 3 response after a committed change
+
+Customer/recurring, job, catalog, quote and user mutations in this guide preserve their successful response payload. If the mutation commits but rebuilding its response lists fails, the API returns HTTP 200 with `status: 200`, `committed: true` and a warning to reload without submitting the change again. Precommit errors retain their existing refusal and rollback behavior. This prevents a saved create, edit or delete from being reported as an unsuccessful write. Regression: `path-matrix-03-commit-outcomes.integration.spec.js`, with exactly one stored mutation checked for each create/update/delete. Drafts stay editable and write nothing to the ledger; finalize is the sent/lock boundary.

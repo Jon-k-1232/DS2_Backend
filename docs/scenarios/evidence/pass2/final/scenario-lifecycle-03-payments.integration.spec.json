@@ -1,0 +1,116 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:43:27.448Z",
+    "end": "2026-09-25T06:43:30.459Z",
+    "duration": 3011
+  },
+  "tests": [
+    {
+      "title": "P01 issues $300 through real work and month-end",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "duration": 337,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P02 receives $100, edits it to $120, then deletes using stored values",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "duration": 205,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P03 exact settlement, NSF and guarded reversal undo",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "duration": 465,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "duration": 469,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "duration": 436,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P06 refuses deleting/reversing a split after its excess has funded work",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "duration": 454,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "duration": 411,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "P01 issues $300 through real work and month-end",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "duration": 337,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P02 receives $100, edits it to $120, then deletes using stored values",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "duration": 205,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P03 exact settlement, NSF and guarded reversal undo",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "duration": 465,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "duration": 469,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "duration": 436,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P06 refuses deleting/reversing a split after its excess has funded work",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "duration": 454,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "fullTitle": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "duration": 411,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:26.718Z",
+    "end": "2026-09-25T13:24:27.261Z",
+    "duration": 543
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-account-atomicity.integration.spec.js",
+      "title": "F19 atomic automation settings keeps enabled and recipients unchanged when a foreign recipient is rejected",
+      "state": "passed",
+      "duration": 36
+    },
+    {
+      "file": "test/integration/review-account-atomicity.integration.spec.js",
+      "title": "F19 atomic automation settings rolls back both settings when a later replacement write fails",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/review-account-atomicity.integration.spec.js",
+      "title": "F20 atomic account provisioning rejects an overlength address without reserving an account or slug",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/review-account-atomicity.integration.spec.js",
+      "title": "F20 atomic account provisioning rolls back account/slug when address persistence fails after validation",
+      "state": "passed",
+      "duration": 27
+    }
+  ],
+  "hits": {
+    "src/endpoints/account/automation-settings-service.js:81:9": [
+      {
+        "file": "test/integration/review-account-atomicity.integration.spec.js",
+        "test": "F19 atomic automation settings keeps enabled and recipients unchanged when a foreign recipient is rejected"
+      }
+    ],
+    "src/endpoints/account/account-router.js:400:8": [
+      {
+        "file": "test/integration/review-account-atomicity.integration.spec.js",
+        "test": "F19 atomic automation settings keeps enabled and recipients unchanged when a foreign recipient is rejected"
+      },
+      {
+        "file": "test/integration/review-account-atomicity.integration.spec.js",
+        "test": "F19 atomic automation settings rolls back both settings when a later replacement write fails"
+      }
+    ],
+    "src/endpoints/account/account-router.js:403:16": [
+      {
+        "file": "test/integration/review-account-atomicity.integration.spec.js",
+        "test": "F19 atomic automation settings keeps enabled and recipients unchanged when a foreign recipient is rejected"
+      },
+      {
+        "file": "test/integration/review-account-atomicity.integration.spec.js",
+        "test": "F19 atomic automation settings rolls back both settings when a later replacement write fails"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/review-account-atomicity.integration.spec.js",
+        "test": "F20 atomic account provisioning rejects an overlength address without reserving an account or slug"
+      },
+      {
+        "file": "test/integration/review-account-atomicity.integration.spec.js",
+        "test": "F20 atomic account provisioning rolls back account/slug when address persistence fails after validation"
+      }
+    ],
+    "src/endpoints/account/accountObjects.js:102:6": [
+      {
+        "file": "test/integration/review-account-atomicity.integration.spec.js",
+        "test": "F20 atomic account provisioning rejects an overlength address without reserving an account or slug"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F19 atomic automation settings keeps enabled and recipients unchanged when a foreign recipient is rejected",
+      "file": "test/integration/review-account-atomicity.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/9001/90013",
+      "route": "/automations/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "One or more selected users are invalid."
+    },
+    {
+      "test": "F19 atomic automation settings rolls back both settings when a later replacement write fails",
+      "file": "test/integration/review-account-atomicity.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/9001/90013",
+      "route": "/automations/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "F19 replacement failure"
+    },
+    {
+      "test": "F20 atomic account provisioning rejects an overlength address without reserving an account or slug",
+      "file": "test/integration/review-account-atomicity.integration.spec.js",
+      "method": "POST",
+      "url": "/account/createAccount",
+      "route": "/createAccount",
+      "status": 400,
+      "message": "Invalid account_state; use text up to 2 characters."
+    },
+    {
+      "test": "F20 atomic account provisioning rolls back account/slug when address persistence fails after validation",
+      "file": "test/integration/review-account-atomicity.integration.spec.js",
+      "method": "POST",
+      "url": "/account/createAccount",
+      "route": "/createAccount",
+      "status": 500,
+      "message": "F20 address write failed"
+    },
+    {
+      "test": "F20 atomic account provisioning rolls back account/slug when address persistence fails after validation",
+      "file": "test/integration/review-account-atomicity.integration.spec.js",
+      "method": "POST",
+      "url": "/account/createAccount",
+      "route": "/createAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 22,
+    "passes": 22,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:51:58.307Z",
+    "end": "2026-09-25T14:52:03.723Z",
+    "duration": 5416
+  },
+  "tests": [
+    {
+      "title": "I01 refuses multiple exact payments claiming one funded work draw",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I01 refuses multiple exact payments claiming one funded work draw",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses draw ordered before root",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses draw ordered before root",
+      "duration": 89,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses draw movement differs",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses draw movement differs",
+      "duration": 116,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses payment missing retainer identity",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses payment missing retainer identity",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses payment amount differs",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses payment amount differs",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses a draw shared by another transaction",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses a draw shared by another transaction",
+      "duration": 86,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses a draw already covered by a statement while its payment remains pending",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses a draw already covered by a statement while its payment remains pending",
+      "duration": 87,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I manual draw refuses a retainer overdraw and a missing legacy snapshot",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I manual draw refuses a retainer overdraw and a missing legacy snapshot",
+      "duration": 172,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I legacy overpayment refuses two matching excess roots",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I legacy overpayment refuses two matching excess roots",
+      "duration": 87,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I NSF undo refuses a changed cancelled excess, then succeeds after fixture repair",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I NSF undo refuses a changed cancelled excess, then succeeds after fixture repair",
+      "duration": 247,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I deletion refuses a cancelled excess whose reversal event is missing",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I deletion refuses a cancelled excess whose reversal event is missing",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I payment refuses a corrupt customer link on both update and delete",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I payment refuses a corrupt customer link on both update and delete",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I writeoff refuses a corrupt customer link on both update and delete",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I writeoff refuses a corrupt customer link on both update and delete",
+      "duration": 305,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I payment refuses repricing a legacy parent link with inconsistent timestamp order",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I payment refuses repricing a legacy parent link with inconsistent timestamp order",
+      "duration": 168,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I writeoff refuses repricing a legacy parent link with inconsistent timestamp order",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I writeoff refuses repricing a legacy parent link with inconsistent timestamp order",
+      "duration": 169,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I no-root legacy chain refuses receipt and credit; orphan receipt cannot be reversed",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I no-root legacy chain refuses receipt and credit; orphan receipt cannot be reversed",
+      "duration": 174,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I two work deletions serialize: one succeeds and the waiter observes not-found",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I two work deletions serialize: one succeeds and the waiter observes not-found",
+      "duration": 181,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I a waiting work delete refuses when the earlier customer move changes its owner",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I a waiting work delete refuses when the earlier customer move changes its owner",
+      "duration": 343,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I a waiting Billing Review edit refuses after the earlier delete removes its row",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I a waiting Billing Review edit refuses after the earlier delete removes its row",
+      "duration": 178,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I two receipt deletions serialize without restoring the debt twice",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I two receipt deletions serialize without restoring the debt twice",
+      "duration": 168,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I cancellation of a real PostgreSQL lock-wait query rolls Billing Review back",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I cancellation of a real PostgreSQL lock-wait query rolls Billing Review back",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I a foreign-tenant invoice link on billed work retains its original statement lock",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I a foreign-tenant invoice link on billed work retains its original statement lock",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "I01 refuses multiple exact payments claiming one funded work draw",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I01 refuses multiple exact payments claiming one funded work draw",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses draw ordered before root",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses draw ordered before root",
+      "duration": 89,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses draw movement differs",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses draw movement differs",
+      "duration": 116,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses payment missing retainer identity",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses payment missing retainer identity",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses payment amount differs",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses payment amount differs",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses a draw shared by another transaction",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses a draw shared by another transaction",
+      "duration": 86,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I funded work refuses a draw already covered by a statement while its payment remains pending",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I funded work refuses a draw already covered by a statement while its payment remains pending",
+      "duration": 87,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I manual draw refuses a retainer overdraw and a missing legacy snapshot",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I manual draw refuses a retainer overdraw and a missing legacy snapshot",
+      "duration": 172,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I legacy overpayment refuses two matching excess roots",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I legacy overpayment refuses two matching excess roots",
+      "duration": 87,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I NSF undo refuses a changed cancelled excess, then succeeds after fixture repair",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I NSF undo refuses a changed cancelled excess, then succeeds after fixture repair",
+      "duration": 247,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I deletion refuses a cancelled excess whose reversal event is missing",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I deletion refuses a cancelled excess whose reversal event is missing",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I payment refuses a corrupt customer link on both update and delete",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I payment refuses a corrupt customer link on both update and delete",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I writeoff refuses a corrupt customer link on both update and delete",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I writeoff refuses a corrupt customer link on both update and delete",
+      "duration": 305,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I payment refuses repricing a legacy parent link with inconsistent timestamp order",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I payment refuses repricing a legacy parent link with inconsistent timestamp order",
+      "duration": 168,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I writeoff refuses repricing a legacy parent link with inconsistent timestamp order",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I writeoff refuses repricing a legacy parent link with inconsistent timestamp order",
+      "duration": 169,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I no-root legacy chain refuses receipt and credit; orphan receipt cannot be reversed",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I no-root legacy chain refuses receipt and credit; orphan receipt cannot be reversed",
+      "duration": 174,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I two work deletions serialize: one succeeds and the waiter observes not-found",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I two work deletions serialize: one succeeds and the waiter observes not-found",
+      "duration": 181,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I a waiting work delete refuses when the earlier customer move changes its owner",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I a waiting work delete refuses when the earlier customer move changes its owner",
+      "duration": 343,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I a waiting Billing Review edit refuses after the earlier delete removes its row",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I a waiting Billing Review edit refuses after the earlier delete removes its row",
+      "duration": 178,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I two receipt deletions serialize without restoring the debt twice",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I two receipt deletions serialize without restoring the debt twice",
+      "duration": 168,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I cancellation of a real PostgreSQL lock-wait query rolls Billing Review back",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I cancellation of a real PostgreSQL lock-wait query rolls Billing Review back",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "I a foreign-tenant invoice link on billed work retains its original statement lock",
+      "fullTitle": "scenario lifecycle I: legacy integrity and lock races (08-integrity-and-races.md) I a foreign-tenant invoice link on billed work retains its original statement lock",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 11,
+    "passes": 11,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:49:16.687Z",
+    "end": "2026-09-25T14:49:16.815Z",
+    "duration": 128
+  },
+  "tests": [
+    {
+      "title": "getClientRates: effective rate = time billings \u00f7 time hours; charges excluded; lowercase \"time\" counts",
+      "fullTitle": "integration: analytics service getClientRates: effective rate = time billings \u00f7 time hours; charges excluded; lowercase \"time\" counts",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getTimeAllocation: billable/non-billable hours split and tracker section",
+      "fullTitle": "integration: analytics service getTimeAllocation: billable/non-billable hours split and tracker section",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getTimeAllocation: excludeIds removes a customer from the totals",
+      "fullTitle": "integration: analytics service getTimeAllocation: excludeIds removes a customer from the totals",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getTaxSeasonCapacity: lowercase \"time\" hours count",
+      "fullTitle": "integration: analytics service getTaxSeasonCapacity: lowercase \"time\" hours count",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getWipAging: future-dated rows stay out of the buckets and are reported separately",
+      "fullTitle": "integration: analytics service getWipAging: future-dated rows stay out of the buckets and are reported separately",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getJobBudgets: actual counts billable work only",
+      "fullTitle": "integration: analytics service getJobBudgets: actual counts billable work only",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getExcludableCustomers: returns the customer list and default-excluded ids",
+      "fullTitle": "integration: analytics service getExcludableCustomers: returns the customer list and default-excluded ids",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "sums the latest snapshot of every newest-date parent, includes the inactive debtor, and ages by statement date",
+      "fullTitle": "integration: analytics service AR aging (year-end packet sheet) sums the latest snapshot of every newest-date parent, includes the inactive debtor, and ages by statement date",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "oldest_open_charge_date walks billed billable charges newest-first (FIFO) until they cover the balance",
+      "fullTitle": "integration: analytics service AR aging (year-end packet sheet) oldest_open_charge_date walks billed billable charges newest-first (FIFO) until they cover the balance",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "agrees with the billing engine and the account audit",
+      "fullTitle": "integration: analytics service AR aging (year-end packet sheet) agrees with the billing engine and the account audit",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "excludeIds drops the customer (year-end packet exclusions)",
+      "fullTitle": "integration: analytics service AR aging (year-end packet sheet) excludeIds drops the customer (year-end packet exclusions)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "getClientRates: effective rate = time billings \u00f7 time hours; charges excluded; lowercase \"time\" counts",
+      "fullTitle": "integration: analytics service getClientRates: effective rate = time billings \u00f7 time hours; charges excluded; lowercase \"time\" counts",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getTimeAllocation: billable/non-billable hours split and tracker section",
+      "fullTitle": "integration: analytics service getTimeAllocation: billable/non-billable hours split and tracker section",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getTimeAllocation: excludeIds removes a customer from the totals",
+      "fullTitle": "integration: analytics service getTimeAllocation: excludeIds removes a customer from the totals",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getTaxSeasonCapacity: lowercase \"time\" hours count",
+      "fullTitle": "integration: analytics service getTaxSeasonCapacity: lowercase \"time\" hours count",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getWipAging: future-dated rows stay out of the buckets and are reported separately",
+      "fullTitle": "integration: analytics service getWipAging: future-dated rows stay out of the buckets and are reported separately",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getJobBudgets: actual counts billable work only",
+      "fullTitle": "integration: analytics service getJobBudgets: actual counts billable work only",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "getExcludableCustomers: returns the customer list and default-excluded ids",
+      "fullTitle": "integration: analytics service getExcludableCustomers: returns the customer list and default-excluded ids",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "sums the latest snapshot of every newest-date parent, includes the inactive debtor, and ages by statement date",
+      "fullTitle": "integration: analytics service AR aging (year-end packet sheet) sums the latest snapshot of every newest-date parent, includes the inactive debtor, and ages by statement date",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "oldest_open_charge_date walks billed billable charges newest-first (FIFO) until they cover the balance",
+      "fullTitle": "integration: analytics service AR aging (year-end packet sheet) oldest_open_charge_date walks billed billable charges newest-first (FIFO) until they cover the balance",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "agrees with the billing engine and the account audit",
+      "fullTitle": "integration: analytics service AR aging (year-end packet sheet) agrees with the billing engine and the account audit",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "excludeIds drops the customer (year-end packet exclusions)",
+      "fullTitle": "integration: analytics service AR aging (year-end packet sheet) excludeIds drops the customer (year-end packet exclusions)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

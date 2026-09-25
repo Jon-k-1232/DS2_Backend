@@ -1,5 +1,10 @@
 # Analytics
 
+## Owner decision update — 2026-09-25
+
+Parent statement values now remain as issued rather than receiving post-issue mirror updates. Billed/current outstanding analytics must retain their existing latest-child queries; historical statement totals and current collectible balance have distinct meanings. No quarter-hour or pricing change was introduced. [Ledger contract](../ledger/ledger-conventions.md).
+
+
 ## 1. Purpose and UI
 
 Analytics compares client rates, staff time allocation, unbilled work, job budgets and tax-season hours. UI routes/pages:
@@ -268,3 +273,9 @@ Labels “billed,” “realization” and margin are transaction-based metrics 
 FINAL_REPORT section 3 calls for review of stale WIP, internal customers and stale job totals. Internal exclusion picker defaults are not a replacement for INTERNAL_CUSTOMER_IDS billability enforcement. Section 6 covers that setting and the migration/deployment sequence. Production rollout completion is **not determined from the code**. Sources: `scripts/review-2026-09/FINAL_REPORT.md:52`, `scripts/review-2026-09/FINAL_REPORT.md:54`, `scripts/review-2026-09/FINAL_REPORT.md:67`.
 
 Coverage: **10 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+## Owner run 3
+
+Billed-hour/dollar reports sum stored quantities/amounts. Raw tracker category hours remain SUM(duration)/60, rounded for display; that measures actual recorded time, including held entries. Scenario17 verifies239 raw minutes =3.98 displayed hours versus4.4 billed hours/$605 per boundary set. See the [owner decisions](../decisions/2026-09-24-owner-decisions.md) and [combined scenario](../scenarios/16-owner-combined.md).
+
+Pass 3 checks ZIP failures before and after streaming. Before headers are sent, generation failure returns JSON 500 with attachment headers removed. After streaming starts, the response is terminated rather than hanging or presenting a partial ZIP as complete. Report export never changes ledger rows. See `path-matrix-08-reports.integration.spec.js`.

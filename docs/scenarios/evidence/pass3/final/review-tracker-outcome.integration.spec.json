@@ -1,0 +1,66 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:40.998Z",
+    "end": "2026-09-25T13:24:41.370Z",
+    "duration": 372
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-tracker-outcome.integration.spec.js",
+      "title": "F28 committed tracker upload outcome returns 201 and the saved identifier despite recipient lookup failure; retry is duplicate",
+      "state": "passed",
+      "duration": 119
+    }
+  ],
+  "hits": {
+    "src/endpoints/timeTracking/timeTracking-router.js:584:22": [
+      {
+        "file": "test/integration/review-tracker-outcome.integration.spec.js",
+        "test": "F28 committed tracker upload outcome returns 201 and the saved identifier despite recipient lookup failure; retry is duplicate"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:687:11": [
+      {
+        "file": "test/integration/review-tracker-outcome.integration.spec.js",
+        "test": "F28 committed tracker upload outcome returns 201 and the saved identifier despite recipient lookup failure; retry is duplicate"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:124:6": [
+      {
+        "file": "test/integration/review-tracker-outcome.integration.spec.js",
+        "test": "F28 committed tracker upload outcome returns 201 and the saved identifier despite recipient lookup failure; retry is duplicate"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:149:3": [
+      {
+        "file": "test/integration/review-tracker-outcome.integration.spec.js",
+        "test": "F28 committed tracker upload outcome returns 201 and the saved identifier despite recipient lookup failure; retry is duplicate"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F28 committed tracker upload outcome returns 201 and the saved identifier despite recipient lookup failure; retry is duplicate",
+      "file": "test/integration/review-tracker-outcome.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully."
+    },
+    {
+      "test": "F28 committed tracker upload outcome returns 201 and the saved identifier despite recipient lookup failure; retry is duplicate",
+      "file": "test/integration/review-tracker-outcome.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 409,
+      "message": "This tracker was already uploaded as \"Smith_Eliza_September-25-2026_06-24-41AM-280-9d7e762b.xlsx\" (1 identical row for 09-25-2026 to 09-25-2026). Nothing was saved. To replace that upload, ask an admin to delete its rows first."
+    }
+  ]
+}

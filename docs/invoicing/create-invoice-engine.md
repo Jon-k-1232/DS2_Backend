@@ -1,5 +1,10 @@
 # Create-invoice engine
 
+## Owner decision update — 2026-09-25
+
+Rolling arithmetic is unchanged. Issued parents remain original evidence, while latest child snapshots carry receipts, write-offs, reversals and closing absorption. A new statement does not sum those historical parents. Finalize captures immutable rendering/membership after stamping. Negative statements are displayed as credit and require individual explicit selection to finalize; the signed credit carries forward once. [Owner decisions](../decisions/2026-09-24-owner-decisions.md).
+
+
 ## 1. Purpose and UI
 
 The engine builds the next rolling statement from existing balances, unbilled work and payments/write-offs entered since the last statement. UI route: `/invoices/createInvoice`. Page: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:17`; grid wrapper: `../DS2_Frontend/src/Pages/Invoices/InvoiceGrids/CreateInvoiceGrid.js:5`; route: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:26`. The customer profile also requests a balance preview with all output flags false. Source: `../DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerProfile.js:44`.
@@ -77,24 +82,14 @@ After a parent at 10:00:00.123400, a payment created at 10:00:00.123500 qualifie
 
 ### Outstanding chains
 
-A childless parent qualifies only with positive remaining balance. A newest child at zero and paid=true closes the chain. Any positive child causes children and parent to be supplied. Otherwise a parent created on/after last bill date or a zero child created after that date can retain the chain. Source: `src/endpoints/invoice/invoice-service.js:409`.
-
-The calculator groups by **invoice_number**. A paid flag, fully_paid_date or zero remaining discards the number's group unless a pending payment matches its number or pending write-off matches that exact row ID. A retained row must have positive remaining and invoice_date <= lastInvoiceDate. A same-date parent does not replace the newest child arriving first. Sum the remaining balances of retained groups. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/outstandingInvoicesCalculations.js:48`.
-
-### Selection-list eligibility
-
-Eligibility reads active customers with an active address (not specifically MAILING), invoice rows, transaction-service rows and payment/write-off/retainer histories. Transaction-service inner joins can omit broken jobs. Actual statement detail later requires an active MAILING record. Sources: `src/endpoints/invoice/invoiceEligibility/invoiceEligibility.js:16`, `src/endpoints/customer/customer-service.js:1`, `src/endpoints/transactions/transactions-service.js:1`.
-
-Current balance uses the latest snapshot of every parent on the latest invoice date, including same-day duplicates. Keep customers with abs(balance) >= $0.005, any unbilled transaction through the billing date (including nonbillable), or pending negative write-offs/payments. Retainers alone do not establish eligibility. retainer_count counts all active negative history rows, not latest chains; invoice_count counts nonzero current-chain rows; transaction_count counts unbilled rows through the billing date; write_off_count counts pending negative write-offs. The customer list inherits customer_name ASC ordering from the customer service (`src/endpoints/customer/customer-service.js:52`). Eligibility's created_at comparisons use JavaScript timestamp precision, unlike the SQL membership gate. Sources: `src/endpoints/invoice/invoiceEligibility/invoiceEligibility.js:41`, `src/endpoints/invoice/invoiceEligibility/invoiceEligibility.js:92`.
-
-The route recalculates all eligible customers together with showWriteOffs=false; any failure leaves every displayed invoice_total at zero. Latest completed audits are ordered by created_at DESC without an ID tie-break. Matching means saved audit/app balances both exist and abs(difference) < $0.01; it does not establish freshness against today's ledger. Source: `src/endpoints/invoice/invoice-router.js:167`, `src/endpoints/invoice/invoice-router.js:183`.
+A childless parent qualifies with any nonzero signed remaining balance. A newest child at zero and paid=true closes the chain. Children arrive newest first, followed by the parent. The calculator keeps only the first row per invoice number, checks invoice_date <= lastInvoiceDate, excludes zero/absorbed rows, and sums signed latest balances. Historical paid flags or zero rows cannot erase a later negative or reopened snapshot. Sources: `invoice-service.js` and `outstandingInvoicesCalculations.js`.
 
 ## 6. Calculations
 
 For each customer, calculateInvoices performs these steps. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/calculateInvoices.js:9`.
 
 1. Choose one effective showWriteOffs flag for all calculators. Explicit true/'true' wins; otherwise no unbilled transaction rows plus an invoice-linked pending write-off forces shown mode. hideRetainers=false. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/calculateInvoices.js:45`.
-2. Sum retained outstanding snapshots into the rolling beginning balance. Do not sum all historical issued amounts. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/outstandingInvoicesCalculations.js:10`.
+2. Sum each current chain's latest signed snapshot into the rolling beginning balance, positive or negative. Do not sum all historical issued amounts. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/outstandingInvoicesCalculations.js:10`.
 3. Sum **uninvoiced** gated payments into paymentTotal; all gated payments into paymentsReceivedTotal for display; uninvoiced forms exactly 'Retainer' or 'Prepayment' into retainerPaymentTotal. Linked payments already affected their chain. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/paymentsCalculations.js:6`.
 4. Select latest retainer snapshot per root using exact timestamp text where available, then timestamp milliseconds/ID fallback. Keep is_retainer_active !== false and nonzero current_amount. Sum signed balances; do not automatically draw them. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/retainerCalculations.js:3`, `src/endpoints/invoice/createInvoice/invoiceCalculations/retainerCalculations.js:33`.
 5. Group transactions by actual job ID. Preserve all rows for later stamping; sum only billable total_transaction. Hidden mode nets only invoice-unlinked write-offs into jobs; invoice-linked credits never reduce job totals. Uninvoiced write-offs without new work create adjustment-only groups; null job uses General credit. Shown mode leaves job charges gross. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:20`, `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:52`.
@@ -103,7 +98,7 @@ For each customer, calculateInvoices performs these steps. Source: `src/endpoint
 8. A separate transaction-retainer diagnostic sums unbilled transactions linked to retainers, including nonbillable rows, and returns a negative absolute total. It does not affect invoiceTotal. Sources: `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionRetainerPaymentCalculations.js:6`, `src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:4`.
 9. **invoiceTotal = outstandingInvoiceTotal + transactionsTotal + paymentTotal + writeOffTotal.** preRetainerInvoiceTotal = invoiceTotal - retainerPaymentTotal; retainerAppliedToInvoice = retainerPaymentTotal; remainingRetainer = retainerTotal. Source: `src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:4`.
 
-The engine sums stored transaction totals without re-pricing or six-minute rounding. Sums generally are not rounded after each addition. Persistence rounds monetary invoice columns to cents; PDFs format with toFixed(2). Sources: `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:83`, `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:8`. Six-minute ingestion/manual-apply calculations are in [billing-review.md](billing-review.md).
+The engine sums stored transaction totals without re-pricing or six-minute rounding. The final invoice total and pre-retainer total are rounded to cents before classification, preventing a floating-point residue from appearing as a credit. Persistence rounds monetary invoice columns to cents; PDFs format with toFixed(2). Sources: `src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:83`, `src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:8`. Six-minute ingestion/manual-apply calculations are in [billing-review.md](billing-review.md).
 
 ### Worked example
 
@@ -167,10 +162,24 @@ These are source assertions, not test results from this documentation run.
 
 ## 9. Known limitations and open decisions
 
-Missing/cross-customer jobs, missing mailing information, stale unbilled work and duplicate statements need accountant review. The report also records retainer double subtraction and parent-mirror discrepancies. Negative finalized balances are skipped pending a credit/carry-forward decision. Sources: `scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:56`.
+Missing/cross-customer jobs, missing mailing information, stale unbilled work and duplicate statements need accountant review. The report also records retainer double subtraction and parent-mirror discrepancies. The former open credit policy is settled by owner decision 2: negative finalized balances are skipped unless explicitly selected; selected credits carry forward once. Sources: `scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:56`.
 
 Section 6 requires reviewed migrations/backup/cutover, backend before frontend, INTERNAL_CUSTOMER_IDS and BILLING_TIMEZONE=America/Phoenix. Production completion is **not determined from the code**. Source: `scripts/review-2026-09/FINAL_REPORT.md:67`.
 
 Coverage: **1 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
 
 F8 regression: `test/endpoints/invoice/review-writeoff.spec.js` verifies same-job current-chain and absorbed-chain invoice credits count once in both shown and hidden modes (2 passing). Invoice-linked credits are excluded before all hidden job grouping.
+
+
+## Owner run 2 — retainers and duplicate review
+
+Query data adds `customerRetainerEvents` using the same exact created-at statement gate as payments. `retainers.events` is descriptive and never included again in `invoiceTotal`. Retainer balances still select the latest root/child. Ledger fingerprint now includes event rows so finalization refuses pricing made before a concurrent event. Pending event-only customers enter eligibility with `retainer_event_count`, including zero-dollar/full-refund customers; frontend Hide zero balances preserves them. Run 3 adds explicit credit selection and signed carry-forward without changing this event-selection gate.
+
+### Run 3 eligibility contract
+
+Rows include `is_credit_statement` and signed `invoice_total`. Bulk selection excludes credit and billed-today rows; either can be selected individually. A negative row sends strict boolean `includeCreditStatement:true` and an issuance reason. Preview does not require this flag; finalize skips negative rows without it, preserving pending activity. Full request/errors and migration025 evidence are in [month-end finalize](month-end-finalize.md) and the [owner record](../decisions/2026-09-24-owner-decisions.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

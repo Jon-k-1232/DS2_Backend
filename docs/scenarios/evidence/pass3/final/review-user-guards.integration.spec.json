@@ -1,0 +1,244 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:43.809Z",
+    "end": "2026-09-25T13:24:44.516Z",
+    "duration": 707
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "title": "F29 active Super Admin guards rejects nonboolean active value \"false\" before writing",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "title": "F29 active Super Admin guards rejects nonboolean active value \"true\" before writing",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "title": "F29 active Super Admin guards rejects nonboolean active value 0 before writing",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "title": "F29 active Super Admin guards rejects nonboolean active value 1 before writing",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "title": "F29 active Super Admin guards rejects nonboolean active value null before writing",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "title": "F29 active Super Admin guards preserves active status when omitted and still rejects boolean self-deactivation",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "title": "F29 active Super Admin guards serializes concurrent self-demotions so one active Super Admin remains",
+      "state": "passed",
+      "duration": 47
+    }
+  ],
+  "hits": {
+    "src/endpoints/user/user-router.js:116:8": [
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value \"false\" before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value \"true\" before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value 0 before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value 1 before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value null before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards preserves active status when omitted and still rejects boolean self-deactivation"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards serializes concurrent self-demotions so one active Super Admin remains"
+      }
+    ],
+    "src/endpoints/user/user-router.js:119:9": [
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value \"false\" before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value \"true\" before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value 0 before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value 1 before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value null before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards preserves active status when omitted and still rejects boolean self-deactivation"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards serializes concurrent self-demotions so one active Super Admin remains"
+      }
+    ],
+    "src/endpoints/user/userObjects.js:45:4": [
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value \"false\" before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value \"true\" before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value 0 before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value 1 before writing"
+      },
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards rejects nonboolean active value null before writing"
+      }
+    ],
+    "src/endpoints/user/user-router.js:99:12": [
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards preserves active status when omitted and still rejects boolean self-deactivation"
+      }
+    ],
+    "src/endpoints/user/user-router.js:36:6": [
+      {
+        "file": "test/integration/review-user-guards.integration.spec.js",
+        "test": "F29 active Super Admin guards serializes concurrent self-demotions so one active Super Admin remains"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F29 active Super Admin guards rejects nonboolean active value \"false\" before writing",
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/9001/91095",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "isUserActive must be a boolean."
+    },
+    {
+      "test": "F29 active Super Admin guards rejects nonboolean active value \"true\" before writing",
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/9001/91096",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "isUserActive must be a boolean."
+    },
+    {
+      "test": "F29 active Super Admin guards rejects nonboolean active value 0 before writing",
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/9001/91097",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "isUserActive must be a boolean."
+    },
+    {
+      "test": "F29 active Super Admin guards rejects nonboolean active value 1 before writing",
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/9001/91098",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "isUserActive must be a boolean."
+    },
+    {
+      "test": "F29 active Super Admin guards rejects nonboolean active value null before writing",
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/9001/91099",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "isUserActive must be a boolean."
+    },
+    {
+      "test": "F29 active Super Admin guards preserves active status when omitted and still rejects boolean self-deactivation",
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/9001/91100",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "F29 active Super Admin guards preserves active status when omitted and still rejects boolean self-deactivation",
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/9001/91100",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "You cannot deactivate your own user account."
+    },
+    {
+      "test": "F29 active Super Admin guards serializes concurrent self-demotions so one active Super Admin remains",
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/9001/91101",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "F29 active Super Admin guards serializes concurrent self-demotions so one active Super Admin remains",
+      "file": "test/integration/review-user-guards.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/9001/91102",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Cannot remove the last active Super Admin on this account."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:39:31.604Z",
+    "end": "2026-09-25T06:39:32.103Z",
+    "duration": 499
+  },
+  "tests": [
+    {
+      "title": "total_transaction = \u03a3(hours \u00d7 billing_rate) for every auto-inserted row",
+      "fullTitle": "integration: billing-correctness regression total_transaction = \u03a3(hours \u00d7 billing_rate) for every auto-inserted row",
+      "duration": 186,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cascade-edit recomputes invoice total_charges to match \u03a3 of its transactions",
+      "fullTitle": "integration: billing-correctness regression cascade-edit recomputes invoice total_charges to match \u03a3 of its transactions",
+      "duration": 269,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "total_transaction = \u03a3(hours \u00d7 billing_rate) for every auto-inserted row",
+      "fullTitle": "integration: billing-correctness regression total_transaction = \u03a3(hours \u00d7 billing_rate) for every auto-inserted row",
+      "duration": 186,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cascade-edit recomputes invoice total_charges to match \u03a3 of its transactions",
+      "fullTitle": "integration: billing-correctness regression cascade-edit recomputes invoice total_charges to match \u03a3 of its transactions",
+      "duration": 269,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

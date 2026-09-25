@@ -1,0 +1,1852 @@
+{
+  "stats": {
+    "suites": 27,
+    "tests": 131,
+    "passes": 131,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:49:21.077Z",
+    "end": "2026-09-25T14:49:22.447Z",
+    "duration": 1370
+  },
+  "tests": [
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 401 without a token",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "lists custA's unbilled balance with the engine-computed invoice_total, before it is billed",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID lists custA's unbilled balance with the engine-computed invoice_total, before it is billed",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 401 without a token",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: no customers selected",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID validation failure: no customers selected",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isRoughDraft + isCsvOnly build a downloadable zip but persist no invoice or transaction rows",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isRoughDraft + isCsvOnly build a downloadable zip but persist no invoice or transaction rows",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isFinalized creates a parent invoice and stamps the transaction",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isFinalized creates a parent invoice and stamps the transaction",
+      "duration": 92,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a same-day re-run without allowSameDayRebill reports custA in skippedCustomers and creates no second parent",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID a same-day re-run without allowSameDayRebill reports custA in skippedCustomers and creates no second parent",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "lists the freshly finalized custA invoice, in the grid and tree grid",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID lists the freshly finalized custA invoice, in the grid and tree grid",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for invalid pagination (page=0)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 400 for invalid pagination (page=0)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search finds the invoice by a substring of its invoice_number",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID search finds the invoice by a substring of its invoice_number",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search finds the invoice by custA's display name",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID search finds the invoice by custA's display name",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a search with no matches returns an empty page, not an error",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID a search with no matches returns an empty page, not an error",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404 for an unknown invoice id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 404 for an unknown invoice id",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns the transactions billed on custA's freshly finalized parent",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID returns the transactions billed on custA's freshly finalized parent",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns chain-wide payments tagged to a snapshot row, not just the parent",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID returns chain-wide payments tagged to a snapshot row, not just the parent",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: refuses a bogus invoice id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID not-found: refuses a bogus invoice id",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a parent with linked transactions (\"linked rows\")",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID refuses a parent with linked transactions (\"linked rows\")",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cleanly deletes a zero-history parent with no linked rows",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID cleanly deletes a zero-history parent with no linked rows",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for a missing fileLocation query param",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a missing fileLocation query param",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for a bogus path that does not exist in S3",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a bogus path that does not exist in S3",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200 streams back the uploaded bytes with the right filename",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 200 streams back the uploaded bytes with the right filename",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 401 without a token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 validation failure: no customers selected",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 400 validation failure: no customers selected",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "runs a background job for custA that completes with an audit_balance matching the engine total",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total",
+      "duration": 280,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 401 without a token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search by id lists custA with the audit fields just computed",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID search by id lists custA with the audit fields just computed",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "filter=billing_ready restricts to customers with an open parent invoice",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID filter=billing_ready restricts to customers with an open parent invoice",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "READ-ONLY: lists real customers for account 1",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID READ-ONLY: lists real customers for account 1",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 401 without a token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns custA's audit history including the run we just created",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID returns custA's audit history including the run we just created",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns an empty list for a customer with no audits",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID returns an empty list for a customer with no audits",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "READ-ONLY: returns a real account-1 customer's audit history",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID READ-ONLY: returns a real account-1 customer's audit history",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 401 without a token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404 for an unknown audit id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 404 for an unknown audit id",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns the full audit detail and its audit_balance equals the engine total (fetchInitialQueryItems + calculateInvoices)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID returns the full audit detail and its audit_balance equals the engine total (fetchInitialQueryItems + calculateInvoices)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "READ-ONLY: returns a real account-1 audit detail",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID READ-ONLY: returns a real account-1 audit detail",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404 for an unknown audit id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 404 for an unknown audit id",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns application/pdf bytes for the audit",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID returns application/pdf bytes for the audit",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "READ-ONLY: returns application/pdf bytes for a real account-1 audit",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID READ-ONLY: returns application/pdf bytes for a real account-1 audit",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404 for an unknown job id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 404 for an unknown job id",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns the completed job's results",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID returns the completed job's results",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED (was DEFECT): job results are scoped to the account that created them",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID FIXED (was DEFECT): job results are scoped to the account that created them",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for invalid pagination (page=0)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 400 for invalid pagination (page=0)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns custB's aging row: bucket, statement_date and is_customer_active",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID returns custB's aging row: bucket, statement_date and is_customer_active",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search narrows the list to the matching customer only",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID search narrows the list to the matching customer only",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns text/csv with a header row and quote-guards custB's name (starts with '=')",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export returns text/csv with a header row and quote-guards custB's name (starts with '=')",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric per-year fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID returns numeric per-year fields for account 1 (read-only)",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 for a non-super-admin (admin) token",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns text/csv with a header row and quote-guards custB's name",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export returns text/csv with a header row and quote-guards custB's name",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric summary fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID returns numeric summary fields for account 1 (read-only)",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns text/csv with a header row for account 1",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export returns text/csv with a header row for account 1",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: missing customer/year/rate",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID validation failure: missing customer/year/rate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "creates the rate agreement row for custB",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID creates the rate agreement row for custB",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 401 without a token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric aging fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID returns numeric aging fields for account 1 (read-only)",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 401 without a token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric budget fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID returns numeric budget fields for account 1 (read-only)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a zip for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID returns a zip for account 1 (read-only)",
+      "duration": 50,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric capacity fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID returns numeric capacity fields for account 1 (read-only)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns the customer list and default-excluded ids for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID returns the customer list and default-excluded ids for account 1 (read-only)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 for an employee (manager+ required)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 cross-tenant (right role, wrong account)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unknown customer id returns a clean error envelope, not a crash",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID unknown customer id returns a clean error envelope, not a crash",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns application/pdf bytes for custA's statement",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID returns application/pdf bytes for custA's statement",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 401 without a token",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "lists custA's unbilled balance with the engine-computed invoice_total, before it is billed",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID lists custA's unbilled balance with the engine-computed invoice_total, before it is billed",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 401 without a token",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: no customers selected",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID validation failure: no customers selected",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isRoughDraft + isCsvOnly build a downloadable zip but persist no invoice or transaction rows",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isRoughDraft + isCsvOnly build a downloadable zip but persist no invoice or transaction rows",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isFinalized creates a parent invoice and stamps the transaction",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID isFinalized creates a parent invoice and stamps the transaction",
+      "duration": 92,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a same-day re-run without allowSameDayRebill reports custA in skippedCustomers and creates no second parent",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /invoices/createInvoice/:accountID/:userID a same-day re-run without allowSameDayRebill reports custA in skippedCustomers and creates no second parent",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "lists the freshly finalized custA invoice, in the grid and tree grid",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoices/:accountID/:invoiceID lists the freshly finalized custA invoice, in the grid and tree grid",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for invalid pagination (page=0)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID 400 for invalid pagination (page=0)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search finds the invoice by a substring of its invoice_number",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID search finds the invoice by a substring of its invoice_number",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search finds the invoice by custA's display name",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID search finds the invoice by custA's display name",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a search with no matches returns an empty page, not an error",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoicesPaginated/:accountID/:userID a search with no matches returns an empty page, not an error",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404 for an unknown invoice id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID 404 for an unknown invoice id",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns the transactions billed on custA's freshly finalized parent",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID returns the transactions billed on custA's freshly finalized parent",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns chain-wide payments tagged to a snapshot row, not just the parent",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID returns chain-wide payments tagged to a snapshot row, not just the parent",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: refuses a bogus invoice id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID not-found: refuses a bogus invoice id",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a parent with linked transactions (\"linked rows\")",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID refuses a parent with linked transactions (\"linked rows\")",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cleanly deletes a zero-history parent with no linked rows",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) DELETE /invoices/deleteInvoice/:accountID/:invoiceID cleanly deletes a zero-history parent with no linked rows",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for a missing fileLocation query param",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a missing fileLocation query param",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for a bogus path that does not exist in S3",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 400 for a bogus path that does not exist in S3",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200 streams back the uploaded bytes with the right filename",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /invoices/downloadFile/:accountID/:userID 200 streams back the uploaded bytes with the right filename",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 401 without a token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 validation failure: no customers selected",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID 400 validation failure: no customers selected",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "runs a background job for custA that completes with an audit_balance matching the engine total",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /accountAudit/run/:accountID/:userID runs a background job for custA that completes with an audit_balance matching the engine total",
+      "duration": 280,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 401 without a token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search by id lists custA with the audit fields just computed",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID search by id lists custA with the audit fields just computed",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "filter=billing_ready restricts to customers with an open parent invoice",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID filter=billing_ready restricts to customers with an open parent invoice",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "READ-ONLY: lists real customers for account 1",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customers/:accountID/:userID READ-ONLY: lists real customers for account 1",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 401 without a token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns custA's audit history including the run we just created",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID returns custA's audit history including the run we just created",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns an empty list for a customer with no audits",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID returns an empty list for a customer with no audits",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "READ-ONLY: returns a real account-1 customer's audit history",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/customer/:customerID/:accountID/:userID READ-ONLY: returns a real account-1 customer's audit history",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 401 without a token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404 for an unknown audit id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID 404 for an unknown audit id",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns the full audit detail and its audit_balance equals the engine total (fetchInitialQueryItems + calculateInvoices)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID returns the full audit detail and its audit_balance equals the engine total (fetchInitialQueryItems + calculateInvoices)",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "READ-ONLY: returns a real account-1 audit detail",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/:accountID/:userID READ-ONLY: returns a real account-1 audit detail",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404 for an unknown audit id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID 404 for an unknown audit id",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns application/pdf bytes for the audit",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID returns application/pdf bytes for the audit",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "READ-ONLY: returns application/pdf bytes for a real account-1 audit",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/audit/:auditID/pdf/:accountID/:userID READ-ONLY: returns application/pdf bytes for a real account-1 audit",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "404 for an unknown job id",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID 404 for an unknown job id",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns the completed job's results",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID returns the completed job's results",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED (was DEFECT): job results are scoped to the account that created them",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountAudit/job/:jobId/:accountID/:userID FIXED (was DEFECT): job results are scoped to the account that created them",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for invalid pagination (page=0)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID 400 for invalid pagination (page=0)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns custB's aging row: bucket, statement_date and is_customer_active",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID returns custB's aging row: bucket, statement_date and is_customer_active",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "search narrows the list to the matching customer only",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID search narrows the list to the matching customer only",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns text/csv with a header row and quote-guards custB's name (starts with '=')",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /accountsReceivable/aging/:accountID/:userID/export returns text/csv with a header row and quote-guards custB's name (starts with '=')",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric per-year fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID returns numeric per-year fields for account 1 (read-only)",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 for a non-super-admin (admin) token",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns text/csv with a header row and quote-guards custB's name",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/clientRates/:accountID/:userID/export returns text/csv with a header row and quote-guards custB's name",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric summary fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID returns numeric summary fields for account 1 (read-only)",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns text/csv with a header row for account 1",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/timeAllocation/:accountID/:userID/export returns text/csv with a header row for account 1",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: missing customer/year/rate",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID validation failure: missing customer/year/rate",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "creates the rate agreement row for custB",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) POST /analytics/rateAgreement/:accountID/:userID creates the rate agreement row for custB",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 401 without a token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric aging fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/wipAging/:accountID/:userID returns numeric aging fields for account 1 (read-only)",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 401 without a token",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric budget fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/jobBudgets/:accountID/:userID returns numeric budget fields for account 1 (read-only)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns a zip for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/yearEndPacket/:accountID/:userID returns a zip for account 1 (read-only)",
+      "duration": 50,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns numeric capacity fields for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/taxSeasonCapacity/:accountID/:userID returns numeric capacity fields for account 1 (read-only)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a non-super-admin (admin) token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 for a non-super-admin (admin) token",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID 403 cross-tenant (right role, wrong account)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns the customer list and default-excluded ids for account 1 (read-only)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /analytics/exclusions/:accountID/:userID returns the customer list and default-excluded ids for account 1 (read-only)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 without a token",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 401 without a token",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 for an employee (manager+ required)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 cross-tenant (right role, wrong account)",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID 403 cross-tenant (right role, wrong account)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unknown customer id returns a clean error envelope, not a crash",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID unknown customer id returns a clean error envelope, not a crash",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "returns application/pdf bytes for custA's statement",
+      "fullTitle": "integration: coverage \u2014 invoices, account audit, accounts receivable, analytics (HTTP) GET /customer/statement/:accountID/:userID/:customerID returns application/pdf bytes for custA's statement",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

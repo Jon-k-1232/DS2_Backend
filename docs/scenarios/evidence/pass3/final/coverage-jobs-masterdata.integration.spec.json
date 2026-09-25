@@ -1,0 +1,3218 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 22,
+    "tests": 124,
+    "passes": 124,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:31:51.874Z",
+    "end": "2026-09-25T13:31:58.051Z",
+    "duration": 6177
+  },
+  "tests": [
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID happy path: creates a job and returns the updated jobs list",
+      "state": "passed",
+      "duration": 180
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no job payload (synchronous validation failure, no row written)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a duplicate customer+jobType combination and writes no second row",
+      "state": "passed",
+      "duration": 153
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID happy path: returns the job by id",
+      "state": "passed",
+      "duration": 150
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 142
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID happy path: lists the customer's jobs with a computed display_name",
+      "state": "passed",
+      "duration": 148
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID returns an empty list for a customer with no jobs, without crashing",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID happy path: updates job fields and toggles is_job_complete",
+      "state": "passed",
+      "duration": 262
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no job payload",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID returns a clean refusal for a not-found customerJobID",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID refuses reassigning a job to a different customer while a transaction is linked to it",
+      "state": "passed",
+      "duration": 174
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID allows reassigning a job to a different customer when nothing is linked to it, and returns a warning",
+      "state": "passed",
+      "duration": 269
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: reassigning an unlinked job moves EVERY version row in its family, not just the one named in the request",
+      "state": "passed",
+      "duration": 273
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers",
+      "state": "passed",
+      "duration": 292
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails",
+      "state": "passed",
+      "duration": 157
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID cannot update an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID happy path: deletes a job family with no linked rows",
+      "state": "passed",
+      "duration": 259
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID returns a clean refusal for a not-found jobID",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a transaction references the job",
+      "state": "passed",
+      "duration": 147
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a write-off references the job",
+      "state": "passed",
+      "duration": 160
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a payment references the job",
+      "state": "passed",
+      "duration": 148
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID checks links across the whole version family, not just the row named in the URL",
+      "state": "passed",
+      "duration": 149
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID deletes every row in a clean version family together",
+      "state": "passed",
+      "duration": 257
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID cannot delete an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID happy path: creates an active job category",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no jobCategory payload",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID uses the authenticated creator when body createdBy is omitted",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID happy path: renames a category",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no jobCategory payload",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID persists is_job_category_active = false and removes the category from the active list",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID cannot update an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID happy path: deletes an unused category",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID returns a clean 404 for a not-found id",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID is blocked while a job type references the category",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID cannot delete an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID happy path: returns the category by id",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID happy path: creates a job type, defaulting is_job_type_active to true",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no jobType payload",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID uses the authenticated creator when body userID is omitted",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID happy path: returns the job type by id",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID happy path: updates job type fields",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no jobType payload",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID persists is_job_type_active = false",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID excludes a deactivated job type from the active jobTypesList",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID cannot update an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID happy path: deletes an unused job type",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID returns a clean 404 for a not-found id",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID is blocked while a job references the job type",
+      "state": "passed",
+      "duration": 159
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID cannot delete an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID happy path: creates an active work description",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no workDescription payload",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID happy path: returns the work description by id",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID happy path: updates work description fields",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no workDescription payload",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID persists is_general_work_description_active = false and removes it from the active list",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID cannot update an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID happy path: deletes an unused work description",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID returns a clean 404 for a not-found id",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID is blocked while a transaction references the work description",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID cannot delete an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote happy path: creates a quote for the caller's own account",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no quote payload",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote ignores a spoofed account_id in the body and scopes the new row to the caller's real account (no :accountID in this route to guard)",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID happy path: lists quotes scoped to the caller's account",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a request with no token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote happy path: updates quote fields",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no quote payload",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote ignores a spoofed account_id in the body and still updates the caller's own row (no :accountID in this route to guard)",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote returns a clean 404 for a not-found id (0 rows affected)",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID happy path: deletes a quote",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a request with no token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a URL account that is not the caller's tenant",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID returns a clean 404 for a not-found id",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "title": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001's own fixture customers",
+      "state": "passed",
+      "duration": 22
+    }
+  ],
+  "hits": {
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no token"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a request with no token"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a URL account that is not the caller's tenant"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a URL account that is not the caller's tenant"
+      }
+    ],
+    "src/endpoints/job/job-router.js:91:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no job payload (synchronous validation failure, no row written)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a duplicate customer+jobType combination and writes no second row"
+      }
+    ],
+    "src/endpoints/job/job-router.js:93:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no job payload (synchronous validation failure, no row written)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a duplicate customer+jobType combination and writes no second row"
+      }
+    ],
+    "src/endpoints/job/job-router.js:85:34": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a duplicate customer+jobType combination and writes no second row"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote 403 for an employee (manager+ required)"
+      }
+    ],
+    "src/endpoints/job/job-router.js:207:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no job payload"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID returns a clean refusal for a not-found customerJobID"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID refuses reassigning a job to a different customer while a transaction is linked to it"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID cannot update an account-1 job even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/job/job-router.js:209:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no job payload"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID returns a clean refusal for a not-found customerJobID"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID refuses reassigning a job to a different customer while a transaction is linked to it"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID cannot update an account-1 job even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/job/job-router.js:39:19": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID returns a clean refusal for a not-found customerJobID"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID cannot update an account-1 job even when scoped through the caller's own account/token (row untouched)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID returns a clean refusal for a not-found jobID"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID cannot delete an account-1 job even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/job/job-router.js:178:43": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID refuses reassigning a job to a different customer while a transaction is linked to it"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers"
+      }
+    ],
+    "src/endpoints/job/job-router.js:249:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID returns a clean refusal for a not-found jobID"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a transaction references the job"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a write-off references the job"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a payment references the job"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID checks links across the whole version family, not just the row named in the URL"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID cannot delete an account-1 job even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/job/job-router.js:251:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID returns a clean refusal for a not-found jobID"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a transaction references the job"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a write-off references the job"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a payment references the job"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID checks links across the whole version family, not just the row named in the URL"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID cannot delete an account-1 job even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/job/job-router.js:236:40": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a transaction references the job"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID checks links across the whole version family, not just the row named in the URL"
+      }
+    ],
+    "src/endpoints/job/job-router.js:239:56": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a write-off references the job"
+      }
+    ],
+    "src/endpoints/job/job-router.js:243:36": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a payment references the job"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:30:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no jobCategory payload"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:32:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no jobCategory payload"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:58:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no jobCategory payload"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:60:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no jobCategory payload"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:55:16": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID cannot update an account-1 job category even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:79:16": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID returns a clean 404 for a not-found id"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID cannot delete an account-1 job category even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:74:32": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID is blocked while a job type references the category"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:82:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID is blocked while a job type references the category"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:84:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID is blocked while a job type references the category"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:33:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no jobType payload"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:35:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no jobType payload"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:87:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no jobType payload"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:89:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no jobType payload"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:77:28": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID cannot update an account-1 job type even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:108:16": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID returns a clean 404 for a not-found id"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID cannot delete an account-1 job type even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:103:28": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID is blocked while a job references the job type"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:111:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID is blocked while a job references the job type"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:113:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID is blocked while a job references the job type"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:26:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no workDescription payload"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:28:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no workDescription payload"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row"
+      }
+    ],
+    "src/utils/auditContext.js:62:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row"
+      }
+    ],
+    "src/utils/auditContext.js:64:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:82:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no workDescription payload"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:84:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no workDescription payload"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:79:16": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID cannot update an account-1 work description even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:108:16": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID returns a clean 404 for a not-found id"
+      },
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID cannot delete an account-1 work description even when scoped through the caller's own account/token (row untouched)"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:102:9": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID is blocked while a transaction references the work description"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:111:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID is blocked while a transaction references the work description"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:113:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID is blocked while a transaction references the work description"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:48:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no quote payload"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:50:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no quote payload"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:125:5": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no quote payload"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:127:6": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no quote payload"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:104:16": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote returns a clean 404 for a not-found id (0 rows affected)"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:143:16": [
+      {
+        "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+        "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID returns a clean 404 for a not-found id"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID happy path: creates a job and returns the updated jobs list",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID happy path: creates a job and returns the updated jobs list",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a request with no job payload (synchronous validation failure, no row written)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a duplicate customer+jobType combination and writes no second row",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a duplicate customer+jobType combination and writes no second row",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobs/createJob/:accountID/:userID rejects a duplicate customer+jobType combination and writes no second row",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Duplicate job"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID happy path: returns the job by id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID happy path: returns the job by id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID happy path: returns the job by id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getSingleJob/9020814/9001/90013",
+      "route": "/getSingleJob/:customerJobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved single job."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getSingleJob/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getSingleJob/999999999/1/90013",
+      "route": "/getSingleJob/:customerJobID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getSingleJob/9020815/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getSingleJob/:customerJobID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getSingleJob/999999999/9001/90013",
+      "route": "/getSingleJob/:customerJobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved single job."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID happy path: lists the customer's jobs with a computed display_name",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID happy path: lists the customer's jobs with a computed display_name",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID happy path: lists the customer's jobs with a computed display_name",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getActiveCustomerJobs/9001/90013/900104",
+      "route": "/getActiveCustomerJobs/:accountID/:userID/:customerID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved active customer jobs."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getActiveCustomerJobs/9001/90013/900101",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getActiveCustomerJobs/1/90013/900101",
+      "route": "/getActiveCustomerJobs/:accountID/:userID/:customerID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID returns an empty list for a customer with no jobs, without crashing",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobs/getActiveCustomerJobs/9001/90013/999999999",
+      "route": "/getActiveCustomerJobs/:accountID/:userID/:customerID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved active customer jobs."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID happy path: updates job fields and toggles is_job_complete",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID happy path: updates job fields and toggles is_job_complete",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID happy path: updates job fields and toggles is_job_complete",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/1/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID rejects a request with no job payload",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID returns a clean refusal for a not-found customerJobID",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID refuses reassigning a job to a different customer while a transaction is linked to it",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID refuses reassigning a job to a different customer while a transaction is linked to it",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID refuses reassigning a job to a different customer while a transaction is linked to it",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot reassign this job to a different customer: transactions are linked to it or one of its prior versions."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID allows reassigning a job to a different customer when nothing is linked to it, and returns a warning",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID allows reassigning a job to a different customer when nothing is linked to it, and returns a warning",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID allows reassigning a job to a different customer when nothing is linked to it, and returns a warning",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: reassigning an unlinked job moves EVERY version row in its family, not just the one named in the request",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: reassigning an unlinked job moves EVERY version row in its family, not just the one named in the request",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: reassigning an unlinked job moves EVERY version row in its family, not just the one named in the request",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: a transaction-create racing a job reassignment for the same customer never leaves the transaction and its job on different customers",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot reassign this job to a different customer: transactions are linked to it or one of its prior versions."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID A2: rolls back a family-wide reassignment against real Postgres if the final job-row write fails",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "update \"customer_jobs\" set \"customer_job_id\" = $1, \"parent_job_id\" = $2, \"account_id\" = $3, \"customer_id\" = $4, \"job_type_id\" = $5, \"job_quote_amount\" = $6, \"agreed_job_amount\" = $7, \"current_job_total\" = $8, \"job_status\" = $9, \"is_job_complete\" = $10, \"is_quote\" = $11, \"notes\" = $12 where \"customer_job_id\" = $13 and \"account_id\" = $14 - numeric field overflow"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobs/updateJob/:accountID/:userID cannot update an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID happy path: deletes a job family with no linked rows",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID happy path: deletes a job family with no linked rows",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID happy path: deletes a job family with no linked rows",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/9020826/9001/90013",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/999999999/1/90013",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID returns a clean refusal for a not-found jobID",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/999999999/9001/90013",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a transaction references the job",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a transaction references the job",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a transaction references the job",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/9020827/9001/90013",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transactions are linked to this job or one of its prior versions; it cannot be deleted."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a write-off references the job",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a write-off references the job",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a write-off references the job",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/9020828/9001/90013",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Write offs are linked to this job or one of its prior versions; it cannot be deleted."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a payment references the job",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a payment references the job",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID is blocked while a payment references the job",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/9020829/9001/90013",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Payments are linked to this job or one of its prior versions; it cannot be deleted."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID checks links across the whole version family, not just the row named in the URL",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID checks links across the whole version family, not just the row named in the URL",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID checks links across the whole version family, not just the row named in the URL",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/9020830/9001/90013",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transactions are linked to this job or one of its prior versions; it cannot be deleted."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID deletes every row in a clean version family together",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID deletes every row in a clean version family together",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID deletes every row in a clean version family together",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/9020832/9001/90013",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobs/deleteJob/:jobID/:accountID/:userID cannot delete an account-1 job even when scoped through the caller's own account/token (row untouched)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/217/9001/90013",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID happy path: creates an active job category",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/1/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID rejects a request with no jobCategory payload",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobCategories/createJobCategory/:accountID/:userID uses the authenticated creator when body createdBy is omitted",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID happy path: renames a category",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID happy path: renames a category",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobCategories/updateJobCategory/9001/90013",
+      "route": "/updateJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobCategories/updateJobCategory/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobCategories/updateJobCategory/1/90013",
+      "route": "/updateJobCategory/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID rejects a request with no jobCategory payload",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobCategories/updateJobCategory/9001/90013",
+      "route": "/updateJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobCategories/updateJobCategory/9001/90013",
+      "route": "/updateJobCategory/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job category not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID persists is_job_category_active = false and removes the category from the active list",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID persists is_job_category_active = false and removes the category from the active list",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobCategories/updateJobCategory/9001/90013",
+      "route": "/updateJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobCategories/updateJobCategory/:accountID/:userID cannot update an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobCategories/updateJobCategory/9001/90013",
+      "route": "/updateJobCategory/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job category not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID happy path: deletes an unused category",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID happy path: deletes an unused category",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobCategories/deleteJobCategory/90455/9001/90013",
+      "route": "/deleteJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobCategories/deleteJobCategory/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobCategories/deleteJobCategory/999999999/1/90013",
+      "route": "/deleteJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID returns a clean 404 for a not-found id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobCategories/deleteJobCategory/999999999/9001/90013",
+      "route": "/deleteJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job category not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID is blocked while a job type references the category",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID is blocked while a job type references the category",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID is blocked while a job type references the category",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobCategories/deleteJobCategory/90456/9001/90013",
+      "route": "/deleteJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job Category is in use by Job Types."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID cannot delete an account-1 job category even when scoped through the caller's own account/token (row untouched)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobCategories/deleteJobCategory/1/9001/90013",
+      "route": "/deleteJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job category not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID happy path: returns the category by id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID happy path: returns the category by id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobCategories/getSingleJobCategory/90457/9001/90013",
+      "route": "/getSingleJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved job category."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobCategories/getSingleJobCategory/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobCategories/getSingleJobCategory/999999999/1/90013",
+      "route": "/getSingleJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/90013",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobCategories/getSingleJobCategory/90458/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobCategories/getSingleJobCategory/999999999/9001/90013",
+      "route": "/getSingleJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved job category."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID happy path: creates a job type, defaulting is_job_type_active to true",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/1/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID rejects a request with no jobType payload",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /jobTypes/createJobType/:accountID/:userID uses the authenticated creator when body userID is omitted",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID happy path: returns the job type by id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID happy path: returns the job type by id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobTypes/getSingleJobType/901276/9001/90013",
+      "route": "/getSingleJobType/:jobTypeID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved single jobType."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobTypes/getSingleJobType/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobTypes/getSingleJobType/999999999/1/90013",
+      "route": "/getSingleJobType/:jobTypeID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobTypes/getSingleJobType/901277/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/jobTypes/getSingleJobType/999999999/9001/90013",
+      "route": "/getSingleJobType/:jobTypeID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved single jobType."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID happy path: updates job type fields",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID happy path: updates job type fields",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/9001/90013",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/1/90013",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID rejects a request with no jobType payload",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/9001/90013",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/9001/90013",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job type not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID persists is_job_type_active = false",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID persists is_job_type_active = false",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/9001/90013",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID excludes a deactivated job type from the active jobTypesList",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID excludes a deactivated job type from the active jobTypesList",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/9001/90013",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /jobTypes/updateJobType/:accountID/:userID cannot update an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/9001/90013",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job type not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID happy path: deletes an unused job type",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID happy path: deletes an unused job type",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobTypes/deleteJobType/901281/9001/90013",
+      "route": "/deleteJobType/:jobTypeID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobTypes/deleteJobType/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobTypes/deleteJobType/999999999/1/90013",
+      "route": "/deleteJobType/:jobTypeID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID returns a clean 404 for a not-found id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobTypes/deleteJobType/999999999/9001/90013",
+      "route": "/deleteJobType/:jobTypeID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job type not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID is blocked while a job references the job type",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID is blocked while a job references the job type",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID is blocked while a job references the job type",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobTypes/deleteJobType/901282/9001/90013",
+      "route": "/deleteJobType/:jobTypeID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot delete jobType that is in use."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID cannot delete an account-1 job type even when scoped through the caller's own account/token (row untouched)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobTypes/deleteJobType/2/9001/90013",
+      "route": "/deleteJobType/:jobTypeID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job type not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID happy path: creates an active work description",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/1/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects a request with no workDescription payload",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /workDescriptions/createWorkDescription/:accountID/:userID rejects an invalid estimatedTime (NaN, NOT NULL column) and writes no row",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_general_work_descriptions\" (\"account_id\", \"created_by_user_id\", \"estimated_time\", \"general_work_description\", \"is_general_work_description_active\") values ($1, $2, $3, $4, $5) - invalid input syntax for type integer: \"NaN\""
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID happy path: returns the work description by id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID happy path: returns the work description by id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/workDescriptions/getSingleWorkDescription/90412/9001/90013",
+      "route": "/getSingleWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/workDescriptions/getSingleWorkDescription/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/workDescriptions/getSingleWorkDescription/999999999/1/90013",
+      "route": "/getSingleWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/workDescriptions/getSingleWorkDescription/90413/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID returns a clean empty result for a not-found id (no crash)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/workDescriptions/getSingleWorkDescription/999999999/9001/90013",
+      "route": "/getSingleWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID happy path: updates work description fields",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID happy path: updates work description fields",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/workDescriptions/updateWorkDescription/9001/90013",
+      "route": "/updateWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/workDescriptions/updateWorkDescription/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/workDescriptions/updateWorkDescription/1/90013",
+      "route": "/updateWorkDescription/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID rejects a request with no workDescription payload",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/workDescriptions/updateWorkDescription/9001/90013",
+      "route": "/updateWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID returns a clean 404 for a not-found id (0 rows affected)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/workDescriptions/updateWorkDescription/9001/90013",
+      "route": "/updateWorkDescription/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Work description not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID persists is_general_work_description_active = false and removes it from the active list",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID persists is_general_work_description_active = false and removes it from the active list",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/workDescriptions/updateWorkDescription/9001/90013",
+      "route": "/updateWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /workDescriptions/updateWorkDescription/:accountID/:userID cannot update an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/workDescriptions/updateWorkDescription/9001/90013",
+      "route": "/updateWorkDescription/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Work description not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID happy path: deletes an unused work description",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID happy path: deletes an unused work description",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/workDescriptions/deleteWorkDescription/90416/9001/90013",
+      "route": "/deleteWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/workDescriptions/deleteWorkDescription/999999999/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/workDescriptions/deleteWorkDescription/999999999/1/90013",
+      "route": "/deleteWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID returns a clean 404 for a not-found id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/workDescriptions/deleteWorkDescription/999999999/9001/90013",
+      "route": "/deleteWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Work description not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID is blocked while a transaction references the work description",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/90013",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID is blocked while a transaction references the work description",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/workDescriptions/deleteWorkDescription/90417/9001/90013",
+      "route": "/deleteWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This work description is in use by one or more transactions and cannot be deleted."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID cannot delete an account-1 work description even when scoped through the caller's own account/token (row untouched)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/workDescriptions/deleteWorkDescription/1/9001/90013",
+      "route": "/deleteWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Work description not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote happy path: creates a quote for the caller's own account",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote rejects a request with no quote payload",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote ignores a spoofed account_id in the body and scopes the new row to the caller's real account (no :accountID in this route to guard)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) POST /quotes/createQuote 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID happy path: lists quotes scoped to the caller's account",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID happy path: lists quotes scoped to the caller's account",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/quotes/getActiveQuotes/9001/698",
+      "route": "/getActiveQuotes/:accountID/:quoteID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved all active quotes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/quotes/getActiveQuotes/9001/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) GET /quotes/getActiveQuotes/:accountID/:quoteID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/quotes/getActiveQuotes/1/1",
+      "route": "/getActiveQuotes/:accountID/:quoteID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote happy path: updates quote fields",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote happy path: updates quote fields",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "route": "/updateQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote rejects a request with no quote payload",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "route": "/updateQuote",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot convert undefined or null to object"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote ignores a spoofed account_id in the body and still updates the caller's own row (no :accountID in this route to guard)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote ignores a spoofed account_id in the body and still updates the caller's own row (no :accountID in this route to guard)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "route": "/updateQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote returns a clean 404 for a not-found id (0 rows affected)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "route": "/updateQuote",
+      "status": 404,
+      "envelope": 404,
+      "message": "Quote not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) PUT /quotes/updateQuote 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID happy path: deletes a quote",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID happy path: deletes a quote",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/quotes/deleteQuote/9001/702",
+      "route": "/deleteQuote/:accountID/:quoteID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a request with no token",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/quotes/deleteQuote/9001/999999999",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID rejects a URL account that is not the caller's tenant",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/quotes/deleteQuote/1/999999999",
+      "route": "/deleteQuote/:accountID/:quoteID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID returns a clean 404 for a not-found id",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/quotes/deleteQuote/9001/999999999",
+      "route": "/deleteQuote/:accountID/:quoteID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Quote not found."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001's own fixture customers",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001's own fixture customers",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "GET",
+      "url": "/quotes/getActiveQuotes/9001/703",
+      "route": "/getActiveQuotes/:accountID/:quoteID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved all active quotes."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001's own fixture customers",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "route": "/updateQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated quote."
+    },
+    {
+      "test": "Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, workDescriptions, quotes) DELETE /quotes/deleteQuote/:accountID/:quoteID a self-contained read -> update -> delete lifecycle for a quote created for one of account 9001's own fixture customers",
+      "file": "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "method": "DELETE",
+      "url": "/quotes/deleteQuote/9001/703",
+      "route": "/deleteQuote/:accountID/:quoteID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted quote."
+    }
+  ]
+}

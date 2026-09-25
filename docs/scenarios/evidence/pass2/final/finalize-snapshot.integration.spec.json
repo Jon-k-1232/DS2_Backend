@@ -1,0 +1,144 @@
+{
+  "stats": {
+    "suites": 4,
+    "tests": 9,
+    "passes": 9,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:40:02.794Z",
+    "end": "2026-09-25T06:40:03.420Z",
+    "duration": 626
+  },
+  "tests": [
+    {
+      "title": "is stable across repeated reads and has one part per ledger table (payments/write-offs/invoices/unbilled/retainers)",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row is stable across repeated reads and has one part per ledger table (payments/write-offs/invoices/unbilled/retainers)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "changes when a payment DATE changes (the old count|sum|max-id digest did not)",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes when a payment DATE changes (the old count|sum|max-id digest did not)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "changes when a retainer balance changes",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes when a retainer balance changes",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "changes on OFFSETTING edits that keep count, sum and max id identical",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes on OFFSETTING edits that keep count, sum and max id identical",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "changes when an unbilled transaction is stamped onto a statement (it leaves the unbilled set)",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes when an unbilled transaction is stamped onto a statement (it leaves the unbilled set)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a payment edited between the fingerprint read and the pricing reads is invisible to both; the post-snapshot recheck then differs until the edit is restored",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. readBillingSnapshot prices exactly the ledger state its fingerprint describes a payment edited between the fingerprint read and the pricing reads is invisible to both; the post-snapshot recheck then differs until the edit is restored",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an edit-and-restore that straddles the snapshot leaves an intermediate price with a fingerprint the recheck rejects",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. readBillingSnapshot prices exactly the ledger state its fingerprint describes an edit-and-restore that straddles the snapshot leaves an intermediate price with a fingerprint the recheck rejects",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a fresh zero-history parent still deletes cleanly under the same path",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a fresh zero-history parent still deletes cleanly under the same path",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "is stable across repeated reads and has one part per ledger table (payments/write-offs/invoices/unbilled/retainers)",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row is stable across repeated reads and has one part per ledger table (payments/write-offs/invoices/unbilled/retainers)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "changes when a payment DATE changes (the old count|sum|max-id digest did not)",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes when a payment DATE changes (the old count|sum|max-id digest did not)",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "changes when a retainer balance changes",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes when a retainer balance changes",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "changes on OFFSETTING edits that keep count, sum and max id identical",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes on OFFSETTING edits that keep count, sum and max id identical",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "changes when an unbilled transaction is stamped onto a statement (it leaves the unbilled set)",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes when an unbilled transaction is stamped onto a statement (it leaves the unbilled set)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a payment edited between the fingerprint read and the pricing reads is invisible to both; the post-snapshot recheck then differs until the edit is restored",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. readBillingSnapshot prices exactly the ledger state its fingerprint describes a payment edited between the fingerprint read and the pricing reads is invisible to both; the post-snapshot recheck then differs until the edit is restored",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an edit-and-restore that straddles the snapshot leaves an intermediate price with a fingerprint the recheck rejects",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. readBillingSnapshot prices exactly the ledger state its fingerprint describes an edit-and-restore that straddles the snapshot leaves an intermediate price with a fingerprint the recheck rejects",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a fresh zero-history parent still deletes cleanly under the same path",
+      "fullTitle": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a fresh zero-history parent still deletes cleanly under the same path",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

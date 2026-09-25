@@ -1,5 +1,10 @@
 # Jobs and job families
 
+## Owner decision update — 2026-09-25
+
+Deleting or reassigning a job family containing frozen invoice work, receipts or write-offs (including families with no work) now returns HTTP 409 naming that statement before the generic linked-record refusal. Customer locks and SQL triggers protect concurrent/indirect writes. Ordinary description edits do not regenerate archived statement content. New work on the same family still appends normal job snapshots. [Sent contract](../invoicing/invoices.md).
+
+
 ## 1. Purpose and UI
 
 A job assigns a reusable job type to a customer, with quote/agreed amounts, notes, completion and a stored running total. `/jobs/jobsList` renders `JobsGrid`/`ExpandableGrid`. The add dialog uses `NewJob` and `NewJobSelections`. Row navigation opens `/jobs/jobsList/deleteJob`; the subroute menu also provides `/jobs/jobsList/editJob`, using `DeleteJob` and `EditJob` (`../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobRoutes.js:24`, `../DS2_Frontend/src/Pages/Jobs/JobGrids/JobsGrid.js:15`, `../DS2_Frontend/src/Pages/Jobs/JobGrids/JobsGrid.js:44`, `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobSubRoutes.js:35`). Customer-profile jobs appear at `/customers/customersList/customerProfile/:customerId/customerJobs` in `CustomerProfileJobs` (`../DS2_Frontend/src/Routes/GroupedRoutes/CustomerRoutes/CustomerProfileSubRoutes.js:94`).
@@ -122,8 +127,19 @@ F2 is fixed by ownership validation, scoped joins and creator preservation (`rev
 
 The review report lists 151 families with stale stored totals (net −$485; largest example stored $1,235 versus $960), 5 billable transactions with no job ($365), and 9 cross-customer job links for accountant review. A metadata-only transaction edit does not necessarily recompute totals: the code only calls the recomputation for amount deltas or cross-family moves. The report's “next edit” statement should be read with that qualification (`scripts/review-2026-09/FINAL_REPORT.md:51`, `scripts/review-2026-09/FINAL_REPORT.md:54`, `src/endpoints/transactions/sharedTransactionFunctions.js:704`). These are historical report counts, not a new database measurement.
 
-Period locking, adjustment-only corrections, credit carry-forward, voiding instead of deleting statement history, and persisted billing runs remain design gaps. Rollout calls for reviewed migration rehearsal/backup, 020/021 ordering and tracker backfill verification, backend before frontend, and internal-customer/timezone environment settings (`scripts/review-2026-09/FINAL_REPORT.md:59`, `scripts/review-2026-09/FINAL_REPORT.md:67`). No production readiness claim is made here.
+Owner decisions now provide sent-record locks, narrow bounced-payment corrections and optional signed credit carry-forward. Broader period locking, general void/reissue workflows and persisted billing runs remain separate work. Rollout calls for reviewed migration rehearsal/backup, 020/021 ordering and tracker backfill verification, backend before frontend, and internal-customer/timezone environment settings (`scripts/review-2026-09/FINAL_REPORT.md:59`, `scripts/review-2026-09/FINAL_REPORT.md:67`). No production readiness claim is made here.
 
 Coverage: **5 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
 
 F2 verification: `test/integration/review-related-ids.integration.spec.js` covers forged related IDs on create/update, session creators, preserved update attribution, and historical malformed label joins. No historical production-copy rows are repaired by this change.
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## Pass 3 response after a committed change
+
+Customer/recurring, job, catalog, quote and user mutations in this guide preserve their successful response payload. If the mutation commits but rebuilding its response lists fails, the API returns HTTP 200 with `status: 200`, `committed: true` and a warning to reload without submitting the change again. Precommit errors retain their existing refusal and rollback behavior. This prevents a saved create, edit or delete from being reported as an unsuccessful write. Regression: `path-matrix-03-commit-outcomes.integration.spec.js`, with exactly one stored mutation checked for each create/update/delete. Drafts stay editable and write nothing to the ledger; finalize is the sent/lock boundary.
+
+The shared create/update/delete response says job changes were saved; it does not describe an update or deletion as creating a new job. A committed refresh failure includes the reload/do-not-resubmit warning in `message` as well as `warnings`, so existing forms display it. The exact saved-row and response assertions are in `path-matrix-03-commit-outcomes`.

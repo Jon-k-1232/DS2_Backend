@@ -1,0 +1,466 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 32,
+    "passes": 32,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:52:39.967Z",
+    "end": "2026-09-25T14:52:45.958Z",
+    "duration": 5991
+  },
+  "tests": [
+    {
+      "title": "attributes work, edits, customers and jobs to the session actor, never URL or logged-for staff",
+      "fullTitle": "owner decision 6 hard account audit record attributes work, edits, customers and jobs to the session actor, never URL or logged-for staff",
+      "duration": 92,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "fullTitle": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "draft writes no events; finalize marks sent and locks without double charging",
+      "fullTitle": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging",
+      "duration": 193,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "fullTitle": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "duration": 333,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "fullTitle": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "duration": 207,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "captures direct imports as system with source and never mistakes creator for actor",
+      "fullTitle": "owner decision 6 hard account audit record captures direct imports as system with source and never mistakes creator for actor",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "paginates without resetting balances, applies Phoenix dates, and accepts admins",
+      "fullTitle": "owner decision 6 hard account audit record paginates without resetting balances, applies Phoenix dates, and accepts admins",
+      "duration": 130,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "fullTitle": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "duration": 293,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "fullTitle": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "duration": 227,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses updating/deleting stored metadata and preserves its PDF and evidence",
+      "fullTitle": "owner decision 6 hard account audit record refuses updating/deleting stored metadata and preserves its PDF and evidence",
+      "duration": 88,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence",
+      "fullTitle": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "fullTitle": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "duration": 324,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 147,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 142,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 140,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 161,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 158,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 156,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "fullTitle": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "duration": 593,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "foreign customer/record isolation, including super admins, leaves no evidence",
+      "fullTitle": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence",
+      "duration": 104,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "storage creation failure and DB insert failure publish no record and no log; retry succeeds",
+      "fullTitle": "owner decision 6 hard account audit record storage creation failure and DB insert failure publish no record and no log; retry succeeds",
+      "duration": 190,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "render failure, empty storage result and suppressed metadata insert publish no record",
+      "fullTitle": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record",
+      "duration": 250,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "fullTitle": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "duration": 152,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PDF upload failure after evidence upload publishes no metadata for either print type",
+      "fullTitle": "owner decision 6 hard account audit record PDF upload failure after evidence upload publishes no metadata for either print type",
+      "duration": 222,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "fails the financial write closed if audit capture fails, with no partial business or chain changes",
+      "fullTitle": "owner decision 6 hard account audit record fails the financial write closed if audit capture fails, with no partial business or chain changes",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "fullTitle": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "duration": 267,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reacquires the account lock after savepoint rollback and rolls back actor-attributed evidence atomically",
+      "fullTitle": "owner decision 6 hard account audit record reacquires the account lock after savepoint rollback and rolls back actor-attributed evidence atomically",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "detects altered PDF bytes, blocks reopening and reports verification failure without writes",
+      "fullTitle": "owner decision 6 hard account audit record detects altered PDF bytes, blocks reopening and reports verification failure without writes",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "fullTitle": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "fullTitle": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "duration": 110,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reconstructs pre-logging history and unknown actors, then retains edits and deletion",
+      "fullTitle": "owner decision 6 hard account audit record reconstructs pre-logging history and unknown actors, then retains edits and deletion",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "attributes work, edits, customers and jobs to the session actor, never URL or logged-for staff",
+      "fullTitle": "owner decision 6 hard account audit record attributes work, edits, customers and jobs to the session actor, never URL or logged-for staff",
+      "duration": 92,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "fullTitle": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "duration": 297,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "draft writes no events; finalize marks sent and locks without double charging",
+      "fullTitle": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging",
+      "duration": 193,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "fullTitle": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "duration": 333,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "fullTitle": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "duration": 207,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "captures direct imports as system with source and never mistakes creator for actor",
+      "fullTitle": "owner decision 6 hard account audit record captures direct imports as system with source and never mistakes creator for actor",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "paginates without resetting balances, applies Phoenix dates, and accepts admins",
+      "fullTitle": "owner decision 6 hard account audit record paginates without resetting balances, applies Phoenix dates, and accepts admins",
+      "duration": 130,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "fullTitle": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "duration": 293,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "fullTitle": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "duration": 227,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses updating/deleting stored metadata and preserves its PDF and evidence",
+      "fullTitle": "owner decision 6 hard account audit record refuses updating/deleting stored metadata and preserves its PDF and evidence",
+      "duration": 88,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence",
+      "fullTitle": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "fullTitle": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "duration": 324,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 147,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 142,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 140,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 161,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 158,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "fullTitle": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "duration": 156,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "fullTitle": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "duration": 593,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "foreign customer/record isolation, including super admins, leaves no evidence",
+      "fullTitle": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence",
+      "duration": 104,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "storage creation failure and DB insert failure publish no record and no log; retry succeeds",
+      "fullTitle": "owner decision 6 hard account audit record storage creation failure and DB insert failure publish no record and no log; retry succeeds",
+      "duration": 190,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "render failure, empty storage result and suppressed metadata insert publish no record",
+      "fullTitle": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record",
+      "duration": 250,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "fullTitle": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "duration": 152,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PDF upload failure after evidence upload publishes no metadata for either print type",
+      "fullTitle": "owner decision 6 hard account audit record PDF upload failure after evidence upload publishes no metadata for either print type",
+      "duration": 222,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "fails the financial write closed if audit capture fails, with no partial business or chain changes",
+      "fullTitle": "owner decision 6 hard account audit record fails the financial write closed if audit capture fails, with no partial business or chain changes",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "fullTitle": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "duration": 267,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reacquires the account lock after savepoint rollback and rolls back actor-attributed evidence atomically",
+      "fullTitle": "owner decision 6 hard account audit record reacquires the account lock after savepoint rollback and rolls back actor-attributed evidence atomically",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "detects altered PDF bytes, blocks reopening and reports verification failure without writes",
+      "fullTitle": "owner decision 6 hard account audit record detects altered PDF bytes, blocks reopening and reports verification failure without writes",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "fullTitle": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "fullTitle": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "duration": 110,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reconstructs pre-logging history and unknown actors, then retains edits and deletion",
+      "fullTitle": "owner decision 6 hard account audit record reconstructs pre-logging history and unknown actors, then retains edits and deletion",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

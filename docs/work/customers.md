@@ -1,5 +1,10 @@
 # Customers, contact information and recurring customers
 
+## Owner decision update — 2026-09-25
+
+Customer deletion first refuses an issued statement dependency with HTTP 409 naming the invoice; the database trigger is the final barrier. Normal contact/profile changes remain permitted, but frozen issue payload and archived PDFs preserve the original billing contact/content. Cross-account and existing linked-row guards remain. [Sent contract](../invoicing/invoices.md).
+
+
 ## 1. Purpose and UI
 
 `/customers/customersList` displays `CustomerGrid` and the `NewCustomer` dialog. `/customers/recurringCustomers` displays `RecurringCustomerGrid` and `AddRecurringCustomer`. Rows open `/customers/customersList/customerProfile/:customerId/customerInvoices`; profile subroutes include customer invoices, transactions, jobs, payments, retainers and edit. Components are in `src/Pages/Customer/CustomerProfile/` in the frontend (`../DS2_Frontend/src/Routes/GroupedRoutes/CustomerRoutes/CustomerRoutes.js:20`, `../DS2_Frontend/src/Routes/GroupedRoutes/CustomerRoutes/CustomerProfileSubRoutes.js:92`, `../DS2_Frontend/src/Pages/RecurringCustomer/RecurringCustomerGrids/RecurringCustomerGrid.js:17`).
@@ -223,10 +228,32 @@ F1 is fixed by `review-customer-response.integration.spec.js` (successful and fa
 
 The accountant report lists same-day duplicate statements; 61 possibly double-credited bill-day write-offs for 28 customers ($8,331.75 supported/$12,208 possible); 904 parent payment-sign candidates adopted into migration 019 and 14 exceptions; parent/snapshot desync on invoices 2015/506; 5 jobless billable entries/$365 and 9 cross-customer links; $14.8K stale work on 51 customers; customer228's $472 remainder with suspected duplicate $153 retainer subtraction; 151 stale job totals; and $1.43M internal billable time. These are report figures, not fresh measurements (`scripts/review-2026-09/FINAL_REPORT.md:45`).
 
-Negative statement finalization is skipped pending a credit carry-forward/credit-memo design. Aging measures statement age; oldest_open_charge_date is a FIFO estimate. Charge-level aging, period locks/adjustment-only corrections, voids rather than historical deletion, and persisted billing runs remain decisions (`scripts/review-2026-09/FINAL_REPORT.md:56`, `scripts/review-2026-09/FINAL_REPORT.md:61`).
+Owner decision 2 makes negative statement finalization optional: skip by default, explicitly select to issue and carry signed credit forward. Aging measures statement age; oldest_open_charge_date is a FIFO estimate. Sent records are locked and bounced receipts use the narrow exception workflow. Broader charge-level aging, account-period policies, general void/reissue workflows and persisted billing runs remain separate work (`scripts/review-2026-09/FINAL_REPORT.md:56`, `scripts/review-2026-09/FINAL_REPORT.md:61`).
 
 Rollout requires backup, reviewed ordered migrations and 019 rehearsal with saved skipped-row evidence; 020 immediately before new backend without intervening account creation; 021 before new backend, then reviewed tracker ownership backfill with count/readback/employee-isolation checks; backend before frontend; and review of `INTERNAL_CUSTOMER_IDS`/`BILLING_TIMEZONE=America/Phoenix`. No rollout actions were performed (`scripts/review-2026-09/FINAL_REPORT.md:67`, `migrations/README.md:1`).
 
 Coverage: **10 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
 
 F2 verification: `test/integration/review-related-ids.integration.spec.js` covers forged related IDs on create/update, session creators, preserved update attribution, and historical malformed label joins. No historical production-copy rows are repaired by this change.
+
+
+## Owner run 2 — retainers and duplicate review
+
+Customer Retainers and PrePayments now includes an audited refund/adjust form and immutable history, including exhausted roots. Success refreshes profile balances. Customer statement PDFs include these events as informational entries with amount, before/after credit, method/reference/reason; running debt is unchanged. Common customer ledger grids also show possible duplicate badges. See [retainer events](../ledger/retainers-and-prepayments.md) and [duplicates](../ledger/duplicates.md).
+
+## Owner run 3
+
+Customer statement PDFs now label a negative rolling balance Credit balance (no payment due). This remains distinct from the statement transaction-basis running balance and separate retainer availability. See the [owner decisions](../decisions/2026-09-24-owner-decisions.md) and [combined scenario](../scenarios/16-owner-combined.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## Run 5 presentation
+
+The Audit Record tab now displays human business postings/field changes and shared USD formatting. Its Print option defaults to Client record and also offers Full evidence record; the printed-record list identifies the type. Existing role and tenant guards are unchanged. See [Audit Record](../platform/audit-ledger.md).
+
+## Pass 3 response after a committed change
+
+Customer/recurring, job, catalog, quote and user mutations in this guide preserve their successful response payload. If the mutation commits but rebuilding its response lists fails, the API returns HTTP 200 with `status: 200`, `committed: true` and a warning to reload without submitting the change again. Precommit errors retain their existing refusal and rollback behavior. This prevents a saved create, edit or delete from being reported as an unsuccessful write. Regression: `path-matrix-03-commit-outcomes.integration.spec.js`, with exactly one stored mutation checked for each create/update/delete. Drafts stay editable and write nothing to the ledger; finalize is the sent/lock boundary.

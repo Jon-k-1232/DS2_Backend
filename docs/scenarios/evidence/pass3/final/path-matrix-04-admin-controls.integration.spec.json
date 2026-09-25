@@ -1,0 +1,1000 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 29,
+    "passes": 29,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:32:58.450Z",
+    "end": "2026-09-25T13:32:59.779Z",
+    "duration": 1329
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"isEnabled\":true} refuses 400 without writes",
+      "state": "passed",
+      "duration": 41
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":\"not-a-boolean\"} refuses 400 without writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":{}} refuses 400 without writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":\"1\"} refuses 400 without writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\"} refuses 400 without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"absent\",\"isEnabled\":true} refuses 400 without writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":[2147483646]} refuses 400 without writes",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled true saves",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled false saves",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled \"true\" saves",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled \"false\" saves",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled 1 saves",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled 0 saves",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls GET /account/automations | invalid inactive recipients are pruned successfully",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid hd refuses 401 without writes",
+      "state": "passed",
+      "duration": 27
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid email_verified refuses 401 without writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls POST /auth/google | unprovisioned identity refuses 403 without a login row",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls POST /auth/google | valid provisioned identity receives cookie and exactly one login row",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls POST /auth/google | login-log database failure refuses 500 without writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls requireAuth | database lookup failure refuses 401 without writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls requireAuth | malformed token refuses without writes",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls requireAuth | expired token refuses without writes",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomer empty return rolls back all writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomerInformation empty return rolls back all writes",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createRecurringCustomer empty return rolls back all writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "state": "passed",
+      "duration": 148
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls PUT /jobTypes/updateJobType | target disappears after preflight: 404 without writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls ALL /ai-integration/* | retired endpoint is 410 and preserves every row",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "title": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "state": "passed",
+      "duration": 52
+    }
+  ],
+  "hits": {
+    "src/endpoints/account/account-router.js:344:16": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"isEnabled\":true} refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:362:22": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":\"not-a-boolean\"} refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:370:19": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":{}} refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:379:19": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":\"1\"} refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:388:15": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\"} refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/account/automation-settings-service.js:104:9": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"absent\",\"isEnabled\":true} refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:400:8": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"absent\",\"isEnabled\":true} refuses 400 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":[2147483646]} refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/account/account-router.js:403:16": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"absent\",\"isEnabled\":true} refuses 400 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":[2147483646]} refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/account/automation-settings-service.js:81:9": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":[2147483646]} refuses 400 without writes"
+      }
+    ],
+    "src/endpoints/auth/auth-service.js:18:9": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid hd refuses 401 without writes"
+      }
+    ],
+    "src/endpoints/auth/auth-router.js:41:8": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid hd refuses 401 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid email_verified refuses 401 without writes"
+      }
+    ],
+    "src/endpoints/auth/auth-router.js:43:16": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid hd refuses 401 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid email_verified refuses 401 without writes"
+      }
+    ],
+    "src/endpoints/auth/auth-service.js:21:9": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid email_verified refuses 401 without writes"
+      }
+    ],
+    "src/endpoints/auth/auth-router.js:54:16": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | unprovisioned identity refuses 403 without a login row"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | login-log database failure refuses 500 without writes"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:48:5": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls requireAuth | database lookup failure refuses 401 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls requireAuth | malformed token refuses without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls requireAuth | expired token refuses without writes"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:56:16": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls requireAuth | database lookup failure refuses 401 without writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls requireAuth | malformed token refuses without writes"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:51:16": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls requireAuth | expired token refuses without writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:67:48": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomer empty return rolls back all writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:112:5": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomer empty return rolls back all writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomerInformation empty return rolls back all writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createRecurringCustomer empty return rolls back all writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:114:6": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomer empty return rolls back all writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomerInformation empty return rolls back all writes"
+      },
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createRecurringCustomer empty return rolls back all writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:78:48": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomerInformation empty return rolls back all writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:86:56": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createRecurringCustomer empty return rolls back all writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:265:31": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:315:5": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:317:6": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:84:16": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls PUT /jobTypes/updateJobType | target disappears after preflight: 404 without writes"
+      }
+    ],
+    "src/endpoints/aiIntegration/aiIntegration-router.js:10:3": [
+      {
+        "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+        "test": "Path matrix: account, authentication and defensive save controls ALL /ai-integration/* | retired endpoint is 410 and preserves every row"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"isEnabled\":true} refuses 400 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid automation key."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":\"not-a-boolean\"} refuses 400 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid value for isEnabled."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":{}} refuses 400 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid value for isEnabled."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":\"1\"} refuses 400 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid automation recipients payload."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\"} refuses 400 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "No automation updates provided."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"absent\",\"isEnabled\":true} refuses 400 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid automation key."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":[2147483646]} refuses 400 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "One or more selected users are invalid."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled true saves",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled false saves",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled \"true\" saves",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled \"false\" saves",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled 1 saves",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled 0 saves",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls GET /account/automations | invalid inactive recipients are pruned successfully",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/account/automations/1/1",
+      "route": "/automations/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid hd refuses 401 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/google",
+      "route": "/google",
+      "status": 401,
+      "envelope": 401,
+      "message": "Access restricted to jimkimmel.com Workspace accounts"
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid email_verified refuses 401 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/google",
+      "route": "/google",
+      "status": 401,
+      "envelope": 401,
+      "message": "Email not verified by Google"
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | unprovisioned identity refuses 403 without a login row",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/google",
+      "route": "/google",
+      "status": 403,
+      "envelope": 403,
+      "message": "Your account is not provisioned in DS2. Contact your administrator."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | valid provisioned identity receives cookie and exactly one login row",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/google",
+      "route": "/google",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/google | login-log database failure refuses 500 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/google",
+      "route": "/google",
+      "status": 500,
+      "message": "path-matrix injected failure"
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls requireAuth | database lookup failure refuses 401 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/1/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Unauthorized request"
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls requireAuth | malformed token refuses without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/1/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Unauthorized request"
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls requireAuth | expired token refuses without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/initialData/initialBlob/1/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Expired token"
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomer empty return rolls back all writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Error Inserting Customer Into Customer Table."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomerInformation empty return rolls back all writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Error Inserting Customer Into Customer Information Table."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createRecurringCustomer empty return rolls back all writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Error Inserting Customer Into Recurring Customer Table."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343179548-6cpg6o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343179548-6cpg6o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343179548-6cpg6o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343179548-6cpg6o/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/1/1",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Customer was not found."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls PUT /jobTypes/updateJobType | target disappears after preflight: 404 without writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/1/1",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Job type not found."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls ALL /ai-integration/* | retired endpoint is 410 and preserves every row",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/ai-integration/retired",
+      "route": "*",
+      "status": 410,
+      "message": "The /ai-integration endpoints have been removed. The time-tracker AI pipeline now runs on AWS Bedrock and is managed by feature flag rather than per-account API key. Use /billing-review and /notifications for the reviewer surface, and /time-tracking/template/latest for the dynamic template."
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "route": "/logout",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "file": "test/integration/path-matrix-04-admin-controls.integration.spec.js",
+      "method": "POST",
+      "url": "/auth/logout",
+      "status": 429,
+      "envelope": 429,
+      "message": "Too many auth requests, please try again later."
+    }
+  ]
+}

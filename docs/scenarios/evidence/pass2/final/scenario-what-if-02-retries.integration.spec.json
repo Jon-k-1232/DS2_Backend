@@ -1,0 +1,340 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 23,
+    "passes": 23,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:44:17.006Z",
+    "end": "2026-09-25T06:44:20.389Z",
+    "duration": 3383
+  },
+  "tests": [
+    {
+      "title": "D01 OPEN policy: two identical payment submissions are two events",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D01 OPEN policy: two identical payment submissions are two events",
+      "duration": 283,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D01 OPEN policy: two identical writeoff submissions are two events",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D01 OPEN policy: two identical writeoff submissions are two events",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D01 OPEN policy: two identical retainer submissions are two events",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D01 OPEN policy: two identical retainer submissions are two events",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D01 OPEN policy: two identical transaction submissions are two events",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D01 OPEN policy: two identical transaction submissions are two events",
+      "duration": 137,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 payment database failure rolls back and retry posts exactly once",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 payment database failure rolls back and retry posts exactly once",
+      "duration": 170,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 writeoff database failure rolls back and retry posts exactly once",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 writeoff database failure rolls back and retry posts exactly once",
+      "duration": 143,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 retainer database failure rolls back and retry posts exactly once",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 retainer database failure rolls back and retry posts exactly once",
+      "duration": 125,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 transaction database failure rolls back and retry posts exactly once",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 transaction database failure rolls back and retry posts exactly once",
+      "duration": 155,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 payment create refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 payment create refresh failure reports committed success",
+      "duration": 154,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 payment edit refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 payment edit refresh failure reports committed success",
+      "duration": 160,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 payment delete refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 payment delete refresh failure reports committed success",
+      "duration": 158,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 writeoff create refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 writeoff create refresh failure reports committed success",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 writeoff edit refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 writeoff edit refresh failure reports committed success",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 writeoff delete refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 writeoff delete refresh failure reports committed success",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 retainer create refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 retainer create refresh failure reports committed success",
+      "duration": 114,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 retainer edit refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 retainer edit refresh failure reports committed success",
+      "duration": 142,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 retainer delete refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 retainer delete refresh failure reports committed success",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 transaction create refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 transaction create refresh failure reports committed success",
+      "duration": 123,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 transaction edit refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 transaction edit refresh failure reports committed success",
+      "duration": 115,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 transaction delete refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 transaction delete refresh failure reports committed success",
+      "duration": 129,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D02/D03 storage failure then retry and double-click finalize issue one $100 statement",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D02/D03 storage failure then retry and double-click finalize issue one $100 statement",
+      "duration": 179,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 read-only employee report refresh failure is500 and never claims committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 read-only employee report refresh failure is500 and never claims committed success",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 active-retainer read failure is500 without writes; retry returns the saved hold",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 active-retainer read failure is500 without writes; retry returns the saved hold",
+      "duration": 118,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "D01 OPEN policy: two identical payment submissions are two events",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D01 OPEN policy: two identical payment submissions are two events",
+      "duration": 283,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D01 OPEN policy: two identical writeoff submissions are two events",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D01 OPEN policy: two identical writeoff submissions are two events",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D01 OPEN policy: two identical retainer submissions are two events",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D01 OPEN policy: two identical retainer submissions are two events",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D01 OPEN policy: two identical transaction submissions are two events",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D01 OPEN policy: two identical transaction submissions are two events",
+      "duration": 137,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 payment database failure rolls back and retry posts exactly once",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 payment database failure rolls back and retry posts exactly once",
+      "duration": 170,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 writeoff database failure rolls back and retry posts exactly once",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 writeoff database failure rolls back and retry posts exactly once",
+      "duration": 143,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 retainer database failure rolls back and retry posts exactly once",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 retainer database failure rolls back and retry posts exactly once",
+      "duration": 125,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 transaction database failure rolls back and retry posts exactly once",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 transaction database failure rolls back and retry posts exactly once",
+      "duration": 155,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 payment create refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 payment create refresh failure reports committed success",
+      "duration": 154,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 payment edit refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 payment edit refresh failure reports committed success",
+      "duration": 160,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 payment delete refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 payment delete refresh failure reports committed success",
+      "duration": 158,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 writeoff create refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 writeoff create refresh failure reports committed success",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 writeoff edit refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 writeoff edit refresh failure reports committed success",
+      "duration": 131,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 writeoff delete refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 writeoff delete refresh failure reports committed success",
+      "duration": 136,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 retainer create refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 retainer create refresh failure reports committed success",
+      "duration": 114,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 retainer edit refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 retainer edit refresh failure reports committed success",
+      "duration": 142,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 retainer delete refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 retainer delete refresh failure reports committed success",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 transaction create refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 transaction create refresh failure reports committed success",
+      "duration": 123,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 transaction edit refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 transaction edit refresh failure reports committed success",
+      "duration": 115,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 transaction delete refresh failure reports committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 transaction delete refresh failure reports committed success",
+      "duration": 129,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D02/D03 storage failure then retry and double-click finalize issue one $100 statement",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D02/D03 storage failure then retry and double-click finalize issue one $100 statement",
+      "duration": 179,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 read-only employee report refresh failure is500 and never claims committed success",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 read-only employee report refresh failure is500 and never claims committed success",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "D03 active-retainer read failure is500 without writes; retry returns the saved hold",
+      "fullTitle": "what-if D: duplicate submissions and failures before/after commit D03 active-retainer read failure is500 without writes; retry returns the saved hold",
+      "duration": 118,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

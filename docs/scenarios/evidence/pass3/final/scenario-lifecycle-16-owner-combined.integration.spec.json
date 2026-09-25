@@ -1,0 +1,1448 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:26:30.543Z",
+    "end": "2026-09-25T13:26:33.128Z",
+    "duration": 2585
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "title": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "state": "passed",
+      "duration": 600
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "title": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "state": "passed",
+      "duration": 260
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "title": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "state": "passed",
+      "duration": 603
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "title": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "state": "passed",
+      "duration": 701
+    }
+  ],
+  "hits": {
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+        "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+        "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+        "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+        "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+        "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+        "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+        "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342790980-yeg4hm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342790980-yeg4hm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342790980-yeg4hm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342790980-yeg4hm/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_31_3780aa9f-e9f5-48d2-b792-a86324d97685%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791312-expc0m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791312-expc0m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791312-expc0m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791312-expc0m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791434-e6irtj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791434-e6irtj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791434-e6irtj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791434-e6irtj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle work -> retainer draw -> finalize means sent and locked: $400 - $100 = $300",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791598-iqcv71/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791598-iqcv71/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791598-iqcv71/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791598-iqcv71/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/duplicates/1/1?customerId=7",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/resolve/1/1",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791721-ow21fa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791721-ow21fa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791721-ow21fa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791721-ow21fa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle new duplicate work is visibly flagged and removed; issued evidence remains frozen",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791839-1h4vlo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791839-1h4vlo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791839-1h4vlo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342791839-1h4vlo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_31_f5278876-441e-410a-940e-ba4ff2361a7a%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792030-0umpiw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792030-0umpiw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792030-0umpiw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792030-0umpiw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/3/exceptions/1/1",
+      "route": "/:invoiceID/exceptions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/3/exceptions/1/reverse/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792156-icyt6j/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792156-icyt6j/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792156-icyt6j/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/3/exceptions/1/resolve/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_32_152e5ed7-98bf-474e-a99a-999dee0d768f%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792324-694gh7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792324-694gh7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792324-694gh7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792324-694gh7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle check receipt -> statement $240 -> bounced flag -> narrow reversal $340 -> roll forward",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_31_f5278876-441e-410a-940e-ba4ff2361a7a%2Fcustomer_7%2FAll_owner_decisions.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/1",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792448-qbr50q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792448-qbr50q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792448-qbr50q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792448-qbr50q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792541-82agmj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792541-82agmj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792541-82agmj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792541-82agmj/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (already finalized today or credit balance)."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_32_126306e4-74c5-453b-a4c9-e302371eb492%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792757-mh5u5y/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792757-mh5u5y/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792757-mh5u5y/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792757-mh5u5y/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792862-dchj8l/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792862-dchj8l/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342792862-dchj8l/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_32_3264ec65-be4f-43bf-b6ef-c227312aa746%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342793032-kvngjt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342793032-kvngjt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342793032-kvngjt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342793032-kvngjt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/14/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_31_3780aa9f-e9f5-48d2-b792-a86324d97685%2Fcustomer_7%2FAll_owner_decisions.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_31_f5278876-441e-410a-940e-ba4ff2361a7a%2Fcustomer_7%2FAll_owner_decisions.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "all five owner decisions in one complete billing lifecycle retainer refund -> credit skipped -> credit chosen -> later work consumes credit exactly once",
+      "file": "test/integration/scenario-lifecycle-16-owner-combined.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_32_152e5ed7-98bf-474e-a99a-999dee0d768f%2Fcustomer_7%2FAll_owner_decisions.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    }
+  ]
+}

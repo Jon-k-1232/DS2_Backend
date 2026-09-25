@@ -1,0 +1,2814 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 32,
+    "passes": 32,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:26:36.212Z",
+    "end": "2026-09-25T13:26:43.471Z",
+    "duration": 7259
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record attributes work, edits, customers and jobs to the session actor, never URL or logged-for staff",
+      "state": "passed",
+      "duration": 101
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "state": "passed",
+      "duration": 308
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging",
+      "state": "passed",
+      "duration": 207
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "state": "passed",
+      "duration": 387
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "state": "passed",
+      "duration": 248
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record captures direct imports as system with source and never mistakes creator for actor",
+      "state": "passed",
+      "duration": 55
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record paginates without resetting balances, applies Phoenix dates, and accepts admins",
+      "state": "passed",
+      "duration": 149
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "state": "passed",
+      "duration": 360
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "state": "passed",
+      "duration": 235
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record refuses updating/deleting stored metadata and preserves its PDF and evidence",
+      "state": "passed",
+      "duration": 109
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence",
+      "state": "passed",
+      "duration": 78
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "state": "passed",
+      "duration": 382
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "state": "passed",
+      "duration": 158
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "state": "passed",
+      "duration": 158
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "state": "passed",
+      "duration": 156
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "state": "passed",
+      "duration": 157
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "state": "passed",
+      "duration": 192
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "state": "passed",
+      "duration": 190
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "state": "passed",
+      "duration": 190
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "state": "passed",
+      "duration": 736
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence",
+      "state": "passed",
+      "duration": 124
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record storage creation failure and DB insert failure publish no record and no log; retry succeeds",
+      "state": "passed",
+      "duration": 221
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record",
+      "state": "passed",
+      "duration": 282
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "state": "passed",
+      "duration": 171
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record PDF upload failure after evidence upload publishes no metadata for either print type",
+      "state": "passed",
+      "duration": 239
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record fails the financial write closed if audit capture fails, with no partial business or chain changes",
+      "state": "passed",
+      "duration": 41
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "state": "passed",
+      "duration": 295
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record reacquires the account lock after savepoint rollback and rolls back actor-attributed evidence atomically",
+      "state": "passed",
+      "duration": 33
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record detects altered PDF bytes, blocks reopening and reports verification failure without writes",
+      "state": "passed",
+      "duration": 41
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "state": "passed",
+      "duration": 154
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "state": "passed",
+      "duration": 124
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "title": "owner decision 6 hard account audit record reconstructs pre-logging history and unknown actors, then retains edits and deletion",
+      "state": "passed",
+      "duration": 35
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "[fixture]"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging"
+      }
+    ],
+    "src/utils/auditContext.js:62:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence"
+      }
+    ],
+    "src/utils/auditContext.js:64:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:456:11": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:457:19": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:32:3": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record storage creation failure and DB insert failure publish no record and no log; retry succeeds"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record PDF upload failure after evidence upload publishes no metadata for either print type"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record detects altered PDF bytes, blocks reopening and reports verification failure without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:32:69": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record storage creation failure and DB insert failure publish no record and no log; retry succeeds"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record PDF upload failure after evidence upload publishes no metadata for either print type"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record detects altered PDF bytes, blocks reopening and reports verification failure without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing"
+      }
+    ],
+    "src/utils/ledgerAction.js:3:112": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-service.js:76:3": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:88:11": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:19:186": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:24:48": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:25:196": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:27:16": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:51:73": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:54:94": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:86:106": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:80:16": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:95:29": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:111:29": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:108:32": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:109:90": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:126:58": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:68:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record fails the financial write closed if audit capture fails, with no partial business or chain changes"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:70:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record fails the financial write closed if audit capture fails, with no partial business or chain changes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:132:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record detects altered PDF bytes, blocks reopening and reports verification failure without writes"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-router.js:89:71": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor"
+      }
+    ],
+    "src/endpoints/auditRecord/audit-record-service.js:82:24": [
+      {
+        "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+        "test": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342796639-zu1dlk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342796639-zu1dlk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342796639-zu1dlk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342796639-zu1dlk/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "owner decision 6 hard account audit record attributes work, edits, customers and jobs to the session actor, never URL or logged-for staff",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 6 hard account audit record attributes work, edits, customers and jobs to the session actor, never URL or logged-for staff",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 6 hard account audit record attributes work, edits, customers and jobs to the session actor, never URL or logged-for staff",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/999",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/2/events/1/999",
+      "route": "/:retainerID/events/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Retainer event recorded."
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797099-9hgar0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797099-9hgar0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797099-9hgar0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797099-9hgar0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record draft writes no events; finalize marks sent and locks without double charging",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/3/exceptions/1/999",
+      "route": "/:invoiceID/exceptions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/3/exceptions/1/reverse/1/999",
+      "route": "/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/3/exceptions/1/resolve/1/999",
+      "route": "/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797724-30c4i1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797724-30c4i1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797724-30c4i1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797724-30c4i1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record receipt -> finalized lock -> bounced reversal -> roll forward yields $70 -> $100 with all exception transitions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Marked not a duplicate."
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/1/999",
+      "route": "/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/duplicates/2/resolve/1/999",
+      "route": "/:duplicateID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Duplicate removed."
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797991-n3yl7b/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797991-n3yl7b/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797991-n3yl7b/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342797991-n3yl7b/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record duplicate flag/dismiss/remove and ordinary delete retain changes; $100+$10+$10-$10=$110",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 6 hard account audit record captures direct imports as system with source and never mistakes creator for actor",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record paginates without resetting balances, applies Phoenix dates, and accepts admins",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=100",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record paginates without resetting balances, applies Phoenix dates, and accepts admins",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=1&offset=2",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record paginates without resetting balances, applies Phoenix dates, and accepts admins",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?startDate=2099-01-01",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 201,
+      "envelope": 201
+    },
+    {
+      "test": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record generates a printable stored snapshot and reopens byte-identical bytes after later edits",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 201,
+      "envelope": 201
+    },
+    {
+      "test": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/ab1f1823-4641-4c17-b218-6443f7913905/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/ab1f1823-4641-4c17-b218-6443f7913905/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/ab1f1823-4641-4c17-b218-6443f7913905/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/ab1f1823-4641-4c17-b218-6443f7913905/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/ab1f1823-4641-4c17-b218-6443f7913905/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record prints full evidence compactly with retrievable payload descriptors and exact reopening",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_37_3ae7179e-36fc-4eb8-9d9c-e2ac17006a4e%2Fcustomer_7%2FAudit_lifecycle.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/999?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_37_3ae7179e-36fc-4eb8-9d9c-e2ac17006a4e%2Fcustomer_7%2FAudit_lifecycle.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to record the invoice reprint. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record records invoice reprints, and a failed reprint audit write returns no bytes or partial evidence",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/verify",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/verify",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record denies Manager and Owner on every audit route, preserving their other billing permissions",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/700/999",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/2147483647/1/999",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Customer not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/no/1/999",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/verify",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/verify",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/700/999/verify",
+      "route": "/customer/:customerID/:accountID/:userID/verify",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/2147483647/1/999/verify",
+      "route": "/customer/:customerID/:accountID/:userID/verify",
+      "status": 404,
+      "envelope": 404,
+      "message": "Customer not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/no/1/999/verify",
+      "route": "/customer/:customerID/:accountID/:userID/verify",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/verify",
+      "route": "/customer/:customerID/:accountID/:userID/verify",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/700/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/2147483647/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 404,
+      "envelope": 404,
+      "message": "Customer not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/no/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/700/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/2147483647/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 404,
+      "envelope": 404,
+      "message": "Customer not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/no/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 6 hard account audit record POST /records: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/700/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/2147483647/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit record not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/no/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/pdf: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/700/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/2147483647/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit record not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/no/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/verify: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/700/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/2147483647/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit record not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/no/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 400,
+      "envelope": 400,
+      "message": "A positive record ID is required."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record GET /records/RECORD/evidence: authentication, roles, tenant, missing and database failures write nothing",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?startDate=no",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Use valid YYYY-MM-DD dates."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?endDate=2026-02-30",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Use valid YYYY-MM-DD dates."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?startDate=2027-01-01&endDate=2026-01-01",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Start date must not be after end date."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=0",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Limit must be positive."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=101",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?limit=true",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?offset=-1",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?offset=99999999999999999999",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999?startDate[x]=1",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Use valid YYYY-MM-DD dates."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Record type must be client or full_evidence."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Record type must be client or full_evidence."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Record type must be client or full_evidence."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Record type must be client or full_evidence."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Record type must be client or full_evidence."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "A date-range object is required."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Use valid YYYY-MM-DD dates."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Use valid YYYY-MM-DD dates."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Start date must not be after end date."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/no/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid record ID."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/00000000-0000-4000-8000-000000000000/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit record not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/no/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid record ID."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/00000000-0000-4000-8000-000000000000/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit record not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/no/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid record ID."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/00000000-0000-4000-8000-000000000000/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit record not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record validates every range/pagination branch and rejects malformed/missing stored IDs without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records?offset=-1",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination."
+    },
+    {
+      "test": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/70001/1/1",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Customer not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/70001/700/70001/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit record not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/70001/700/70001/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit record not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record foreign customer/record isolation, including super admins, leaves no evidence",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/70001/700/70001/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 404,
+      "envelope": 404,
+      "message": "Audit record not found."
+    },
+    {
+      "test": "owner decision 6 hard account audit record storage creation failure and DB insert failure publish no record and no log; retry succeeds",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record storage creation failure and DB insert failure publish no record and no log; retry succeeds",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record render failure, empty storage result and suppressed metadata insert publish no record",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 409,
+      "envelope": 409,
+      "message": "Stored evidence failed verification. Download blocked."
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 409,
+      "envelope": 409,
+      "message": "Audit evidence storage identity is invalid."
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 404,
+      "envelope": 404,
+      "message": "This legacy record has no separate evidence archive."
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses archive tampering, wrong storage identity, missing archive, failed chain and failed anchor without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 409,
+      "envelope": 409,
+      "message": "Stored evidence failed verification. Download blocked."
+    },
+    {
+      "test": "owner decision 6 hard account audit record PDF upload failure after evidence upload publishes no metadata for either print type",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record PDF upload failure after evidence upload publishes no metadata for either print type",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to complete the audit record request. Please retry."
+    },
+    {
+      "test": "owner decision 6 hard account audit record fails the financial write closed if audit capture fails, with no partial business or chain changes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/999",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_jobs\" (\"account_id\", \"agreed_job_amount\", \"created_at\", \"created_by_user_id\", \"current_job_total\", \"customer_id\", \"is_job_complete\", \"is_quote\", \"job_quote_amount\", \"job_status\", \"job_type_id\", \"notes\", \"parent_job_id\") values ($1, $2, clock_timestamp(), $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning * - audit storage failed"
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342802739-7n8jhs/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342802739-7n8jhs/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342802739-7n8jhs/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/999",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/999",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/999",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 201,
+      "envelope": 201
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8b4a3374-2134-47a3-92b9-6fd2d7bd1c6f/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record isolates concurrent users and permits later postings while a consistent PDF snapshot is rendered",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/8/1/1",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record detects altered PDF bytes, blocks reopening and reports verification failure without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record detects altered PDF bytes, blocks reopening and reports verification failure without writes",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 409,
+      "envelope": 409,
+      "message": "Stored PDF failed verification. Download blocked."
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/pdf",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+      "status": 409,
+      "envelope": 409,
+      "message": "Audit record storage identity is invalid."
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 409,
+      "envelope": 409,
+      "message": "Audit record storage identity is invalid."
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 409,
+      "envelope": 409,
+      "message": "Audit record storage identity is invalid."
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record refuses a forged storage identity and detects a mismatched retained chain anchor",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/verify",
+      "route": "/customer/:customerID/:accountID/:userID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/evidence",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+      "status": 409,
+      "envelope": 409,
+      "message": "Stored evidence failed verification. Download blocked."
+    },
+    {
+      "test": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Audit chain verification failed. Record generation is blocked."
+    },
+    {
+      "test": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "POST",
+      "url": "/auditRecord/customer/7/1/999/records",
+      "route": "/customer/:customerID/:accountID/:userID/records",
+      "status": 409,
+      "envelope": 409,
+      "message": "Audit chain verification failed. Record generation is blocked."
+    },
+    {
+      "test": "owner decision 6 hard account audit record detects altered chain evidence in the disposable scenario database and blocks new print/history",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/7/1/999/records/8e038ceb-c178-4f2c-9193-15ab3fa1b240/verify",
+      "route": "/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 6 hard account audit record reconstructs pre-logging history and unknown actors, then retains edits and deletion",
+      "file": "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "method": "GET",
+      "url": "/auditRecord/customer/9/1/1",
+      "route": "/customer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    }
+  ]
+}

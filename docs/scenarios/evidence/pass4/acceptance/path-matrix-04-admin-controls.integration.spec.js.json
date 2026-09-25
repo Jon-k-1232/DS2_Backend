@@ -1,0 +1,424 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 29,
+    "passes": 29,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:46.030Z",
+    "end": "2026-09-25T14:50:46.991Z",
+    "duration": 961
+  },
+  "tests": [
+    {
+      "title": "PUT /account/automations | {\"isEnabled\":true} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"isEnabled\":true} refuses 400 without writes",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":\"not-a-boolean\"} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":\"not-a-boolean\"} refuses 400 without writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":{}} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":{}} refuses 400 without writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":\"1\"} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":\"1\"} refuses 400 without writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\"} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\"} refuses 400 without writes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"absent\",\"isEnabled\":true} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"absent\",\"isEnabled\":true} refuses 400 without writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":[2147483646]} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":[2147483646]} refuses 400 without writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled true saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled true saves",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled false saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled false saves",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled \"true\" saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled \"true\" saves",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled \"false\" saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled \"false\" saves",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled 1 saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled 1 saves",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled 0 saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled 0 saves",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /account/automations | invalid inactive recipients are pruned successfully",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls GET /account/automations | invalid inactive recipients are pruned successfully",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | verified identity with invalid hd refuses 401 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid hd refuses 401 without writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | verified identity with invalid email_verified refuses 401 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid email_verified refuses 401 without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | unprovisioned identity refuses 403 without a login row",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | unprovisioned identity refuses 403 without a login row",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | valid provisioned identity receives cookie and exactly one login row",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | valid provisioned identity receives cookie and exactly one login row",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | login-log database failure refuses 500 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | login-log database failure refuses 500 without writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "requireAuth | database lookup failure refuses 401 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls requireAuth | database lookup failure refuses 401 without writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "requireAuth | malformed token refuses without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls requireAuth | malformed token refuses without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "requireAuth | expired token refuses without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls requireAuth | expired token refuses without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /customer/createCustomer | createCustomer empty return rolls back all writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomer empty return rolls back all writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /customer/createCustomer | createCustomerInformation empty return rolls back all writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomerInformation empty return rolls back all writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /customer/createCustomer | createRecurringCustomer empty return rolls back all writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createRecurringCustomer empty return rolls back all writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "duration": 147,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /jobTypes/updateJobType | target disappears after preflight: 404 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /jobTypes/updateJobType | target disappears after preflight: 404 without writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ALL /ai-integration/* | retired endpoint is 410 and preserves every row",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls ALL /ai-integration/* | retired endpoint is 410 and preserves every row",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "duration": 43,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "PUT /account/automations | {\"isEnabled\":true} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"isEnabled\":true} refuses 400 without writes",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":\"not-a-boolean\"} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":\"not-a-boolean\"} refuses 400 without writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":{}} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"isEnabled\":{}} refuses 400 without writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":\"1\"} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":\"1\"} refuses 400 without writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\"} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\"} refuses 400 without writes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"absent\",\"isEnabled\":true} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"absent\",\"isEnabled\":true} refuses 400 without writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":[2147483646]} refuses 400 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | {\"automationKey\":\"thursday_reminder_emails\",\"recipientUserIds\":[2147483646]} refuses 400 without writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled true saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled true saves",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled false saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled false saves",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled \"true\" saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled \"true\" saves",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled \"false\" saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled \"false\" saves",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled 1 saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled 1 saves",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /account/automations | supported isEnabled 0 saves",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /account/automations | supported isEnabled 0 saves",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /account/automations | invalid inactive recipients are pruned successfully",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls GET /account/automations | invalid inactive recipients are pruned successfully",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | verified identity with invalid hd refuses 401 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid hd refuses 401 without writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | verified identity with invalid email_verified refuses 401 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | verified identity with invalid email_verified refuses 401 without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | unprovisioned identity refuses 403 without a login row",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | unprovisioned identity refuses 403 without a login row",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | valid provisioned identity receives cookie and exactly one login row",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | valid provisioned identity receives cookie and exactly one login row",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/google | login-log database failure refuses 500 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/google | login-log database failure refuses 500 without writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "requireAuth | database lookup failure refuses 401 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls requireAuth | database lookup failure refuses 401 without writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "requireAuth | malformed token refuses without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls requireAuth | malformed token refuses without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "requireAuth | expired token refuses without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls requireAuth | expired token refuses without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /customer/createCustomer | createCustomer empty return rolls back all writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomer empty return rolls back all writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /customer/createCustomer | createCustomerInformation empty return rolls back all writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createCustomerInformation empty return rolls back all writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /customer/createCustomer | createRecurringCustomer empty return rolls back all writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /customer/createCustomer | createRecurringCustomer empty return rolls back all writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /customer/updateCustomer | lost update target rolls back with no contact/evidence writes",
+      "duration": 147,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /jobTypes/updateJobType | target disappears after preflight: 404 without writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls PUT /jobTypes/updateJobType | target disappears after preflight: 404 without writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ALL /ai-integration/* | retired endpoint is 410 and preserves every row",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls ALL /ai-integration/* | retired endpoint is 410 and preserves every row",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "fullTitle": "Path matrix: account, authentication and defensive save controls POST /auth/logout | auth limiter refuses excess requests with 429 and no database writes",
+      "duration": 43,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,1222 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 18,
+    "passes": 18,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:31:37.090Z",
+    "end": "2026-09-25T13:31:40.617Z",
+    "duration": 3527
+  },
+  "tests": [
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 0. the clean room starts from the seed alone",
+      "state": "passed",
+      "duration": 36
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "state": "passed",
+      "duration": 419
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 1b. month-1 finalize A–D: numbers 00001–00004, PDFs and CSV match the ledger, rows stamped, E and F untouched",
+      "state": "passed",
+      "duration": 440
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 1c. C's statement prints the remaining retainer the ledger shows (1,000 − 300 drawn = 700)",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 2a. the calendar advances a month; A pays in full, an NSF reversal restores the debt, deleting the reversal restores the payment",
+      "state": "passed",
+      "duration": 81
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 2b. B pays part, C overpays with captureOverpayment (prepayment retainer), payments on statements agree everywhere",
+      "state": "passed",
+      "duration": 48
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "state": "passed",
+      "duration": 167
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "state": "passed",
+      "duration": 55
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "state": "passed",
+      "duration": 58
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "state": "passed",
+      "duration": 442
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 3b. right after the month-2 run nothing is re-credited: the bill-day write-off stays on month 1",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 4a. next month: a payment against the absorbed month-1 statement is remapped to the current one; E settles; D still owes 350",
+      "state": "passed",
+      "duration": 58
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "state": "passed",
+      "duration": 425
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 5b. a job-level write-down on a job without time is credited once and stops being pending",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 5c. a same-day re-run is refused for everyone; allowSameDayRebill absorbs the statement instead of doubling it",
+      "state": "passed",
+      "duration": 123
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 5d. AR aging: rows, buckets and the FIFO oldest-open-charge date agree with the ledger",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "state": "passed",
+      "duration": 523
+    },
+    {
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "title": "clean-room regression: three statement cycles on ds2_clean 5f. zero drift: engine, audit and AR agree for all six customers, and every chain matches the expected ledger",
+      "state": "passed",
+      "duration": 34
+    }
+  ],
+  "hits": {
+    "src/endpoints/writeOffs/writeOffs-router.js:44:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:46:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:96:32": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 1b. month-1 finalize A–D: numbers 00001–00004, PDFs and CSV match the ledger, rows stamped, E and F untouched"
+      },
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match"
+      },
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match"
+      },
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 5c. a same-day re-run is refused for everyone; allowSameDayRebill absorbs the statement instead of doubling it"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:112:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:114:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:101:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/job/job-router.js:85:34": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/job/job-router.js:91:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/job/job-router.js:93:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/job/job-router.js:236:40": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/job/job-router.js:249:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/job/job-router.js:251:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:74:32": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:82:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)"
+      }
+    ],
+    "src/endpoints/jobCategories/jobCategories-router.js:84:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:103:28": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:111:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:113:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:102:9": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:111:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)"
+      }
+    ],
+    "src/endpoints/workDescriptions/workDescriptions-router.js:113:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)"
+      }
+    ],
+    "src/endpoints/user/user-router.js:36:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold"
+      }
+    ],
+    "src/endpoints/user/user-router.js:99:12": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold"
+      }
+    ],
+    "src/endpoints/user/user-router.js:116:8": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold"
+      }
+    ],
+    "src/endpoints/user/user-router.js:119:9": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold"
+      }
+    ],
+    "src/endpoints/user/userObjects.js:21:4": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold"
+      }
+    ],
+    "src/ai_integrations/bedrock/index.js:118:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings"
+      }
+    ],
+    "src/ai_integrations/bedrock/index.js:199:6": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-narrative.js:89:5": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-narrative.js:94:8": [
+      {
+        "file": "test/integration/clean-room-regression.integration.spec.js",
+        "test": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 0. the clean room starts from the seed alone",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/user/fetchSingleUser/1/1",
+      "route": "/fetchSingleUser/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully fetched"
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 0. the clean room starts from the seed alone",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/1/1",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No matching invoice record found for this write-off."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1a. month-1 work: six-minute increments at mixed rates, charges, a non-billable entry, a retainer-funded entry, job write-downs",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/1/1",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1b. month-1 finalize A–D: numbers 00001–00004, PDFs and CSV match the ledger, rows stamped, E and F untouched",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 4 invoice(s)."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1b. month-1 finalize A–D: numbers 00001–00004, PDFs and CSV match the ledger, rows stamped, E and F untouched",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_31_38_e33d1810-2a95-453b-b58a-8036585d61d8%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 1b. month-1 finalize A–D: numbers 00001–00004, PDFs and CSV match the ledger, rows stamped, E and F untouched",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/1/1",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2a. the calendar advances a month; A pays in full, an NSF reversal restores the debt, deleting the reversal restores the payment",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2a. the calendar advances a month; A pays in full, an NSF reversal restores the debt, deleting the reversal restores the payment",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/1/1",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Reversed payment #2: $345.00 restored to INV-2026-00001."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2a. the calendar advances a month; A pays in full, an NSF reversal restores the debt, deleting the reversal restores the payment",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2b. B pays part, C overpays with captureOverpayment (prepayment retainer), payments on statements agree everywhere",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2b. B pays part, C overpays with captureOverpayment (prepayment retainer), payments on statements agree everywhere",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Applied $200.00 to INV-2026-00003; $100.00 held as a prepayment retainer."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/1/1",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Duplicate job"
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/1/1",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Selected job does not belong to this customer."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/1/1",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/1/1",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/8/1/1",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transactions are linked to this job or one of its prior versions; it cannot be deleted."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2c. transaction rules: billed rows are immutable, unbilled edits move job totals, cross-customer jobs are refused, charges can be deleted",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/31/1/1",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/1/1",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/workDescriptions/updateWorkDescription/1/1",
+      "route": "/updateWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/workDescriptions/deleteWorkDescription/1/1/1",
+      "route": "/deleteWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This work description is in use by one or more transactions and cannot be deleted."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/workDescriptions/deleteWorkDescription/5/1/1",
+      "route": "/deleteWorkDescription/:workDescriptionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/1/1",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/1/1",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobTypes/deleteJobType/1/1/1",
+      "route": "/deleteJobType/:jobTypeID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot delete jobType that is in use."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobTypes/deleteJobType/5/1/1",
+      "route": "/deleteJobType/:jobTypeID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/1/1",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobCategories/updateJobCategory/1/1",
+      "route": "/updateJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobCategories/deleteJobCategory/1/1/1",
+      "route": "/deleteJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job Category is in use by Job Types."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2d. reference data CRUD: work descriptions, job types and categories (deactivate=false persists, in-use deletes refused)",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobCategories/deleteJobCategory/3/1/1",
+      "route": "/deleteJobCategory/:jobCategoryID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/1/1",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/1/1",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/1/1",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/1/1",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/1/1",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Cannot remove the last active Super Admin on this account."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/1/1",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "You cannot deactivate your own user account."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/1/1",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid access level \"Owner\". Must be one of: Super Admin, Admin, Manager, User."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 2e. customer update warns on deactivation with debt or unbilled work; user role guards hold",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "PUT",
+      "url": "/user/updateUser/1/1",
+      "route": "/updateUser/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 5 invoice(s)."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_31_39_cfd1ee80-ffe9-4c4b-9161-dbefa86c1649%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 3a. month-2 finalize A–E: balances roll forward, month-1 rows absorbed, numbers continue, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/1/1",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 4a. next month: a payment against the absorbed month-1 statement is remapped to the current one; E settles; D still owes 350",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Applied to current invoice INV-2026-00006 — the referenced invoice INV-2026-00002 was already rolled into it."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 4a. next month: a payment against the absorbed month-1 statement is remapped to the current one; E settles; D still owes 350",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 5 invoice(s). Skipped 1 customer(s) (see details)."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5a. month-3 finalize everyone: E is skipped for a credit balance, F gets its first statement, PDFs/CSV match",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_31_39_6776b2af-0702-4e2f-b2ff-d1aeab2d9131%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5b. a job-level write-down on a job without time is credited once and stops being pending",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/1/1",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5c. a same-day re-run is refused for everyone; allowSameDayRebill absorbs the statement instead of doubling it",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 6 customer(s) skipped (already finalized today or credit balance)."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5c. a same-day re-run is refused for everyone; allowSameDayRebill absorbs the statement instead of doubling it",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5c. a same-day re-run is refused for everyone; allowSameDayRebill absorbs the statement instead of doubling it",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_31_39_8eb641be-ef2d-4355-86d5-5af28c42706b%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5d. AR aging: rows, buckets and the FIFO oldest-open-charge date agree with the ledger",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=50",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343100038-awt5ul/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343100038-awt5ul/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "clean-room regression: three statement cycles on ds2_clean 5e. account audit through the API for B and D: balances match the app, only informational findings",
+      "file": "test/integration/clean-room-regression.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    }
+  ]
+}

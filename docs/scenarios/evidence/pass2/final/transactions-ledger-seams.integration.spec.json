@@ -1,0 +1,410 @@
+{
+  "stats": {
+    "suites": 8,
+    "tests": 28,
+    "passes": 28,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:43:14.423Z",
+    "end": "2026-09-25T06:43:17.967Z",
+    "duration": 3544
+  },
+  "tests": [
+    {
+      "title": "a funded create links transaction \u2192 draw \u2190 payment exactly",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock a funded create links transaction \u2192 draw \u2190 payment exactly",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a failed transaction insert rolls back the draw and the job total (create)",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock a failed transaction insert rolls back the draw and the job total (create)",
+      "duration": 33,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a failed transaction write rolls back the draw re-price, the payment sync and the job totals (update)",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock a failed transaction write rolls back the draw re-price, the payment sync and the job totals (update)",
+      "duration": 96,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a database failure after payment sync rolls back the transaction, draw, payment and job together",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock a database failure after payment sync rolls back the transaction, draw, payment and job together",
+      "duration": 94,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an ingestion caller's transaction is joined: its later failure rolls the entry back",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock an ingestion caller's transaction is joined: its later failure rolls the entry back",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ingestion callers that already hold a foreign-key share lock on the customer do not deadlock",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock ingestion callers that already hold a foreign-key share lock on the customer do not deadlock",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an edit queued behind finalize re-reads the stored row after locking and refuses the now-billed entry",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock an edit queued behind finalize re-reads the stored row after locking and refuses the now-billed entry",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two concurrent retainer-funded entries cannot both spend the same balance",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock two concurrent retainer-funded entries cannot both spend the same balance",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "billable \u2192 non-billable returns exactly its draw to the retainer and removes its payment (later draws keep their size)",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits billable \u2192 non-billable returns exactly its draw to the retainer and removes its payment (later draws keep their size)",
+      "duration": 185,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses the non-billable toggle once the linked payment is billed \u2014 nothing changes",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits refuses the non-billable toggle once the linked payment is billed \u2014 nothing changes",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "duration": 141,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "non-billable \u2192 billable with a retainer creates the draw and its linked payment",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits non-billable \u2192 billable with a retainer creates the draw and its linked payment",
+      "duration": 114,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a date-only edit moves the linked payment date so the link stays resolvable",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits a date-only edit moves the linked payment date so the link stays resolvable",
+      "duration": 185,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused",
+      "duration": 214,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "deleting one of two identical funded entries removes exactly its own draw and payment",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits deleting one of two identical funded entries removes exactly its own draw and payment",
+      "duration": 189,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a legacy funded entry (no draw marker) is deleted with its single matching payment and a compensating snapshot",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits a legacy funded entry (no draw marker) is deleted with its single matching payment and a compensating snapshot",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a create against another customer's retainer before any write",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 \u2014 an entry only draws on its own customer's retainer refuses a create against another customer's retainer before any write",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses funding an update from another customer's retainer",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 \u2014 an entry only draws on its own customer's retainer refuses funding an update from another customer's retainer",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses updating or deleting an entry whose stored draw sits on another customer's retainer",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 \u2014 an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: a spoofed loggedByUserID in the body is ignored \u2014 the authenticated actor is the creator",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 \u2014 the authenticated actor is the recorded creator, not a body-supplied loggedByUserID create: a spoofed loggedByUserID in the body is ignored \u2014 the authenticated actor is the creator",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update: a spoofed loggedByUserID in the body can never overwrite the original creator",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 \u2014 the authenticated actor is the recorded creator, not a body-supplied loggedByUserID update: a spoofed loggedByUserID in the body can never overwrite the original creator",
+      "duration": 118,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a \"fund\" retainer draw and its auto payment are attributed to the authenticated actor, ignoring a spoofed loggedByUserID",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 \u2014 the authenticated actor is the recorded creator, not a body-supplied loggedByUserID a \"fund\" retainer draw and its auto payment are attributed to the authenticated actor, ignoring a spoofed loggedByUserID",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reprice (amount edit) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 \u2014 compensating retainer snapshots record the authenticated actor, not the previous creator reprice (amount edit) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unfund (billable \u2192 non-billable) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 \u2014 compensating retainer snapshots record the authenticated actor, not the previous creator unfund (billable \u2192 non-billable) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "delete of a legacy-funded entry stamps the compensating snapshot with the authenticated actor performing the delete",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 \u2014 compensating retainer snapshots record the authenticated actor, not the previous creator delete of a legacy-funded entry stamps the compensating snapshot with the authenticated actor performing the delete",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isTransactionBillable: \"false\" with a retainer selected stores non-billable and funds NOTHING \u2014 no draw, no payment",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 \u2014 a string \"false\" billable/subscription flag is honored, not coerced to true isTransactionBillable: \"false\" with a retainer selected stores non-billable and funds NOTHING \u2014 no draw, no payment",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isInAdditionToMonthlyCharge: \"false\" is honored on both create and update",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 \u2014 a string \"false\" billable/subscription flag is honored, not coerced to true isInAdditionToMonthlyCharge: \"false\" is honored on both create and update",
+      "duration": 170,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a real division-by-zero during the AI training insert is contained by its SAVEPOINT \u2014 the entry commits and the connection stays usable",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) training-insert SAVEPOINT isolation against a genuine PostgreSQL error a real division-by-zero during the AI training insert is contained by its SAVEPOINT \u2014 the entry commits and the connection stays usable",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "a funded create links transaction \u2192 draw \u2190 payment exactly",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock a funded create links transaction \u2192 draw \u2190 payment exactly",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a failed transaction insert rolls back the draw and the job total (create)",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock a failed transaction insert rolls back the draw and the job total (create)",
+      "duration": 33,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a failed transaction write rolls back the draw re-price, the payment sync and the job totals (update)",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock a failed transaction write rolls back the draw re-price, the payment sync and the job totals (update)",
+      "duration": 96,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a database failure after payment sync rolls back the transaction, draw, payment and job together",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock a database failure after payment sync rolls back the transaction, draw, payment and job together",
+      "duration": 94,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an ingestion caller's transaction is joined: its later failure rolls the entry back",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock an ingestion caller's transaction is joined: its later failure rolls the entry back",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ingestion callers that already hold a foreign-key share lock on the customer do not deadlock",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock ingestion callers that already hold a foreign-key share lock on the customer do not deadlock",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an edit queued behind finalize re-reads the stored row after locking and refuses the now-billed entry",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock an edit queued behind finalize re-reads the stored row after locking and refuses the now-billed entry",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two concurrent retainer-funded entries cannot both spend the same balance",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 \u2014 one transaction under the customer ledger lock two concurrent retainer-funded entries cannot both spend the same balance",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "billable \u2192 non-billable returns exactly its draw to the retainer and removes its payment (later draws keep their size)",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits billable \u2192 non-billable returns exactly its draw to the retainer and removes its payment (later draws keep their size)",
+      "duration": 185,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses the non-billable toggle once the linked payment is billed \u2014 nothing changes",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits refuses the non-billable toggle once the linked payment is billed \u2014 nothing changes",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "duration": 141,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "non-billable \u2192 billable with a retainer creates the draw and its linked payment",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits non-billable \u2192 billable with a retainer creates the draw and its linked payment",
+      "duration": 114,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a date-only edit moves the linked payment date so the link stays resolvable",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits a date-only edit moves the linked payment date so the link stays resolvable",
+      "duration": 185,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused",
+      "duration": 214,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "deleting one of two identical funded entries removes exactly its own draw and payment",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits deleting one of two identical funded entries removes exactly its own draw and payment",
+      "duration": 189,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a legacy funded entry (no draw marker) is deleted with its single matching payment and a compensating snapshot",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 \u2014 retainer-funded edits a legacy funded entry (no draw marker) is deleted with its single matching payment and a compensating snapshot",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a create against another customer's retainer before any write",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 \u2014 an entry only draws on its own customer's retainer refuses a create against another customer's retainer before any write",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses funding an update from another customer's retainer",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 \u2014 an entry only draws on its own customer's retainer refuses funding an update from another customer's retainer",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses updating or deleting an entry whose stored draw sits on another customer's retainer",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 \u2014 an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: a spoofed loggedByUserID in the body is ignored \u2014 the authenticated actor is the creator",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 \u2014 the authenticated actor is the recorded creator, not a body-supplied loggedByUserID create: a spoofed loggedByUserID in the body is ignored \u2014 the authenticated actor is the creator",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update: a spoofed loggedByUserID in the body can never overwrite the original creator",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 \u2014 the authenticated actor is the recorded creator, not a body-supplied loggedByUserID update: a spoofed loggedByUserID in the body can never overwrite the original creator",
+      "duration": 118,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a \"fund\" retainer draw and its auto payment are attributed to the authenticated actor, ignoring a spoofed loggedByUserID",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 \u2014 the authenticated actor is the recorded creator, not a body-supplied loggedByUserID a \"fund\" retainer draw and its auto payment are attributed to the authenticated actor, ignoring a spoofed loggedByUserID",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reprice (amount edit) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 \u2014 compensating retainer snapshots record the authenticated actor, not the previous creator reprice (amount edit) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "duration": 68,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unfund (billable \u2192 non-billable) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 \u2014 compensating retainer snapshots record the authenticated actor, not the previous creator unfund (billable \u2192 non-billable) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "duration": 63,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "delete of a legacy-funded entry stamps the compensating snapshot with the authenticated actor performing the delete",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 \u2014 compensating retainer snapshots record the authenticated actor, not the previous creator delete of a legacy-funded entry stamps the compensating snapshot with the authenticated actor performing the delete",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isTransactionBillable: \"false\" with a retainer selected stores non-billable and funds NOTHING \u2014 no draw, no payment",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 \u2014 a string \"false\" billable/subscription flag is honored, not coerced to true isTransactionBillable: \"false\" with a retainer selected stores non-billable and funds NOTHING \u2014 no draw, no payment",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "isInAdditionToMonthlyCharge: \"false\" is honored on both create and update",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 \u2014 a string \"false\" billable/subscription flag is honored, not coerced to true isInAdditionToMonthlyCharge: \"false\" is honored on both create and update",
+      "duration": 170,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a real division-by-zero during the AI training insert is contained by its SAVEPOINT \u2014 the entry commits and the connection stays usable",
+      "fullTitle": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) training-insert SAVEPOINT isolation against a genuine PostgreSQL error a real division-by-zero during the AI training insert is contained by its SAVEPOINT \u2014 the entry commits and the connection stays usable",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

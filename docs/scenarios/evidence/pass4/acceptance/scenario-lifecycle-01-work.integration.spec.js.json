@@ -1,0 +1,200 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 13,
+    "passes": 13,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:51:05.056Z",
+    "end": "2026-09-25T14:51:07.963Z",
+    "duration": 2907
+  },
+  "tests": [
+    {
+      "title": "W01 creates a new client and two distinct jobs through HTTP",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "duration": 322,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W02 rounds 7 minutes to 0.2 hours and $30",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "duration": 114,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W03 accepts the exact hour boundary: 60 minutes is $150",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W04 rounds 61 minutes to 1.1 hours and $165",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W05 adds a separate flat charge of 2 \u00d7 $12.50",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 \u00d7 $12.50",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W08 deletes and re-enters the flat charge without stale family totals",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "duration": 158,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "duration": 282,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "duration": 185,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "duration": 310,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "duration": 432,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W13 completes empty customer and unused job CRUD",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "duration": 307,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "W01 creates a new client and two distinct jobs through HTTP",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W01 creates a new client and two distinct jobs through HTTP",
+      "duration": 322,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W02 rounds 7 minutes to 0.2 hours and $30",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W02 rounds 7 minutes to 0.2 hours and $30",
+      "duration": 114,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W03 accepts the exact hour boundary: 60 minutes is $150",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W03 accepts the exact hour boundary: 60 minutes is $150",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W04 rounds 61 minutes to 1.1 hours and $165",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W04 rounds 61 minutes to 1.1 hours and $165",
+      "duration": 80,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W05 adds a separate flat charge of 2 \u00d7 $12.50",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W05 adds a separate flat charge of 2 \u00d7 $12.50",
+      "duration": 81,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W06 records $50 nonbillable time in the family, excludes it from all financial views",
+      "duration": 83,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W07 corrects 7 to 13 minutes before billing; updates one family by $15",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W08 deletes and re-enters the flat charge without stale family totals",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W08 deletes and re-enters the flat charge without stale family totals",
+      "duration": 158,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W09 edits contact and job metadata, refuses duplicate customers/jobs",
+      "duration": 282,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W10 issues $385, stamps all five rows, and verifies statement PDF, audit and AR",
+      "duration": 185,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W11 refuses billed work edits/deletes and linked customer/job deletion",
+      "duration": 310,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W12 forces internal/nonbillable clients to nonbillable despite caller flags and a retainer",
+      "duration": 432,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "W13 completes empty customer and unused job CRUD",
+      "fullTitle": "scenario lifecycle W: clients, jobs and work (hand oracle 01-work.md) W13 completes empty customer and unused job CRUD",
+      "duration": 307,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

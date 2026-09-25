@@ -1,0 +1,111 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 4,
+    "tests": 9,
+    "passes": 9,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:32:30.504Z",
+    "end": "2026-09-25T13:32:31.256Z",
+    "duration": 752
+  },
+  "tests": [
+    {
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "title": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row is stable across repeated reads and has one part per ledger table (payments/write-offs/invoices/unbilled/retainers/events)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "title": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes when a payment DATE changes (the old count|sum|max-id digest did not)",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "title": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes when a retainer balance changes",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "title": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes on OFFSETTING edits that keep count, sum and max id identical",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "title": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. ledger fingerprint hashes every column of every balance-moving row changes when an unbilled transaction is stamped onto a statement (it leaves the unbilled set)",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "title": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. readBillingSnapshot prices exactly the ledger state its fingerprint describes a payment edited between the fingerprint read and the pricing reads is invisible to both; the post-snapshot recheck then differs until the edit is restored",
+      "state": "passed",
+      "duration": 22
+    },
+    {
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "title": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B1. readBillingSnapshot prices exactly the ledger state its fingerprint describes an edit-and-restore that straddles the snapshot leaves an intermediate price with a fingerprint the recheck rejects",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "title": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted",
+      "state": "passed",
+      "duration": 132
+    },
+    {
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "title": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a fresh zero-history parent still deletes cleanly under the same path",
+      "state": "passed",
+      "duration": 38
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/invoice-router.js:123:15": [
+      {
+        "file": "test/integration/finalize-snapshot.integration.spec.js",
+        "test": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:144:8": [
+      {
+        "file": "test/integration/finalize-snapshot.integration.spec.js",
+        "test": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:145:9": [
+      {
+        "file": "test/integration/finalize-snapshot.integration.spec.js",
+        "test": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted",
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17667",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invoice FSNAP-DEL-51580-muh034j2-5 became part of statement history while being deleted (a later statement rolled it forward); it cannot be deleted."
+    },
+    {
+      "test": "integration: finalize snapshot + fingerprint + locked delete guards (round-3 B1/B3) B3. deleteInvoice repeats its history guards under the customer lock a fresh zero-history parent still deletes cleanly under the same path",
+      "file": "test/integration/finalize-snapshot.integration.spec.js",
+      "method": "DELETE",
+      "url": "/invoices/deleteInvoice/9001/17668",
+      "route": "/deleteInvoice/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted invoice."
+    }
+  ]
+}

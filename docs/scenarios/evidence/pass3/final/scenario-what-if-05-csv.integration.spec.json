@@ -1,0 +1,455 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 13,
+    "passes": 13,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:27:09.950Z",
+    "end": "2026-09-25T13:27:11.143Z",
+    "duration": 1193
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"=1+1\" as one text cell",
+      "state": "passed",
+      "duration": 41
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"+1+1\" as one text cell",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"-1+1\" as one text cell",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"@SUM(1,1)\" as one text cell",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\t=1+1\" as one text cell",
+      "state": "passed",
+      "duration": 35
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\r=1+1\" as one text cell",
+      "state": "passed",
+      "duration": 38
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"Résumé 日本語 🙂\" as one text cell",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"A, \\\"quoted\\\"\\nsecond line\" as one text cell",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 CSV exports are read-only and exclude the other tenant",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 export denies absent, employee and foreign sessions",
+      "state": "passed",
+      "duration": 43
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 database export failure is explicit500, unchanged, and retry succeeds",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 a long note over the application body limit refuses413 before any write",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "title": "what-if C: exported descriptions, formula safety and failure paths C01 malformed JSON refuses400 before any write; valid empty note succeeds",
+      "state": "passed",
+      "duration": 45
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/test/integration/scenario-what-if-05-csv.integration.spec.js",
+        "test": "[fixture]"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+        "test": "what-if C: exported descriptions, formula safety and failure paths C01 export denies absent, employee and foreign sessions"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+        "test": "what-if C: exported descriptions, formula safety and failure paths C01 export denies absent, employee and foreign sessions"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+        "test": "what-if C: exported descriptions, formula safety and failure paths C01 export denies absent, employee and foreign sessions"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:169:5": [
+      {
+        "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+        "test": "what-if C: exported descriptions, formula safety and failure paths C01 database export failure is explicit500, unchanged, and retry succeeds"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:171:6": [
+      {
+        "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+        "test": "what-if C: exported descriptions, formula safety and failure paths C01 database export failure is explicit500, unchanged, and retry succeeds"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+        "test": "what-if C: exported descriptions, formula safety and failure paths C01 a long note over the application body limit refuses413 before any write"
+      },
+      {
+        "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+        "test": "what-if C: exported descriptions, formula safety and failure paths C01 malformed JSON refuses400 before any write; valid empty note succeeds"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342830482-66x14k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342830482-66x14k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342830482-66x14k/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"=1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"=1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"+1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"+1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"-1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"-1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"@SUM(1,1)\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"@SUM(1,1)\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\t=1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\t=1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\r=1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\r=1+1\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"Résumé 日本語 🙂\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"Résumé 日本語 🙂\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"A, \\\"quoted\\\"\\nsecond line\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"A, \\\"quoted\\\"\\nsecond line\" as one text cell",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 CSV exports are read-only and exclude the other tenant",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export denies absent, employee and foreign sessions",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export denies absent, employee and foreign sessions",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 export denies absent, employee and foreign sessions",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 database export failure is explicit500, unchanged, and retry succeeds",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "scenario export failure"
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 database export failure is explicit500, unchanged, and retry succeeds",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/1/1",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 a long note over the application body limit refuses413 before any write",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "status": 413,
+      "message": "request entity too large"
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 malformed JSON refuses400 before any write; valid empty note succeeds",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "status": 400,
+      "message": "Unexpected end of JSON input"
+    },
+    {
+      "test": "what-if C: exported descriptions, formula safety and failure paths C01 malformed JSON refuses400 before any write; valid empty note succeeds",
+      "file": "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    }
+  ]
+}

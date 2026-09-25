@@ -1,0 +1,214 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 14,
+    "passes": 14,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:54.837Z",
+    "end": "2026-09-25T14:50:55.765Z",
+    "duration": 928
+  },
+  "tests": [
+    {
+      "title": "PUT held entry | customer_id=999999 refuses 400 and preserves every row",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT held entry | customer_id=999999 refuses 400 and preserves every row",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT held entry | unit_cost=-1 refuses 400 and preserves every row",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=-1 refuses 400 and preserves every row",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT held entry | unit_cost=NaN refuses 400 and preserves every row",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=NaN refuses 400 and preserves every row",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | missing new customer refuses before writing",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT transaction | row disappears after owner lookup: legacy refusal without writes",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT transaction | row disappears after owner lookup: legacy refusal without writes",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT transaction | row changes customer under lock: legacy conflict refusal without writes",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT transaction | row changes customer under lock: legacy conflict refusal without writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update recurring | row disappears between route validation and locked service: 500 without writes",
+      "fullTitle": "Path matrix: concurrent edits and review degradation update recurring | row disappears between route validation and locked service: 500 without writes",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "delete recurring | row disappears between route validation and locked service: 500 without writes",
+      "fullTitle": "Path matrix: concurrent edits and review degradation delete recurring | row disappears between route validation and locked service: 500 without writes",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT recurring | conditional update loses its row: 500 with complete rollback",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT recurring | conditional update loses its row: 500 with complete rollback",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | Comprehend failure uses deterministic email redaction and preserves the ledger edit",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT cascade edit | Comprehend failure uses deterministic email redaction and preserves the ledger edit",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | optional training savepoint failure preserves the requested ledger edit",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional training savepoint failure preserves the requested ledger edit",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST account | nested account insert failure rolls back both account and address",
+      "fullTitle": "Path matrix: concurrent edits and review degradation POST account | nested account insert failure rolls back both account and address",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST account | unique storage-slug race retries once using a savepoint and saves one account",
+      "fullTitle": "Path matrix: concurrent edits and review degradation POST account | unique storage-slug race retries once using a savepoint and saves one account",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "PUT held entry | customer_id=999999 refuses 400 and preserves every row",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT held entry | customer_id=999999 refuses 400 and preserves every row",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT held entry | unit_cost=-1 refuses 400 and preserves every row",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=-1 refuses 400 and preserves every row",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT held entry | unit_cost=NaN refuses 400 and preserves every row",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT held entry | unit_cost=NaN refuses 400 and preserves every row",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | missing new customer refuses before writing",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT cascade edit | missing new customer refuses before writing",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT transaction | row disappears after owner lookup: legacy refusal without writes",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT transaction | row disappears after owner lookup: legacy refusal without writes",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT transaction | row changes customer under lock: legacy conflict refusal without writes",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT transaction | row changes customer under lock: legacy conflict refusal without writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update recurring | row disappears between route validation and locked service: 500 without writes",
+      "fullTitle": "Path matrix: concurrent edits and review degradation update recurring | row disappears between route validation and locked service: 500 without writes",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "delete recurring | row disappears between route validation and locked service: 500 without writes",
+      "fullTitle": "Path matrix: concurrent edits and review degradation delete recurring | row disappears between route validation and locked service: 500 without writes",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT recurring | conditional update loses its row: 500 with complete rollback",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT recurring | conditional update loses its row: 500 with complete rollback",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | Comprehend failure uses deterministic email redaction and preserves the ledger edit",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT cascade edit | Comprehend failure uses deterministic email redaction and preserves the ledger edit",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | optional training savepoint failure preserves the requested ledger edit",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional training savepoint failure preserves the requested ledger edit",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "fullTitle": "Path matrix: concurrent edits and review degradation PUT cascade edit | optional label lookup failure preserves requested customer move",
+      "duration": 128,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST account | nested account insert failure rolls back both account and address",
+      "fullTitle": "Path matrix: concurrent edits and review degradation POST account | nested account insert failure rolls back both account and address",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST account | unique storage-slug race retries once using a savepoint and saves one account",
+      "fullTitle": "Path matrix: concurrent edits and review degradation POST account | unique storage-slug race retries once using a savepoint and saves one account",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

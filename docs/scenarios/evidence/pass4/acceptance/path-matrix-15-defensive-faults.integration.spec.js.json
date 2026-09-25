@@ -1,0 +1,200 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 13,
+    "passes": 13,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:51:01.486Z",
+    "end": "2026-09-25T14:51:02.726Z",
+    "duration": 1240
+  },
+  "tests": [
+    {
+      "title": "DELETE job | family query loses its row under the lock: refusal and no writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures DELETE job | family query loses its row under the lock: refusal and no writes",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "duration": 252,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes",
+      "duration": 56,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST preview | timezone conversion failure uses the same local date and writes nothing",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST preview | timezone conversion failure uses the same local date and writes nothing",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST finalize | corrupt customer-information identity refuses schema validation before saving",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST finalize | corrupt customer-information identity refuses schema validation before saving",
+      "duration": 42,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST audit batch | uncoercible JSON identifier refuses 500 before any job or database write",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST audit batch | uncoercible JSON identifier refuses 500 before any job or database write",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ingestion | failed historical-pattern query clears cached failure and holds the entry without charging",
+      "fullTitle": "Path matrix: defensive database and configuration failures ingestion | failed historical-pattern query clears cached failure and holds the entry without charging",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes",
+      "duration": 45,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "email boundary | missing recipients refuses before storage, network or database writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures email boundary | missing recipients refuses before storage, network or database writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "email boundary | missing subject refuses before storage, network or database writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures email boundary | missing subject refuses before storage, network or database writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "email boundary | missing sender configuration refuses before storage, network or database writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures email boundary | missing sender configuration refuses before storage, network or database writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "DELETE job | family query loses its row under the lock: refusal and no writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures DELETE job | family query loses its row under the lock: refusal and no writes",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "duration": 252,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes",
+      "duration": 56,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST preview | timezone conversion failure uses the same local date and writes nothing",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST preview | timezone conversion failure uses the same local date and writes nothing",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST finalize | corrupt customer-information identity refuses schema validation before saving",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST finalize | corrupt customer-information identity refuses schema validation before saving",
+      "duration": 42,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST audit batch | uncoercible JSON identifier refuses 500 before any job or database write",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST audit batch | uncoercible JSON identifier refuses 500 before any job or database write",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ingestion | failed historical-pattern query clears cached failure and holds the entry without charging",
+      "fullTitle": "Path matrix: defensive database and configuration failures ingestion | failed historical-pattern query clears cached failure and holds the entry without charging",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes",
+      "duration": 45,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "email boundary | missing recipients refuses before storage, network or database writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures email boundary | missing recipients refuses before storage, network or database writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "email boundary | missing subject refuses before storage, network or database writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures email boundary | missing subject refuses before storage, network or database writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "email boundary | missing sender configuration refuses before storage, network or database writes",
+      "fullTitle": "Path matrix: defensive database and configuration failures email boundary | missing sender configuration refuses before storage, network or database writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

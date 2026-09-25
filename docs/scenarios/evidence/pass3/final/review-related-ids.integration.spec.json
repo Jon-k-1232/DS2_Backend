@@ -1,0 +1,693 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 24,
+    "passes": 24,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:37.567Z",
+    "end": "2026-09-25T13:24:38.944Z",
+    "duration": 1377
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on create before any writes",
+      "state": "passed",
+      "duration": 42
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on update before any writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on create before any writes",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on update before any writes",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses foreign job type on job create",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses foreign category on job-type create",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses customer on quote create",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses job on quote create",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses mismatched customer on quote create",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses foreign job type on job update",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses foreign category on job-type update",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses customer on quote update",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses job on quote update",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses mismatched customer on quote update",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution refuses a foreign customer before recurring creation",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution uses the session creator and preserves it on job category edits",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution uses the session creator and preserves it on job type edits",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution uses the session creator and preserves it on work description edits",
+      "state": "passed",
+      "duration": 27
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution uses the session creator and preserves it on job edits",
+      "state": "passed",
+      "duration": 268
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution uses the session creator and preserves it on quote edits",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution uses the session creator and preserves it on recurring customer edits",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution uses and preserves the session creator for recurring changes embedded in a customer update",
+      "state": "passed",
+      "duration": 40
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution rejects another customer recurring ID before changing the customer or subscription",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "title": "F2 related IDs and creator attribution does not disclose labels through existing malformed relations",
+      "state": "passed",
+      "duration": 35
+    }
+  ],
+  "hits": {
+    "src/utils/relatedAccount.js:11:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on create before any writes"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on update before any writes"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on create before any writes"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on update before any writes"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign job type on job create"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign category on job-type create"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses customer on quote create"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses job on quote create"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign job type on job update"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign category on job-type update"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses customer on quote update"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses job on quote update"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses a foreign customer before recurring creation"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:68:5": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on create before any writes"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on create before any writes"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:70:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on create before any writes"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on create before any writes"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on update before any writes"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on update before any writes"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on update before any writes"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on update before any writes"
+      }
+    ],
+    "src/endpoints/job/job-router.js:91:5": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign job type on job create"
+      }
+    ],
+    "src/endpoints/job/job-router.js:93:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign job type on job create"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:33:5": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign category on job-type create"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:35:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign category on job-type create"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:48:5": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses customer on quote create"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses job on quote create"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses mismatched customer on quote create"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:50:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses customer on quote create"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses job on quote create"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses mismatched customer on quote create"
+      }
+    ],
+    "src/utils/relatedAccount.js:22:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses mismatched customer on quote create"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses mismatched customer on quote update"
+      }
+    ],
+    "src/endpoints/job/job-router.js:207:5": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign job type on job update"
+      }
+    ],
+    "src/endpoints/job/job-router.js:209:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign job type on job update"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:87:5": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign category on job-type update"
+      }
+    ],
+    "src/endpoints/jobType/jobType-router.js:89:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses foreign category on job-type update"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:125:5": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses customer on quote update"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses job on quote update"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses mismatched customer on quote update"
+      }
+    ],
+    "src/endpoints/quotes/quotes-router.js:127:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses customer on quote update"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses job on quote update"
+      },
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses mismatched customer on quote update"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution refuses a foreign customer before recurring creation"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:260:70": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution rejects another customer recurring ID before changing the customer or subscription"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:315:5": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution rejects another customer recurring ID before changing the customer or subscription"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:317:6": [
+      {
+        "file": "test/integration/review-related-ids.integration.spec.js",
+        "test": "F2 related IDs and creator attribution rejects another customer recurring ID before changing the customer or subscription"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on create before any writes",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Employee not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses foreign transaction loggedForUserID on update before any writes",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Employee not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on create before any writes",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Work description not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses foreign transaction selectedGeneralWorkDescriptionID on update before any writes",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Work description not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses foreign job type on job create",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job type not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses foreign category on job-type create",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job category not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses customer on quote create",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 500,
+      "message": "Customer not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses job on quote create",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses mismatched customer on quote create",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job does not belong to this customer."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses foreign job type on job update",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/90013",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job type not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses foreign category on job-type update",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/9001/90013",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job category not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses customer on quote update",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "route": "/updateQuote",
+      "status": 200,
+      "envelope": 500,
+      "message": "Customer not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses job on quote update",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "route": "/updateQuote",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses mismatched customer on quote update",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "route": "/updateQuote",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job does not belong to this customer."
+    },
+    {
+      "test": "F2 related IDs and creator attribution refuses a foreign customer before recurring creation",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/9001/90013",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 422,
+      "message": "Customer not found in this account."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on job category edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/jobCategories/createJobCategory/9001/21",
+      "route": "/createJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on job category edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobCategories/updateJobCategory/9001/21",
+      "route": "/updateJobCategory/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job category changes."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on job type edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/21",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on job type edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobTypes/updateJobType/9001/21",
+      "route": "/updateJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on work description edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/workDescriptions/createWorkDescription/9001/21",
+      "route": "/createWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on work description edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/workDescriptions/updateWorkDescription/9001/21",
+      "route": "/updateWorkDescription/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful"
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on job edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/21",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on job edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/jobs/updateJob/9001/21",
+      "route": "/updateJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on quote edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/quotes/createQuote",
+      "route": "/createQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new quote."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on quote edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/quotes/updateQuote",
+      "route": "/updateQuote",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated quote."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on recurring customer edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/9001/21",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new recurring customer."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses the session creator and preserves it on recurring customer edits",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/recurringCustomer/updateRecurringCustomer",
+      "route": "/updateRecurringCustomer",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated recurring customer."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses and preserves the session creator for recurring changes embedded in a customer update",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/9001/21",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "F2 related IDs and creator attribution uses and preserves the session creator for recurring changes embedded in a customer update",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/9001/21",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "F2 related IDs and creator attribution rejects another customer recurring ID before changing the customer or subscription",
+      "file": "test/integration/review-related-ids.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/9001/21",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Recurring row does not belong to this customer."
+    }
+  ]
+}

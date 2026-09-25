@@ -1,0 +1,116 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:40:34.227Z",
+    "end": "2026-09-25T06:40:34.831Z",
+    "duration": 604
+  },
+  "tests": [
+    {
+      "title": "rejects nonboolean active value \"false\" before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value \"false\" before writing",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects nonboolean active value \"true\" before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value \"true\" before writing",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects nonboolean active value 0 before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value 0 before writing",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects nonboolean active value 1 before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value 1 before writing",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects nonboolean active value null before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value null before writing",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "preserves active status when omitted and still rejects boolean self-deactivation",
+      "fullTitle": "F29 active Super Admin guards preserves active status when omitted and still rejects boolean self-deactivation",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serializes concurrent self-demotions so one active Super Admin remains",
+      "fullTitle": "F29 active Super Admin guards serializes concurrent self-demotions so one active Super Admin remains",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "rejects nonboolean active value \"false\" before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value \"false\" before writing",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects nonboolean active value \"true\" before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value \"true\" before writing",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects nonboolean active value 0 before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value 0 before writing",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects nonboolean active value 1 before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value 1 before writing",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects nonboolean active value null before writing",
+      "fullTitle": "F29 active Super Admin guards rejects nonboolean active value null before writing",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "preserves active status when omitted and still rejects boolean self-deactivation",
+      "fullTitle": "F29 active Super Admin guards preserves active status when omitted and still rejects boolean self-deactivation",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serializes concurrent self-demotions so one active Super Admin remains",
+      "fullTitle": "F29 active Super Admin guards serializes concurrent self-demotions so one active Super Admin remains",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

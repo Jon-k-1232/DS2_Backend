@@ -1,5 +1,18 @@
 # Retainers and prepayments
 
+## Owner decision update — 2026-09-25
+
+Pass 4 UI correction: receipt submission is disabled while pending, including rapid double-clicks. Request failures show the server message, preserve entered values and permit an explicit retry. Zero/invalid amounts are refused before submission; signed receipt inputs keep their documented negative-credit normalization. The shared grid toolbar also preserves an open form and its success message across refreshes.
+
+The refund/adjustment preview now explains invalid amounts and never displays `$NaN`. Only a valid positive amount with at most two decimals produces an available-credit preview; the API independently checks the latest funds when saving, so a stale refund cannot overdraw credit.
+
+The sent retainer detail screen now renders **Sent — locked** and **Open invoice history**, with no ordinary delete control. Previously this JSX was incorrectly returned from an effect, leaving the delete screen visible and supplying an invalid effect cleanup value. `SentScreens.test.js` verifies the lock before lookup lists arrive and clean unmounting; the browser verifies all four financial detail screens after finalize. New refund/adjustment activity remains available through its separate journal workflow.
+
+An unissued retainer remains unavailable for deletion until its complete linked-payment check succeeds. Missing/failed/incomplete lookup results show an error and keep Delete disabled; reload retries the check. A delete request failure now reaches the form instead of being swallowed by the API wrapper. The form preserves the record, displays the server/network error and guards pending clicks. `DeleteFinancial.failure.test.js`, `DeleteCalls.failure.test.js` and the browser delete scenarios verify these paths and eligible deletion after recovery.
+
+Every retainer root/draw included in issued ledger evidence is locked against ordinary update/delete, including metadata and starting-amount edits: HTTP 409 naming the statement. New draws remain append-only and can use available funds. A permitted bounced-overpayment correction appends a zero inactive snapshot, preserving the original credit. Run 2 implements the append-only refund/adjustment journal and customer screen described below. The ordinary repricing mechanics below apply only when no affected row is sent and the chain has no retainer events. [Decision record](../decisions/2026-09-24-owner-decisions.md).
+
+
 Source review dated 2026-09-24. Shared rules are in [ledger-conventions.md](ledger-conventions.md); exact receipt/split/reversal behavior is in [payments.md](payments.md).
 
 ## 1. Purpose and UI
@@ -18,21 +31,21 @@ The add form offers exactly `Retainer` and `Prepayment`, plus a label, method/re
 
 ## 2. Access rules
 
-All five endpoints require active-user authentication and role `manager`, `admin`, `super admin`, or `owner`. URL `accountID` must be an integer matching the authenticated account. No self-or-privileged check is applied to URL `userID`. Create uses the authenticated creator; updates preserve original creators. The frontend manager gate includes `owner` ([F37](../_review/findings.md#f37)). (`src/app.js:145`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/retainer/retainer-router.js:6`, `src/endpoints/retainer/retainer-router.js:24`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.)
+All seven endpoints require active-user authentication and role `manager`, `admin`, `super admin`, or `owner`. URL `accountID` must be an integer matching the authenticated account. No self-or-privileged check is applied to URL `userID`. Create uses the authenticated creator; updates preserve original creators. The frontend manager gate includes `owner` ([F37](../_review/findings.md#f37)). (`src/app.js:145`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/retainer/retainer-router.js:6`, `src/endpoints/retainer/retainer-router.js:24`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.)
 
 ## 3. API reference
 
-All route business errors below use **HTTP 200 with a JSON error status**, except authentication/account/role/parser/rate-limit middleware. Every endpoint can receive the common HTTP 401/403/400/413/429/500 errors described in [conventions](ledger-conventions.md#3-api-conventions). There is no paginated retainer-router account-list endpoint. Whole-account history comes from initial-data loading and mutation responses. (`src/endpoints/retainer/retainer-router.js:13`, `src/endpoints/retainer/retainer-router.js:123`, `src/endpoints/initialData/initialData-router.js:110`.)
+Ledger-state business errors below use **HTTP200 with a JSON error status**; the input validation contract below uses **HTTP400**, except authentication/account/role/parser/rate-limit middleware. Every endpoint can receive the common HTTP 401/403/400/413/429/500 errors described in [conventions](ledger-conventions.md#3-api-conventions). There is no paginated retainer-router account-list endpoint. Whole-account history comes from initial-data loading and mutation responses. (`src/endpoints/retainer/retainer-router.js:13`, `src/endpoints/retainer/retainer-router.js:123`, `src/endpoints/initialData/initialData-router.js:110`.)
 
 ### Body fields
 
 | Field inside `retainer` | Type, validation and limits |
 | --- | --- |
 | `customerID` | Create required numeric/coercible positive integer belonging to this account. Update optional; a different valid positive customer is refused. (`src/endpoints/retainer/retainerObjects.js:11`, `src/endpoints/payments/ledger-helpers.js:62`, `src/endpoints/retainer/retainer-logic.js:91`.) |
-| `unitCost` | Create required; `round2(-abs(Number(value)))` must be negative. Update optional: nonfinite/omitted input preserves old starting balance; finite zero is refused; other finite input is normalized negative and rounded. Update checks nonzero **before** rounding, so a positive subcent input can round to zero. SQL `numeric(10,2)`; no request maximum beyond available-draw constraints. (`src/endpoints/retainer/retainer-logic.js:64`, `src/endpoints/retainer/retainer-logic.js:100`, `migrations/schema-snapshot-2026-09-22.sql:729`.) |
-| `typeOfHold` | Create required truthy nullable string, varchar(50). API does not enforce the UI's two-value enum. Update omitted/empty/null preserves the type; a truthy value changes all chain rows. (`src/endpoints/retainer/retainerObjects.js:14`, `src/endpoints/retainer/retainerObjects.js:33`, `src/endpoints/retainer/retainer-logic.js:66`, `src/endpoints/retainer/retainer-logic.js:136`.) |
+| `unitCost` | Create required. Update omission alone preserves the amount for metadata edits; explicit nonnumeric values refuse. Normalize as `-round2(abs(Number(value)))`, require nonzero magnitude and maximum99999999.99. Zero/subcent-to-zero refuse. Both signs represent funds held. |
+| `typeOfHold` | Create required nonblank text, maximum50 characters. Update omission preserves it; explicit blank/null refuses. A valid change applies to every chain row. API retains the existing free-text type contract. |
 | `displayName` | Optional nullable string, varchar(100). Update omission preserves it; supplied value applies to all chain rows. (`src/endpoints/retainer/retainerObjects.js:13`, `src/endpoints/retainer/retainer-logic.js:132`, `migrations/schema-snapshot-2026-09-22.sql:727`.) |
-| `formOfPayment`, `paymentReferenceNumber` | Optional nullable strings, varchar(50) each; no enum/request length validation. Update omission preserves; explicit nullable input clears; applies to all chain rows. (`src/endpoints/retainer/retainerObjects.js:17`, `src/endpoints/retainer/retainer-logic.js:132`, `migrations/schema-snapshot-2026-09-22.sql:731`.) |
+| `formOfPayment`, `paymentReferenceNumber` | Optional nullable strings, varchar(50) each; no method enum; request limit50 characters. Update omission preserves; explicit nullable input clears; applies to all chain rows. (`src/endpoints/retainer/retainerObjects.js:17`, `src/endpoints/retainer/retainer-logic.js:132`, `migrations/schema-snapshot-2026-09-22.sql:731`.) |
 | `note` | Optional nullable text. New client system markers stripped; update changes only the selected row and preserves its stored system markers. (`src/endpoints/retainer/retainer-logic.js:61`, `src/endpoints/retainer/retainer-logic.js:139`.) |
 | `retainerID` | Required for update, numeric/coercible positive integer in this account. Delete/single use the URL instead. (`src/endpoints/retainer/retainerObjects.js:29`, `src/endpoints/payments/ledger-helpers.js:75`.) |
 | Other state fields | Body `accountID`/`loggedByUserID` do not choose ownership/creator. Client parent, current balance, active flag and creation timestamp do not control the stored chain. (`src/endpoints/retainer/retainerObjects.js:9`, `src/endpoints/retainer/retainerObjects.js:24`, `src/endpoints/retainer/retainer-router.js:24`.) |
@@ -46,7 +59,7 @@ Nullable-string parsing and XSS sanitization follow conventions. SQL column limi
 | Method/path | `POST /retainers/createRetainer/:accountID/:userID` |
 | Body | `{retainer:{customerID,unitCost,typeOfHold,...optionalFields}}`. |
 | Success | HTTP 200, `{status:200,message,accountRetainersList:{activeRetainerData:{activeRetainers,grid,treeGrid}}}`; refreshed whole-account history. |
-| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: invalid/missing customer, customer outside account, nonnegative/invalid rounded amount, missing type, DB constraint/query failure, or post-commit refresh failure. |
+| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: invalid/missing customer, customer outside account, nonnegative/invalid rounded amount, missing type, DB constraint/query failure, or precommit database failure. |
 | Source | `src/endpoints/retainer/retainer-router.js:13`, `src/endpoints/retainer/retainer-logic.js:55`, `src/endpoints/retainer/retainer-router.js:150`. |
 
 ### Update
@@ -56,7 +69,7 @@ Nullable-string parsing and XSS sanitization follow conventions. SQL column limi
 | Method/path | `PUT /retainers/updateRetainer/:accountID/:userID` |
 | Body | `{retainer:{retainerID,...optionalFields}}`. Can address a root or child; starting balance/descriptors affect the chain. |
 | Success | Same whole-account response as create. |
-| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing/malformed/foreign retainer, attempted customer reassignment, finite zero amount, nonzero balance change on cancelled prepayment, new starting credit below amount already drawn, or DB/refresh failure. There is no billed-statement refusal in this core. |
+| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing/malformed/foreign retainer, attempted customer reassignment, finite zero amount, nonzero balance change on cancelled prepayment, new starting credit below amount already drawn, or precommit DB failure. There is no billed-statement refusal in this core. |
 | Source | `src/endpoints/retainer/retainer-router.js:40`, `src/endpoints/retainer/retainer-logic.js:85`. |
 
 ### Delete
@@ -66,7 +79,7 @@ Nullable-string parsing and XSS sanitization follow conventions. SQL column limi
 | Method/path | `DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID` |
 | Parameters/body | Required positive integer/coercible retainer URL ID. No business body fields. |
 | Success | Same whole-account response as create. |
-| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing/malformed/foreign ID, selected child, cancelled root, any draw child, any transaction/payment reference to chain rows, a payment's prepayment-root marker, or DB/refresh failure. |
+| Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing/malformed/foreign ID, selected child, cancelled root, any draw child, any transaction/payment reference to chain rows, a payment's prepayment-root marker, or precommit DB failure. |
 | Source | `src/endpoints/retainer/retainer-router.js:66`, `src/endpoints/retainer/retainer-logic.js:156`. |
 
 ### Single record
@@ -88,6 +101,12 @@ Nullable-string parsing and XSS sanitization follow conventions. SQL column limi
 | Success | HTTP 200, `{status:200,message,activeRetainerData:{activeRetainers:[latestAvailableRow...],grid,treeGrid}}`. Query includes `rn` from window ranking. Unknown/other-account customer yields an empty array. |
 | Errors | Common middleware errors; HTTP 200/JSON 500 on database/other failures, including malformed customer values rejected by PostgreSQL. |
 | Source | `src/endpoints/retainer/retainer-router.js:123`, `src/endpoints/retainer/retainer-service.js:71`. |
+
+### Pass 2 input and committed-response contract
+
+Create/update requests validate their raw object before coercion and check sanitized text again before mapping (`src/utils/ledgerInput.js`). Money must be a finite number or numeric string, nonzero after cent rounding, with magnitude at most99999999.99. Booleans/arrays/objects are refused. Customer IDs must be positive integer scalars; malformed nonempty optional selections refuse instead of becoming null. Dates must be real YYYY-MM-DD calendar dates or supported ISO timestamps. Required text cannot be blank; bounded text is limited to the schema character count, and notes must be text without null characters. These input errors return real HTTP400 and make no writes. Omitted optional update fields retain their documented meaning.
+
+After a successful commit, a failed list refresh returns HTTP200 with `status:200`, `committed:true`, and a warning to reload without resubmitting. The write remains committed. Ordinary successful responses keep their existing tables. Tests: `scenario-what-if-01-values`, `02-retries` and `06-boundaries`.
 
 ## 4. Data model
 
@@ -112,7 +131,7 @@ The important links/status are `[retainer_draw:N]` on payments; `[prepayment_ret
 
 ## 6. Calculations
 
-1. A directly entered root sets both amounts to `round2(-abs(unitCost))` and active true. A hold/split root instead receives the already rounded negative receipt/excess from the payment core. `round2` uses JavaScript `Math.round` plus epsilon; negative half-cent behavior can differ from negating a rounded positive value. (`src/endpoints/retainer/retainer-logic.js:64`, `src/endpoints/payments/payment-logic.js:396`, `src/endpoints/payments/ledger-helpers.js:11`.)
+1. A directly entered root sets both amounts to `-round2(abs(unitCost))` and active true. A hold/split root instead receives the already rounded negative receipt/excess from the payment core. `round2` uses JavaScript `Math.round` plus epsilon; the positive magnitude is rounded before applying the negative credit sign. Thus1.005 becomes-1.01 on both create and edit (Pass2 fix). (`src/endpoints/retainer/retainer-logic.js:64`, `src/endpoints/payments/payment-logic.js:396`, `src/endpoints/payments/ledger-helpers.js:11`.)
 2. Available funds are `round2(max(0,-latest.current_amount))`. Require active and available greater than zero, then require draw magnitude no greater than available. (`src/endpoints/retainer/retainer-logic.js:37`.)
 3. Draw balance is `round2(latest.current_amount + drawMagnitude)`. -$300 plus a $120 draw is -$180, available $180. Zero is inactive. The root's original balance remains historical. (`src/endpoints/payments/payment-logic.js:520`.)
 4. Direct starting-amount edit: `delta = round2(newStarting - selectedRow.starting_amount)`. Require `round2(latestCurrent + delta) <= 0`. Shift every row's current by delta and set every starting amount to the new starting amount; recalculate active from `<0`. Root -$300 and child -$180 changed to a $400 starting credit become -$400 and -$280. The $120 draw is preserved. Reducing starting credit below $120 would exceed zero and is refused. (`src/endpoints/retainer/retainer-logic.js:100`.)
@@ -144,7 +163,7 @@ Turning funded work nonbillable or to zero unfunds it; clearing funding on still
 
 ## 8. Invariants and tests
 
-Tests were read, not run.
+The original documentation pass inspected tests; owner run 2 executed the full local suites. See [run 2 results](../decisions/2026-09-25-run-2-results.md).
 
 | Rule | Test evidence |
 | --- | --- |
@@ -167,3 +186,32 @@ The API accepts arbitrary nonempty hold types; the UI exposes two. A retainer re
 ## Completion summary
 
 Coverage: **5 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+
+## Manual refunds and adjustments (run 2)
+
+Owner decision 1 is implemented in `retainer-events.js`, migration `024.retainer_events_duplicates.sql` and frontend `CustomerProfile/RetainerEvents.js`. Open the customer's **Retainers and PrePayments** page, choose a root (including exhausted roots), select Refund or Adjustment, enter amount/date/reason, and method/reference for a refund. Review shows availability before/after; Confirm records it and reloads the profile. A saved event is immutable; correct mistakes by another event. This is a record of cash returned, not a bank transfer.
+
+| API | Contract |
+|---|---|
+| GET `/retainers/:retainerID/events/:accountID/:userID` | Root/latest snapshots, nonnegative `available`, ordered `events`, `lockedInvoice`. A snapshot ID resolves its root. |
+| POST same path | `{kind:'refund'|'adjustment', amount, direction:'increase'|'decrease', date:'YYYY-MM-DD', method, reference, reason}`. Refund direction is decrease; adjustment requires direction. Amount is a positive exact-cent number/string through 99999999.99. Date must be an actual calendar day in years 1900–9999. Reason 1–2000 trimmed chars. Refund method (≤50) and reference (≤100) required; optional for adjustment. |
+| Success | HTTP200 `{status:200,event,available,message}`. Event records session actor, server time, date, amount/direction, signed delta, reason, before/after availability, root/snapshot IDs and evidence. Client actor/ownership/balance fields are never used. |
+| Refusals | HTTP400 malformed fields/IDs; 401/403 authentication/role/account; 404 missing/foreign retainer; 409 insufficient balance, overflow, inconsistent/inactive chain or NSF cancellation; 500 DB failure. Nothing commits on failure. No storage operation occurs on these two routes. |
+
+Both endpoints are manager/admin/owner and account-scoped. POST joins `withTransaction`, locks the stored customer's ledger, re-reads availability, sets transaction-local actor/reason, inserts a snapshot then journal row. A refund or decrease adds a positive signed delta to the negative balance; increase adds a negative delta. A resulting positive balance is forbidden. Applied funds are outside the available balance and cannot be removed. Original sent rows and artifacts remain unchanged.
+
+Direct edits/deletions on event-bearing chains now return 409; there is no metadata exception. Repricing/deleting earlier draws must not rewrite journal snapshots; DB protection rolls back such attempts. Further draws and compensating new events remain available. This deliberately narrows old unissued-chain repricing after an explicit event; tests retain old no-event CRUD coverage.
+
+Invoice PDFs list pending events by server-created time after the last statement marker, including zero remaining credit. The effective date is descriptive; backdating never rewrites a prior bill. Membership snapshots and original PDFs freeze at finalize. Zero-dollar event-only customers remain selectable even with Hide zero balances enabled. Customer statements and Account Audit show informational events; available credit and drawn-to-date reconcile without crediting debt twice. See [hand oracle](../scenarios/10-owner-retainers-duplicates.md).
+
+Manual receipt creation also detects [possible duplicates](duplicates.md) atomically; flags do not affect balances. The new journal is not duplicate receipt work and is never scanned as such.
+
+## Owner run 3
+
+Selected negative invoice statements carry customer debt credits separately from retainer availability. Skipping a credit customer also preserves their pending refund/adjustment events for the later statement. The combined scenario16 verifies a$40 refund changes available retainer100→60 without changing debt340, followed by a$400 credit yielding−60. See the [owner decisions](../decisions/2026-09-24-owner-decisions.md) and [combined scenario](../scenarios/16-owner-combined.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.

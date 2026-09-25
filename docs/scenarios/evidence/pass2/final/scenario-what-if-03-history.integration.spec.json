@@ -1,0 +1,368 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 25,
+    "passes": 25,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:44:20.950Z",
+    "end": "2026-09-25T06:44:23.417Z",
+    "duration": 2467
+  },
+  "tests": [
+    {
+      "title": "X01 receipt refuses different customer invoice and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses different customer invoice and preserves both customers",
+      "duration": 133,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses different customer job and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses different customer job and preserves both customers",
+      "duration": 103,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses different customer retainer and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses different customer retainer and preserves both customers",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses foreign customer and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses foreign customer and preserves both customers",
+      "duration": 115,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses foreign job and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses foreign job and preserves both customers",
+      "duration": 108,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses missing invoice and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses missing invoice and preserves both customers",
+      "duration": 113,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses missing retainer and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses missing retainer and preserves both customers",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 absent/foreign 70001 cannot mutate any ledger",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 absent/foreign 70001 cannot mutate any ledger",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 absent/foreign 999999 cannot mutate any ledger",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 absent/foreign 999999 cannot mutate any ledger",
+      "duration": 54,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 customer with debt, job with work and invoice with payment cannot be deleted",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 customer with debt, job with work and invoice with payment cannot be deleted",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L02 billed transaction amount edit refuses",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L02 billed transaction amount edit refuses",
+      "duration": 57,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L02 billed transaction job edit refuses",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L02 billed transaction job edit refuses",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L02 billed transaction customer edit refuses",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L02 billed transaction customer edit refuses",
+      "duration": 58,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L02 next statement locks its payment and writeoff against editing and deletion",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L02 next statement locks its payment and writeoff against editing and deletion",
+      "duration": 280,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 stale absorbed invoice is remapped to the live chain, once",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 stale absorbed invoice is remapped to the live chain, once",
+      "duration": 44,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L03 drawn retainer preserves $30 draw when increased; lower-than-drawn and deletion refuse",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L03 drawn retainer preserves $30 draw when increased; lower-than-drawn and deletion refuse",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 unused records delete successfully and stale IDs refuse",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 unused records delete successfully and stale IDs refuse",
+      "duration": 103,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 user who owns a time entry cannot be deleted or lose attribution",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 user who owns a time entry cannot be deleted or lose attribution",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 user matched to another uploader time entry cannot lose employee attribution",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 user matched to another uploader time entry cannot lose employee attribution",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 unused user deletion succeeds; missing, deleted and foreign targets are404",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 unused user deletion succeeds; missing, deleted and foreign targets are404",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 employee denied payment",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 employee denied payment",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 employee denied account settings",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 employee denied account settings",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 employee denied user deletion",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 employee denied user deletion",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 employee denied employee foreign self read",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 employee denied employee foreign self read",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 missing, expired, malformed, foreign and revoked sessions cannot write",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 missing, expired, malformed, foreign and revoked sessions cannot write",
+      "duration": 95,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "X01 receipt refuses different customer invoice and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses different customer invoice and preserves both customers",
+      "duration": 133,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses different customer job and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses different customer job and preserves both customers",
+      "duration": 103,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses different customer retainer and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses different customer retainer and preserves both customers",
+      "duration": 119,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses foreign customer and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses foreign customer and preserves both customers",
+      "duration": 115,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses foreign job and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses foreign job and preserves both customers",
+      "duration": 108,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses missing invoice and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses missing invoice and preserves both customers",
+      "duration": 113,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 receipt refuses missing retainer and preserves both customers",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 receipt refuses missing retainer and preserves both customers",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 absent/foreign 70001 cannot mutate any ledger",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 absent/foreign 70001 cannot mutate any ledger",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 absent/foreign 999999 cannot mutate any ledger",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 absent/foreign 999999 cannot mutate any ledger",
+      "duration": 54,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 customer with debt, job with work and invoice with payment cannot be deleted",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 customer with debt, job with work and invoice with payment cannot be deleted",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L02 billed transaction amount edit refuses",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L02 billed transaction amount edit refuses",
+      "duration": 57,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L02 billed transaction job edit refuses",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L02 billed transaction job edit refuses",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L02 billed transaction customer edit refuses",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L02 billed transaction customer edit refuses",
+      "duration": 58,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L02 next statement locks its payment and writeoff against editing and deletion",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L02 next statement locks its payment and writeoff against editing and deletion",
+      "duration": 280,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "X01 stale absorbed invoice is remapped to the live chain, once",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions X01 stale absorbed invoice is remapped to the live chain, once",
+      "duration": 44,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L03 drawn retainer preserves $30 draw when increased; lower-than-drawn and deletion refuse",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L03 drawn retainer preserves $30 draw when increased; lower-than-drawn and deletion refuse",
+      "duration": 120,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 unused records delete successfully and stale IDs refuse",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 unused records delete successfully and stale IDs refuse",
+      "duration": 103,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 user who owns a time entry cannot be deleted or lose attribution",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 user who owns a time entry cannot be deleted or lose attribution",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 user matched to another uploader time entry cannot lose employee attribution",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 user matched to another uploader time entry cannot lose employee attribution",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "L01 unused user deletion succeeds; missing, deleted and foreign targets are404",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions L01 unused user deletion succeeds; missing, deleted and foreign targets are404",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 employee denied payment",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 employee denied payment",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 employee denied account settings",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 employee denied account settings",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 employee denied user deletion",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 employee denied user deletion",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 employee denied employee foreign self read",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 employee denied employee foreign self read",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A01 missing, expired, malformed, foreign and revoked sessions cannot write",
+      "fullTitle": "what-if X/L/A: wrong targets, retained history and sessions A01 missing, expired, malformed, foreign and revoked sessions cannot write",
+      "duration": 95,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

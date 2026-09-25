@@ -1,0 +1,172 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 11,
+    "passes": 11,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:51.411Z",
+    "end": "2026-09-25T14:50:52.245Z",
+    "duration": 834
+  },
+  "tests": [
+    {
+      "title": "POST accountAudit/run | customer read failure finishes with one failed report and unchanged money",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | customer read failure finishes with one failed report and unchanged money",
+      "duration": 48,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "duration": 59,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST accountAudit/run | missing customer returns failed job entry and writes no report",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | missing customer returns failed job entry and writes no report",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "duration": 56,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET audit PDF | malformed report returns JSON 500 without writes or PDF headers",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET audit PDF | malformed report returns JSON 500 without writes or PDF headers",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET audit PDF | renderer failure returns JSON 500 without writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET yearEndPacket | archive event before bytes returns JSON 500 without writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive event before bytes returns JSON 500 without writes",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET yearEndPacket | archive throw before bytes returns JSON 500 without writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive throw before bytes returns JSON 500 without writes",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET yearEndPacket | failure after initial bytes terminates the stream without waiting for timeout",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET yearEndPacket | failure after initial bytes terminates the stream without waiting for timeout",
+      "duration": 45,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "POST accountAudit/run | customer read failure finishes with one failed report and unchanged money",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | customer read failure finishes with one failed report and unchanged money",
+      "duration": 48,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | report and failed-result persistence failures finish with no writes",
+      "duration": 59,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST accountAudit/run | missing customer returns failed job entry and writes no report",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | missing customer returns failed job entry and writes no report",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | app comparison query failure uses savepoint and preserves numerical audit",
+      "duration": 56,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "fullTitle": "Path matrix: audit reports and interrupted exports POST accountAudit/run | PDF store failure keeps completed report with no published PDF",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET audit PDF | stored-object failure rebuilds a valid PDF without writes",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET audit PDF | malformed report returns JSON 500 without writes or PDF headers",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET audit PDF | malformed report returns JSON 500 without writes or PDF headers",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET audit PDF | renderer failure returns JSON 500 without writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET audit PDF | renderer failure returns JSON 500 without writes",
+      "duration": 65,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET yearEndPacket | archive event before bytes returns JSON 500 without writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive event before bytes returns JSON 500 without writes",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET yearEndPacket | archive throw before bytes returns JSON 500 without writes",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET yearEndPacket | archive throw before bytes returns JSON 500 without writes",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET yearEndPacket | failure after initial bytes terminates the stream without waiting for timeout",
+      "fullTitle": "Path matrix: audit reports and interrupted exports GET yearEndPacket | failure after initial bytes terminates the stream without waiting for timeout",
+      "duration": 45,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

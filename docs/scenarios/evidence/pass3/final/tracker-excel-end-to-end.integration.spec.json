@@ -1,0 +1,1056 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 9,
+    "tests": 33,
+    "passes": 33,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:27:15.478Z",
+    "end": "2026-09-25T13:27:19.371Z",
+    "duration": 3893
+  },
+  "tests": [
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) GET /time-tracking/template/latest/:accountID/:userID (1) returns the REAL template from tracker_versions/ byte-for-byte (xlsx with Time / Employee Names / Instructions / Categories / Entity sheets)",
+      "state": "passed",
+      "duration": 52
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) GET /time-tracking/template/latest/:accountID/:userID (2) a dummy tracker for Eliza Smith is filled INTO that downloaded workbook (quarter-hour and odd durations, 12 lines over one week)",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (3) admin upload on behalf of Eliza (?ownerUserID) -> 201; every non-lunch line lands in timesheet_entries (duration = minutes) and the gzip copy in S3",
+      "state": "passed",
+      "duration": 59
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4a) re-uploading the identical file -> 409 duplicate_of the first upload; no rows and no S3 object added",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4b) a cumulative tracker (old lines + one new line) -> 201 inserting ONLY the new line; the rest reported in duplicates_skipped",
+      "state": "passed",
+      "duration": 560
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) processEntries — auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) (5) stubbed classifier: 10 lines auto-inserted, the missing-year and ambiguous lines HELD; every transaction = ceil(min/6)/10 h (6-min increments, rounded UP) × $75",
+      "state": "passed",
+      "duration": 196
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) processEntries — auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) (5b) each job’s newest rolling child row carries Σ(all its transactions) after the batch",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) processEntries — auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) fuzzy customer scores do not depend on the order of the customer catalog",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6a) finalize Alpha + Beta: one parent statement each = Σ auto-inserted BILLABLE time; non-billable lines stamped but not charged",
+      "state": "passed",
+      "duration": 157
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6b) GET /invoices/downloadFile zip -> pdftotext: invoice number, Bill To, each job line, Total New Charges and Balance Due",
+      "state": "passed",
+      "duration": 38
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6c) billing engine, Account Audit and Accounts Receivable agree with each new statement",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta’s NEXT statement",
+      "state": "passed",
+      "duration": 38
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7b) a sub-cent rate override on a manual Time apply is refused (400) and the claim rolls back",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8a) an UNPROCESSED (held) entry is soft-deleted and leaves the review queue",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8b) a PROCESSED entry (already billed) is refused and stays live",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8c) an entry that becomes processed between being read and being deleted (concurrent-apply interleaving) is refused, never corrupted",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"1.5h\" in the Duration column is accepted and stored as 90 minutes",
+      "state": "passed",
+      "duration": 256
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) two uploads for the same employee within the same second get distinct stored file names (no S3 overwrite)",
+      "state": "passed",
+      "duration": 51
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an Apple Numbers file name -> 400 before any parsing",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) invalid percent-encoding in x-file-name -> 400, not a 500",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a file larger than 1 MB -> 400",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an employee token uploading for another owner -> 403 (both the ?ownerUserID and the :userID form)",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a tracker whose B1 names a different employee than the owner -> 400",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) no token -> 401; a token for another tenant -> 403",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) download: account 9001 receives a REBUILT workbook (never the owner’s raw bytes), scoped to its own catalogs",
+      "state": "passed",
+      "duration": 651
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) fill -> upload: the rebuilt workbook fills and uploads exactly like the owner template",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "title": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) auto-ingest -> finalize: transactions and the statement total match the independently-computed 6-minute-rounded figures",
+      "state": "passed",
+      "duration": 126
+    }
+  ],
+  "hits": {
+    "src/timeTrackerValidation/validateUploadedTracker.js:124:6": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (3) admin upload on behalf of Eliza (?ownerUserID) -> 201; every non-lunch line lands in timesheet_entries (duration = minutes) and the gzip copy in S3"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4a) re-uploading the identical file -> 409 duplicate_of the first upload; no rows and no S3 object added"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4b) a cumulative tracker (old lines + one new line) -> 201 inserting ONLY the new line; the rest reported in duplicates_skipped"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"1.5h\" in the Duration column is accepted and stored as 90 minutes"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) two uploads for the same employee within the same second get distinct stored file names (no S3 overwrite)"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) fill -> upload: the rebuilt workbook fills and uploads exactly like the owner template"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:149:3": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (3) admin upload on behalf of Eliza (?ownerUserID) -> 201; every non-lunch line lands in timesheet_entries (duration = minutes) and the gzip copy in S3"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4a) re-uploading the identical file -> 409 duplicate_of the first upload; no rows and no S3 object added"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4b) a cumulative tracker (old lines + one new line) -> 201 inserting ONLY the new line; the rest reported in duplicates_skipped"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"1.5h\" in the Duration column is accepted and stored as 90 minutes"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) two uploads for the same employee within the same second get distinct stored file names (no S3 overwrite)"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a tracker whose B1 names a different employee than the owner -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) fill -> upload: the rebuilt workbook fills and uploads exactly like the owner template"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:584:22": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4a) re-uploading the identical file -> 409 duplicate_of the first upload; no rows and no S3 object added"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:582:6": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) processEntries — auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) (5) stubbed classifier: 10 lines auto-inserted, the missing-year and ambiguous lines HELD; every transaction = ceil(min/6)/10 h (6-min increments, rounded UP) × $75"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:840:8": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) processEntries — auto-ingest orchestrator (src/endpoints/timesheets/auto-ingest-orchestrator.js) (5) stubbed classifier: 10 lines auto-inserted, the missing-year and ambiguous lines HELD; every transaction = ceil(min/6)/10 h (6-min increments, rounded UP) × $75"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6a) finalize Alpha + Beta: one parent statement each = Σ auto-inserted BILLABLE time; non-billable lines stamped but not charged"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) auto-ingest -> finalize: transactions and the statement total match the independently-computed 6-minute-rounded figures"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:341:15": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta’s NEXT statement"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:397:8": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta’s NEXT statement"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7b) a sub-cent rate override on a manual Time apply is refused (400) and the claim rolls back"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:399:19": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta’s NEXT statement"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7b) a sub-cent rate override on a manual Time apply is refused (400) and the claim rolls back"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:376:18": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7b) a sub-cent rate override on a manual Time apply is refused (400) and the claim rolls back"
+      }
+    ],
+    "src/endpoints/timesheets/timesheets-router.js:433:19": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8b) a PROCESSED entry (already billed) is refused and stays live"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8c) an entry that becomes processed between being read and being deleted (concurrent-apply interleaving) is refused, never corrupted"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/csvHeaderPropertyConfig.js:81:6": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:433:19": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a tracker whose B1 names a different employee than the owner -> 400"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:30:8": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:31:9": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:136:12": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateTimeBlock.js:82:14": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateTimeBlock.js:83:15": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateField.js:62:11": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateField.js:63:12": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/parseDuration.js:75:6": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateTimeBlock.js:92:15": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400"
+      },
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/parseDuration.js:35:6": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:379:16": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an Apple Numbers file name -> 400 before any parsing"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:371:8": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) invalid percent-encoding in x-file-name -> 400, not a 500"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:372:16": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) invalid percent-encoding in x-file-name -> 400, not a 500"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:354:16": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a file larger than 1 MB -> 400"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:39:13": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an employee token uploading for another owner -> 403 (both the ?ownerUserID and the :userID form)"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:411:19": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an employee token uploading for another owner -> 403 (both the ?ownerUserID and the :userID form)"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:105:5": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a tracker whose B1 names a different employee than the owner -> 400"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:106:6": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a tracker whose B1 names a different employee than the owner -> 400"
+      }
+    ],
+    "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateNameBlock.js:25:6": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a tracker whose B1 names a different employee than the owner -> 400"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:340:16": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:347:16": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:400:19": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) no token -> 401; a token for another tenant -> 403"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+        "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) no token -> 401; a token for another tenant -> 403"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobTypes/createJobType/9001/90013",
+      "route": "/createJobType/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job type changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) GET /time-tracking/template/latest/:accountID/:userID (1) returns the REAL template from tracker_versions/ byte-for-byte (xlsx with Time / Employee Names / Instructions / Categories / Entity sheets)",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/latest/1/21",
+      "route": "/template/latest/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (3) admin upload on behalf of Eliza (?ownerUserID) -> 201; every non-lunch line lands in timesheet_entries (duration = minutes) and the gzip copy in S3",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully. 1 row looks like non-work time (vacation / PTO / holiday / sick / personal / lunch) and will never be auto-billed."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4a) re-uploading the identical file -> 409 duplicate_of the first upload; no rows and no S3 object added",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 409,
+      "message": "This tracker was already uploaded as \"Smith_Eliza_September-25-2026_06-27-16AM-393-d75a18f8.xlsx\" (11 identical rows for 09-14-2026 to 09-18-2026). Nothing was saved. To replace that upload, ask an admin to delete its rows first."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (4b) a cumulative tracker (old lines + one new line) -> 201 inserting ONLY the new line; the rest reported in duplicates_skipped",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully. 11 rows were already uploaded earlier and were skipped as duplicates."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6a) finalize Alpha + Beta: one parent statement each = Σ auto-inserted BILLABLE time; non-billable lines stamped but not charged",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 2 invoice(s)."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /invoices/createInvoice/:accountID/:userID (6b) GET /invoices/downloadFile zip -> pdftotext: invoice number, Bill To, each job line, Total New Charges and Balance Due",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_27_17_5cd5d12a-3ede-4b18-a694-d368f543dc05%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta’s NEXT statement",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/timesheets/moveToTransactions/9001/90013",
+      "route": "/moveToTransactions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully moved timesheet entry to transactions."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7) a reviewer applies the HELD missing-year line with explicit ids: stale hundredth-hour input is ignored and recomputed server-side; inserted exactly once (second call 409), same math as the auto path, lands on Beta’s NEXT statement",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/timesheets/moveToTransactions/9001/90013",
+      "route": "/moveToTransactions/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This timesheet entry was already moved to transactions (or was deleted)."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /timesheets/moveToTransactions/:accountID/:userID (7b) a sub-cent rate override on a manual Time apply is refused (400) and the claim rolls back",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/timesheets/moveToTransactions/9001/90013",
+      "route": "/moveToTransactions/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Time requires positive minutes and a rate of zero or more with at most 2 decimal places."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8a) an UNPROCESSED (held) entry is soft-deleted and leaves the review queue",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "DELETE",
+      "url": "/timesheets/deleteTimesheetEntry/39977/9001/90013",
+      "route": "/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID",
+      "status": 200,
+      "message": "Successfully deleted timesheet entry."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8a) an UNPROCESSED (held) entry is soft-deleted and leaves the review queue",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "GET",
+      "url": "/timesheets/getTimesheetEntriesByUserID/90011/9001/90013?limit=500",
+      "route": "/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID",
+      "status": 200,
+      "message": "Successfully retrieved timesheet entries."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8b) a PROCESSED entry (already billed) is refused and stays live",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "DELETE",
+      "url": "/timesheets/deleteTimesheetEntry/39967/9001/90013",
+      "route": "/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This timesheet entry has already been processed into a transaction and cannot be deleted. Reverse or delete the transaction first."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID (8c) an entry that becomes processed between being read and being deleted (concurrent-apply interleaving) is refused, never corrupted",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "DELETE",
+      "url": "/timesheets/deleteTimesheetEntry/39980/9001/90013",
+      "route": "/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "This timesheet entry has already been processed into a transaction and cannot be deleted. Reverse or delete the transaction first."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a header renamed \"Duration\" -> \"Minutes\" -> 400 naming the missing header (nothing stored)",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a negative duration -> 400 naming the row",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated before the tracker window (Start Date - 7 days) -> 400",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an entry dated in the future (tracker window extends past today) -> 400",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"1.5h\" in the Duration column is accepted and stored as 90 minutes",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) two uploads for the same employee within the same second get distinct stored file names (no S3 overwrite)",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) two uploads for the same employee within the same second get distinct stored file names (no S3 overwrite)",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) \"7.5\" (hours typed into the minutes column) -> 400 naming the row",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an Apple Numbers file name -> 400 before any parsing",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "Apple Numbers files are not supported. Please export your tracker as XLSX or XLS before uploading."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) invalid percent-encoding in x-file-name -> 400, not a 500",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "Invalid file name encoding."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a file larger than 1 MB -> 400",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "File exceeds the 1MB size limit."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an employee token uploading for another owner -> 403 (both the ?ownerUserID and the :userID form)",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90011?ownerUserID=90012",
+      "route": "/upload/:accountID/:userID",
+      "status": 403,
+      "message": "Only managers or admins can submit trackers for other users."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an employee token uploading for another owner -> 403 (both the ?ownerUserID and the :userID form)",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90012",
+      "route": "/upload/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Access denied for this user"
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) a tracker whose B1 names a different employee than the owner -> 400",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The tracker failed validation. The file was not saved. Correct all validation errors before re-uploading."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90014",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "The selected user is inactive and cannot receive time tracker uploads."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "Missing file metadata. Please include the original file name."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) an inactive owner -> 400; missing x-file-name -> 400; empty body -> 400",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 400,
+      "message": "Uploaded file is empty or missing."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) no token -> 401; a token for another tenant -> 403",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) POST /time-tracking/upload/:accountID/:userID (validation and authorization) no token -> 401; a token for another tenant -> 403",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/1/90013",
+      "route": "/upload/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) download: account 9001 receives a REBUILT workbook (never the owner’s raw bytes), scoped to its own catalogs",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/9001/90013",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) download: account 9001 receives a REBUILT workbook (never the owner’s raw bytes), scoped to its own catalogs",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) download: account 9001 receives a REBUILT workbook (never the owner’s raw bytes), scoped to its own catalogs",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/latest/9001/90013",
+      "route": "/template/latest/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) fill -> upload: the rebuilt workbook fills and uploads exactly like the owner template",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/upload/9001/90013?ownerUserID=90011",
+      "route": "/upload/:accountID/:userID",
+      "status": 201,
+      "message": "Time tracker validated and uploaded successfully."
+    },
+    {
+      "test": "tracker Excel end-to-end: template → upload → auto-ingest → invoice PDF (account 9001) non-owner rebuilt template round trip (account 9001) auto-ingest -> finalize: transactions and the statement total match the independently-computed 6-minute-rounded figures",
+      "file": "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/9001/90013",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    }
+  ]
+}

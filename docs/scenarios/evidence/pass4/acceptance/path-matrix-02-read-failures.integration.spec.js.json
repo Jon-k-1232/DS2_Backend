@@ -1,0 +1,620 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 43,
+    "passes": 43,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:42.938Z",
+    "end": "2026-09-25T14:50:44.015Z",
+    "duration": 1077
+  },
+  "tests": [
+    {
+      "title": "GET /account/AccountInformation/1/1 | getAccount failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /account/AccountInformation/1/1 | getAccount failure: HTTP 500, envelope 500, no writes",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /account/automations/1/1 | listAccountAutomations failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /account/automations/1/1 | listAccountAutomations failure: HTTP 500, envelope 500, no writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /customer/activeCustomers/customerByID/1/1/1 | getCustomerByID failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/customerByID/1/1/1 | getCustomerByID failure: HTTP 200, envelope 500, no writes",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /customer/activeCustomers/1/1 | getActiveCustomersPaginated failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/1/1 | getActiveCustomersPaginated failure: HTTP 500, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /initialData/initialBlob/1/1 | getActiveCustomers failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /initialData/initialBlob/1/1 | getActiveCustomers failure: HTTP 200, envelope 500, no writes",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /jobs/getSingleJob/1/1/1 | getSingleJob failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /jobs/getSingleJob/1/1/1 | getSingleJob failure: HTTP 500, envelope global error, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /jobs/getActiveCustomerJobs/1/1/1 | getActiveCustomerJobs failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /jobs/getActiveCustomerJobs/1/1/1 | getActiveCustomerJobs failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /jobCategories/getSingleJobCategory/1/1/1 | getSingleJobCategory failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /jobCategories/getSingleJobCategory/1/1/1 | getSingleJobCategory failure: HTTP 500, envelope global error, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /jobTypes/getSingleJobType/1/1/1 | getSingleJobType failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /jobTypes/getSingleJobType/1/1/1 | getSingleJobType failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /workDescriptions/getSingleWorkDescription/1/1/1 | getSingleWorkDescription failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /workDescriptions/getSingleWorkDescription/1/1/1 | getSingleWorkDescription failure: HTTP 200, envelope 500, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /quotes/getActiveQuotes/1/1 | getActiveQuotes failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /quotes/getActiveQuotes/1/1 | getActiveQuotes failure: HTTP 200, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /recurringCustomer/getActiveRecurringCustomers/1/1 | getActiveRecurringCustomers failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /recurringCustomer/getActiveRecurringCustomers/1/1 | getActiveRecurringCustomers failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /user/fetchSingleUser/1/1 | fetchUser failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /user/fetchSingleUser/1/1 | fetchUser failure: HTTP 500, envelope global error, no writes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /notifications/1/1 | listForUser failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /notifications/1/1 | listForUser failure: HTTP 500, envelope global error, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /notifications/1/1/unread-count | unreadCount failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /notifications/1/1/unread-count | unreadCount failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /time-tracker-staff/1/1 | listByAccount failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /time-tracker-staff/1/1 | listByAccount failure: HTTP 500, envelope global error, no writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountsReceivable/aging/1/1 | getAging failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1 | getAging failure: HTTP 500, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountsReceivable/aging/1/1/export | getAging failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1/export | getAging failure: HTTP 500, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountAudit/customers/1/1 | getAuditableCustomers failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountAudit/customers/1/1 | getAuditableCustomers failure: HTTP 500, envelope 500, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountAudit/audit/1/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountAudit/audit/1/pdf/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/pdf/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountAudit/customer/1/1/1 | getAuditsForCustomer failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountAudit/customer/1/1/1 | getAuditsForCustomer failure: HTTP 500, envelope 500, no writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/clientRates/1/1 | getClientRates failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1 | getClientRates failure: HTTP 200, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/timeAllocation/1/1 | getTimeAllocation failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1 | getTimeAllocation failure: HTTP 200, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/wipAging/1/1 | getWipAging failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/wipAging/1/1 | getWipAging failure: HTTP 200, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/jobBudgets/1/1 | getJobBudgets failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/jobBudgets/1/1 | getJobBudgets failure: HTTP 200, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/taxSeasonCapacity/1/1 | getTaxSeasonCapacity failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/taxSeasonCapacity/1/1 | getTaxSeasonCapacity failure: HTTP 200, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/exclusions/1/1 | getExcludableCustomers failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/exclusions/1/1 | getExcludableCustomers failure: HTTP 200, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/clientRates/1/1/export | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1/export | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/timeAllocation/1/1/export | getTimeAllocation failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1/export | getTimeAllocation failure: HTTP 500, envelope 500, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/yearEndPacket/1/1 | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/yearEndPacket/1/1 | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /billing-review/distinct-entities/1/1 | listDistinctEntities failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /billing-review/distinct-entities/1/1 | listDistinctEntities failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /billing-review/earliest-unbilled-month/1/1 | earliestUnbilledMonth failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /billing-review/earliest-unbilled-month/1/1 | earliestUnbilledMonth failure: HTTP 500, envelope global error, no writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /billing-review/pending/1/1 | listPendingHeldEntries failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /billing-review/pending/1/1 | listPendingHeldEntries failure: HTTP 500, envelope global error, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /account/AccountInformation | missing account response is 404 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /account/AccountInformation | missing account response is 404 without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /healthz/check | failed database probe is 503 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /healthz/check | failed database probe is 503 without writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /api/health/check | failed database probe is 503 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /api/health/check | failed database probe is 503 without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /healthz/ | public liveness succeeds without database writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /healthz/ | public liveness succeeds without database writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /api/health/ | public liveness succeeds without database writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /api/health/ | public liveness succeeds without database writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE /quotes/deleteQuote | database delete failure is refused with no rows changed",
+      "fullTitle": "Path matrix: database read failures preserve all rows DELETE /quotes/deleteQuote | database delete failure is refused with no rows changed",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /recurringCustomer/updateRecurringCustomer | missing row is 404 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows PUT /recurringCustomer/updateRecurringCustomer | missing row is 404 without writes",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE /customer/deleteCustomer | malformed ID is envelope 404 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows DELETE /customer/deleteCustomer | malformed ID is envelope 404 without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /accountAudit/run | more than 200 customers refuses before registering a job",
+      "fullTitle": "Path matrix: database read failures preserve all rows POST /accountAudit/run | more than 200 customers refuses before registering a job",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "GET /account/AccountInformation/1/1 | getAccount failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /account/AccountInformation/1/1 | getAccount failure: HTTP 500, envelope 500, no writes",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /account/automations/1/1 | listAccountAutomations failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /account/automations/1/1 | listAccountAutomations failure: HTTP 500, envelope 500, no writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /customer/activeCustomers/customerByID/1/1/1 | getCustomerByID failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/customerByID/1/1/1 | getCustomerByID failure: HTTP 200, envelope 500, no writes",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /customer/activeCustomers/1/1 | getActiveCustomersPaginated failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /customer/activeCustomers/1/1 | getActiveCustomersPaginated failure: HTTP 500, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /initialData/initialBlob/1/1 | getActiveCustomers failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /initialData/initialBlob/1/1 | getActiveCustomers failure: HTTP 200, envelope 500, no writes",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /jobs/getSingleJob/1/1/1 | getSingleJob failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /jobs/getSingleJob/1/1/1 | getSingleJob failure: HTTP 500, envelope global error, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /jobs/getActiveCustomerJobs/1/1/1 | getActiveCustomerJobs failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /jobs/getActiveCustomerJobs/1/1/1 | getActiveCustomerJobs failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /jobCategories/getSingleJobCategory/1/1/1 | getSingleJobCategory failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /jobCategories/getSingleJobCategory/1/1/1 | getSingleJobCategory failure: HTTP 500, envelope global error, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /jobTypes/getSingleJobType/1/1/1 | getSingleJobType failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /jobTypes/getSingleJobType/1/1/1 | getSingleJobType failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /workDescriptions/getSingleWorkDescription/1/1/1 | getSingleWorkDescription failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /workDescriptions/getSingleWorkDescription/1/1/1 | getSingleWorkDescription failure: HTTP 200, envelope 500, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /quotes/getActiveQuotes/1/1 | getActiveQuotes failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /quotes/getActiveQuotes/1/1 | getActiveQuotes failure: HTTP 200, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /recurringCustomer/getActiveRecurringCustomers/1/1 | getActiveRecurringCustomers failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /recurringCustomer/getActiveRecurringCustomers/1/1 | getActiveRecurringCustomers failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /user/fetchSingleUser/1/1 | fetchUser failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /user/fetchSingleUser/1/1 | fetchUser failure: HTTP 500, envelope global error, no writes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /notifications/1/1 | listForUser failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /notifications/1/1 | listForUser failure: HTTP 500, envelope global error, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /notifications/1/1/unread-count | unreadCount failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /notifications/1/1/unread-count | unreadCount failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /time-tracker-staff/1/1 | listByAccount failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /time-tracker-staff/1/1 | listByAccount failure: HTTP 500, envelope global error, no writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountsReceivable/aging/1/1 | getAging failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1 | getAging failure: HTTP 500, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountsReceivable/aging/1/1/export | getAging failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountsReceivable/aging/1/1/export | getAging failure: HTTP 500, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountAudit/customers/1/1 | getAuditableCustomers failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountAudit/customers/1/1 | getAuditableCustomers failure: HTTP 500, envelope 500, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountAudit/audit/1/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountAudit/audit/1/pdf/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountAudit/audit/1/pdf/1/1 | getAuditById failure: HTTP 500, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /accountAudit/customer/1/1/1 | getAuditsForCustomer failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /accountAudit/customer/1/1/1 | getAuditsForCustomer failure: HTTP 500, envelope 500, no writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/clientRates/1/1 | getClientRates failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1 | getClientRates failure: HTTP 200, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/timeAllocation/1/1 | getTimeAllocation failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1 | getTimeAllocation failure: HTTP 200, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/wipAging/1/1 | getWipAging failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/wipAging/1/1 | getWipAging failure: HTTP 200, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/jobBudgets/1/1 | getJobBudgets failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/jobBudgets/1/1 | getJobBudgets failure: HTTP 200, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/taxSeasonCapacity/1/1 | getTaxSeasonCapacity failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/taxSeasonCapacity/1/1 | getTaxSeasonCapacity failure: HTTP 200, envelope 500, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/exclusions/1/1 | getExcludableCustomers failure: HTTP 200, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/exclusions/1/1 | getExcludableCustomers failure: HTTP 200, envelope 500, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/clientRates/1/1/export | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/clientRates/1/1/export | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/timeAllocation/1/1/export | getTimeAllocation failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/timeAllocation/1/1/export | getTimeAllocation failure: HTTP 500, envelope 500, no writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /analytics/yearEndPacket/1/1 | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /analytics/yearEndPacket/1/1 | getClientRates failure: HTTP 500, envelope 500, no writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /billing-review/distinct-entities/1/1 | listDistinctEntities failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /billing-review/distinct-entities/1/1 | listDistinctEntities failure: HTTP 500, envelope global error, no writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /billing-review/earliest-unbilled-month/1/1 | earliestUnbilledMonth failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /billing-review/earliest-unbilled-month/1/1 | earliestUnbilledMonth failure: HTTP 500, envelope global error, no writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /billing-review/pending/1/1 | listPendingHeldEntries failure: HTTP 500, envelope global error, no writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /billing-review/pending/1/1 | listPendingHeldEntries failure: HTTP 500, envelope global error, no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /account/AccountInformation | missing account response is 404 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /account/AccountInformation | missing account response is 404 without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /healthz/check | failed database probe is 503 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /healthz/check | failed database probe is 503 without writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /api/health/check | failed database probe is 503 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /api/health/check | failed database probe is 503 without writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /healthz/ | public liveness succeeds without database writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /healthz/ | public liveness succeeds without database writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /api/health/ | public liveness succeeds without database writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows GET /api/health/ | public liveness succeeds without database writes",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE /quotes/deleteQuote | database delete failure is refused with no rows changed",
+      "fullTitle": "Path matrix: database read failures preserve all rows DELETE /quotes/deleteQuote | database delete failure is refused with no rows changed",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "PUT /recurringCustomer/updateRecurringCustomer | missing row is 404 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows PUT /recurringCustomer/updateRecurringCustomer | missing row is 404 without writes",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE /customer/deleteCustomer | malformed ID is envelope 404 without writes",
+      "fullTitle": "Path matrix: database read failures preserve all rows DELETE /customer/deleteCustomer | malformed ID is envelope 404 without writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /accountAudit/run | more than 200 customers refuses before registering a job",
+      "fullTitle": "Path matrix: database read failures preserve all rows POST /accountAudit/run | more than 200 customers refuses before registering a job",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

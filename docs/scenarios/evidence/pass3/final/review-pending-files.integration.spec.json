@@ -1,0 +1,266 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:35.876Z",
+    "end": "2026-09-25T13:24:36.631Z",
+    "duration": 755
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "title": "F16-F18 pending payment file integrity F16 refuses stale soft-delete after approval commits and preserves visible posted evidence",
+      "state": "passed",
+      "duration": 75
+    },
+    {
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "title": "F16-F18 pending payment file integrity F17 removes pending and archived copies and denies later preview",
+      "state": "passed",
+      "duration": 67
+    },
+    {
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "title": "F16-F18 pending payment file integrity F17 reports archive deletion failure and keeps queue rows retryable",
+      "state": "passed",
+      "duration": 38
+    },
+    {
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "title": "F16-F18 pending payment file integrity F17 rechecks processed siblings under the file lock after an approval wins",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "title": "F16-F18 pending payment file integrity F18 groups duplicate receipt identities into one physical file and previews either name",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "title": "F16-F18 pending payment file integrity F18 refuses canonical file deletion when only a suffixed sibling was approved",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "title": "F16-F18 pending payment file integrity F18 deleting via a duplicate receipt identity dismisses all siblings",
+      "state": "passed",
+      "duration": 15
+    }
+  ],
+  "hits": {
+    "src/endpoints/pendingPayments/pendingPayments-router.js:30:3": [
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F16 refuses stale soft-delete after approval commits and preserves visible posted evidence"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:117:20": [
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F16 refuses stale soft-delete after approval commits and preserves visible posted evidence"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:122:5": [
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F16 refuses stale soft-delete after approval commits and preserves visible posted evidence"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:390:16": [
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F17 removes pending and archived copies and denies later preview"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:356:5": [
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F17 reports archive deletion failure and keeps queue rows retryable"
+      },
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F17 rechecks processed siblings under the file lock after an approval wins"
+      },
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F18 refuses canonical file deletion when only a suffixed sibling was approved"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:358:6": [
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F17 reports archive deletion failure and keeps queue rows retryable"
+      },
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F17 rechecks processed siblings under the file lock after an approval wins"
+      },
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F18 refuses canonical file deletion when only a suffixed sibling was approved"
+      }
+    ],
+    "src/endpoints/pendingPayments/pendingPayments-router.js:346:57": [
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F17 rechecks processed siblings under the file lock after an approval wins"
+      },
+      {
+        "file": "test/integration/review-pending-files.integration.spec.js",
+        "test": "F16-F18 pending payment file integrity F18 refuses canonical file deletion when only a suffixed sibling was approved"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F16-F18 pending payment file integrity F16 refuses stale soft-delete after approval commits and preserves visible posted evidence",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Recorded $100.00 as a prepayment retainer — no open invoice."
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F16 refuses stale soft-delete after approval commits and preserves visible posted evidence",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "PUT",
+      "url": "/pending-payments/soft-delete/2128/9001/90013",
+      "route": "/soft-delete/:paymentID/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "Payment state changed; refresh before deleting."
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F17 removes pending and archived copies and denies later preview",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=F17-40661-mugzsy88-4.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F17 removes pending and archived copies and denies later preview",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "File and associated pending payments deleted."
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F17 removes pending and archived copies and denies later preview",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=F17-40661-mugzsy88-4.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "File not found."
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F17 reports archive deletion failure and keeps queue rows retryable",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "F17 S3 unavailable"
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F17 reports archive deletion failure and keeps queue rows retryable",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "File and associated pending payments deleted."
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F17 rechecks processed siblings under the file lock after an approval wins",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Recorded $100.00 as a prepayment retainer — no open invoice."
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F17 rechecks processed siblings under the file lock after an approval wins",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Cannot delete this file because some payments have already been processed."
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F18 groups duplicate receipt identities into one physical file and previews either name",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/files/9001/90013",
+      "route": "/files/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Success"
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F18 groups duplicate receipt identities into one physical file and previews either name",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=F18-40661-mugzsyd4-10.pdf",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F18 groups duplicate receipt identities into one physical file and previews either name",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "GET",
+      "url": "/pending-payments/file-preview/9001/90013?fileName=F18-40661-mugzsyd4-10.pdf%23dup2-ref102",
+      "route": "/file-preview/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F18 refuses canonical file deletion when only a suffixed sibling was approved",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "POST",
+      "url": "/pending-payments/approve/9001/90013",
+      "route": "/approve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Recorded $100.00 as a prepayment retainer — no open invoice."
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F18 refuses canonical file deletion when only a suffixed sibling was approved",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Cannot delete this file because some payments have already been processed."
+    },
+    {
+      "test": "F16-F18 pending payment file integrity F18 deleting via a duplicate receipt identity dismisses all siblings",
+      "file": "test/integration/review-pending-files.integration.spec.js",
+      "method": "DELETE",
+      "url": "/pending-payments/file/9001/90013",
+      "route": "/file/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "File and associated pending payments deleted."
+    }
+  ]
+}

@@ -1,0 +1,765 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 12,
+    "tests": 36,
+    "passes": 36,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:31:46.805Z",
+    "end": "2026-09-25T13:31:48.079Z",
+    "duration": 1274
+  },
+  "tests": [
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 200 with identical bytes for a key the test placed under the caller's own invoicing prefix",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 and no bytes for the shared time-tracking template key, even though it is real and currently live",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 for a key under a DIFFERENT account's own invoicing prefix (account 1)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 400 for a missing fileLocation query param (unchanged)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list GET /time-tracking/template/list as a NON-owner admin (9001) returns no raw keys or slug",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list GET /time-tracking/template/list as the OWNER (account 1, superAdmin) is unchanged — READ-ONLY",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list POST /time-tracking/template/upload as a NON-owner super admin (9001) -> 403; nothing written",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list DELETE /time-tracking/template/delete as a NON-owner super admin (9001) -> 403; nothing removed",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list owner-account super admin is unaffected by the new gate (still 400, not 403, for an invalid key) — READ path only, no mutation attempted",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) FIXED (was DEFECT) — finding 1's exact cross-route bypass the original two-step exploit (steal the key from /template/list, redeem it at /invoices/downloadFile) is blocked at BOTH steps",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 200: accepts a key under the callers own logo prefix",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 200: an explicit clear (empty string) is always allowed",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses a REAL, fetchable key that is simply not under this accounts own logo prefix — nothing is written",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses a key under a DIFFERENT accounts own logo prefix (account 1, never written to) — nothing is written",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses path traversal, a leading slash, a backslash, and a residual percent — nothing is written",
+      "state": "passed",
+      "duration": 19
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation a request that omits account_company_logo entirely leaves the stored value untouched",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization GET /account/AccountInformation/:accountID/:userID — read-time authorization serves back the exact bytes of a key under the callers own logo prefix",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization GET /account/AccountInformation/:accountID/:userID — read-time authorization never fetches, and never leaks, a REAL fetchable object outside the logo prefix (simulated legacy bad data) — no 500",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) — read-time authorization used when a statement/invoice PDF is built embeds the exact bytes of a key under the accounts own logo prefix",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) — read-time authorization used when a statement/invoice PDF is built falls back to \"no logo\" — never throws, never returns the foreign objects bytes — for a REAL fetchable key outside the accounts own logo prefix",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) — read-time authorization used when a statement/invoice PDF is built falls back to \"no logo\" for a key under a different accounts own logo prefix (account 1) — no cross-tenant embed",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) — read-time authorization used when a statement/invoice PDF is built statement build never 500s even when the stored key is completely malformed",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) sanity check on the fixture itself: the colliding name is different from account 1's real name but sanitizes to the identical slug",
+      "state": "passed",
+      "duration": 0
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) renaming account 9001 to the colliding string succeeds — renaming itself is not, and should not be, blocked",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) storage_slug is untouched by the rename — the immutable namespace does not follow account_name",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED (was the live finding-1 exploit): after the rename, account 9001 STILL cannot download an account-1 invoicing key — 403, key need not even exist",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED: after the rename, setting account 9001's logo to account 1's real logo key STILL 400s — no cross-tenant logo adoption",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) account 9001's OWN keys still download normally after the rename — the fix does not break the renamed account's own access",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) the fixture name is restored after this block (confirms the afterEach cleanup actually works, not just that it ran)",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) a client cannot set storage_slug directly through the real HTTP route either — a supplied value is silently ignored, not a 500 or a 400",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/history/download — syntax validator (RESIDUAL finding) a key that starts with this account's own real prefix but escapes it via \"..\" is refused (403), never reaches S3",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/history/download — syntax validator (RESIDUAL finding) rejects a backslash and a residual (double-encoded) percent the same way",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name — bare-filename hygiene gap (RESIDUAL finding) rejects a timesheetName containing a backslash",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name — bare-filename hygiene gap (RESIDUAL finding) rejects a residual (double-encoded) percent in timesheetName the same way",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "title": "integration: coverage — cross-tenant download authorization (HTTP) DELETE /time-tracking/template/delete — owner-account syntax validator (RESIDUAL finding) owner-account delete refuses a key containing \"..\" even though it matches the tracker_versions/ prefix and a timetracker_ basename — nothing is deleted",
+      "state": "passed",
+      "duration": 9
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/invoice-router.js:429:16": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 and no bytes for the shared time-tracking template key, even though it is real and currently live"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 for a key under a DIFFERENT account's own invoicing prefix (account 1)"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) FIXED (was DEFECT) — finding 1's exact cross-route bypass the original two-step exploit (steal the key from /template/list, redeem it at /invoices/downloadFile) is blocked at BOTH steps"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED (was the live finding-1 exploit): after the rename, account 9001 STILL cannot download an account-1 invoicing key — 403, key need not even exist"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:404:9": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 400 for a missing fileLocation query param (unchanged)"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:474:5": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 400 for a missing fileLocation query param (unchanged)"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:475:6": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 400 for a missing fileLocation query param (unchanged)"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1324:16": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list POST /time-tracking/template/upload as a NON-owner super admin (9001) -> 403; nothing written"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1439:16": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list DELETE /time-tracking/template/delete as a NON-owner super admin (9001) -> 403; nothing removed"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1459:16": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list owner-account super admin is unaffected by the new gate (still 400, not 403, for an invalid key) — READ path only, no mutation attempted"
+      }
+    ],
+    "src/endpoints/account/account-router.js:183:22": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses a REAL, fetchable key that is simply not under this accounts own logo prefix — nothing is written"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses a key under a DIFFERENT accounts own logo prefix (account 1, never written to) — nothing is written"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses path traversal, a leading slash, a backslash, and a residual percent — nothing is written"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED: after the rename, setting account 9001's logo to account 1's real logo key STILL 400s — no cross-tenant logo adoption"
+      }
+    ],
+    "src/endpoints/account/account-router.js:91:5": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization GET /account/AccountInformation/:accountID/:userID — read-time authorization never fetches, and never leaks, a REAL fetchable object outside the logo prefix (simulated legacy bad data) — no 500"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) — read-time authorization used when a statement/invoice PDF is built falls back to \"no logo\" — never throws, never returns the foreign objects bytes — for a REAL fetchable key outside the accounts own logo prefix"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) — read-time authorization used when a statement/invoice PDF is built falls back to \"no logo\" for a key under a different accounts own logo prefix (account 1) — no cross-tenant embed"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) — read-time authorization used when a statement/invoice PDF is built statement build never 500s even when the stored key is completely malformed"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:924:16": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/history/download — syntax validator (RESIDUAL finding) a key that starts with this account's own real prefix but escapes it via \"..\" is refused (403), never reaches S3"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/history/download — syntax validator (RESIDUAL finding) rejects a backslash and a residual (double-encoded) percent the same way"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1015:16": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name — bare-filename hygiene gap (RESIDUAL finding) rejects a timesheetName containing a backslash"
+      },
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name — bare-filename hygiene gap (RESIDUAL finding) rejects a residual (double-encoded) percent in timesheetName the same way"
+      }
+    ],
+    "src/endpoints/timeTracking/timeTracking-router.js:1454:16": [
+      {
+        "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+        "test": "integration: coverage — cross-tenant download authorization (HTTP) DELETE /time-tracking/template/delete — owner-account syntax validator (RESIDUAL finding) owner-account delete refuses a key containing \"..\" even though it matches the tracker_versions/ prefix and a timetracker_ basename — nothing is deleted"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 200 with identical bytes for a key the test placed under the caller's own invoicing prefix",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Fcoverage-downloads-authz%2Fown-51556-muh026o6-2.pdf",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 and no bytes for the shared time-tracking template key, even though it is real and currently live",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/list/1/21",
+      "route": "/template/list/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 and no bytes for the shared time-tracking template key, even though it is real and currently live",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=James_F__Kimmel___Associates%2Ftime_tracking%2Ftracker_versions%2FtimeTracker_September-01-2026_03-28-08AM.xlsx",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 for a key under a DIFFERENT account's own invoicing prefix (account 1)",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=James_F__Kimmel___Associates%2Finvoicing%2Ffinal_invoices%2Fnot-9001s%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2F..%2F..%2F..%2Fetc%2Fpasswd",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=%2FTEST_FIXTURE_ACCOUNT%2Finvoicing%2Fevil.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%5Cinvoicing%5Cevil.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2F%252e%252e%252fdouble-encoded-x-51556-muh026s4-3.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID — key ownership 400 for a missing fileLocation query param (unchanged)",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 400,
+      "message": "Invalid or no file path."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list GET /time-tracking/template/list as a NON-owner admin (9001) returns no raw keys or slug",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/list/9001/90013",
+      "route": "/template/list/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list GET /time-tracking/template/list as the OWNER (account 1, superAdmin) is unchanged — READ-ONLY",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/list/1/21",
+      "route": "/template/list/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list POST /time-tracking/template/upload as a NON-owner super admin (9001) -> 403; nothing written",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "POST",
+      "url": "/time-tracking/template/upload/9001/91103",
+      "route": "/template/upload/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Only the template owner account may upload a shared tracker template."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list DELETE /time-tracking/template/delete as a NON-owner super admin (9001) -> 403; nothing removed",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "DELETE",
+      "url": "/time-tracking/template/delete/9001/91103",
+      "route": "/template/delete/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Only the template owner account may delete a shared tracker template."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Shared tracker template — owner-account-only mutation, non-owner list owner-account super admin is unaffected by the new gate (still 400, not 403, for an invalid key) — READ path only, no mutation attempted",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "DELETE",
+      "url": "/time-tracking/template/delete/1/21",
+      "route": "/template/delete/:accountID/:userID",
+      "status": 400,
+      "message": "Only tracker template files can be deleted."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) FIXED (was DEFECT) — finding 1's exact cross-route bypass the original two-step exploit (steal the key from /template/list, redeem it at /invoices/downloadFile) is blocked at BOTH steps",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/list/9001/90013",
+      "route": "/template/list/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) FIXED (was DEFECT) — finding 1's exact cross-route bypass the original two-step exploit (steal the key from /template/list, redeem it at /invoices/downloadFile) is blocked at BOTH steps",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/template/list/1/21",
+      "route": "/template/list/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) FIXED (was DEFECT) — finding 1's exact cross-route bypass the original two-step exploit (steal the key from /template/list, redeem it at /invoices/downloadFile) is blocked at BOTH steps",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=James_F__Kimmel___Associates%2Ftime_tracking%2Ftracker_versions%2FtimeTracker_September-01-2026_03-28-08AM.xlsx",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 200: accepts a key under the callers own logo prefix",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 200: an explicit clear (empty string) is always allowed",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses a REAL, fetchable key that is simply not under this accounts own logo prefix — nothing is written",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid logo file key."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses a key under a DIFFERENT accounts own logo prefix (account 1, never written to) — nothing is written",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid logo file key."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses path traversal, a leading slash, a backslash, and a residual percent — nothing is written",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid logo file key."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses path traversal, a leading slash, a backslash, and a residual percent — nothing is written",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid logo file key."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses path traversal, a leading slash, a backslash, and a residual percent — nothing is written",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid logo file key."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation 400: refuses path traversal, a leading slash, a backslash, and a residual percent — nothing is written",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid logo file key."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization PUT /account/updateAccount — write-time key validation a request that omits account_company_logo entirely leaves the stored value untouched",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization GET /account/AccountInformation/:accountID/:userID — read-time authorization serves back the exact bytes of a key under the callers own logo prefix",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/account/AccountInformation/9001/90013",
+      "route": "/AccountInformation/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) account_company_logo — write-time validation and read-time authorization GET /account/AccountInformation/:accountID/:userID — read-time authorization never fetches, and never leaks, a REAL fetchable object outside the logo prefix (simulated legacy bad data) — no 500",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/account/AccountInformation/9001/90013",
+      "route": "/AccountInformation/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) renaming account 9001 to the colliding string succeeds — renaming itself is not, and should not be, blocked",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) storage_slug is untouched by the rename — the immutable namespace does not follow account_name",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED (was the live finding-1 exploit): after the rename, account 9001 STILL cannot download an account-1 invoicing key — 403, key need not even exist",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED (was the live finding-1 exploit): after the rename, account 9001 STILL cannot download an account-1 invoicing key — 403, key need not even exist",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=James_F__Kimmel___Associates%2Finvoicing%2Ffinal_invoices%2Fnot-9001s%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED: after the rename, setting account 9001's logo to account 1's real logo key STILL 400s — no cross-tenant logo adoption",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED: after the rename, setting account 9001's logo to account 1's real logo key STILL 400s — no cross-tenant logo adoption",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid logo file key."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) account 9001's OWN keys still download normally after the rename — the fix does not break the renamed account's own access",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) account 9001's OWN keys still download normally after the rename — the fix does not break the renamed account's own access",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/9001/90013?fileLocation=TEST_FIXTURE_ACCOUNT%2Finvoicing%2Fcoverage-downloads-authz%2Fpost-rename-51556-muh0278t-7.pdf",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) a client cannot set storage_slug directly through the real HTTP route either — a supplied value is silently ignored, not a 500 or a 400",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "PUT",
+      "url": "/account/updateAccount",
+      "route": "/updateAccount",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/history/download — syntax validator (RESIDUAL finding) a key that starts with this account's own real prefix but escapes it via \"..\" is refused (403), never reaches S3",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/download/9001/90013?key=James_F__Kimmel___Associates%2Ftime_tracking%2Fprocessed%2FTEST_FIXTURE_ACCOUNT_9001%2Fuser_90013%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd",
+      "route": "/history/download/:accountID/:userID",
+      "status": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/history/download — syntax validator (RESIDUAL finding) rejects a backslash and a residual (double-encoded) percent the same way",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/download/9001/90013?key=James_F__Kimmel___Associates%2Ftime_tracking%2Fprocessed%2FTEST_FIXTURE_ACCOUNT_9001%2Fuser_90013%2Fevil%5C..%5C..%5Csecret.gz",
+      "route": "/history/download/:accountID/:userID",
+      "status": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/history/download — syntax validator (RESIDUAL finding) rejects a backslash and a residual (double-encoded) percent the same way",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/history/download/9001/90013?key=James_F__Kimmel___Associates%2Ftime_tracking%2Fprocessed%2FTEST_FIXTURE_ACCOUNT_9001%2Fuser_90013%2F%252e%252e%252fx-51556-muh027ba-8.gz",
+      "route": "/history/download/:accountID/:userID",
+      "status": 403,
+      "message": "You do not have access to this file."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name — bare-filename hygiene gap (RESIDUAL finding) rejects a timesheetName containing a backslash",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/download/by-name/9001/90013?ownerUserID=90013&timesheetName=evil%5C..%5Csecret.gz",
+      "route": "/download/by-name/:accountID/:userID",
+      "status": 400,
+      "message": "Invalid timesheet name provided."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name — bare-filename hygiene gap (RESIDUAL finding) rejects a residual (double-encoded) percent in timesheetName the same way",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/download/by-name/9001/90013?ownerUserID=90013&timesheetName=%252e%252e%252fx-51556-muh027cb-9.gz",
+      "route": "/download/by-name/:accountID/:userID",
+      "status": 400,
+      "message": "Invalid timesheet name provided."
+    },
+    {
+      "test": "integration: coverage — cross-tenant download authorization (HTTP) DELETE /time-tracking/template/delete — owner-account syntax validator (RESIDUAL finding) owner-account delete refuses a key containing \"..\" even though it matches the tracker_versions/ prefix and a timetracker_ basename — nothing is deleted",
+      "file": "test/integration/coverage-downloads-authz.integration.spec.js",
+      "method": "DELETE",
+      "url": "/time-tracking/template/delete/1/21",
+      "route": "/template/delete/:accountID/:userID",
+      "status": 400,
+      "message": "Invalid template key."
+    }
+  ]
+}

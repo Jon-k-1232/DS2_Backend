@@ -1,0 +1,42 @@
+src/utils/pagination.js:26:   totalPages: Math.ceil(totalCount / limit)
+src/utils/timeAmounts.js:4:const billableHours = minutes => Math.ceil(Number(minutes) / 6) / 10;
+src/ai_integrations/bedrock/rateLimiter.js:49:   haiku: new TokenBucket({ ratePerSecond: _DEFAULT_RPM.haiku / 60, burst: Math.max(5, Math.floor(_DEFAULT_RPM.haiku / 60)) }),
+src/ai_integrations/bedrock/rateLimiter.js:50:   sonnet: new TokenBucket({ ratePerSecond: _DEFAULT_RPM.sonnet / 60, burst: Math.max(2, Math.floor(_DEFAULT_RPM.sonnet / 60)) })
+src/ai_integrations/bedrock/rateLimiter.js:68:   _buckets.haiku = new TokenBucket({ ratePerSecond: _DEFAULT_RPM.haiku / 60, burst: Math.max(5, Math.floor(_DEFAULT_RPM.haiku / 60)) });
+src/ai_integrations/bedrock/rateLimiter.js:69:   _buckets.sonnet = new TokenBucket({ ratePerSecond: _DEFAULT_RPM.sonnet / 60, burst: Math.max(2, Math.floor(_DEFAULT_RPM.sonnet / 60)) });
+src/endpoints/billingReview/billingReview-service.js:284:   // quantity = ceil(minutes / 6) / 10 (manual six-minute policy) and total = quantity × rate
+src/pdfCreator/templateOne/templateFunctions/templateOneNotes.js:57:            const mid = Math.ceil((low + high) / 2);
+src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:1:const { incrementAnInvoiceOrQuote } = require('../../sharedInvoiceFunctions');
+src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:116:      const invoiceNumber = incrementAnInvoiceOrQuote(startingInvoiceNumber, i, billingYear);
+../DS2_Frontend/src/Pages/Transactions/BillingReview/components/ReviewBillingDialog.js:263:      const hours = minutes ? (minutes / 60).toFixed(2) : null;
+src/endpoints/transactions/transactionPricing.js:18:      // Decimal-hour direct entries (including existing quarter-hour work)
+src/endpoints/transactions/transactionPricing.js:24:            throw new Error('Time quantity must match the duration rounded up to six-minute increments.');
+../DS2_Frontend/src/Pages/Transactions/BillingReview/tabs/NeedsReviewTab.js:224:      const MAX_ELAPSED = 900; // 15 min hard cap
+../DS2_Frontend/src/Pages/Transactions/BillingReview/tabs/NeedsReviewTab.js:258:            finish('Auto-refresh stopped after 15 minutes. Click again if more remain.', false);
+../DS2_Frontend/src/Pages/Transactions/BillingReview/tabs/NeedsReviewTab.js:506:                        const hours = r.duration != null ? (Number(r.duration) / 60).toFixed(2) : null;
+../DS2_Frontend/src/Pages/Transactions/BillingReview/tabs/ConsolidatedTab.js:469:                     const trackerHours = r.tracker_duration_minutes != null ? (Number(r.tracker_duration_minutes) / 60).toFixed(2) : null;
+src/endpoints/timesheets/auto-ingest-orchestrator.js:532:// The firm bills time in 6-minute increments, ROUNDED UP (0.1h units) — the
+src/endpoints/timesheets/auto-ingest-orchestrator.js:534:// (Math.ceil(minutes / 6)). quantity and total are derived from the SAME
+src/endpoints/timesheets/auto-ingest-orchestrator.js:539:// Examples: 1 min -> ceil(1/6)=1 -> 0.1h; 68 min -> ceil(68/6)=12 -> 1.2h;
+src/endpoints/timesheets/auto-ingest-orchestrator.js:540:// 60 min -> ceil(60/6)=10 -> 1.0h.
+src/endpoints/timesheets/timesheets-router.js:367:            // price in 6-minute increments. 'Charge' rows are flat amounts,
+src/endpoints/invoice/sharedInvoiceFunctions.js:37: * increments an invoice or quote number
+src/endpoints/invoice/sharedInvoiceFunctions.js:38: * @param {*} invoiceNumber - String - invoice number to increment
+src/endpoints/invoice/sharedInvoiceFunctions.js:39: * @param {*} increment - Integer - number to increment by
+src/endpoints/invoice/sharedInvoiceFunctions.js:40: * @returns - String - incremented invoice number
+src/endpoints/invoice/sharedInvoiceFunctions.js:42:const incrementAnInvoiceOrQuote = (invoiceNumber, increment, billingYear) => {
+src/endpoints/invoice/sharedInvoiceFunctions.js:48:   const addOne = increment || 0;
+src/endpoints/invoice/sharedInvoiceFunctions.js:64:   let incrementedNum;
+src/endpoints/invoice/sharedInvoiceFunctions.js:66:      incrementedNum = num + 1 + addOne;
+src/endpoints/invoice/sharedInvoiceFunctions.js:68:      incrementedNum = 1 + addOne;
+src/endpoints/invoice/sharedInvoiceFunctions.js:71:   if (incrementedNum > 99999) {
+src/endpoints/invoice/sharedInvoiceFunctions.js:72:      throw new Error(`Invoice sequence exhausted for ${prefix}-${currentYear} (${incrementedNum} > 99999).`);
+src/endpoints/invoice/sharedInvoiceFunctions.js:76:   const formattedNum = incrementedNum.toString().padStart(5, '0');
+src/endpoints/invoice/sharedInvoiceFunctions.js:82:   incrementAnInvoiceOrQuote,
+src/endpoints/analytics/analytics-service.js:286:                   ROUND(SUM(duration) / 60.0, 2) AS hours,
+../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeOptions.js:36:         setHoursInput((Number(selectedItems.minutes) / 60).toFixed(2));
+../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeOptions.js:73:            helperText='Decimal hours from your tracker (e.g. 0.25 = 15 min, 1.05 = 1h 3m). Rounded up to the next 0.1 hour (6-minute increments).'
+src/endpoints/customer/customer-statement.js:115:            while(lo<hi) { const mid=Math.ceil((lo+hi)/2); if(doc.heightOfString(remaining.slice(0,mid),{width:descWidth})<=room)lo=mid;else hi=mid-1; }
+../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeTrackingIncrements.js:8:   return Math.ceil(minutes / 6) / 10;
+src/endpoints/accountAudit/account-audit-router.js:106:            totalPages: Math.max(1, Math.ceil(totalCount / limit))
+../DS2_Frontend/src/Pages/Transactions/PendingPayments/tabs/UploadTab.js:129:               tab once extraction is complete. If a file shows an "Error" status in the table below after 15 minutes,

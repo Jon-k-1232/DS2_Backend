@@ -1,0 +1,150 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:32:34.057Z",
+    "end": "2026-09-25T13:32:42.399Z",
+    "duration": 8342
+  },
+  "tests": [
+    {
+      "file": "test/integration/orchestrator.integration.spec.js",
+      "title": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) clean tracker: every row is matched, categorized and auto-inserted exactly once with consistent amounts",
+      "state": "passed",
+      "duration": 3584
+    },
+    {
+      "file": "test/integration/orchestrator.integration.spec.js",
+      "title": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) re-uploading the identical tracker is rejected as a duplicate file (nothing inserted)",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/orchestrator.integration.spec.js",
+      "title": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) a cumulative re-upload skips the rows already ingested and inserts only the new ones",
+      "state": "passed",
+      "duration": 171
+    },
+    {
+      "file": "test/integration/orchestrator.integration.spec.js",
+      "title": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) two concurrent orchestrator runs over the same entries insert each transaction exactly once",
+      "state": "passed",
+      "duration": 1624
+    },
+    {
+      "file": "test/integration/orchestrator.integration.spec.js",
+      "title": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) the is_processed claim guard skips (never double-inserts or downgrades) an entry processed after it was read",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/orchestrator.integration.spec.js",
+      "title": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) internal customers (INTERNAL_CUSTOMER_IDS) are auto-inserted NON-billable with hours still recorded",
+      "state": "passed",
+      "duration": 219
+    },
+    {
+      "file": "test/integration/orchestrator.integration.spec.js",
+      "title": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) mixed tracker: ambiguous customers, missing jobs, vague notes and non-work rows are handled per row",
+      "state": "passed",
+      "duration": 2556
+    }
+  ],
+  "hits": {
+    "src/timeTrackerValidation/validateUploadedTracker.js:124:6": [
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) clean tracker: every row is matched, categorized and auto-inserted exactly once with consistent amounts"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) re-uploading the identical tracker is rejected as a duplicate file (nothing inserted)"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) a cumulative re-upload skips the rows already ingested and inserts only the new ones"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) two concurrent orchestrator runs over the same entries insert each transaction exactly once"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) the is_processed claim guard skips (never double-inserts or downgrades) an entry processed after it was read"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) internal customers (INTERNAL_CUSTOMER_IDS) are auto-inserted NON-billable with hours still recorded"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) mixed tracker: ambiguous customers, missing jobs, vague notes and non-work rows are handled per row"
+      }
+    ],
+    "src/timeTrackerValidation/validateUploadedTracker.js:149:3": [
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) clean tracker: every row is matched, categorized and auto-inserted exactly once with consistent amounts"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) re-uploading the identical tracker is rejected as a duplicate file (nothing inserted)"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) a cumulative re-upload skips the rows already ingested and inserts only the new ones"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) two concurrent orchestrator runs over the same entries insert each transaction exactly once"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) the is_processed claim guard skips (never double-inserts or downgrades) an entry processed after it was read"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) internal customers (INTERNAL_CUSTOMER_IDS) are auto-inserted NON-billable with hours still recorded"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) mixed tracker: ambiguous customers, missing jobs, vague notes and non-work rows are handled per row"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:615:9": [
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) two concurrent orchestrator runs over the same entries insert each transaction exactly once"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) the is_processed claim guard skips (never double-inserts or downgrades) an entry processed after it was read"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:840:8": [
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) two concurrent orchestrator runs over the same entries insert each transaction exactly once"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) the is_processed claim guard skips (never double-inserts or downgrades) an entry processed after it was read"
+      },
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) mixed tracker: ambiguous customers, missing jobs, vague notes and non-work rows are handled per row"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:582:6": [
+      {
+        "file": "test/integration/orchestrator.integration.spec.js",
+        "test": "integration: auto-ingest orchestrator (prod-layout trackers, stubbed Bedrock + Comprehend) mixed tracker: ambiguous customers, missing jobs, vague notes and non-work rows are handled per row"
+      }
+    ]
+  },
+  "requests": []
+}

@@ -1,0 +1,200 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 13,
+    "passes": 13,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:53:05.752Z",
+    "end": "2026-09-25T14:53:06.648Z",
+    "duration": 896
+  },
+  "tests": [
+    {
+      "title": "C01 export safely round-trips \"=1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"=1+1\" as one text cell",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"+1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"+1+1\" as one text cell",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"-1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"-1+1\" as one text cell",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"@SUM(1,1)\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"@SUM(1,1)\" as one text cell",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"\\t=1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\t=1+1\" as one text cell",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"\\r=1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\r=1+1\" as one text cell",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"R\u00e9sum\u00e9 \u65e5\u672c\u8a9e \ud83d\ude42\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"R\u00e9sum\u00e9 \u65e5\u672c\u8a9e \ud83d\ude42\" as one text cell",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"A, \\\"quoted\\\"\\nsecond line\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"A, \\\"quoted\\\"\\nsecond line\" as one text cell",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 CSV exports are read-only and exclude the other tenant",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 CSV exports are read-only and exclude the other tenant",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export denies absent, employee and foreign sessions",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export denies absent, employee and foreign sessions",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 database export failure is explicit500, unchanged, and retry succeeds",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 database export failure is explicit500, unchanged, and retry succeeds",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 a long note over the application body limit refuses413 before any write",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 a long note over the application body limit refuses413 before any write",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 malformed JSON refuses400 before any write; valid empty note succeeds",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 malformed JSON refuses400 before any write; valid empty note succeeds",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "C01 export safely round-trips \"=1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"=1+1\" as one text cell",
+      "duration": 38,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"+1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"+1+1\" as one text cell",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"-1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"-1+1\" as one text cell",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"@SUM(1,1)\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"@SUM(1,1)\" as one text cell",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"\\t=1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\t=1+1\" as one text cell",
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"\\r=1+1\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"\\r=1+1\" as one text cell",
+      "duration": 37,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"R\u00e9sum\u00e9 \u65e5\u672c\u8a9e \ud83d\ude42\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"R\u00e9sum\u00e9 \u65e5\u672c\u8a9e \ud83d\ude42\" as one text cell",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export safely round-trips \"A, \\\"quoted\\\"\\nsecond line\" as one text cell",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export safely round-trips \"A, \\\"quoted\\\"\\nsecond line\" as one text cell",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 CSV exports are read-only and exclude the other tenant",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 CSV exports are read-only and exclude the other tenant",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 export denies absent, employee and foreign sessions",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 export denies absent, employee and foreign sessions",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 database export failure is explicit500, unchanged, and retry succeeds",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 database export failure is explicit500, unchanged, and retry succeeds",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 a long note over the application body limit refuses413 before any write",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 a long note over the application body limit refuses413 before any write",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "C01 malformed JSON refuses400 before any write; valid empty note succeeds",
+      "fullTitle": "what-if C: exported descriptions, formula safety and failure paths C01 malformed JSON refuses400 before any write; valid empty note succeeds",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

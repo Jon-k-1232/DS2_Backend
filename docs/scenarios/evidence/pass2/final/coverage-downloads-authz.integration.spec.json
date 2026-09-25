@@ -1,0 +1,522 @@
+{
+  "stats": {
+    "suites": 12,
+    "tests": 36,
+    "passes": 36,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:39:35.757Z",
+    "end": "2026-09-25T06:39:36.356Z",
+    "duration": 599
+  },
+  "tests": [
+    {
+      "title": "200 with identical bytes for a key the test placed under the caller's own invoicing prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 200 with identical bytes for a key the test placed under the caller's own invoicing prefix",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 and no bytes for the shared time-tracking template key, even though it is real and currently live",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 403 and no bytes for the shared time-tracking template key, even though it is real and currently live",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a key under a DIFFERENT account's own invoicing prefix (account 1)",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 403 for a key under a DIFFERENT account's own invoicing prefix (account 1)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for a missing fileLocation query param (unchanged)",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 400 for a missing fileLocation query param (unchanged)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /time-tracking/template/list as a NON-owner admin (9001) returns no raw keys or slug",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list GET /time-tracking/template/list as a NON-owner admin (9001) returns no raw keys or slug",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /time-tracking/template/list as the OWNER (account 1, superAdmin) is unchanged \u2014 READ-ONLY",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list GET /time-tracking/template/list as the OWNER (account 1, superAdmin) is unchanged \u2014 READ-ONLY",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /time-tracking/template/upload as a NON-owner super admin (9001) -> 403; nothing written",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list POST /time-tracking/template/upload as a NON-owner super admin (9001) -> 403; nothing written",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE /time-tracking/template/delete as a NON-owner super admin (9001) -> 403; nothing removed",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list DELETE /time-tracking/template/delete as a NON-owner super admin (9001) -> 403; nothing removed",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "owner-account super admin is unaffected by the new gate (still 400, not 403, for an invalid key) \u2014 READ path only, no mutation attempted",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list owner-account super admin is unaffected by the new gate (still 400, not 403, for an invalid key) \u2014 READ path only, no mutation attempted",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the original two-step exploit (steal the key from /template/list, redeem it at /invoices/downloadFile) is blocked at BOTH steps",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) FIXED (was DEFECT) \u2014 finding 1's exact cross-route bypass the original two-step exploit (steal the key from /template/list, redeem it at /invoices/downloadFile) is blocked at BOTH steps",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200: accepts a key under the callers own logo prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 200: accepts a key under the callers own logo prefix",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200: an explicit clear (empty string) is always allowed",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 200: an explicit clear (empty string) is always allowed",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: refuses a REAL, fetchable key that is simply not under this accounts own logo prefix \u2014 nothing is written",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 400: refuses a REAL, fetchable key that is simply not under this accounts own logo prefix \u2014 nothing is written",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: refuses a key under a DIFFERENT accounts own logo prefix (account 1, never written to) \u2014 nothing is written",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 400: refuses a key under a DIFFERENT accounts own logo prefix (account 1, never written to) \u2014 nothing is written",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: refuses path traversal, a leading slash, a backslash, and a residual percent \u2014 nothing is written",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 400: refuses path traversal, a leading slash, a backslash, and a residual percent \u2014 nothing is written",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a request that omits account_company_logo entirely leaves the stored value untouched",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation a request that omits account_company_logo entirely leaves the stored value untouched",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serves back the exact bytes of a key under the callers own logo prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization GET /account/AccountInformation/:accountID/:userID \u2014 read-time authorization serves back the exact bytes of a key under the callers own logo prefix",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "never fetches, and never leaks, a REAL fetchable object outside the logo prefix (simulated legacy bad data) \u2014 no 500",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization GET /account/AccountInformation/:accountID/:userID \u2014 read-time authorization never fetches, and never leaks, a REAL fetchable object outside the logo prefix (simulated legacy bad data) \u2014 no 500",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "embeds the exact bytes of a key under the accounts own logo prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) \u2014 read-time authorization used when a statement/invoice PDF is built embeds the exact bytes of a key under the accounts own logo prefix",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "falls back to \"no logo\" \u2014 never throws, never returns the foreign objects bytes \u2014 for a REAL fetchable key outside the accounts own logo prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) \u2014 read-time authorization used when a statement/invoice PDF is built falls back to \"no logo\" \u2014 never throws, never returns the foreign objects bytes \u2014 for a REAL fetchable key outside the accounts own logo prefix",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "falls back to \"no logo\" for a key under a different accounts own logo prefix (account 1) \u2014 no cross-tenant embed",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) \u2014 read-time authorization used when a statement/invoice PDF is built falls back to \"no logo\" for a key under a different accounts own logo prefix (account 1) \u2014 no cross-tenant embed",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "statement build never 500s even when the stored key is completely malformed",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) \u2014 read-time authorization used when a statement/invoice PDF is built statement build never 500s even when the stored key is completely malformed",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "sanity check on the fixture itself: the colliding name is different from account 1's real name but sanitizes to the identical slug",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) sanity check on the fixture itself: the colliding name is different from account 1's real name but sanitizes to the identical slug",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "renaming account 9001 to the colliding string succeeds \u2014 renaming itself is not, and should not be, blocked",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) renaming account 9001 to the colliding string succeeds \u2014 renaming itself is not, and should not be, blocked",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "storage_slug is untouched by the rename \u2014 the immutable namespace does not follow account_name",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) storage_slug is untouched by the rename \u2014 the immutable namespace does not follow account_name",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED (was the live finding-1 exploit): after the rename, account 9001 STILL cannot download an account-1 invoicing key \u2014 403, key need not even exist",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED (was the live finding-1 exploit): after the rename, account 9001 STILL cannot download an account-1 invoicing key \u2014 403, key need not even exist",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED: after the rename, setting account 9001's logo to account 1's real logo key STILL 400s \u2014 no cross-tenant logo adoption",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED: after the rename, setting account 9001's logo to account 1's real logo key STILL 400s \u2014 no cross-tenant logo adoption",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "account 9001's OWN keys still download normally after the rename \u2014 the fix does not break the renamed account's own access",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) account 9001's OWN keys still download normally after the rename \u2014 the fix does not break the renamed account's own access",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the fixture name is restored after this block (confirms the afterEach cleanup actually works, not just that it ran)",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) the fixture name is restored after this block (confirms the afterEach cleanup actually works, not just that it ran)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a client cannot set storage_slug directly through the real HTTP route either \u2014 a supplied value is silently ignored, not a 500 or a 400",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) a client cannot set storage_slug directly through the real HTTP route either \u2014 a supplied value is silently ignored, not a 500 or a 400",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a key that starts with this account's own real prefix but escapes it via \"..\" is refused (403), never reaches S3",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /time-tracking/history/download \u2014 syntax validator (RESIDUAL finding) a key that starts with this account's own real prefix but escapes it via \"..\" is refused (403), never reaches S3",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a backslash and a residual (double-encoded) percent the same way",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /time-tracking/history/download \u2014 syntax validator (RESIDUAL finding) rejects a backslash and a residual (double-encoded) percent the same way",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a timesheetName containing a backslash",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name \u2014 bare-filename hygiene gap (RESIDUAL finding) rejects a timesheetName containing a backslash",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a residual (double-encoded) percent in timesheetName the same way",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name \u2014 bare-filename hygiene gap (RESIDUAL finding) rejects a residual (double-encoded) percent in timesheetName the same way",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "owner-account delete refuses a key containing \"..\" even though it matches the tracker_versions/ prefix and a timetracker_ basename \u2014 nothing is deleted",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) DELETE /time-tracking/template/delete \u2014 owner-account syntax validator (RESIDUAL finding) owner-account delete refuses a key containing \"..\" even though it matches the tracker_versions/ prefix and a timetracker_ basename \u2014 nothing is deleted",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "200 with identical bytes for a key the test placed under the caller's own invoicing prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 200 with identical bytes for a key the test placed under the caller's own invoicing prefix",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 and no bytes for the shared time-tracking template key, even though it is real and currently live",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 403 and no bytes for the shared time-tracking template key, even though it is real and currently live",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for a key under a DIFFERENT account's own invoicing prefix (account 1)",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 403 for a key under a DIFFERENT account's own invoicing prefix (account 1)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 403 for path traversal, a leading slash, a backslash, and a residual (double-encoded) percent",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400 for a missing fileLocation query param (unchanged)",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /invoices/downloadFile/:accountID/:userID \u2014 key ownership 400 for a missing fileLocation query param (unchanged)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /time-tracking/template/list as a NON-owner admin (9001) returns no raw keys or slug",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list GET /time-tracking/template/list as a NON-owner admin (9001) returns no raw keys or slug",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /time-tracking/template/list as the OWNER (account 1, superAdmin) is unchanged \u2014 READ-ONLY",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list GET /time-tracking/template/list as the OWNER (account 1, superAdmin) is unchanged \u2014 READ-ONLY",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /time-tracking/template/upload as a NON-owner super admin (9001) -> 403; nothing written",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list POST /time-tracking/template/upload as a NON-owner super admin (9001) -> 403; nothing written",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE /time-tracking/template/delete as a NON-owner super admin (9001) -> 403; nothing removed",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list DELETE /time-tracking/template/delete as a NON-owner super admin (9001) -> 403; nothing removed",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "owner-account super admin is unaffected by the new gate (still 400, not 403, for an invalid key) \u2014 READ path only, no mutation attempted",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Shared tracker template \u2014 owner-account-only mutation, non-owner list owner-account super admin is unaffected by the new gate (still 400, not 403, for an invalid key) \u2014 READ path only, no mutation attempted",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the original two-step exploit (steal the key from /template/list, redeem it at /invoices/downloadFile) is blocked at BOTH steps",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) FIXED (was DEFECT) \u2014 finding 1's exact cross-route bypass the original two-step exploit (steal the key from /template/list, redeem it at /invoices/downloadFile) is blocked at BOTH steps",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200: accepts a key under the callers own logo prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 200: accepts a key under the callers own logo prefix",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "200: an explicit clear (empty string) is always allowed",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 200: an explicit clear (empty string) is always allowed",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: refuses a REAL, fetchable key that is simply not under this accounts own logo prefix \u2014 nothing is written",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 400: refuses a REAL, fetchable key that is simply not under this accounts own logo prefix \u2014 nothing is written",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: refuses a key under a DIFFERENT accounts own logo prefix (account 1, never written to) \u2014 nothing is written",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 400: refuses a key under a DIFFERENT accounts own logo prefix (account 1, never written to) \u2014 nothing is written",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "400: refuses path traversal, a leading slash, a backslash, and a residual percent \u2014 nothing is written",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation 400: refuses path traversal, a leading slash, a backslash, and a residual percent \u2014 nothing is written",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a request that omits account_company_logo entirely leaves the stored value untouched",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization PUT /account/updateAccount \u2014 write-time key validation a request that omits account_company_logo entirely leaves the stored value untouched",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serves back the exact bytes of a key under the callers own logo prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization GET /account/AccountInformation/:accountID/:userID \u2014 read-time authorization serves back the exact bytes of a key under the callers own logo prefix",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "never fetches, and never leaks, a REAL fetchable object outside the logo prefix (simulated legacy bad data) \u2014 no 500",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization GET /account/AccountInformation/:accountID/:userID \u2014 read-time authorization never fetches, and never leaks, a REAL fetchable object outside the logo prefix (simulated legacy bad data) \u2014 no 500",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "embeds the exact bytes of a key under the accounts own logo prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) \u2014 read-time authorization used when a statement/invoice PDF is built embeds the exact bytes of a key under the accounts own logo prefix",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "falls back to \"no logo\" \u2014 never throws, never returns the foreign objects bytes \u2014 for a REAL fetchable key outside the accounts own logo prefix",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) \u2014 read-time authorization used when a statement/invoice PDF is built falls back to \"no logo\" \u2014 never throws, never returns the foreign objects bytes \u2014 for a REAL fetchable key outside the accounts own logo prefix",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "falls back to \"no logo\" for a key under a different accounts own logo prefix (account 1) \u2014 no cross-tenant embed",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) \u2014 read-time authorization used when a statement/invoice PDF is built falls back to \"no logo\" for a key under a different accounts own logo prefix (account 1) \u2014 no cross-tenant embed",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "statement build never 500s even when the stored key is completely malformed",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) account_company_logo \u2014 write-time validation and read-time authorization loadCompanyLogo (addInvoiceDetail.js) \u2014 read-time authorization used when a statement/invoice PDF is built statement build never 500s even when the stored key is completely malformed",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "sanity check on the fixture itself: the colliding name is different from account 1's real name but sanitizes to the identical slug",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) sanity check on the fixture itself: the colliding name is different from account 1's real name but sanitizes to the identical slug",
+      "duration": 0,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "renaming account 9001 to the colliding string succeeds \u2014 renaming itself is not, and should not be, blocked",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) renaming account 9001 to the colliding string succeeds \u2014 renaming itself is not, and should not be, blocked",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "storage_slug is untouched by the rename \u2014 the immutable namespace does not follow account_name",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) storage_slug is untouched by the rename \u2014 the immutable namespace does not follow account_name",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED (was the live finding-1 exploit): after the rename, account 9001 STILL cannot download an account-1 invoicing key \u2014 403, key need not even exist",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED (was the live finding-1 exploit): after the rename, account 9001 STILL cannot download an account-1 invoicing key \u2014 403, key need not even exist",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED: after the rename, setting account 9001's logo to account 1's real logo key STILL 400s \u2014 no cross-tenant logo adoption",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) FIXED: after the rename, setting account 9001's logo to account 1's real logo key STILL 400s \u2014 no cross-tenant logo adoption",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "account 9001's OWN keys still download normally after the rename \u2014 the fix does not break the renamed account's own access",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) account 9001's OWN keys still download normally after the rename \u2014 the fix does not break the renamed account's own access",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the fixture name is restored after this block (confirms the afterEach cleanup actually works, not just that it ran)",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) the fixture name is restored after this block (confirms the afterEach cleanup actually works, not just that it ran)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a client cannot set storage_slug directly through the real HTTP route either \u2014 a supplied value is silently ignored, not a 500 or a 400",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) Account rename cannot collide with another account's storage namespace (finding 1 regression) a client cannot set storage_slug directly through the real HTTP route either \u2014 a supplied value is silently ignored, not a 500 or a 400",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a key that starts with this account's own real prefix but escapes it via \"..\" is refused (403), never reaches S3",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /time-tracking/history/download \u2014 syntax validator (RESIDUAL finding) a key that starts with this account's own real prefix but escapes it via \"..\" is refused (403), never reaches S3",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a backslash and a residual (double-encoded) percent the same way",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /time-tracking/history/download \u2014 syntax validator (RESIDUAL finding) rejects a backslash and a residual (double-encoded) percent the same way",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a timesheetName containing a backslash",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name \u2014 bare-filename hygiene gap (RESIDUAL finding) rejects a timesheetName containing a backslash",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a residual (double-encoded) percent in timesheetName the same way",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) GET /time-tracking/download/by-name \u2014 bare-filename hygiene gap (RESIDUAL finding) rejects a residual (double-encoded) percent in timesheetName the same way",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "owner-account delete refuses a key containing \"..\" even though it matches the tracker_versions/ prefix and a timetracker_ basename \u2014 nothing is deleted",
+      "fullTitle": "integration: coverage \u2014 cross-tenant download authorization (HTTP) DELETE /time-tracking/template/delete \u2014 owner-account syntax validator (RESIDUAL finding) owner-account delete refuses a key containing \"..\" even though it matches the tracker_versions/ prefix and a timetracker_ basename \u2014 nothing is deleted",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

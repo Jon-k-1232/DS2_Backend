@@ -1,0 +1,134 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:29.411Z",
+    "end": "2026-09-25T13:24:30.162Z",
+    "duration": 751
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-customer-delete.integration.spec.js",
+      "title": "F24/F25 customer deletion integrity F24 deletes all owned contacts with an unused customer",
+      "state": "passed",
+      "duration": 64
+    },
+    {
+      "file": "test/integration/review-customer-delete.integration.spec.js",
+      "title": "F24/F25 customer deletion integrity F24 preserves a customer and contacts with quote-only history",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/review-customer-delete.integration.spec.js",
+      "title": "F24/F25 customer deletion integrity F25 waits for a concurrent job writer before checking history",
+      "state": "passed",
+      "duration": 185
+    },
+    {
+      "file": "test/integration/review-customer-delete.integration.spec.js",
+      "title": "F24/F25 customer deletion integrity F25 counts raw jobs even when their type join is missing",
+      "state": "passed",
+      "duration": 19
+    }
+  ],
+  "hits": {
+    "src/endpoints/customer/customer-router.js:351:18": [
+      {
+        "file": "test/integration/review-customer-delete.integration.spec.js",
+        "test": "F24/F25 customer deletion integrity F24 preserves a customer and contacts with quote-only history"
+      },
+      {
+        "file": "test/integration/review-customer-delete.integration.spec.js",
+        "test": "F24/F25 customer deletion integrity F25 waits for a concurrent job writer before checking history"
+      },
+      {
+        "file": "test/integration/review-customer-delete.integration.spec.js",
+        "test": "F24/F25 customer deletion integrity F25 counts raw jobs even when their type join is missing"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:375:8": [
+      {
+        "file": "test/integration/review-customer-delete.integration.spec.js",
+        "test": "F24/F25 customer deletion integrity F24 preserves a customer and contacts with quote-only history"
+      },
+      {
+        "file": "test/integration/review-customer-delete.integration.spec.js",
+        "test": "F24/F25 customer deletion integrity F25 waits for a concurrent job writer before checking history"
+      },
+      {
+        "file": "test/integration/review-customer-delete.integration.spec.js",
+        "test": "F24/F25 customer deletion integrity F25 counts raw jobs even when their type join is missing"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:377:9": [
+      {
+        "file": "test/integration/review-customer-delete.integration.spec.js",
+        "test": "F24/F25 customer deletion integrity F24 preserves a customer and contacts with quote-only history"
+      },
+      {
+        "file": "test/integration/review-customer-delete.integration.spec.js",
+        "test": "F24/F25 customer deletion integrity F25 waits for a concurrent job writer before checking history"
+      },
+      {
+        "file": "test/integration/review-customer-delete.integration.spec.js",
+        "test": "F24/F25 customer deletion integrity F25 counts raw jobs even when their type join is missing"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F24/F25 customer deletion integrity F24 deletes all owned contacts with an unused customer",
+      "file": "test/integration/review-customer-delete.integration.spec.js",
+      "method": "DELETE",
+      "url": "/customer/deleteCustomer/916283/9001/90013",
+      "route": "/deleteCustomer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted customer."
+    },
+    {
+      "test": "F24/F25 customer deletion integrity F24 preserves a customer and contacts with quote-only history",
+      "file": "test/integration/review-customer-delete.integration.spec.js",
+      "method": "DELETE",
+      "url": "/customer/deleteCustomer/916284/9001/90013",
+      "route": "/deleteCustomer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot delete customer with associated jobs, retainers, invoices, payments, write-offs, transactions, recurring customers, or quotes. Please disable customer instead."
+    },
+    {
+      "test": "F24/F25 customer deletion integrity F25 waits for a concurrent job writer before checking history",
+      "file": "test/integration/review-customer-delete.integration.spec.js",
+      "method": "DELETE",
+      "url": "/customer/deleteCustomer/916285/9001/90013",
+      "route": "/deleteCustomer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot delete customer with associated jobs, retainers, invoices, payments, write-offs, transactions, recurring customers, or quotes. Please disable customer instead."
+    },
+    {
+      "test": "F24/F25 customer deletion integrity F25 waits for a concurrent job writer before checking history",
+      "file": "test/integration/review-customer-delete.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/9001/90013",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "F24/F25 customer deletion integrity F25 counts raw jobs even when their type join is missing",
+      "file": "test/integration/review-customer-delete.integration.spec.js",
+      "method": "DELETE",
+      "url": "/customer/deleteCustomer/916286/9001/90013",
+      "route": "/deleteCustomer/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot delete customer with associated jobs, retainers, invoices, payments, write-offs, transactions, recurring customers, or quotes. Please disable customer instead."
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 17,
+    "passes": 17,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:52.628Z",
+    "end": "2026-09-25T14:50:54.448Z",
+    "duration": 1820
+  },
+  "tests": [
+    {
+      "title": "DELETE invoice | unissued snapshot refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued snapshot refuses 200/500 and preserves every row",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | unissued linked work refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued linked work refuses 200/500 and preserves every row",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | unissued absorbed refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed refuses 200/500 and preserves every row",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | unissued beginning balance refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued beginning balance refuses 200/500 and preserves every row",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | unissued absorbed predecessor refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed predecessor refuses 200/500 and preserves every row",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | postcommit refresh failure reports exactly one saved deletion",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | postcommit refresh failure reports exactly one saved deletion",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET eligibility | failed optional audit lookup preserves calculated balances and writes nothing",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses GET eligibility | failed optional audit lookup preserves calculated balances and writes nothing",
+      "duration": 50,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving",
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt outstanding snapshot refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt outstanding snapshot refuses 500 without saving",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST exception flag | disappeared invoice under the ledger lock refuses 404 without writes",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST exception flag | disappeared invoice under the ledger lock refuses 404 without writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "duration": 210,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST exception revision | original archive with 0 PDFs refuses atomically",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "duration": 350,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST exception revision | original archive with 2 PDFs refuses atomically",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "duration": 308,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "DELETE invoice | unissued snapshot refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued snapshot refuses 200/500 and preserves every row",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | unissued linked work refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued linked work refuses 200/500 and preserves every row",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | unissued absorbed refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed refuses 200/500 and preserves every row",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | unissued beginning balance refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued beginning balance refuses 200/500 and preserves every row",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | unissued absorbed predecessor refuses 200/500 and preserves every row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | unissued absorbed predecessor refuses 200/500 and preserves every row",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE invoice | postcommit refresh failure reports exactly one saved deletion",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses DELETE invoice | postcommit refresh failure reports exactly one saved deletion",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET eligibility | failed optional audit lookup preserves calculated balances and writes nothing",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses GET eligibility | failed optional audit lookup preserves calculated balances and writes nothing",
+      "duration": 50,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getPaymentsByCustomerID refuses 500 without saving",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getRetainersByCustomerID refuses 500 without saving",
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getWriteOffsByCustomerID refuses 500 without saving",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt getTransactionsByCustomerID refuses 500 without saving",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | corrupt outstanding snapshot refuses 500 without saving",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | corrupt outstanding snapshot refuses 500 without saving",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST createInvoice | malformed retainer-funded nonbillable row refuses NaN draw total",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST exception flag | disappeared invoice under the ledger lock refuses 404 without writes",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST exception flag | disappeared invoice under the ledger lock refuses 404 without writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST duplicate resolve | failed related-review update rolls back source removal and every audit row",
+      "duration": 210,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST exception revision | original archive with 0 PDFs refuses atomically",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 0 PDFs refuses atomically",
+      "duration": 350,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST exception revision | original archive with 2 PDFs refuses atomically",
+      "fullTitle": "Path matrix: invoice and duplicate transactional defenses POST exception revision | original archive with 2 PDFs refuses atomically",
+      "duration": 308,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

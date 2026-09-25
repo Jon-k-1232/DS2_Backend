@@ -1,0 +1,422 @@
+{
+  "src/automations/automationScripts/timeTrackerReminders.js:56:5": {
+    "classification": "outside HTTP",
+    "reason": "Scheduled reminder execution only. No mounted HTTP handler calls these functions; app schedules them only at production startup. Starting daemons or sending real email is outside this local API pass."
+  },
+  "src/automations/automationScripts/timeTrackerReminders.js:121:11": {
+    "classification": "outside HTTP",
+    "reason": "Scheduled reminder execution only. No mounted HTTP handler calls these functions; app schedules them only at production startup. Starting daemons or sending real email is outside this local API pass."
+  },
+  "src/automations/automationScripts/timeTrackerReminders.js:153:14": {
+    "classification": "outside HTTP",
+    "reason": "Scheduled reminder execution only. No mounted HTTP handler calls these functions; app schedules them only at production startup. Starting daemons or sending real email is outside this local API pass."
+  },
+  "src/automations/automationScripts/timeTrackerReminders.js:158:5": {
+    "classification": "outside HTTP",
+    "reason": "Scheduled reminder execution only. No mounted HTTP handler calls these functions; app schedules them only at production startup. Starting daemons or sending real email is outside this local API pass."
+  },
+  "src/automations/automationScripts/timeTrackerReminders.js:176:5": {
+    "classification": "outside HTTP",
+    "reason": "Scheduled reminder execution only. No mounted HTTP handler calls these functions; app schedules them only at production startup. Starting daemons or sending real email is outside this local API pass."
+  },
+  "src/endpoints/account/account-router.js:281:16": {
+    "classification": "unreachable",
+    "reason": "router.param(accountID, enforceAccountId) runs first and rejects noninteger/foreign account IDs with 403. A verified owned PostgreSQL account ID is always a finite integer; this later 400 cannot run."
+  },
+  "src/endpoints/account/account-router.js:337:16": {
+    "classification": "unreachable",
+    "reason": "router.param(accountID, enforceAccountId) runs first and rejects noninteger/foreign account IDs with 403. A verified owned PostgreSQL account ID is always a finite integer; this later 400 cannot run."
+  },
+  "src/endpoints/account/automation-settings-service.js:62:9": {
+    "classification": "unreachable",
+    "reason": "updateAutomationSetting validates automationKey before calling replaceAutomationRecipients with that same key; the replacement function has no other HTTP caller."
+  },
+  "src/endpoints/account/automation-settings-service.js:156:9": {
+    "classification": "outside HTTP",
+    "reason": "getEnabledAccountIds is called only by scheduled automation orchestration, not by the settings HTTP routes."
+  },
+  "src/endpoints/accountAudit/account-audit-router.js:170:11": {
+    "classification": "unreachable",
+    "reason": "generateAuditNarrative catches both model failures and returns null. Its pre-try prompt shaping consumes the deterministic auditor arrays, not arbitrary HTTP objects. No uncaught database/storage operation exists in this redundant outer catch."
+  },
+  "src/endpoints/accountAudit/account-audit-router.js:310:6": {
+    "classification": "unreachable",
+    "reason": "Every customer database/render/storage operation is enclosed in runAuditBatch per-customer catches, including failed-result persistence. Outside those catches the runner only updates its private job object, increments counters and creates timestamps. Fatal rejection would require an internal runtime/programming failure, not a customer input or database/storage rejection."
+  },
+  "src/endpoints/auth/account-scope.js:9:13": {
+    "classification": "unreachable",
+    "reason": "All mounted uses follow requireAuth, which rejects missing/invalid identities and populates both user_id and account_id from the stored user before router.param runs."
+  },
+  "src/endpoints/auth/account-scope.js:30:13": {
+    "classification": "unreachable",
+    "reason": "All mounted uses follow requireAuth, which rejects missing/invalid identities and populates both user_id and account_id from the stored user before router.param runs."
+  },
+  "src/endpoints/auth/jwt-auth.js:67:13": {
+    "classification": "unreachable",
+    "reason": "All mounted role checks follow requireAuth using the same request token. Missing/invalid tokens are refused by requireAuth before checkRole can repeat the token check."
+  },
+  "src/endpoints/auth/jwt-auth.js:73:5": {
+    "classification": "unreachable",
+    "reason": "All mounted role checks follow requireAuth using the same request token. Missing/invalid tokens are refused by requireAuth before checkRole can repeat the token check."
+  },
+  "src/endpoints/auth/jwt-auth.js:74:13": {
+    "classification": "unreachable",
+    "reason": "All mounted role checks follow requireAuth using the same request token. Missing/invalid tokens are refused by requireAuth before checkRole can repeat the token check."
+  },
+  "src/endpoints/billingReview/cascadeEdit.js:494:5": {
+    "classification": "unreachable",
+    "reason": "detectAndRedact catches Comprehend errors and returns deterministic string redaction; rawNotes is a database text string and knownNames is the literal empty array. The shared helper cannot reject for these inputs. Its actual fallback is asserted with an email fixture in path-matrix-10."
+  },
+  "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:80:8": {
+    "classification": "unreachable",
+    "reason": "Every awaited fetch in this outer try is safeFetchS3LogoBuffer, which catches storage failures and returns null. The remaining operations are truthiness tests on buffers/strings; the inner storage-failure path is tested."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/outstandingInvoicesCalculations.js:19:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/outstandingInvoicesCalculations.js:23:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/paymentsCalculations.js:31:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/paymentsCalculations.js:35:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/retainerCalculations.js:13:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/retainerCalculations.js:17:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:24:6": {
+    "classification": "unreachable",
+    "reason": "All component sums reject NaN before totalInvoice. They derive from bounded PostgreSQL NUMERIC(10,2) ledger rows with integer identities, so their sum cannot overflow a JS number. round2 returns a number, never null/undefined or another type. These final repeated type guards are defensive invariants."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:28:6": {
+    "classification": "unreachable",
+    "reason": "All component sums reject NaN before totalInvoice. They derive from bounded PostgreSQL NUMERIC(10,2) ledger rows with integer identities, so their sum cannot overflow a JS number. round2 returns a number, never null/undefined or another type. These final repeated type guards are defensive invariants."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice.js:32:6": {
+    "classification": "unreachable",
+    "reason": "All component sums reject NaN before totalInvoice. They derive from bounded PostgreSQL NUMERIC(10,2) ledger rows with integer identities, so their sum cannot overflow a JS number. round2 returns a number, never null/undefined or another type. These final repeated type guards are defensive invariants."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:113:9": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/transactionCalculations.js:117:9": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/transactionRetainerPaymentCalculations.js:21:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/transactionRetainerPaymentCalculations.js:25:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:42:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/createInvoice/invoiceCalculations/writeOffCalculations.js:46:6": {
+    "classification": "unreachable",
+    "reason": "This specific guard checks null/undefined or typeof after a Number-based numeric reduction/arithmetic. The result is always a JS number, including NaN; the preceding NaN guard is separately exercised by path-matrix-09. It cannot become null, undefined or another type."
+  },
+  "src/endpoints/invoice/invoice-router.js:309:60": {
+    "classification": "unreachable",
+    "reason": "calculateInvoices has already validated every component and total. Bounded database money and integer row IDs cannot produce Infinity; the repeated finite check cannot fail from admitted HTTP inputs."
+  },
+  "src/endpoints/invoice/invoice-router.js:436:12": {
+    "classification": "unreachable",
+    "reason": "getObject resolves with a Buffer or throws on GetObject/body collection failure. Even a zero-length Buffer is truthy; the later !buffer branch is unreachable. Storage rejection is tested at the enclosing catch."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:34:6": {
+    "classification": "unreachable",
+    "reason": "Only the finalized HTTP path calls this function, after constructing arrays of calculated details/PDFs and owned account billing information and loading an authenticated user ID. Missing arguments are not an HTTP input at this boundary."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:48:69": {
+    "classification": "unreachable",
+    "reason": "validateSelection has already required positive integer customer IDs, rejected duplicate selection and verified owned customers before calculation or finalization."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:49:57": {
+    "classification": "unreachable",
+    "reason": "validateSelection has already required positive integer customer IDs, rejected duplicate selection and verified owned customers before calculation or finalization."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:52:35": {
+    "classification": "unreachable",
+    "reason": "The invoice route validates calculated finite totals before calling this orchestrator; newInvoiceObject repeats the same invariant before mapping typed money."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:53:64": {
+    "classification": "unreachable",
+    "reason": "The finalized route filters every negative calculated total unless that specific customer has includeCreditStatement === true. The same explicit flag is carried into the orchestrator."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:58:41": {
+    "classification": "unreachable",
+    "reason": "Owned account billing information is selected after requireAuth/enforceAccountId; a missing account is rejected upstream. Stored account_id is an integer."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:67:63": {
+    "classification": "unreachable",
+    "reason": "addInvoiceDetails assigns one incremented invoice number per unique selected customer. Duplicate customer selection is already refused. Concurrent existing-number collisions are a different tested database branch."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:270:47": {
+    "classification": "unreachable",
+    "reason": "The invoice route validates calculated finite totals before calling this orchestrator; newInvoiceObject repeats the same invariant before mapping typed money."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/schemaValidation/invoiceValidation.js:85:23": {
+    "classification": "unreachable",
+    "reason": "The every callback either returns true or throws at line 80. It never returns false, so validatedKeys cannot be false. The real schema rejection is fault-tested in path-matrix-15."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/schemaValidation/paymentValidations.js:73:9": {
+    "classification": "outside HTTP",
+    "reason": "Legacy exported validator has no imports/callers in src. Current finalize uses invoiceValidation and shared ledger cores instead."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/schemaValidation/paymentValidations.js:79:23": {
+    "classification": "outside HTTP",
+    "reason": "Legacy exported validator has no imports/callers in src. Current finalize uses invoiceValidation and shared ledger cores instead."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/schemaValidation/transactionValidation.js:89:9": {
+    "classification": "outside HTTP",
+    "reason": "Legacy exported validator has no imports/callers in src. Current finalize uses invoiceValidation and shared ledger cores instead."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/schemaValidation/transactionValidation.js:93:23": {
+    "classification": "outside HTTP",
+    "reason": "Legacy exported validator has no imports/callers in src. Current finalize uses invoiceValidation and shared ledger cores instead."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/schemaValidation/writeOffValidation.js:69:9": {
+    "classification": "outside HTTP",
+    "reason": "Legacy exported validator has no imports/callers in src. Current finalize uses invoiceValidation and shared ledger cores instead."
+  },
+  "src/endpoints/invoice/invoiceDataInsertions/schemaValidation/writeOffValidation.js:74:23": {
+    "classification": "outside HTTP",
+    "reason": "Legacy exported validator has no imports/callers in src. Current finalize uses invoiceValidation and shared ledger cores instead."
+  },
+  "src/endpoints/invoice/sharedInvoiceFunctions.js:45:6": {
+    "classification": "unreachable",
+    "reason": "getLastInvoiceNumber admits only the requested prefix/year plus numeric suffix using SQL regex, or supplies the known valid default. The HTTP route never supplies a client invoiceNumber to this helper."
+  },
+  "src/endpoints/invoice/sharedInvoiceFunctions.js:57:6": {
+    "classification": "unreachable",
+    "reason": "getLastInvoiceNumber admits only the requested prefix/year plus numeric suffix using SQL regex, or supplies the known valid default. The HTTP route never supplies a client invoiceNumber to this helper."
+  },
+  "src/endpoints/notifications/notifications-service.js:10:6": {
+    "classification": "outside HTTP",
+    "reason": "insertNotification has no src callers. HTTP-triggered ingestion uses insertForUsers, which builds notification rows directly."
+  },
+  "src/endpoints/payments/ledger-helpers.js:146:50": {
+    "classification": "unreachable",
+    "reason": "All isLedgerRowBilled callers pass hard-coded whitelisted table names (invoices, payments, writeoffs, transactions or retainers); no request field chooses the table."
+  },
+  "src/endpoints/payments/payment-logic.js:438:27": {
+    "classification": "unreachable",
+    "reason": "Strict payment create/update input builders require a positive cent amount and valid date before this core is entered. The same typed fields are forwarded unchanged; malformed input is tested at those earlier guards."
+  },
+  "src/endpoints/payments/payment-logic.js:441:9": {
+    "classification": "unreachable",
+    "reason": "Strict payment create/update input builders require a positive cent amount and valid date before this core is entered. The same typed fields are forwarded unchanged; malformed input is tested at those earlier guards."
+  },
+  "src/endpoints/payments/payment-logic.js:591:6": {
+    "classification": "unreachable",
+    "reason": "loadRetainerDrawForMutation calls resolveRetainerDrawForPayment first. For a retainer-linked payment it either returns the exact draw or throws the tested missing/ambiguous/mismatched-draw error; it cannot return null to this later assertion."
+  },
+  "src/endpoints/payments/payment-logic.js:935:28": {
+    "classification": "unreachable",
+    "reason": "Strict payment create/update input builders require a positive cent amount and valid date before this core is entered. The same typed fields are forwarded unchanged; malformed input is tested at those earlier guards."
+  },
+  "src/endpoints/payments/payment-logic.js:1030:57": {
+    "classification": "unreachable",
+    "reason": "Reverse routes supply req.user.user_id from requireAuth, not the URL/body. A missing/nonpositive actor is refused before entering reversePayment."
+  },
+  "src/endpoints/retainer/retainer-logic.js:65:25": {
+    "classification": "unreachable",
+    "reason": "Strict retainer create/update mappers validate positive money and required hold type before calling these core functions. The normalized values are forwarded unchanged; their earlier refusals are tested."
+  },
+  "src/endpoints/retainer/retainer-logic.js:66:32": {
+    "classification": "unreachable",
+    "reason": "Strict retainer create/update mappers validate positive money and required hold type before calling these core functions. The normalized values are forwarded unchanged; their earlier refusals are tested."
+  },
+  "src/endpoints/retainer/retainer-logic.js:108:33": {
+    "classification": "unreachable",
+    "reason": "Strict retainer create/update mappers validate positive money and required hold type before calling these core functions. The normalized values are forwarded unchanged; their earlier refusals are tested."
+  },
+  "src/endpoints/timeTrackerStaff/timeTrackerStaff-router.js:38:16": {
+    "classification": "unreachable",
+    "reason": "enforceAccountId rejects malformed or foreign account IDs before the handler. The later Number.isFinite check cannot fail for the owned integer account ID."
+  },
+  "src/endpoints/timeTrackerStaff/timeTrackerStaff-router.js:63:16": {
+    "classification": "unreachable",
+    "reason": "enforceAccountId rejects malformed or foreign account IDs before the handler. The later Number.isFinite check cannot fail for the owned integer account ID."
+  },
+  "src/endpoints/timeTrackerStaff/timeTrackerStaff-router.js:87:16": {
+    "classification": "unreachable",
+    "reason": "enforceAccountId rejects malformed or foreign account IDs before the handler. The later Number.isFinite check cannot fail for the owned integer account ID."
+  },
+  "src/endpoints/timeTrackerStaff/timeTrackerStaff-router.js:110:16": {
+    "classification": "unreachable",
+    "reason": "enforceAccountId rejects malformed or foreign account IDs before the handler. The later Number.isFinite check cannot fail for the owned integer account ID."
+  },
+  "src/endpoints/timeTracking/template-builder.js:1161:6": {
+    "classification": "unreachable",
+    "reason": "Non-owner rebuild loads the checked-in neutral asset only after its bytes match the pinned SHA-256 manifest. That reviewed asset has the Time worksheet. A missing asset or hash mismatch is refused earlier and tested; owner-uploaded missing Time is separately tested."
+  },
+  "src/endpoints/timeTracking/timeTracking-router.js:364:8": {
+    "classification": "unreachable",
+    "reason": "getAdminRecipients catches its database query failure itself and returns the configured fallback array. Its pre-query email parsing uses an environment string; the redundant outer catch has no reachable database rejection."
+  },
+  "src/endpoints/timeTracking/timeTracking-router.js:469:19": {
+    "classification": "unreachable",
+    "reason": "validateUploadedTracker returns errors for missing period metadata, missing/blank time entries, invalid dates and invalid/nonpositive durations. The route returns 400 for errors before reaching these second-pass normalized-data checks. Tests 11 cover the real rejection branches."
+  },
+  "src/endpoints/timeTracking/timeTracking-router.js:501:19": {
+    "classification": "unreachable",
+    "reason": "validateUploadedTracker returns errors for missing period metadata, missing/blank time entries, invalid dates and invalid/nonpositive durations. The route returns 400 for errors before reaching these second-pass normalized-data checks. Tests 11 cover the real rejection branches."
+  },
+  "src/endpoints/timeTracking/timeTracking-router.js:511:19": {
+    "classification": "unreachable",
+    "reason": "validateUploadedTracker returns errors for missing period metadata, missing/blank time entries, invalid dates and invalid/nonpositive durations. The route returns 400 for errors before reaching these second-pass normalized-data checks. Tests 11 cover the real rejection branches."
+  },
+  "src/endpoints/timeTracking/timeTracking-router.js:519:19": {
+    "classification": "unreachable",
+    "reason": "validateUploadedTracker returns errors for missing period metadata, missing/blank time entries, invalid dates and invalid/nonpositive durations. The route returns 400 for errors before reaching these second-pass normalized-data checks. Tests 11 cover the real rejection branches."
+  },
+  "src/endpoints/timeTracking/timeTracking-router.js:1161:16": {
+    "classification": "unreachable",
+    "reason": "Each candidate is checked by the same pure isAuthorized closure before downloadKey is assigned. The owned-key set and permitted prefixes do not change during this request. The final repeated check cannot reject a key that was just admitted."
+  },
+  "src/endpoints/timesheets/auto-ingest-orchestrator.js:815:11": {
+    "classification": "unreachable",
+    "reason": "inferCategorization catches model/provider failures and returns a suggestion/error result. Its pre-try prompt uses arrays/strings built by validated catalogs and processEntry; HTTP input cannot supply executable getters or non-array catalogs. Actual inference failure/hold paths are tested."
+  },
+  "src/endpoints/timesheets/timesheet-suggestions-service.js:9:8": {
+    "classification": "outside HTTP",
+    "reason": "toJsonb/normalizeSuggestion are used only by upsertSuggestions, which has no src caller. Mounted timesheets routes use getSuggestionsForEntries/updateSuggestion, while ingestion builds its own suggestion rows."
+  },
+  "src/endpoints/timesheets/timesheet-suggestions-service.js:20:6": {
+    "classification": "outside HTTP",
+    "reason": "toJsonb/normalizeSuggestion are used only by upsertSuggestions, which has no src caller. Mounted timesheets routes use getSuggestionsForEntries/updateSuggestion, while ingestion builds its own suggestion rows."
+  },
+  "src/endpoints/timesheets/timesheet-suggestions-service.js:39:6": {
+    "classification": "outside HTTP",
+    "reason": "toJsonb/normalizeSuggestion are used only by upsertSuggestions, which has no src caller. Mounted timesheets routes use getSuggestionsForEntries/updateSuggestion, while ingestion builds its own suggestion rows."
+  },
+  "src/endpoints/timesheets/timesheet-suggestions-service.js:43:6": {
+    "classification": "outside HTTP",
+    "reason": "toJsonb/normalizeSuggestion are used only by upsertSuggestions, which has no src caller. Mounted timesheets routes use getSuggestionsForEntries/updateSuggestion, while ingestion builds its own suggestion rows."
+  },
+  "src/endpoints/timesheets/timesheet-suggestions-service.js:47:6": {
+    "classification": "outside HTTP",
+    "reason": "toJsonb/normalizeSuggestion are used only by upsertSuggestions, which has no src caller. Mounted timesheets routes use getSuggestionsForEntries/updateSuggestion, while ingestion builds its own suggestion rows."
+  },
+  "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateField.js:32:6": {
+    "classification": "unreachable",
+    "reason": "validateTimeBlock only calls validateField for headers resolved through HEADER_CONFIG; unknown worksheet headers are rejected/skipped by the header validation first."
+  },
+  "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateField.js:70:15": {
+    "classification": "unreachable",
+    "reason": "HEADER_CONFIG declares no int or unknown type. The HTTP spreadsheet cannot change that module constant; these generic switch arms have no configured caller."
+  },
+  "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateField.js:80:9": {
+    "classification": "unreachable",
+    "reason": "HEADER_CONFIG declares no int or unknown type. The HTTP spreadsheet cannot change that module constant; these generic switch arms have no configured caller."
+  },
+  "src/endpoints/timesheets/timesheetProcessingLogic/validations/validateTimeBlock.js:59:6": {
+    "classification": "unreachable",
+    "reason": "validateUploadedTracker invokes describeHeaderProblems first and returns its errors before calling validateTimeBlock. The repeated header check sees the same header array."
+  },
+  "src/endpoints/transactions/sharedTransactionFunctions.js:320:6": {
+    "classification": "outside HTTP",
+    "reason": "Legacy exported read/helper function has no src call sites: resolveLinkedRetainerPayment / differenceBetweenOldAndNewTransaction. Current mutations use resolveAutoRetainerPayment / loadStoredTransactionForWrite. Existing direct unit evidence is retained but is not HTTP reachability."
+  },
+  "src/endpoints/transactions/sharedTransactionFunctions.js:436:73": {
+    "classification": "outside HTTP",
+    "reason": "Legacy exported read/helper function has no src call sites: resolveLinkedRetainerPayment / differenceBetweenOldAndNewTransaction. Current mutations use resolveAutoRetainerPayment / loadStoredTransactionForWrite. Existing direct unit evidence is retained but is not HTTP reachability."
+  },
+  "src/endpoints/writeOffs/writeOffs-logic.js:80:25": {
+    "classification": "unreachable",
+    "reason": "Strict write-off create/update mappers validate positive money, required reason and a real calendar date before the core. These later identical checks cannot fail for the mapped input."
+  },
+  "src/endpoints/writeOffs/writeOffs-logic.js:82:35": {
+    "classification": "unreachable",
+    "reason": "Strict write-off create/update mappers validate positive money, required reason and a real calendar date before the core. These later identical checks cannot fail for the mapped input."
+  },
+  "src/endpoints/writeOffs/writeOffs-logic.js:83:75": {
+    "classification": "unreachable",
+    "reason": "Strict write-off create/update mappers validate positive money, required reason and a real calendar date before the core. These later identical checks cannot fail for the mapped input."
+  },
+  "src/endpoints/writeOffs/writeOffs-logic.js:159:28": {
+    "classification": "unreachable",
+    "reason": "Strict write-off create/update mappers validate positive money, required reason and a real calendar date before the core. These later identical checks cannot fail for the mapped input."
+  },
+  "src/pdfCreator/zipOrchestrator.js:27:6": {
+    "classification": "unreachable",
+    "reason": "All HTTP callers pass owned account rows with non-null immutable storage_slug assigned/backfilled by migration 020. Accounts cannot clear it via the API."
+  },
+  "src/pdfCreator/zipOrchestrator.js:68:12": {
+    "classification": "unreachable",
+    "reason": "HTTP callers supply buffers/metadata from the internal PDF and CSV builders. Those either return that shape or throw before ZIP construction; the request does not supply arbitrary buffer/metadata objects."
+  },
+  "src/server.js:18:3": {
+    "classification": "outside HTTP",
+    "reason": "Server boot connectivity/smoke probe only; src/app.js HTTP harness never imports server.js. Existing local servers were not restarted."
+  },
+  "src/server.js:30:3": {
+    "classification": "outside HTTP",
+    "reason": "Server boot connectivity/smoke probe only; src/app.js HTTP harness never imports server.js. Existing local servers were not restarted."
+  },
+  "src/server.js:48:3": {
+    "classification": "outside HTTP",
+    "reason": "Server boot connectivity/smoke probe only; src/app.js HTTP harness never imports server.js. Existing local servers were not restarted."
+  },
+  "src/timeTrackerValidation/validateUploadedTracker.js:50:6": {
+    "classification": "unreachable",
+    "reason": "Upload router rejects absent/non-Buffer/empty bytes before invoking validateUploadedTracker. Its earlier 400 and no-write behavior are tested."
+  },
+  "src/timeTrackerValidation/validateUploadedTracker.js:110:6": {
+    "classification": "unreachable",
+    "reason": "Employee lookup is filtered to the explicitly authorized owner userID before validateNameBlock resolves metadata.userId. A different owner/name fails that lookup; a successful result cannot identify a different user."
+  },
+  "src/utils/createAndSavePDFs.js:26:5": {
+    "classification": "unreachable",
+    "reason": "The try returns Promise.all without awaiting it. Rejected asynchronous PDF renders propagate directly to the invoice-route catch, which is tested; this synchronous catch only covers a non-array invoicesWithDetail, but HTTP calculation always produces an array."
+  },
+  "src/utils/createAndSavePDFs.js:28:6": {
+    "classification": "unreachable",
+    "reason": "The try returns Promise.all without awaiting it. Rejected asynchronous PDF renders propagate directly to the invoice-route catch, which is tested; this synchronous catch only covers a non-array invoicesWithDetail, but HTTP calculation always produces an array."
+  },
+  "src/utils/db.js:22:5": {
+    "classification": "outside HTTP",
+    "reason": "SSL CA-file fallback runs when constructing the database connection at module load, not from an HTTP handler. The scenario guard fixes local TCP with SSL disabled."
+  },
+  "src/utils/email/failureMessages.js:18:9": {
+    "classification": "outside HTTP",
+    "reason": "Automation-only error notification; references lead only to scheduled reminder functions, not an HTTP handler."
+  },
+  "src/utils/email/failureMessages.js:29:5": {
+    "classification": "outside HTTP",
+    "reason": "Automation-only error notification; references lead only to scheduled reminder functions, not an HTTP handler."
+  },
+  "src/utils/gridFunctions.js:70:48": {
+    "classification": "unreachable",
+    "reason": "Every src caller supplies a nonempty literal primary-key property to generateTreeGridData. There is no HTTP-controlled property parameter."
+  },
+  "src/utils/piiRedactor.js:77:6": {
+    "classification": "outside HTTP",
+    "reason": "assertNoPii is an exported diagnostic helper used by tests only; no src caller. The actual redaction path is tested independently."
+  },
+  "src/utils/s3.js:32:2": {
+    "classification": "outside HTTP",
+    "reason": "Required S3 configuration is checked at module load; checkConnectivity is called only by server.js at startup. Runtime HTTP storage rejection paths are separately injected and tested."
+  },
+  "src/utils/s3.js:163:4": {
+    "classification": "outside HTTP",
+    "reason": "Required S3 configuration is checked at module load; checkConnectivity is called only by server.js at startup. Runtime HTTP storage rejection paths are separately injected and tested."
+  }
+}

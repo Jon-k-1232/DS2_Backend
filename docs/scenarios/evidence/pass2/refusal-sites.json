@@ -1,0 +1,426 @@
+{
+  "src/utils/ledgerInput.js": {
+    "executed": 11,
+    "total": 11,
+    "sites": [
+      {
+        "line": 10,
+        "executed": true,
+        "text": "throw error;"
+      },
+      {
+        "line": 27,
+        "executed": true,
+        "text": "if (!data || typeof data !== 'object' || Array.isArray(data)) invalid(`${kind} must be an object.`);"
+      },
+      {
+        "line": 30,
+        "executed": true,
+        "text": "if (!scalarNumber(data.unitCost)) invalid(`${label} amount must be a finite number.`);"
+      },
+      {
+        "line": 32,
+        "executed": true,
+        "text": "if (!(amount > 0)) invalid(`${label} amount must be greater than $0.00.`);"
+      },
+      {
+        "line": 33,
+        "executed": true,
+        "text": "if (amount > 99999999.99) invalid(`${label} amount exceeds the supported maximum of $99999999.99.`);"
+      },
+      {
+        "line": 38,
+        "executed": true,
+        "text": "if (!scalarNumber(id) || !Number.isSafeInteger(Number(id)) || Number(id) < 1 || Number(id) > 2147483647) invalid('customerID must be a positive integer ID.');"
+      },
+      {
+        "line": 45,
+        "executed": true,
+        "text": "if (!scalarNumber(value) || !Number.isSafeInteger(Number(value)) || Number(value) < 1 || Number(value) > 2147483647) invalid(`${field} must be a positive integer ID or an empty selection.`);"
+      },
+      {
+        "line": 49,
+        "executed": true,
+        "text": "if (dateField && (!update || data[dateField] !== undefined) && !validLedgerDate(data[dateField])) invalid(`A valid ${kind === 'payment' ? 'payment' : 'write-off'} date is required.`);"
+      },
+      {
+        "line": 55,
+        "executed": true,
+        "text": "if (typeof value !== 'string' || !value.trim() || ['null', 'undefined'].includes(value)) invalid(kind === 'writeoff' ? 'A write-off reason is required.' : 'Select a type of hold (Retainer or Prepayment).');"
+      },
+      {
+        "line": 61,
+        "executed": true,
+        "text": "if (typeof value !== 'string' || value.includes('\\0')) invalid(`${field} must be text without null characters.`);"
+      },
+      {
+        "line": 62,
+        "executed": true,
+        "text": "if (max && [...value].length > max) invalid(`${field} supports at most ${max} characters.`);"
+      }
+    ]
+  },
+  "src/utils/committedResponse.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  },
+  "src/endpoints/user/user-router.js": {
+    "executed": 4,
+    "total": 5,
+    "sites": [
+      {
+        "line": 35,
+        "executed": true,
+        "text": "throw error;"
+      },
+      {
+        "line": 96,
+        "executed": true,
+        "text": "throw error;"
+      },
+      {
+        "line": 130,
+        "executed": false,
+        "text": "throw error;"
+      },
+      {
+        "line": 144,
+        "executed": true,
+        "text": "throw error;"
+      },
+      {
+        "line": 154,
+        "executed": true,
+        "text": "throw error;"
+      }
+    ]
+  },
+  "src/endpoints/retainer/retainer-logic.js": {
+    "executed": 13,
+    "total": 16,
+    "sites": [
+      {
+        "line": 31,
+        "executed": true,
+        "text": "throw ruleError('No matching retainer found for this payment.');"
+      },
+      {
+        "line": 34,
+        "executed": true,
+        "text": "throw ruleError('The selected retainer belongs to a different customer than this payment.');"
+      },
+      {
+        "line": 40,
+        "executed": true,
+        "text": "throw ruleError('The selected retainer has no remaining balance.');"
+      },
+      {
+        "line": 45,
+        "executed": true,
+        "text": "throw ruleError(`Payment amount exceeds remaining balance on retainer. Max amount that can be applied to this invoice is $${available}.`);"
+      },
+      {
+        "line": 65,
+        "executed": false,
+        "text": "if (!(amount < 0)) throw ruleError('Retainer amount must be greater than $0.00.');"
+      },
+      {
+        "line": 66,
+        "executed": false,
+        "text": "if (!fields.type_of_hold) throw ruleError('Select a type of hold (Retainer or Prepayment).');"
+      },
+      {
+        "line": 92,
+        "executed": true,
+        "text": "throw ruleError('Moving a retainer to a different customer is not supported. Delete it and re-enter it for the correct customer.');"
+      },
+      {
+        "line": 105,
+        "executed": false,
+        "text": "if (!(newStarting < 0)) throw ruleError('Retainer amount must be greater than $0.00.');"
+      },
+      {
+        "line": 114,
+        "executed": true,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 122,
+        "executed": true,
+        "text": "throw ruleError(`Starting amount cannot be less than the $${drawn.toFixed(2)} already drawn from this retainer.`);"
+      },
+      {
+        "line": 163,
+        "executed": true,
+        "text": "throw ruleError(`This row is a draw-down entry on retainer #${rootID}. Delete the payment or time/charge entry that drew on it instead.`);"
+      },
+      {
+        "line": 168,
+        "executed": true,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 175,
+        "executed": true,
+        "text": "throw ruleError('This retainer has already been drawn on and cannot be deleted. Delete the payments or time/charge entries that drew on it first.');"
+      },
+      {
+        "line": 184,
+        "executed": true,
+        "text": "if (refs.transactions.length) throw ruleError('Transactions are linked to this retainer; it cannot be deleted.');"
+      },
+      {
+        "line": 185,
+        "executed": true,
+        "text": "if (refs.payments.length) throw ruleError('Payments are linked to this retainer; it cannot be deleted.');"
+      },
+      {
+        "line": 187,
+        "executed": true,
+        "text": "throw ruleError("
+      }
+    ]
+  },
+  "src/endpoints/retainer/retainer-router.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  },
+  "src/endpoints/payments/payments-router.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  },
+  "src/endpoints/payments/payment-logic.js": {
+    "executed": 37,
+    "total": 43,
+    "sites": [
+      {
+        "line": 163,
+        "executed": true,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 186,
+        "executed": false,
+        "text": "if (target.remaining <= 0) throw ruleError(zeroRemainingMessage(target));"
+      },
+      {
+        "line": 206,
+        "executed": true,
+        "text": "if (!paymentRecord) throw ruleError('No matching payment record found.', 404);"
+      },
+      {
+        "line": 215,
+        "executed": true,
+        "text": "throw ruleError('Payment is attached to an invoice and cannot be deleted or Modified.', 423);"
+      },
+      {
+        "line": 230,
+        "executed": true,
+        "text": "throw ruleError('Retainer is attached to an invoice and cannot be deleted or Modified.', 423);"
+      },
+      {
+        "line": 252,
+        "executed": true,
+        "text": "throw ruleError(`Payment #${paymentRecord.payment_id} has been reversed (reversal entry #${reversal.payment_id}). Delete the reversal first, then ${action} this payment.`);"
+      },
+      {
+        "line": 360,
+        "executed": true,
+        "text": "if (!job) throw ruleError('The selected job does not belong to this customer. Re-select the job.');"
+      },
+      {
+        "line": 436,
+        "executed": false,
+        "text": "if (!(tendered > 0)) throw ruleError('Payment amount must be greater than $0.00.', 400);"
+      },
+      {
+        "line": 439,
+        "executed": false,
+        "text": "throw ruleError('A valid payment date is required.', 400);"
+      },
+      {
+        "line": 446,
+        "executed": true,
+        "text": "if (retainer_id) throw ruleError('A retainer-funded payment must be applied to an invoice.', 400);"
+      },
+      {
+        "line": 458,
+        "executed": true,
+        "text": "throw ruleError('No invoice ID provided for this payment. If the customer has no open invoice, record the funds as a retainer/prepayment instead.', 400);"
+      },
+      {
+        "line": 465,
+        "executed": true,
+        "text": "throw ruleError('No matching invoice record found for this payment.', 404);"
+      },
+      {
+        "line": 468,
+        "executed": true,
+        "text": "throw ruleError(`Invoice ${requestedInvoice.invoice_number} belongs to a different customer than this payment. Re-select the invoice.`);"
+      },
+      {
+        "line": 479,
+        "executed": true,
+        "text": "throw ruleError('This customer has no invoices to apply a payment to. Record the funds as a retainer/prepayment instead.');"
+      },
+      {
+        "line": 509,
+        "executed": true,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 589,
+        "executed": false,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 596,
+        "executed": true,
+        "text": "throw ruleError('A newer draw has been made on this retainer since this payment. Edit or delete the newer retainer-funded entries first.');"
+      },
+      {
+        "line": 601,
+        "executed": true,
+        "text": "throw ruleError(`This payment was recorded automatically for retainer-funded time/charge entry #${linkedTransaction.transaction_id}. Edit or delete that entry instead.`);"
+      },
+      {
+        "line": 659,
+        "executed": true,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 710,
+        "executed": true,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 715,
+        "executed": true,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 742,
+        "executed": true,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 778,
+        "executed": true,
+        "text": "throw ruleError("
+      },
+      {
+        "line": 827,
+        "executed": true,
+        "text": "throw ruleError(`Payment #${paymentRecord.payment_id} is linked to invoice ${paymentInvoiceRecord.invoice_number} of a different customer. Contact an administrator to correct the link.`);"
+      },
+      {
+        "line": 836,
+        "executed": true,
+        "text": "throw ruleError('A newer payment or write-off has been applied to this invoice since this payment. Delete the newer entries first, then retry.');"
+      },
+      {
+        "line": 902,
+        "executed": true,
+        "text": "throw ruleError('Reversal entries cannot be edited. Delete the reversal and re-enter it if the amount or reason was wrong.');"
+      },
+      {
+        "line": 908,
+        "executed": true,
+        "text": "throw ruleError('Moving a payment to a different invoice is not supported. Delete the payment and re-enter it against the correct invoice.');"
+      },
+      {
+        "line": 911,
+        "executed": true,
+        "text": "throw ruleError('Moving a payment to a different customer is not supported. Delete the payment and re-enter it for the correct customer.');"
+      },
+      {
+        "line": 914,
+        "executed": true,
+        "text": "throw ruleError('Changing the retainer that funded a payment is not supported. Delete the payment and re-enter it.');"
+      },
+      {
+        "line": 917,
+        "executed": true,
+        "text": "throw ruleError(`Payment #${paymentRecord.payment_id} is linked to invoice ${paymentInvoiceRecord.invoice_number} of a different customer. Contact an administrator to correct the link.`);"
+      },
+      {
+        "line": 923,
+        "executed": false,
+        "text": "if (!(newAmount > 0)) throw ruleError('Payment amount must be greater than $0.00.', 400);"
+      },
+      {
+        "line": 932,
+        "executed": true,
+        "text": "throw ruleError(`This payment is linked directly to invoice ${paymentInvoiceRecord.invoice_number} and cannot be re-priced. Delete it and re-enter it.`);"
+      },
+      {
+        "line": 940,
+        "executed": true,
+        "text": "throw ruleError('A newer payment or write-off has been applied to this invoice since this payment. Edit or delete the newer entries first.');"
+      },
+      {
+        "line": 946,
+        "executed": true,
+        "text": "throw ruleError(`Payment amount exceeds remaining balance on invoice ${paymentInvoiceRecord.invoice_number}. Max increase is $${snapshotRemaining}.`);"
+      },
+      {
+        "line": 958,
+        "executed": true,
+        "text": "throw ruleError(`Payment amount exceeds remaining balance on retainer. Max increase is $${maxIncrease}.`);"
+      },
+      {
+        "line": 1013,
+        "executed": true,
+        "text": "if (!paymentId) throw ruleError('No payment ID provided for the reversal.', 400);"
+      },
+      {
+        "line": 1016,
+        "executed": true,
+        "text": "if (!cleanReason) throw ruleError('A reversal reason is required (e.g. \"NSF — check #1234 returned\").', 400);"
+      },
+      {
+        "line": 1018,
+        "executed": false,
+        "text": "if (!Number.isInteger(recordedBy) || recordedBy <= 0) throw ruleError('The user recording the reversal could not be identified.', 401);"
+      },
+      {
+        "line": 1024,
+        "executed": true,
+        "text": "if (Number(original.payment_amount) >= 0) throw ruleError('This entry is already a reversal and cannot be reversed.');"
+      },
+      {
+        "line": 1025,
+        "executed": true,
+        "text": "if ((original.note || '').includes('[reversed ')) throw ruleError('This payment has already been reversed.');"
+      },
+      {
+        "line": 1027,
+        "executed": true,
+        "text": "if (await findReversalOf(trx, accountId, paymentId)) throw ruleError('This payment has already been reversed.');"
+      },
+      {
+        "line": 1028,
+        "executed": true,
+        "text": "if (original.retainer_id) throw ruleError('Retainer-funded payments cannot be reversed here — adjust the retainer instead.');"
+      },
+      {
+        "line": 1033,
+        "executed": true,
+        "text": "if (!targets.length) throw ruleError('This customer has no invoices; the reversal has nowhere to restore the balance.');"
+      }
+    ]
+  },
+  "src/endpoints/writeOffs/writeOffs-router.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  },
+  "src/endpoints/transactions/transactions-router.js": {
+    "executed": 0,
+    "total": 0,
+    "sites": []
+  }
+}

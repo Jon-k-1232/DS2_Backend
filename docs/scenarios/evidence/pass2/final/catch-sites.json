@@ -1,0 +1,262 @@
+{
+  "src/utils/ledgerInput.js": [],
+  "src/utils/committedResponse.js": [
+    {
+      "line": 9,
+      "executed": true,
+      "text": "console.error('Committed mutation: response refresh failed', error);",
+      "suites": [
+        "scenarios"
+      ]
+    }
+  ],
+  "src/endpoints/payments/payments-router.js": [
+    {
+      "line": 30,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-payments-pending.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 56,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-payments-pending.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 90,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "scenarios"
+      ]
+    },
+    {
+      "line": 116,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-payments-pending.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 140,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-payments-pending.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 184,
+      "executed": true,
+      "text": "console.error('Error fetching paginated payments:', error);",
+      "suites": [
+        "coverage-payments-pending.integration.spec"
+      ]
+    }
+  ],
+  "src/endpoints/payments/payment-logic.js": [],
+  "src/endpoints/retainer/retainer-router.js": [
+    {
+      "line": 35,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-transactions-retainers-writeoffs.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 63,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-transactions-retainers-writeoffs.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 83,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-transactions-retainers-writeoffs.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 121,
+      "executed": true,
+      "text": "res.send({",
+      "suites": [
+        "scenarios"
+      ]
+    },
+    {
+      "line": 147,
+      "executed": true,
+      "text": "res.send({",
+      "suites": [
+        "scenarios"
+      ]
+    }
+  ],
+  "src/endpoints/retainer/retainer-logic.js": [],
+  "src/endpoints/transactions/transactions-router.js": [
+    {
+      "line": 65,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-transactions-retainers-writeoffs.integration.spec",
+        "review-related-ids.integration.spec",
+        "review-transaction-policy.integration.spec",
+        "scenarios",
+        "transactions-ledger-seams.integration.spec"
+      ]
+    },
+    {
+      "line": 87,
+      "executed": true,
+      "text": "console.log(error);",
+      "suites": [
+        "clean-room-regression.integration.spec",
+        "coverage-transactions-retainers-writeoffs.integration.spec",
+        "review-related-ids.integration.spec",
+        "review-transaction-policy.integration.spec",
+        "scenarios",
+        "transactions-ledger-seams.integration.spec"
+      ]
+    },
+    {
+      "line": 109,
+      "executed": true,
+      "text": "console.log(error);",
+      "suites": [
+        "clean-room-regression.integration.spec",
+        "coverage-transactions-retainers-writeoffs.integration.spec",
+        "scenarios",
+        "transactions-ledger-seams.integration.spec"
+      ]
+    },
+    {
+      "line": 142,
+      "executed": true,
+      "text": "console.log(error);",
+      "suites": [
+        "coverage-transactions-retainers-writeoffs.integration.spec"
+      ]
+    },
+    {
+      "line": 166,
+      "executed": true,
+      "text": "console.log(error);",
+      "suites": [
+        "scenarios"
+      ]
+    },
+    {
+      "line": 201,
+      "executed": true,
+      "text": "console.log(error);",
+      "suites": [
+        "scenarios"
+      ]
+    },
+    {
+      "line": 227,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "scenarios"
+      ]
+    }
+  ],
+  "src/endpoints/user/user-router.js": [
+    {
+      "line": 62,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-account-users-auth-misc.integration.spec"
+      ]
+    },
+    {
+      "line": 116,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "clean-room-regression.integration.spec",
+        "coverage-account-users-auth-misc.integration.spec",
+        "review-user-guards.integration.spec",
+        "scenarios",
+        "unit"
+      ]
+    },
+    {
+      "line": 167,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-account-users-auth-misc.integration.spec",
+        "scenarios",
+        "unit"
+      ]
+    }
+  ],
+  "src/endpoints/writeOffs/writeOffs-router.js": [
+    {
+      "line": 40,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "clean-room-regression.integration.spec",
+        "coverage-transactions-retainers-writeoffs.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 77,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "scenarios"
+      ]
+    },
+    {
+      "line": 105,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-transactions-retainers-writeoffs.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 130,
+      "executed": true,
+      "text": "console.log(err);",
+      "suites": [
+        "coverage-transactions-retainers-writeoffs.integration.spec",
+        "scenarios"
+      ]
+    },
+    {
+      "line": 174,
+      "executed": true,
+      "text": "console.error('Error fetching paginated write-offs:', error);",
+      "suites": [
+        "coverage-transactions-retainers-writeoffs.integration.spec"
+      ]
+    }
+  ]
+}

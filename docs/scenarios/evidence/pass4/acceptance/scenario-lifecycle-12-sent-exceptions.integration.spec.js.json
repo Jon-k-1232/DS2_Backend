@@ -1,0 +1,1026 @@
+{
+  "stats": {
+    "suites": 3,
+    "tests": 72,
+    "passes": 72,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:52:11.111Z",
+    "end": "2026-09-25T14:52:21.699Z",
+    "duration": 10588
+  },
+  "tests": [
+    {
+      "title": "issues $500, accepts a new $100 receipt without changing issued rows, then issues $400",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections issues $500, accepts a new $100 receipt without changing issued rows, then issues $400",
+      "duration": 647,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses direct edits/deletes and cascade edits with HTTP 409 and no ledger writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections refuses direct edits/deletes and cascade edits with HTTP 409 and no ledger writes",
+      "duration": 626,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "database defenses refuse raw import/upsert changes to every frozen row",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections database defenses refuse raw import/upsert changes to every frozen row",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates condition without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections validates condition without writes",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates reason without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections validates reason without writes",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates ids without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections validates ids without writes",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates duplicate ids without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections validates duplicate ids without writes",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a missing/foreign payment without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections rejects a missing/foreign payment without writes",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flags only the chosen receipt, audits the actor and permits no ordinary mutation",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections flags only the chosen receipt, audits the actor and permits no ordinary mutation",
+      "duration": 234,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back a failed reversal, including original evidence and exception state",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections rolls back a failed reversal, including original evidence and exception state",
+      "duration": 88,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverses once to $500 with no original row changes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections reverses once to $500 with no original row changes",
+      "duration": 324,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "archives a marked $500 revision without overwriting the original PDF or reposting money",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections archives a marked $500 revision without overwriting the original PDF or reposting money",
+      "duration": 202,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "carries corrected $500 into the next statement once and re-locks its evidence",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections carries corrected $500 into the next statement once and re-locks its evidence",
+      "duration": 220,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "get history refuses anonymous before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward get history refuses anonymous before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "get history refuses staff before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward get history refuses staff before writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "get history refuses foreign before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward get history refuses foreign before writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "history rejects malformed and missing invoice IDs",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward history rejects malformed and missing invoice IDs",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions refuses anonymous before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions refuses anonymous before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions refuses staff before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions refuses staff before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions refuses foreign before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions refuses foreign before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "exceptions rejects malformed and missing invoice IDs",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward exceptions rejects malformed and missing invoice IDs",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/reverse refuses anonymous before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/reverse refuses anonymous before writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/reverse refuses staff before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/reverse refuses staff before writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/reverse refuses foreign before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/reverse refuses foreign before writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "exceptions/1/reverse rejects malformed and missing invoice IDs",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward exceptions/1/reverse rejects malformed and missing invoice IDs",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/resolve refuses anonymous before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/resolve refuses anonymous before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/resolve refuses staff before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/resolve refuses staff before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/resolve refuses foreign before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/resolve refuses foreign before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "exceptions/1/resolve rejects malformed and missing invoice IDs",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward exceptions/1/resolve rejects malformed and missing invoice IDs",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects tenant-local and cross-tenant exception lookup without disclosure",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects tenant-local and cross-tenant exception lookup without disclosure",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input null",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input []",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input []",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":42,\"paymentIds\":[1]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":42,\"paymentIds\":[1]}",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[true]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[true]}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[[1]]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[[1]]}",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[{\"toString\":",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[{\"toString\":",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[0]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[0]}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[2147483648]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[2147483648]}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[1,1,1,1,1,1,",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[1,1,1,1,1,1,",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag failure on invoice_exceptions rolls back everything",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward flag failure on invoice_exceptions rolls back everything",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag failure on invoice_exception_payments rolls back everything",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward flag failure on invoice_exception_payments rolls back everything",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag failure on invoice_history rolls back everything",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward flag failure on invoice_history rolls back everything",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cancels a flag without changing money and prevents repeated cancellation",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward cancels a flag without changing money and prevents repeated cancellation",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serializes duplicate flags into exactly one active grant",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward serializes duplicate flags into exactly one active grant",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on customer_invoices rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on customer_invoices rolls back the whole batch",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on invoice_exception_payments rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on invoice_exception_payments rolls back the whole batch",
+      "duration": 88,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on invoice_statement_members rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on invoice_statement_members rolls back the whole batch",
+      "duration": 96,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on invoice_exceptions rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on invoice_exceptions rolls back the whole batch",
+      "duration": 102,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on invoice_history rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on invoice_history rolls back the whole batch",
+      "duration": 126,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverses both receipts once under racing requests: $50 + $20 + $30 = $100",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverses both receipts once under racing requests: $50 + $20 + $30 = $100",
+      "duration": 104,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "storage failure leaves the reversal pending and no revision/history writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward storage failure leaves the reversal pending and no revision/history writes",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "upload failure preserves the pending correction and original",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward upload failure preserves the pending correction and original",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invalid archive failure preserves the pending correction and original",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward invalid archive failure preserves the pending correction and original",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a foreign original artifact key before storage access, with no writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward refuses a foreign original artifact key before storage access, with no writes",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "revision failure on invoice_revisions leaves original evidence and state intact",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward revision failure on invoice_revisions leaves original evidence and state intact",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "revision failure on invoice_exceptions leaves original evidence and state intact",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward revision failure on invoice_exceptions leaves original evidence and state intact",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "revision failure on invoice_history leaves original evidence and state intact",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward revision failure on invoice_history leaves original evidence and state intact",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "requires roll-forward after the affected statement was absorbed",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward requires roll-forward after the affected statement was absorbed",
+      "duration": 353,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "read database failure makes no writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward read database failure makes no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "locks retainer root/draws, printed credits, job deletion and reassignment without writes",
+      "fullTitle": "sent ledger surface coverage and overpayment correction locks retainer root/draws, printed credits, job deletion and reassignment without writes",
+      "duration": 678,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "marks locked rows and exposes the owning invoice on reads",
+      "fullTitle": "sent ledger surface coverage and overpayment correction marks locked rows and exposes the owning invoice on reads",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses import-style raw updates, deletes and new links to an issued statement",
+      "fullTitle": "sent ledger surface coverage and overpayment correction refuses import-style raw updates, deletes and new links to an issued statement",
+      "duration": 160,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses retainer-funded receipt exceptions",
+      "fullTitle": "sent ledger surface coverage and overpayment correction refuses retainer-funded receipt exceptions",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "allows new funded work and credits without rewriting a sent statement",
+      "fullTitle": "sent ledger surface coverage and overpayment correction allows new funded work and credits without rewriting a sent statement",
+      "duration": 165,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "pending approval against a sent invoice posts only a fresh snapshot, with atomic failure and retry",
+      "fullTitle": "sent ledger surface coverage and overpayment correction pending approval against a sent invoice posts only a fresh snapshot, with atomic failure and retry",
+      "duration": 153,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unissued parents and child snapshots cannot open an exception",
+      "fullTitle": "sent ledger surface coverage and overpayment correction unissued parents and child snapshots cannot open an exception",
+      "duration": 102,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverses a $150 bounced check as $100 restored debt plus $50 cancelled credit, then issues a $100 revision",
+      "fullTitle": "sent ledger surface coverage and overpayment correction reverses a $150 bounced check as $100 restored debt plus $50 cancelled credit, then issues a $100 revision",
+      "duration": 611,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses reversal of a bounced overpayment whose excess has already funded work, with no partial correction",
+      "fullTitle": "sent ledger surface coverage and overpayment correction refuses reversal of a bounced overpayment whose excess has already funded work, with no partial correction",
+      "duration": 404,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "locks historical artifacts without a backfill and audits first exception hydration",
+      "fullTitle": "sent ledger surface coverage and overpayment correction locks historical artifacts without a backfill and audits first exception hydration",
+      "duration": 461,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "creates two numbered revisions from separate exceptions without accumulating corrections twice",
+      "fullTitle": "sent ledger surface coverage and overpayment correction creates two numbered revisions from separate exceptions without accumulating corrections twice",
+      "duration": 511,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "protects job families linked only to sent receipts or credits, including raw imports",
+      "fullTitle": "sent ledger surface coverage and overpayment correction protects job families linked only to sent receipts or credits, including raw imports",
+      "duration": 1045,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "issues $500, accepts a new $100 receipt without changing issued rows, then issues $400",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections issues $500, accepts a new $100 receipt without changing issued rows, then issues $400",
+      "duration": 647,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses direct edits/deletes and cascade edits with HTTP 409 and no ledger writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections refuses direct edits/deletes and cascade edits with HTTP 409 and no ledger writes",
+      "duration": 626,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "database defenses refuse raw import/upsert changes to every frozen row",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections database defenses refuse raw import/upsert changes to every frozen row",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates condition without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections validates condition without writes",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates reason without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections validates reason without writes",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates ids without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections validates ids without writes",
+      "duration": 77,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validates duplicate ids without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections validates duplicate ids without writes",
+      "duration": 76,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects a missing/foreign payment without writes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections rejects a missing/foreign payment without writes",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flags only the chosen receipt, audits the actor and permits no ordinary mutation",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections flags only the chosen receipt, audits the actor and permits no ordinary mutation",
+      "duration": 234,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rolls back a failed reversal, including original evidence and exception state",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections rolls back a failed reversal, including original evidence and exception state",
+      "duration": 88,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverses once to $500 with no original row changes",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections reverses once to $500 with no original row changes",
+      "duration": 324,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "archives a marked $500 revision without overwriting the original PDF or reposting money",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections archives a marked $500 revision without overwriting the original PDF or reposting money",
+      "duration": 202,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "carries corrected $500 into the next statement once and re-locks its evidence",
+      "fullTitle": "owner decisions 3/5: immutable statements and bounced payment corrections carries corrected $500 into the next statement once and re-locks its evidence",
+      "duration": 220,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "get history refuses anonymous before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward get history refuses anonymous before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "get history refuses staff before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward get history refuses staff before writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "get history refuses foreign before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward get history refuses foreign before writes",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "history rejects malformed and missing invoice IDs",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward history rejects malformed and missing invoice IDs",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions refuses anonymous before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions refuses anonymous before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions refuses staff before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions refuses staff before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions refuses foreign before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions refuses foreign before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "exceptions rejects malformed and missing invoice IDs",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward exceptions rejects malformed and missing invoice IDs",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/reverse refuses anonymous before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/reverse refuses anonymous before writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/reverse refuses staff before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/reverse refuses staff before writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/reverse refuses foreign before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/reverse refuses foreign before writes",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "exceptions/1/reverse rejects malformed and missing invoice IDs",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward exceptions/1/reverse rejects malformed and missing invoice IDs",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/resolve refuses anonymous before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/resolve refuses anonymous before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/resolve refuses staff before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/resolve refuses staff before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "post exceptions/1/resolve refuses foreign before writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward post exceptions/1/resolve refuses foreign before writes",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "exceptions/1/resolve rejects malformed and missing invoice IDs",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward exceptions/1/resolve rejects malformed and missing invoice IDs",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects tenant-local and cross-tenant exception lookup without disclosure",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects tenant-local and cross-tenant exception lookup without disclosure",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input null",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input null",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input []",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input []",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":42,\"paymentIds\":[1]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":42,\"paymentIds\":[1]}",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[true]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[true]}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[[1]]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[[1]]}",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[{\"toString\":",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[{\"toString\":",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[0]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[0]}",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[2147483648]}",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[2147483648]}",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[1,1,1,1,1,1,",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward rejects invalid flag input {\"condition\":\"bounced_check\",\"reason\":\"NSF\",\"paymentIds\":[1,1,1,1,1,1,",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag failure on invoice_exceptions rolls back everything",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward flag failure on invoice_exceptions rolls back everything",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag failure on invoice_exception_payments rolls back everything",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward flag failure on invoice_exception_payments rolls back everything",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "flag failure on invoice_history rolls back everything",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward flag failure on invoice_history rolls back everything",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cancels a flag without changing money and prevents repeated cancellation",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward cancels a flag without changing money and prevents repeated cancellation",
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "serializes duplicate flags into exactly one active grant",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward serializes duplicate flags into exactly one active grant",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on customer_invoices rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on customer_invoices rolls back the whole batch",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on invoice_exception_payments rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on invoice_exception_payments rolls back the whole batch",
+      "duration": 88,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on invoice_statement_members rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on invoice_statement_members rolls back the whole batch",
+      "duration": 96,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on invoice_exceptions rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on invoice_exceptions rolls back the whole batch",
+      "duration": 102,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverse failure on invoice_history rolls back the whole batch",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverse failure on invoice_history rolls back the whole batch",
+      "duration": 126,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverses both receipts once under racing requests: $50 + $20 + $30 = $100",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward reverses both receipts once under racing requests: $50 + $20 + $30 = $100",
+      "duration": 104,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "storage failure leaves the reversal pending and no revision/history writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward storage failure leaves the reversal pending and no revision/history writes",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "upload failure preserves the pending correction and original",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward upload failure preserves the pending correction and original",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invalid archive failure preserves the pending correction and original",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward invalid archive failure preserves the pending correction and original",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses a foreign original artifact key before storage access, with no writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward refuses a foreign original artifact key before storage access, with no writes",
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "revision failure on invoice_revisions leaves original evidence and state intact",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward revision failure on invoice_revisions leaves original evidence and state intact",
+      "duration": 30,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "revision failure on invoice_exceptions leaves original evidence and state intact",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward revision failure on invoice_exceptions leaves original evidence and state intact",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "revision failure on invoice_history leaves original evidence and state intact",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward revision failure on invoice_history leaves original evidence and state intact",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "requires roll-forward after the affected statement was absorbed",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward requires roll-forward after the affected statement was absorbed",
+      "duration": 353,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "read database failure makes no writes",
+      "fullTitle": "owner exception boundaries, authorization, faults and roll-forward read database failure makes no writes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "locks retainer root/draws, printed credits, job deletion and reassignment without writes",
+      "fullTitle": "sent ledger surface coverage and overpayment correction locks retainer root/draws, printed credits, job deletion and reassignment without writes",
+      "duration": 678,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "marks locked rows and exposes the owning invoice on reads",
+      "fullTitle": "sent ledger surface coverage and overpayment correction marks locked rows and exposes the owning invoice on reads",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses import-style raw updates, deletes and new links to an issued statement",
+      "fullTitle": "sent ledger surface coverage and overpayment correction refuses import-style raw updates, deletes and new links to an issued statement",
+      "duration": 160,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses retainer-funded receipt exceptions",
+      "fullTitle": "sent ledger surface coverage and overpayment correction refuses retainer-funded receipt exceptions",
+      "duration": 82,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "allows new funded work and credits without rewriting a sent statement",
+      "fullTitle": "sent ledger surface coverage and overpayment correction allows new funded work and credits without rewriting a sent statement",
+      "duration": 165,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "pending approval against a sent invoice posts only a fresh snapshot, with atomic failure and retry",
+      "fullTitle": "sent ledger surface coverage and overpayment correction pending approval against a sent invoice posts only a fresh snapshot, with atomic failure and retry",
+      "duration": 153,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "unissued parents and child snapshots cannot open an exception",
+      "fullTitle": "sent ledger surface coverage and overpayment correction unissued parents and child snapshots cannot open an exception",
+      "duration": 102,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reverses a $150 bounced check as $100 restored debt plus $50 cancelled credit, then issues a $100 revision",
+      "fullTitle": "sent ledger surface coverage and overpayment correction reverses a $150 bounced check as $100 restored debt plus $50 cancelled credit, then issues a $100 revision",
+      "duration": 611,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses reversal of a bounced overpayment whose excess has already funded work, with no partial correction",
+      "fullTitle": "sent ledger surface coverage and overpayment correction refuses reversal of a bounced overpayment whose excess has already funded work, with no partial correction",
+      "duration": 404,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "locks historical artifacts without a backfill and audits first exception hydration",
+      "fullTitle": "sent ledger surface coverage and overpayment correction locks historical artifacts without a backfill and audits first exception hydration",
+      "duration": 461,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "creates two numbered revisions from separate exceptions without accumulating corrections twice",
+      "fullTitle": "sent ledger surface coverage and overpayment correction creates two numbered revisions from separate exceptions without accumulating corrections twice",
+      "duration": 511,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "protects job families linked only to sent receipts or credits, including raw imports",
+      "fullTitle": "sent ledger surface coverage and overpayment correction protects job families linked only to sent receipts or credits, including raw imports",
+      "duration": 1045,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

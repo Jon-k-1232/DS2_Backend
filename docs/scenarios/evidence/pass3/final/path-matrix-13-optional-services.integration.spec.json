@@ -1,0 +1,315 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 9,
+    "passes": 9,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:14.635Z",
+    "end": "2026-09-25T13:33:15.532Z",
+    "duration": 897
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "title": "Path matrix: optional ingestion services fail without corrupting billing confirmed-alias query failure yields an empty map and writes nothing",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "title": "Path matrix: optional ingestion services fail without corrupting billing training-example query failure yields no few-shot examples and writes nothing",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "title": "Path matrix: optional ingestion services fail without corrupting billing legacy negative duration is held for review and never creates a charge",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "title": "Path matrix: optional ingestion services fail without corrupting billing failed holding-row update and fallback preserve the entire database with diagnostic result",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "title": "Path matrix: optional ingestion services fail without corrupting billing ingestion notification failure preserves held non-work without creating a charge",
+      "state": "passed",
+      "duration": 81
+    },
+    {
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "title": "Path matrix: optional ingestion services fail without corrupting billing background ingestion fatal query failure is logged, never a financial write",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "title": "Path matrix: optional ingestion services fail without corrupting billing AI response with malformed embedded JSON is rejected without any database writes",
+      "state": "passed",
+      "duration": 18
+    },
+    {
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "title": "Path matrix: optional ingestion services fail without corrupting billing AI audit-log database failure does not discard the stubbed valid inference",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "title": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "state": "passed",
+      "duration": 220
+    }
+  ],
+  "hits": {
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:105:5": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing confirmed-alias query failure yields an empty map and writes nothing"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:150:5": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing training-example query failure yields no few-shot examples and writes nothing"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:589:6": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing legacy negative duration is held for review and never creates a charge"
+      },
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing failed holding-row update and fallback preserve the entire database with diagnostic result"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:840:8": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing legacy negative duration is held for review and never creates a charge"
+      },
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing failed holding-row update and fallback preserve the entire database with diagnostic result"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:917:14": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing failed holding-row update and fallback preserve the entire database with diagnostic result"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:928:17": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing failed holding-row update and fallback preserve the entire database with diagnostic result"
+      }
+    ],
+    "src/ai_integrations/bedrock/index.js:118:5": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing ingestion notification failure preserves held non-work without creating a charge"
+      }
+    ],
+    "src/ai_integrations/bedrock/index.js:199:6": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing ingestion notification failure preserves held non-work without creating a charge"
+      },
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing AI response with malformed embedded JSON is rejected without any database writes"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-runner.js:64:5": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing ingestion notification failure preserves held non-work without creating a charge"
+      }
+    ],
+    "src/ai_integrations/categoryInference.js:155:5": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing ingestion notification failure preserves held non-work without creating a charge"
+      }
+    ],
+    "src/ai_integrations/categoryInference.js:187:5": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing ingestion notification failure preserves held non-work without creating a charge"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-runner.js:80:8": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing background ingestion fatal query failure is logged, never a financial write"
+      }
+    ],
+    "src/ai_integrations/bedrock/index.js:59:14": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing AI response with malformed embedded JSON is rejected without any database writes"
+      }
+    ],
+    "src/ai_integrations/bedrock/index.js:188:8": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing AI audit-log database failure does not discard the stubbed valid inference"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:384:5": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:394:6": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+        "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing ingestion notification failure preserves held non-work without creating a charge",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "POST",
+      "url": "/timesheets/ai/kickoff/1/1",
+      "route": "/ai/kickoff/:accountID/:userID",
+      "status": 202,
+      "envelope": 202,
+      "message": "Auto-ingest job accepted and running in background."
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343195354-rbo4hg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343195354-rbo4hg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343195354-rbo4hg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343195354-rbo4hg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "file": "test/integration/path-matrix-13-optional-services.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "path-matrix PDF failure"
+    }
+  ]
+}

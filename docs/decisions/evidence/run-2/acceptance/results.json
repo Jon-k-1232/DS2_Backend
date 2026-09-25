@@ -1,0 +1,1321 @@
+[
+  {
+    "name": "analytics.integration.spec",
+    "exit": 0,
+    "seconds": 1.1,
+    "env": ".env.local",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/analytics.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/analytics.integration.spec.log",
+    "passing": 11,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "billing-regression.integration.spec",
+    "exit": 0,
+    "seconds": 1.08,
+    "env": ".env.local",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/billing-regression.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/billing-regression.integration.spec.log",
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "cascade-edit-recompute.integration.spec",
+    "exit": 0,
+    "seconds": 1.01,
+    "env": ".env.local",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/cascade-edit-recompute.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/cascade-edit-recompute.integration.spec.log",
+    "passing": 11,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "clean-room-regression.integration.spec",
+    "exit": 0,
+    "seconds": 2.66,
+    "env": ".env.clean",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/clean-room-regression.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/clean-room-regression.integration.spec.log",
+    "passing": 18,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "cleanroom",
+    "exit": 0,
+    "seconds": 2.5,
+    "env": ".env.clean",
+    "database_override": null,
+    "command": [
+      "npm",
+      "run",
+      "-s",
+      "test:cleanroom"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/cleanroom.log",
+    "passing": 18,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "coverage-account-users-auth-misc.integration.spec",
+    "exit": 0,
+    "seconds": 2.38,
+    "env": ".env.local",
+    "database_override": "ds2_clean",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-account-users-auth-misc.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/coverage-account-users-auth-misc.integration.spec.log",
+    "passing": 200,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "coverage-billing-review.integration.spec",
+    "exit": 0,
+    "seconds": 1.12,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-billing-review.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/coverage-billing-review.integration.spec.log",
+    "passing": 31,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "coverage-downloads-authz.integration.spec",
+    "exit": 0,
+    "seconds": 1.17,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-downloads-authz.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/coverage-downloads-authz.integration.spec.log",
+    "passing": 36,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "coverage-invoices-audit-ar-analytics.integration.spec",
+    "exit": 0,
+    "seconds": 1.33,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/coverage-invoices-audit-ar-analytics.integration.spec.log",
+    "passing": 131,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "coverage-jobs-masterdata.integration.spec",
+    "exit": 0,
+    "seconds": 2.4,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/coverage-jobs-masterdata.integration.spec.log",
+    "passing": 124,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "coverage-payments-pending.integration.spec",
+    "exit": 0,
+    "seconds": 1.98,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-payments-pending.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/coverage-payments-pending.integration.spec.log",
+    "passing": 102,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "coverage-pending-payments-authz.integration.spec",
+    "exit": 0,
+    "seconds": 1.1,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/coverage-pending-payments-authz.integration.spec.log",
+    "passing": 10,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "coverage-timetracking-timesheets.integration.spec",
+    "exit": 0,
+    "seconds": 12.88,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-timetracking-timesheets.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/coverage-timetracking-timesheets.integration.spec.log",
+    "passing": 106,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "coverage-transactions-retainers-writeoffs.integration.spec",
+    "exit": 0,
+    "seconds": 3.65,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/coverage-transactions-retainers-writeoffs.integration.spec.log",
+    "passing": 84,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "drift",
+    "exit": 0,
+    "seconds": 0.88,
+    "env": ".env.local",
+    "database_override": "ds2_local",
+    "command": [
+      "node",
+      "scripts/drift-check.js",
+      "/tmp/drift.json"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/drift.log",
+    "passing": 0,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "finalize-engine.integration.spec",
+    "exit": 0,
+    "seconds": 1.64,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/finalize-engine.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/finalize-engine.integration.spec.log",
+    "passing": 15,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "finalize-snapshot.integration.spec",
+    "exit": 0,
+    "seconds": 1.01,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/finalize-snapshot.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/finalize-snapshot.integration.spec.log",
+    "passing": 9,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "frontend-build",
+    "exit": 0,
+    "seconds": 11.79,
+    "env": null,
+    "database_override": null,
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/frontend-build.log",
+    "passing": 0,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "frontend-jest",
+    "exit": 0,
+    "seconds": 18.66,
+    "env": null,
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/react-scripts",
+      "test",
+      "--watchAll=false",
+      "--runInBand"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/frontend-jest.log",
+    "passing": 148,
+    "failing": 0,
+    "pending": 0,
+    "suites": 34
+  },
+  {
+    "name": "month-end-lifecycle.integration.spec",
+    "exit": 0,
+    "seconds": 1.42,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/month-end-lifecycle.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/month-end-lifecycle.integration.spec.log",
+    "passing": 19,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "orchestrator.integration.spec",
+    "exit": 0,
+    "seconds": 8.65,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/orchestrator.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/orchestrator.integration.spec.log",
+    "passing": 7,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "payment-reversal.integration.spec",
+    "exit": 0,
+    "seconds": 2.53,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/payment-reversal.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/payment-reversal.integration.spec.log",
+    "passing": 49,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "pii-leak.integration.spec",
+    "exit": 0,
+    "seconds": 2.51,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/pii-leak.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/pii-leak.integration.spec.log",
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-account-atomicity.integration.spec",
+    "exit": 0,
+    "seconds": 1.08,
+    "env": ".env.local",
+    "database_override": "ds2_clean",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-account-atomicity.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-account-atomicity.integration.spec.log",
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-analytics-identities.integration.spec",
+    "exit": 0,
+    "seconds": 0.98,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-analytics-identities.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-analytics-identities.integration.spec.log",
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-audit-download.integration.spec",
+    "exit": 0,
+    "seconds": 1.08,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-audit-download.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-audit-download.integration.spec.log",
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-audit-filter.integration.spec",
+    "exit": 0,
+    "seconds": 0.96,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-audit-filter.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-audit-filter.integration.spec.log",
+    "passing": 3,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-customer-delete.integration.spec",
+    "exit": 0,
+    "seconds": 0.98,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-customer-delete.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-customer-delete.integration.spec.log",
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-customer-recurring.integration.spec",
+    "exit": 0,
+    "seconds": 1.11,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-customer-recurring.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-customer-recurring.integration.spec.log",
+    "passing": 8,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-customer-response.integration.spec",
+    "exit": 0,
+    "seconds": 0.92,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-customer-response.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-customer-response.integration.spec.log",
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-initial-data-roles.integration.spec",
+    "exit": 0,
+    "seconds": 1.26,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-initial-data-roles.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-initial-data-roles.integration.spec.log",
+    "passing": 18,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-invoice-outcomes.integration.spec",
+    "exit": 0,
+    "seconds": 1.09,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-invoice-outcomes.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-invoice-outcomes.integration.spec.log",
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-job-family.integration.spec",
+    "exit": 0,
+    "seconds": 0.93,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-job-family.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-job-family.integration.spec.log",
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-job-selection.integration.spec",
+    "exit": 0,
+    "seconds": 0.98,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-job-selection.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-job-selection.integration.spec.log",
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-pending-files.integration.spec",
+    "exit": 0,
+    "seconds": 1.0,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-pending-files.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-pending-files.integration.spec.log",
+    "passing": 7,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-rate-agreements.integration.spec",
+    "exit": 0,
+    "seconds": 1.08,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-rate-agreements.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-rate-agreements.integration.spec.log",
+    "passing": 10,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-related-ids.integration.spec",
+    "exit": 0,
+    "seconds": 1.01,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-related-ids.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-related-ids.integration.spec.log",
+    "passing": 24,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-retainer-dates.integration.spec",
+    "exit": 0,
+    "seconds": 1.13,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-retainer-dates.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-retainer-dates.integration.spec.log",
+    "passing": 1,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-statement-snapshot.integration.spec",
+    "exit": 0,
+    "seconds": 0.99,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-statement-snapshot.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-statement-snapshot.integration.spec.log",
+    "passing": 1,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-template-storage.integration.spec",
+    "exit": 0,
+    "seconds": 1.15,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-template-storage.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-template-storage.integration.spec.log",
+    "passing": 1,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-tracker-outcome.integration.spec",
+    "exit": 0,
+    "seconds": 0.99,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-tracker-outcome.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-tracker-outcome.integration.spec.log",
+    "passing": 1,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-transaction-policy.integration.spec",
+    "exit": 0,
+    "seconds": 1.24,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-transaction-policy.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-transaction-policy.integration.spec.log",
+    "passing": 22,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "review-user-guards.integration.spec",
+    "exit": 0,
+    "seconds": 0.99,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-user-guards.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/review-user-guards.integration.spec.log",
+    "passing": 7,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-01-work.integration.spec",
+    "exit": 0,
+    "seconds": 2.73,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-01-work.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-01-work.integration.spec.log",
+    "passing": 13,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-02-retainers.integration.spec",
+    "exit": 0,
+    "seconds": 2.81,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-02-retainers.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-02-retainers.integration.spec.log",
+    "passing": 9,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-03-payments.integration.spec",
+    "exit": 0,
+    "seconds": 3.42,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-03-payments.integration.spec.log",
+    "passing": 7,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-04-writeoffs.integration.spec",
+    "exit": 0,
+    "seconds": 2.78,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-04-writeoffs.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-04-writeoffs.integration.spec.log",
+    "passing": 6,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-05-monthend.integration.spec",
+    "exit": 0,
+    "seconds": 2.71,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-05-monthend.integration.spec.log",
+    "passing": 7,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-06-cascade.integration.spec",
+    "exit": 0,
+    "seconds": 4.0,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-06-cascade.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-06-cascade.integration.spec.log",
+    "passing": 9,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-07-refusals.integration.spec",
+    "exit": 0,
+    "seconds": 12.85,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-07-refusals.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-07-refusals.integration.spec.log",
+    "passing": 122,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-08-failures.integration.spec",
+    "exit": 0,
+    "seconds": 3.65,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-08-failures.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-08-failures.integration.spec.log",
+    "passing": 24,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-09-state-boundaries.integration.spec",
+    "exit": 0,
+    "seconds": 6.51,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-09-state-boundaries.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-09-state-boundaries.integration.spec.log",
+    "passing": 21,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-10-integrity.integration.spec",
+    "exit": 0,
+    "seconds": 4.41,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-10-integrity.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-10-integrity.integration.spec.log",
+    "passing": 22,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-11-finalize-races.integration.spec",
+    "exit": 0,
+    "seconds": 4.88,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-11-finalize-races.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-11-finalize-races.integration.spec.log",
+    "passing": 15,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-12-sent-exceptions.integration.spec",
+    "exit": 0,
+    "seconds": 8.93,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-12-sent-exceptions.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-12-sent-exceptions.integration.spec.log",
+    "passing": 72,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-13-retainer-events.integration.spec",
+    "exit": 0,
+    "seconds": 3.68,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-13-retainer-events.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-13-retainer-events.integration.spec.log",
+    "passing": 24,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-lifecycle-14-duplicates.integration.spec",
+    "exit": 0,
+    "seconds": 2.94,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-14-duplicates.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-lifecycle-14-duplicates.integration.spec.log",
+    "passing": 23,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-what-if-01-values.integration.spec",
+    "exit": 0,
+    "seconds": 5.53,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-what-if-01-values.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-what-if-01-values.integration.spec.log",
+    "passing": 308,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-what-if-02-retries.integration.spec",
+    "exit": 0,
+    "seconds": 3.82,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-what-if-02-retries.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-what-if-02-retries.integration.spec.log",
+    "passing": 23,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-what-if-03-history.integration.spec",
+    "exit": 0,
+    "seconds": 3.24,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-what-if-03-history.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-what-if-03-history.integration.spec.log",
+    "passing": 25,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-what-if-04-calendar-races.integration.spec",
+    "exit": 0,
+    "seconds": 2.77,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-what-if-04-calendar-races.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-what-if-04-calendar-races.integration.spec.log",
+    "passing": 13,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-what-if-05-csv.integration.spec",
+    "exit": 0,
+    "seconds": 1.06,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-what-if-05-csv.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-what-if-05-csv.integration.spec.log",
+    "passing": 13,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenario-what-if-06-boundaries.integration.spec",
+    "exit": 0,
+    "seconds": 2.38,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-what-if-06-boundaries.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenario-what-if-06-boundaries.integration.spec.log",
+    "passing": 82,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "scenarios",
+    "exit": 0,
+    "seconds": 84.24,
+    "env": ".env.scenarios",
+    "database_override": null,
+    "command": [
+      "npm",
+      "run",
+      "-s",
+      "test:scenarios"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/scenarios.log",
+    "passing": 838,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "tracker-excel-end-to-end.integration.spec",
+    "exit": 0,
+    "seconds": 3.46,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/tracker-excel-end-to-end.integration.spec.log",
+    "passing": 33,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "transactions-ledger-seams.integration.spec",
+    "exit": 0,
+    "seconds": 3.65,
+    "env": ".env.local",
+    "database_override": null,
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/transactions-ledger-seams.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/transactions-ledger-seams.integration.spec.log",
+    "passing": 28,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "name": "unit",
+    "exit": 0,
+    "seconds": 37.79,
+    "env": ".env.local",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "--recursive",
+      "--exclude",
+      "test/integration/**",
+      "test"
+    ],
+    "log": "docs/decisions/evidence/run-2/acceptance/unit.log",
+    "passing": 1027,
+    "failing": 0,
+    "pending": 0
+  }
+]

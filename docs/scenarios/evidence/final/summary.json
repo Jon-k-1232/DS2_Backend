@@ -1,0 +1,56 @@
+{
+  "verified_at": "2026-09-24T22:42:17.220315-07:00",
+  "unit": 1006,
+  "existing_integration": 1139,
+  "cleanroom": 18,
+  "scenarios": 254,
+  "total": 2417,
+  "failing": 0,
+  "pending": 0,
+  "drift": {
+    "total": 319,
+    "mismatched": 0,
+    "details": [],
+    "engine_vs_ar": {
+      "compared": 320,
+      "ar_rows": 39,
+      "ar_inactive_rows": 1,
+      "mismatched": 0,
+      "details": []
+    }
+  },
+  "protected_counts": {
+    "endpoint": "127.0.0.1:5433",
+    "account_id": 1,
+    "queries_read_only": true,
+    "observed_before_testing": {
+      "customers": 338,
+      "customer_transactions": 39052,
+      "customer_payments": 1005,
+      "customer_writeoffs": 657,
+      "customer_invoices": 2253,
+      "timesheet_entries": 28255,
+      "users": 23
+    },
+    "ds2_local": {
+      "customers": 338,
+      "customer_transactions": 39052,
+      "customer_payments": 1005,
+      "customer_writeoffs": 657,
+      "customer_invoices": 2253,
+      "timesheet_entries": 28255,
+      "users": 23
+    },
+    "ds2_ref_20260922": {
+      "customers": 338,
+      "customer_transactions": 39052,
+      "customer_payments": 1005,
+      "customer_writeoffs": 657,
+      "customer_invoices": 2253,
+      "timesheet_entries": 28255,
+      "users": 23
+    },
+    "unchanged": true,
+    "matches_reference": true
+  }
+}

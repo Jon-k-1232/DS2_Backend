@@ -1,0 +1,312 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 21,
+    "passes": 21,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:51:50.068Z",
+    "end": "2026-09-25T14:51:57.876Z",
+    "duration": 7808
+  },
+  "tests": [
+    {
+      "title": "S missing/foreign mutation identity 0",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing/foreign mutation identity 0",
+      "duration": 766,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S missing/foreign mutation identity bogus",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing/foreign mutation identity bogus",
+      "duration": 705,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S missing/foreign mutation identity 999999",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing/foreign mutation identity 999999",
+      "duration": 697,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S missing/foreign mutation identity 70001",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing/foreign mutation identity 70001",
+      "duration": 712,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S ownership edits cannot move work/customer contact/retainer or reassign a linked job",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S ownership edits cannot move work/customer contact/retainer or reassign a linked job",
+      "duration": 377,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S normal receipt notes cannot impersonate a reversal on create or edit",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S normal receipt notes cannot impersonate a reversal on create or edit",
+      "duration": 208,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S latest payment guard refuses older financial changes and preserves metadata edits",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S latest payment guard refuses older financial changes and preserves metadata edits",
+      "duration": 1068,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S latest writeoff guard, over-credit edit, immutable ownership and metadata update",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S latest writeoff guard, over-credit edit, immutable ownership and metadata update",
+      "duration": 769,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S pending credit cannot be attached to invoice, moved to customer or assigned a foreign job",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S pending credit cannot be attached to invoice, moved to customer or assigned a foreign job",
+      "duration": 347,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S one cent retainer boundary succeeds, zero refuses, original $40 can be restored",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S one cent retainer boundary succeeds, zero refuses, original $40 can be restored",
+      "duration": 208,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses empty selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses empty selection without stamping anything",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses duplicate selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses duplicate selection without stamping anything",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses zero selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses zero selection without stamping anything",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses negative selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses negative selection without stamping anything",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses fraction selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses fraction selection without stamping anything",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses NaN selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses NaN selection without stamping anything",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses unsafe integer selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses unsafe integer selection without stamping anything",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses absent selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses absent selection without stamping anything",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses foreign selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses foreign selection without stamping anything",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S missing mailing contact and sequence exhaustion refuse safely",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing mailing contact and sequence exhaustion refuse safely",
+      "duration": 211,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S corrupt all-absorbed newest chain refuses both receipt and writeoff instead of reopening debt",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S corrupt all-absorbed newest chain refuses both receipt and writeoff instead of reopening debt",
+      "duration": 98,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "S missing/foreign mutation identity 0",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing/foreign mutation identity 0",
+      "duration": 766,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S missing/foreign mutation identity bogus",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing/foreign mutation identity bogus",
+      "duration": 705,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S missing/foreign mutation identity 999999",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing/foreign mutation identity 999999",
+      "duration": 697,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S missing/foreign mutation identity 70001",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing/foreign mutation identity 70001",
+      "duration": 712,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S ownership edits cannot move work/customer contact/retainer or reassign a linked job",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S ownership edits cannot move work/customer contact/retainer or reassign a linked job",
+      "duration": 377,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S normal receipt notes cannot impersonate a reversal on create or edit",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S normal receipt notes cannot impersonate a reversal on create or edit",
+      "duration": 208,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S latest payment guard refuses older financial changes and preserves metadata edits",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S latest payment guard refuses older financial changes and preserves metadata edits",
+      "duration": 1068,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S latest writeoff guard, over-credit edit, immutable ownership and metadata update",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S latest writeoff guard, over-credit edit, immutable ownership and metadata update",
+      "duration": 769,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S pending credit cannot be attached to invoice, moved to customer or assigned a foreign job",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S pending credit cannot be attached to invoice, moved to customer or assigned a foreign job",
+      "duration": 347,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S one cent retainer boundary succeeds, zero refuses, original $40 can be restored",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S one cent retainer boundary succeeds, zero refuses, original $40 can be restored",
+      "duration": 208,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses empty selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses empty selection without stamping anything",
+      "duration": 73,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses duplicate selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses duplicate selection without stamping anything",
+      "duration": 67,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses zero selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses zero selection without stamping anything",
+      "duration": 75,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses negative selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses negative selection without stamping anything",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses fraction selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses fraction selection without stamping anything",
+      "duration": 74,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses NaN selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses NaN selection without stamping anything",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses unsafe integer selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses unsafe integer selection without stamping anything",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses absent selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses absent selection without stamping anything",
+      "duration": 62,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S finalize refuses foreign selection without stamping anything",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S finalize refuses foreign selection without stamping anything",
+      "duration": 72,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S missing mailing contact and sequence exhaustion refuse safely",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S missing mailing contact and sequence exhaustion refuse safely",
+      "duration": 211,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "S corrupt all-absorbed newest chain refuses both receipt and writeoff instead of reopening debt",
+      "fullTitle": "scenario lifecycle S: state and finalization refusal boundaries (07-refusals.md) S corrupt all-absorbed newest chain refuses both receipt and writeoff instead of reopening debt",
+      "duration": 98,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

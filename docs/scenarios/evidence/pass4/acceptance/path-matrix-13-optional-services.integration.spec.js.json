@@ -1,0 +1,144 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 9,
+    "passes": 9,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:58.978Z",
+    "end": "2026-09-25T14:50:59.793Z",
+    "duration": 815
+  },
+  "tests": [
+    {
+      "title": "confirmed-alias query failure yields an empty map and writes nothing",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing confirmed-alias query failure yields an empty map and writes nothing",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "training-example query failure yields no few-shot examples and writes nothing",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing training-example query failure yields no few-shot examples and writes nothing",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "legacy negative duration is held for review and never creates a charge",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing legacy negative duration is held for review and never creates a charge",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "failed holding-row update and fallback preserve the entire database with diagnostic result",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing failed holding-row update and fallback preserve the entire database with diagnostic result",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ingestion notification failure preserves held non-work without creating a charge",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing ingestion notification failure preserves held non-work without creating a charge",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "background ingestion fatal query failure is logged, never a financial write",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing background ingestion fatal query failure is logged, never a financial write",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "AI response with malformed embedded JSON is rejected without any database writes",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing AI response with malformed embedded JSON is rejected without any database writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "AI audit-log database failure does not discard the stubbed valid inference",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing AI audit-log database failure does not discard the stubbed valid inference",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "duration": 223,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "confirmed-alias query failure yields an empty map and writes nothing",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing confirmed-alias query failure yields an empty map and writes nothing",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "training-example query failure yields no few-shot examples and writes nothing",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing training-example query failure yields no few-shot examples and writes nothing",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "legacy negative duration is held for review and never creates a charge",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing legacy negative duration is held for review and never creates a charge",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "failed holding-row update and fallback preserve the entire database with diagnostic result",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing failed holding-row update and fallback preserve the entire database with diagnostic result",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "ingestion notification failure preserves held non-work without creating a charge",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing ingestion notification failure preserves held non-work without creating a charge",
+      "duration": 69,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "background ingestion fatal query failure is logged, never a financial write",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing background ingestion fatal query failure is logged, never a financial write",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "AI response with malformed embedded JSON is rejected without any database writes",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing AI response with malformed embedded JSON is rejected without any database writes",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "AI audit-log database failure does not discard the stubbed valid inference",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing AI audit-log database failure does not discard the stubbed valid inference",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "fullTitle": "Path matrix: optional ingestion services fail without corrupting billing invoice draft PDF renderer failure refuses 500 with no ledger or audit writes",
+      "duration": 223,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

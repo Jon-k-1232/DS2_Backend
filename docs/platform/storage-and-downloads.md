@@ -1,5 +1,10 @@
 # Storage and downloads
 
+## Owner decision update — 2026-09-25
+
+Each issued original and revision references a separate immutable artifact key. Revision upload occurs before metadata commit; storage failure preserves pending exception state. A DB failure after successful upload may leave an unreferenced unique object for operator cleanup, never overwrite an original. Reprint uses the existing account-authorized invoice downloader and causes no ledger entry or delivery claim. This run uses only loopback MinIO. [Contract](../invoicing/invoices.md).
+
+
 Source review: 2026-09-24. Backend-relative citations describe code. `../DS2_Lambdas/Process_Payment_Images/` identifies the separate Lambda repository. No S3 objects, database records or running services were accessed for this document.
 
 ## 1. Purpose and UI
@@ -87,3 +92,14 @@ Configured prefixes/IAM/Terraform do not prove an active event notification or s
 Storage_slug rollout must precede new code; original shared tracker files need migration 021 plus reviewed ownership backfill. Historical balance/write-off/payment/job decisions and negative credit finalization remain accountant/rollout items; document generation does not settle them. Sources: `scripts/review-2026-09/FINAL_REPORT.md:45`, `scripts/review-2026-09/FINAL_REPORT.md:69`. See [operations.md](operations.md).
 
 Coverage: **1 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+
+## Owner decision 6 — hard Audit Record
+
+Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+Invoice archive downloads additionally return500 with no bytes if recording the reprint fails; source-file validation/missing-file responses retain their existing contract. Both modern revisions and historical parent artifacts are identified without changing original ledger rows.
+
+## Run 5 presentation
+
+Run 5 archives both Client and Full evidence PDFs plus a separate UTF-8 JSON source under the private `audit-records/` prefix. Both objects use unique UUID names and conditional create-only writes. The scoped evidence download verifies key identity, bytes, SHA-256, chain and anchor; generic file download never gains access to this prefix. Metadata never exposes either storage key. See [Audit Record storage and API](audit-ledger.md).

@@ -1,0 +1,186 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 12,
+    "passes": 12,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:48.731Z",
+    "end": "2026-09-25T14:50:49.678Z",
+    "duration": 947
+  },
+  "tests": [
+    {
+      "title": "GET /pending-payments/counts/1/1 | query failure refuses 500 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/counts/1/1 | query failure refuses 500 without writes",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /pending-payments/files/1/1 | query failure refuses 500 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/files/1/1 | query failure refuses 500 without writes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /pending-payments/single/1/1/1 | query failure refuses 500 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/single/1/1/1 | query failure refuses 500 without writes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /pending-payments/approve | deleted payment refuses 409 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | deleted payment refuses 409 without writes",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /pending-payments/approve | posted marker refuses retry even if queue flag is false",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | posted marker refuses retry even if queue flag is false",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE /pending-payments/file | file disappears after ownership check: 404 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures DELETE /pending-payments/file | file disappears after ownership check: 404 without writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /pending-payments/upload | storage failure refuses 500 without database writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures POST /pending-payments/upload | storage failure refuses 500 without database writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /pending-payments/file-preview | both storage locations unavailable: 404 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | both storage locations unavailable: 404 without writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /pending-payments/file-preview | processed-list failure falls back to exact pending bytes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | processed-list failure falls back to exact pending bytes",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "approve | postcommit count failure reports saved outcome, never a failed write",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "duration": 367,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "soft-delete | postcommit count failure reports saved outcome, never a failed write",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures soft-delete | postcommit count failure reports saved outcome, never a failed write",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "file | postcommit count failure reports saved outcome, never a failed write",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures file | postcommit count failure reports saved outcome, never a failed write",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "GET /pending-payments/counts/1/1 | query failure refuses 500 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/counts/1/1 | query failure refuses 500 without writes",
+      "duration": 36,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /pending-payments/files/1/1 | query failure refuses 500 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/files/1/1 | query failure refuses 500 without writes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /pending-payments/single/1/1/1 | query failure refuses 500 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/single/1/1/1 | query failure refuses 500 without writes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /pending-payments/approve | deleted payment refuses 409 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | deleted payment refuses 409 without writes",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /pending-payments/approve | posted marker refuses retry even if queue flag is false",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures POST /pending-payments/approve | posted marker refuses retry even if queue flag is false",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "DELETE /pending-payments/file | file disappears after ownership check: 404 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures DELETE /pending-payments/file | file disappears after ownership check: 404 without writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST /pending-payments/upload | storage failure refuses 500 without database writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures POST /pending-payments/upload | storage failure refuses 500 without database writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /pending-payments/file-preview | both storage locations unavailable: 404 without writes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | both storage locations unavailable: 404 without writes",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET /pending-payments/file-preview | processed-list failure falls back to exact pending bytes",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures GET /pending-payments/file-preview | processed-list failure falls back to exact pending bytes",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "approve | postcommit count failure reports saved outcome, never a failed write",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures approve | postcommit count failure reports saved outcome, never a failed write",
+      "duration": 367,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "soft-delete | postcommit count failure reports saved outcome, never a failed write",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures soft-delete | postcommit count failure reports saved outcome, never a failed write",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "file | postcommit count failure reports saved outcome, never a failed write",
+      "fullTitle": "Path matrix: pending-payment queue and storage failures file | postcommit count failure reports saved outcome, never a failed write",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,735 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 13,
+    "passes": 13,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:17.431Z",
+    "end": "2026-09-25T13:33:18.898Z",
+    "duration": 1467
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures DELETE job | family query loses its row under the lock: refusal and no writes",
+      "state": "passed",
+      "duration": 27
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "state": "passed",
+      "duration": 283
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "state": "passed",
+      "duration": 120
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes",
+      "state": "passed",
+      "duration": 65
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures POST preview | timezone conversion failure uses the same local date and writes nothing",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures POST finalize | corrupt customer-information identity refuses schema validation before saving",
+      "state": "passed",
+      "duration": 51
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures POST audit batch | uncoercible JSON identifier refuses 500 before any job or database write",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures ingestion | failed historical-pattern query clears cached failure and holds the entry without charging",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes",
+      "state": "passed",
+      "duration": 52
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures email boundary | missing recipients refuses before storage, network or database writes",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures email boundary | missing subject refuses before storage, network or database writes",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "title": "Path matrix: defensive database and configuration failures email boundary | missing sender configuration refuses before storage, network or database writes",
+      "state": "passed",
+      "duration": 16
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "[fixture]"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST preview | timezone conversion failure uses the same local date and writes nothing"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST finalize | corrupt customer-information identity refuses schema validation before saving"
+      }
+    ],
+    "src/endpoints/job/job-router.js:231:32": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures DELETE job | family query loses its row under the lock: refusal and no writes"
+      }
+    ],
+    "src/endpoints/job/job-router.js:249:5": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures DELETE job | family query loses its row under the lock: refusal and no writes"
+      }
+    ],
+    "src/endpoints/job/job-router.js:251:6": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures DELETE job | family query loses its row under the lock: refusal and no writes"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:207:23": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:148:5": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:150:6": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:334:8": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:337:9": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:461:21": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:830:8": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:831:32": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:384:5": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST finalize | corrupt customer-information identity refuses schema validation before saving"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:394:6": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes"
+      },
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST finalize | corrupt customer-information identity refuses schema validation before saving"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:111:22": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes"
+      }
+    ],
+    "src/endpoints/invoice/billingDate.js:21:5": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST preview | timezone conversion failure uses the same local date and writes nothing"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/schemaValidation/invoiceValidation.js:80:9": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST finalize | corrupt customer-information identity refuses schema validation before saving"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:318:5": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST audit batch | uncoercible JSON identifier refuses 500 before any job or database write"
+      }
+    ],
+    "src/endpoints/accountAudit/account-audit-router.js:320:6": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST audit batch | uncoercible JSON identifier refuses 500 before any job or database write"
+      }
+    ],
+    "src/endpoints/billingReview/cascadeEdit.js:679:18": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:700:9": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures ingestion | failed historical-pattern query clears cached failure and holds the entry without charging"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:702:12": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures ingestion | failed historical-pattern query clears cached failure and holds the entry without charging"
+      }
+    ],
+    "src/endpoints/timesheets/auto-ingest-orchestrator.js:917:14": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures ingestion | failed historical-pattern query clears cached failure and holds the entry without charging"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:303:8": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:306:9": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-service.js:499:32": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes"
+      }
+    ],
+    "src/utils/email/sendEmail.js:48:6": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures email boundary | missing recipients refuses before storage, network or database writes"
+      }
+    ],
+    "src/utils/email/sendEmail.js:52:6": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures email boundary | missing subject refuses before storage, network or database writes"
+      }
+    ],
+    "src/utils/email/sendEmail.js:56:6": [
+      {
+        "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+        "test": "Path matrix: defensive database and configuration failures email boundary | missing sender configuration refuses before storage, network or database writes"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343197866-hrlc4u/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343197866-hrlc4u/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343197866-hrlc4u/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE job | family query loses its row under the lock: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "DELETE",
+      "url": "/jobs/deleteJob/11/1/1",
+      "route": "/deleteJob/:jobID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Job not found."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343198069-mmqhsc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343198069-mmqhsc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343198069-mmqhsc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343198069-mmqhsc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures DELETE payment | second lookup loses a stored payment: refusal and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No matching payment record found."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343198369-qqfuch/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343198369-qqfuch/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343198369-qqfuch/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790343198369-qqfuch/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | second customer lookup disappears: invalid reference and no writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/1/1/1",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 400,
+      "message": "Customer #9 was not found in this account."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures POST finalize | missing inserted parent mapping rolls back its insert and all ledger writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Parent statement missing for customer 7."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures POST preview | timezone conversion failure uses the same local date and writes nothing",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures POST finalize | corrupt customer-information identity refuses schema validation before saving",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Validation of invoice object failed prior to database insert failed on customer_info_id on 7"
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures POST audit batch | uncoercible JSON identifier refuses 500 before any job or database write",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Cannot convert object to primitive value"
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures PUT cascade edit | missing unissued legacy invoice chain refuses 409 without writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/1/1/1",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 409,
+      "message": "The statement this transaction was billed on could not be found, so its amount cannot be changed here. Contact an administrator."
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess-with-overrides/2/1/1",
+      "route": "/reprocess-with-overrides/:entryID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: defensive database and configuration failures POST reprocess with overrides | six minutes at 100 per hour saves exactly 10 dollars; repeat refuses without writes",
+      "file": "test/integration/path-matrix-15-defensive-faults.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess-with-overrides/2/1/1",
+      "route": "/reprocess-with-overrides/:entryID/:accountID/:userID",
+      "status": 409,
+      "message": "This time entry was already applied as transaction #3. Edit that transaction on the Processed & Not Billed tab instead of re-running AI."
+    }
+  ]
+}

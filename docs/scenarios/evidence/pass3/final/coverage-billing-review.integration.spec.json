@@ -1,0 +1,610 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 7,
+    "tests": 31,
+    "passes": 31,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:31:45.729Z",
+    "end": "2026-09-25T13:31:46.607Z",
+    "duration": 878
+  },
+  "tests": [
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 401s without a token",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID happy path: returns the account's distinct entity list",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 401s without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID happy path: returns a YYYY-MM-DD start (or null when nothing is unbilled)",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID 401s without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID happy path: a paginated list of held entries with a total",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID validation: a hold_reason filter never returns rows with another hold reason",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID validation: a nonsense page or page size is refused with 400, never a 500",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID 401s without a token",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start and end are required",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start/end must be YYYY-MM-DD",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID happy path: a valid week returns the consolidated transaction list",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 401s without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID validation: customerId, start and end are all required",
+      "state": "passed",
+      "duration": 4
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID happy path: a customer/period returns the consolidated list plus an anomaly check",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID tenancy: another account's customer id yields an empty/anomaly-free result, never that tenant's rows",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 401s without a token",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID happy path: default mode is \"unprocessed\" and reports a count + eligibility",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "title": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID validation: an unknown mode is refused with a 4xx, never a 500",
+      "state": "passed",
+      "duration": 5
+    }
+  ],
+  "hits": {
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 401s without a token"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 401s without a token"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID 401s without a token"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID 401s without a token"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 401s without a token"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 401s without a token"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)"
+      },
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:96:16": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID validation: a nonsense page or page size is refused with 400, never a 500"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:161:16": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start and end are required"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:165:16": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start/end must be YYYY-MM-DD"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:198:16": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID validation: customerId, start and end are all required"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:224:8": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID validation: an unknown mode is refused with a 4xx, never a 500"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:227:9": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID validation: an unknown mode is refused with a 4xx, never a 500"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-service.js:399:6": [
+      {
+        "file": "test/integration/coverage-billing-review.integration.spec.js",
+        "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID validation: an unknown mode is refused with a 4xx, never a 500"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 401s without a token",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/distinct-entities/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/distinct-entities/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/distinct-entities/1/90013",
+      "route": "/distinct-entities/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/distinct-entities/:accountID/:userID happy path: returns the account's distinct entity list",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/distinct-entities/9001/90013",
+      "route": "/distinct-entities/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 401s without a token",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/earliest-unbilled-month/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/earliest-unbilled-month/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/earliest-unbilled-month/1/90013",
+      "route": "/earliest-unbilled-month/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/earliest-unbilled-month/:accountID/:userID happy path: returns a YYYY-MM-DD start (or null when nothing is unbilled)",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/earliest-unbilled-month/9001/90013",
+      "route": "/earliest-unbilled-month/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID 401s without a token",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pending/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pending/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pending/1/90013",
+      "route": "/pending/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID happy path: a paginated list of held entries with a total",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pending/9001/90013?page=1&limit=5",
+      "route": "/pending/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID validation: a hold_reason filter never returns rows with another hold reason",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pending/9001/90013?hold_reason=low_ai_confidence&limit=20",
+      "route": "/pending/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pending/:accountID/:userID validation: a nonsense page or page size is refused with 400, never a 500",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pending/9001/90013?page=abc&limit=-3",
+      "route": "/pending/:accountID/:userID",
+      "status": 400,
+      "message": "Invalid pagination parameters. page and limit must be positive integers (limit at most 500)."
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID 401s without a token",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/weekly/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/weekly/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/weekly/1/90013",
+      "route": "/weekly/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start and end are required",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/weekly/9001/90013",
+      "route": "/weekly/:accountID/:userID",
+      "status": 400,
+      "message": "start and end query params are required (YYYY-MM-DD)"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID validation: start/end must be YYYY-MM-DD",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/weekly/9001/90013?start=09/01/2026&end=09/07/2026",
+      "route": "/weekly/:accountID/:userID",
+      "status": 400,
+      "message": "start and end must be YYYY-MM-DD format"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/weekly/:accountID/:userID happy path: a valid week returns the consolidated transaction list",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/weekly/9001/90013?start=2026-09-01&end=2026-09-07",
+      "route": "/weekly/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 401s without a token",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pre-invoice/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pre-invoice/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pre-invoice/1/90013",
+      "route": "/pre-invoice/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID validation: customerId, start and end are all required",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pre-invoice/9001/90013?customerId=900101",
+      "route": "/pre-invoice/:accountID/:userID",
+      "status": 400,
+      "message": "customerId, start, end query params are all required"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID happy path: a customer/period returns the consolidated list plus an anomaly check",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pre-invoice/9001/90013?customerId=900101&start=2026-09-01&end=2026-09-30",
+      "route": "/pre-invoice/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/pre-invoice/:accountID/:userID tenancy: another account's customer id yields an empty/anomaly-free result, never that tenant's rows",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/pre-invoice/9001/90013?customerId=1&start=2020-01-01&end=2030-12-31",
+      "route": "/pre-invoice/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 401s without a token",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s an \"employee\" caller — requireManagerOrAdmin mount gate",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/9001/90011",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID 403s when the URL account is not the caller's own (cross-tenant)",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/90013",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID happy path: default mode is \"unprocessed\" and reports a count + eligibility",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/9001/90013",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "integration: coverage — billing-review read routes GET /billing-review/reprocess-count/:accountID/:userID validation: an unknown mode is refused with a 4xx, never a 500",
+      "file": "test/integration/coverage-billing-review.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/9001/90013?mode=everything-please",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 400,
+      "message": "unknown reprocess mode: everything-please"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 2,
+    "tests": 11,
+    "passes": 11,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:31:34.944Z",
+    "end": "2026-09-25T13:31:35.129Z",
+    "duration": 185
+  },
+  "tests": [
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service getClientRates: effective rate = time billings ÷ time hours; charges excluded; lowercase \"time\" counts",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service getTimeAllocation: billable/non-billable hours split and tracker section",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service getTimeAllocation: excludeIds removes a customer from the totals",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service getTaxSeasonCapacity: lowercase \"time\" hours count",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service getWipAging: future-dated rows stay out of the buckets and are reported separately",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service getJobBudgets: actual counts billable work only",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service getExcludableCustomers: returns the customer list and default-excluded ids",
+      "state": "passed",
+      "duration": 1
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service AR aging (year-end packet sheet) sums the latest snapshot of every newest-date parent, includes the inactive debtor, and ages by statement date",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service AR aging (year-end packet sheet) oldest_open_charge_date walks billed billable charges newest-first (FIFO) until they cover the balance",
+      "state": "passed",
+      "duration": 2
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service AR aging (year-end packet sheet) agrees with the billing engine and the account audit",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/analytics.integration.spec.js",
+      "title": "integration: analytics service AR aging (year-end packet sheet) excludeIds drops the customer (year-end packet exclusions)",
+      "state": "passed",
+      "duration": 2
+    }
+  ],
+  "hits": {},
+  "requests": []
+}

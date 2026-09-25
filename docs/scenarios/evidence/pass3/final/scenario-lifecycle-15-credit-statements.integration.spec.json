@@ -1,0 +1,2908 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 11,
+    "passes": 11,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:26:24.991Z",
+    "end": "2026-09-25T13:26:30.098Z",
+    "duration": 5107
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "state": "passed",
+      "duration": 183
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "state": "passed",
+      "duration": 321
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "state": "passed",
+      "duration": 328
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "state": "passed",
+      "duration": 487
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "state": "passed",
+      "duration": 431
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "state": "passed",
+      "duration": 606
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "state": "passed",
+      "duration": 639
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "state": "passed",
+      "duration": 668
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "state": "passed",
+      "duration": 122
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "state": "passed",
+      "duration": 515
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "title": "owner decision 2: optional signed credit statements eligibility fails closed when pricing is unavailable rather than labelling credits zero",
+      "state": "passed",
+      "duration": 28
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "[fixture]"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:109:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:111:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:384:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:394:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged"
+      }
+    ],
+    "src/endpoints/invoice/creditSelection.js:6:92": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      }
+    ],
+    "src/endpoints/invoice/creditSelection.js:8:45": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      }
+    ],
+    "src/endpoints/invoice/creditSelection.js:11:151": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      }
+    ],
+    "src/endpoints/invoice/creditSelection.js:12:103": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      }
+    ],
+    "src/endpoints/invoice/creditSelection.js:16:41": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      }
+    ],
+    "src/endpoints/invoice/creditSelection.js:18:105": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      }
+    ],
+    "src/endpoints/invoice/creditSelection.js:20:83": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      }
+    ],
+    "src/utils/ledgerAction.js:8:118": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:248:48": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes"
+      }
+    ],
+    "src/pdfCreator/zipOrchestrator.js:80:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged"
+      }
+    ],
+    "src/pdfCreator/zipOrchestrator.js:82:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:61:34": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged"
+      }
+    ],
+    "src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js:62:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:170:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements eligibility fails closed when pricing is unavailable rather than labelling credits zero"
+      }
+    ],
+    "src/endpoints/invoice/invoice-router.js:171:13": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements eligibility fails closed when pricing is unavailable rather than labelling credits zero"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/createInvoiceQueries.js:50:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements eligibility fails closed when pricing is unavailable rather than labelling credits zero"
+      }
+    ],
+    "src/endpoints/invoice/createInvoice/createInvoiceQueries.js:52:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+        "test": "owner decision 2: optional signed credit statements eligibility fails closed when pricing is unavailable rather than labelling credits zero"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785447-6hwlvd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785447-6hwlvd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785447-6hwlvd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785447-6hwlvd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "[fixture]",
+      "file": "",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785631-lez9kd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785631-lez9kd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785631-lez9kd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785631-lez9kd/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/1/1",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved balance."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (already finalized today or credit balance)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements shows -$50 clearly; preview and default skip preserve every pending record",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (already finalized today or credit balance)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_25_a8680b81-5707-4bba-b535-c54f1344d7b1%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785955-9ksqxl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785955-9ksqxl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785955-9ksqxl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342785955-9ksqxl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/1/1",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786062-yfhkqg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786062-yfhkqg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786062-yfhkqg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786062-yfhkqg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements explicitly issues -$50 with no payment due, session actor/reason and frozen evidence",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "No invoices created — 1 customer(s) skipped (see details)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786215-hrvf46/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786215-hrvf46/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786215-hrvf46/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786215-hrvf46/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_26_bf4920e3-b5ee-47df-b8aa-060272f6b233%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786401-hlb2o5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786401-hlb2o5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786401-hlb2o5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786401-hlb2o5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements same-day guard remains; selected carry-forward absorbs -$50 once and adds $20 = -$30",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_25_a8680b81-5707-4bba-b535-c54f1344d7b1%2Fcustomer_7%2FOptional_credit.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786532-q65nty/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786532-q65nty/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786532-q65nty/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786532-q65nty/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_26_96bdc00c-dd75-48cf-8476-c1f65b704dc4%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786714-bd3v9r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786714-bd3v9r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786714-bd3v9r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786714-bd3v9r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_26_d1a984dc-0e3d-45c3-abf9-e8f00b9ab9d8%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786913-ni0nm1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786913-ni0nm1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786913-ni0nm1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342786913-ni0nm1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements crosses credit to zero then debt without another credit payment or dropped activity",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787020-w5e3vi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787020-w5e3vi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787020-w5e3vi/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s). Skipped 1 customer(s) (see details)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787206-tvyacw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787206-tvyacw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787206-tvyacw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787206-tvyacw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_26_27_978c180d-9675-48ab-aa16-ad10993bc1b8%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787380-v2u06t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787380-v2u06t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787380-v2u06t/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements mixed batch issues debit only and leaves an unselected credit customer unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787468-70oss6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787468-70oss6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787468-70oss6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787643-qkhsak/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787643-qkhsak/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787643-qkhsak/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/14/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787765-6t5naa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787765-6t5naa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787765-6t5naa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/15/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/12/exceptions/1/1",
+      "route": "/:invoiceID/exceptions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/12/exceptions/1/reverse/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787873-isxpp8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787873-isxpp8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787873-isxpp8/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/16/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/12/exceptions/1/resolve/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_27_416cca5d-74ec-4a15-8d95-1593bef7f4c3%2Fcustomer_9%2FINV-2026-00008_revision_1.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787986-xnqz0q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787986-xnqz0q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787986-xnqz0q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342787986-xnqz0q/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/17/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -10 to 10 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788087-k6pyxh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788087-k6pyxh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788087-k6pyxh/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/18/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788268-hpdt2a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788268-hpdt2a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788268-hpdt2a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/19/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788402-rmtuif/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788402-rmtuif/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788402-rmtuif/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/20/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/17/exceptions/1/1",
+      "route": "/:invoiceID/exceptions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/17/exceptions/2/reverse/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788505-6qdfl1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788505-6qdfl1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788505-6qdfl1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788505-6qdfl1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/21/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/17/exceptions/2/resolve/1/1",
+      "route": "/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Finvoice_images%2F09-25-2026_T_06_26_28_c58c4067-0b7b-4dc7-a8ec-1206397b4ce7%2Fcustomer_10%2FINV-2026-00010_revision_1.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788639-8bgr7h/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788639-8bgr7h/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788639-8bgr7h/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342788639-8bgr7h/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/22/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements a bounced receipt revises chosen credit -50 to -30 once with the correct PDF label",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "includeCreditStatement must be a boolean."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "includeCreditStatement must be a boolean."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "includeCreditStatement must be a boolean."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "includeCreditStatement must be a boolean."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "includeCreditStatement must be a boolean."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "includeCreditStatement must be a boolean."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "includeCreditStatement must be a boolean."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Reason is required and must be at most 2000 characters."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Select at least one customer to invoice."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Select at least one customer to invoice."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Select at least one customer to invoice."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid customer selection."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid customer selection."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid customer selection."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid customer selection."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "A customer was selected more than once; select each customer once."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid invoice configuration."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid invoice configuration."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid invoice configuration."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid invoice creation settings."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid invoice creation settings."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid invoice creation settings."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "isFinalized must be a boolean."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements validates every new raw option and customer shape before writing",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "allowSameDayRebill must be a boolean."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Selected customer was not found in this account."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 404,
+      "envelope": 404,
+      "message": "Selected customer was not found in this account."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements rejects missing/cross-account customers, anonymous/staff and foreign tenants without writes",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/1/1",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342789562-bi602c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342789562-bi602c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342789562-bi602c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342789562-bi602c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/23/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "insert into \"customer_invoices\" (\"account_id\", \"beginning_balance\", \"created_by_user_id\", \"customer_id\", \"customer_info_id\", \"due_date\", \"end_date\", \"fully_paid_date\", \"invoice_date\", \"invoice_file_location\", \"invoice_number\", \"is_invoice_paid_in_full\", \"notes\", \"parent_invoice_id\", \"remaining_balance_on_invoice\", \"start_date\", \"total_amount_due\", \"total_charges\", \"total_payments\", \"total_retainers\", \"total_write_offs\") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) returning * - scenario injected database failure"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "insert into \"invoice_issues\" (\"account_id\", \"artifact_key\", \"credit_selection_reason\", \"customer_id\", \"invoice_id\", \"invoice_number\", \"issued_by\", \"payload\") values ($1, $2, $3, $4, $5, $6, $7, $8) returning * - scenario injected database failure"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "insert into \"invoice_statement_members\" (\"account_id\", \"invoice_id\", \"record_id\", \"snapshot\", \"table_name\") values ($1, $2, $3, $4, $5), ($6, $7, $8, $9, $10), ($11, $12, $13, $14, $15), ($16, $17, $18, $19, $20), ($21, $22, $23, $24, $25), ($26, $27, $28, $29, $30), ($31, $32, $33, $34, $35), ($36, $37, $38, $39, $40), ($41, $42, $43, $44, $45), ($46, $47, $48, $49, $50) - scenario injected database failure"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "insert into \"invoice_revisions\" (\"account_id\", \"artifact_key\", \"created_by\", \"invoice_id\", \"issued_amount\", \"payload\", \"revision\") values ($1, $2, $3, $4, $5, $6, $7) - scenario injected database failure"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "insert into \"invoice_history\" (\"account_id\", \"actor_id\", \"detail\", \"event\", \"exception_id\", \"invoice_id\") values ($1, $2, $3, $4, $5, $6) - scenario injected database failure"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements selected credit database and storage failures leave all money, membership and selection evidence unchanged",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/777",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Error in saving invoice images: local storage unavailable"
+    },
+    {
+      "test": "owner decision 2: optional signed credit statements eligibility fails closed when pricing is unavailable rather than labelling credits zero",
+      "file": "test/integration/scenario-lifecycle-15-credit-statements.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/createInvoice/AccountsWithBalance/1/1",
+      "route": "/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+      "status": 500,
+      "envelope": 500,
+      "message": "Unable to calculate statement balances. Refresh before selecting invoices."
+    }
+  ]
+}

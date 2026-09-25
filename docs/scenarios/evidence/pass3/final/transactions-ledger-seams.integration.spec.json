@@ -1,0 +1,843 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 8,
+    "tests": 28,
+    "passes": 28,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:27:19.556Z",
+    "end": "2026-09-25T13:27:26.192Z",
+    "duration": 6636
+  },
+  "tests": [
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a funded create links transaction → draw ← payment exactly",
+      "state": "passed",
+      "duration": 212
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a failed transaction insert rolls back the draw and the job total (create)",
+      "state": "passed",
+      "duration": 56
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a failed transaction write rolls back the draw re-price, the payment sync and the job totals (update)",
+      "state": "passed",
+      "duration": 196
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a database failure after payment sync rolls back the transaction, draw, payment and job together",
+      "state": "passed",
+      "duration": 198
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock an ingestion caller's transaction is joined: its later failure rolls the entry back",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock ingestion callers that already hold a foreign-key share lock on the customer do not deadlock",
+      "state": "passed",
+      "duration": 33
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock an edit queued behind finalize re-reads the stored row after locking and refuses the now-billed entry",
+      "state": "passed",
+      "duration": 198
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock two concurrent retainer-funded entries cannot both spend the same balance",
+      "state": "passed",
+      "duration": 142
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits billable → non-billable returns exactly its draw to the retainer and removes its payment (later draws keep their size)",
+      "state": "passed",
+      "duration": 417
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits refuses the non-billable toggle once the linked payment is billed — nothing changes",
+      "state": "passed",
+      "duration": 159
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "state": "passed",
+      "duration": 296
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits non-billable → billable with a retainer creates the draw and its linked payment",
+      "state": "passed",
+      "duration": 266
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a date-only edit moves the linked payment date so the link stays resolvable",
+      "state": "passed",
+      "duration": 405
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused",
+      "state": "passed",
+      "duration": 453
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits deleting one of two identical funded entries removes exactly its own draw and payment",
+      "state": "passed",
+      "duration": 419
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a legacy funded entry (no draw marker) is deleted with its single matching payment and a compensating snapshot",
+      "state": "passed",
+      "duration": 140
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses a create against another customer's retainer before any write",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses funding an update from another customer's retainer",
+      "state": "passed",
+      "duration": 159
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer",
+      "state": "passed",
+      "duration": 45
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 — the authenticated actor is the recorded creator, not a body-supplied loggedByUserID create: a spoofed loggedByUserID in the body is ignored — the authenticated actor is the creator",
+      "state": "passed",
+      "duration": 133
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 — the authenticated actor is the recorded creator, not a body-supplied loggedByUserID update: a spoofed loggedByUserID in the body can never overwrite the original creator",
+      "state": "passed",
+      "duration": 256
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 — the authenticated actor is the recorded creator, not a body-supplied loggedByUserID a \"fund\" retainer draw and its auto payment are attributed to the authenticated actor, ignoring a spoofed loggedByUserID",
+      "state": "passed",
+      "duration": 133
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 — compensating retainer snapshots record the authenticated actor, not the previous creator reprice (amount edit) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "state": "passed",
+      "duration": 147
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 — compensating retainer snapshots record the authenticated actor, not the previous creator unfund (billable → non-billable) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "state": "passed",
+      "duration": 139
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 — compensating retainer snapshots record the authenticated actor, not the previous creator delete of a legacy-funded entry stamps the compensating snapshot with the authenticated actor performing the delete",
+      "state": "passed",
+      "duration": 151
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 — a string \"false\" billable/subscription flag is honored, not coerced to true isTransactionBillable: \"false\" with a retainer selected stores non-billable and funds NOTHING — no draw, no payment",
+      "state": "passed",
+      "duration": 136
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 — a string \"false\" billable/subscription flag is honored, not coerced to true isInAdditionToMonthlyCharge: \"false\" is honored on both create and update",
+      "state": "passed",
+      "duration": 391
+    },
+    {
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "title": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) training-insert SAVEPOINT isolation against a genuine PostgreSQL error a real division-by-zero during the AI training insert is contained by its SAVEPOINT — the entry commits and the connection stays usable",
+      "state": "passed",
+      "duration": 147
+    }
+  ],
+  "hits": {
+    "src/endpoints/transactions/transactions-router.js:68:5": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a failed transaction insert rolls back the draw and the job total (create)"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock two concurrent retainer-funded entries cannot both spend the same balance"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses a create against another customer's retainer before any write"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:70:6": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a failed transaction insert rolls back the draw and the job total (create)"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock two concurrent retainer-funded entries cannot both spend the same balance"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses a create against another customer's retainer before any write"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a failed transaction write rolls back the draw re-price, the payment sync and the job totals (update)"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a database failure after payment sync rolls back the transaction, draw, payment and job together"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits refuses the non-billable toggle once the linked payment is billed — nothing changes"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses funding an update from another customer's retainer"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a failed transaction write rolls back the draw re-price, the payment sync and the job totals (update)"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a database failure after payment sync rolls back the transaction, draw, payment and job together"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits refuses the non-billable toggle once the linked payment is billed — nothing changes"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses funding an update from another customer's retainer"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:664:38": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock an edit queued behind finalize re-reads the stored row after locking and refuses the now-billed entry"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:141:6": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock two concurrent retainer-funded entries cannot both spend the same balance"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:360:71": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits refuses the non-billable toggle once the linked payment is billed — nothing changes"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:112:5": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:114:6": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:383:6": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:125:6": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses a create against another customer's retainer before any write"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses funding an update from another customer's retainer"
+      },
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:574:5": [
+      {
+        "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+        "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) training-insert SAVEPOINT isolation against a genuine PostgreSQL error a real division-by-zero during the AI training insert is contained by its SAVEPOINT — the entry commits and the connection stays usable"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a funded create links transaction → draw ← payment exactly",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a failed transaction insert rolls back the draw and the job total (create)",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"customer_transactions\" (\"account_id\", \"created_at\", \"created_by_user_id\", \"customer_id\", \"customer_invoice_id\", \"customer_job_id\", \"detailed_work_description\", \"general_work_description_id\", \"is_excess_to_subscription\", \"is_transaction_billable\", \"logged_for_user_id\", \"note\", \"quantity\", \"retainer_id\", \"total_transaction\", \"transaction_date\", \"transaction_type\", \"unit_cost\") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) returning * - insert or update on table \"customer_transactions\" violates foreign key constraint \"customer_transactions_general_work_description_id_fkey\""
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a failed transaction write rolls back the draw re-price, the payment sync and the job totals (update)",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a failed transaction write rolls back the draw re-price, the payment sync and the job totals (update)",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "update \"customer_transactions\" set \"transaction_id\" = $1, \"account_id\" = $2, \"customer_id\" = $3, \"customer_job_id\" = $4, \"retainer_id\" = $5, \"logged_for_user_id\" = $6, \"general_work_description_id\" = $7, \"detailed_work_description\" = $8, \"transaction_date\" = $9, \"transaction_type\" = $10, \"quantity\" = $11, \"unit_cost\" = $12, \"total_transaction\" = $13, \"is_transaction_billable\" = $14, \"is_excess_to_subscription\" = $15, \"note\" = $16 where \"account_id\" = $17 and \"transaction_id\" = $18 returning * - invalid input syntax for type date: \"not-a-date\""
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a database failure after payment sync rolls back the transaction, draw, payment and job together",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock a database failure after payment sync rolls back the transaction, draw, payment and job together",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "SELECT 1/0 - division by zero"
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock an edit queued behind finalize re-reads the stored row after locking and refuses the now-billed entry",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock two concurrent retainer-funded entries cannot both spend the same balance",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Retainer does not have enough balance to cover the transaction. Available: $40.00."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 2 — one transaction under the customer ledger lock two concurrent retainer-funded entries cannot both spend the same balance",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits billable → non-billable returns exactly its draw to the retainer and removes its payment (later draws keep their size)",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits billable → non-billable returns exactly its draw to the retainer and removes its payment (later draws keep their size)",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits billable → non-billable returns exactly its draw to the retainer and removes its payment (later draws keep their size)",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits refuses the non-billable toggle once the linked payment is billed — nothing changes",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits refuses the non-billable toggle once the linked payment is billed — nothing changes",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The retainer payment linked to this transaction has already been billed; the entry can no longer be made non-billable or $0. Contact support."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The retainer payment linked to this transaction has already been billed; the entry can no longer be made non-billable or $0. Contact support."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The retainer payment linked to this transaction has already been billed; the amount, date and job can no longer change. Contact support."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The retainer payment linked to this transaction has already been billed and cannot be removed. Contact support."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a payment written before the newest statement counts as billed even if finalize never stamped it",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits non-billable → billable with a retainer creates the draw and its linked payment",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits non-billable → billable with a retainer creates the draw and its linked payment",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a date-only edit moves the linked payment date so the link stays resolvable",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a date-only edit moves the linked payment date so the link stays resolvable",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a date-only edit moves the linked payment date so the link stays resolvable",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits an amount edit re-prices its draw in place, the payment and the job total; an over-draw is refused",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Edited transaction amount is greater than the current retainer balance. This entry can increase by at most $90.00."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits deleting one of two identical funded entries removes exactly its own draw and payment",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits deleting one of two identical funded entries removes exactly its own draw and payment",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits deleting one of two identical funded entries removes exactly its own draw and payment",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 7 — retainer-funded edits a legacy funded entry (no draw marker) is deleted with its single matching payment and a compensating snapshot",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses a create against another customer's retainer before any write",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The selected retainer/prepayment belongs to a different customer than this transaction."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses funding an update from another customer's retainer",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses funding an update from another customer's retainer",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The selected retainer/prepayment belongs to a different customer than this transaction."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The selected retainer/prepayment belongs to a different customer than this transaction."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The selected retainer/prepayment belongs to a different customer than this transaction."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) finding 8 — an entry only draws on its own customer's retainer refuses updating or deleting an entry whose stored draw sits on another customer's retainer",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The selected retainer/prepayment belongs to a different customer than this transaction."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 — the authenticated actor is the recorded creator, not a body-supplied loggedByUserID create: a spoofed loggedByUserID in the body is ignored — the authenticated actor is the creator",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 — the authenticated actor is the recorded creator, not a body-supplied loggedByUserID update: a spoofed loggedByUserID in the body can never overwrite the original creator",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 — the authenticated actor is the recorded creator, not a body-supplied loggedByUserID update: a spoofed loggedByUserID in the body can never overwrite the original creator",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A3 — the authenticated actor is the recorded creator, not a body-supplied loggedByUserID a \"fund\" retainer draw and its auto payment are attributed to the authenticated actor, ignoring a spoofed loggedByUserID",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 — compensating retainer snapshots record the authenticated actor, not the previous creator reprice (amount edit) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 — compensating retainer snapshots record the authenticated actor, not the previous creator unfund (billable → non-billable) on a legacy-funded entry stamps the compensating snapshot with the authenticated editor",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4-2 — compensating retainer snapshots record the authenticated actor, not the previous creator delete of a legacy-funded entry stamps the compensating snapshot with the authenticated actor performing the delete",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 — a string \"false\" billable/subscription flag is honored, not coerced to true isTransactionBillable: \"false\" with a retainer selected stores non-billable and funds NOTHING — no draw, no payment",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 — a string \"false\" billable/subscription flag is honored, not coerced to true isInAdditionToMonthlyCharge: \"false\" is honored on both create and update",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 — a string \"false\" billable/subscription flag is honored, not coerced to true isInAdditionToMonthlyCharge: \"false\" is honored on both create and update",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) A4 — a string \"false\" billable/subscription flag is honored, not coerced to true isInAdditionToMonthlyCharge: \"false\" is honored on both create and update",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transaction ledger seams (atomic + locked CRUD, retainer funding, retainer ownership) training-insert SAVEPOINT isolation against a genuine PostgreSQL error a real division-by-zero during the AI training insert is contained by its SAVEPOINT — the entry commits and the connection stays usable",
+      "file": "test/integration/transactions-ledger-seams.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    }
+  ]
+}

@@ -1,0 +1,704 @@
+{
+  "stats": {
+    "suites": 18,
+    "tests": 49,
+    "passes": 49,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:40:13.956Z",
+    "end": "2026-09-25T06:40:16.179Z",
+    "duration": 2223
+  },
+  "tests": [
+    {
+      "title": "restores the debt on the current chain and un-pays the parent",
+      "fullTitle": "integration: payment reversal (NSF) restores the debt on the current chain and un-pays the parent",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "audit agrees: net paid is zero and outstanding equals the restored debt",
+      "fullTitle": "integration: payment reversal (NSF) audit agrees: net paid is zero and outstanding equals the restored debt",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses to reverse twice or reverse a reversal",
+      "fullTitle": "integration: payment reversal (NSF) refuses to reverse twice or reverse a reversal",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "HTTP delete of a plain payment leaves every retainer row untouched and restores the chain exactly",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) HTTP delete of a plain payment leaves every retainer row untouched and restores the chain exactly",
+      "duration": 50,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "retainer-funded payments draw from the chain LATEST balance and delete/edit only their own draw snapshot",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) retainer-funded payments draw from the chain LATEST balance and delete/edit only their own draw snapshot",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses to delete a payment whose retainer draw belongs to a time/charge entry",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) refuses to delete a payment whose retainer draw belongs to a time/charge entry",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a payment / write-off entered on bill day BEFORE the run is billed; one entered after the run is not",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed immutability from stored rows and the statement TIMESTAMP (B2) a payment / write-off entered on bill day BEFORE the run is billed; one entered after the run is not",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a failure after the snapshot insert leaves no orphan snapshot and no mirror change",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) multi-row ledger mutations are atomic and serialized per customer (B3) a failure after the snapshot insert leaves no orphan snapshot and no mirror change",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a second payment on the same chain waits for the first and builds on its snapshot (no lost update)",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) multi-row ledger mutations are atomic and serialized per customer (B3) a second payment on the same chain waits for the first and builds on its snapshot (no lost update)",
+      "duration": 321,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the picker skips an exhausted chain instead of resurrecting its root",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) the picker skips an exhausted chain instead of resurrecting its root",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "updating the starting amount shifts the whole chain and keeps the draw history",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) updating the starting amount shifts the whole chain and keeps the draw history",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "delete refuses while any chain row is drawn on or referenced, and removes an unused root",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) delete refuses while any chain row is drawn on or referenced, and removes an unused root",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create \u2192 note edit \u2192 amount edit \u2192 delete all succeed; the fabricated marker never survives",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-1 \u2014 retainer creation strips a client-supplied cancellation marker create \u2192 note edit \u2192 amount edit \u2192 delete all succeed; the fabricated marker never survives",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a GENUINE cancellation marker (written by an actual NSF-of-overpayment reversal) still blocks edits and deletes",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-1 \u2014 retainer creation strips a client-supplied cancellation marker a GENUINE cancellation marker (written by an actual NSF-of-overpayment reversal) still blocks edits and deletes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "job-level write-offs create no snapshot and must credit one of the customer\u2019s own jobs",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) job-level write-offs create no snapshot and must credit one of the customer\u2019s own jobs",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "records the prepayment id on the payment and removes the untouched prepayment on delete",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) records the prepayment id on the payment and removes the untouched prepayment on delete",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses the delete once the prepayment has been drawn on",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) refuses the delete once the prepayment has been drawn on",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "finds the prepayment of a legacy split that has no id marker",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) finds the prepayment of a legacy split that has no id marker",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A1: a forged legacy-shaped split note on an unrelated payment never claims another receipt's already-linked prepayment",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) A1: a forged legacy-shaped split note on an unrelated payment never claims another receipt's already-linked prepayment",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A1: the same forged note on a NOTE UPDATE cannot attach a claim to another receipt's prepayment either",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) A1: the same forged note on a NOTE UPDATE cannot attach a claim to another receipt's prepayment either",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: a nested marker is stripped to a fixed point, never manufacturing an executable link",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-1 \u2014 nested/multilevel link markers never survive sanitisation create: a nested marker is stripped to a fixed point, never manufacturing an executable link",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update: a nested marker cannot manufacture a claim on another receipt's prepayment; deleting the forged payment leaves the genuine prepayment and its receipt intact",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-1 \u2014 nested/multilevel link markers never survive sanitisation update: a nested marker cannot manufacture a claim on another receipt's prepayment; deleting the forged payment leaves the genuine prepayment and its receipt intact",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "belt-and-suspenders: the exact resolver refuses a [prepayment_retainer:N] link already claimed by a different payment's marker",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-1 \u2014 nested/multilevel link markers never survive sanitisation belt-and-suspenders: the exact resolver refuses a [prepayment_retainer:N] link already claimed by a different payment's marker",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: a complete fabricated \"[reversed \u2026]\" marker is stripped; the payment can still be NSF-reversed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 \u2014 client-written \"[reversed \u2026]\" status text never survives sanitisation create: a complete fabricated \"[reversed \u2026]\" marker is stripped; the payment can still be NSF-reversed",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update: the same fabricated marker typed into a note edit is stripped too; a real NSF reversal still succeeds",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 \u2014 client-written \"[reversed \u2026]\" status text never survives sanitisation update: the same fabricated marker typed into a note edit is stripped too; a real NSF reversal still succeeds",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "nested and unterminated \"[reversed \u2026\" variants are stripped to a fixed point too",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 \u2014 client-written \"[reversed \u2026]\" status text never survives sanitisation nested and unterminated \"[reversed \u2026\" variants are stripped to a fixed point too",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a GENUINE [reversed \u2026] marker (written by an actual NSF reversal) survives a note edit and still blocks a second reversal",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 \u2014 client-written \"[reversed \u2026]\" status text never survives sanitisation a GENUINE [reversed \u2026] marker (written by an actual NSF reversal) survives a note edit and still blocks a second reversal",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "strips the [reversed \u2026] marker so the payment can be reversed again; the reversal row itself also blocks a second reversal",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) deleting a reversal restores the original payment (item 7) strips the [reversed \u2026] marker so the payment can be reversed again; the reversal row itself also blocks a second reversal",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "posts the payment and marks the pending row processed in one transaction; a retry is refused",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two simultaneous approvals of one pending row post exactly one payment",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a refused payment leaves the pending row unprocessed and posts nothing",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) a refused payment leaves the pending row unprocessed and posts nothing",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the legacy PUT two-step flow is retired (A6) \u2014 it always answers 410 and never marks the row processed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) the legacy PUT two-step flow is retired (A6) \u2014 it always answers 410 and never marks the row processed",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "records [retainer_draw:<id>] on the payment, drops client-typed link markers and keeps the link through note edits",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) records [retainer_draw:<id>] on the payment, drops client-typed link markers and keeps the link through note edits",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reviewer probe: B's draw closer in time to payment A than A's own draw \u2014 deleting A never takes B's draw",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) reviewer probe: B's draw closer in time to payment A than A's own draw \u2014 deleting A never takes B's draw",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "legacy payments (no marker): a unique draw in the \u00b11 s window is used, several are refused and nothing changes",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) legacy payments (no marker): a unique draw in the \u00b11 s window is used, several are refused and nothing changes",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cancels the untouched $50 prepayment with the $100 debt restore; deleting the reversal restores both exactly",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) cancels the untouched $50 prepayment with the $100 debt restore; deleting the reversal restores both exactly",
+      "duration": 61,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses the reversal once the prepayment has been drawn on \u2014 nothing is written; after adjusting the retainer it succeeds",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) refuses the reversal once the prepayment has been drawn on \u2014 nothing is written; after adjusting the retainer it succeeds",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a legacy split (no [prepayment_retainer:<id>] marker) is cancelled and restored the same way",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) a legacy split (no [prepayment_retainer:<id>] marker) is cancelled and restored the same way",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a reversed payment cannot be re-priced or deleted while its reversal exists",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) a reversed payment cannot be re-priced or deleted while its reversal exists",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "payments and write-offs that reference the absorbed same-day statement land on the live statement, annotated",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) payments and write-offs that reference the absorbed same-day statement land on the live statement, annotated",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "genuinely independent same-date statements (no marker) all stay live and are paid directly",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) genuinely independent same-date statements (no marker) all stay live and are paid directly",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A5: refuses a payment when every newest-date root is marked absorbed, with a message pointing at finalize/repair",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) A5: refuses a payment when every newest-date root is marked absorbed, with a message pointing at finalize/repair",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A5: the reversal path refuses the same way once every newest-date root is marked absorbed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) A5: the reversal path refuses the same way once every newest-date root is marked absorbed",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a job-level write-off posted in the statement\u2019s millisecond but AFTER it stays editable; one before it is billed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed/immutability gate is decided in SQL, exactly like the engine statement gate (seam 10) a job-level write-off posted in the statement\u2019s millisecond but AFTER it stays editable; one before it is billed",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a payment snapshot and its retainer draw in the statement\u2019s millisecond: after \u2192 editable, at the same microsecond \u2192 billed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed/immutability gate is decided in SQL, exactly like the engine statement gate (seam 10) a payment snapshot and its retainer draw in the statement\u2019s millisecond: after \u2192 editable, at the same microsecond \u2192 billed",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: a payment against customer B's invoice naming customer A's job is refused; nothing is written",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 \u2014 payments and invoice-linked write-offs refuse a job that belongs to a different customer create: a payment against customer B's invoice naming customer A's job is refused; nothing is written",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update: moving an existing payment onto customer A's job is refused; the row is unchanged",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 \u2014 payments and invoice-linked write-offs refuse a job that belongs to a different customer update: moving an existing payment onto customer A's job is refused; the row is unchanged",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: an invoice-linked write-off against customer A's job is refused; nothing is written",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 \u2014 payments and invoice-linked write-offs refuse a job that belongs to a different customer create: an invoice-linked write-off against customer A's job is refused; nothing is written",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "restores the debt on the current chain and un-pays the parent",
+      "fullTitle": "integration: payment reversal (NSF) restores the debt on the current chain and un-pays the parent",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "audit agrees: net paid is zero and outstanding equals the restored debt",
+      "fullTitle": "integration: payment reversal (NSF) audit agrees: net paid is zero and outstanding equals the restored debt",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses to reverse twice or reverse a reversal",
+      "fullTitle": "integration: payment reversal (NSF) refuses to reverse twice or reverse a reversal",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "HTTP delete of a plain payment leaves every retainer row untouched and restores the chain exactly",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) HTTP delete of a plain payment leaves every retainer row untouched and restores the chain exactly",
+      "duration": 50,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "retainer-funded payments draw from the chain LATEST balance and delete/edit only their own draw snapshot",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) retainer-funded payments draw from the chain LATEST balance and delete/edit only their own draw snapshot",
+      "duration": 64,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses to delete a payment whose retainer draw belongs to a time/charge entry",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) payment delete never touches unrelated retainers (B1) refuses to delete a payment whose retainer draw belongs to a time/charge entry",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a payment / write-off entered on bill day BEFORE the run is billed; one entered after the run is not",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed immutability from stored rows and the statement TIMESTAMP (B2) a payment / write-off entered on bill day BEFORE the run is billed; one entered after the run is not",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a failure after the snapshot insert leaves no orphan snapshot and no mirror change",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) multi-row ledger mutations are atomic and serialized per customer (B3) a failure after the snapshot insert leaves no orphan snapshot and no mirror change",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a second payment on the same chain waits for the first and builds on its snapshot (no lost update)",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) multi-row ledger mutations are atomic and serialized per customer (B3) a second payment on the same chain waits for the first and builds on its snapshot (no lost update)",
+      "duration": 321,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the picker skips an exhausted chain instead of resurrecting its root",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) the picker skips an exhausted chain instead of resurrecting its root",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "updating the starting amount shifts the whole chain and keeps the draw history",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) updating the starting amount shifts the whole chain and keeps the draw history",
+      "duration": 51,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "delete refuses while any chain row is drawn on or referenced, and removes an unused root",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainers: picker, draw validation, update and delete (item 4) delete refuses while any chain row is drawn on or referenced, and removes an unused root",
+      "duration": 39,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create \u2192 note edit \u2192 amount edit \u2192 delete all succeed; the fabricated marker never survives",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-1 \u2014 retainer creation strips a client-supplied cancellation marker create \u2192 note edit \u2192 amount edit \u2192 delete all succeed; the fabricated marker never survives",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a GENUINE cancellation marker (written by an actual NSF-of-overpayment reversal) still blocks edits and deletes",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-1 \u2014 retainer creation strips a client-supplied cancellation marker a GENUINE cancellation marker (written by an actual NSF-of-overpayment reversal) still blocks edits and deletes",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) remaps an absorbed-chain reference, refuses cross-customer/over-remaining, re-prices and deletes symmetrically",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "job-level write-offs create no snapshot and must credit one of the customer\u2019s own jobs",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) write-offs follow the payment chain rules (item 5) job-level write-offs create no snapshot and must credit one of the customer\u2019s own jobs",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "records the prepayment id on the payment and removes the untouched prepayment on delete",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) records the prepayment id on the payment and removes the untouched prepayment on delete",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses the delete once the prepayment has been drawn on",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) refuses the delete once the prepayment has been drawn on",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "finds the prepayment of a legacy split that has no id marker",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) finds the prepayment of a legacy split that has no id marker",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A1: a forged legacy-shaped split note on an unrelated payment never claims another receipt's already-linked prepayment",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) A1: a forged legacy-shaped split note on an unrelated payment never claims another receipt's already-linked prepayment",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A1: the same forged note on a NOTE UPDATE cannot attach a claim to another receipt's prepayment either",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) overpayment split links its prepayment retainer (item 6) A1: the same forged note on a NOTE UPDATE cannot attach a claim to another receipt's prepayment either",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: a nested marker is stripped to a fixed point, never manufacturing an executable link",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-1 \u2014 nested/multilevel link markers never survive sanitisation create: a nested marker is stripped to a fixed point, never manufacturing an executable link",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update: a nested marker cannot manufacture a claim on another receipt's prepayment; deleting the forged payment leaves the genuine prepayment and its receipt intact",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-1 \u2014 nested/multilevel link markers never survive sanitisation update: a nested marker cannot manufacture a claim on another receipt's prepayment; deleting the forged payment leaves the genuine prepayment and its receipt intact",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "belt-and-suspenders: the exact resolver refuses a [prepayment_retainer:N] link already claimed by a different payment's marker",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-1 \u2014 nested/multilevel link markers never survive sanitisation belt-and-suspenders: the exact resolver refuses a [prepayment_retainer:N] link already claimed by a different payment's marker",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: a complete fabricated \"[reversed \u2026]\" marker is stripped; the payment can still be NSF-reversed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 \u2014 client-written \"[reversed \u2026]\" status text never survives sanitisation create: a complete fabricated \"[reversed \u2026]\" marker is stripped; the payment can still be NSF-reversed",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update: the same fabricated marker typed into a note edit is stripped too; a real NSF reversal still succeeds",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 \u2014 client-written \"[reversed \u2026]\" status text never survives sanitisation update: the same fabricated marker typed into a note edit is stripped too; a real NSF reversal still succeeds",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "nested and unterminated \"[reversed \u2026\" variants are stripped to a fixed point too",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 \u2014 client-written \"[reversed \u2026]\" status text never survives sanitisation nested and unterminated \"[reversed \u2026\" variants are stripped to a fixed point too",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a GENUINE [reversed \u2026] marker (written by an actual NSF reversal) survives a note edit and still blocks a second reversal",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A5-2 \u2014 client-written \"[reversed \u2026]\" status text never survives sanitisation a GENUINE [reversed \u2026] marker (written by an actual NSF reversal) survives a note edit and still blocks a second reversal",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "strips the [reversed \u2026] marker so the payment can be reversed again; the reversal row itself also blocks a second reversal",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) deleting a reversal restores the original payment (item 7) strips the [reversed \u2026] marker so the payment can be reversed again; the reversal row itself also blocks a second reversal",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "posts the payment and marks the pending row processed in one transaction; a retry is refused",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) posts the payment and marks the pending row processed in one transaction; a retry is refused",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "two simultaneous approvals of one pending row post exactly one payment",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) two simultaneous approvals of one pending row post exactly one payment",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a refused payment leaves the pending row unprocessed and posts nothing",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) a refused payment leaves the pending row unprocessed and posts nothing",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "the legacy PUT two-step flow is retired (A6) \u2014 it always answers 410 and never marks the row processed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) POST /pending-payments/approve (item 8) the legacy PUT two-step flow is retired (A6) \u2014 it always answers 410 and never marks the row processed",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "records [retainer_draw:<id>] on the payment, drops client-typed link markers and keeps the link through note edits",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) records [retainer_draw:<id>] on the payment, drops client-typed link markers and keeps the link through note edits",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "reviewer probe: B's draw closer in time to payment A than A's own draw \u2014 deleting A never takes B's draw",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) reviewer probe: B's draw closer in time to payment A than A's own draw \u2014 deleting A never takes B's draw",
+      "duration": 40,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "legacy payments (no marker): a unique draw in the \u00b11 s window is used, several are refused and nothing changes",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) retainer-funded payments move exactly their own draw (seam 5) legacy payments (no marker): a unique draw in the \u00b11 s window is used, several are refused and nothing changes",
+      "duration": 34,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "cancels the untouched $50 prepayment with the $100 debt restore; deleting the reversal restores both exactly",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) cancels the untouched $50 prepayment with the $100 debt restore; deleting the reversal restores both exactly",
+      "duration": 61,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "refuses the reversal once the prepayment has been drawn on \u2014 nothing is written; after adjusting the retainer it succeeds",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) refuses the reversal once the prepayment has been drawn on \u2014 nothing is written; after adjusting the retainer it succeeds",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a legacy split (no [prepayment_retainer:<id>] marker) is cancelled and restored the same way",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) a legacy split (no [prepayment_retainer:<id>] marker) is cancelled and restored the same way",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a reversed payment cannot be re-priced or deleted while its reversal exists",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) NSF reversal of an overpayment split also cancels the banked prepayment (seam 6) a reversed payment cannot be re-priced or deleted while its reversal exists",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "payments and write-offs that reference the absorbed same-day statement land on the live statement, annotated",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) payments and write-offs that reference the absorbed same-day statement land on the live statement, annotated",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "genuinely independent same-date statements (no marker) all stay live and are paid directly",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) genuinely independent same-date statements (no marker) all stay live and are paid directly",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A5: refuses a payment when every newest-date root is marked absorbed, with a message pointing at finalize/repair",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) A5: refuses a payment when every newest-date root is marked absorbed, with a message pointing at finalize/repair",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "A5: the reversal path refuses the same way once every newest-date root is marked absorbed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) same-day re-bill: references to the absorbed first statement remap to the live one (seam 9) A5: the reversal path refuses the same way once every newest-date root is marked absorbed",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a job-level write-off posted in the statement\u2019s millisecond but AFTER it stays editable; one before it is billed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed/immutability gate is decided in SQL, exactly like the engine statement gate (seam 10) a job-level write-off posted in the statement\u2019s millisecond but AFTER it stays editable; one before it is billed",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "a payment snapshot and its retainer draw in the statement\u2019s millisecond: after \u2192 editable, at the same microsecond \u2192 billed",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) billed/immutability gate is decided in SQL, exactly like the engine statement gate (seam 10) a payment snapshot and its retainer draw in the statement\u2019s millisecond: after \u2192 editable, at the same microsecond \u2192 billed",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: a payment against customer B's invoice naming customer A's job is refused; nothing is written",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 \u2014 payments and invoice-linked write-offs refuse a job that belongs to a different customer create: a payment against customer B's invoice naming customer A's job is refused; nothing is written",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "update: moving an existing payment onto customer A's job is refused; the row is unchanged",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 \u2014 payments and invoice-linked write-offs refuse a job that belongs to a different customer update: moving an existing payment onto customer A's job is refused; the row is unchanged",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "create: an invoice-linked write-off against customer A's job is refused; nothing is written",
+      "fullTitle": "integration: ledger CRUD integrity (payments, write-offs, retainers, pending approval) A4-3 \u2014 payments and invoice-linked write-offs refuse a job that belongs to a different customer create: an invoice-linked write-off against customer A's job is refused; nothing is written",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

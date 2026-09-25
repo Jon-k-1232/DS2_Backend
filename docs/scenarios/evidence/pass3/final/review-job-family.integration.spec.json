@@ -1,0 +1,78 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:34.177Z",
+    "end": "2026-09-25T13:24:35.024Z",
+    "duration": 847
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-job-family.integration.spec.js",
+      "title": "F9 Billing Review family totals recomputes and appends whole-family totals after price edit",
+      "state": "passed",
+      "duration": 82
+    },
+    {
+      "file": "test/integration/review-job-family.integration.spec.js",
+      "title": "F9 Billing Review family totals recomputes and appends whole-family totals after same family edit",
+      "state": "passed",
+      "duration": 49
+    },
+    {
+      "file": "test/integration/review-job-family.integration.spec.js",
+      "title": "F9 Billing Review family totals recomputes and appends whole-family totals after other family edit",
+      "state": "passed",
+      "duration": 56
+    },
+    {
+      "file": "test/integration/review-job-family.integration.spec.js",
+      "title": "F10 latest family metadata preserves edited current notes and agreed amount when repricing an older-linked entry",
+      "state": "passed",
+      "duration": 163
+    }
+  ],
+  "hits": {},
+  "requests": [
+    {
+      "test": "F9 Billing Review family totals recomputes and appends whole-family totals after price edit",
+      "file": "test/integration/review-job-family.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/52605/9001/90013",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "F9 Billing Review family totals recomputes and appends whole-family totals after same family edit",
+      "file": "test/integration/review-job-family.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/52607/9001/90013",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "F9 Billing Review family totals recomputes and appends whole-family totals after other family edit",
+      "file": "test/integration/review-job-family.integration.spec.js",
+      "method": "PUT",
+      "url": "/billing-review/transaction/52609/9001/90013",
+      "route": "/transaction/:transactionID/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "F10 latest family metadata preserves edited current notes and agreed amount when repricing an older-linked entry",
+      "file": "test/integration/review-job-family.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    }
+  ]
+}

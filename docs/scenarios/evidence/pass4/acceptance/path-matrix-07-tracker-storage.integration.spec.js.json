@@ -1,0 +1,424 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 29,
+    "passes": 29,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T14:50:50.057Z",
+    "end": "2026-09-25T14:50:51.024Z",
+    "duration": 967
+  },
+  "tests": [
+    {
+      "title": "POST upload | owner bad refuses before persistence",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner bad refuses before persistence",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner 0 refuses before persistence",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner 0 refuses before persistence",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner 1.5 refuses before persistence",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner 1.5 refuses before persistence",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET users | nonnumeric requester refuses 400",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET users | nonnumeric requester refuses 400",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history | missing account refuses 404",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history | missing account refuses 404",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | account query failure refuses 500 without rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | account query failure refuses 500 without rows",
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history/download | missing object preserves all rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history/download | missing object preserves all rows",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history/download | unavailable storage preserves all rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history/download | unavailable storage preserves all rows",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history/download | corrupt gzip preserves all rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history/download | corrupt gzip preserves all rows",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history/download | gzip success returns exactly the original bytes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history/download | gzip success returns exactly the original bytes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history | object-list failure refuses 500 after folder-discovery fallback",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history | object-list failure refuses 500 after folder-discovery fallback",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET download/by-name | list and candidate failures end in 404 with no writes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET download/by-name | list and candidate failures end in 404 with no writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET download/by-name | listed candidate and durable legacy candidate failures end in 404",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET download/by-name | listed candidate and durable legacy candidate failures end in 404",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET download/by-name | corrupt resolved gzip refuses 500",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET download/by-name | corrupt resolved gzip refuses 500",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET template/latest | empty list refuses 404",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET template/latest | empty list refuses 404",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET template/latest | without base list refuses 404",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET template/latest | without base list refuses 404",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET template/latest | storage failure refuses 500",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET template/latest | storage failure refuses 500",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET template/list | storage failure refuses 500",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET template/list | storage failure refuses 500",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST template/upload | malformed filename encoding refuses 400",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST template/upload | malformed filename encoding refuses 400",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | insert failure rolls back every row; object cleanup removes saved bytes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup removes saved bytes",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | insert failure rolls back every row; object cleanup fails visibly in logs",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup fails visibly in logs",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | storage put failure rolls back without any object or database rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | storage put failure rolls back without any object or database rows",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner-record insert failure rolls back holding rows and removes stored file",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner-record insert failure rolls back holding rows and removes stored file",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | database and system-error email failures still return rollback refusal",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | initial query and error-email failures refuse 500 without database writes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | initial query and error-email failures refuse 500 without database writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner and submitter notification failures preserve the saved upload",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | staff-recipient query failure does not undo the saved upload",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | staff-recipient query failure does not undo the saved upload",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes",
+      "duration": 48,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "POST upload | owner bad refuses before persistence",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner bad refuses before persistence",
+      "duration": 35,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner 0 refuses before persistence",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner 0 refuses before persistence",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner 1.5 refuses before persistence",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner 1.5 refuses before persistence",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET users | nonnumeric requester refuses 400",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET users | nonnumeric requester refuses 400",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history | missing account refuses 404",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history | missing account refuses 404",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | account query failure refuses 500 without rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | account query failure refuses 500 without rows",
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history/download | missing object preserves all rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history/download | missing object preserves all rows",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history/download | unavailable storage preserves all rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history/download | unavailable storage preserves all rows",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history/download | corrupt gzip preserves all rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history/download | corrupt gzip preserves all rows",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history/download | gzip success returns exactly the original bytes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history/download | gzip success returns exactly the original bytes",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET history | object-list failure refuses 500 after folder-discovery fallback",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET history | object-list failure refuses 500 after folder-discovery fallback",
+      "duration": 17,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET download/by-name | list and candidate failures end in 404 with no writes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET download/by-name | list and candidate failures end in 404 with no writes",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET download/by-name | listed candidate and durable legacy candidate failures end in 404",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET download/by-name | listed candidate and durable legacy candidate failures end in 404",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET download/by-name | corrupt resolved gzip refuses 500",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET download/by-name | corrupt resolved gzip refuses 500",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET template/latest | empty list refuses 404",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET template/latest | empty list refuses 404",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET template/latest | without base list refuses 404",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET template/latest | without base list refuses 404",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET template/latest | storage failure refuses 500",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET template/latest | storage failure refuses 500",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "GET template/list | storage failure refuses 500",
+      "fullTitle": "Path matrix: tracker persistence and storage failures GET template/list | storage failure refuses 500",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST template/upload | malformed filename encoding refuses 400",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST template/upload | malformed filename encoding refuses 400",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | insert failure rolls back every row; object cleanup removes saved bytes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup removes saved bytes",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | insert failure rolls back every row; object cleanup fails visibly in logs",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | insert failure rolls back every row; object cleanup fails visibly in logs",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | storage put failure rolls back without any object or database rows",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | storage put failure rolls back without any object or database rows",
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner-record insert failure rolls back holding rows and removes stored file",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner-record insert failure rolls back holding rows and removes stored file",
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | database and system-error email failures still return rollback refusal",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | database and system-error email failures still return rollback refusal",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | initial query and error-email failures refuse 500 without database writes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | initial query and error-email failures refuse 500 without database writes",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | rollback reporting failure preserves the original refusal and removes the uploaded object",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | owner and submitter notification failures preserve the saved upload",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | owner and submitter notification failures preserve the saved upload",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | staff-recipient query failure does not undo the saved upload",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | staff-recipient query failure does not undo the saved upload",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes",
+      "fullTitle": "Path matrix: tracker persistence and storage failures POST upload | union of two previous uploads refuses all-rows-already-uploaded without writes",
+      "duration": 48,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,2571 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 18,
+    "tests": 84,
+    "passes": 84,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:32:19.550Z",
+    "end": "2026-09-25T13:32:27.535Z",
+    "duration": 7985
+  },
+  "tests": [
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID happy path: creates a Time transaction, normalizes lowercase type, keeps decimal precision, and updates the job total",
+      "state": "passed",
+      "duration": 210
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID not-found: a nonexistent job id is refused",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID cross-customer job refused: a job belonging to a different customer cannot be used",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID a non-billable transaction never draws a retainer, even when one is selected",
+      "state": "passed",
+      "duration": 150
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID a retainer-funded billable transaction draws the chain and creates the auto \"Retainer\" payment",
+      "state": "passed",
+      "duration": 174
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID happy path: updates fields and the DB reflects the new values",
+      "state": "passed",
+      "duration": 308
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused and nothing changes",
+      "state": "passed",
+      "duration": 147
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused",
+      "state": "passed",
+      "duration": 13
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID cross-customer job refused on update too",
+      "state": "passed",
+      "duration": 147
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID an unbilled transaction cannot have its invoice link set via update (customerInvoicesID is not a mapped field)",
+      "state": "passed",
+      "duration": 273
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared",
+      "state": "passed",
+      "duration": 156
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID job totals follow the newest job-family row through create, amount edit, move to another job, and delete",
+      "state": "passed",
+      "duration": 566
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID A4-4: an edit that moves a transaction between VERSIONS of the SAME job family applies its amount delta exactly once",
+      "state": "passed",
+      "duration": 427
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID happy path: deletes the row and decrements the job total",
+      "state": "passed",
+      "duration": 284
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused",
+      "state": "passed",
+      "duration": 14
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID validation failure: an unrecognized transaction_type on the delete payload is refused",
+      "state": "passed",
+      "duration": 151
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be deleted",
+      "state": "passed",
+      "duration": 157
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID deleting a retainer-funded transaction removes its auto \"Retainer\" payment and restores the retainer balance",
+      "state": "passed",
+      "duration": 285
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "state": "passed",
+      "duration": 167
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID not-found-equivalent: a search matching nothing returns an empty list, not an error",
+      "state": "passed",
+      "duration": 17
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID pagination: a limit over 500 is capped at 500",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID happy path: CSV has the header row, and a negative unit_cost stays intact",
+      "state": "passed",
+      "duration": 143
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID search containing quotes, semicolons and -- returns a clean CSV (no 500)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID neutralizes a detailed_work_description starting with \"=\" so it cannot execute as a formula on open",
+      "state": "passed",
+      "duration": 144
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID happy path: returns the transaction",
+      "state": "passed",
+      "duration": 142
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 144
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID not-found: a nonexistent transaction id is refused in the app envelope ({ status: 404 }), like getSingleRetainer",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID validation failure: a non-numeric transaction id is the same clean 404 refusal, not a raw HTTP 500",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID happy path: attributes a Time transaction's hours to the logged-for employee within the date range",
+      "state": "passed",
+      "duration": 275
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID not-found-equivalent: a date range with nothing logged still returns 200 with a zeroed roster",
+      "state": "passed",
+      "duration": 128
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID happy path: stores starting_amount and current_amount NEGATIVE from a positive unitCost",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID validation failure: a $0 amount is refused",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID not-found: a nonexistent customer id is refused",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID happy path: re-prices the whole chain by the starting-amount delta and keeps draw-down history",
+      "state": "passed",
+      "duration": 31
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID validation failure: a $0 amount is refused",
+      "state": "passed",
+      "duration": 10
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID not-found: a nonexistent retainer id is refused",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID happy path: deletes an unused retainer",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id is refused",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID refused when referenced: a retainer already drawn on cannot be deleted",
+      "state": "passed",
+      "duration": 16
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID happy path: returns the retainer",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 15
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id returns a clean 404 envelope",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a malformed retainer id is refused before any SQL runs (no driver text leaks)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: another tenant's retainer id is a 404, not a leak",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID happy path: lists a live retainer for the customer",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 11
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID not-found-equivalent: a customer with none returns an empty array",
+      "state": "passed",
+      "duration": 9
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID an exhausted retainer (drawn to $0) is not offered",
+      "state": "passed",
+      "duration": 149
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID happy path: a job-level write-off (no invoice) stores a NEGATIVE amount",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID validation failure: a $0 amount is refused",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID not-found: a nonexistent invoice id is refused",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID applies directly to the customer's current chain",
+      "state": "passed",
+      "duration": 30
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID remaps a reference to an absorbed chain onto the current chain and annotates the note",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID happy path: updating an unbilled invoice-linked write-off re-prices its snapshot and the parent mirror",
+      "state": "passed",
+      "duration": 45
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 8
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID validation failure: a $0 amount is refused",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID a billed write-off is immutable",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID happy path: symmetric delete removes the snapshot and restores the parent remaining",
+      "state": "passed",
+      "duration": 44
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID a billed write-off cannot be deleted",
+      "state": "passed",
+      "duration": 28
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID happy path: returns the write-off",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 26
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a nonexistent write-off id returns a clean 404 envelope (same contract as getSingleRetainer)",
+      "state": "passed",
+      "duration": 5
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a malformed write-off id is refused before any SQL runs (no driver text leaks)",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "state": "passed",
+      "duration": 25
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "state": "passed",
+      "duration": 6
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "state": "passed",
+      "duration": 3
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID pagination: a limit over 500 is capped at 500",
+      "state": "passed",
+      "duration": 7
+    },
+    {
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "title": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "state": "passed",
+      "duration": 6
+    }
+  ],
+  "hits": {
+    "src/endpoints/transactions/transactions-router.js:68:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID not-found: a nonexistent job id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID cross-customer job refused: a job belonging to a different customer cannot be used"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:70:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID not-found: a nonexistent job id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID cross-customer job refused: a job belonging to a different customer cannot be used"
+      }
+    ],
+    "src/endpoints/transactions/transactionsObjects.js:13:3": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused and nothing changes"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID validation failure: an unrecognized transaction_type on the delete payload is refused"
+      }
+    ],
+    "src/endpoints/auth/account-scope.js:14:13": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:22:13": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      }
+    ],
+    "src/endpoints/auth/jwt-auth.js:83:13": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:99:13": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID not-found: a nonexistent job id is refused"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:101:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID cross-customer job refused: a job belonging to a different customer cannot be used"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID cross-customer job refused on update too"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:90:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused and nothing changes"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID cross-customer job refused on update too"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:92:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused and nothing changes"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID cross-customer job refused on update too"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:527:15": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:664:38": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:112:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID validation failure: an unrecognized transaction_type on the delete payload is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be deleted"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:114:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID validation failure: an unrecognized transaction_type on the delete payload is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be deleted"
+      }
+    ],
+    "src/endpoints/transactions/sharedTransactionFunctions.js:791:38": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be deleted"
+      }
+    ],
+    "src/utils/pagination.js:13:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:145:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:149:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/transactions/transactions-router.js:191:16": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID not-found: a nonexistent transaction id is refused in the app envelope ({ status: 404 }), like getSingleRetainer"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID validation failure: a non-numeric transaction id is the same clean 404 refusal, not a raw HTTP 500"
+      }
+    ],
+    "src/utils/ledgerInput.js:10:3": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID validation failure: a $0 amount is refused"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:38:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID not-found: a nonexistent customer id is refused"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:40:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID not-found: a nonexistent customer id is refused"
+      }
+    ],
+    "src/endpoints/payments/ledger-helpers.js:66:13": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID not-found: a nonexistent customer id is refused"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:66:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID not-found: a nonexistent retainer id is refused"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:68:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID not-found: a nonexistent retainer id is refused"
+      }
+    ],
+    "src/endpoints/payments/ledger-helpers.js:82:13": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID not-found: a nonexistent retainer id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:86:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID refused when referenced: a retainer already drawn on cannot be deleted"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:88:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID refused when referenced: a retainer already drawn on cannot be deleted"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:181:9": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID refused when referenced: a retainer already drawn on cannot be deleted"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:110:16": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id returns a clean 404 envelope"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: another tenant's retainer id is a 404, not a leak"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:105:16": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a malformed retainer id is refused before any SQL runs (no driver text leaks)"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:44:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID not-found: a nonexistent invoice id is refused"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:46:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID not-found: a nonexistent invoice id is refused"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:96:32": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID not-found: a nonexistent invoice id is refused"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:109:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID a billed write-off is immutable"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:111:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID validation failure: a $0 amount is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID a billed write-off is immutable"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-logic.js:45:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID a billed write-off is immutable"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID a billed write-off cannot be deleted"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:134:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID a billed write-off cannot be deleted"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:136:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused"
+      },
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID a billed write-off cannot be deleted"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:67:16": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a nonexistent write-off id returns a clean 404 envelope (same contract as getSingleRetainer)"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:63:16": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a malformed write-off id is refused before any SQL runs (no driver text leaks)"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:178:5": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400"
+      }
+    ],
+    "src/endpoints/writeOffs/writeOffs-router.js:182:6": [
+      {
+        "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+        "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID happy path: creates a Time transaction, normalizes lowercase type, keeps decimal precision, and updates the job total",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invalid transaction_type: \"invoice\". Must be \"Time\" or \"Charge\"."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID not-found: a nonexistent job id is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Selected job was not found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID cross-customer job refused: a job belonging to a different customer cannot be used",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Selected job does not belong to this customer."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID a non-billable transaction never draws a retainer, even when one is selected",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /transactions/createTransaction/:accountID/:userID a retainer-funded billable transaction draws the chain and creates the auto \"Retainer\" payment",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID happy path: updates fields and the DB reflects the new values",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID happy path: updates fields and the DB reflects the new values",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused and nothing changes",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID validation failure: an unrecognized transaction_type is refused and nothing changes",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invalid transaction_type: \"nope\". Must be \"Time\" or \"Charge\"."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transaction was not found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID cross-customer job refused on update too",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID cross-customer job refused on update too",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Selected job does not belong to this customer."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID an unbilled transaction cannot have its invoice link set via update (customerInvoicesID is not a mapped field)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID an unbilled transaction cannot have its invoice link set via update (customerInvoicesID is not a mapped field)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be updated, and the link cannot be cleared",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transaction is attached to an invoice and cannot be updated."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID job totals follow the newest job-family row through create, amount edit, move to another job, and delete",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID job totals follow the newest job-family row through create, amount edit, move to another job, and delete",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID job totals follow the newest job-family row through create, amount edit, move to another job, and delete",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID job totals follow the newest job-family row through create, amount edit, move to another job, and delete",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID A4-4: an edit that moves a transaction between VERSIONS of the SAME job family applies its amount delta exactly once",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID A4-4: an edit that moves a transaction between VERSIONS of the SAME job family applies its amount delta exactly once",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /transactions/updateTransaction/:accountID/:userID A4-4: an edit that moves a transaction between VERSIONS of the SAME job family applies its amount delta exactly once",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/transactions/updateTransaction/9001/90013",
+      "route": "/updateTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID happy path: deletes the row and decrements the job total",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID happy path: deletes the row and decrements the job total",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID not-found: a nonexistent transaction id is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transaction was not found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID validation failure: an unrecognized transaction_type on the delete payload is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID validation failure: an unrecognized transaction_type on the delete payload is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Invalid transaction_type: \"nope\". Must be \"Time\" or \"Charge\"."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be deleted",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID a billed transaction (customer_invoice_id set directly) cannot be deleted",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Transaction is attached to an invoice and cannot be deleted."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID deleting a retainer-funded transaction removes its auto \"Retainer\" payment and restores the retainer balance",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /transactions/deleteTransaction/:accountID/:userID deleting a retainer-funded transaction removes its auto \"Retainer\" payment and restores the retainer balance",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/transactions/deleteTransaction/9001/90013",
+      "route": "/deleteTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/9001/90013?page=1&limit=20&search=COV-txn-list-51572-muh02z5e-24",
+      "route": "/getTransactions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved transactions."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/9001/90013",
+      "route": "/getTransactions/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/9001/90013?limit=0",
+      "route": "/getTransactions/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination parameters. Page and limit must be positive integers."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID not-found-equivalent: a search matching nothing returns an empty list, not an error",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/9001/90013?search=NO-SUCH-CUSTOMER-51572-muh02zbg-25",
+      "route": "/getTransactions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved transactions."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID pagination: a limit over 500 is capped at 500",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/9001/90013?limit=10000&page=1",
+      "route": "/getTransactions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved transactions."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getTransactions/:accountID/:userID search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getTransactions/9001/90013?search=O%27Reilly%22%3B%20DROP%20TABLE%20customer_transactions%3B%20--",
+      "route": "/getTransactions/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved transactions."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID happy path: CSV has the header row, and a negative unit_cost stays intact",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID happy path: CSV has the header row, and a negative unit_cost stays intact",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/9001/90013?search=COV-txn-export-51572-muh02zdh-26",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/9001/90013",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID search containing quotes, semicolons and -- returns a clean CSV (no 500)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/9001/90013?search=x%27%20OR%20%271%27%3D%271%22%3B%20--",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID neutralizes a detailed_work_description starting with \"=\" so it cannot execute as a formula on open",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/exportTransactions/:accountID/:userID neutralizes a detailed_work_description starting with \"=\" so it cannot execute as a formula on open",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/exportTransactions/9001/90013?search=COV-txn-export-formula-51572-muh02zio-27",
+      "route": "/exportTransactions/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID happy path: returns the transaction",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID happy path: returns the transaction",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getSingleTransaction/916462/52729/9001/90013",
+      "route": "/getSingleTransaction/:customerID/:transactionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved specific transaction."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getSingleTransaction/916463/52730/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getSingleTransaction/916463/52730/9001/90013",
+      "route": "/getSingleTransaction/:customerID/:transactionID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getSingleTransaction/916463/52730/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID not-found: a nonexistent transaction id is refused in the app envelope ({ status: 404 }), like getSingleRetainer",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getSingleTransaction/916464/999999999/9001/90013",
+      "route": "/getSingleTransaction/:customerID/:transactionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching transaction record found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID validation failure: a non-numeric transaction id is the same clean 404 refusal, not a raw HTTP 500",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/getSingleTransaction/916465/not-a-number/9001/90013",
+      "route": "/getSingleTransaction/:customerID/:transactionID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching transaction record found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID happy path: attributes a Time transaction's hours to the logged-for employee within the date range",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID happy path: attributes a Time transaction's hours to the logged-for employee within the date range",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/fetchEmployeeTransactions/2026-09-24/2026-09-25/9001/90013",
+      "route": "/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/fetchEmployeeTransactions/2026-09-24/2026-09-25/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/fetchEmployeeTransactions/2026-09-24/2026-09-25/9001/90013",
+      "route": "/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/fetchEmployeeTransactions/2026-09-24/2026-09-25/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID not-found-equivalent: a date range with nothing logged still returns 200 with a zeroed roster",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/transactions/fetchEmployeeTransactions/2016-09-27/2016-09-28/9001/90013",
+      "route": "/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID happy path: stores starting_amount and current_amount NEGATIVE from a positive unitCost",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/9001/90013",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/9001/90013",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID validation failure: a $0 amount is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/9001/90013",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Retainer amount must be greater than $0.00."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /retainers/createRetainer/:accountID/:userID not-found: a nonexistent customer id is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/9001/90013",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Customer not found for this account."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID happy path: re-prices the whole chain by the starting-amount delta and keeps draw-down history",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/9001/90013",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated retainer."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/9001/90013",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID validation failure: a $0 amount is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/9001/90013",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Retainer amount must be greater than $0.00."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /retainers/updateRetainer/:accountID/:userID not-found: a nonexistent retainer id is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/9001/90013",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No matching retainer record found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID happy path: deletes an unused retainer",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/7007/9001/90013",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted retainer."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/7008/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/7008/9001/90013",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/7008/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/999999999/9001/90013",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No matching retainer record found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID refused when referenced: a retainer already drawn on cannot be deleted",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/7009/9001/90013",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This retainer has already been drawn on and cannot be deleted. Delete the payments or time/charge entries that drew on it first."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID happy path: returns the retainer",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/7011/9001/90013",
+      "route": "/getSingleRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved single retainer."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/7012/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/7012/9001/90013",
+      "route": "/getSingleRetainer/:retainerID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/7012/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a nonexistent retainer id returns a clean 404 envelope",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/999999999/9001/90013",
+      "route": "/getSingleRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching retainer record found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: a malformed retainer id is refused before any SQL runs (no driver text leaks)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/not-a-number/9001/90013",
+      "route": "/getSingleRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching retainer record found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID not-found: another tenant's retainer id is a 404, not a leak",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getSingleRetainer/3/9001/90013",
+      "route": "/getSingleRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching retainer record found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID happy path: lists a live retainer for the customer",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getActiveRetainers/916477/9001/90013",
+      "route": "/getActiveRetainers/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved active retainers."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getActiveRetainers/916478/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getActiveRetainers/916478/9001/90013",
+      "route": "/getActiveRetainers/:customerID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getActiveRetainers/916478/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID not-found-equivalent: a customer with none returns an empty array",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getActiveRetainers/916479/9001/90013",
+      "route": "/getActiveRetainers/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved active retainers."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID an exhausted retainer (drawn to $0) is not offered",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/9001/90013",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /retainers/getActiveRetainers/:customerID/:accountID/:userID an exhausted retainer (drawn to $0) is not offered",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/retainers/getActiveRetainers/916480/9001/90013",
+      "route": "/getActiveRetainers/:customerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved active retainers."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID happy path: a job-level write-off (no invoice) stores a NEGATIVE amount",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID validation failure: a $0 amount is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Write-off amount must be greater than $0.00."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID not-found: a nonexistent invoice id is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "No matching invoice record found for this write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID applies directly to the customer's current chain",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage POST /writeOffs/createWriteOffs/:accountID/:userID remaps a reference to an absorbed chain onto the current chain and annotates the note",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off. Applied to current invoice A-COV-916485-INV-51572-muh030vm-57 — the referenced invoice A-COV-916485-INV-51572-muh030vl-56 was already rolled into it."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID happy path: updating an unbilled invoice-linked write-off re-prices its snapshot and the parent mirror",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID happy path: updating an unbilled invoice-linked write-off re-prices its snapshot and the parent mirror",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/9001/90013",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/9001/90013",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID validation failure: a $0 amount is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID validation failure: a $0 amount is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/9001/90013",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Write-off amount must be greater than $0.00."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/9001/90013",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Unable to find write-off record."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID a billed write-off is immutable",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage PUT /writeOffs/updateWriteOffs/:accountID/:userID a billed write-off is immutable",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "PUT",
+      "url": "/writeOffs/updateWriteOffs/9001/90013",
+      "route": "/updateWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Write-off is attached to an invoice that has already been billed and cannot be deleted or modified."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID happy path: symmetric delete removes the snapshot and restores the parent remaining",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID happy path: symmetric delete removes the snapshot and restores the parent remaining",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/writeOffs/deleteWriteOffs/9001/90013",
+      "route": "/deleteWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/writeOffs/deleteWriteOffs/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/writeOffs/deleteWriteOffs/9001/90013",
+      "route": "/deleteWriteOffs/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/writeOffs/deleteWriteOffs/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID not-found: a nonexistent write-off id is refused",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/writeOffs/deleteWriteOffs/9001/90013",
+      "route": "/deleteWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Unable to find write-off record."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID a billed write-off cannot be deleted",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage DELETE /writeOffs/deleteWriteOffs/:accountID/:userID a billed write-off cannot be deleted",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "DELETE",
+      "url": "/writeOffs/deleteWriteOffs/9001/90013",
+      "route": "/deleteWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Write-off is attached to an invoice that has already been billed and cannot be deleted or modified."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID happy path: returns the write-off",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID happy path: returns the write-off",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getSingleWriteOff/2301/9001/90013",
+      "route": "/getSingleWriteOff/:writeOffID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved single writeOff."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getSingleWriteOff/2302/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getSingleWriteOff/2302/9001/90013",
+      "route": "/getSingleWriteOff/:writeOffID/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getSingleWriteOff/2302/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a nonexistent write-off id returns a clean 404 envelope (same contract as getSingleRetainer)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getSingleWriteOff/999999999/9001/90013",
+      "route": "/getSingleWriteOff/:writeOffID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching write-off record found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID not-found: a malformed write-off id is refused before any SQL runs (no driver text leaks)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getSingleWriteOff/abc/9001/90013",
+      "route": "/getSingleWriteOff/:writeOffID/:accountID/:userID",
+      "status": 200,
+      "envelope": 404,
+      "message": "No matching write-off record found."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "POST",
+      "url": "/writeOffs/createWriteOffs/9001/90013",
+      "route": "/createWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created write-off."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID happy path: paginated list finds a row by a unique search term",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getWriteOffs/9001/90013?page=1&limit=20&search=COV-wo-list-51572-muh03189-69",
+      "route": "/getWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved write-offs."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getWriteOffs/9001/90013",
+      "status": 401,
+      "envelope": 401,
+      "message": "Missing authentication token"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getWriteOffs/9001/90013",
+      "route": "/getWriteOffs/:accountID/:userID",
+      "status": 403,
+      "envelope": 403,
+      "message": "Account access denied"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID 401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getWriteOffs/9001/90013",
+      "status": 403,
+      "envelope": 403,
+      "message": "Unauthorized"
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getWriteOffs/9001/90013?limit=-5",
+      "route": "/getWriteOffs/:accountID/:userID",
+      "status": 400,
+      "envelope": 400,
+      "message": "Invalid pagination parameters. Page and limit must be positive integers."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID pagination: a limit over 500 is capped at 500",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getWriteOffs/9001/90013?limit=10000&page=1",
+      "route": "/getWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved write-offs."
+    },
+    {
+      "test": "integration: transactions / retainers / write-offs route coverage GET /writeOffs/getWriteOffs/:accountID/:userID search containing quotes, semicolons and -- returns cleanly (parameterized, no 500)",
+      "file": "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "method": "GET",
+      "url": "/writeOffs/getWriteOffs/9001/90013?search=%27%3B%20DROP%20TABLE%20customer_writeoffs%3B%20--",
+      "route": "/getWriteOffs/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved write-offs."
+    }
+  ]
+}

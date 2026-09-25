@@ -1,0 +1,3438 @@
+{
+  "inventory_site_count": 898,
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:33:13.278Z",
+    "end": "2026-09-25T13:33:14.184Z",
+    "duration": 906
+  },
+  "tests": [
+    {
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "title": "Path matrix: global parser, lock and rate-limit refusals global error | database sent-lock code is normalized to HTTP 409 and SENT_INVOICE_LOCKED",
+      "state": "passed",
+      "duration": 37
+    },
+    {
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "title": "Path matrix: global parser, lock and rate-limit refusals global error | production presentation hides internal database text and preserves rows",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "title": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | malformed JSON refuses HTTP 400 before any writes",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "title": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | oversized JSON refuses HTTP 413 before any writes",
+      "state": "passed",
+      "duration": 23
+    },
+    {
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "title": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "state": "passed",
+      "duration": 197
+    },
+    {
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "title": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "state": "passed",
+      "duration": 78
+    },
+    {
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "title": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "state": "passed",
+      "duration": 96
+    }
+  ],
+  "hits": {
+    "src/app.js:186:74": [
+      {
+        "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+        "test": "Path matrix: global parser, lock and rate-limit refusals global error | database sent-lock code is normalized to HTTP 409 and SENT_INVOICE_LOCKED"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+        "test": "Path matrix: global parser, lock and rate-limit refusals global error | production presentation hides internal database text and preserves rows"
+      },
+      {
+        "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+        "test": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | malformed JSON refuses HTTP 400 before any writes"
+      },
+      {
+        "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+        "test": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | oversized JSON refuses HTTP 413 before any writes"
+      }
+    ],
+    "src/endpoints/billingReview/billingReview-router.js:250:16": [
+      {
+        "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+        "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows"
+      },
+      {
+        "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+        "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global error | database sent-lock code is normalized to HTTP 409 and SENT_INVOICE_LOCKED",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/users/1/1",
+      "route": "/users/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00001"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global error | production presentation hides internal database text and preserves rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/time-tracking/users/1/1",
+      "route": "/users/:accountID/:userID",
+      "status": 500,
+      "message": "Server error"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | malformed JSON refuses HTTP 400 before any writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "status": 400,
+      "message": "Expected property name or '}' in JSON at position 1"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global JSON parser | oversized JSON refuses HTTP 413 before any writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "status": 413,
+      "message": "request entity too large"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "route": "/",
+      "status": 200,
+      "envelope": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals global API limiter | request 301 is 429 and every preceding health request succeeds without writes",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/healthz/",
+      "status": 429,
+      "envelope": 429,
+      "message": "Too many requests, please slow down."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | mutation 31 refuses 429 without launching AI or writing rows",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "status": 429,
+      "envelope": 429,
+      "message": "Too many requests for this resource, please slow down."
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "GET",
+      "url": "/billing-review/reprocess-count/1/1",
+      "route": "/reprocess-count/:accountID/:userID",
+      "status": 200,
+      "message": "ok"
+    },
+    {
+      "test": "Path matrix: global parser, lock and rate-limit refusals expensive limiter | repeated GET polls do not consume the mutation budget",
+      "file": "test/integration/path-matrix-12-global-errors.integration.spec.js",
+      "method": "POST",
+      "url": "/billing-review/reprocess/1/1",
+      "route": "/reprocess/:accountID/:userID",
+      "status": 503,
+      "message": "Auto-ingest is not enabled for this account. Set TIME_TRACKER_AI_FEATURE_FLAG=test or on and add this account to TIME_TRACKER_AI_TEST_ACCOUNT_IDS to use this button."
+    }
+  ]
+}

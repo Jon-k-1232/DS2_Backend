@@ -1,0 +1,1446 @@
+{
+  "stats": {
+    "suites": 17,
+    "tests": 102,
+    "passes": 102,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T06:39:40.695Z",
+    "end": "2026-09-25T06:39:42.399Z",
+    "duration": 1704
+  },
+  "tests": [
+    {
+      "title": "happy path: inserts a snapshot and mirrors remaining/total_payments onto the parent",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID happy path: inserts a snapshot and mirrors remaining/total_payments onto the parent",
+      "duration": 49,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: $0 payment is refused and writes nothing",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID validation failure: $0 payment is refused and writes nothing",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401: an unauthenticated request is rejected before touching the ledger",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 401: an unauthenticated request is rejected before touching the ledger",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403: a token from a different tenant is refused by enforceAccountId",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 403: a token from a different tenant is refused by enforceAccountId",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: an invoice id that does not exist is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID not-found: an invoice id that does not exist is refused",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a payment on the current chain inserts a snapshot and mirrors the parent exactly",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: a payment on the current chain inserts a snapshot and mirrors the parent exactly",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a payment referencing an ABSORBED older statement is remapped to the current chain and annotated",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: a payment referencing an ABSORBED older statement is remapped to the current chain and annotated",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: an invoice belonging to a different customer is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: an invoice belonging to a different customer is refused",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates a positive payment row and un-pays the parent",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID happy path: creates a positive payment row and un-pays the parent",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing reason is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing reason is refused",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing payment id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID 401 / 403",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "audit trail: the reversal is attributed to the authenticated user, never the URL :userID",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID audit trail: the reversal is attributed to the authenticated user, never the URL :userID",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID not-found: a nonexistent payment id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: reversing twice, or reversing a reversal, is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the payment row",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID happy path: returns the payment row",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-numeric payment id is refused as not-found, without leaking SQL",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found, without leaking SQL",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a well-formed but nonexistent payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID not-found: a well-formed but nonexistent payment id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "tenancy: a payment id belonging to a different account is treated as not found (row-level scoping)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID tenancy: a payment id belonging to a different account is treated as not found (row-level scoping)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: re-prices the latest snapshot and the parent mirror",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID happy path: re-prices the latest snapshot and the parent mirror",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: $0 is refused and leaves the stored amount untouched",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID validation failure: $0 is refused and leaves the stored amount untouched",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID 401 / 403",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID not-found: a nonexistent payment id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: refused once a newer payment exists on the chain",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once a newer payment exists on the chain",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: refused once the payment is billed (a newer statement exists)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once the payment is billed (a newer statement exists)",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: moving a payment to a different invoice is not supported",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: moving a payment to a different invoice is not supported",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: round trip \u2014 deleting a payment restores the parent exactly",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID happy path: round trip \u2014 deleting a payment restores the parent exactly",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure / not-found: a nonexistent payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID validation failure / not-found: a nonexistent payment id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID 401 / 403",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: refuses out-of-order deletion (a newer payment exists on the chain)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: refuses out-of-order deletion (a newer payment exists on the chain)",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a plain (non-retainer) payment delete leaves every retainer row on the account untouched",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: a plain (non-retainer) payment delete leaves every retainer row on the account untouched",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: deleting the reversal restores the original payment's note (reversible again)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: deleting the reversal restores the original payment's note (reversible again)",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns a paginated, filtered page with the grid and search term echoed",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID happy path: returns a paginated, filtered page with the grid and search term echoed",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-positive limit is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: the page-size cap holds even for a very large requested limit",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID domain edge: the page-size cap holds even for a very large requested limit",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a hostile search string is treated as a literal filter, not SQL \u2014 200 with no match",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID domain edge: a hostile search string is treated as a literal filter, not SQL \u2014 200 with no match",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists a pending row; status/month/year/search all narrow correctly",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID happy path: lists a pending row; status/month/year/search all narrow correctly",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: invalid pagination is refused with HTTP 400 (same contract as GET /payments/getPayments)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID validation failure: invalid pagination is refused with HTTP 400 (same contract as GET /payments/getPayments)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID 401 / 403",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a hostile search string is a literal filter, not SQL",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID domain edge: a hostile search string is a literal filter, not SQL",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: counts reflect new/processed/all as rows change",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID happy path: counts reflect new/processed/all as rows change",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the pending payment row",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID happy path: returns the pending payment row",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-numeric payment id is refused as not-found (HTTP 404), without leaking SQL",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found (HTTP 404), without leaking SQL",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID 401 / 403",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent payment id is refused with HTTP 404 (same as the atomic approve route below)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID not-found: a nonexistent payment id is refused with HTTP 404 (same as the atomic approve route below)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: soft-deletes the row and the counts drop",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID happy path: soft-deletes the row and the counts drop",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: soft-deleting an already-processed row is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID validation failure: soft-deleting an already-processed row is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: soft-deleting an already-deleted row is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID domain edge: soft-deleting an already-deleted row is refused",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent (or malformed) payment id is refused with HTTP 404",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID not-found: a nonexistent (or malformed) payment id is refused with HTTP 404",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: posts exactly one payment and marks the pending row processed, in one transaction",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID happy path: posts exactly one payment and marks the pending row processed, in one transaction",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing pendingPaymentId is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing pendingPaymentId is refused with HTTP 400",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing payment object is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing payment object is refused with HTTP 400",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID 401 / 403",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent pendingPaymentId is refused with HTTP 404",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID not-found: a nonexistent pendingPaymentId is refused with HTTP 404",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a second approve of the same pending row is refused with HTTP 409",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: two simultaneous approvals of one pending row post exactly one payment",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: an invalid payment payload (overpayment) is refused with HTTP 422 and the pending row stays unprocessed",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: an invalid payment payload (overpayment) is refused with HTTP 422 and the pending row stays unprocessed",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "atomicity: a failure after the payment posts but before the pending row is marked processed rolls back BOTH",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID atomicity: a failure after the payment posts but before the pending row is marked processed rolls back BOTH",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "always answers 410 and never marks a real, unprocessed row processed",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) always answers 410 and never marks a real, unprocessed row processed",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "answers 410 even for an already-processed row \u2014 it no longer performs (or refuses) an approval, just refuses to run",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for an already-processed row \u2014 it no longer performs (or refuses) an approval, just refuses to run",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "answers 410 even for a nonexistent payment id \u2014 it no longer looks the row up at all",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for a nonexistent payment id \u2014 it no longer looks the row up at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403 (account + auth guards still run ahead of the retired handler)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) 401 / 403 (account + auth guards still run ahead of the retired handler)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required) \u2014 enforced before the retired handler runs",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) role gate: 403 for an employee (manager+ required) \u2014 enforced before the retired handler runs",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED (was DEFECT, review/full-audit-2026-09 finding 3): account 9001 is refused with HTTP 403 before any S3 write",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): account 9001 is refused with HTTP 403 before any S3 write",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing x-file-name header is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a missing x-file-name header is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an empty body is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: an empty body is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-.pdf extension is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a non-.pdf extension is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a file over the 10MB cap is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a file over the 10MB cap is refused with HTTP 400",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID 401 / 403",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: groups pending rows by source_file with correct counts",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID happy path: groups pending rows by source_file with correct counts",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a soft-deleted row is excluded from every file group",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID domain edge: a soft-deleted row is excluded from every file group",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: removes unprocessed pending rows for the file and the S3 object",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID happy path: removes unprocessed pending rows for the file and the S3 object",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing fileName is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID 401 / 403",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: refused once any payment from the file has been processed",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID domain edge: refused once any payment from the file has been processed",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED (was DEFECT, review/full-audit-2026-09 finding 3): a fileName with no rows for this account is now refused with HTTP 404, not silently \"succeeded\"",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): a fileName with no rows for this account is now refused with HTTP 404, not silently \"succeeded\"",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: streams back the exact bytes that were uploaded",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID happy path: streams back the exact bytes that were uploaded",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing fileName is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent file name is refused with HTTP 404",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID not-found: a nonexistent file name is refused with HTTP 404",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "happy path: inserts a snapshot and mirrors remaining/total_payments onto the parent",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID happy path: inserts a snapshot and mirrors remaining/total_payments onto the parent",
+      "duration": 49,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: $0 payment is refused and writes nothing",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID validation failure: $0 payment is refused and writes nothing",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401: an unauthenticated request is rejected before touching the ledger",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 401: an unauthenticated request is rejected before touching the ledger",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "403: a token from a different tenant is refused by enforceAccountId",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID 403: a token from a different tenant is refused by enforceAccountId",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: an invoice id that does not exist is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID not-found: an invoice id that does not exist is refused",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: no invoice and no holdAsPrepayment is refused; holdAsPrepayment banks a Prepayment retainer instead",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a payment on the current chain inserts a snapshot and mirrors the parent exactly",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: a payment on the current chain inserts a snapshot and mirrors the parent exactly",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a payment referencing an ABSORBED older statement is remapped to the current chain and annotated",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: a payment referencing an ABSORBED older statement is remapped to the current chain and annotated",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: an invoice belonging to a different customer is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: an invoice belonging to a different customer is refused",
+      "duration": 9,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/createPayment/:accountID/:userID domain edge: overpayment is refused unless captureOverpayment, then splits and banks a prepayment retainer",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: creates a positive payment row and un-pays the parent",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID happy path: creates a positive payment row and un-pays the parent",
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing reason is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing reason is refused",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID validation failure: a missing payment id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID 401 / 403",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "audit trail: the reversal is attributed to the authenticated user, never the URL :userID",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID audit trail: the reversal is attributed to the authenticated user, never the URL :userID",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID not-found: a nonexistent payment id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: reversing twice, or reversing a reversal, is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /payments/reversePayment/:accountID/:userID domain edge: reversing twice, or reversing a reversal, is refused",
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the payment row",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID happy path: returns the payment row",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-numeric payment id is refused as not-found, without leaking SQL",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found, without leaking SQL",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a well-formed but nonexistent payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID not-found: a well-formed but nonexistent payment id is refused",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "tenancy: a payment id belonging to a different account is treated as not found (row-level scoping)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getSinglePayment/:paymentID/:accountID/:userID tenancy: a payment id belonging to a different account is treated as not found (row-level scoping)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: re-prices the latest snapshot and the parent mirror",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID happy path: re-prices the latest snapshot and the parent mirror",
+      "duration": 20,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: $0 is refused and leaves the stored amount untouched",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID validation failure: $0 is refused and leaves the stored amount untouched",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID 401 / 403",
+      "duration": 13,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 14,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID not-found: a nonexistent payment id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: refused once a newer payment exists on the chain",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once a newer payment exists on the chain",
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: refused once the payment is billed (a newer statement exists)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: refused once the payment is billed (a newer statement exists)",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: moving a payment to a different invoice is not supported",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /payments/updatePayment/:accountID/:userID domain edge: moving a payment to a different invoice is not supported",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: round trip \u2014 deleting a payment restores the parent exactly",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID happy path: round trip \u2014 deleting a payment restores the parent exactly",
+      "duration": 21,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure / not-found: a nonexistent payment id is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID validation failure / not-found: a nonexistent payment id is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID 401 / 403",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 12,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: refuses out-of-order deletion (a newer payment exists on the chain)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: refuses out-of-order deletion (a newer payment exists on the chain)",
+      "duration": 22,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a plain (non-retainer) payment delete leaves every retainer row on the account untouched",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: a plain (non-retainer) payment delete leaves every retainer row on the account untouched",
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: deleting the reversal restores the original payment's note (reversible again)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /payments/deletePayment/:accountID/:userID domain edge: deleting the reversal restores the original payment's note (reversible again)",
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns a paginated, filtered page with the grid and search term echoed",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID happy path: returns a paginated, filtered page with the grid and search term echoed",
+      "duration": 18,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-positive limit is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID validation failure: a non-positive limit is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: the page-size cap holds even for a very large requested limit",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID domain edge: the page-size cap holds even for a very large requested limit",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a hostile search string is treated as a literal filter, not SQL \u2014 200 with no match",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /payments/getPayments/:accountID/:userID domain edge: a hostile search string is treated as a literal filter, not SQL \u2014 200 with no match",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: lists a pending row; status/month/year/search all narrow correctly",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID happy path: lists a pending row; status/month/year/search all narrow correctly",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: invalid pagination is refused with HTTP 400 (same contract as GET /payments/getPayments)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID validation failure: invalid pagination is refused with HTTP 400 (same contract as GET /payments/getPayments)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID 401 / 403",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a hostile search string is a literal filter, not SQL",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/list/:accountID/:userID domain edge: a hostile search string is a literal filter, not SQL",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: counts reflect new/processed/all as rows change",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID happy path: counts reflect new/processed/all as rows change",
+      "duration": 11,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/counts/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: returns the pending payment row",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID happy path: returns the pending payment row",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-numeric payment id is refused as not-found (HTTP 404), without leaking SQL",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID validation failure: a non-numeric payment id is refused as not-found (HTTP 404), without leaking SQL",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID 401 / 403",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent payment id is refused with HTTP 404 (same as the atomic approve route below)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/single/:paymentID/:accountID/:userID not-found: a nonexistent payment id is refused with HTTP 404 (same as the atomic approve route below)",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: soft-deletes the row and the counts drop",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID happy path: soft-deletes the row and the counts drop",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: soft-deleting an already-processed row is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID validation failure: soft-deleting an already-processed row is refused",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: soft-deleting an already-deleted row is refused",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID domain edge: soft-deleting an already-deleted row is refused",
+      "duration": 6,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent (or malformed) payment id is refused with HTTP 404",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID not-found: a nonexistent (or malformed) payment id is refused with HTTP 404",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: posts exactly one payment and marks the pending row processed, in one transaction",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID happy path: posts exactly one payment and marks the pending row processed, in one transaction",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing pendingPaymentId is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing pendingPaymentId is refused with HTTP 400",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing payment object is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID validation failure: a missing payment object is refused with HTTP 400",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID 401 / 403",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent pendingPaymentId is refused with HTTP 404",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID not-found: a nonexistent pendingPaymentId is refused with HTTP 404",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a second approve of the same pending row is refused with HTTP 409",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: a second approve of the same pending row is refused with HTTP 409",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: two simultaneous approvals of one pending row post exactly one payment",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: two simultaneous approvals of one pending row post exactly one payment",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: an invalid payment payload (overpayment) is refused with HTTP 422 and the pending row stays unprocessed",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID domain edge: an invalid payment payload (overpayment) is refused with HTTP 422 and the pending row stays unprocessed",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "atomicity: a failure after the payment posts but before the pending row is marked processed rolls back BOTH",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/approve/:accountID/:userID atomicity: a failure after the payment posts but before the pending row is marked processed rolls back BOTH",
+      "duration": 8,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "always answers 410 and never marks a real, unprocessed row processed",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) always answers 410 and never marks a real, unprocessed row processed",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "answers 410 even for an already-processed row \u2014 it no longer performs (or refuses) an approval, just refuses to run",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for an already-processed row \u2014 it no longer performs (or refuses) an approval, just refuses to run",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "answers 410 even for a nonexistent payment id \u2014 it no longer looks the row up at all",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) answers 410 even for a nonexistent payment id \u2014 it no longer looks the row up at all",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403 (account + auth guards still run ahead of the retired handler)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) 401 / 403 (account + auth guards still run ahead of the retired handler)",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required) \u2014 enforced before the retired handler runs",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) PUT /pending-payments/approve/:paymentID/:accountID/:userID (A6: retired) role gate: 403 for an employee (manager+ required) \u2014 enforced before the retired handler runs",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED (was DEFECT, review/full-audit-2026-09 finding 3): account 9001 is refused with HTTP 403 before any S3 write",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): account 9001 is refused with HTTP 403 before any S3 write",
+      "duration": 15,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing x-file-name header is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a missing x-file-name header is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: an empty body is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: an empty body is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a non-.pdf extension is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a non-.pdf extension is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a file over the 10MB cap is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID validation failure: a file over the 10MB cap is refused with HTTP 400",
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID 401 / 403",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) POST /pending-payments/upload/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: groups pending rows by source_file with correct counts",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID happy path: groups pending rows by source_file with correct counts",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: a soft-deleted row is excluded from every file group",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/files/:accountID/:userID domain edge: a soft-deleted row is excluded from every file group",
+      "duration": 7,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: removes unprocessed pending rows for the file and the S3 object",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID happy path: removes unprocessed pending rows for the file and the S3 object",
+      "duration": 19,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing fileName is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID 401 / 403",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "domain edge: refused once any payment from the file has been processed",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID domain edge: refused once any payment from the file has been processed",
+      "duration": 5,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "FIXED (was DEFECT, review/full-audit-2026-09 finding 3): a fileName with no rows for this account is now refused with HTTP 404, not silently \"succeeded\"",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) DELETE /pending-payments/file/:accountID/:userID FIXED (was DEFECT, review/full-audit-2026-09 finding 3): a fileName with no rows for this account is now refused with HTTP 404, not silently \"succeeded\"",
+      "duration": 3,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "happy path: streams back the exact bytes that were uploaded",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID happy path: streams back the exact bytes that were uploaded",
+      "duration": 10,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "validation failure: a missing fileName is refused with HTTP 400",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID validation failure: a missing fileName is refused with HTTP 400",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "401 / 403",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID 401 / 403",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "role gate: 403 for an employee (manager+ required)",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID role gate: 403 for an employee (manager+ required)",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "not-found: a nonexistent file name is refused with HTTP 404",
+      "fullTitle": "integration: coverage \u2014 payments & pending payments (HTTP) GET /pending-payments/file-preview/:accountID/:userID not-found: a nonexistent file name is refused with HTTP 404",
+      "duration": 2,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

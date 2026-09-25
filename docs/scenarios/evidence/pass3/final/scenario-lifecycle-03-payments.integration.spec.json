@@ -1,0 +1,3764 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:53.174Z",
+    "end": "2026-09-25T13:24:57.800Z",
+    "duration": 4626
+  },
+  "tests": [
+    {
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "title": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "state": "passed",
+      "duration": 514
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "title": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "state": "passed",
+      "duration": 311
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "title": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "state": "passed",
+      "duration": 545
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "title": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "state": "passed",
+      "duration": 699
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "title": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "state": "passed",
+      "duration": 732
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "title": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "state": "passed",
+      "duration": 733
+    },
+    {
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "title": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "state": "passed",
+      "duration": 610
+    }
+  ],
+  "hits": {
+    "src/endpoints/invoice/createInvoice/addDetailToInvoice/addInvoiceDetail.js:36:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:848:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:914:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:1043:56": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:64:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:66:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:124:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:126:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:148:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:150:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement"
+      },
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:511:12": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:117:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:174:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/retainer/retainer-logic.js:193:9": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:38:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/payments/payments-router.js:40:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:66:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:68:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:86:5": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/retainer/retainer-router.js:88:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess"
+      }
+    ],
+    "src/endpoints/invoice/sentInvoiceLocks.js:14:15": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:717:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work"
+      }
+    ],
+    "src/endpoints/payments/payment-logic.js:744:6": [
+      {
+        "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+        "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693620-w76b9r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693620-w76b9r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693620-w76b9r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693620-w76b9r/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/1/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693775-rxhut4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693775-rxhut4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693775-rxhut4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693775-rxhut4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/2/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_24_53_d5baf2ea-d7be-449d-b1d8-e90402e888a5%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693993-agekzo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693993-agekzo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693993-agekzo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342693993-agekzo/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/3/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P01 issues $300 through real work and month-end",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694122-2a8mtl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694122-2a8mtl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694122-2a8mtl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694122-2a8mtl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/4/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/1/1",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694226-zhayzu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694226-zhayzu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694226-zhayzu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694226-zhayzu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/5/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694326-nsagdw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694326-nsagdw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694326-nsagdw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694326-nsagdw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/6/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P02 receives $100, edits it to $120, then deletes using stored values",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694438-mjqfuu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694438-mjqfuu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694438-mjqfuu/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/7/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/1/1",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Reversed payment #2: $300.00 restored to INV-2026-00001."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694519-so5z69/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694519-so5z69/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694519-so5z69/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/8/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/1/1",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This payment has already been reversed."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694597-xtmomt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694597-xtmomt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694597-xtmomt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694597-xtmomt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/9/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/1/1",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Reversal entries cannot be edited. Delete the reversal and re-enter it if the amount or reason was wrong."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694686-hmb23d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694686-hmb23d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694686-hmb23d/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/10/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "A newer payment or write-off has been applied to this invoice since this payment. Delete the newer entries first, then retry."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694766-5py8j7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694766-5py8j7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694766-5py8j7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/11/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694837-ctvfaq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694837-ctvfaq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694837-ctvfaq/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/12/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694909-9jlev1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694909-9jlev1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694909-9jlev1/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/13/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P03 exact settlement, NSF and guarded reversal undo",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Payment amount exceeds remaining balance on invoice INV-2026-00001. Max amount that can be applied to this invoice is $300."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694997-9wa8ht/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694997-9wa8ht/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694997-9wa8ht/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342694997-9wa8ht/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/14/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Applied $300.00 to INV-2026-00001; $50.00 held as a prepayment retainer."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695082-biiwrc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695082-biiwrc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695082-biiwrc/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/15/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/2/1/1",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This prepayment was banked from the overpayment on payment #4. Delete that payment instead — it removes the prepayment with it."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695159-tw5n9c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695159-tw5n9c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695159-tw5n9c/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/16/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/1/1",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Reversed payment #4: $300.00 restored to INV-2026-00001."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695239-gu4ct7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695239-gu4ct7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695239-gu4ct7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695239-gu4ct7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/17/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "PUT",
+      "url": "/retainers/updateRetainer/1/1",
+      "route": "/updateRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Prepayment retainer #2 was cancelled by the reversal of payment #4; its amount cannot be edited. Delete that reversal to restore the prepayment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695340-m958v7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695340-m958v7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695340-m958v7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695340-m958v7/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/18/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/retainers/deleteRetainer/2/1/1",
+      "route": "/deleteRetainer/:retainerID/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "This prepayment was cancelled by the reversal of payment #4. Delete that reversal to restore it (and then the payment, to remove both) instead of deleting the prepayment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695437-6xxtdn/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695437-6xxtdn/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695437-6xxtdn/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695437-6xxtdn/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/19/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695535-yau5s4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695535-yau5s4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695535-yau5s4/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/20/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment. Also removed the $50.00 prepayment retainer banked from its overpayment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695618-voptt3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695618-voptt3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695618-voptt3/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/21/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695710-w4osea/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695710-w4osea/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695710-w4osea/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695710-w4osea/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/22/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695795-wffog9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695795-wffog9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695795-wffog9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695795-wffog9/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/23/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695902-w4w9jp/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695902-w4w9jp/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342695902-w4w9jp/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/24/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_24_56_fc686e79-6545-4820-9ac7-c3a5a011ae9f%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696066-gjlslf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696066-gjlslf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696066-gjlslf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696066-gjlslf/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/25/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/1/1",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00002"
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696160-bbba5j/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696160-bbba5j/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696160-bbba5j/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696160-bbba5j/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/26/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 409,
+      "envelope": 409,
+      "message": "locked: part of sent invoice INV-2026-00002"
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696255-6whlqn/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696255-6whlqn/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696255-6whlqn/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696255-6whlqn/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/27/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Applied to current invoice INV-2026-00002 — the referenced invoice INV-2026-00001 was already rolled into it."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696351-snp4lw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696351-snp4lw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696351-snp4lw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696351-snp4lw/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/28/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696450-ddd93n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696450-ddd93n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696450-ddd93n/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/29/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696549-groy3g/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696549-groy3g/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696549-groy3g/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/30/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_24_56_031bb9bb-7613-4059-b10b-13e6f625056d%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696702-yqzmca/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696702-yqzmca/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696702-yqzmca/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696702-yqzmca/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/31/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment. Applied $100.00 to INV-2026-00003; $50.00 held as a prepayment retainer."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696792-bcs12a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696792-bcs12a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696792-bcs12a/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/32/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696882-a3e9tg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696882-a3e9tg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696882-a3e9tg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696882-a3e9tg/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/33/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/reversePayment/1/1",
+      "route": "/reversePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Cannot reverse payment #8: $50.00 of this payment was banked as prepayment retainer #3 (overpayment excess), and that prepayment has already been used ($20.00 drawn, 1 draw recorded, 1 time/charge entry linked, 1 payment linked). Adjust the retainer first — delete or reverse the entries drawn from retainer #3 so its balance is back to $50.00 — then retry the reversal."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696986-gfuo6v/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696986-gfuo6v/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696986-gfuo6v/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342696986-gfuo6v/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/34/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "The $50.00 prepayment retainer #3 banked from this payment's overpayment has already been used. Reverse or delete the entries drawn from it first, then retry."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697097-6ivyh0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697097-6ivyh0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697097-6ivyh0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697097-6ivyh0/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/35/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P06 refuses deleting/reversing a split after its excess has funded work",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/customer/createCustomer/1/1",
+      "route": "/createCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created customer."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697205-4wwngl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697205-4wwngl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697205-4wwngl/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/36/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/jobs/createJob/1/1",
+      "route": "/createJob/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully saved job changes."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/retainers/createRetainer/1/1",
+      "route": "/createRetainer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new retainer."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/transactions/createTransaction/1/1",
+      "route": "/createTransaction/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successful."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697314-vcb3sa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697314-vcb3sa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697314-vcb3sa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697314-vcb3sa/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/37/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Finalized 1 invoice(s)."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/invoices/downloadFile/1/1?fileLocation=Clean_Room_CPA%2Finvoicing%2Ffinal_invoices%2F09-25-2026_T_06_24_57_dbed535c-4fce-48e4-8d6b-974992e8635f%2Fzipped_files.zip",
+      "route": "/downloadFile/:accountID/:userID",
+      "status": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697473-tok7k6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697473-tok7k6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697473-tok7k6/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/38/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/payments/createPayment/1/1",
+      "route": "/createPayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697545-jgjtqt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697545-jgjtqt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697545-jgjtqt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697545-jgjtqt/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/39/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "PUT",
+      "url": "/payments/updatePayment/1/1",
+      "route": "/updatePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697634-ji6l7m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697634-ji6l7m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697634-ji6l7m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697634-ji6l7m/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/40/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "DELETE",
+      "url": "/payments/deletePayment/1/1",
+      "route": "/deletePayment/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted payment."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/invoices/createInvoice/1/1",
+      "route": "/createInvoice/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully generated invoice preview."
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "POST",
+      "url": "/accountAudit/run/1/1",
+      "route": "/run/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697728-9eknb5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697728-9eknb5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697728-9eknb5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/job/audit-1790342697728-9eknb5/1/1",
+      "route": "/job/:jobId/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": null
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountAudit/audit/41/1/1",
+      "route": "/audit/:auditID/:accountID/:userID",
+      "status": 200,
+      "envelope": 200
+    },
+    {
+      "test": "scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md) P07 draws a retainer against billed work, reprices and undoes the latest manual draw",
+      "file": "test/integration/scenario-lifecycle-03-payments.integration.spec.js",
+      "method": "GET",
+      "url": "/accountsReceivable/aging/1/1?limit=500",
+      "route": "/aging/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully retrieved AR aging."
+    }
+  ]
+}

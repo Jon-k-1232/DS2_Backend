@@ -1,0 +1,235 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 8,
+    "passes": 8,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-09-25T13:24:30.321Z",
+    "end": "2026-09-25T13:24:31.043Z",
+    "duration": 722
+  },
+  "tests": [
+    {
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "title": "F21 atomic customer and recurring saves rolls back customer/contact on invalid contact state",
+      "state": "passed",
+      "duration": 47
+    },
+    {
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "title": "F21 atomic customer and recurring saves rolls back customer/contact on missing owned contact",
+      "state": "passed",
+      "duration": 20
+    },
+    {
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "title": "F21 atomic customer and recurring saves rolls back customer/contact on invalid recurring insert",
+      "state": "passed",
+      "duration": 21
+    },
+    {
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "title": "F21 atomic customer and recurring saves rolls back the customer flag when dedicated recurring insertion fails",
+      "state": "passed",
+      "duration": 12
+    },
+    {
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "title": "F22 recurring flag follows active subscriptions clears the flag when delete ends the last subscription",
+      "state": "passed",
+      "duration": 32
+    },
+    {
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "title": "F22 recurring flag follows active subscriptions clears the flag when update ends the last subscription",
+      "state": "passed",
+      "duration": 24
+    },
+    {
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "title": "F22 recurring flag follows active subscriptions keeps the flag with another active subscription, including embedded customer edits",
+      "state": "passed",
+      "duration": 41
+    },
+    {
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "title": "F22 recurring flag follows active subscriptions inactive creation leaves the flag false and reactivation restores it regardless of dates",
+      "state": "passed",
+      "duration": 21
+    }
+  ],
+  "hits": {
+    "src/endpoints/customer/customer-router.js:315:5": [
+      {
+        "file": "test/integration/review-customer-recurring.integration.spec.js",
+        "test": "F21 atomic customer and recurring saves rolls back customer/contact on invalid contact state"
+      },
+      {
+        "file": "test/integration/review-customer-recurring.integration.spec.js",
+        "test": "F21 atomic customer and recurring saves rolls back customer/contact on missing owned contact"
+      },
+      {
+        "file": "test/integration/review-customer-recurring.integration.spec.js",
+        "test": "F21 atomic customer and recurring saves rolls back customer/contact on invalid recurring insert"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:317:6": [
+      {
+        "file": "test/integration/review-customer-recurring.integration.spec.js",
+        "test": "F21 atomic customer and recurring saves rolls back customer/contact on invalid contact state"
+      },
+      {
+        "file": "test/integration/review-customer-recurring.integration.spec.js",
+        "test": "F21 atomic customer and recurring saves rolls back customer/contact on missing owned contact"
+      },
+      {
+        "file": "test/integration/review-customer-recurring.integration.spec.js",
+        "test": "F21 atomic customer and recurring saves rolls back customer/contact on invalid recurring insert"
+      }
+    ],
+    "src/endpoints/customer/customer-router.js:267:35": [
+      {
+        "file": "test/integration/review-customer-recurring.integration.spec.js",
+        "test": "F21 atomic customer and recurring saves rolls back customer/contact on missing owned contact"
+      }
+    ],
+    "src/app.js:196:3": [
+      {
+        "file": "test/integration/review-customer-recurring.integration.spec.js",
+        "test": "F21 atomic customer and recurring saves rolls back the customer flag when dedicated recurring insertion fails"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "test": "F21 atomic customer and recurring saves rolls back customer/contact on invalid contact state",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/9001/90013",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "update \"customer_information\" set \"customer_info_id\" = $1, \"account_id\" = $2, \"customer_id\" = $3, \"customer_city\" = $4, \"customer_state\" = $5, \"is_this_address_active\" = $6, \"is_customer_physical_address\" = $7, \"is_customer_billing_address\" = $8, \"is_customer_mailing_address\" = $9 where \"customer_id\" = $10 and \"customer_info_id\" = $11 and \"account_id\" = $12 - value too long for type character varying(2)"
+    },
+    {
+      "test": "F21 atomic customer and recurring saves rolls back customer/contact on missing owned contact",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/9001/90013",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "Customer contact was not found in this account."
+    },
+    {
+      "test": "F21 atomic customer and recurring saves rolls back customer/contact on invalid recurring insert",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/9001/90013",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 500,
+      "message": "insert into \"recurring_customers\" (\"account_id\", \"bill_on_date\", \"created_by_user_id\", \"customer_id\", \"end_date\", \"is_recurring_customer_active\", \"recurring_bill_amount\", \"start_date\", \"subscription_frequency\") values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning * - invalid input syntax for type integer: \"NaN\""
+    },
+    {
+      "test": "F21 atomic customer and recurring saves rolls back the customer flag when dedicated recurring insertion fails",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/9001/90013",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 500,
+      "message": "F21 recurring insert failed"
+    },
+    {
+      "test": "F22 recurring flag follows active subscriptions clears the flag when delete ends the last subscription",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/9001/90013",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new recurring customer."
+    },
+    {
+      "test": "F22 recurring flag follows active subscriptions clears the flag when delete ends the last subscription",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "DELETE",
+      "url": "/recurringCustomer/deleteRecurringCustomer/9001/726",
+      "route": "/deleteRecurringCustomer/:accountID/:recurringCustomerId",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully deleted recurring customer."
+    },
+    {
+      "test": "F22 recurring flag follows active subscriptions clears the flag when update ends the last subscription",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/9001/90013",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new recurring customer."
+    },
+    {
+      "test": "F22 recurring flag follows active subscriptions clears the flag when update ends the last subscription",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "PUT",
+      "url": "/recurringCustomer/updateRecurringCustomer",
+      "route": "/updateRecurringCustomer",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated recurring customer."
+    },
+    {
+      "test": "F22 recurring flag follows active subscriptions keeps the flag with another active subscription, including embedded customer edits",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/9001/90013",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new recurring customer."
+    },
+    {
+      "test": "F22 recurring flag follows active subscriptions keeps the flag with another active subscription, including embedded customer edits",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/9001/90013",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new recurring customer."
+    },
+    {
+      "test": "F22 recurring flag follows active subscriptions keeps the flag with another active subscription, including embedded customer edits",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "PUT",
+      "url": "/customer/updateCustomer/9001/90013",
+      "route": "/updateCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated customer."
+    },
+    {
+      "test": "F22 recurring flag follows active subscriptions inactive creation leaves the flag false and reactivation restores it regardless of dates",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "POST",
+      "url": "/recurringCustomer/createRecurringCustomer/9001/90013",
+      "route": "/createRecurringCustomer/:accountID/:userID",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully created new recurring customer."
+    },
+    {
+      "test": "F22 recurring flag follows active subscriptions inactive creation leaves the flag false and reactivation restores it regardless of dates",
+      "file": "test/integration/review-customer-recurring.integration.spec.js",
+      "method": "PUT",
+      "url": "/recurringCustomer/updateRecurringCustomer",
+      "route": "/updateRecurringCustomer",
+      "status": 200,
+      "envelope": 200,
+      "message": "Successfully updated recurring customer."
+    }
+  ]
+}

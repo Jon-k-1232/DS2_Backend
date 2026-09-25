@@ -1,0 +1,89 @@
+{
+  "checked_at": "2026-09-25T13:58:23.056Z",
+  "databases": {
+    "ds2_local": {
+      "database": "ds2_local",
+      "verification": [
+        {
+          "account_id": 1,
+          "result": {
+            "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+            "valid": true,
+            "event_id": null,
+            "checked_events": 0
+          }
+        },
+        {
+          "account_id": 9001,
+          "result": {
+            "hash": "b47232ad8c2c9befb3af96d7413c1c84c8aa2211d9c284f9203cf5746556b409",
+            "valid": true,
+            "event_id": 67905,
+            "checked_events": 67503
+          }
+        }
+      ],
+      "capture_tables": 33,
+      "immutable_record_guard": true,
+      "presentation_columns": [
+        "evidence_byte_length",
+        "evidence_sha256",
+        "evidence_storage_key",
+        "record_type"
+      ]
+    },
+    "ds2_clean": {
+      "database": "ds2_clean",
+      "verification": [
+        {
+          "account_id": 1,
+          "result": {
+            "hash": "a9240d586403a57f9389fee6c18649d83ce8afcdc8a7cafce9cd3dfab0af4fe8",
+            "valid": true,
+            "event_id": 390,
+            "checked_events": 390
+          }
+        }
+      ],
+      "capture_tables": 33,
+      "immutable_record_guard": true,
+      "presentation_columns": [
+        "evidence_byte_length",
+        "evidence_sha256",
+        "evidence_storage_key",
+        "record_type"
+      ]
+    },
+    "ds2_scenarios": {
+      "database": "ds2_scenarios",
+      "verification": [
+        {
+          "account_id": 1,
+          "result": {
+            "hash": "d280e41171d241f03717a782b241911c87327b30b400ac2095a079dd9e832115",
+            "valid": true,
+            "event_id": 121,
+            "checked_events": 111
+          }
+        },
+        {
+          "account_id": 700,
+          "result": {
+            "hash": "6a2a41772bda1bd744f6b4aebe0198875638feb3bb539c5c59a00b3f8a44cecf",
+            "valid": true,
+            "event_id": 117,
+            "checked_events": 10
+          }
+        }
+      ],
+      "capture_tables": 33,
+      "immutable_record_guard": true,
+      "presentation_columns": [
+        "evidence_byte_length",
+        "evidence_sha256",
+        "evidence_storage_key",
+        "record_type"
+      ]
+    }
+  }
+}

@@ -192,7 +192,7 @@ The following are **write-capable test operations**, listed for a future authori
 
 ## 8. Invariants and recorded verification
 
-Migration specs test transaction/file-history atomicity, SQL verbatim delivery, forbidden wrapper detection, baseline validation, production-looking target refusal and collision/manifest behavior: `test/scripts/migrate.spec.js:1`, `test/scripts/migration-019.spec.js:1`, `test/scripts/migration-020.spec.js:1`, `test/scripts/migration-021.spec.js:1`, `test/scripts/backfill-tracker-owners.spec.js:1`. The harness creates/drops only ds2_mig_test_* names, initialized from the snapshot; absent connectivity can skip suites, so a successful exit with pending tests is not full coverage. Sources: `test/scripts/helpers/pgHarness.js:37`, `test/scripts/helpers/pgHarness.js:49`.
+Migration specs test transaction/file-history atomicity, SQL verbatim delivery, forbidden wrapper detection, baseline validation, production-looking target refusal and collision/manifest behavior: `test/scripts/migrate.spec.js:1`, `test/scripts/migration-019.spec.js:1`, `test/scripts/migration-020.spec.js:1`, `test/scripts/migration-021.spec.js:1`, `test/scripts/backfill-tracker-owners.spec.js:1`. The harness maps logical ds2_mig_test_* names to ds2_clean and rebuilds only that authorized schema; absent connectivity can skip suites, so a successful exit with pending tests is not full coverage. Sources: `test/scripts/helpers/pgHarness.js:37`, `test/scripts/helpers/pgHarness.js:49`.
 
 FINAL_REPORT's last dated table (2026-09-24) records 970 backend unit including script tests, 156 script tests as a subset, 1,009 integration with zero pending, 18 clean-room, 0/320 three-view drift, 94 frontend tests, clean build and 69/69 Playwright. These are **historical recorded results**, not rerun/independently verified results of this documentation task; do not sum overlapping suites. Source: `scripts/review-2026-09/FINAL_REPORT.md:244`.
 
@@ -211,10 +211,58 @@ FINAL_REPORT section 3 lists unresolved historical decisions below. Amounts/coun
 | Retainer double credit | Customer228/INV-2024-00397 remaining $472 reportedly subtracts $153 retainer payment twice. |
 | Stored job totals | 151 families differ, net −$485; next edits recompute, but no blanket historical repair follows from deployment. |
 | Internal entities | Customers5/6 carry $1.43M historical billable internal time; config prevents new automatic billing, not retroactive cleanup. |
-| Credit/aging design | Negative final statements skipped; credit carry-forward unresolved. AR statement aging differs from charge aging; oldest charge date is a FIFO estimate. |
+| Credit/aging design | Run 3 resolves credit statements/carry-forward: default skip, explicit selection and signed balances. AR statement aging still differs from charge aging; oldest charge date is a FIFO estimate. |
 
-Planned design gaps include period locks with adjustment-only corrections, charge-level aging, voids instead of deleting issued history, credit carry-forward and persisted billing_runs. Source: `scripts/review-2026-09/FINAL_REPORT.md:59`. Early report text about non-owner flag-off template leakage is historical and superseded by the committed neutral-asset design described later and in current code; it is not a current defect assertion. Sources: `scripts/review-2026-09/FINAL_REPORT.md:43`, `src/endpoints/timeTracking/template-builder.js:1143`.
+The owner decisions supersede the historical report gaps for sent-record locks, bounced corrections, duplicate handling and credit carry-forward. Broader period policies, charge-level aging, general void/reissue workflows and persisted billing_runs remain separate work. Source: `scripts/review-2026-09/FINAL_REPORT.md:59`. Early report text about non-owner flag-off template leakage is historical and superseded by the committed neutral-asset design described later and in current code; it is not a current defect assertion. Sources: `scripts/review-2026-09/FINAL_REPORT.md:43`, `src/endpoints/timeTracking/template-builder.js:1143`.
 
 Fresh platform findings are in [consolidated findings](../_review/findings.md). [F30](../_review/findings.md#f30) is fixed by additive migration 022 and disposable-database lineage tests. Applied schema, environment values, cloud deployment and completion of any accountant repair/backfill remain **not determined from the code**.
 
 Coverage: **4 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+
+## Owner decisions 3 and 5: migration 023 rollout
+
+This is a future operator procedure; this implementation run did **not** connect to production or AWS, deploy, restart a server or commit code.
+
+1. Review the [owner contract](../decisions/2026-09-24-owner-decisions.md), backup/rehearse, and inventory historical issued statements. Artifact-bearing parents before migration cutover lock automatically; artifact-less issued history requires an approved archival/reconstruction plan before enabling ordinary edits. No historical money is normalized by 023.
+2. Pause ledger/import/finalize writers for a coordinated schema/backend/frontend release. Old parent-mirror code is incompatible with the new SQL guards.
+3. After 022, manually apply the approved `migrations/023.sent_invoice_locks.sql` with `psql -X -1 -v ON_ERROR_STOP=1 -f` against the separately authorized deployment target. Use its existing secure connection configuration; never substitute a sandbox command by casually changing credentials. No BEGIN/COMMIT inside the file. Save output; rerun is idempotent and must preserve `invoice_lock_policy.legacy_before`.
+4. Deploy the matching backend, then frontend. Verify seven evidence/policy tables and eleven triggers. Confirm a preview makes no issue, finalize captures revision 0 and every supporting record, ordinary sent edits return HTTP 409, new payments create children, and an authorized bounced check produces one audited reversal and an archived revision or next-statement balance. Use an approved isolated rehearsal fixture, not invented production customer data.
+5. Verify original artifact bytes, exception actor/time/record history, reprint permissions, three-view reconciliation and payment-picker latest balances. Resume writers only with the compatible code. Rolling back application code alone is unsafe because old mirror writes will refuse; preserve all issued evidence and use a reviewed forward fix.
+
+Local run 1 manually applied 023 to ds2_local, ds2_clean and ds2_scenarios on loopback :5433. Business writes in ds2_local are restricted to account 9001. Unit migration/review utilities reuse ds2_clean; scenario files reset ds2_scenarios; MinIO is :9000. The reference database is read only for the owner's requested final count comparison. Tests run one process at a time; no local servers were started/stopped. Logs/counts and observed limits are in the [run results](../decisions/2026-09-24-run-1-results.md).
+
+Revision storage is append-only at the application layer: every attempt uses a unique key. If upload succeeds but DB commit fails, an unreferenced object can remain. Cleanup must compare stored revision/issue references and retain every referenced original; no automated object deletion is part of this change.
+
+
+## Owner decisions 1 and 4: migration 024 rollout
+
+Future authorized operator step only: back up/rehearse the deployment target; pause financial writers during the migration/backend/frontend cutover. After 023, apply `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/024.retainer_events_duplicates.sql` using the separately approved target connection. The file is plain SQL, idempotent, additive, and makes no existing ledger-row backfill. Save migration output. Deploy the matching backend and frontend together; old code cannot render event activity and must not resume once events are recorded. Retain immutable history/snapshot guards when rolling back; never drop evidence to restore old editing.
+
+Smoke-test a synthetic account on the approved staging database: issue a retainer-funded invoice, refund unused funds, print the next statement, create/dismiss/remove an unissued duplicate and refuse sent removal. Reconcile availability, engine/Audit and AR billed components; verify session actor/reason and untouched original artifact. Run a reviewed duplicate scan only when authorized, as it writes advisory flags/history. No production action is authorized or performed by this implementation run.
+
+Local run 2 applied 024 by hand to ds2_local, ds2_clean and ds2_scenarios on 127.0.0.1:5433. The permitted business-write scope in ds2_local is account9001 only. Two account-provisioning integration specs are forced to ds2_clean by test/setup.js, even with .env.local. An earlier run2 runner missed that override; temporary accounts were removed and the corrected run and boundary incident are documented in the results. Scenario reset includes 024; migration harness resets only ds2_clean and restores the fully migrated synthetic seed. See [run 2 results](../decisions/2026-09-25-run-2-results.md).
+
+## Owner run 3 rollout — migration025 and signed credits
+
+Future production operator step, not executed here: back up and rehearse, pause financial writers, apply migrations through024 then `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/025.credit_statement_selection.sql`, deploy the paired backend then frontend, and resume only after smoke checks.025 adds immutable credit-selection reason evidence without backfilling business rows. Old clients omit selection and safely skip negative statements; deploy the backend before enabling the new selection UI.
+
+Validate draft/no-ledger behavior; finalize=sent and locked; default skip and individually chosen credit; negative/positive/zero carry-forward; signed AR/Audit agreement; session actor/reason; retainer refund evidence, duplicate guarded removal and bounced-check revision/roll-forward. Verify six-minute boundaries and cent rounding. Do not roll back to code that drops signed credits after any credit statement has been issued; restore a compatible backend or use a reviewed recovery plan that preserves immutable evidence. Decision6 is implemented by migration026 below.
+
+Local hand applications of025 completed on ds2_local, ds2_clean and ds2_scenarios (loopback5433); storage remained MinIO9000. No production/AWS connection or server restart is authorized. See [run3 results](../decisions/2026-09-25-run-3-results.md) for exact tests, counts and protected account1 comparison.
+
+
+### Owner run 4 rollout — migration026
+
+Future authorized operator step only: back up and rehearse; pause financial/import writers; apply migrations through025, then `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/026.audit_ledger.sql`; deploy the matching backend and frontend before resuming writers. Use a non-owner runtime database role without superuser, replication or schema-DDL rights. Grant the runtime SELECT on audit tables, INSERT on audit_records/audit_actions and usage on their sequences; do not grant direct event/head mutation. Capture functions run as the migration owner. Restrict the `audit-records/` storage prefix to conditional unique creates and authorized reads; retain objects and independent hashes/backups outside runtime deletion authority. Verify raw SQL capture as system, authenticated write actors, UPDATE/DELETE/TRUNCATE refusal, chain verification, admin-only profile tab, stored PDF hashes and identical reopening, then reconcile engine/Audit/AR (drift0). Keep existing finalize=sent locks. Never roll back by deleting audit evidence or restoring a backend that omits actor context.
+
+026 was applied by hand only to local ds2_local/ds2_clean/ds2_scenarios, without business-row backfill. Scenario reset includes it; clean-room reset rebuilds its disposable schema instead of truncating protected evidence. The runtime, archive and reconstructed-history limits are in `docs/platform/audit-ledger.md`; executed results are in `docs/decisions/2026-09-25-run-4-results.md`. Production/AWS execution is not authorized or performed.
+
+### Owner run 5 rollout — migration027
+
+Future authorized operator step only: back up and rehearse; apply `027.audit_record_presentations.sql` after 026 using `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/027.audit_record_presentations.sql`, then deploy the matching backend and frontend. Existing capture/issued-lock triggers and runtime role protections stay in place. Extend existing create-only/read-only archive retention to `.evidence.json` objects in the same private `audit-records/` prefix. No new cloud service or permission to delete/overwrite evidence is needed. Smoke-test both print choices, record-type metadata, JSON source digest/anchor verification, legacy PDF verification, and exact reopening of both files, then confirm three-view drift 0. Rollback must preserve both files and all new immutable metadata.
+
+027 was applied by hand only to the three allowed local databases, with scenario/clean-room reset inclusion and no business-row backfill. No production/AWS operation was performed. See `docs/decisions/2026-09-25-run-5-results.md` and `docs/platform/audit-ledger.md`.
+
+### Owner run 6 presentation follow-up
+
+Run 6 requires no migration or data operation. A future authorized release deploys the matching backend formatter/PDF renderer and frontend tab. Check that new client prints summarize archived statement copies with reconciled covered-change counts and plain verification instructions; full evidence still itemizes every copy and retains API paths. Previously stored documents and source archives must reopen with their original bytes. The migration027 and retention requirements above remain unchanged. Local validation and samples: `docs/decisions/2026-09-25-run-6-results.md`. No deployment was performed in this run.
