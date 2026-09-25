@@ -44,3 +44,9 @@ state.json
 # accountant review script outputs (generated)
 scripts/review-2026-09/out/
 scripts/timeTracking/out/
+
+# Raw test logs saved next to review evidence stay local (JSON summaries and PDFs are committed)
+docs/**/evidence/**/*.log
+docs/**/evidence/**/coverage/
+# iCloud-safe dependency folder (node_modules is a symlink into it)
+node_modules.nosync/
