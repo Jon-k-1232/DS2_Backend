@@ -19,6 +19,7 @@ const accountAuditService = {
    getInvoices(db, accountId, customerId) {
       return db('customer_invoices')
          .select(withExactCreatedAt(db))
+         .select(db.raw("ds2_locked_invoice('customer_invoices', customer_invoice_id, account_id) IS NOT NULL AS sent_locked"))
          .where({ account_id: accountId, customer_id: customerId })
          .orderBy([{ column: 'invoice_date', order: 'asc' }, { column: 'customer_invoice_id', order: 'asc' }]);
    },
@@ -42,6 +43,8 @@ const accountAuditService = {
          .where({ account_id: accountId, customer_id: customerId })
          .orderBy([{ column: 'transaction_date', order: 'asc' }, { column: 'transaction_id', order: 'asc' }]);
    },
+
+   getRetainerEvents(db, accountId, customerId) { return db('retainer_events').where({account_id:accountId,customer_id:customerId}).orderBy('event_id'); },
 
    getRetainers(db, accountId, customerId) {
       return db('customer_retainers_and_prepayments')
@@ -87,7 +90,7 @@ const accountAuditService = {
                   db('customer_invoices as ci')
                      .where('ci.customer_id', db.ref('c.customer_id'))
                      .andWhere('ci.account_id', accountId)
-                     .andWhere(db.raw('ci.remaining_balance_on_invoice > 0'))
+                     .andWhere(db.raw('ci.remaining_balance_on_invoice <> 0'))
                      .andWhere('ci.is_invoice_paid_in_full', false)
                      .whereNull('ci.parent_invoice_id')
                      .select(db.raw('1'))
@@ -111,7 +114,7 @@ const accountAuditService = {
             db('customer_invoices as ci')
                .where('ci.customer_id', db.ref('c.customer_id'))
                .andWhere('ci.account_id', accountId)
-               .andWhere(db.raw('ci.remaining_balance_on_invoice > 0'))
+               .andWhere(db.raw('ci.remaining_balance_on_invoice <> 0'))
                .andWhere('ci.is_invoice_paid_in_full', false)
                .whereNull('ci.parent_invoice_id')
                .select(db.raw('1'))

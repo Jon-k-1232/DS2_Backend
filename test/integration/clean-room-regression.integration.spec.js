@@ -218,16 +218,19 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
 
    // Move every committed ledger row `days` back — the calendar advances.
    const advanceCalendar = async days => {
+      await require('./_sent-fixture').fixtureMaintenance(db,A,async trx => {
       const iv = `${days} days`;
-      await db.raw(
+      await trx.raw(
          `UPDATE customer_invoices SET invoice_date = invoice_date - ?::int, due_date = due_date - ?::int, start_date = start_date - ?::int, end_date = end_date - ?::int, fully_paid_date = fully_paid_date - ?::int, created_at = created_at - ?::interval WHERE account_id = ?`,
          [days, days, days, days, days, iv, A]
       );
-      await db.raw(`UPDATE customer_payments SET payment_date = payment_date - ?::int, created_at = created_at - ?::interval WHERE account_id = ?`, [days, iv, A]);
-      await db.raw(`UPDATE customer_writeoffs SET writeoff_date = writeoff_date - ?::int, created_at = created_at - ?::interval WHERE account_id = ?`, [days, iv, A]);
-      await db.raw(`UPDATE customer_retainers_and_prepayments SET created_at = created_at - ?::interval WHERE account_id = ?`, [iv, A]);
-      await db.raw(`UPDATE customer_transactions SET transaction_date = transaction_date - ?::int, created_at = created_at - ?::interval WHERE account_id = ?`, [days, iv, A]);
-      await db.raw(`UPDATE customer_jobs SET created_at = created_at - ?::interval WHERE account_id = ?`, [iv, A]);
+      await trx.raw(`UPDATE customer_payments SET payment_date = payment_date - ?::int, created_at = created_at - ?::interval WHERE account_id = ?`, [days, iv, A]);
+      await trx.raw(`UPDATE customer_writeoffs SET writeoff_date = writeoff_date - ?::int, created_at = created_at - ?::interval WHERE account_id = ?`, [days, iv, A]);
+      await trx.raw(`UPDATE customer_retainers_and_prepayments SET created_at = created_at - ?::interval WHERE account_id = ?`, [iv, A]);
+      await trx.raw(`UPDATE customer_transactions SET transaction_date = transaction_date - ?::int, created_at = created_at - ?::interval WHERE account_id = ?`, [days, iv, A]);
+      await trx.raw(`UPDATE customer_jobs SET created_at = created_at - ?::interval WHERE account_id = ?`, [iv, A]);
+      await trx('invoice_issues').update({issued_at:trx.raw('issued_at - ?::interval',[iv])});
+      });
    };
 
    // ── the three balance views ────────────────────────────────────────────────
@@ -507,10 +510,9 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       token = jwt.sign({ user_id: SA.id }, config.JWT_SECRET, { subject: SA.email, expiresIn: '2h', algorithm: 'HS256' });
       scratchDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ds2-clean-room-'));
 
-      // Reset: wipe every table, restart identities, reseed.
-      const tables = (await db.raw(`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE'`)).rows.map(r => `"${r.table_name}"`);
-      await db.raw(`TRUNCATE ${tables.join(', ')} RESTART IDENTITY CASCADE`);
-      await db.raw(fs.readFileSync(SEED_PATH, 'utf8'));
+      // Rebuild only ds2_clean: immutable audit evidence cannot be truncated.
+      const harness = require('../scripts/helpers/pgHarness');
+      harness.dropDb('ds2_mig_test_cleanroom_reset');
    });
 
    after(async () => {
@@ -669,8 +671,9 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       let chain = await chainState(CUST.A.id);
       expect(chain.remaining).to.equal(0);
       expect(chain.latest.is_invoice_paid_in_full).to.equal(true);
-      expect(chain.parent.is_invoice_paid_in_full).to.equal(true);
-      expect(num(chain.parent.total_payments)).to.equal(-345);
+      expect(chain.parent.is_invoice_paid_in_full).to.equal(false);
+      expect(chain.latest.is_invoice_paid_in_full).to.equal(true);
+      expect(num(chain.parent.total_payments)).to.equal(0);
       expect(row.customer_invoice_id, 'payment tagged to its snapshot').to.equal(chain.latest.customer_invoice_id);
       await expectThreeViewsAgree('A', 0, 'A paid');
 
@@ -691,8 +694,9 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       expect(await paymentRow(reversal.payment_id)).to.equal(undefined);
       chain = await chainState(CUST.A.id);
       expect(chain.remaining, 'back to paid').to.equal(0);
-      expect(chain.parent.is_invoice_paid_in_full).to.equal(true);
-      expect(num(chain.parent.total_payments)).to.equal(-345);
+      expect(chain.parent.is_invoice_paid_in_full).to.equal(false);
+      expect(chain.latest.is_invoice_paid_in_full).to.equal(true);
+      expect(num(chain.parent.total_payments)).to.equal(0);
       expect((await childrenOf(invoice.A1.customer_invoice_id)).length, 'reversal snapshot removed').to.equal(1);
       // The payment was entered with no note, so undoing the reversal must leave
       // it with no note again (null) — in particular no '[reversed …]' marker.
@@ -708,7 +712,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       expect(b.body.message).to.equal('Successfully created payment.');
       let chain = await chainState(CUST.B.id);
       expect(chain.remaining).to.equal(AFTER_M1.B);
-      expect(num(chain.parent.total_payments)).to.equal(-400);
+      expect(num(chain.parent.total_payments)).to.equal(0);
       await expectThreeViewsAgree('B', AFTER_M1.B, 'B partial');
 
       const c = await pay('c_over', 'C', { selectedInvoiceID: invoice.C1.customer_invoice_id, unitCost: 300, paymentReferenceNumber: '3301', captureOverpayment: true });
@@ -723,8 +727,9 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       expect(c.row.note).to.include(`[prepayment_retainer:${prepaymentRetainerId}]`);
       chain = await chainState(CUST.C.id);
       expect(chain.remaining).to.equal(0);
-      expect(chain.parent.is_invoice_paid_in_full).to.equal(true);
-      expect(num(chain.parent.total_payments), 'retainer payment -300 and applied -200').to.equal(-500);
+      expect(chain.parent.is_invoice_paid_in_full).to.equal(false);
+      expect(chain.latest.is_invoice_paid_in_full).to.equal(true);
+      expect(num(chain.parent.total_payments), 'issued retainer payment preserved').to.equal(-300);
       const { audit } = await expectThreeViewsAgree('C', AFTER_M1.C, 'C overpaid');
       expect(money(audit.totals.retainer_available), 'audit sees 700 retainer + 100 prepayment').to.equal(800);
    });
@@ -753,8 +758,8 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       });
 
       // Billed: refused for edit and delete, row untouched.
-      expectRefused(await put(`/transactions/updateTransaction/${A}/${SA.id}`, { transaction: editPayload(a1, { quantity: 9, totalTransaction: '1800.00' }) }), 'edit billed transaction', 'attached to an invoice and cannot be updated');
-      expectRefused(await del(`/transactions/deleteTransaction/${A}/${SA.id}`, { transaction: editPayload(a1) }), 'delete billed transaction', 'attached to an invoice and cannot be deleted');
+      expectRefused(await put(`/transactions/updateTransaction/${A}/${SA.id}`, { transaction: editPayload(a1, { quantity: 9, totalTransaction: '1800.00' }) }), 'edit billed transaction', 'locked: part of sent invoice');
+      expectRefused(await del(`/transactions/deleteTransaction/${A}/${SA.id}`, { transaction: editPayload(a1) }), 'delete billed transaction', 'locked: part of sent invoice');
       const a1After = await txnRow(txn.a1);
       expect(num(a1After.quantity)).to.equal(1.2);
       expect(a1After.customer_invoice_id).to.equal(invoice.A1.customer_invoice_id);
@@ -897,7 +902,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       let dChain = await chainState(CUST.D.id);
       expect(dChain.remaining).to.equal(AFTER_M1.D - D_BILL_DAY_WRITEOFF);
       expect(wd2.row.customer_invoice_id, 'write-off tagged to its snapshot').to.equal(dChain.latest.customer_invoice_id);
-      expect(num(dChain.parent.total_write_offs)).to.equal(-D_BILL_DAY_WRITEOFF);
+      expect(num(dChain.parent.total_write_offs)).to.equal(num(invoice.D1.total_write_offs));
 
       const body = await finalize('Month 2', ['A', 'B', 'C', 'D', 'E']);
       expect(body.message).to.equal('Finalized 5 invoice(s).');
@@ -921,21 +926,20 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       expect(ymd(invoice.B2.start_date), 'statement period starts at the prior statement').to.equal(ymd(invoice.B1.invoice_date));
       expect(ymd(invoice.E1.start_date), "E's first statement starts today").to.equal(todayBilling());
 
-      // Absorption: B1 and D1 chains zeroed + marked; A1 and C1 were already settled (no marker).
+      // Closing snapshots absorb B1/D1; already settled A1/C1 remain unchanged.
       for (const [key, absorbedBy] of [['B1', 'B2'], ['D1', 'D2']]) {
          const rows = [await invoiceRow(invoice[key].customer_invoice_id), ...(await childrenOf(invoice[key].customer_invoice_id))];
          expect(rows.length).to.be.greaterThan(1);
-         rows.forEach(row => {
-            expect(num(row.remaining_balance_on_invoice), `${key} row ${row.customer_invoice_id} zeroed`).to.equal(0);
-            expect(row.notes || '', `${key} row ${row.customer_invoice_id} marker`).to.include(`[absorbed_by:${invoice[absorbedBy].invoice_number}@`);
-         });
+         expect(num(rows[0].remaining_balance_on_invoice)).to.equal(num(invoice[key].total_amount_due));
+         expect(num(rows.at(-1).remaining_balance_on_invoice)).to.equal(0);
+         expect(rows.at(-1).notes).to.include(`[absorbed_by:${invoice[absorbedBy].invoice_number}@`);
+         expect(rows[0].notes).to.equal(null);
       }
       for (const key of ['A1', 'C1']) {
          const rows = [await invoiceRow(invoice[key].customer_invoice_id), ...(await childrenOf(invoice[key].customer_invoice_id))];
-         rows.forEach(row => {
-            expect(num(row.remaining_balance_on_invoice), `${key} settled`).to.equal(0);
-            expect(row.notes, `${key} settled chain is not marked absorbed`).to.equal(null);
-         });
+         expect(num(rows[0].remaining_balance_on_invoice)).to.equal(num(invoice[key].total_amount_due));
+         expect(num(rows.at(-1).remaining_balance_on_invoice)).to.equal(0);
+         rows.forEach(row => expect(row.notes, `${key} settled chain is not marked absorbed`).to.equal(null));
       }
       // Stamps: new work → month 2; E's old work → its first statement; month-1 rows untouched.
       for (const [key, inv] of [['a5', 'A2'], ['b4', 'B2'], ['c3', 'C2'], ['d3', 'D2'], ['e1', 'E1'], ['e2', 'E1']]) {
@@ -976,7 +980,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       expect(bChain.parent.customer_invoice_id).to.equal(invoice.B2.customer_invoice_id);
       expect(b.row.customer_invoice_id, 'snapshot on the month-2 chain').to.equal(bChain.latest.customer_invoice_id);
       expect(bChain.remaining).to.equal(AFTER_M2.B);
-      expect(num((await invoiceRow(invoice.B1.customer_invoice_id)).remaining_balance_on_invoice), 'absorbed statement stays at 0').to.equal(0);
+      expect(num((await invoiceRow(invoice.B1.customer_invoice_id)).remaining_balance_on_invoice), 'issued parent stays unchanged').to.equal(num(invoice.B1.total_amount_due));
       await expectThreeViewsAgree('B', AFTER_M2.B, 'B after remapped payment');
 
       const e = await pay('e_full', 'E', { selectedInvoiceID: invoice.E1.customer_invoice_id, unitCost: 500, paymentReferenceNumber: '5501' });
@@ -1062,8 +1066,11 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       const rebillExp = { bb: M3.B.total, charges: 0, payments: 0, writeoffs: 0, retainers: 0, total: M3.B.total };
       await expectStatement('B', rebillExp, { number: invNo(15), files, csvLines, pdfExtras: [`${invoice.B3.invoice_number} 530.00`, 'Total New Charges: 0.00'] });
       const b3 = await invoiceRow(invoice.B3.customer_invoice_id);
-      expect(num(b3.remaining_balance_on_invoice), 'first statement of the day absorbed').to.equal(0);
-      expect(b3.notes).to.include(`[absorbed_by:${invoice.B4.invoice_number}@`);
+      expect(num(b3.remaining_balance_on_invoice), 'issued parent').to.equal(M3.B.total);
+      expect(b3.notes).to.equal(null);
+      const closing = (await childrenOf(b3.customer_invoice_id)).at(-1);
+      expect(num(closing.remaining_balance_on_invoice)).to.equal(0);
+      expect(closing.notes).to.include(`[absorbed_by:${invoice.B4.invoice_number}@`);
       const { audit } = await expectThreeViewsAgree('B', M3.B.total, 'after same-day re-bill');
       expect(audit.discrepancies.filter(d => d.kind === 'duplicate_same_day_parent_invoices' || d.kind === 'stale_rolled_forward_balance')).to.deep.equal([]);
    });

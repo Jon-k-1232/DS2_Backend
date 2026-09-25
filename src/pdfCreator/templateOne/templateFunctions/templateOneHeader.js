@@ -14,7 +14,8 @@ const createPdfHeader = (doc, invoiceDetails, preferenceSettings) => {
       .text(`Phone: ${account_phone}`, 140, headerHeight + 45)
       .text(`Email: ${account_email}`, 140, headerHeight + 60);
 
-   doc.font(boldFont).fontSize(20).text('INVOICE', alignRight('INVOICE', 0), headerHeight);
+   const title = Number(invoiceDetails.invoiceTotal) < 0 ? 'CREDIT STATEMENT' : 'INVOICE';
+   doc.font(boldFont).fontSize(20).text(title, alignRight(title, 0), headerHeight);
 
    doc.font(normalFont)
       .fontSize(12)

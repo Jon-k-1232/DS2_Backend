@@ -1,3 +1,4 @@
+const { validateLedgerInput } = require('../../utils/ledgerInput');
 const express = require('express');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
@@ -19,15 +20,26 @@ const { clientSafeMessage } = require('../../utils/clientError');
 paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    try {
+      validateLedgerInput(req.body.payment, 'payment', { update: false });
       const sanitizedNewPayment = sanitizeFields(req.body.payment || {});
+      validateLedgerInput(sanitizedNewPayment, 'payment', { update: false });
       const input = buildCreatePaymentInput(sanitizedNewPayment, req.params.accountID, req.user?.user_id);
-      const { message, paymentTableFields } = await createPaymentCore(db, input);
+      const { message, paymentTableFields } = await require('./ledger-helpers').withTransaction(db, async trx => {
+         await require('../../utils/ledgerAction').actionContext(trx, Number(req.user.user_id), 'Manual payment entry');
+         const result = await createPaymentCore(trx, input);
+         await require('../duplicates/duplicates-service').detectCreated(trx, 'payment', result.payment, Number(req.user.user_id));
+         // A manually held prepayment is a receipt, not an automatic excess split.
+         if (!result.payment && result.prepaymentRetainer) {
+            await require('../duplicates/duplicates-service').detectCreated(trx, 'retainer', result.prepaymentRetainer, Number(req.user.user_id));
+         }
+         return result;
+      });
       return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
    } catch (err) {
       console.log(err);
-      res.send({
+      res.status(err.inputValidation ? 400 : 200).send({
          message: err.message || 'An error occurred while creating the Payment.',
-         status: 500
+         status: err.inputValidation ? 400 : 500
       });
    }
 });
@@ -98,7 +110,9 @@ paymentsRouter.route('/getSinglePayment/:paymentID/:accountID/:userID').get(asyn
 paymentsRouter.route('/updatePayment/:accountID/:userID').put(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    try {
+      validateLedgerInput(req.body.payment, 'payment', { update: true });
       const sanitizedUpdatedPayment = sanitizeFields(req.body.payment || {});
+      validateLedgerInput(sanitizedUpdatedPayment, 'payment', { update: true });
 
       // Create new object with sanitized fields
       const paymentTableFields = restoreDataTypesPaymentsTableOnUpdate(sanitizedUpdatedPayment);
@@ -109,9 +123,9 @@ paymentsRouter.route('/updatePayment/:accountID/:userID').put(jsonParser, async 
       return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
    } catch (err) {
       console.log(err);
-      res.send({
+      res.status(err.inputValidation ? 400 : 200).send({
          message: err.message || 'An error occurred while updating the Payment.',
-         status: 500
+         status: err.inputValidation ? 400 : 500
       });
    }
 });

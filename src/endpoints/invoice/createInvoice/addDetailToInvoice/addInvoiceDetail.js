@@ -104,7 +104,7 @@ const addInvoiceDetails = async (calculatedInvoices, invoiceQueryData, invoicesT
    const billingYear = invoiceQueryData.billingYear || statementDate.year();
 
    return calculatedInvoices.map((invoiceCalculation, i) => {
-      const { customer_id, invoiceNote } = invoicesToCreateMap[invoiceCalculation.customer_id];
+      const { customer_id, invoiceNote, includeCreditStatement = false, issueReason = 'Finalize selected statement (sent and locked).' } = invoicesToCreateMap[invoiceCalculation.customer_id];
       const { lastInvoiceNumber, customerInformation } = invoiceQueryData;
       // No conforming statement yet for this year → the sequence restarts at 00001.
       const startingInvoiceNumber = lastInvoiceNumber?.invoice_number || `INV-${billingYear}-00000`;
@@ -116,7 +116,7 @@ const addInvoiceDetails = async (calculatedInvoices, invoiceQueryData, invoicesT
       const invoiceNumber = incrementAnInvoiceOrQuote(startingInvoiceNumber, i, billingYear);
       const dueDate = statementDate.add(16, 'day').format('MM/DD/YYYY');
 
-      return { invoiceNumber, dueDate, billingDate: statementDate.format('YYYY-MM-DD'), globalInvoiceNote, invoiceNote, accountBillingInformation, customerContactInformation, companyLogo, ...invoiceCalculation };
+      return { includeCreditStatement, issueReason, invoiceNumber, dueDate, billingDate: statementDate.format('YYYY-MM-DD'), globalInvoiceNote, invoiceNote, accountBillingInformation, customerContactInformation, companyLogo, ...invoiceCalculation };
    });
 };
 

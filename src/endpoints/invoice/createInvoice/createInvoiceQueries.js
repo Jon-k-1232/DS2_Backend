@@ -21,7 +21,7 @@ const fetchInitialQueryItems = async (db, invoicesToCreateMap, accountID, { bill
          invoiceService.getLastInvoiceMarkersByCustomerID(db, accountID, customerIDs)
       ]);
 
-      const [lastInvoiceNumber, accountPayToInfo, customerInformation, customerTransactions, customerPayments, customerWriteOffs, customerRetainers, customerOutstandingInvoices] = await Promise.all([
+      const [lastInvoiceNumber, accountPayToInfo, customerInformation, customerTransactions, customerPayments, customerWriteOffs, customerRetainers, customerOutstandingInvoices, customerRetainerEvents] = await Promise.all([
          invoiceService.getLastInvoiceNumber(db, accountID, { year: billingYear }),
          invoiceService.getAccountPayToInfo(db, accountID),
          invoiceService.getCustomerInformation(db, accountID, customerIDs),
@@ -29,7 +29,8 @@ const fetchInitialQueryItems = async (db, invoicesToCreateMap, accountID, { bill
          invoiceService.getPaymentsByCustomerID(db, accountID, customerIDs, lastInvoiceMarkerByCustomerID),
          invoiceService.getWriteOffsByCustomerID(db, accountID, customerIDs, lastInvoiceMarkerByCustomerID),
          invoiceService.getRetainersByCustomerID(db, accountID, customerIDs, lastInvoiceDateByCustomerID),
-         invoiceService.getOutstandingInvoices(db, accountID, customerIDs, lastInvoiceDateByCustomerID)
+         invoiceService.getOutstandingInvoices(db, accountID, customerIDs, lastInvoiceDateByCustomerID),
+         invoiceService.getRetainerEventsByCustomerID(db, accountID, customerIDs, lastInvoiceMarkerByCustomerID)
       ]);
 
       return {
@@ -43,7 +44,8 @@ const fetchInitialQueryItems = async (db, invoicesToCreateMap, accountID, { bill
          customerPayments,
          customerWriteOffs,
          customerRetainers,
-         customerOutstandingInvoices
+         customerOutstandingInvoices,
+         customerRetainerEvents
       };
    } catch (error) {
       console.log(`Error fetching initial query items: ${error.message}`);

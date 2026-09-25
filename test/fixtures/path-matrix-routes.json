@@ -1,0 +1,1282 @@
+[
+  {
+    "key": "ALL /ai-integration/*",
+    "method": "ALL",
+    "path": "/ai-integration/*",
+    "file": "src/endpoints/aiIntegration/aiIntegration-router.js",
+    "line": 16,
+    "role": "Authenticated"
+  },
+  {
+    "key": "DELETE /customer/deleteCustomer/:customerID/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/customer/deleteCustomer/:customerID/:accountID/:userID",
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 325,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /invoices/deleteInvoice/:accountID/:invoiceID",
+    "method": "DELETE",
+    "path": "/invoices/deleteInvoice/:accountID/:invoiceID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 61,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/jobCategories/deleteJobCategory/:jobCategoryID/:accountID/:userID",
+    "file": "src/endpoints/jobCategories/jobCategories-router.js",
+    "line": 68,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /jobs/deleteJob/:jobID/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/jobs/deleteJob/:jobID/:accountID/:userID",
+    "file": "src/endpoints/job/job-router.js",
+    "line": 217,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /jobTypes/deleteJobType/:jobTypeID/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/jobTypes/deleteJobType/:jobTypeID/:accountID/:userID",
+    "file": "src/endpoints/jobType/jobType-router.js",
+    "line": 97,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /payments/deletePayment/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/payments/deletePayment/:accountID/:userID",
+    "file": "src/endpoints/payments/payments-router.js",
+    "line": 136,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /pending-payments/file/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/pending-payments/file/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 313,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /quotes/deleteQuote/:accountID/:quoteID",
+    "method": "DELETE",
+    "path": "/quotes/deleteQuote/:accountID/:quoteID",
+    "file": "src/endpoints/quotes/quotes-router.js",
+    "line": 135,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId",
+    "method": "DELETE",
+    "path": "/recurringCustomer/deleteRecurringCustomer/:accountID/:recurringCustomerId",
+    "file": "src/endpoints/recurringCustomer/recurringCustomer-router.js",
+    "line": 138,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/retainers/deleteRetainer/:retainerID/:accountID/:userID",
+    "file": "src/endpoints/retainer/retainer-router.js",
+    "line": 76,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /time-tracker-staff/:accountID/:userID/:staffID",
+    "method": "DELETE",
+    "path": "/time-tracker-staff/:accountID/:userID/:staffID",
+    "file": "src/endpoints/timeTrackerStaff/timeTrackerStaff-router.js",
+    "line": 103,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /time-tracking/template/delete/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/time-tracking/template/delete/:accountID/:userID",
+    "file": "src/endpoints/timeTracking/timeTracking-router.js",
+    "line": 1431,
+    "role": "S + template owner account"
+  },
+  {
+    "key": "DELETE /timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/timesheets/deleteTimesheetEntry/:timesheetEntryID/:accountID/:userID",
+    "file": "src/endpoints/timesheets/timesheets-router.js",
+    "line": 407,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /transactions/deleteTransaction/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/transactions/deleteTransaction/:accountID/:userID",
+    "file": "src/endpoints/transactions/transactions-router.js",
+    "line": 100,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /user/deleteUser/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/user/deleteUser/:accountID/:userID",
+    "file": "src/endpoints/user/user-router.js",
+    "line": 127,
+    "role": "S"
+  },
+  {
+    "key": "DELETE /workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/workDescriptions/deleteWorkDescription/:workDescriptionID/:accountID/:userID",
+    "file": "src/endpoints/workDescriptions/workDescriptions-router.js",
+    "line": 92,
+    "role": "M"
+  },
+  {
+    "key": "DELETE /writeOffs/deleteWriteOffs/:accountID/:userID",
+    "method": "DELETE",
+    "path": "/writeOffs/deleteWriteOffs/:accountID/:userID",
+    "file": "src/endpoints/writeOffs/writeOffs-router.js",
+    "line": 119,
+    "role": "M"
+  },
+  {
+    "key": "GET /account/AccountInformation/:accountID/:userID",
+    "method": "GET",
+    "path": "/account/AccountInformation/:accountID/:userID",
+    "file": "src/endpoints/account/account-router.js",
+    "line": 230,
+    "role": "A"
+  },
+  {
+    "key": "GET /account/automations/:accountID/:userID",
+    "method": "GET",
+    "path": "/account/automations/:accountID/:userID",
+    "file": "src/endpoints/account/account-router.js",
+    "line": 272,
+    "role": "A"
+  },
+  {
+    "key": "GET /accountAudit/audit/:auditID/:accountID/:userID",
+    "method": "GET",
+    "path": "/accountAudit/audit/:auditID/:accountID/:userID",
+    "file": "src/endpoints/accountAudit/account-audit-router.js",
+    "line": 343,
+    "role": "S"
+  },
+  {
+    "key": "GET /accountAudit/audit/:auditID/pdf/:accountID/:userID",
+    "method": "GET",
+    "path": "/accountAudit/audit/:auditID/pdf/:accountID/:userID",
+    "file": "src/endpoints/accountAudit/account-audit-router.js",
+    "line": 386,
+    "role": "S"
+  },
+  {
+    "key": "GET /accountAudit/customer/:customerID/:accountID/:userID",
+    "method": "GET",
+    "path": "/accountAudit/customer/:customerID/:accountID/:userID",
+    "file": "src/endpoints/accountAudit/account-audit-router.js",
+    "line": 432,
+    "role": "S"
+  },
+  {
+    "key": "GET /accountAudit/customers/:accountID/:userID",
+    "method": "GET",
+    "path": "/accountAudit/customers/:accountID/:userID",
+    "file": "src/endpoints/accountAudit/account-audit-router.js",
+    "line": 52,
+    "role": "S"
+  },
+  {
+    "key": "GET /accountAudit/job/:jobId/:accountID/:userID",
+    "method": "GET",
+    "path": "/accountAudit/job/:jobId/:accountID/:userID",
+    "file": "src/endpoints/accountAudit/account-audit-router.js",
+    "line": 325,
+    "role": "S"
+  },
+  {
+    "key": "GET /accountAudit/whoami/:accountID/:userID",
+    "method": "GET",
+    "path": "/accountAudit/whoami/:accountID/:userID",
+    "file": "src/endpoints/accountAudit/account-audit-router.js",
+    "line": 40,
+    "role": "S"
+  },
+  {
+    "key": "GET /accountsReceivable/aging/:accountID/:userID",
+    "method": "GET",
+    "path": "/accountsReceivable/aging/:accountID/:userID",
+    "file": "src/endpoints/accountsReceivable/accounts-receivable-router.js",
+    "line": 72,
+    "role": "M"
+  },
+  {
+    "key": "GET /accountsReceivable/aging/:accountID/:userID/export",
+    "method": "GET",
+    "path": "/accountsReceivable/aging/:accountID/:userID/export",
+    "file": "src/endpoints/accountsReceivable/accounts-receivable-router.js",
+    "line": 120,
+    "role": "M"
+  },
+  {
+    "key": "GET /analytics/clientRates/:accountID/:userID",
+    "method": "GET",
+    "path": "/analytics/clientRates/:accountID/:userID",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 146,
+    "role": "S"
+  },
+  {
+    "key": "GET /analytics/clientRates/:accountID/:userID/export",
+    "method": "GET",
+    "path": "/analytics/clientRates/:accountID/:userID/export",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 159,
+    "role": "S"
+  },
+  {
+    "key": "GET /analytics/exclusions/:accountID/:userID",
+    "method": "GET",
+    "path": "/analytics/exclusions/:accountID/:userID",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 318,
+    "role": "S"
+  },
+  {
+    "key": "GET /analytics/jobBudgets/:accountID/:userID",
+    "method": "GET",
+    "path": "/analytics/jobBudgets/:accountID/:userID",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 241,
+    "role": "S"
+  },
+  {
+    "key": "GET /analytics/taxSeasonCapacity/:accountID/:userID",
+    "method": "GET",
+    "path": "/analytics/taxSeasonCapacity/:accountID/:userID",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 305,
+    "role": "S"
+  },
+  {
+    "key": "GET /analytics/timeAllocation/:accountID/:userID",
+    "method": "GET",
+    "path": "/analytics/timeAllocation/:accountID/:userID",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 174,
+    "role": "S"
+  },
+  {
+    "key": "GET /analytics/timeAllocation/:accountID/:userID/export",
+    "method": "GET",
+    "path": "/analytics/timeAllocation/:accountID/:userID/export",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 186,
+    "role": "S"
+  },
+  {
+    "key": "GET /analytics/wipAging/:accountID/:userID",
+    "method": "GET",
+    "path": "/analytics/wipAging/:accountID/:userID",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 228,
+    "role": "S"
+  },
+  {
+    "key": "GET /analytics/yearEndPacket/:accountID/:userID",
+    "method": "GET",
+    "path": "/analytics/yearEndPacket/:accountID/:userID",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 255,
+    "role": "S"
+  },
+  {
+    "key": "GET /api/health/",
+    "method": "GET",
+    "path": "/api/health/",
+    "file": "src/endpoints/health/health-router.js",
+    "line": 22,
+    "role": "Public"
+  },
+  {
+    "key": "GET /api/health/check",
+    "method": "GET",
+    "path": "/api/health/check",
+    "file": "src/endpoints/health/health-router.js",
+    "line": 9,
+    "role": "Public"
+  },
+  {
+    "key": "GET /auditRecord/customer/:customerID/:accountID/:userID",
+    "method": "GET",
+    "path": "/auditRecord/customer/:customerID/:accountID/:userID",
+    "file": "src/endpoints/auditRecord/audit-record-router.js",
+    "line": 34,
+    "role": "A"
+  },
+  {
+    "key": "GET /auditRecord/customer/:customerID/:accountID/:userID/records",
+    "method": "GET",
+    "path": "/auditRecord/customer/:customerID/:accountID/:userID/records",
+    "file": "src/endpoints/auditRecord/audit-record-router.js",
+    "line": 43,
+    "role": "A"
+  },
+  {
+    "key": "GET /auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+    "method": "GET",
+    "path": "/auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/evidence",
+    "file": "src/endpoints/auditRecord/audit-record-router.js",
+    "line": 122,
+    "role": "A"
+  },
+  {
+    "key": "GET /auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+    "method": "GET",
+    "path": "/auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/pdf",
+    "file": "src/endpoints/auditRecord/audit-record-router.js",
+    "line": 130,
+    "role": "A"
+  },
+  {
+    "key": "GET /auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+    "method": "GET",
+    "path": "/auditRecord/customer/:customerID/:accountID/:userID/records/:recordID/verify",
+    "file": "src/endpoints/auditRecord/audit-record-router.js",
+    "line": 114,
+    "role": "A"
+  },
+  {
+    "key": "GET /auditRecord/customer/:customerID/:accountID/:userID/verify",
+    "method": "GET",
+    "path": "/auditRecord/customer/:customerID/:accountID/:userID/verify",
+    "file": "src/endpoints/auditRecord/audit-record-router.js",
+    "line": 39,
+    "role": "A"
+  },
+  {
+    "key": "GET /billing-review/distinct-entities/:accountID/:userID",
+    "method": "GET",
+    "path": "/billing-review/distinct-entities/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 54,
+    "role": "M"
+  },
+  {
+    "key": "GET /billing-review/earliest-unbilled-month/:accountID/:userID",
+    "method": "GET",
+    "path": "/billing-review/earliest-unbilled-month/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 67,
+    "role": "M"
+  },
+  {
+    "key": "GET /billing-review/pending/:accountID/:userID",
+    "method": "GET",
+    "path": "/billing-review/pending/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 77,
+    "role": "M"
+  },
+  {
+    "key": "GET /billing-review/pre-invoice/:accountID/:userID",
+    "method": "GET",
+    "path": "/billing-review/pre-invoice/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 192,
+    "role": "M"
+  },
+  {
+    "key": "GET /billing-review/reprocess-count/:accountID/:userID",
+    "method": "GET",
+    "path": "/billing-review/reprocess-count/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 216,
+    "role": "M"
+  },
+  {
+    "key": "GET /billing-review/weekly/:accountID/:userID",
+    "method": "GET",
+    "path": "/billing-review/weekly/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 147,
+    "role": "M"
+  },
+  {
+    "key": "GET /customer/activeCustomers/:accountID/:userID",
+    "method": "GET",
+    "path": "/customer/activeCustomers/:accountID/:userID",
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 387,
+    "role": "M"
+  },
+  {
+    "key": "GET /customer/activeCustomers/customerByID/:accountID/:userID/:customerID",
+    "method": "GET",
+    "path": "/customer/activeCustomers/customerByID/:accountID/:userID/:customerID",
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 122,
+    "role": "M"
+  },
+  {
+    "key": "GET /customer/statement/:accountID/:userID/:customerID",
+    "method": "GET",
+    "path": "/customer/statement/:accountID/:userID/:customerID",
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 207,
+    "role": "M"
+  },
+  {
+    "key": "GET /duplicates/:accountID/:userID",
+    "method": "GET",
+    "path": "/duplicates/:accountID/:userID",
+    "file": "src/endpoints/duplicates/duplicates-router.js",
+    "line": 7,
+    "role": "M"
+  },
+  {
+    "key": "GET /healthz/",
+    "method": "GET",
+    "path": "/healthz/",
+    "file": "src/endpoints/health/health-router.js",
+    "line": 22,
+    "role": "Public"
+  },
+  {
+    "key": "GET /healthz/check",
+    "method": "GET",
+    "path": "/healthz/check",
+    "file": "src/endpoints/health/health-router.js",
+    "line": 9,
+    "role": "Public"
+  },
+  {
+    "key": "GET /initialData/initialBlob/:accountID/:userID",
+    "method": "GET",
+    "path": "/initialData/initialBlob/:accountID/:userID",
+    "file": "src/endpoints/initialData/initialData-router.js",
+    "line": 22,
+    "role": "Authenticated"
+  },
+  {
+    "key": "GET /invoices/:invoiceID/history/:accountID/:userID",
+    "method": "GET",
+    "path": "/invoices/:invoiceID/history/:accountID/:userID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 636,
+    "role": "M"
+  },
+  {
+    "key": "GET /invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+    "method": "GET",
+    "path": "/invoices/createInvoice/AccountsWithBalance/:accountID/:invoiceID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 153,
+    "role": "M"
+  },
+  {
+    "key": "GET /invoices/downloadFile/:accountID/:userID",
+    "method": "GET",
+    "path": "/invoices/downloadFile/:accountID/:userID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 398,
+    "role": "M"
+  },
+  {
+    "key": "GET /invoices/getInvoiceDetails/:invoiceID/:accountID/:userID",
+    "method": "GET",
+    "path": "/invoices/getInvoiceDetails/:invoiceID/:accountID/:userID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 482,
+    "role": "M"
+  },
+  {
+    "key": "GET /invoices/getInvoices/:accountID/:invoiceID",
+    "method": "GET",
+    "path": "/invoices/getInvoices/:accountID/:invoiceID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 40,
+    "role": "M"
+  },
+  {
+    "key": "GET /invoices/getInvoicesPaginated/:accountID/:userID",
+    "method": "GET",
+    "path": "/invoices/getInvoicesPaginated/:accountID/:userID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 579,
+    "role": "M"
+  },
+  {
+    "key": "GET /jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID",
+    "method": "GET",
+    "path": "/jobCategories/getSingleJobCategory/:jobCategoryID/:accountID/:userID",
+    "file": "src/endpoints/jobCategories/jobCategories-router.js",
+    "line": 92,
+    "role": "M"
+  },
+  {
+    "key": "GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID",
+    "method": "GET",
+    "path": "/jobs/getActiveCustomerJobs/:accountID/:userID/:customerID",
+    "file": "src/endpoints/job/job-router.js",
+    "line": 121,
+    "role": "M"
+  },
+  {
+    "key": "GET /jobs/getSingleJob/:customerJobID/:accountID/:userID",
+    "method": "GET",
+    "path": "/jobs/getSingleJob/:customerJobID/:accountID/:userID",
+    "file": "src/endpoints/job/job-router.js",
+    "line": 101,
+    "role": "M"
+  },
+  {
+    "key": "GET /jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID",
+    "method": "GET",
+    "path": "/jobTypes/getSingleJobType/:jobTypeID/:accountID/:userID",
+    "file": "src/endpoints/jobType/jobType-router.js",
+    "line": 43,
+    "role": "M"
+  },
+  {
+    "key": "GET /notifications/:accountID/:userID",
+    "method": "GET",
+    "path": "/notifications/:accountID/:userID",
+    "file": "src/endpoints/notifications/notifications-router.js",
+    "line": 13,
+    "role": "Self / M"
+  },
+  {
+    "key": "GET /notifications/:accountID/:userID/unread-count",
+    "method": "GET",
+    "path": "/notifications/:accountID/:userID/unread-count",
+    "file": "src/endpoints/notifications/notifications-router.js",
+    "line": 25,
+    "role": "Self / M"
+  },
+  {
+    "key": "GET /payments/getPayments/:accountID/:userID",
+    "method": "GET",
+    "path": "/payments/getPayments/:accountID/:userID",
+    "file": "src/endpoints/payments/payments-router.js",
+    "line": 160,
+    "role": "M"
+  },
+  {
+    "key": "GET /payments/getSinglePayment/:paymentID/:accountID/:userID",
+    "method": "GET",
+    "path": "/payments/getSinglePayment/:paymentID/:accountID/:userID",
+    "file": "src/endpoints/payments/payments-router.js",
+    "line": 76,
+    "role": "M"
+  },
+  {
+    "key": "GET /pending-payments/counts/:accountID/:userID",
+    "method": "GET",
+    "path": "/pending-payments/counts/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 78,
+    "role": "M"
+  },
+  {
+    "key": "GET /pending-payments/file-preview/:accountID/:userID",
+    "method": "GET",
+    "path": "/pending-payments/file-preview/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 364,
+    "role": "M"
+  },
+  {
+    "key": "GET /pending-payments/files/:accountID/:userID",
+    "method": "GET",
+    "path": "/pending-payments/files/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 298,
+    "role": "M"
+  },
+  {
+    "key": "GET /pending-payments/list/:accountID/:userID",
+    "method": "GET",
+    "path": "/pending-payments/list/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 35,
+    "role": "M"
+  },
+  {
+    "key": "GET /pending-payments/single/:paymentID/:accountID/:userID",
+    "method": "GET",
+    "path": "/pending-payments/single/:paymentID/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 93,
+    "role": "M"
+  },
+  {
+    "key": "GET /quotes/getActiveQuotes/:accountID/:quoteID",
+    "method": "GET",
+    "path": "/quotes/getActiveQuotes/:accountID/:quoteID",
+    "file": "src/endpoints/quotes/quotes-router.js",
+    "line": 58,
+    "role": "M"
+  },
+  {
+    "key": "GET /recurringCustomer/getActiveRecurringCustomers/:accountID/:userID",
+    "method": "GET",
+    "path": "/recurringCustomer/getActiveRecurringCustomers/:accountID/:userID",
+    "file": "src/endpoints/recurringCustomer/recurringCustomer-router.js",
+    "line": 66,
+    "role": "M"
+  },
+  {
+    "key": "GET /retainers/:retainerID/events/:accountID/:userID",
+    "method": "GET",
+    "path": "/retainers/:retainerID/events/:accountID/:userID",
+    "file": "src/endpoints/retainer/retainer-router.js",
+    "line": 160,
+    "role": "M"
+  },
+  {
+    "key": "GET /retainers/getActiveRetainers/:customerID/:accountID/:userID",
+    "method": "GET",
+    "path": "/retainers/getActiveRetainers/:customerID/:accountID/:userID",
+    "file": "src/endpoints/retainer/retainer-router.js",
+    "line": 133,
+    "role": "M"
+  },
+  {
+    "key": "GET /retainers/getSingleRetainer/:retainerID/:accountID/:userID",
+    "method": "GET",
+    "path": "/retainers/getSingleRetainer/:retainerID/:accountID/:userID",
+    "file": "src/endpoints/retainer/retainer-router.js",
+    "line": 96,
+    "role": "M"
+  },
+  {
+    "key": "GET /time-tracker-staff/:accountID/:userID",
+    "method": "GET",
+    "path": "/time-tracker-staff/:accountID/:userID",
+    "file": "src/endpoints/timeTrackerStaff/timeTrackerStaff-router.js",
+    "line": 30,
+    "role": "M"
+  },
+  {
+    "key": "GET /time-tracking/download/by-name/:accountID/:userID",
+    "method": "GET",
+    "path": "/time-tracking/download/by-name/:accountID/:userID",
+    "file": "src/endpoints/timeTracking/timeTracking-router.js",
+    "line": 994,
+    "role": "Self / M"
+  },
+  {
+    "key": "GET /time-tracking/history/:accountID/:userID",
+    "method": "GET",
+    "path": "/time-tracking/history/:accountID/:userID",
+    "file": "src/endpoints/timeTracking/timeTracking-router.js",
+    "line": 831,
+    "role": "Self / M"
+  },
+  {
+    "key": "GET /time-tracking/history/download/:accountID/:userID",
+    "method": "GET",
+    "path": "/time-tracking/history/download/:accountID/:userID",
+    "file": "src/endpoints/timeTracking/timeTracking-router.js",
+    "line": 904,
+    "role": "Self / M"
+  },
+  {
+    "key": "GET /time-tracking/template/latest/:accountID/:userID",
+    "method": "GET",
+    "path": "/time-tracking/template/latest/:accountID/:userID",
+    "file": "src/endpoints/timeTracking/timeTracking-router.js",
+    "line": 1211,
+    "role": "Self / M"
+  },
+  {
+    "key": "GET /time-tracking/template/list/:accountID/:userID",
+    "method": "GET",
+    "path": "/time-tracking/template/list/:accountID/:userID",
+    "file": "src/endpoints/timeTracking/timeTracking-router.js",
+    "line": 1370,
+    "role": "A; owner versions only"
+  },
+  {
+    "key": "GET /time-tracking/users/:accountID/:userID",
+    "method": "GET",
+    "path": "/time-tracking/users/:accountID/:userID",
+    "file": "src/endpoints/timeTracking/timeTracking-router.js",
+    "line": 791,
+    "role": "Self / M"
+  },
+  {
+    "key": "GET /timesheets/countsByEmployee/:accountID/:userID",
+    "method": "GET",
+    "path": "/timesheets/countsByEmployee/:accountID/:userID",
+    "file": "src/endpoints/timesheets/timesheets-router.js",
+    "line": 247,
+    "role": "M"
+  },
+  {
+    "key": "GET /timesheets/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID",
+    "method": "GET",
+    "path": "/timesheets/fetchTimesheetsByMonth/:queryUserID/:accountID/:userID",
+    "file": "src/endpoints/timesheets/timesheets-router.js",
+    "line": 214,
+    "role": "Self / M (queryUserID)"
+  },
+  {
+    "key": "GET /timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID",
+    "method": "GET",
+    "path": "/timesheets/getAllTimesheetsForEmployeeByUserID/:queryUserID/:accountID/:userID",
+    "file": "src/endpoints/timesheets/timesheets-router.js",
+    "line": 187,
+    "role": "Self / M (queryUserID)"
+  },
+  {
+    "key": "GET /timesheets/getTimesheetEntries/:accountID/:userID",
+    "method": "GET",
+    "path": "/timesheets/getTimesheetEntries/:accountID/:userID",
+    "file": "src/endpoints/timesheets/timesheets-router.js",
+    "line": 58,
+    "role": "M"
+  },
+  {
+    "key": "GET /timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID",
+    "method": "GET",
+    "path": "/timesheets/getTimesheetEntriesByUserID/:queryUserID/:accountID/:userID",
+    "file": "src/endpoints/timesheets/timesheets-router.js",
+    "line": 149,
+    "role": "Self / M (queryUserID)"
+  },
+  {
+    "key": "GET /transactions/exportTransactions/:accountID/:userID",
+    "method": "GET",
+    "path": "/transactions/exportTransactions/:accountID/:userID",
+    "file": "src/endpoints/transactions/transactions-router.js",
+    "line": 156,
+    "role": "M"
+  },
+  {
+    "key": "GET /transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID",
+    "method": "GET",
+    "path": "/transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID",
+    "file": "src/endpoints/transactions/transactions-router.js",
+    "line": 214,
+    "role": "M"
+  },
+  {
+    "key": "GET /transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID",
+    "method": "GET",
+    "path": "/transactions/getSingleTransaction/:customerID/:transactionID/:accountID/:userID",
+    "file": "src/endpoints/transactions/transactions-router.js",
+    "line": 181,
+    "role": "M"
+  },
+  {
+    "key": "GET /transactions/getTransactions/:accountID/:userID",
+    "method": "GET",
+    "path": "/transactions/getTransactions/:accountID/:userID",
+    "file": "src/endpoints/transactions/transactions-router.js",
+    "line": 122,
+    "role": "M"
+  },
+  {
+    "key": "GET /user/fetchSingleUser/:accountID/:userID",
+    "method": "GET",
+    "path": "/user/fetchSingleUser/:accountID/:userID",
+    "file": "src/endpoints/user/user-router.js",
+    "line": 184,
+    "role": "Self / M"
+  },
+  {
+    "key": "GET /workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID",
+    "method": "GET",
+    "path": "/workDescriptions/getSingleWorkDescription/:workDescriptionID/:accountID/:userID",
+    "file": "src/endpoints/workDescriptions/workDescriptions-router.js",
+    "line": 36,
+    "role": "M"
+  },
+  {
+    "key": "GET /writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID",
+    "method": "GET",
+    "path": "/writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID",
+    "file": "src/endpoints/writeOffs/writeOffs-router.js",
+    "line": 54,
+    "role": "M"
+  },
+  {
+    "key": "GET /writeOffs/getWriteOffs/:accountID/:userID",
+    "method": "GET",
+    "path": "/writeOffs/getWriteOffs/:accountID/:userID",
+    "file": "src/endpoints/writeOffs/writeOffs-router.js",
+    "line": 146,
+    "role": "M"
+  },
+  {
+    "key": "POST /account/createAccount",
+    "method": "POST",
+    "path": "/account/createAccount",
+    "file": "src/endpoints/account/account-router.js",
+    "line": 116,
+    "role": "S"
+  },
+  {
+    "key": "POST /accountAudit/run/:accountID/:userID",
+    "method": "POST",
+    "path": "/accountAudit/run/:accountID/:userID",
+    "file": "src/endpoints/accountAudit/account-audit-router.js",
+    "line": 282,
+    "role": "S"
+  },
+  {
+    "key": "POST /analytics/rateAgreement/:accountID/:userID",
+    "method": "POST",
+    "path": "/analytics/rateAgreement/:accountID/:userID",
+    "file": "src/endpoints/analytics/analytics-router.js",
+    "line": 199,
+    "role": "S"
+  },
+  {
+    "key": "POST /auditRecord/customer/:customerID/:accountID/:userID/records",
+    "method": "POST",
+    "path": "/auditRecord/customer/:customerID/:accountID/:userID/records",
+    "file": "src/endpoints/auditRecord/audit-record-router.js",
+    "line": 50,
+    "role": "A"
+  },
+  {
+    "key": "POST /auth/google",
+    "method": "POST",
+    "path": "/auth/google",
+    "file": "src/endpoints/auth/auth-router.js",
+    "line": 23,
+    "role": "Public; verified Google identity"
+  },
+  {
+    "key": "POST /auth/logout",
+    "method": "POST",
+    "path": "/auth/logout",
+    "file": "src/endpoints/auth/auth-router.js",
+    "line": 93,
+    "role": "Public"
+  },
+  {
+    "key": "POST /auth/renew",
+    "method": "POST",
+    "path": "/auth/renew",
+    "file": "src/endpoints/auth/auth-router.js",
+    "line": 80,
+    "role": "Authenticated"
+  },
+  {
+    "key": "POST /billing-review/reprocess-with-overrides/:entryID/:accountID/:userID",
+    "method": "POST",
+    "path": "/billing-review/reprocess-with-overrides/:entryID/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 284,
+    "role": "M"
+  },
+  {
+    "key": "POST /billing-review/reprocess/:accountID/:userID",
+    "method": "POST",
+    "path": "/billing-review/reprocess/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 239,
+    "role": "M"
+  },
+  {
+    "key": "POST /customer/createCustomer/:accountID/:userID",
+    "method": "POST",
+    "path": "/customer/createCustomer/:accountID/:userID",
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 31,
+    "role": "M"
+  },
+  {
+    "key": "POST /duplicates/:accountID/:userID",
+    "method": "POST",
+    "path": "/duplicates/:accountID/:userID",
+    "file": "src/endpoints/duplicates/duplicates-router.js",
+    "line": 8,
+    "role": "M"
+  },
+  {
+    "key": "POST /duplicates/:duplicateID/resolve/:accountID/:userID",
+    "method": "POST",
+    "path": "/duplicates/:duplicateID/resolve/:accountID/:userID",
+    "file": "src/endpoints/duplicates/duplicates-router.js",
+    "line": 10,
+    "role": "M"
+  },
+  {
+    "key": "POST /duplicates/scan/:accountID/:userID",
+    "method": "POST",
+    "path": "/duplicates/scan/:accountID/:userID",
+    "file": "src/endpoints/duplicates/duplicates-router.js",
+    "line": 9,
+    "role": "M"
+  },
+  {
+    "key": "POST /invoices/:invoiceID/exceptions/:accountID/:userID",
+    "method": "POST",
+    "path": "/invoices/:invoiceID/exceptions/:accountID/:userID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 637,
+    "role": "M"
+  },
+  {
+    "key": "POST /invoices/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID",
+    "method": "POST",
+    "path": "/invoices/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 639,
+    "role": "M"
+  },
+  {
+    "key": "POST /invoices/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID",
+    "method": "POST",
+    "path": "/invoices/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 638,
+    "role": "M"
+  },
+  {
+    "key": "POST /invoices/createInvoice/:accountID/:userID",
+    "method": "POST",
+    "path": "/invoices/createInvoice/:accountID/:userID",
+    "file": "src/endpoints/invoice/invoice-router.js",
+    "line": 235,
+    "role": "M"
+  },
+  {
+    "key": "POST /jobCategories/createJobCategory/:accountID/:userID",
+    "method": "POST",
+    "path": "/jobCategories/createJobCategory/:accountID/:userID",
+    "file": "src/endpoints/jobCategories/jobCategories-router.js",
+    "line": 14,
+    "role": "M"
+  },
+  {
+    "key": "POST /jobs/createJob/:accountID/:userID",
+    "method": "POST",
+    "path": "/jobs/createJob/:accountID/:userID",
+    "file": "src/endpoints/job/job-router.js",
+    "line": 63,
+    "role": "M"
+  },
+  {
+    "key": "POST /jobTypes/createJobType/:accountID/:userID",
+    "method": "POST",
+    "path": "/jobTypes/createJobType/:accountID/:userID",
+    "file": "src/endpoints/jobType/jobType-router.js",
+    "line": 15,
+    "role": "M"
+  },
+  {
+    "key": "POST /payments/createPayment/:accountID/:userID",
+    "method": "POST",
+    "path": "/payments/createPayment/:accountID/:userID",
+    "file": "src/endpoints/payments/payments-router.js",
+    "line": 20,
+    "role": "M"
+  },
+  {
+    "key": "POST /payments/reversePayment/:accountID/:userID",
+    "method": "POST",
+    "path": "/payments/reversePayment/:accountID/:userID",
+    "file": "src/endpoints/payments/payments-router.js",
+    "line": 52,
+    "role": "M"
+  },
+  {
+    "key": "POST /pending-payments/approve/:accountID/:userID",
+    "method": "POST",
+    "path": "/pending-payments/approve/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 152,
+    "role": "M"
+  },
+  {
+    "key": "POST /pending-payments/upload/:accountID/:userID",
+    "method": "POST",
+    "path": "/pending-payments/upload/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 230,
+    "role": "M + account 1"
+  },
+  {
+    "key": "POST /quotes/createQuote",
+    "method": "POST",
+    "path": "/quotes/createQuote",
+    "file": "src/endpoints/quotes/quotes-router.js",
+    "line": 14,
+    "role": "M"
+  },
+  {
+    "key": "POST /recurringCustomer/createRecurringCustomer/:accountID/:userID",
+    "method": "POST",
+    "path": "/recurringCustomer/createRecurringCustomer/:accountID/:userID",
+    "file": "src/endpoints/recurringCustomer/recurringCustomer-router.js",
+    "line": 23,
+    "role": "M"
+  },
+  {
+    "key": "POST /retainers/:retainerID/events/:accountID/:userID",
+    "method": "POST",
+    "path": "/retainers/:retainerID/events/:accountID/:userID",
+    "file": "src/endpoints/retainer/retainer-router.js",
+    "line": 161,
+    "role": "M"
+  },
+  {
+    "key": "POST /retainers/createRetainer/:accountID/:userID",
+    "method": "POST",
+    "path": "/retainers/createRetainer/:accountID/:userID",
+    "file": "src/endpoints/retainer/retainer-router.js",
+    "line": 15,
+    "role": "M"
+  },
+  {
+    "key": "POST /time-tracker-staff/:accountID/:userID",
+    "method": "POST",
+    "path": "/time-tracker-staff/:accountID/:userID",
+    "file": "src/endpoints/timeTrackerStaff/timeTrackerStaff-router.js",
+    "line": 55,
+    "role": "M"
+  },
+  {
+    "key": "POST /time-tracking/template/upload/:accountID/:userID",
+    "method": "POST",
+    "path": "/time-tracking/template/upload/:accountID/:userID",
+    "file": "src/endpoints/timeTracking/timeTracking-router.js",
+    "line": 1309,
+    "role": "S + template owner account"
+  },
+  {
+    "key": "POST /time-tracking/upload/:accountID/:userID",
+    "method": "POST",
+    "path": "/time-tracking/upload/:accountID/:userID",
+    "file": "src/endpoints/timeTracking/timeTracking-router.js",
+    "line": 310,
+    "role": "Self / M"
+  },
+  {
+    "key": "POST /timesheets/ai/kickoff/:accountID/:userID",
+    "method": "POST",
+    "path": "/timesheets/ai/kickoff/:accountID/:userID",
+    "file": "src/endpoints/timesheets/timesheets-router.js",
+    "line": 88,
+    "role": "Authenticated; own entries or M"
+  },
+  {
+    "key": "POST /timesheets/moveToTransactions/:accountID/:userID",
+    "method": "POST",
+    "path": "/timesheets/moveToTransactions/:accountID/:userID",
+    "file": "src/endpoints/timesheets/timesheets-router.js",
+    "line": 281,
+    "role": "M"
+  },
+  {
+    "key": "POST /transactions/createTransaction/:accountID/:userID",
+    "method": "POST",
+    "path": "/transactions/createTransaction/:accountID/:userID",
+    "file": "src/endpoints/transactions/transactions-router.js",
+    "line": 50,
+    "role": "M"
+  },
+  {
+    "key": "POST /user/createUser/:accountID/:userID",
+    "method": "POST",
+    "path": "/user/createUser/:accountID/:userID",
+    "file": "src/endpoints/user/user-router.js",
+    "line": 41,
+    "role": "S"
+  },
+  {
+    "key": "POST /workDescriptions/createWorkDescription/:accountID/:userID",
+    "method": "POST",
+    "path": "/workDescriptions/createWorkDescription/:accountID/:userID",
+    "file": "src/endpoints/workDescriptions/workDescriptions-router.js",
+    "line": 14,
+    "role": "M"
+  },
+  {
+    "key": "POST /writeOffs/createWriteOffs/:accountID/:userID",
+    "method": "POST",
+    "path": "/writeOffs/createWriteOffs/:accountID/:userID",
+    "file": "src/endpoints/writeOffs/writeOffs-router.js",
+    "line": 20,
+    "role": "M"
+  },
+  {
+    "key": "PUT /account/automations/:accountID/:userID",
+    "method": "PUT",
+    "path": "/account/automations/:accountID/:userID",
+    "file": "src/endpoints/account/account-router.js",
+    "line": 272,
+    "role": "A"
+  },
+  {
+    "key": "PUT /account/updateAccount",
+    "method": "PUT",
+    "path": "/account/updateAccount",
+    "file": "src/endpoints/account/account-router.js",
+    "line": 148,
+    "role": "A"
+  },
+  {
+    "key": "PUT /billing-review/:entryID/:accountID/:userID",
+    "method": "PUT",
+    "path": "/billing-review/:entryID/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 122,
+    "role": "M"
+  },
+  {
+    "key": "PUT /billing-review/transaction/:transactionID/:accountID/:userID",
+    "method": "PUT",
+    "path": "/billing-review/transaction/:transactionID/:accountID/:userID",
+    "file": "src/endpoints/billingReview/billingReview-router.js",
+    "line": 316,
+    "role": "M"
+  },
+  {
+    "key": "PUT /customer/updateCustomer/:accountID/:userID",
+    "method": "PUT",
+    "path": "/customer/updateCustomer/:accountID/:userID",
+    "file": "src/endpoints/customer/customer-router.js",
+    "line": 233,
+    "role": "M"
+  },
+  {
+    "key": "PUT /jobCategories/updateJobCategory/:accountID/:userID",
+    "method": "PUT",
+    "path": "/jobCategories/updateJobCategory/:accountID/:userID",
+    "file": "src/endpoints/jobCategories/jobCategories-router.js",
+    "line": 40,
+    "role": "M"
+  },
+  {
+    "key": "PUT /jobs/updateJob/:accountID/:userID",
+    "method": "PUT",
+    "path": "/jobs/updateJob/:accountID/:userID",
+    "file": "src/endpoints/job/job-router.js",
+    "line": 147,
+    "role": "M"
+  },
+  {
+    "key": "PUT /jobTypes/updateJobType/:accountID/:userID",
+    "method": "PUT",
+    "path": "/jobTypes/updateJobType/:accountID/:userID",
+    "file": "src/endpoints/jobType/jobType-router.js",
+    "line": 65,
+    "role": "M"
+  },
+  {
+    "key": "PUT /notifications/:accountID/:userID/read-all",
+    "method": "PUT",
+    "path": "/notifications/:accountID/:userID/read-all",
+    "file": "src/endpoints/notifications/notifications-router.js",
+    "line": 48,
+    "role": "Self / M"
+  },
+  {
+    "key": "PUT /notifications/:notificationID/:accountID/:userID/read",
+    "method": "PUT",
+    "path": "/notifications/:notificationID/:accountID/:userID/read",
+    "file": "src/endpoints/notifications/notifications-router.js",
+    "line": 35,
+    "role": "Self / M"
+  },
+  {
+    "key": "PUT /payments/updatePayment/:accountID/:userID",
+    "method": "PUT",
+    "path": "/payments/updatePayment/:accountID/:userID",
+    "file": "src/endpoints/payments/payments-router.js",
+    "line": 110,
+    "role": "M"
+  },
+  {
+    "key": "PUT /pending-payments/approve/:paymentID/:accountID/:userID",
+    "method": "PUT",
+    "path": "/pending-payments/approve/:paymentID/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 221,
+    "role": "M"
+  },
+  {
+    "key": "PUT /pending-payments/soft-delete/:paymentID/:accountID/:userID",
+    "method": "PUT",
+    "path": "/pending-payments/soft-delete/:paymentID/:accountID/:userID",
+    "file": "src/endpoints/pendingPayments/pendingPayments-router.js",
+    "line": 108,
+    "role": "M"
+  },
+  {
+    "key": "PUT /quotes/updateQuote",
+    "method": "PUT",
+    "path": "/quotes/updateQuote",
+    "file": "src/endpoints/quotes/quotes-router.js",
+    "line": 89,
+    "role": "M"
+  },
+  {
+    "key": "PUT /recurringCustomer/updateRecurringCustomer",
+    "method": "PUT",
+    "path": "/recurringCustomer/updateRecurringCustomer",
+    "file": "src/endpoints/recurringCustomer/recurringCustomer-router.js",
+    "line": 89,
+    "role": "M"
+  },
+  {
+    "key": "PUT /retainers/updateRetainer/:accountID/:userID",
+    "method": "PUT",
+    "path": "/retainers/updateRetainer/:accountID/:userID",
+    "file": "src/endpoints/retainer/retainer-router.js",
+    "line": 48,
+    "role": "M"
+  },
+  {
+    "key": "PUT /time-tracker-staff/:accountID/:userID/:staffID",
+    "method": "PUT",
+    "path": "/time-tracker-staff/:accountID/:userID/:staffID",
+    "file": "src/endpoints/timeTrackerStaff/timeTrackerStaff-router.js",
+    "line": 79,
+    "role": "M"
+  },
+  {
+    "key": "PUT /transactions/updateTransaction/:accountID/:userID",
+    "method": "PUT",
+    "path": "/transactions/updateTransaction/:accountID/:userID",
+    "file": "src/endpoints/transactions/transactions-router.js",
+    "line": 78,
+    "role": "M"
+  },
+  {
+    "key": "PUT /user/updateUser/:accountID/:userID",
+    "method": "PUT",
+    "path": "/user/updateUser/:accountID/:userID",
+    "file": "src/endpoints/user/user-router.js",
+    "line": 73,
+    "role": "S"
+  },
+  {
+    "key": "PUT /workDescriptions/updateWorkDescription/:accountID/:userID",
+    "method": "PUT",
+    "path": "/workDescriptions/updateWorkDescription/:accountID/:userID",
+    "file": "src/endpoints/workDescriptions/workDescriptions-router.js",
+    "line": 64,
+    "role": "M"
+  },
+  {
+    "key": "PUT /writeOffs/updateWriteOffs/:accountID/:userID",
+    "method": "PUT",
+    "path": "/writeOffs/updateWriteOffs/:accountID/:userID",
+    "file": "src/endpoints/writeOffs/writeOffs-router.js",
+    "line": 93,
+    "role": "M"
+  }
+]

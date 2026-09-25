@@ -18,7 +18,7 @@ const {
    lockCustomerLedger
 } = require('../payments/ledger-helpers');
 const { getNewestParentInvoice } = require('../payments/payment-logic');
-const { restoreDataTypesTransactionsTableOnCreate, restoreDataTypesTransactionsTableOnUpdate } = require('./transactionsObjects');
+const { restoreDataTypesTransactionsTableOnCreate, restoreDataTypesTransactionsTableOnUpdate, normalizeTransactionType } = require('./transactionsObjects');
 const aiCategoryTrainingService = require('../aiIntegration/ai-category-training-service');
 
 /*
@@ -528,6 +528,7 @@ const loadStoredTransactionForWrite = async (trx, { accountId, transactionId, cu
    const lockedCustomerId = await lockTransactionLedger(trx, accountId, owner.customer_id);
 
    const stored = await trx(TRANSACTIONS).where({ account_id: Number(accountId), transaction_id: rowId }).forNoKeyUpdate().first();
+   await require('../invoice/sentInvoiceLocks').assertUnlocked(trx, accountId, TRANSACTIONS, rowId);
    if (!stored) throw ruleError('Transaction was not found.', 404);
    if (Number(stored.customer_id) !== lockedCustomerId) {
       throw ruleError('This transaction was changed by someone else while it was being saved. Refresh and try again.', 409);
@@ -776,7 +777,11 @@ const updateTransactionCore = async (db, { accountId, transaction, actorId }) =>
  *    transaction's own creator for internal callers with no request identity.
  */
 const deleteTransactionCore = async (db, { accountId, transaction, actorId }) => {
-   const fields = { ...restoreDataTypesTransactionsTableOnUpdate(validateTransactionPrice(transaction || {})), account_id: Number(accountId) };
+   // Deletion is an identity-only operation. Validate ownership below and use
+   // the locked stored amounts, type, job and funding; create/update pricing
+   // validation must not block an ID-only delete or trust stale form values.
+   if (transaction?.transactionType != null) normalizeTransactionType(transaction.transactionType);
+   const fields = { account_id: Number(accountId), transaction_id: Number(transaction?.transactionID), customer_id: Number(transaction?.customerID) };
 
    return withTransaction(db, async trx => {
       const accountID = fields.account_id;
@@ -805,6 +810,7 @@ const deleteTransactionCore = async (db, { accountId, transaction, actorId }) =>
 
 // export each function
 module.exports = {
+   applyBillabilityPolicy,
    assertJobBelongsToCustomer,
    addNewTransaction,
    updateTransactionCore,

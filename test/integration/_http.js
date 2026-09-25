@@ -56,7 +56,7 @@ async function bootHttp() {
    const request = supertest(app);
    const authed = identity => {
       const token = mint(identity);
-      const wrap = method => (url) => request[method](url).set('Authorization', `Bearer ${token}`);
+      const wrap = method => (url) => require('./_audit-request')(request[method](url).set('Authorization', `Bearer ${token}`),db,IDENTITIES[identity].user_id);
       return { get: wrap('get'), post: wrap('post'), put: wrap('put'), delete: wrap('delete'), token };
    };
    return {

@@ -425,7 +425,18 @@ describe('integration: transaction ledger seams (atomic + locked CRUD, retainer 
          const root = await makeRetainer(cust, 100);
 
          const form = newForm(cust, job, { selectedRetainerID: root.retainer_id, unitCost: 60, totalTransaction: 60 });
-         const responses = await Promise.all([http.create(form), http.create(form)]);
+         // Own the listener until both responses finish. This installed
+         // Supertest version otherwise closes its shared implicit listener
+         // after the first request, which can abort its concurrent peer.
+         const server = require('http').createServer(h.app);
+         await new Promise((resolve, reject) => server.once('error', reject).listen(0, '127.0.0.1', resolve));
+         let responses;
+         try {
+            const request = require('supertest')(server);
+            const submit = () => request.post(`/transactions/createTransaction/${base}`)
+               .set('Authorization', `Bearer ${h.mint('admin')}`).send({ transaction: form });
+            responses = await Promise.all([submit(), submit()]);
+         } finally { await new Promise(resolve => server.close(resolve)); }
          const ok = responses.filter(res => res.status === 200 && Number(res.body.status) === 200);
          const refused = responses.filter(res => Number(res.body.status) !== 200);
          expect(ok, 'exactly one entry is funded').to.have.lengthOf(1);

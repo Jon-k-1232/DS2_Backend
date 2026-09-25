@@ -17,6 +17,7 @@ module.exports = h => {
       transactionDate: '2026-09-01', quantity: 1, unitCost: 100, totalTransaction: 100, isTransactionBillable: true, ...fields });
    const transaction = (c, j, fields = {}) => insert('customer_transactions', restoreDataTypesTransactionsTableOnCreate(body(c, j, fields)));
    const cleanup = async () => {
+      await require('./_sent-fixture').unseal(h.db,9001,customers);
       const tids = (await h.db('customer_transactions').where({ account_id: 9001 }).whereIn('customer_id', customers)).map(r => r.transaction_id);
       for (const table of ['ai_reviewer_corrections', 'ai_category_training_examples']) await h.db(table).where({ account_id: 9001 }).whereIn('transaction_id', tids).del();
       for (const table of ['customer_payments', 'customer_writeoffs', 'customer_transactions', 'customer_invoices', 'customer_retainers_and_prepayments', 'recurring_customers', 'customer_jobs', 'customer_information', 'customers']) {

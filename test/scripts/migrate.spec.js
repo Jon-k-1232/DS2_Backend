@@ -106,9 +106,9 @@ describe('scripts/migrate.js — pure logic (no DB)', () => {
          const sql = 'DO $body$\nBEGIN\nPERFORM $nested$BEGIN;$nested$;\nEND;\n$body$;\nCOMMIT;\n';
          expect(() => assertPlainSql(sql, 'test')).to.throw(/plain SQL/);
       });
-      it('accepts every shipped numbered migration file (21 files, 002–022)', () => {
+      it('accepts every shipped numbered migration file (26 files, 002–027)', () => {
          const migrations = listMigrations(path.join(__dirname, '..', '..', 'migrations'));
-         expect(migrations.length).to.equal(21);
+         expect(migrations.length).to.equal(26);
          for (const m of migrations) {
             const sql = fs.readFileSync(m.file, 'utf8');
             expect(() => assertPlainSql(sql, m.name), m.name).to.not.throw();

@@ -1,3 +1,4 @@
+const { committedResponse } = require('../../utils/committedResponse');
 const express = require('express');
 const { enforceAccountId } = require('../auth/account-scope');
 const workDescriptionsRouter = express.Router();
@@ -118,7 +119,7 @@ workDescriptionsRouter.route('/deleteWorkDescription/:workDescriptionID/:account
 
 module.exports = workDescriptionsRouter;
 
-const sendUpdatedTableWith200Response = async (db, res, accountID) => {
+const sendUpdatedTableWith200Response = async (db, res, accountID) => committedResponse(res, 'Successful', async () => {
    // Get all workTypes
    const workDescriptionsData = await workDescriptionService.getActiveWorkDescriptions(db, accountID);
 
@@ -127,9 +128,9 @@ const sendUpdatedTableWith200Response = async (db, res, accountID) => {
       grid: createGrid(workDescriptionsData)
    };
 
-   res.send({
+   return {
       workDescriptionsList: { activeWorkDescriptionsData },
       message: 'Successful',
       status: 200
-   });
-};
+   };
+});

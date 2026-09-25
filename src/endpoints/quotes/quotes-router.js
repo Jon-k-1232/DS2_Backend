@@ -1,3 +1,4 @@
+const { committedResponse } = require('../../utils/committedResponse');
 const { requireCustomerJob } = require('../../utils/relatedAccount');
 const express = require('express');
 const { enforceAccountId } = require('../auth/account-scope');
@@ -27,20 +28,22 @@ quotesRouter.route('/createQuote').post(jsonParser, async (req, res) => {
       await quotesService.createQuote(db, quoteTableFields);
 
       // Get all quotes
-      const quotesData = await quotesService.getActiveQuotes(db, quoteTableFields.account_id);
+      return committedResponse(res, 'Successfully created new quote.', async () => {
+         const quotesData = await quotesService.getActiveQuotes(db, quoteTableFields.account_id);
 
-      // Create grid for Mui Grid
-      const grid = createGrid(quotesData);
+         // Create grid for Mui Grid
+         const grid = createGrid(quotesData);
 
-      const quote = {
-         quotesData,
-         grid
-      };
+         const quote = {
+            quotesData,
+            grid
+         };
 
-      res.send({
-         quote,
-         message: 'Successfully created new quote.',
-         status: 200
+         return {
+            quote,
+            message: 'Successfully created new quote.',
+            status: 200
+         };
       });
    } catch (err) {
       console.log(err);
@@ -102,20 +105,22 @@ quotesRouter.route('/updateQuote').put(jsonParser, async (req, res) => {
       }
 
       // Get all quote
-      const quotesData = await quotesService.getActiveQuotes(db, quoteTableFields.account_id);
+      return committedResponse(res, 'Successfully updated quote.', async () => {
+         const quotesData = await quotesService.getActiveQuotes(db, quoteTableFields.account_id);
 
-      // Create grid for Mui Grid
-      const grid = createGrid(quotesData);
+         // Create grid for Mui Grid
+         const grid = createGrid(quotesData);
 
-      const quote = {
-         quotesData,
-         grid
-      };
+         const quote = {
+            quotesData,
+            grid
+         };
 
-      res.send({
-         quote,
-         message: 'Successfully updated quote.',
-         status: 200
+         return {
+            quote,
+            message: 'Successfully updated quote.',
+            status: 200
+         };
       });
    } catch (err) {
       console.log(err);
@@ -139,20 +144,22 @@ quotesRouter.route('/deleteQuote/:accountID/:quoteID').delete(async (req, res) =
       }
 
       // Get all quotes
-      const quotesData = await quotesService.getActiveQuotes(db, accountID);
+      return committedResponse(res, 'Successfully deleted quote.', async () => {
+         const quotesData = await quotesService.getActiveQuotes(db, accountID);
 
-      // Create grid for Mui Grid
-      const grid = createGrid(quotesData);
+         // Create grid for Mui Grid
+         const grid = createGrid(quotesData);
 
-      const quote = {
-         quotesData,
-         grid
-      };
+         const quote = {
+            quotesData,
+            grid
+         };
 
-      res.send({
-         quote,
-         message: 'Successfully deleted quote.',
-         status: 200
+         return {
+            quote,
+            message: 'Successfully deleted quote.',
+            status: 200
+         };
       });
    } catch (err) {
       console.log(err);

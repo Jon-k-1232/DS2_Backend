@@ -71,7 +71,7 @@ describe('scripts/review-2026-09/positive-total-payments-manifest.js (F2 account
    before(function () {
       if (!pgHarness.isAvailable()) return this.skip();
       outDir = fs.mkdtempSync(path.join(require('os').tmpdir(), 'ds2-review-spec-'));
-      sqlOutPath = path.join(outDir, `positive-total-payments-manifest.${DB}.account-1.manifest.sql`);
+      sqlOutPath = path.join(outDir, `positive-total-payments-manifest.${pgHarness.DATABASE}.account-1.manifest.sql`);
    });
    after(() => {
       if (outDir) fs.rmSync(outDir, { recursive: true, force: true });
@@ -98,7 +98,7 @@ describe('scripts/review-2026-09/positive-total-payments-manifest.js (F2 account
       const env = Object.assign({}, process.env, {
          DS2_ENV_FILE: '.env.local',
          DS2_REVIEW_OUT_DIR: outDir,
-         DATABASE_NAME: DB,
+         DATABASE_NAME: pgHarness.DATABASE,
          DB_HOST: pgHarness.HOST,
          DB_DEV_PORT: String(pgHarness.PORT),
          DATABASE_USER: pgHarness.USER,
@@ -211,7 +211,7 @@ describe('scripts/review-2026-09/positive-total-payments-manifest.js (F2 account
 
       expect(fs.existsSync(sqlOutPath), 'manifest SQL file should still be written even with zero candidates').to.equal(true);
       const sql = fs.readFileSync(sqlOutPath, 'utf8');
-      expect(sql).to.match(new RegExp(`against database ${DB}, account 1, at \\d{4}-\\d{2}-\\d{2}T`));
+      expect(sql).to.match(new RegExp(`against database ${pgHarness.DATABASE}, account 1, at \\d{4}-\\d{2}-\\d{2}T`));
       expect(sql).to.match(/No arithmetically-eligible parents found/);
    });
 

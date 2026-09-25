@@ -539,10 +539,7 @@ const _decideBillable = ({ entry, suggestion, customerPatterns, internalCustomer
 // Examples: 1 min -> ceil(1/6)=1 -> 0.1h; 68 min -> ceil(68/6)=12 -> 1.2h;
 // 60 min -> ceil(60/6)=10 -> 1.0h.
 const _computeTimeAmounts = (minutes, rate) => {
-   const quantityHundredths = Math.ceil(Number(minutes) / 6) * 10;
-   const rateCents = Math.round(Number(rate || 0) * 100);
-   const totalCents = Math.round((quantityHundredths * rateCents) / 100);
-   return { quantity: quantityHundredths / 100, unitCost: rateCents / 100, totalTransaction: totalCents / 100 };
+   return require('../../utils/timeAmounts').computeTimeAmounts(minutes, rate);
 };
 
 // Resolve which employee a row should be billed to. Order: (1) an explicit

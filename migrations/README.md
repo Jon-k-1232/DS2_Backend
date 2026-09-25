@@ -29,13 +29,13 @@
 
 ## Supported fresh-build baseline and suggestion recovery (F30)
 
-Use the immutable `schema-snapshot-2026-09-22.sql` as the supported clean schema baseline through 018, then apply 019, 020, 021 and 022 in order. For the tracked runner, load the snapshot into an empty database, verify that baseline, record `--baseline 18`, and run pending migrations. Never replay historical 002–018 onto this snapshot; some files recreate populated tables.
+Use the immutable `schema-snapshot-2026-09-22.sql` as the supported clean schema baseline through 018, then apply 019 through 026 in order. For the tracked runner, load the snapshot into an empty database, verify that baseline, record `--baseline 18`, and run pending migrations. Never replay historical 002–018 onto this snapshot; some files recreate populated tables.
 
 005 removed three suggestion customer columns later reintroduced outside the numbered history. Migration **022.restore_suggestion_customer_columns.sql** makes that restoration explicit: nullable text entity/display name and integer customer ID with the original customer FK. It is additive/idempotent on the supported snapshot and restores missing columns on a historical-005-shaped database. It preserves existing values but cannot recover values already dropped by 005. `test/scripts/migration-022.spec.js` creates disposable local databases, tests both shapes through every forward migration, exercises the ingestion-shaped upsert and review read, and repeats the forward files to check preservation. No production or production-copy data repair is implied.
 
 ## File contract: numbered migrations are plain SQL
 
-`002`–`022` must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
+All numbered migrations (currently `002`–`027`) must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
 TRANSACTION;` / `END;` line and no psql `\`-meta-command**, outside a
 dollar-quoted (`$$...$$`/`$tag$...$tag$`) block. `scripts/migrate.js` owns
 the transaction wrapper for every file it runs (together with that file's
@@ -375,3 +375,41 @@ What it guarantees, as of the 2026-09-23 revision:
 - **Files are sent verbatim** and must satisfy the file contract above
   (`assertPlainSql`) — a file that doesn't is refused outright rather than
   silently corrupted by line-stripping.
+
+## 023 — immutable issued invoices and selected-payment exceptions
+
+`023.sent_invoice_locks.sql` is the next additive migration after 022. It creates seven tables (including the cutover policy), indexes, lock lookup/guard functions and eleven row triggers. It captures no production ledger rows and changes no existing business amounts. Reapplying preserves the original cutover timestamp. At run 1 the migration count spec covered 22 runnable files (002–023); current run 2 adds 024 for 23 files. `test/scripts/migration-023.spec.js` verifies plain SQL, rerun idempotence and trigger installation. Scenario reset includes 023.
+
+Apply by hand, not by changing a past numbered migration or adding BEGIN/COMMIT:
+
+```sh
+PGPASSWORD=ds2local psql -h 127.0.0.1 -p 5433 -U ds2 -d ds2_local -X -1 -v ON_ERROR_STOP=1 -f migrations/023.sent_invoice_locks.sql
+PGPASSWORD=ds2local psql -h 127.0.0.1 -p 5433 -U ds2 -d ds2_clean -X -1 -v ON_ERROR_STOP=1 -f migrations/023.sent_invoice_locks.sql
+PGPASSWORD=ds2local psql -h 127.0.0.1 -p 5433 -U ds2 -d ds2_scenarios -X -1 -v ON_ERROR_STOP=1 -f migrations/023.sent_invoice_locks.sql
+```
+
+These three local applications were performed during owner run 1. Future production rollout is documented in `docs/platform/operations.md` and `scripts/review-2026-09/FINAL_REPORT.md` section 6. Pause financial writers across schema/backend/frontend cutover: the old code attempts to update issued parent mirrors that the new triggers prohibit. Do not remove triggers to restore the old edit behavior. Review historical artifact-less statements before rollout; artifact-bearing pre-cutover parents lock conservatively without a business-row backfill.
+
+Migration tests run serially in **ds2_clean**, rebuilding the baseline as needed and restoring the fully migrated clean-room seed afterwards. They do not create arbitrary database names or use the reference database. Fixtures alone may use guarded transaction-local trigger bypass for teardown, deliberate corruption and calendar movement; application code has no such bypass.
+
+
+## 024 — retainer events and duplicate review
+
+`024.retainer_events_duplicates.sql` follows023. It adds retainer_events, duplicate_flags and duplicate_history, indexes and immutable journal/snapshot guards, and allows event rows in statement membership. No business-row backfill. Plain SQL, no top-level BEGIN/COMMIT, and idempotent. `test/scripts/migration-024.spec.js` checks schema rerun/empty data/guards; migrate count is23 numbered files002–024. Scenario reset includes024. Local application used `PGPASSWORD=ds2local psql -h 127.0.0.1 -p 5433 -U ds2 -d <ds2_local|ds2_clean|ds2_scenarios> -X -1 -v ON_ERROR_STOP=1 -f migrations/024.retainer_events_duplicates.sql` by hand on each named database. Production cutover remains a future operator step in `docs/platform/operations.md` and FINAL_REPORT section6.
+
+## 025 — optional credit statement selection evidence
+
+`025.credit_statement_selection.sql` adds nullable `invoice_issues.credit_selection_reason`, protected by the existing immutable evidence trigger. No business-row backfill or balance rewrite. It is plain SQL, idempotent and has no BEGIN/COMMIT wrapper. The migration count is24 files (002–025); `test/scripts/migration-025.spec.js` checks rerun/schema/guard/no backfill. Scenario reset and clean-room restoration include025.
+
+Applied by hand on2026-09-25 to each of ds2_local, ds2_clean and ds2_scenarios using `PGPASSWORD=ds2local psql -X -1 -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 5433 -U ds2 -d <database> -f migrations/025.credit_statement_selection.sql`. Production application is a separate future authorized step in operations.md and FINAL_REPORT section6.
+
+
+## 026 — universal audit ledger
+
+After025, apply `026.audit_ledger.sql` with `psql -X -1 -v ON_ERROR_STOP=1 -f`. It is additive/idempotent, adds audit events/chain heads/policy/records/actions, indexes and capture/integrity guards, and changes no existing business rows. Trigger writes are atomic with source writes. Activation time and existing evidence survive reruns. Test with `test/scripts/migration-026.spec.js` in disposable ds2_clean. Do not TRUNCATE or delete evidence for normal maintenance; authorized disposable test resets rebuild their schema. Production needs the coordinated non-owner-role/storage-retention cutover described in docs/platform/operations.md.
+
+## 027 — Client and Full evidence record presentations
+
+`027.audit_record_presentations.sql` adds guarded `audit_records.record_type` (`client` / `full_evidence`), source-archive storage key/SHA-256/byte length, validation constraints and a unique archive-key index. Existing PDFs default to full evidence and keep their bytes; no business rows, captured events or chain hashes are rewritten. Plain SQL, idempotent, no transaction wrapper. The runner count is 26 numbered files (002–027); `test/scripts/migration-027.spec.js` checks reruns, preservation, validation and immutable metadata. The scenario reset and clean-room migration harness automatically discover it as a forward migration.
+
+Applied by hand on 2026-09-25 to ds2_local, ds2_clean and ds2_scenarios at 127.0.0.1:5433 with `PGPASSWORD=ds2local psql -X -1 -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 5433 -U ds2 -d <database> -f migrations/027.audit_record_presentations.sql`. Production rollout is a separate future operator step in operations.md and FINAL_REPORT section 6.

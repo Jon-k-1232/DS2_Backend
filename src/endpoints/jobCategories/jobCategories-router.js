@@ -1,3 +1,4 @@
+const { committedResponse } = require('../../utils/committedResponse');
 const express = require('express');
 const { enforceAccountId } = require('../auth/account-scope');
 const jobCategoriesRouter = express.Router();
@@ -107,7 +108,7 @@ jobCategoriesRouter.route('/getSingleJobCategory/:jobCategoryID/:accountID/:user
 
 module.exports = jobCategoriesRouter;
 
-const sendUpdatedTableWith200Response = async (db, res, accountID) => {
+const sendUpdatedTableWith200Response = async (db, res, accountID) => committedResponse(res, 'Successfully saved job category changes.', async () => {
    // Get all Job Categories
    const activeJobCategories = await jobCategoriesService.getActiveJobCategories(db, accountID);
 
@@ -116,9 +117,9 @@ const sendUpdatedTableWith200Response = async (db, res, accountID) => {
       grid: createGrid(activeJobCategories)
    };
 
-   res.send({
+   return {
       jobCategoriesList: { activeJobCategoriesData },
-      message: 'Successfully deleted job category.',
+      message: 'Successfully saved job category changes.',
       status: 200
-   });
-};
+   };
+});

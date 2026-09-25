@@ -1,3 +1,4 @@
+const { committedResponse } = require('../../utils/committedResponse');
 const { requireAccountRow } = require('../../utils/relatedAccount');
 const express = require('express');
 const { enforceAccountId } = require('../auth/account-scope');
@@ -48,6 +49,15 @@ const withJobLedger = (db, accountId, jobId, nextCustomerId, fn) =>
       }
       return fn(trx, stored);
    });
+
+// Job-only receipt/credit links are protected even when the family has no work.
+const assertJobCreditsUnlocked = async (trx, accountId, familyIds) => {
+   const { assertUnlocked } = require('../invoice/sentInvoiceLocks');
+   for (const [table,key] of [['customer_payments','payment_id'],['customer_writeoffs','writeoff_id']]) {
+      const rows = await trx(table).where({account_id:Number(accountId)}).whereIn('customer_job_id',familyIds).select(key);
+      for (const row of rows) await assertUnlocked(trx,accountId,table,row[key]);
+   }
+};
 
 // Create a new job
 jobRouter.route('/createJob/:accountID/:userID').post(jsonParser, async (req, res) => {
@@ -161,8 +171,10 @@ jobRouter.route('/updateJob/:accountID/:userID').put(jsonParser, async (req, res
          const isReassigningCustomer = Number(jobTableFields.customer_id) !== Number(jobRowBeforeEdits.customer_id);
          if (isReassigningCustomer) {
             const familyIds = await jobService.getJobFamilyIds(trx, jobTableFields.customer_job_id, accountID);
+            await assertJobCreditsUnlocked(trx,accountID,familyIds);
 
             const linkedTransactions = await transactionsService.getTransactionsByJobID(trx, accountID, familyIds);
+            for (const t of linkedTransactions) await require('../invoice/sentInvoiceLocks').assertUnlocked(trx, accountID, 'customer_transactions', t.transaction_id);
             if (linkedTransactions.length) throw new Error('Cannot reassign this job to a different customer: transactions are linked to it or one of its prior versions.');
 
             const writeOffResults = await Promise.all(familyIds.map(familyId => writeOffsService.getWriteOffsByJobID(trx, accountID, familyId)));
@@ -217,8 +229,10 @@ jobRouter.route('/deleteJob/:jobID/:accountID/:userID').delete(jsonParser, async
       await withJobLedger(db, accountID, jobID, null, async trx => {
          const familyIds = await jobService.getJobFamilyIds(trx, jobID, accountID);
          if (!familyIds.length) throw new Error('Job not found.');
+         await assertJobCreditsUnlocked(trx,accountID,familyIds);
 
          const linkedTransactions = await transactionsService.getTransactionsByJobID(trx, accountID, familyIds);
+            for (const t of linkedTransactions) await require('../invoice/sentInvoiceLocks').assertUnlocked(trx, accountID, 'customer_transactions', t.transaction_id);
          if (linkedTransactions.length) throw new Error('Transactions are linked to this job or one of its prior versions; it cannot be deleted.');
 
          const writeOffResults = await Promise.all(familyIds.map(familyId => writeOffsService.getWriteOffsByJobID(trx, accountID, familyId)));
@@ -243,7 +257,7 @@ jobRouter.route('/deleteJob/:jobID/:accountID/:userID').delete(jsonParser, async
 
 module.exports = jobRouter;
 
-const sendUpdatedTableWith200Response = async (db, res, accountID, warning) => {
+const sendUpdatedTableWith200Response = async (db, res, accountID, warning) => committedResponse(res, 'Successfully saved job changes.', async () => {
    // Get all jobs
    const activeJobs = await jobService.getActiveJobs(db, accountID);
 
@@ -255,10 +269,10 @@ const sendUpdatedTableWith200Response = async (db, res, accountID, warning) => {
 
    const response = {
       accountJobsList: { activeJobData },
-      message: 'Successfully created new job.',
+      message: 'Successfully saved job changes.',
       status: 200
    };
    if (warning) response.warning = warning;
 
-   res.send(response);
-};
+   return response;
+});

@@ -1,4 +1,5 @@
 const knex = require('knex');
+require('./auditContext');
 const fs = require('fs');
 const path = require('path');
 const { DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST } = require('../../config');
@@ -36,6 +37,7 @@ const db = knex({
       user: DATABASE_USER,
       password: DATABASE_PASSWORD,
       database: DATABASE_URL,
+      application_name: 'ds2/application',
       ssl: resolveDbSsl()
    },
    pool: {

@@ -281,7 +281,7 @@ const applyHeldEntry = async (db, accountId, entryId, edits, editingUserId) => {
    const employee = await db('users').where({ user_id: edits.logged_for_user_id, account_id: accountId }).select('billing_rate').first();
    if (!employee) throw _serviceError('INVALID_FIELD', `Employee #${edits.logged_for_user_id} was not found in this account.`, { field: 'logged_for_user_id' });
 
-   // quantity = minutes / 60 rounded to 2 decimals and total = quantity × rate
+   // quantity = ceil(minutes / 6) / 10 (manual six-minute policy) and total = quantity × rate
    // rounded to cents, priced from the SAME rounded hours so quantity × rate
    // always equals the stored total (integer hundredths/cents —
    // auto-ingest-orchestrator._computeTimeAmounts).
@@ -316,6 +316,7 @@ const applyHeldEntry = async (db, accountId, entryId, edits, editingUserId) => {
 
    let createdTxn = null;
    await db.transaction(async trx => {
+      await require('../../utils/ledgerAction').actionContext(trx, editingUserId, 'Apply reviewed tracker duration using six-minute billing increments.');
       // Claim the entry FIRST, inside the same transaction as the insert (the
       // auto-ingest orchestrator's pattern): UPDATE … WHERE is_processed = false
       // RETURNING. The row lock + predicate mean a double submit, a concurrent

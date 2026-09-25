@@ -15,9 +15,9 @@ const paymentsService = require('../../payments/payments-service');
  * @returns {}
  */
 const findCustomersNeedingInvoices = async (db, accountID, today = billingDateToday()) => {
-   const [customers, invoices, transactions, retainers, writeOffs, payments] = await fetchData(db, accountID);
-   const [invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer] = groupDataByCustomerId([invoices, transactions, retainers, writeOffs, payments]);
-   return invoiceEligibilityPerCustomer(customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today);
+   const [customers, invoices, transactions, retainers, writeOffs, payments, events] = await fetchData(db, accountID);
+   const [invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, eventsByCustomer] = groupDataByCustomerId([invoices, transactions, retainers, writeOffs, payments, events]);
+   return invoiceEligibilityPerCustomer(customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today, eventsByCustomer);
 };
 
 module.exports = { findCustomersNeedingInvoices };
@@ -30,7 +30,8 @@ const fetchData = async (db, accountID) => {
       transactionsService.getActiveTransactions(db, accountID),
       retainerService.getActiveRetainers(db, accountID),
       writeOffsService.getActiveWriteOffs(db, accountID),
-      paymentsService.getActivePayments(db, accountID)
+      paymentsService.getActivePayments(db, accountID),
+      db('retainer_events as e').where('e.account_id',accountID).whereNotExists(db('customer_invoices as p').select(db.raw('1')).whereRaw('p.account_id=e.account_id AND p.customer_id=e.customer_id AND p.parent_invoice_id IS NULL AND p.created_at >= e.created_at'))
    ]);
 };
 
@@ -76,7 +77,7 @@ const currentChainsSummary = customerInvoices => {
    return { newestParent, currentParents, outstandingTotal, outstandingRecords };
 };
 
-const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today = billingDateToday()) => {
+const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today = billingDateToday(), eventsByCustomer = {}) => {
    return customers
       .map(customer => {
          const { customer_id } = customer;
@@ -104,7 +105,7 @@ const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactio
          const pendingPayments = customerPayments.filter(payment => !newestParentCreatedAt || new Date(payment.created_at) > newestParentCreatedAt);
 
          const hasOpenBalance = Math.abs(outstandingTotal) >= 0.005;
-         if (!hasOpenBalance && !unbilledTransactions.length && !pendingWriteOffs.length && !pendingPayments.length) {
+         if (!hasOpenBalance && !unbilledTransactions.length && !pendingWriteOffs.length && !pendingPayments.length && !(eventsByCustomer[customer_id] || []).length) {
             return null;
          }
 
@@ -119,6 +120,7 @@ const invoiceEligibilityPerCustomer = (customers, invoicesByCustomer, transactio
          return {
             ...customer,
             retainer_count: customerActiveRetainers.length,
+            retainer_event_count: (eventsByCustomer[customer_id] || []).length,
             transaction_count: unbilledTransactions.length,
             invoice_count: outstandingRecords.length,
             write_off_count: pendingWriteOffs.length,

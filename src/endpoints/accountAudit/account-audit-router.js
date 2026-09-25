@@ -137,14 +137,15 @@ async function runAuditBatch(db, accountId, ids, notes, auditUser, jobId) {
             await readTrx.raw('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY');
             const customer = await accountAuditService.getCustomer(readTrx, accountId, customerId);
             if (!customer) return null;
-            const [invoices, payments, writeoffs, transactions, retainers] = await Promise.all([
+            const [invoices, payments, writeoffs, transactions, retainers, retainerEvents] = await Promise.all([
                accountAuditService.getInvoices(readTrx, accountId, customerId),
                accountAuditService.getPayments(readTrx, accountId, customerId),
                accountAuditService.getWriteoffs(readTrx, accountId, customerId),
                accountAuditService.getTransactions(readTrx, accountId, customerId),
-               accountAuditService.getRetainers(readTrx, accountId, customerId)
+               accountAuditService.getRetainers(readTrx, accountId, customerId),
+               accountAuditService.getRetainerEvents(readTrx, accountId, customerId)
             ]);
-            const result = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers });
+            const result = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents });
             let appBalance = null;
             let appBalanceError = null;
             try {
@@ -390,13 +391,16 @@ accountAuditRouter.get('/audit/:auditID/pdf/:accountID/:userID', async (req, res
       const audit = await accountAuditService.getAuditById(db, accountId, auditId);
       if (!audit) return res.status(404).send({ message: 'Audit not found.', status: 404 });
 
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `inline; filename="audit-${auditId}.pdf"`);
+      const sendPdf = body => {
+         res.setHeader('Content-Type', 'application/pdf');
+         res.setHeader('Content-Disposition', `inline; filename="audit-${auditId}.pdf"`);
+         return res.end(body);
+      };
 
       if (audit.pdf_s3_key) {
          try {
             const { body } = await getObject(audit.pdf_s3_key);
-            return res.end(body);
+            return sendPdf(body);
          } catch (e) {
             console.warn(`[audit] S3 fetch failed for ${audit.pdf_s3_key}, rebuilding: ${e.message}`);
          }
@@ -417,7 +421,7 @@ accountAuditRouter.get('/audit/:auditID/pdf/:accountID/:userID', async (req, res
          },
          summary: parse(audit.summary) || {}
       });
-      return res.end(pdf);
+      return sendPdf(pdf);
    } catch (err) {
       console.error('Account audit pdf error:', err);
       res.status(500).send({ message: clientSafeMessage(err, 'Error returning PDF.'), status: 500 });

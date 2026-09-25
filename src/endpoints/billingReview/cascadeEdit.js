@@ -4,7 +4,7 @@ const { detectAndRedact } = require('../../utils/comprehend');
 const { ledgerNow, lockCustomerLedger } = require('../payments/ledger-helpers');
 
 const jobService = require('../job/job-service');
-const { updateRecentJobTotal } = require('../transactions/sharedTransactionFunctions');
+const { updateRecentJobTotal, applyBillabilityPolicy } = require('../transactions/sharedTransactionFunctions');
 
 const EDITABLE_FIELDS = Object.freeze([
    'customer_id',
@@ -555,7 +555,7 @@ const _planEdit = (original, requested, confirmCustomerChange) => {
    if (!('total_transaction' in diff) && ('quantity' in diff || 'unit_cost' in diff)) {
       const q = 'quantity' in next ? next.quantity : _ensureNumeric(original.quantity);
       const u = 'unit_cost' in next ? next.unit_cost : _ensureNumeric(original.unit_cost);
-      next.total_transaction = round2(q * u);
+      next.total_transaction = require('../../utils/timeAmounts').priceQuantity(q, u);
       diff = _diffFields(original, next);
    }
    if (Object.keys(diff).length === 0) return null;
@@ -641,21 +641,32 @@ const _lockLedgers = async (trx, accountId, customerIds, requestedCustomerId) =>
 const _applyLockedEdit = async (trx, ctx) => {
    const { accountId, transactionId, requested, confirmCustomerChange, editingUserId, lockIds, previewNotes, sanitizedPreviewNotes } = ctx;
 
+   await require('../../utils/ledgerAction').actionContext(trx, editingUserId, 'Billing Review transaction correction.');
+
    // 1. Customer ledger lock(s) FIRST.
    const requestedCustomerId = 'customer_id' in requested ? requested.customer_id : null;
    const locked = await _lockLedgers(trx, accountId, lockIds, requestedCustomerId);
 
    // 2. Re-read the row under the lock; every decision below uses these values.
    const original = await _readTransaction(trx, accountId, transactionId, { lock: true });
+   await require('../invoice/sentInvoiceLocks').assertUnlocked(trx, accountId, 'customer_transactions', transactionId);
    if (!original) throw _err(ERRORS.NOT_FOUND, MESSAGES.NOT_FOUND);
    const needed = _ledgerCustomers(original, requested);
    if (!needed.every(id => locked.has(id))) throw _relock([...locked, ...needed]);
 
-   const plan = _planEdit(original, requested, confirmCustomerChange);
+   // A customer move or billable toggle must obey the same policy as direct
+   // entry, using the owned customer after acquiring its ledger lock. Do not
+   // turn unrelated annotations into financial corrections of historical rows.
+   let plan = _planEdit(original, requested, confirmCustomerChange);
+   if (!plan) return { updatedTransaction: original, sideEffects: [], diff: {} };
+   await _validateReferences(trx, { accountId, original, requested: plan.requested, diff: plan.diff, customerChanged: plan.customerChanged });
+   if (plan.customerChanged || 'is_transaction_billable' in plan.diff) {
+      const effective = { ...original, ...requested, account_id: accountId };
+      await applyBillabilityPolicy(trx, effective);
+      plan = _planEdit(original, { ...requested, is_transaction_billable: effective.is_transaction_billable }, confirmCustomerChange);
+   }
    if (!plan) return { updatedTransaction: original, sideEffects: [], diff: {} };
    const { diff, changes, customerChanged, jobChanged, linkedInvoiceId, delta, dateCheckNeeded } = plan;
-
-   await _validateReferences(trx, { accountId, original, requested: plan.requested, diff, customerChanged });
 
    // 3. Chain state, read FOR UPDATE only when the edit needs it (a period
    //    check or a ledger delta) — a note edit never reads the statement.
@@ -791,9 +802,13 @@ const _applyLockedEdit = async (trx, ctx) => {
  * @returns {Promise<{updatedTransaction, sideEffects, diff}>} or throws an Error with .code
  */
 const applyTransactionEdit = async ({ db, accountId, transactionId, updates = {}, confirmCustomerChange = false, editingUserId }) => {
+   if (!Number.isSafeInteger(Number(transactionId)) || Number(transactionId) <= 0) {
+      throw _err(ERRORS.NOT_FOUND, MESSAGES.NOT_FOUND);
+   }
    // Unlocked preview — NOT authoritative (see _applyLockedEdit).
    const preview = await _readTransaction(db, accountId, transactionId);
    if (!preview) throw _err(ERRORS.NOT_FOUND, MESSAGES.NOT_FOUND);
+   await require('../invoice/sentInvoiceLocks').assertUnlocked(db, accountId, 'customer_transactions', transactionId);
 
    const safeUpdates = updates && typeof updates === 'object' && !Array.isArray(updates) ? updates : {};
    if ('retainer_id' in safeUpdates) throw _err(ERRORS.RETAINER_NOT_EDITABLE_HERE, MESSAGES.RETAINER_FIELD);

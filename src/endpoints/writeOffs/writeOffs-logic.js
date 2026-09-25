@@ -35,6 +35,7 @@ const BILLED_MESSAGE = 'Write-off is attached to an invoice that has already bee
  */
 const loadUnbilledWriteOff = async (trx, accountId, writeoffId) => {
    await lockCustomerLedgerForRow(trx, accountId, WRITEOFFS, 'writeoff_id', writeoffId, 'Unable to find write-off record.');
+   await require('../invoice/sentInvoiceLocks').assertUnlocked(trx, accountId, WRITEOFFS, writeoffId);
    const [stored] = await writeOffsService.getSingleWriteOff(trx, writeoffId, accountId);
 
    const linkedRow = stored.customer_invoice_id ? await getInvoiceRow(trx, accountId, stored.customer_invoice_id) : undefined;

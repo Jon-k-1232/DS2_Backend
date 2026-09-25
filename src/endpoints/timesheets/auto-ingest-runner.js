@@ -71,7 +71,8 @@ const kickOffAutoIngestForEntryIds = ({ db, accountId, userId, entryIds }) => {
    if (!_isAccountAllowed(accountId)) return;
    setImmediate(async () => {
       try {
-         const result = await processEntries({ db, accountId, userId, entryIds });
+         const result = await require('../../utils/auditContext').asSystem('automation/tracker-ingestion',
+            () => processEntries({ db, accountId, userId, entryIds }));
          console.info(
             `[${new Date().toISOString()}] [auto-ingest] account=${accountId} user=${userId} processed=${result.processed} auto=${result.autoInserted} held=${result.held} totalCost=$${result.totalCostUsd.toFixed(4)}`
          );

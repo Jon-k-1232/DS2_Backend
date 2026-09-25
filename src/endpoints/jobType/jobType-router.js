@@ -1,3 +1,4 @@
+const { committedResponse } = require('../../utils/committedResponse');
 const { requireAccountRow } = require('../../utils/relatedAccount');
 const express = require('express');
 const { enforceAccountId } = require('../auth/account-scope');
@@ -118,7 +119,7 @@ jobTypeRouter.route('/deleteJobType/:jobTypeID/:accountID/:userID').delete(async
 
 module.exports = jobTypeRouter;
 
-const sendUpdatedTableWith200Response = async (db, res, accountID) => {
+const sendUpdatedTableWith200Response = async (db, res, accountID) => committedResponse(res, 'Successfully saved job type changes.', async () => {
    // Get all jobTypes
    const jobTypesData = await jobTypeService.getActiveJobTypes(db, accountID);
 
@@ -127,9 +128,9 @@ const sendUpdatedTableWith200Response = async (db, res, accountID) => {
       grid: createGrid(jobTypesData)
    };
 
-   res.send({
+   return {
       jobTypesList: { activeJobTypesData },
-      message: 'Successfully deleted jobType.',
+      message: 'Successfully saved job type changes.',
       status: 200
-   });
-};
+   };
+});

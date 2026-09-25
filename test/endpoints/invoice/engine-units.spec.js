@@ -38,7 +38,7 @@ describe('retainerCalculations — latest snapshot per chain', () => {
    });
 
    it('returns zero when hideRetainers is set', () => {
-      expect(groupAndTotalRetainers(CID, { customerRetainers: { [CID]: rows } }, true)).to.deep.equal({ retainerTotal: 0, retainerRecords: [] });
+      expect(groupAndTotalRetainers(CID, { customerRetainers: { [CID]: rows } }, true)).to.deep.equal({ retainerTotal: 0, retainerRecords: [], events: [] });
    });
 });
 
@@ -282,4 +282,13 @@ describe('retainerCalculations — snapshot ordering keeps Postgres microseconds
       const laterMs = noExact.map(r => (r.retainer_id === 15 ? { ...r, created_at: '2026-06-01T10:00:00.124Z' } : r));
       expect(groupAndTotalRetainers(CID, { customerRetainers: { [CID]: laterMs } }, false).retainerRecords[0].retainer_id).to.equal(15);
    });
+});
+
+
+describe('credit classification uses the same cents as persistence and PDFs',()=>{
+ it('does not mistake binary floating point residue for a negative credit',()=>{
+  const {totalInvoice}=require('../../../src/endpoints/invoice/createInvoice/invoiceCalculations/totalInvoice');
+  const result=totalInvoice(1,{payments:{paymentTotal:-.3,retainerPaymentTotal:0},transactions:{transactionsTotal:.2},outstandingInvoices:{outstandingInvoiceTotal:.1},writeOffs:{writeOffTotal:0},retainers:{retainerTotal:0}});
+  expect(result.invoiceTotal).to.equal(0);expect(result.preRetainerInvoiceTotal).to.equal(0);
+ });
 });

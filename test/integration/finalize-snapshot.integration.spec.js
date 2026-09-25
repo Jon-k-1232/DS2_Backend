@@ -125,11 +125,12 @@ describe('integration: finalize snapshot + fingerprint + locked delete guards (r
          base = await fingerprintFor(cust.customerId);
       });
 
-      it('is stable across repeated reads and has one part per ledger table (payments/write-offs/invoices/unbilled/retainers)', async () => {
+      it('is stable across repeated reads and has one part per ledger table (payments/write-offs/invoices/unbilled/retainers/events)', async () => {
          expect(await fingerprintFor(cust.customerId)).to.equal(base);
-         expect(base.split('/')).to.have.lengthOf(5);
+         expect(base.split('/')).to.have.lengthOf(6);
          expect(base.split('/')[0]).to.match(/^2:[0-9a-f]{32}$/); // two payments
          expect(base.split('/')[1]).to.equal('0'); // no write-offs
+         expect(base.split('/')[5]).to.equal('0'); // no retainer events
          expect(base.split('/')[4]).to.match(/^1:[0-9a-f]{32}$/); // one retainer row
       });
 
@@ -265,18 +266,21 @@ describe('integration: finalize snapshot + fingerprint + locked delete guards (r
       };
 
       it('a statement absorbed by a finalize that commits while the delete waits for the lock is refused, not deleted', async () => {
-         // 1. Hold the customer's ledger lock (as a finalize run would).
+         // 1. Match the real finalize lock order: account audit chain first,
+         //    then the customer's ledger. A raw test transaction has no HTTP
+         //    context to acquire the account lock through auditContext.
          const finalizeLike = await db.transaction();
          let committed = false;
          let pendingDelete;
          const marker = `[absorbed_by:${uniqueName('INV-FSNAP').slice(0, 24)}@2026-09-23]`;
          try {
+            await finalizeLike.raw('SELECT pg_advisory_xact_lock(260026, ?::integer)', [A]);
             await finalizeLike('customers').where({ account_id: A, customer_id: cust.customerId }).forNoKeyUpdate();
 
             // 2. The delete passes its unlocked preflight (zero history) and blocks
             //    on the lock. supertest only sends once a promise is attached.
             pendingDelete = h.as('admin').delete(`/invoices/deleteInvoice/${A}/${parent.customer_invoice_id}`).then(res => res);
-            expect(await waitForLockWaiter(), 'the delete must be waiting on the customer lock').to.equal(true);
+            expect(await waitForLockWaiter(), 'the delete must be waiting on the ledger locks').to.equal(true);
 
             // 3. The "finalize" rolls the statement forward and commits.
             await finalizeLike('customer_invoices').where({ customer_invoice_id: parent.customer_invoice_id }).update({ remaining_balance_on_invoice: 0, is_invoice_paid_in_full: true, notes: marker });

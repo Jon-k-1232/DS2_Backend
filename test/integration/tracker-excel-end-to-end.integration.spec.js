@@ -440,6 +440,7 @@ describe('tracker Excel end-to-end: template → upload → auto-ingest → invo
    });
 
    after(async () => {
+      if (db) await require('./_sent-fixture').unseal(db,A,created.customers);
       restoreEnv();
       restoreSes();
       installFailClosedAws();

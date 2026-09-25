@@ -20,8 +20,10 @@ describe('F26 job type refresh rejection', () => {
                { send: data => { response = data; } });
             await new Promise(r => setImmediate(r));
             assert.equal(committed, true);
-            assert.equal(response.status, 500);
-            assert.equal(response.message, 'refresh unavailable');
+            assert.equal(response.status, 200);
+            assert.equal(response.committed, true);
+            assert.match(response.message, /^Successfully/);
+            assert.match(response.warnings.join(' '), /saved.*Reload.*do not submit/);
          })().catch(e => { console.error(e); process.exitCode = 1; });
       `], { cwd: process.cwd(), encoding: 'utf8' });
       expect(result.status, result.stderr || result.stdout).to.equal(0);

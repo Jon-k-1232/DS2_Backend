@@ -9,6 +9,7 @@ const { validatePendingPaymentExists, validateCanApprove, validateCanDelete } = 
 const { buildCreatePaymentInput, createPaymentCore, buildLedgerTablesPayload } = require('../payments/payment-logic');
 const { appendNoteMarker } = require('../payments/ledger-helpers');
 const { clientSafeMessage } = require('../../utils/clientError');
+const { committedResponse } = require('../../utils/committedResponse');
 const { isSafeBareFilename } = require('../../utils/downloadAuthorization');
 
 const { enforceAccountId } = require('../auth/account-scope');
@@ -114,14 +115,10 @@ pendingPaymentsRouter.route('/soft-delete/:paymentID/:accountID/:userID').put(js
 
       const updated = await pendingPaymentsService.softDeletePendingPayment(db, paymentID, accountID);
       if (!updated) throw httpError(409, 'Payment state changed; refresh before deleting.');
-      const counts = await pendingPaymentsService.getTabCounts(db, accountID);
-
-      return res.status(200).send({
+      return committedResponse(res, 'Payment deleted successfully.', async () => ({
          payment: updated,
-         counts,
-         message: 'Payment deleted successfully.',
-         status: 200
-      });
+         counts: await pendingPaymentsService.getTabCounts(db, accountID)
+      }));
    } catch (error) {
       console.error('Error soft-deleting pending payment:', error);
       sendPendingPaymentError(res, error, 'An error occurred while deleting the pending payment.');
@@ -193,16 +190,15 @@ pendingPaymentsRouter.route('/approve/:accountID/:userID').post(jsonParser, asyn
          return { created, pendingPayment };
       });
 
-      const [tables, counts] = await Promise.all([buildLedgerTablesPayload(db, accountID), pendingPaymentsService.getTabCounts(db, accountID)]);
-
-      return res.status(200).send({
-         ...tables,
-         payment: result.created.payment,
-         prepaymentRetainer: result.created.prepaymentRetainer,
-         pendingPayment: result.pendingPayment,
-         counts,
-         message: result.created.message,
-         status: 200
+      return committedResponse(res, result.created.message, async () => {
+         const [tables, counts] = await Promise.all([buildLedgerTablesPayload(db, accountID), pendingPaymentsService.getTabCounts(db, accountID)]);
+         return {
+            ...tables,
+            payment: result.created.payment,
+            prepaymentRetainer: result.created.prepaymentRetainer,
+            pendingPayment: result.pendingPayment,
+            counts
+         };
       });
    } catch (error) {
       console.error('Error approving pending payment:', error);
@@ -354,13 +350,9 @@ pendingPaymentsRouter.route('/file/:accountID/:userID').delete(jsonParser, async
          await pendingPaymentsService.softDeleteBySourceFile(trx, fileName, accountID);
       });
 
-      const counts = await pendingPaymentsService.getTabCounts(db, accountID);
-
-      return res.status(200).send({
-         counts,
-         message: 'File and associated pending payments deleted.',
-         status: 200
-      });
+      return committedResponse(res, 'File and associated pending payments deleted.', async () => ({
+         counts: await pendingPaymentsService.getTabCounts(db, accountID)
+      }));
    } catch (error) {
       console.error('Error deleting payment file:', error);
       res.status(error.statusCode || 500).send({ message: error.message, status: error.statusCode || 500 });

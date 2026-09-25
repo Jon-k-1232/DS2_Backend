@@ -1,5 +1,7 @@
 # Route coverage matrix
 
+The 2026-09-25 [Pass 3 path matrix](../docs/scenarios/path-matrix.md) extends this historical reference inventory to all 160 currently mounted routes, with executed happy/refusal proofs and explicit unreachable-site reasons.
+
 Generated 2026-09-23T23:49:08.553Z by scripts/test-coverage-matrix.js — 135/135 routes referenced by at least one spec.
 
 _Caveat: this matrix counts route REFERENCES — a spec file whose describe/it title or a request path string contains the route — not exercised behaviour. A spec can reference a route in a comment or a skipped/pending test and still count as "covered" here; a route covered indirectly (helper function, different literal path string) won't. Treat this as a starting point for finding gaps, not a substitute for reading the spec._

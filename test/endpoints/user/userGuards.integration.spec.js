@@ -27,6 +27,7 @@ describe('integration: user-router self-service and last-super-admin guards (fix
 
    let db;
    let superAdminToken;
+   let priorSuperAdmins = [];
    const cleanupUserIds = [SOLE_SUPER_ADMIN_ID, SECOND_SUPER_ADMIN_ID];
 
    const authed = (req, token) => req.set('Authorization', `Bearer ${token}`);
@@ -64,6 +65,10 @@ describe('integration: user-router self-service and last-super-admin guards (fix
       // with a stale/empty JWT_SECRET by an earlier-loaded spec file.
       config.JWT_SECRET = process.env.JWT_SECRET || config.JWT_SECRET;
 
+      // Other integration harnesses may promote their fixture admin. Isolate
+      // this sole-admin assertion and restore all prior roles afterwards.
+      priorSuperAdmins = await db('users').where({account_id:A}).whereNotIn('user_id',cleanupUserIds).whereRaw("lower(access_level) = 'super admin'").select('user_id','access_level');
+      if(priorSuperAdmins.length) await db('users').where({account_id:A}).whereIn('user_id',priorSuperAdmins.map(u=>u.user_id)).update({access_level:'Admin'});
       await db('users')
          .insert({
             user_id: SOLE_SUPER_ADMIN_ID,
@@ -86,6 +91,7 @@ describe('integration: user-router self-service and last-super-admin guards (fix
 
    after(async () => {
       if (db) {
+         for(const user of priorSuperAdmins) await db('users').where({account_id:A,user_id:user.user_id}).update({access_level:user.access_level});
          for (const id of cleanupUserIds) {
             await db('users').where({ user_id: id, account_id: A }).del();
          }

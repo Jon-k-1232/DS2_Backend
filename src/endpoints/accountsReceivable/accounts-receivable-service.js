@@ -108,12 +108,12 @@ const customerAgingCtes = excludeFragment => `
          customer_balance AS (
             SELECT customer_id,
                    statement_date,
-                   SUM(GREATEST(remaining, 0)) AS total_outstanding,
+                   SUM(remaining) AS total_outstanding,
                    COUNT(*)::int AS statement_count,
                    EXTRACT(DAY FROM (NOW() - statement_date))::int AS days_old
             FROM current_chains
             GROUP BY customer_id, statement_date
-            HAVING SUM(GREATEST(remaining, 0)) > 0
+            HAVING SUM(remaining) <> 0
          ),
          customer_aging AS (
             SELECT

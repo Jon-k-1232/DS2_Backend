@@ -1,3 +1,4 @@
+const { billableHours, priceQuantity } = require('../../utils/timeAmounts');
 const { normalizeTransactionType } = require('./transactionsObjects');
 
 // Direct entry and tracker ingestion share this contract. Billing Review has
@@ -19,14 +20,14 @@ const validateTransactionPrice = transaction => {
       // rounding only when a duration is supplied, as tracker ingestion does.
       if (transaction.minutes != null && transaction.minutes !== '') {
          const minutes = Number(transaction.minutes);
-         if (!Number.isFinite(minutes) || minutes < 0 || Math.abs(Math.ceil(minutes / 6) / 10 - values.quantity) > 0.000001) {
+         if (!['number', 'string'].includes(typeof transaction.minutes) || String(transaction.minutes).trim() === '' || !Number.isFinite(minutes) || minutes < 0 || Math.abs(billableHours(minutes) - values.quantity) > 0.000001) {
             throw new Error('Time quantity must match the duration rounded up to six-minute increments.');
          }
       }
    }
    // Both factors have two decimals; multiply integer hundredths before
    // rounding, matching tracker pricing and avoiding binary half-cent drift.
-   const total = Math.round(Math.round(values.quantity * 100) * Math.round(values.unitCost * 100) / 100) / 100;
+   const total = priceQuantity(values.quantity, values.unitCost);
    if (Math.abs(total - values.totalTransaction) > 0.000001) throw new Error('Transaction total must equal quantity times rate rounded to cents.');
    return { ...transaction, ...values, totalTransaction: total };
 };

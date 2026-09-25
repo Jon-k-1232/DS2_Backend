@@ -422,6 +422,7 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
 
    after(async () => {
       if (db) {
+         await require('./_sent-fixture').unseal(db,A,createdCustomerIds);
          for (const id of createdCustomerIds) {
             const where = { account_id: A, customer_id: id };
             const myTxnIds = await db('customer_transactions').where(where).pluck('transaction_id');
@@ -563,15 +564,15 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
    it('4b. time-travel: re-dates the month-1 statement 31 days back so the next finalize is a real month 2', async () => {
       // See the file header. Only the parent is touched; the snapshots created
       // by the following payment/write-off copy invoice_date from the parent.
-      const updated = await db('customer_invoices')
+      const updated = await require('./_sent-fixture').fixtureMaintenance(db,A, async trx => { return await trx('customer_invoices')
          .where({ account_id: A, customer_id: customerId, customer_invoice_id: inv1.customer_invoice_id })
          .update({
-            invoice_date: db.raw(`invoice_date - ?::int`, [MONTH_GAP_DAYS]),
-            due_date: db.raw(`due_date - ?::int`, [MONTH_GAP_DAYS]),
-            start_date: db.raw(`start_date - ?::int`, [MONTH_GAP_DAYS]),
-            end_date: db.raw(`end_date - ?::int`, [MONTH_GAP_DAYS]),
-            created_at: db.raw(`created_at - (? || ' days')::interval`, [MONTH_GAP_DAYS])
-         });
+            invoice_date: trx.raw(`invoice_date - ?::int`, [MONTH_GAP_DAYS]),
+            due_date: trx.raw(`due_date - ?::int`, [MONTH_GAP_DAYS]),
+            start_date: trx.raw(`start_date - ?::int`, [MONTH_GAP_DAYS]),
+            end_date: trx.raw(`end_date - ?::int`, [MONTH_GAP_DAYS]),
+            created_at: trx.raw(`created_at - (? || ' days')::interval`, [MONTH_GAP_DAYS])
+         }); });
       expect(updated).to.equal(1);
       inv1 = await invoiceRow(inv1.customer_invoice_id);
       expect(ymdLocal(inv1.invoice_date)).to.equal(daysAgo(MONTH_GAP_DAYS));
@@ -579,7 +580,7 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
    });
 
    // 5 ───────────────────────────────────────────────────────────────────────
-   it('5. partial payment inserts a child snapshot and mirrors remaining / total_payments onto the parent', async () => {
+   it('5. partial payment inserts a child snapshot and preserves the issued parent', async () => {
       const body = expectOk(
          await post(`/payments/createPayment/${A}/${U}`, {
             payment: paymentPayload({ selectedInvoiceID: inv1.customer_invoice_id, unitCost: PAYMENT_1, paymentReferenceNumber: '1001', note: 'partial payment', transactionDate: daysAgo(12) })
@@ -599,9 +600,9 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
       expect(num(snap.total_amount_due)).to.equal(M1_BILLABLE_TOTAL);
 
       inv1 = await invoiceRow(inv1.customer_invoice_id);
-      expect(num(inv1.remaining_balance_on_invoice), 'parent mirror remaining').to.equal(M1_BILLABLE_TOTAL - PAYMENT_1);
+      expect(num(inv1.remaining_balance_on_invoice), 'issued parent remains unchanged').to.equal(M1_BILLABLE_TOTAL);
       expect(inv1.is_invoice_paid_in_full).to.equal(false);
-      expect(num(inv1.total_payments), 'total_payments is a negative net').to.equal(-PAYMENT_1);
+      expect(num(inv1.total_payments), 'issued payments total is unchanged').to.equal(0);
       expect(num(inv1.total_amount_due), 'total_amount_due untouched by payments').to.equal(M1_BILLABLE_TOTAL);
 
       const payments = await db('customer_payments').where({ account_id: A, customer_id: customerId });
@@ -620,7 +621,7 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
    });
 
    // 6 ───────────────────────────────────────────────────────────────────────
-   it('6. write-off of part of the remainder inserts a snapshot and mirrors remaining / total_write_offs onto the parent', async () => {
+   it('6. write-off of part of the remainder inserts a snapshot and preserves the issued parent', async () => {
       // Mirrors SharedPostObjects.formObjectForWriteOffPost (customerInvoiceID = picked open invoice).
       const body = expectOk(
          await post(`/writeOffs/createWriteOffs/${A}/${U}`, {
@@ -649,9 +650,9 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
       expect(snap.is_invoice_paid_in_full).to.equal(false);
 
       inv1 = await invoiceRow(inv1.customer_invoice_id);
-      expect(num(inv1.remaining_balance_on_invoice), 'parent mirror remaining').to.equal(M1_REMAINING);
-      expect(num(inv1.total_write_offs), 'total_write_offs is a negative net').to.equal(-WRITEOFF_1);
-      expect(num(inv1.total_payments), 'total_payments unchanged by the write-off').to.equal(-PAYMENT_1);
+      expect(num(inv1.remaining_balance_on_invoice), 'issued parent remains unchanged').to.equal(M1_BILLABLE_TOTAL);
+      expect(num(inv1.total_write_offs), 'issued write-off total is unchanged').to.equal(0);
+      expect(num(inv1.total_payments), 'issued payments total is unchanged').to.equal(0);
       expect(inv1.is_invoice_paid_in_full).to.equal(false);
 
       const writeoffs = await db('customer_writeoffs').where({ account_id: A, customer_id: customerId });
@@ -717,19 +718,19 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
       expect(ymdLocal(inv2.start_date), 'statement period starts at the prior invoice date').to.equal(ymdLocal(inv1.invoice_date));
       expect(inv2.notes).to.equal(null);
 
-      // Month-1 chain: parent + both snapshots zeroed and stamped.
+      // Issued rows remain evidence; one closing snapshot carries the absorption.
       const markerPrefix = `[absorbed_by:${inv2.invoice_number}@`;
       inv1 = await invoiceRow(inv1.customer_invoice_id);
       const m1Rows = [inv1, ...(await childrenOf(inv1.customer_invoice_id))];
-      expect(m1Rows).to.have.lengthOf(3);
-      m1Rows.forEach(row => {
-         expect(num(row.remaining_balance_on_invoice), `month-1 row ${row.customer_invoice_id} zeroed`).to.equal(0);
-         expect(row.notes || '', `month-1 row ${row.customer_invoice_id} carries the absorbed marker`).to.include('[absorbed_by:');
-         expect(row.notes, `month-1 row ${row.customer_invoice_id} marker names the new invoice`).to.include(markerPrefix);
-      });
+      expect(m1Rows).to.have.lengthOf(4);
+      expect(m1Rows.map(row => num(row.remaining_balance_on_invoice))).to.deep.equal([
+         M1_BILLABLE_TOTAL, M1_BILLABLE_TOTAL - PAYMENT_1, M1_REMAINING, 0
+      ]);
+      expect(m1Rows[3].notes).to.include(markerPrefix);
+      m1Rows.slice(0, 3).forEach(row => expect(row.notes || '').not.to.include('[absorbed_by:'));
       expect(num(inv1.total_amount_due), 'historic totals untouched').to.equal(M1_BILLABLE_TOTAL);
-      expect(num(inv1.total_payments)).to.equal(-PAYMENT_1);
-      expect(num(inv1.total_write_offs)).to.equal(-WRITEOFF_1);
+      expect(num(inv1.total_payments), 'issued payments total is unchanged').to.equal(0);
+      expect(num(inv1.total_write_offs), 'issued write-off total is unchanged').to.equal(0);
 
       // Transactions: the new one stamped with month 2, the four old ones untouched.
       const txns = await customerTxns();
@@ -781,11 +782,12 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
    // finalize-engine.integration.spec.js 4b-iii — zeroOutAbsorbedInvoices stamps
    // `@${String(invoice_date).slice(0, 10)}` on a JS Date, producing
    // '[absorbed_by:INV-…@Tue Sep 22]' instead of the documented '@YYYY-MM-DD'.
-   it('8d. the absorbed marker on the month-1 rows carries the statement date as YYYY-MM-DD', async () => {
+   it('8d. the closing snapshot carries the statement date as YYYY-MM-DD', async () => {
       const marker = `[absorbed_by:${inv2.invoice_number}@${ymdLocal(inv2.invoice_date)}]`;
       const m1Rows = [await invoiceRow(inv1.customer_invoice_id), ...(await childrenOf(inv1.customer_invoice_id))];
-      expect(m1Rows).to.have.lengthOf(3);
-      m1Rows.forEach(row => expect(row.notes, `month-1 row ${row.customer_invoice_id}`).to.include(marker));
+      expect(m1Rows).to.have.lengthOf(4);
+      expect(m1Rows[3].notes).to.include(marker);
+      expect(m1Rows[0].notes).to.equal(null);
    });
 
    it('8c. right after the month-2 finalize the engine has nothing new to bill (no re-credited write-off)', async () => {
@@ -827,16 +829,16 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
       expect(payment.note).to.include(`[applied to ${inv2.invoice_number}; customer referenced ${inv1.invoice_number}]`);
 
       inv2 = await invoiceRow(inv2.customer_invoice_id);
-      expect(num(inv2.remaining_balance_on_invoice)).to.equal(M2_TOTAL - PAYMENT_2);
-      expect(num(inv2.total_payments)).to.equal(-PAYMENT_2);
+      expect(num(inv2.remaining_balance_on_invoice), 'issued parent').to.equal(M2_TOTAL);
+      expect(num(inv2.total_payments), 'issued parent').to.equal(0);
       expect(inv2.is_invoice_paid_in_full).to.equal(false);
 
       // Month-1 rows stay settled.
       inv1 = await invoiceRow(inv1.customer_invoice_id);
       const m1Rows = [inv1, ...(await childrenOf(inv1.customer_invoice_id))];
-      expect(m1Rows).to.have.lengthOf(3);
-      m1Rows.forEach(row => expect(num(row.remaining_balance_on_invoice), `month-1 row ${row.customer_invoice_id} still 0`).to.equal(0));
-      expect(num(inv1.total_payments), 'month-1 total_payments not touched').to.equal(-PAYMENT_1);
+      expect(m1Rows).to.have.lengthOf(4);
+      expect(m1Rows.map(row => num(row.remaining_balance_on_invoice))).to.deep.equal([M1_BILLABLE_TOTAL, M1_BILLABLE_TOTAL - PAYMENT_1, M1_REMAINING, 0]);
+      expect(num(inv1.total_payments), 'issued payments total is unchanged').to.equal(0);
 
       await expectThreeViewsAgree(M2_TOTAL - PAYMENT_2, 'after remapped payment');
    });
@@ -872,10 +874,10 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
       overpayNoteBeforeReversal = payment.note;
 
       inv2 = await invoiceRow(inv2.customer_invoice_id);
-      expect(num(inv2.remaining_balance_on_invoice)).to.equal(0);
-      expect(inv2.is_invoice_paid_in_full).to.equal(true);
-      expect(ymdLocal(inv2.fully_paid_date)).to.equal(ymdLocal(new Date()));
-      expect(num(inv2.total_payments), 'negative net of both month-2 payments').to.equal(-(PAYMENT_2 + remainingBefore));
+      expect(num(inv2.remaining_balance_on_invoice), 'issued parent').to.equal(M2_TOTAL);
+      expect(inv2.is_invoice_paid_in_full).to.equal(false);
+      expect(inv2.fully_paid_date).to.equal(null);
+      expect(num(inv2.total_payments), 'issued payments').to.equal(0);
       parentAfterOverpay = {
          remaining_balance_on_invoice: num(inv2.remaining_balance_on_invoice),
          is_invoice_paid_in_full: inv2.is_invoice_paid_in_full,
@@ -940,10 +942,10 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
       expect(num(original.payment_amount), 'original amount untouched').to.equal(-restored);
 
       inv2 = await invoiceRow(inv2.customer_invoice_id);
-      expect(num(inv2.remaining_balance_on_invoice)).to.equal(restored);
+      expect(num(inv2.remaining_balance_on_invoice)).to.equal(M2_TOTAL);
       expect(inv2.is_invoice_paid_in_full).to.equal(false);
       expect(inv2.fully_paid_date).to.equal(null);
-      expect(num(inv2.total_payments), 'net payments shrink by the reversed amount').to.equal(-PAYMENT_2);
+      expect(num(inv2.total_payments), 'issued payments unchanged').to.equal(0);
 
       const { audit } = await expectThreeViewsAgree(restored, 'after reversal');
       expect(money(audit.totals.total_paid), 'audit nets the reversal against the payments').to.equal(PAYMENT_1 + PAYMENT_2);

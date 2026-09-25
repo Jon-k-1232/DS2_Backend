@@ -1,0 +1,11 @@
+const router=require('express').Router();
+const {enforceAccountId}=require('../auth/account-scope');
+const {route}=require('../../utils/ledgerAction');
+const service=require('./duplicates-service');
+router.param('accountID',enforceAccountId);
+const args=req=>({accountId:Number(req.params.accountID),actorId:Number(req.user.user_id),body:req.body||{},query:req.query,duplicateId:req.params.duplicateID});
+router.get('/:accountID/:userID',route(req=>service.list(req.app.get('db'),args(req))));
+router.post('/:accountID/:userID',route(req=>service.flag(req.app.get('db'),args(req))));
+router.post('/scan/:accountID/:userID',route(req=>service.scan(req.app.get('db'),args(req))));
+router.post('/:duplicateID/resolve/:accountID/:userID',route(req=>service.resolve(req.app.get('db'),args(req))));
+module.exports=router;

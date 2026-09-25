@@ -37,7 +37,7 @@ const createTotalsSection = (doc, invoiceDetails, preferenceSettings) => {
 
    doc.font(boldFont)
       .fontSize(14)
-      .text(`Balance Due: ${invoiceTotal.toFixed(2)}`, leftMargin, showRetainerSummary ? y + lineHeight * 3.5 : y + lineHeight, { width: right - leftMargin, align: 'right' });
+      .text(Number(invoiceTotal) < 0 ? `Credit balance: ${invoiceTotal.toFixed(2)} — No payment due` : `Balance Due: ${invoiceTotal.toFixed(2)}`, leftMargin, showRetainerSummary ? y + lineHeight * 3.5 : y + lineHeight, { width: right - leftMargin, align: 'right' });
 
    // Next section (Notes) starts below the Balance Due line, whichever layout printed.
    preferenceSettings.endOfGroupingHeight = showRetainerSummary ? y + lineHeight * 4.5 : y + lineHeight * 2;

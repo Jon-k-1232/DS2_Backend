@@ -290,6 +290,7 @@ describe('integration: coverage — invoices, account audit, accounts receivable
    });
 
    after(async function () {
+      if (db) await require('./_sent-fixture').unseal(db,9001);
       this.timeout(60_000);
       if (db) {
          for (const id of createdCustomerIds) {
@@ -642,8 +643,8 @@ describe('integration: coverage — invoices, account audit, accounts receivable
          // parent_invoice_id row): this parent is neither, it just has a
          // transaction billed directly to it, hitting the EARLIER
          // transactions/payments/writeoffs guard (invoice-router.js:85-91).
-         const body = expectEnvelopeRefused(await h.as('admin').delete(`/invoices/deleteInvoice/${A}/${finalizedInvoice.customer_invoice_id}`), /Cannot delete invoice with/, 'deleteInvoice (linked transaction)');
-         expect(body.message).to.include('transactions, retainers, payments, or writeoffs');
+         const body = expectEnvelopeRefused(await h.as('admin').delete(`/invoices/deleteInvoice/${A}/${finalizedInvoice.customer_invoice_id}`), /locked: part of sent invoice/, 'deleteInvoice (linked transaction)');
+         expect(body.message).to.include(`locked: part of sent invoice ${finalizedInvoice.invoice_number}`);
          const still = await db('customer_invoices').where({ customer_invoice_id: finalizedInvoice.customer_invoice_id }).first();
          expect(still, 'invoice not deleted').to.exist;
       });

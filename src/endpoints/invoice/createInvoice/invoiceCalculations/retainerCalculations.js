@@ -16,7 +16,7 @@ const groupAndTotalRetainers = (customer_id, invoiceQueryData, hideRetainers) =>
       console.log(`Retainer Total on customerID:${customer_id} is not a number`);
       throw new Error(`Retainer Total on customerID:${customer_id} is not a number`);
    }
-   return hideRetainers ? { retainerTotal: 0, retainerRecords: [] } : { retainerTotal, retainerRecords };
+   return hideRetainers ? { retainerTotal: 0, retainerRecords: [], events: [] } : { retainerTotal, retainerRecords, events: invoiceQueryData.customerRetainerEvents?.[customer_id] || [] };
 };
 
 module.exports = { groupAndTotalRetainers };

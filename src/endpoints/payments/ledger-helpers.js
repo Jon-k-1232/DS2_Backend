@@ -80,7 +80,9 @@ const lockCustomerLedgerForRow = async (trx, accountId, table, idColumn, id, not
       .where({ account_id: Number(accountId), [idColumn]: rowId })
       .first();
    if (!row) throw ruleError(notFoundMessage, 404);
-   return lockCustomerLedger(trx, accountId, row.customer_id);
+   const customer = await lockCustomerLedger(trx, accountId, row.customer_id);
+   if (table === RETAINERS_TABLE) await require('../invoice/sentInvoiceLocks').assertUnlocked(trx, accountId, table, rowId);
+   return customer;
 };
 
 // ── billed gate (statement membership) ───────────────────────────────────────
@@ -234,6 +236,7 @@ const LINK_MARKER_PATTERNS = Object.freeze({
    retainer_draw: 'retainer_draw:\\d+',
    prepayment_retainer: 'prepayment_retainer:\\d+',
    pending_payment: 'pending_payment:\\d+',
+   reversal_of: 'reversal of payment #\\d+',
    cancelled_by_reversal: 'cancelled by reversal of payment #\\d+'
 });
 const ALL_LINK_MARKER_KINDS = Object.freeze(Object.keys(LINK_MARKER_PATTERNS));

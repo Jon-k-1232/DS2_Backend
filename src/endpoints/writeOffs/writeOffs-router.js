@@ -1,3 +1,5 @@
+const { committedResponse } = require('../../utils/committedResponse');
+const { validateLedgerInput } = require('../../utils/ledgerInput');
 const express = require('express');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
@@ -20,7 +22,9 @@ writeOffsRouter.route('/createWriteOffs/:accountID/:userID').post(jsonParser, as
    const accountID = Number(req.params.accountID);
 
    try {
+      validateLedgerInput(req.body.writeOff, 'writeoff');
       const sanitizedNewWriteOffs = sanitizeFields(req.body.writeOff || {});
+      validateLedgerInput(sanitizedNewWriteOffs, 'writeoff', { update: false });
 
       // Create new object with sanitized fields
       const writeOffTableFields = restoreDataTypesWriteOffsTableOnCreate(sanitizedNewWriteOffs);
@@ -29,14 +33,19 @@ writeOffsRouter.route('/createWriteOffs/:accountID/:userID').post(jsonParser, as
       if (req.user?.user_id) writeOffTableFields.created_by_user_id = Number(req.user.user_id);
 
       // Trust the account from the (guard-verified) URL, never the request body.
-      const { message } = await createWriteOffCore(db, { accountId: accountID, writeOffFields: writeOffTableFields });
+      const { message } = await require('../payments/ledger-helpers').withTransaction(db, async trx => {
+         await require('../../utils/ledgerAction').actionContext(trx, Number(req.user.user_id), 'Manual write-off entry');
+         const result = await createWriteOffCore(trx, { accountId: accountID, writeOffFields: writeOffTableFields });
+         await require('../duplicates/duplicates-service').detectCreated(trx, 'writeoff', result.writeOff, Number(req.user.user_id));
+         return result;
+      });
 
       await sendUpdatedTableWith200Response(db, res, accountID, message);
    } catch (err) {
       console.log(err);
-      res.send({
+      res.status(err.inputValidation ? 400 : 200).send({
          message: err.message || 'An error occurred while creating the writeOff.',
-         status: 500
+         status: err.inputValidation ? 400 : 500
       });
    }
 });
@@ -84,7 +93,9 @@ writeOffsRouter.route('/getSingleWriteOff/:writeOffID/:accountID/:userID').get(a
 writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    try {
+      validateLedgerInput(req.body.writeOff, 'writeoff', { update: true });
       const sanitizedUpdatedWriteOffs = sanitizeFields(req.body.writeOff || {});
+      validateLedgerInput(sanitizedUpdatedWriteOffs, 'writeoff', { update: true });
 
       // Create new object with sanitized fields
       const writeOffTableFields = restoreDataTypesWriteOffsTableOnUpdate(sanitizedUpdatedWriteOffs);
@@ -97,9 +108,9 @@ writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(jsonParser, asy
       await sendUpdatedTableWith200Response(db, res, account_id, message);
    } catch (err) {
       console.log(err);
-      res.send({
+      res.status(err.inputValidation ? 400 : 200).send({
          message: err.message || 'An error occurred while updating the writeOff.',
-         status: 500
+         status: err.inputValidation ? 400 : 500
       });
    }
 });
@@ -176,26 +187,28 @@ writeOffsRouter.route('/getWriteOffs/:accountID/:userID').get(async (req, res) =
 });
 
 const sendUpdatedTableWith200Response = async (db, res, accountID, message) => {
-   // Get all writeOff
-   const activeWriteOffs = await writeOffsService.getActiveWriteOffs(db, accountID);
-   const activeInvoices = await invoiceService.getInvoices(db, accountID);
+   return committedResponse(res, message, async () => {
+      // Get all writeOff
+      const activeWriteOffs = await writeOffsService.getActiveWriteOffs(db, accountID);
+      const activeInvoices = await invoiceService.getInvoices(db, accountID);
 
-   // Return Object
-   const activeWriteOffsData = {
-      activeWriteOffs,
-      grid: createGrid(activeWriteOffs)
-   };
+      // Return Object
+      const activeWriteOffsData = {
+         activeWriteOffs,
+         grid: createGrid(activeWriteOffs)
+      };
 
-   const activeInvoiceData = {
-      activeInvoices,
-      grid: createGrid(activeInvoices),
-      treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id')
-   };
+      const activeInvoiceData = {
+         activeInvoices,
+         grid: createGrid(activeInvoices),
+         treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id')
+      };
 
-   res.send({
-      invoicesList: { activeInvoiceData },
-      writeOffsList: { activeWriteOffsData },
-      message,
-      status: 200
+      return {
+         invoicesList: { activeInvoiceData },
+         writeOffsList: { activeWriteOffsData },
+         message,
+         status: 200
+      };
    });
 };

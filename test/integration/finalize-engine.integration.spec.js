@@ -126,8 +126,8 @@ describe('integration: finalize engine (HTTP)', function () {
       return res.body;
    };
    const expectRefused = (res, label) => {
-      expect(res.status, `${label}: HTTP status`).to.equal(200);
-      expect(res.body.status, `${label}: body.status`).to.equal(500);
+      expect(res.status, `${label}: HTTP status`).to.equal(409);
+      expect(res.body.status, `${label}: body.status`).to.equal(409);
       return res.body;
    };
 
@@ -381,6 +381,7 @@ describe('integration: finalize engine (HTTP)', function () {
 
    after(async () => {
       if (db) {
+         await require('./_sent-fixture').unseal(db,A,createdCustomerIds);
          for (const id of createdCustomerIds) {
             const where = { account_id: A, customer_id: id };
             const myTxnIds = await db('customer_transactions').where(where).pluck('transaction_id');
@@ -605,9 +606,11 @@ describe('integration: finalize engine (HTTP)', function () {
       expect(rerunParent2.notes).to.equal(null);
 
       rerunParent1 = await invoiceRow(rerunParent1.customer_invoice_id);
-      expect(num(rerunParent1.remaining_balance_on_invoice), 'first statement zeroed').to.equal(0);
-      expect(rerunParent1.notes).to.include('[absorbed_by:');
-      expect(rerunParent1.notes, 'marker names the absorbing statement').to.include(`[absorbed_by:${rerunParent2.invoice_number}@`);
+      expect(num(rerunParent1.remaining_balance_on_invoice), 'issued parent unchanged').to.equal(RERUN_CHARGE);
+      expect(rerunParent1.notes).to.equal(null);
+      const closing = (await childrenOf(rerunParent1.customer_invoice_id)).at(-1);
+      expect(num(closing.remaining_balance_on_invoice)).to.equal(0);
+      expect(closing.notes).to.include(`[absorbed_by:${rerunParent2.invoice_number}@`);
       expect(num(rerunParent1.total_charges), 'historic totals untouched').to.equal(RERUN_CHARGE);
 
       // The transaction stays on the statement that billed it.
@@ -641,49 +644,49 @@ describe('integration: finalize engine (HTTP)', function () {
    // still matches countRowsAbsorbedBy / the audit's was_absorbed regex, so only
    // the human-readable date is wrong.
    it('4b-iii. …and the absorbed marker carries the statement date as YYYY-MM-DD', async () => {
-      const absorbed = await invoiceRow(rerunParent1.customer_invoice_id);
+      const absorbed = (await childrenOf(rerunParent1.customer_invoice_id)).at(-1);
       expect(absorbed.notes).to.include(`[absorbed_by:${rerunParent2.invoice_number}@${ymdLocal(rerunParent2.invoice_date)}]`);
    });
 
    // ── 2a. deleteInvoice: rolled parent ──────────────────────────────────────
    it('2a. deleteInvoice refuses a parent that rolled a prior balance into its beginning_balance', async () => {
       const body = expectRefused(await del(`/invoices/deleteInvoice/${A}/${rerunParent2.customer_invoice_id}`), 'deleteInvoice (rolled parent)');
-      expect(body.message).to.include('rolled');
+      expect(body.message).to.include('locked: part of sent invoice');
       expect(body.message).to.include(rerunParent2.invoice_number);
 
       const still = await invoiceRow(rerunParent2.customer_invoice_id);
       expect(still, 'rolled parent still exists').to.exist;
       expect(num(still.remaining_balance_on_invoice)).to.equal(RERUN_CHARGE);
-      expect(num((await invoiceRow(rerunParent1.customer_invoice_id)).remaining_balance_on_invoice), 'absorbed statement stays zeroed').to.equal(0);
+      expect(num((await invoiceRow(rerunParent1.customer_invoice_id)).remaining_balance_on_invoice), 'issued parent preserved').to.equal(RERUN_CHARGE);
       await expectThreeViewsAgree(rerun.customerId, RERUN_CHARGE, 'after refused delete');
    });
 
    // ── 3. getInvoiceDetails ──────────────────────────────────────────────────
-   it('3a. getInvoiceDetails lists the payments and write-offs tagged to the statement\'s snapshots', async () => {
+   it('3a. getInvoiceDetails preserves issued items and exposes the current balance separately', async () => {
       // Time travel: month 1 becomes last month so a real month 2 can follow.
       // Everything that was on the ledger when that statement ran moves back
       // with it — the parent row AND the pre-statement job write-off (the engine
       // gates write-offs on created_at relative to the newest parent, so a
       // write-off left "after" the statement would legitimately be credited again).
-      const shifted = await db('customer_invoices')
+      const shifted = await require('./_sent-fixture').fixtureMaintenance(db,A, async trx => { return await trx('customer_invoices')
          .where({ account_id: A, customer_id: main.customerId, customer_invoice_id: inv1.customer_invoice_id })
          .update({
-            invoice_date: db.raw(`invoice_date - ?::int`, [MONTH_GAP_DAYS]),
-            due_date: db.raw(`due_date - ?::int`, [MONTH_GAP_DAYS]),
-            start_date: db.raw(`start_date - ?::int`, [MONTH_GAP_DAYS]),
-            end_date: db.raw(`end_date - ?::int`, [MONTH_GAP_DAYS]),
-            created_at: db.raw(`created_at - (? || ' days')::interval`, [MONTH_GAP_DAYS])
-         });
+            invoice_date: trx.raw(`invoice_date - ?::int`, [MONTH_GAP_DAYS]),
+            due_date: trx.raw(`due_date - ?::int`, [MONTH_GAP_DAYS]),
+            start_date: trx.raw(`start_date - ?::int`, [MONTH_GAP_DAYS]),
+            end_date: trx.raw(`end_date - ?::int`, [MONTH_GAP_DAYS]),
+            created_at: trx.raw(`created_at - (? || ' days')::interval`, [MONTH_GAP_DAYS])
+         }); });
       expect(shifted).to.equal(1);
       inv1 = await invoiceRow(inv1.customer_invoice_id);
-      const preStatementWriteOffs = await db('customer_writeoffs')
+      const preStatementWriteOffs = await require('./_sent-fixture').fixtureMaintenance(db,A,async trx => { return await trx('customer_writeoffs')
          .where({ account_id: A, customer_id: main.customerId })
          .andWhere('writeoff_amount', -JOB_WRITEOFF_BEFORE)
-         .update({ created_at: db.raw(`created_at - (? || ' days')::interval`, [MONTH_GAP_DAYS + 1]) });
+         .update({ created_at: trx.raw(`created_at - (? || ' days')::interval`, [MONTH_GAP_DAYS + 1]) }); });
       expect(preStatementWriteOffs).to.equal(1);
-      await db('customer_transactions')
+      await require('./_sent-fixture').fixtureMaintenance(db,A, trx => trx('customer_transactions')
          .where({ account_id: A, customer_id: main.customerId, customer_invoice_id: inv1.customer_invoice_id })
-         .update({ created_at: db.raw(`created_at - (? || ' days')::interval`, [MONTH_GAP_DAYS + 1]) });
+         .update({ created_at: trx.raw(`created_at - (? || ' days')::interval`, [MONTH_GAP_DAYS + 1]) }));
 
       // Partial payment, then an invoice-level write-off, on month 1.
       const payBody = expectOk(await post(`/payments/createPayment/${A}/${U}`, { payment: paymentPayload(main.customerId, { selectedInvoiceID: inv1.customer_invoice_id, unitCost: PAYMENT_1, transactionDate: daysAgo(12) }) }), 'createPayment (month 1)');
@@ -702,24 +705,24 @@ describe('integration: finalize engine (HTTP)', function () {
       writeoff1Id = invoiceWriteOff.writeoff_id;
       expect(invoiceWriteOff.customer_invoice_id).to.equal(children[1].customer_invoice_id);
       inv1 = await invoiceRow(inv1.customer_invoice_id);
-      expect(num(inv1.remaining_balance_on_invoice)).to.equal(M1_REMAINING);
+      expect(num(inv1.remaining_balance_on_invoice)).to.equal(M1_CHARGES);
 
       // Details for the PARENT: chain-wide payments / write-offs / transactions.
       const details = expectOk(await get(`/invoices/getInvoiceDetails/${inv1.customer_invoice_id}/${A}/${U}`), 'getInvoiceDetails (parent)');
       expect(details.invoiceDetails.customer_invoice_id).to.equal(inv1.customer_invoice_id);
-      expect(num(details.invoiceDetails.remaining_balance_on_invoice), 'remaining comes from the latest snapshot').to.equal(M1_REMAINING);
-      expect(paymentIds(details.invoicePaymentsData.invoicePayments)).to.deep.equal([payment1Id]);
-      expect(num(details.invoicePaymentsData.invoicePayments[0].payment_amount)).to.equal(-PAYMENT_1);
-      expect(writeoffIds(details.invoiceWriteoffsData.invoiceWriteoffs)).to.deep.equal([writeoff1Id]);
+      expect(num(details.invoiceDetails.remaining_balance_on_invoice), 'issued balance').to.equal(M1_CHARGES);
+      expect(num(details.invoiceDetails.current_remaining_balance), 'latest snapshot').to.equal(M1_REMAINING);
+      expect(details.invoicePaymentsData.invoicePayments).to.deep.equal([]);
+      expect(details.invoiceWriteoffsData.invoiceWriteoffs.map(r => num(r.writeoff_amount))).to.deep.equal([-JOB_WRITEOFF_BEFORE]);
       expect(transactionIds(details.invoiceTransactionsData.invoiceTransactions).sort()).to.deep.equal([txnIds.quarter, txnIds.hour, txnIds.nonBillable].sort());
-      expect(details.invoicePaymentsData.grid.rows).to.have.lengthOf(1);
+      expect(details.invoicePaymentsData.grid.rows).to.have.lengthOf(0);
       details.invoiceRetainersData.invoiceRetainers.forEach(r => expect(r.customer_id, 'only this customer\'s retainers').to.equal(main.customerId));
 
       // Details for a SNAPSHOT row resolve to the same chain.
       const snapDetails = expectOk(await get(`/invoices/getInvoiceDetails/${snapshot1Id}/${A}/${U}`), 'getInvoiceDetails (snapshot)');
       expect(snapDetails.invoiceDetails.parent_invoice_id).to.equal(inv1.customer_invoice_id);
-      expect(paymentIds(snapDetails.invoicePaymentsData.invoicePayments)).to.deep.equal([payment1Id]);
-      expect(writeoffIds(snapDetails.invoiceWriteoffsData.invoiceWriteoffs)).to.deep.equal([writeoff1Id]);
+      expect(snapDetails.invoicePaymentsData.invoicePayments).to.deep.equal([]);
+      expect(snapDetails.invoiceWriteoffsData.invoiceWriteoffs.map(r => num(r.writeoff_amount))).to.deep.equal([-JOB_WRITEOFF_BEFORE]);
 
       await expectThreeViewsAgree(main.customerId, M1_REMAINING, 'after month-1 payment + write-off');
    });
@@ -730,7 +733,7 @@ describe('integration: finalize engine (HTTP)', function () {
    // invoice-router.js resolved the chain root first.
    it('3a-ii. getInvoiceDetails on a snapshot row reports the chain\'s latest remaining', async () => {
       const snapDetails = expectOk(await get(`/invoices/getInvoiceDetails/${snapshot1Id}/${A}/${U}`), 'getInvoiceDetails (snapshot)');
-      expect(num(snapDetails.invoiceDetails.remaining_balance_on_invoice)).to.equal(M1_REMAINING);
+      expect(num(snapDetails.invoiceDetails.current_remaining_balance)).to.equal(M1_REMAINING);
    });
 
    it('3b. getInvoiceDetails lists only this customer\'s retainers for the statement window, and the month-2 chain\'s own payments', async () => {
@@ -769,33 +772,33 @@ describe('integration: finalize engine (HTTP)', function () {
       expect(num(inv2.total_retainers), 'retainer balance is printed for information (negative net) and not subtracted from the amount due').to.equal(-RETAINER_MAIN);
       expect(ymdLocal(inv2.start_date)).to.equal(ymdLocal(inv1.invoice_date));
       expect(ymdLocal(inv2.end_date)).to.equal(today());
-      // Month-1 chain absorbed: parent + both snapshots zeroed and marked.
+      // One closing snapshot absorbs the chain without rewriting issued evidence.
       const m1Rows = [await invoiceRow(inv1.customer_invoice_id), ...(await childrenOf(inv1.customer_invoice_id))];
-      expect(m1Rows).to.have.lengthOf(3);
-      m1Rows.forEach(row => {
-         expect(num(row.remaining_balance_on_invoice), `month-1 row ${row.customer_invoice_id} zeroed`).to.equal(0);
-         expect(row.notes, `month-1 row ${row.customer_invoice_id} marked`).to.include(`[absorbed_by:${inv2.invoice_number}@`);
-      });
+      expect(m1Rows.map(row => num(row.remaining_balance_on_invoice))).to.deep.equal([M1_CHARGES, M1_CHARGES - PAYMENT_1, M1_REMAINING, 0]);
+      expect(m1Rows[3].notes).to.include(`[absorbed_by:${inv2.invoice_number}@`);
+      expect(m1Rows[0].notes).to.equal(null);
       const m2Txn = (await txnsFor(main.customerId)).find(t => t.transaction_id === txnIds.m2);
       expect(m2Txn.customer_invoice_id).to.equal(inv2.customer_invoice_id);
 
-      // Details for month 2: only main's retainer, only month 2's work, no payments yet.
+      // Issued month-2 detail contains exactly the work, receipts and credits printed at issuance.
       const details = expectOk(await get(`/invoices/getInvoiceDetails/${inv2.customer_invoice_id}/${A}/${U}`), 'getInvoiceDetails (month 2)');
       expect(retainerIds(details.invoiceRetainersData.invoiceRetainers), 'peer retainer (same window) is excluded').to.deep.equal([retainerMainId]);
       expect(details.invoiceRetainersData.invoiceRetainers[0].customer_id).to.equal(main.customerId);
       expect(transactionIds(details.invoiceTransactionsData.invoiceTransactions)).to.deep.equal([txnIds.m2]);
-      expect(details.invoicePaymentsData.invoicePayments).to.deep.equal([]);
-      expect(details.invoiceWriteoffsData.invoiceWriteoffs).to.deep.equal([]);
+      expect(paymentIds(details.invoicePaymentsData.invoicePayments)).to.deep.equal([payment1Id]);
+      expect(details.invoiceWriteoffsData.invoiceWriteoffs.map(r => num(r.writeoff_amount)).sort((a,b)=>a-b)).to.deep.equal([-WRITEOFF_1,-JOB_WRITEOFF_AFTER].sort((a,b)=>a-b));
       expect(num(details.invoiceDetails.remaining_balance_on_invoice)).to.equal(M2_TOTAL);
 
       // A payment on month 2 shows up on month 2's details — and not on month 1's.
       expectOk(await post(`/payments/createPayment/${A}/${U}`, { payment: paymentPayload(main.customerId, { selectedInvoiceID: inv2.customer_invoice_id, unitCost: PAYMENT_2, paymentReferenceNumber: '3002', transactionDate: daysAgo(0) }) }), 'createPayment (month 2)');
       payment2Id = (await db('customer_payments').where({ account_id: A, customer_id: main.customerId }).orderBy('payment_id', 'desc').first()).payment_id;
       const detailsAfter = expectOk(await get(`/invoices/getInvoiceDetails/${inv2.customer_invoice_id}/${A}/${U}`), 'getInvoiceDetails (month 2, after payment)');
-      expect(paymentIds(detailsAfter.invoicePaymentsData.invoicePayments)).to.deep.equal([payment2Id]);
-      expect(num(detailsAfter.invoiceDetails.remaining_balance_on_invoice)).to.equal(M2_TOTAL - PAYMENT_2);
+      expect(paymentIds(detailsAfter.invoicePaymentsData.invoicePayments)).to.deep.equal([payment1Id]);
+      expect(num(detailsAfter.invoiceDetails.remaining_balance_on_invoice)).to.equal(M2_TOTAL);
+      expect(num(detailsAfter.invoiceDetails.current_remaining_balance)).to.equal(M2_TOTAL - PAYMENT_2);
       const m1Details = expectOk(await get(`/invoices/getInvoiceDetails/${inv1.customer_invoice_id}/${A}/${U}`), 'getInvoiceDetails (month 1, after month 2)');
-      expect(paymentIds(m1Details.invoicePaymentsData.invoicePayments)).to.deep.equal([payment1Id]);
+      expect(m1Details.invoicePaymentsData.invoicePayments).to.deep.equal([]);
+      expect(num(m1Details.invoiceDetails.current_remaining_balance)).to.equal(0);
 
       // Engine after month 2: the bill-day write-off is not re-credited and the
       // three views agree on the new remaining.
@@ -829,13 +832,13 @@ describe('integration: finalize engine (HTTP)', function () {
    // snapshots. Observed message: 'Cannot delete invoice with transactions,
    // retainers, payments, or writeoffs.'; expected a message containing
    // 'snapshot'. The refusal itself is correct (see 2b).
-   it('2b-ii. …and names the row as a snapshot', async () => {
+   it('2b-ii. …and identifies the sent statement lock', async () => {
       const body = expectRefused(await del(`/invoices/deleteInvoice/${A}/${snapshot1Id}`), 'deleteInvoice (snapshot)');
-      expect(body.message).to.include('snapshot');
+      expect(body.message).to.include('locked: part of sent invoice');
    });
 
    // ── 2c. deleteInvoice: fresh zero-history parent ──────────────────────────
-   it('2c. a fresh zero-history parent with no stamped rows deletes cleanly', async () => {
+   it('2c. an issued zero-history parent with no stamped rows is still locked', async () => {
       const expectedNumber = await nextConformingNumber();
       const body = await finalize('Zero activity', [empty.customerId]);
       s3Keys.push(body.fileLocation);
@@ -857,11 +860,10 @@ describe('integration: finalize engine (HTTP)', function () {
       expect(await childrenOf(zero.customer_invoice_id)).to.have.lengthOf(0);
       expect(await db('customer_invoices').where({ account_id: A, customer_id: empty.customerId }).whereNotNull('notes')).to.have.lengthOf(0);
 
-      const deleted = expectOk(await del(`/invoices/deleteInvoice/${A}/${zero.customer_invoice_id}`), 'deleteInvoice (zero-history parent)');
-      expect(deleted.message).to.equal('Successfully deleted invoice.');
-      expect(await invoiceRow(zero.customer_invoice_id)).to.equal(undefined);
-      expect(deleted.invoicesList.activeInvoiceData.activeInvoices.some(i => i.customer_invoice_id === zero.customer_invoice_id)).to.equal(false);
-      expect(await parentsFor(empty.customerId)).to.have.lengthOf(0);
+      const refused = expectRefused(await del(`/invoices/deleteInvoice/${A}/${zero.customer_invoice_id}`), 'deleteInvoice (issued zero parent)');
+      expect(refused.message).to.include('locked: part of sent invoice');
+      expect(await invoiceRow(zero.customer_invoice_id)).to.deep.equal(zero);
+      expect(await parentsFor(empty.customerId)).to.have.lengthOf(1);
       expect(await arRowFor(empty.customerId)).to.equal(null);
    });
 });

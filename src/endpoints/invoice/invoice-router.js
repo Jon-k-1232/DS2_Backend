@@ -29,6 +29,9 @@ const dayjs = require('dayjs');
 dayjs.extend(require('dayjs/plugin/utc'));
 dayjs.extend(require('dayjs/plugin/timezone'));
 const { randomUUID } = require('crypto');
+const { validateSelection } = require('./creditSelection');
+const { ruleError } = require('../payments/ledger-helpers');
+const { committedResponse } = require('../../utils/committedResponse');
 
 // The firm's billing calendar day (America/Phoenix by default) — see billingDate.js.
 const { billingDateToday } = require('./billingDate');
@@ -67,6 +70,7 @@ invoiceRouter
          // the generic "linked rows" refusal would hide the useful guidance.
          const [targetInvoice] = await invoiceService.getInvoiceByInvoiceRowID(db, accountID, invoiceID);
          if (!targetInvoice) throw new Error('Invoice not found.');
+         await require('./sentInvoiceLocks').assertUnlocked(db, accountID, 'customer_invoices', invoiceID);
          if (targetInvoice.parent_invoice_id) {
             // Snapshot rows exist only as the ledger trail of a payment or
             // write-off; removing one directly desynchronises the chain.
@@ -129,19 +133,13 @@ invoiceRouter
             }
             await invoiceService.deleteInvoice(trx, invoiceID, accountID);
          });
-         const activeInvoices = await invoiceService.getInvoices(db, accountID);
-
-         // Return Object
-         const activeInvoiceData = {
-            activeInvoices,
-            grid: createGrid(activeInvoices),
-            treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id')
-         };
-
-         res.send({
-            invoicesList: { activeInvoiceData },
-            message: 'Successfully deleted invoice.',
-            status: 200
+         return committedResponse(res, 'Successfully deleted invoice.', async () => {
+            const activeInvoices = await invoiceService.getInvoices(db, accountID);
+            return { invoicesList: { activeInvoiceData: {
+               activeInvoices,
+               grid: createGrid(activeInvoices),
+               treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id')
+            } } };
          });
       } catch (error) {
          res.send({
@@ -170,13 +168,14 @@ invoiceRouter.route('/createInvoice/AccountsWithBalance/:accountID/:invoiceID').
       const calculated = calculateInvoices(invoicesToCreate, invoiceQueryData);
       invoiceTotalMap = calculated.reduce((map, inv) => ({ ...map, [inv.customer_id]: Number(inv.invoiceTotal || 0) }), {});
    } catch (e) {
-      console.warn('[AccountsWithBalance] invoice pre-calc failed, totals will be 0:', e.message);
+      return res.status(500).send({ status: 500, message: 'Unable to calculate statement balances. Refresh before selecting invoices.' });
    }
 
    // Merge the real invoice_total into each eligibility row
    const balancesWithTotals = activeOutstandingBalances.map(c => ({
       ...c,
-      invoice_total: invoiceTotalMap[c.customer_id] ?? 0
+      invoice_total: invoiceTotalMap[c.customer_id] ?? 0,
+      is_credit_statement: Number(invoiceTotalMap[c.customer_id]) < 0
    }));
 
    // Most recent audit per customer — only counts as "passed" if the audit's
@@ -220,8 +219,8 @@ invoiceRouter.route('/createInvoice/AccountsWithBalance/:accountID/:invoiceID').
       activeOutstandingBalances: balancesWithAudits,
       grid: filterGridByColumnName(fullGrid, [
          'customer_id', 'business_name', 'customer_name', 'display_name',
-         'write_off_count', 'outstanding_invoice_total', 'billable_transactions_total',
-         'invoice_total', 'last_audit_at', 'last_invoice_number', 'last_invoice_date', 'billed_today'
+         'write_off_count', 'retainer_event_count', 'outstanding_invoice_total', 'billable_transactions_total',
+         'invoice_total', 'is_credit_statement', 'last_audit_at', 'last_invoice_number', 'last_invoice_date', 'billed_today'
       ])
    };
 
@@ -239,24 +238,14 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(requireManagerOrAd
    // The acting user comes from the verified session, never from the URL.
    const userID = req.user && req.user.user_id ? req.user.user_id : req.params.userID;
 
-   // Sanitize fields
-   const sanitizedData = sanitizeFields(req.body.invoiceConfiguration || {});
-   const { invoicesToCreate: requestedInvoices = [], invoiceCreationSettings = {} } = sanitizedData;
-   const { isFinalized, isRoughDraft, isCsvOnly, globalInvoiceNote } = invoiceCreationSettings;
-   const allowSameDayRebill = invoiceCreationSettings.allowSameDayRebill === true || invoiceCreationSettings.allowSameDayRebill === 'true';
-
    let committedResult = null;
    try {
-      if (!Array.isArray(requestedInvoices) || !requestedInvoices.length) {
-         throw new Error('Select at least one customer to invoice.');
-      }
-      const requestedIDs = requestedInvoices.map(c => Number(c.customer_id));
-      if (requestedIDs.some(id => !Number.isSafeInteger(id) || id <= 0)) {
-         throw new Error('Invalid customer selection.');
-      }
-      if (new Set(requestedIDs).size !== requestedIDs.length) {
-         throw new Error('A customer was selected more than once; select each customer once.');
-      }
+      const requestedIDs = validateSelection(req.body.invoiceConfiguration);
+      const sanitizedData = sanitizeFields(req.body.invoiceConfiguration);
+      const { invoicesToCreate: requestedInvoices, invoiceCreationSettings = {} } = sanitizedData;
+      const { isFinalized, isRoughDraft, isCsvOnly, globalInvoiceNote, allowSameDayRebill = false } = invoiceCreationSettings;
+      const owned = await db('customers').where('account_id', accountID).whereIn('customer_id', requestedIDs).select('customer_id');
+      if (owned.length !== requestedIDs.length) throw ruleError('Selected customer was not found in this account.', 404);
       const billingDate = billingDateToday();
       const runID = randomUUID();
 
@@ -312,18 +301,20 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(requireManagerOrAd
       });
       let calculatedInvoices = calculateInvoices(invoicesToCreate, invoiceQueryData);
 
-      // Credit balances cannot be finalized yet: the next cycle would drop the
-      // credit (negative remaining is not carried forward). Skip them with a
-      // reason instead of issuing a statement that loses the customer's money.
+      // A credit is an explicit per-customer choice. Recompute server-side:
+      // a debit that turned negative since the grid was loaded is skipped too.
+      // Preview remains available and writes no ledger entries.
       if (isFinalized) {
          calculatedInvoices = calculatedInvoices.filter(inv => {
-            if (Number.isFinite(Number(inv.invoiceTotal)) && Number(inv.invoiceTotal) >= 0) return true;
+            if (!Number.isFinite(Number(inv.invoiceTotal))) throw new Error('Invalid calculated statement total.');
+            if (Number(inv.invoiceTotal) >= 0 || invoicesToCreateMap[inv.customer_id].includeCreditStatement === true) return true;
             const requested = invoicesToCreateMap[inv.customer_id] || {};
             skippedCustomers.push({
                customer_id: Number(inv.customer_id),
                display_name: requested.display_name || requested.customer_name || null,
                invoice_number: null,
-               reason: `Credit balance of $${Math.abs(Number(inv.invoiceTotal || 0)).toFixed(2)} — record it as a prepayment/retainer or adjust the ledger before finalizing.`
+               code: 'CREDIT_NOT_SELECTED',
+               reason: `Credit balance of $${Math.abs(Number(inv.invoiceTotal)).toFixed(2)} — not selected for a credit statement. Pending activity is unchanged.`
             });
             return false;
          });
@@ -399,10 +390,8 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(requireManagerOrAd
             warnings: ['Billing committed, but the combined download or invoice-list refresh failed. Retrieve the saved individual files from Invoices; do not finalize again.']
          });
       }
-      res.send({
-         message: error.message,
-         status: 500
-      });
+      const status = error.statusCode || (/changed while|another run|another billing run|Nothing was finalized/.test(error.message) ? 409 : 500);
+      res.status(status).send({ message: error.message, status });
    }
 });
 
@@ -449,6 +438,25 @@ invoiceRouter.route('/downloadFile/:accountID/:userID').get(async (req, res) => 
 
          const filename = path.basename(s3Key);
 
+         // Opening an archived invoice is a reprint action, not another money
+         // event. Draft exports have no issued membership and log nothing.
+         try {
+            await db.transaction(async trx => {
+               const archived = await trx('invoice_revisions as r').join('invoice_issues as i', function () {
+                  this.on('i.invoice_id', '=', 'r.invoice_id').andOn('i.account_id', '=', 'r.account_id');
+               }).where('r.account_id', Number(accountID)).where('r.artifact_key', s3Key)
+                  .select('i.customer_id', 'r.invoice_id', 'r.revision');
+               const known = new Set(archived.map(row => row.invoice_id));
+               const legacy = await trx('customer_invoices').where({ account_id:Number(accountID),invoice_file_location:s3Key })
+                  .whereNull('parent_invoice_id').select('customer_id','customer_invoice_id');
+               for (const row of legacy) if (!known.has(row.customer_invoice_id)) archived.push({customer_id:row.customer_id,invoice_id:row.customer_invoice_id,revision:null});
+               if (archived.length) await trx('audit_actions').insert(archived.map(row => ({ account_id:Number(accountID), customer_id:row.customer_id,
+                  action:'invoice_reprint', detail:{invoice_id:row.invoice_id,revision:row.revision,artifact_key:s3Key} })));
+            });
+         } catch (error) {
+            return res.status(500).send({status:500,message:'Unable to record the invoice reprint. Please retry.'});
+         }
+
          if (metadata?.contentType) {
             res.set('Content-Type', metadata.contentType);
          }
@@ -485,7 +493,16 @@ invoiceRouter.route('/getInvoiceDetails/:invoiceID/:accountID/:userID').get(asyn
    // first (a snapshot id used to return nothing and left the stale value).
    const chainRootID = invoiceDetails.parent_invoice_id || Number(invoiceID);
    const currentBalance = await invoiceService.getRemainingInvoiceAmount(db, accountID, chainRootID);
-   if (currentBalance) invoiceDetails.remaining_balance_on_invoice = currentBalance.remaining_balance_on_invoice;
+   invoiceDetails.current_remaining_balance = currentBalance?.remaining_balance_on_invoice ?? invoiceDetails.remaining_balance_on_invoice;
+   const sentHistory = await require('./invoiceExceptions').readHistory(db, Number(accountID), Number(chainRootID));
+   invoiceDetails.sent_locked = sentHistory.sent_locked;
+   invoiceDetails.locked_invoice_number = sentHistory.locked_invoice_number;
+   const frozenContact = sentHistory.issue?.payload?.customerContactInformation;
+   if (frozenContact) {
+      for (const field of ['customer_street','customer_city','customer_state','customer_zip','customer_email','customer_phone']) if (frozenContact[field] !== undefined) invoiceDetails[field] = frozenContact[field];
+      invoiceDetails.customer_name = frozenContact.display_name || invoiceDetails.customer_name;
+   }
+   if (!sentHistory.sent_locked && currentBalance) invoiceDetails.remaining_balance_on_invoice = currentBalance.remaining_balance_on_invoice;
 
    // Payments and write-offs are tagged to the SNAPSHOT row they created, not to
    // the parent — read the whole chain so the Payments / Write-offs tabs are not
@@ -500,8 +517,20 @@ invoiceRouter.route('/getInvoiceDetails/:invoiceID/:accountID/:userID').get(asyn
    const lastBillDate = await invoiceService.getLastInvoiceDatesByCustomerID(db, accountID, [customer_id]);
    // getOutstandingInvoices expects the whole { customer_id: date } map.
    const customerOutstandingInvoices = await invoiceService.getOutstandingInvoices(db, accountID, [customer_id], lastBillDate);
-   const invoiceOutstandingInvoices = customerOutstandingInvoices[customer_id];
+   const invoiceOutstandingInvoices = sentHistory.issue?.payload?.outstandingInvoices?.outstandingInvoiceRecords || customerOutstandingInvoices[customer_id];
 
+   if (sentHistory.issue) {
+      const members = await db('invoice_statement_members').where({ account_id: Number(accountID), invoice_id: Number(chainRootID) });
+      const payload = sentHistory.issue.payload;
+      const displayed = { customer_transactions: payload.transactions?.allTransactionRecords, customer_payments: payload.payments?.allPaymentRecords,
+         customer_writeoffs: payload.writeOffs ? [...new Map([...(payload.writeOffs.allWriteOffRecords || []), ...(payload.writeOffs.writeOffRecords || [])].map(r => [r.writeoff_id,r])).values()] : undefined, customer_retainers_and_prepayments: payload.retainers?.retainerRecords };
+      const snapshots = table => (displayed[table] || members.filter(m => m.table_name === table).map(m => m.snapshot))
+         .map(row => ({ ...row, sent_locked: true, locked_invoice_number: sentHistory.locked_invoice_number }));
+      invoiceTransactions.splice(0, invoiceTransactions.length, ...snapshots('customer_transactions'));
+      invoicePayments.splice(0, invoicePayments.length, ...snapshots('customer_payments'));
+      invoiceWriteoffs.splice(0, invoiceWriteoffs.length, ...snapshots('customer_writeoffs'));
+      invoiceRetainers.splice(0, invoiceRetainers.length, ...snapshots('customer_retainers_and_prepayments'));
+   }
    // create grid objects
    const invoiceTransactionsData = {
       invoiceTransactions,
@@ -519,6 +548,7 @@ invoiceRouter.route('/getInvoiceDetails/:invoiceID/:accountID/:userID').get(asyn
    };
 
    const invoiceRetainersData = {
+      events: sentHistory.issue?.payload?.retainers?.events || [],
       invoiceRetainers,
       grid: createGrid(invoiceRetainers),
       treeGrid: generateTreeGridData(invoiceRetainers, 'retainer_id', 'parent_retainer_id')
@@ -532,6 +562,7 @@ invoiceRouter.route('/getInvoiceDetails/:invoiceID/:accountID/:userID').get(asyn
 
    res.send({
       invoiceDetails,
+      sentHistory,
       invoiceTransactionsData,
       invoicePaymentsData,
       invoiceWriteoffsData,
@@ -587,3 +618,22 @@ invoiceRouter.route('/getInvoicesPaginated/:accountID/:userID').get(async (req, 
       });
    }
 });
+
+// Audited exception workflow. The account param guard and mount role middleware
+// run before these handlers. URL userID is never used as the audit actor.
+const exceptions = require('./invoiceExceptions');
+const exceptionHandler = fn => async (req, res) => {
+   try {
+      const args = { accountId: Number(req.params.accountID), invoiceId: exceptions.id(req.params.invoiceID, 'invoice ID'), actor: Number(req.user.user_id), body: req.body };
+      if (req.params.exceptionID) args.exceptionId = exceptions.id(req.params.exceptionID, 'exception ID');
+      const result = await fn(req.app.get('db'), args, req);
+      return res.status(200).send({ ...result, status: 200 });
+   } catch (err) {
+      const status = err.code === '23505' ? 409 : err.statusCode || (err.code === 'P0409' ? 409 : 500);
+      return res.status(status).send({ status, message: status === 500 ? 'Invoice operation failed. No changes were committed; retry after checking the service.' : err.message, code: err.code });
+   }
+};
+invoiceRouter.get('/:invoiceID/history/:accountID/:userID', exceptionHandler((db, a) => exceptions.readHistory(db, a.accountId, a.invoiceId)));
+invoiceRouter.post('/:invoiceID/exceptions/:accountID/:userID', jsonParser, exceptionHandler(exceptions.flag));
+invoiceRouter.post('/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID', jsonParser, exceptionHandler((db, a) => exceptions.transition(db, { ...a, action: 'reverse' })));
+invoiceRouter.post('/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID', jsonParser, exceptionHandler((db, a) => exceptions.transition(db, { ...a, action: a.body?.action })));

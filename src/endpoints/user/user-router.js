@@ -1,3 +1,4 @@
+const { committedResponse } = require('../../utils/committedResponse');
 const express = require('express');
 const { enforceAccountId, enforceSelfOrPrivileged } = require('../auth/account-scope');
 const userRouter = express.Router();
@@ -84,7 +85,9 @@ userRouter
          userDataTypes.access_level = normalizeAccessLevel(userDataTypes.access_level);
 
          const targetUserID = Number(userDataTypes.user_id);
-         const isSelf = targetUserID === Number(req.user.user_id);
+         const validTargetID = ['string', 'number'].includes(typeof userDataTypes.user_id) &&
+            Number.isSafeInteger(targetUserID) && targetUserID > 0 && targetUserID <= 2147483647;
+         const isSelf = validTargetID && targetUserID === Number(req.user.user_id);
          // is_user_active on the mapped object is `undefined` (not `false`)
          // when the caller omits it, so this only fires on an explicit
          // deactivation, never on an unrelated field edit.
@@ -98,7 +101,12 @@ userRouter
 
          await db.transaction(async trx => {
             await trx('accounts').where({ account_id: Number(accountID) }).forNoKeyUpdate().first();
-            const [currentTarget] = await accountUserService.fetchUser(trx, accountID, targetUserID);
+            const [currentTarget] = validTargetID ? await accountUserService.fetchUser(trx, accountID, targetUserID) : [];
+            if (!currentTarget) {
+               const error = new Error('User not found.');
+               error.status = 404;
+               throw error;
+            }
             const willLoseSuperAdmin = willDeactivate || userDataTypes.access_level !== 'Super Admin';
             await assertNotLastSuperAdmin(trx, accountID, currentTarget, targetUserID, willLoseSuperAdmin);
             await accountUserService.updateUser(trx, userDataTypes, accountID);
@@ -132,8 +140,27 @@ userRouter
 
          await db.transaction(async trx => {
             await trx('accounts').where({ account_id: Number(accountID) }).forNoKeyUpdate().first();
-            const [targetUser] = await accountUserService.fetchUser(trx, accountID, userID);
+            // Keep a concurrently inserted FK reference from slipping between
+            // this history check and DELETE (matched_user_id uses SET NULL).
+            const id = Number(userID);
+            const targetUser = Number.isSafeInteger(id) && id > 0 && id <= 2147483647
+               ? await trx('users').where({ account_id: Number(accountID), user_id: id }).forUpdate().first()
+               : null;
+            if (!targetUser) {
+               const error = new Error('User not found.');
+               error.status = 404;
+               throw error;
+            }
             await assertNotLastSuperAdmin(trx, accountID, targetUser, userID, true);
+            const entry = await trx('timesheet_entries').where({ account_id: Number(accountID) })
+               .andWhere(q => q.where('user_id', id).orWhere('matched_user_id', id)).first();
+            const work = await trx('customer_transactions').where({ account_id: Number(accountID) })
+               .andWhere(q => q.where('logged_for_user_id', id).orWhere('created_by_user_id', id)).first();
+            if (entry || work) {
+               const error = new Error('This user has time entries or work history. Deactivate the user instead to preserve attribution.');
+               error.status = 409;
+               throw error;
+            }
             await accountUserService.deleteUser(trx, userID, accountID);
          });
          await sendUpdatedTableWith200Response(db, res, accountID);
@@ -180,7 +207,7 @@ userRouter
 
 module.exports = userRouter;
 
-const sendUpdatedTableWith200Response = async (db, res, accountID) => {
+const sendUpdatedTableWith200Response = async (db, res, accountID) => committedResponse(res, 'Success', async () => {
    const activeUsers = await accountUserService.getActiveAccountUsers(db, accountID);
 
    const activeUserData = {
@@ -188,9 +215,9 @@ const sendUpdatedTableWith200Response = async (db, res, accountID) => {
       grid: createGrid(activeUsers)
    };
 
-   res.send({
+   return {
       teamMembersList: { activeUserData },
       message: 'Success',
       status: 200
-   });
-};
+   };
+});

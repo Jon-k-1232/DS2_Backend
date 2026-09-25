@@ -1,4 +1,5 @@
 const dayjs = require('dayjs');
+const { committedResponse } = require('../../utils/committedResponse');
 const paymentsService = require('./payments-service');
 const invoiceService = require('../invoice/invoice-service');
 const retainersService = require('../retainer/retainer-service');
@@ -85,7 +86,8 @@ const paidFlags = remaining => {
  * total_payments / total_write_offs are NEGATIVE nets: pass the signed ledger
  * amount being added (a payment of -200 → paymentsDelta -200).
  */
-const applyParentMirror = (trx, accountId, parentInvoiceId, { remaining, paymentsDelta = 0, writeOffsDelta = 0 }) => {
+const applyParentMirror = async (trx, accountId, parentInvoiceId, { remaining, paymentsDelta = 0, writeOffsDelta = 0 }) => {
+   if (await require('../invoice/sentInvoiceLocks').lockNumber(trx, accountId, INVOICES, parentInvoiceId)) return 0;
    const patch = paidFlags(remaining);
    if (round2(paymentsDelta)) patch.total_payments = trx.raw('total_payments + ?', [round2(paymentsDelta)]);
    if (round2(writeOffsDelta)) patch.total_write_offs = trx.raw('total_write_offs + ?', [round2(writeOffsDelta)]);
@@ -203,6 +205,7 @@ const checkIfPaymentIsAttachedToInvoice = async (db, paymentTableFields) => {
 
    const [paymentRecord] = await paymentsService.getSinglePayment(db, payment_id, account_id);
    if (!paymentRecord) throw ruleError('No matching payment record found.', 404);
+   await require('../invoice/sentInvoiceLocks').assertUnlocked(db, account_id, PAYMENTS, paymentRecord.payment_id);
 
    const paymentInvoiceRecord = paymentRecord.customer_invoice_id ? await getInvoiceRow(db, account_id, paymentRecord.customer_invoice_id) : undefined;
    const newestParent = await getNewestParentInvoice(db, account_id, paymentRecord.customer_id);
@@ -303,8 +306,7 @@ const buildLedgerTablesPayload = async (db, accountId) => {
  * @param {*} paymentTableFields
  */
 const returnTablesWithSuccessResponse = async (db, res, paymentTableFields, message) => {
-   const tables = await buildLedgerTablesPayload(db, paymentTableFields.account_id);
-   res.send({ ...tables, message, status: 200 });
+   return committedResponse(res, message, () => buildLedgerTablesPayload(db, paymentTableFields.account_id));
 };
 
 /**
@@ -751,6 +753,11 @@ const planOverpaymentPrepaymentCancel = async (trx, accountId, original) => {
 const applyOverpaymentPrepaymentCancel = async (trx, accountId, original, { prepayment, alreadyCancelled }) => {
    if (alreadyCancelled) return prepayment;
    const patch = { current_amount: 0, is_retainer_active: false, note: appendNoteMarker(prepayment.note, cancelledByReversalMarker(original.payment_id)) };
+   if (await require('../invoice/sentInvoiceLocks').lockNumber(trx, accountId, RETAINERS, prepayment.retainer_id)) {
+      const { retainer_id, created_at, ...copy } = prepayment;
+      const [cancelled] = await trx(RETAINERS).insert({ ...copy, ...patch, parent_retainer_id: prepayment.parent_retainer_id || retainer_id, created_at: ledgerNow(trx) }).returning('*');
+      return cancelled;
+   }
    await trx(RETAINERS).where({ account_id: Number(accountId), retainer_id: prepayment.retainer_id }).update(patch);
    return { ...prepayment, ...patch };
 };
@@ -785,6 +792,11 @@ const planCancelledPrepaymentRestore = async (trx, accountId, reversalRecord) =>
 const applyCancelledPrepaymentRestore = async (trx, accountId, { prepayment, marker }) => {
    const starting = round2(Number(prepayment.starting_amount));
    const patch = { current_amount: starting, is_retainer_active: starting < 0, note: removeNoteMarker(prepayment.note, marker) };
+   if (await require('../invoice/sentInvoiceLocks').lockNumber(trx, accountId, RETAINERS, prepayment.retainer_id)) {
+      const { retainer_id, created_at, ...copy } = prepayment;
+      const [cancelled] = await trx(RETAINERS).insert({ ...copy, ...patch, parent_retainer_id: prepayment.parent_retainer_id || retainer_id, created_at: ledgerNow(trx) }).returning('*');
+      return cancelled;
+   }
    await trx(RETAINERS).where({ account_id: Number(accountId), retainer_id: prepayment.retainer_id }).update(patch);
    return { ...prepayment, ...patch };
 };
@@ -1009,7 +1021,7 @@ const updatePaymentCore = (db, { accountId, paymentFields }) =>
  *
  * Returns `{ message, reversalFields, reversal, cancelledPrepayment }`.
  */
-const reversePayment = async (db, { accountId, userId, paymentId, reason }) => {
+const reversePayment = async (db, { accountId, userId, paymentId, reason, exceptionId = null }) => {
    if (!paymentId) throw ruleError('No payment ID provided for the reversal.', 400);
    // The reason is embedded in both notes; it must not smuggle in link markers.
    const cleanReason = String(stripLinkMarkers(reason || '') || '').trim();
@@ -1021,6 +1033,12 @@ const reversePayment = async (db, { accountId, userId, paymentId, reason }) => {
       await lockCustomerLedgerForRow(trx, accountId, PAYMENTS, 'payment_id', paymentId, 'No matching payment record found.');
       const [original] = await paymentsService.getSinglePayment(trx, paymentId, accountId);
 
+      const sentNumber = await require('../invoice/sentInvoiceLocks').lockNumber(trx, accountId, PAYMENTS, paymentId);
+      if (sentNumber) {
+         const grant = exceptionId && await trx('invoice_exception_payments as ep').join('invoice_exceptions as e', 'e.exception_id', 'ep.exception_id')
+            .where({ 'ep.account_id': Number(accountId), 'ep.exception_id': Number(exceptionId), 'ep.payment_id': Number(paymentId), 'e.state': 'flagged', 'e.condition': 'bounced_check' }).whereNull('ep.reversal_id').first();
+         if (!grant) throw ruleError(`locked: part of sent invoice ${sentNumber}`, 409, 'SENT_INVOICE_LOCKED');
+      }
       if (Number(original.payment_amount) >= 0) throw ruleError('This entry is already a reversal and cannot be reversed.');
       if ((original.note || '').includes('[reversed ')) throw ruleError('This payment has already been reversed.');
       // The note marker can be edited away; the reversal row cannot.
@@ -1065,7 +1083,7 @@ const reversePayment = async (db, { accountId, userId, paymentId, reason }) => {
       const cancelledPrepayment = prepaymentPlan ? await applyOverpaymentPrepaymentCancel(trx, accountId, original, prepaymentPlan) : null;
 
       // Cross-annotate the original so it can't be reversed twice.
-      await paymentsService.updatePayment(
+      if (!sentNumber) await paymentsService.updatePayment(
          trx,
          { payment_id: paymentId, note: `${original.note ? `${original.note} ` : ''}[reversed ${new Date().toISOString().slice(0, 10)}: ${cleanReason}]` },
          accountId

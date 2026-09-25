@@ -832,12 +832,13 @@ describe('integration: coverage — account / user / auth / notifications / heal
          expect(after.access_level).to.equal(before.access_level);
       });
 
-      it('not-found: updating a nonexistent userID silently no-ops with 200 (GAP — no 404/affected-row check)', async () => {
+      it('not-found: updating a nonexistent userID returns404 without changing users', async () => {
+         const before = await db('users').where({ account_id: A }).orderBy('user_id');
          const res = await withToken(superToken).put(`/user/updateUser/${A}/${SUPER_ID}`).send({ user: targetBody({ userID: 90969999 }) });
-         expect(res.status).to.equal(200);
-         expect(res.body.status).to.equal(200);
-         const ghost = await db('users').where({ user_id: 90969999, account_id: A }).first();
-         expect(ghost, 'no row should have been created for the nonexistent target').to.not.exist;
+         expect(res.status).to.equal(404);
+         expect(res.body.status).to.equal(404);
+         expect(res.body.message).to.equal('User not found.');
+         expect(await db('users').where({ account_id: A }).orderBy('user_id')).to.deep.equal(before);
       });
 
       itRejectsUnauthenticated('put', () => `/user/updateUser/${A}/${SUPER_ID}`);
@@ -867,10 +868,13 @@ describe('integration: coverage — account / user / auth / notifications / heal
          expect(row, 'target user must be gone').to.not.exist;
       });
 
-      it('not-found: deleting a nonexistent userID silently no-ops with 200 (GAP — no 404)', async () => {
+      it('not-found: deleting a nonexistent userID returns404 without changing users', async () => {
+         const before = await db('users').where({ account_id: A }).orderBy('user_id');
          const res = await withToken(superToken).delete(`/user/deleteUser/${A}/90969998`);
-         expect(res.status).to.equal(200);
-         expect(res.body.status).to.equal(200);
+         expect(res.status).to.equal(404);
+         expect(res.body.status).to.equal(404);
+         expect(res.body.message).to.equal('User not found.');
+         expect(await db('users').where({ account_id: A }).orderBy('user_id')).to.deep.equal(before);
       });
 
       itRejectsUnauthenticated('delete', () => `/user/deleteUser/${A}/90969997`);

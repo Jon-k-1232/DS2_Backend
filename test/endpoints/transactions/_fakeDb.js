@@ -257,7 +257,15 @@ const buildFakeDb = (initialTables = {}) => {
       ['select', 'insert', 'update', 'delete', 'del', 'where', 'whereIn'].forEach(method => {
          handle[method] = (...args) => builder(undefined)[method](...args);
       });
-      handle.raw = (sql, bindings) => ({ __raw: sql, bindings });
+      handle.raw = (sql, bindings) => {
+         if (/SELECT ds2_locked_invoice/.test(sql)) {
+            const [table, rid, aid] = bindings;
+            const member = (store.invoice_statement_members || []).find(m => m.table_name === table && m.record_id === rid && m.account_id === aid);
+            const issue = member && (store.invoice_issues || []).find(i => i.invoice_id === member.invoice_id && i.account_id === aid);
+            return Promise.resolve({ rows: [{ number: issue?.invoice_number || null }] });
+         }
+         return { __raw: sql, bindings };
+      };
       handle.ref = column => ({ [REF]: true, column });
       handle._store = store;
       handle.isTransaction = isTransaction;

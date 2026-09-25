@@ -2,8 +2,12 @@ const { bootHttp, uniqueName } = require('./_http');
 const service = require('../../src/endpoints/user/user-service');
 
 describe('F29 active Super Admin guards', function () {
-   let h, users = [], actor;
-   before(async function () { h = await bootHttp.call(this); });
+   let h, users = [], actor, priorSuperAdmins = [];
+   before(async function () {
+      h = await bootHttp.call(this);
+      priorSuperAdmins = await h.db('users').where({account_id:9001}).whereRaw("lower(access_level)='super admin'").select('user_id','access_level');
+      if(priorSuperAdmins.length) await h.db('users').where({account_id:9001}).whereIn('user_id',priorSuperAdmins.map(u=>u.user_id)).update({access_level:'Admin'});
+   });
    const add = async () => {
       const name = uniqueName('F29');
       const [u] = await h.db('users').insert({ account_id: 9001, email: `${name}@example.test`, display_name: name,
@@ -12,7 +16,12 @@ describe('F29 active Super Admin guards', function () {
    };
    beforeEach(async () => { actor = await add(); });
    afterEach(async () => { await h.db('users').where({ account_id: 9001 }).whereIn('user_id', users).del(); users = []; });
-   after(async () => { if (h) await h.close(); });
+   after(async () => {
+      if(h) {
+         for(const u of priorSuperAdmins) await h.db('users').where({account_id:9001,user_id:u.user_id}).update({access_level:u.access_level});
+         await h.close();
+      }
+   });
    const update = (u, fields) => h.request.put(`/user/updateUser/9001/${u.user_id}`)
       .set('Authorization', `Bearer ${h.mint('admin', u)}`).send({ user: { userID: u.user_id, accessLevel: 'Super Admin', ...fields } });
    for (const value of ['false', 'true', 0, 1, null]) it(`rejects nonboolean active value ${JSON.stringify(value)} before writing`, async () => {
@@ -41,7 +50,7 @@ describe('F29 active Super Admin guards', function () {
          second = update(other, { accessLevel: 'Admin' }).then(r => r);
          let observed = false;
          for (let i = 0; i < 100 && !observed; i++) {
-            const { rows } = await h.db.raw("SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND pid<>pg_backend_pid() AND wait_event_type='Lock' AND query ILIKE '%accounts%'");
+            const { rows } = await h.db.raw("SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND pid<>pg_backend_pid() AND wait_event_type='Lock' AND (query ILIKE '%accounts%' OR query ILIKE '%pg_advisory_xact_lock%')");
             observed = calls > 1 || rows.length > 0;
             if (!observed) await new Promise(r => setTimeout(r, 20));
          }

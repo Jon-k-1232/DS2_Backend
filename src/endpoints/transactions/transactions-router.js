@@ -1,3 +1,4 @@
+const { committedResponse } = require('../../utils/committedResponse');
 const express = require('express');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
@@ -57,7 +58,11 @@ transactionsRouter.route('/createTransaction/:accountID/:userID').post(jsonParse
       // in the body is caller-supplied and would make the audit trail spoofable.
       sanitizedNewTransaction.loggedByUserID = Number(req.user.user_id);
 
-      await addNewTransaction(db, sanitizedNewTransaction);
+      await require('../payments/ledger-helpers').withTransaction(db, async trx => {
+         await require('../../utils/ledgerAction').actionContext(trx, Number(req.user.user_id), 'Manual transaction entry');
+         const row = await addNewTransaction(trx, sanitizedNewTransaction);
+         await require('../duplicates/duplicates-service').detectCreated(trx, 'transaction', row, Number(req.user.user_id));
+      });
 
       return sendUpdatedTableWith200Response(db, res, accountID);
    } catch (err) {
@@ -221,7 +226,7 @@ transactionsRouter.route('/fetchEmployeeTransactions/:startDate/:endDate/:accoun
       const userTime = fetchUserTime(activeUsers, transactions, 'Time');
       // const userChargeCount = fetchUserTime(activeUsers, transactions, 'Charge');
 
-      return sendUpdatedTableWith200Response(db, res, accountID, { userTime });
+      return await sendUpdatedTableWith200Response(db, res, accountID, { userTime }, false);
    } catch (err) {
       console.log(err);
       res.send({
@@ -262,40 +267,43 @@ async function buildActiveTransactionsList(db, accountID, { page = 1, limit = DE
    };
 }
 
-const sendUpdatedTableWith200Response = async (db, res, accountID, additionalItems = {}) => {
-   const [transactionsList, activeRetainers, activeJobs, activePayments] = await Promise.all([
-      buildActiveTransactionsList(db, accountID),
-      retainerService.getActiveRetainers(db, accountID),
-      jobService.getActiveJobs(db, accountID),
-      paymentsService.getActivePayments(db, accountID)
-   ]);
+const sendUpdatedTableWith200Response = async (db, res, accountID, additionalItems = {}, afterCommit = true) => {
+   const loadTables = async () => {
+      const [transactionsList, activeRetainers, activeJobs, activePayments] = await Promise.all([
+         buildActiveTransactionsList(db, accountID),
+         retainerService.getActiveRetainers(db, accountID),
+         jobService.getActiveJobs(db, accountID),
+         paymentsService.getActivePayments(db, accountID)
+      ]);
 
-   const activePaymentsData = {
-      activePayments,
-      grid: createGrid(activePayments)
+      const activePaymentsData = {
+         activePayments,
+         grid: createGrid(activePayments)
+      };
+
+      const activeRetainerData = {
+         activeRetainers,
+         grid: createGrid(activeRetainers),
+         treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
+      };
+
+      const activeJobData = {
+         activeJobs,
+         grid: createGrid(activeJobs),
+         treeGrid: generateTreeGridData(activeJobs, 'customer_job_id', 'parent_job_id')
+      };
+
+      return {
+         ...additionalItems,
+         transactionsList,
+         accountRetainersList: { activeRetainerData },
+         accountJobsList: { activeJobData },
+         paymentsList: { activePaymentsData },
+         message: 'Successful.',
+         status: 200
+      };
    };
-
-   const activeRetainerData = {
-      activeRetainers,
-      grid: createGrid(activeRetainers),
-      treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
-   };
-
-   const activeJobData = {
-      activeJobs,
-      grid: createGrid(activeJobs),
-      treeGrid: generateTreeGridData(activeJobs, 'customer_job_id', 'parent_job_id')
-   };
-
-   res.send({
-      ...additionalItems,
-      transactionsList,
-      accountRetainersList: { activeRetainerData },
-      accountJobsList: { activeJobData },
-      paymentsList: { activePaymentsData },
-      message: 'Successful.',
-      status: 200
-   });
+   return afterCommit ? committedResponse(res, 'Successful.', loadTables) : res.send(await loadTables());
 };
 
 // Cells go through the shared csv-util: user-entered text that a spreadsheet

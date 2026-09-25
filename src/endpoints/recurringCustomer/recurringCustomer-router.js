@@ -1,3 +1,4 @@
+const { committedResponse } = require('../../utils/committedResponse');
 const { lockCustomerLedger } = require('../payments/ledger-helpers');
 const { requireAccountRow } = require('../../utils/relatedAccount');
 const express = require('express');
@@ -45,17 +46,19 @@ recurringCustomerRouter.route('/createRecurringCustomer/:accountID/:userID').pos
       await recurringCustomerService.createRecurringCustomer(trx, recurringCustomerTableFields);
    });
    // Get all recurring customers
-   const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, accountID);
+   return committedResponse(res, 'Successfully created new recurring customer.', async () => {
+      const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, accountID);
 
-   const activeRecurringCustomersData = {
-      activeRecurringCustomers,
-      grid: createGrid(activeRecurringCustomers)
-   };
+      const activeRecurringCustomersData = {
+         activeRecurringCustomers,
+         grid: createGrid(activeRecurringCustomers)
+      };
 
-   res.send({
-      recurringCustomersList: { activeRecurringCustomersData },
-      message: 'Successfully created new recurring customer.',
-      status: 200
+      return {
+         recurringCustomersList: { activeRecurringCustomersData },
+         message: 'Successfully created new recurring customer.',
+         status: 200
+      };
    });
 });
 
@@ -112,20 +115,22 @@ recurringCustomerRouter.route('/updateRecurringCustomer').put(jsonParser, async 
    await recurringCustomerService.updateRecurringCustomer(db, recurringCustomerTableFields);
 
    // Get all recurring customers
-   const recurringCustomersData = await recurringCustomerService.getActiveRecurringCustomers(db, recurringCustomerTableFields.account_id);
+   return committedResponse(res, 'Successfully updated recurring customer.', async () => {
+      const recurringCustomersData = await recurringCustomerService.getActiveRecurringCustomers(db, recurringCustomerTableFields.account_id);
 
-   // Create grid for Mui Grid
-   const grid = createGrid(recurringCustomersData);
+      // Create grid for Mui Grid
+      const grid = createGrid(recurringCustomersData);
 
-   const recurringCustomer = {
-      recurringCustomersData,
-      grid
-   };
+      const recurringCustomer = {
+         recurringCustomersData,
+         grid
+      };
 
-   res.send({
-      recurringCustomer,
-      message: 'Successfully updated recurring customer.',
-      status: 200
+      return {
+         recurringCustomer,
+         message: 'Successfully updated recurring customer.',
+         status: 200
+      };
    });
 });
 
@@ -152,20 +157,22 @@ recurringCustomerRouter.route('/deleteRecurringCustomer/:accountID/:recurringCus
    });
 
    // Get all recurring customers
-   const recurringCustomersData = await recurringCustomerService.getActiveRecurringCustomers(db, accountID);
+   return committedResponse(res, 'Successfully deleted recurring customer.', async () => {
+      const recurringCustomersData = await recurringCustomerService.getActiveRecurringCustomers(db, accountID);
 
-   // Create grid for Mui Grid
-   const grid = createGrid(recurringCustomersData);
+      // Create grid for Mui Grid
+      const grid = createGrid(recurringCustomersData);
 
-   const recurringCustomer = {
-      recurringCustomersData,
-      grid
-   };
+      const recurringCustomer = {
+         recurringCustomersData,
+         grid
+      };
 
-   res.send({
-      recurringCustomer,
-      message: 'Successfully deleted recurring customer.',
-      status: 200
+      return {
+         recurringCustomer,
+         message: 'Successfully deleted recurring customer.',
+         status: 200
+      };
    });
 });
 

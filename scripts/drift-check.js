@@ -33,15 +33,16 @@ const runEngine = async ids => {
 };
 
 const runAudit = async customerId => {
-  const [customer, invoices, payments, writeoffs, transactions, retainers] = await Promise.all([
+  const [customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents] = await Promise.all([
     auditSvc.getCustomer(knex, ACCOUNT_ID, customerId),
     auditSvc.getInvoices(knex, ACCOUNT_ID, customerId),
     auditSvc.getPayments(knex, ACCOUNT_ID, customerId),
     auditSvc.getWriteoffs(knex, ACCOUNT_ID, customerId),
     auditSvc.getTransactions(knex, ACCOUNT_ID, customerId),
-    auditSvc.getRetainers(knex, ACCOUNT_ID, customerId)
+    auditSvc.getRetainers(knex, ACCOUNT_ID, customerId),
+    auditSvc.getRetainerEvents(knex, ACCOUNT_ID, customerId)
   ]);
-  return auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers });
+  return auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents });
 };
 
 (async () => {

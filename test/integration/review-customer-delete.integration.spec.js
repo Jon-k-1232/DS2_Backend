@@ -37,10 +37,11 @@ describe('F24/F25 customer deletion integrity', function () {
          writer = h.as('admin').post('/jobs/createJob/9001/90013').send({ job: { customerID: c.customer_id, jobTypeID: 900201, quoteAmount: 0 } }).then(r => r);
          await enteredPromise;
          deletion = remove(c).then(r => r);
-         // Observe the second connection actually waiting for the customer's lock.
+         // Observe the second connection waiting for the writer's account or
+         // customer lock (auditContext takes the account lock first).
          let waiting = false;
          for (let i = 0; i < 100 && !waiting; i++) {
-            const { rows } = await h.db.raw("SELECT 1 FROM pg_stat_activity WHERE datname = current_database() AND pid <> pg_backend_pid() AND wait_event_type = 'Lock' AND query ILIKE '%customers%'");
+            const { rows } = await h.db.raw("SELECT 1 FROM pg_stat_activity WHERE datname = current_database() AND pid <> pg_backend_pid() AND wait_event_type = 'Lock' AND (query ILIKE '%customers%' OR query ILIKE '%pg_advisory_xact_lock%')");
             waiting = rows.length > 0;
             if (!waiting) await new Promise(r => setTimeout(r, 20));
          }

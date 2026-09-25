@@ -13,6 +13,8 @@ const _statusCodeForCascadeError = code => {
    switch (code) {
       case ERRORS.NOT_FOUND:
          return 404;
+      case 'SENT_INVOICE_LOCKED':
+      case 'P0409':
       case ERRORS.INVOICE_LOCKED:
       case ERRORS.DATE_OUTSIDE_INVOICE:
       case ERRORS.RETAINER_NOT_EDITABLE_HERE:
@@ -34,7 +36,9 @@ const SERVICE_ERROR_STATUS = Object.freeze({
    MISSING_FIELD: 400,
    INVALID_FIELD: 400,
    BAD_MODE: 400,
-   ENTRY_ALREADY_APPLIED: 409
+   ENTRY_ALREADY_APPLIED: 409,
+   SENT_INVOICE_LOCKED: 409,
+   P0409: 409
 });
 
 // Known (coded) errors carry messages we wrote for the reviewer; anything else

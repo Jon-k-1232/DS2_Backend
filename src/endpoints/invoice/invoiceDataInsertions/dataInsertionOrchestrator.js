@@ -12,7 +12,7 @@ const round2 = n => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
  *
  * Order of operations (deliberate):
  *   1. Validate every new parent object and the batch itself (one row per
- *      customer, finite non-negative totals) BEFORE any side effect.
+ *      customer, finite signed totals and explicit credit selection) BEFORE any side effect.
  *   2. Save the PDFs to S3 under a per-run, per-customer key — outside the DB
  *      transaction, so an S3 failure never leaves half-written ledger rows and a
  *      DB failure never leaves ledger rows pointing at missing files.
@@ -50,7 +50,7 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
    invoicesWithDetail.forEach(invoice => {
       const total = Number(invoice.invoiceTotal);
       if (!Number.isFinite(total)) throw new Error(`Invoice total for customer ${invoice.customer_id} is not a number.`);
-      if (total < 0) throw new Error(`Customer ${invoice.customer_id} has a credit balance (${total.toFixed(2)}); record it as a prepayment or adjust the ledger before finalizing.`);
+      if (total < 0 && invoice.includeCreditStatement !== true) throw new Error(`Customer ${invoice.customer_id} has a credit balance; explicitly select this credit statement before finalizing.`);
    });
 
    const stampPlan = invoicesWithDetail.map(buildStampPlan);
@@ -68,6 +68,7 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
 
    // ---- 3. commit --------------------------------------------------------------
    return db.transaction(async trx => {
+      await require('../../../utils/ledgerAction').actionContext(trx, userID, options.reason || 'Finalize selected statements (sent and locked).');
       await trx('accounts').where('account_id', accountID).forNoKeyUpdate();
       for (const customerID of [...customerIDs].sort((a, b) => a - b)) {
          await trx('customers').where({ account_id: accountID, customer_id: customerID }).forNoKeyUpdate();
@@ -96,6 +97,8 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
 
       const createdParents = [];
       for (const invoice of newCustomerInvoices) {
+         const detail = invoicesWithDetail.find(i => Number(i.customer_id) === Number(invoice.customer_id));
+         await require('../../../utils/ledgerAction').actionContext(trx, userID, detail.issueReason || 'Finalize selected statement (sent and locked).');
          createdParents.push(await invoiceService.createInvoice(trx, invoice));
       }
       const parentByCustomer = createdParents.reduce((acc, parent) => ({ ...acc, [parent.customer_id]: parent }), {});
@@ -103,6 +106,8 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
       const stamped = [];
       for (const plan of stampPlan) {
          const parent = parentByCustomer[plan.customer_id];
+         const detail = invoicesWithDetail.find(i => Number(i.customer_id) === Number(plan.customer_id));
+         await require('../../../utils/ledgerAction').actionContext(trx, userID, detail.issueReason || 'Finalize selected statement (sent and locked).');
          if (!parent) throw new Error(`Parent statement missing for customer ${plan.customer_id}.`);
 
          // Absorb exactly the chains whose remaining became this beginning_balance.
@@ -132,6 +137,7 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
                throw new Error(`Customer ${plan.customer_id}: a payment on the statement was changed by another run. Nothing was finalized — re-run Create Invoice.`);
             }
          }
+         await require('../sentInvoiceLocks').captureIssue(trx, parent, invoicesWithDetail.find(i => Number(i.customer_id) === Number(parent.customer_id)), Number(userID));
          stamped.push({
             customer_id: plan.customer_id,
             customer_invoice_id: parent.customer_invoice_id,

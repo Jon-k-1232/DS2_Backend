@@ -5,6 +5,7 @@ require('dotenv').config();
 // forgets try/catch throws an unhandled rejection on Node 20 and crashes the
 // process instead of hitting the error-handling middleware below.
 require('express-async-errors');
+const auditContext = require('./utils/auditContext');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -68,6 +69,7 @@ app.use(helmet());
 // can approach that ceiling; raise it so legitimate large payloads aren't
 // rejected with a 413 mid-billing-run.
 app.use(express.json({ limit: '1mb' }));
+app.use(auditContext.middleware);
 const corsOrigins = (CORS_ORIGIN || '').split(',').map(s => s.trim()).filter(Boolean);
 app.use(
    cors({
@@ -118,6 +120,7 @@ const expensiveLimiter = rateLimit({
 });
 
 app.use(apiLimiter);
+app.use(require('./endpoints/invoice/sentInvoiceLocks').lockResponseMiddleware);
 app.use('/auth', authLimiter, authentication);
 app.use('/customer', requireAuth, customerRouter);
 // The frontend wraps /transactions/*, /jobs/*, /customers/*, /invoices/* in
@@ -142,6 +145,7 @@ app.use('/jobTypes', requireAuth, requireManagerOrAdmin, jobTypeRouter);
 app.use('/quotes', requireAuth, requireManagerOrAdmin, quotesRouter);
 app.use('/payments', requireAuth, requireManagerOrAdmin, paymentsRouter);
 app.use('/recurringCustomer', requireAuth, recurringCustomerRouter);
+app.use('/duplicates', requireAuth, requireManagerOrAdmin, require('./endpoints/duplicates/duplicates-router'));
 app.use('/retainers', requireAuth, requireManagerOrAdmin, retainerRouter);
 app.use('/writeOffs', requireAuth, requireManagerOrAdmin, writeOffsRouter);
 app.use('/initialData', requireAuth, initialDataRouter);
@@ -163,6 +167,8 @@ app.use('/notifications', requireAuth, notificationsRouter);
 // internally (checked while reviewing this mount) — matches the frontend's
 // AuditorProtectedAccessRoute (super-admin only), so no change needed here.
 app.use('/accountAudit', requireAuth, limitMutationsOnly, accountAuditRouter);
+// Deterministic hard record: Admin and Super Admin only. Separate from AI Audit.
+app.use('/auditRecord', requireAuth, require('./endpoints/auditRecord/audit-record-router'));
 // Accounts Receivable lives under /invoices/accountsReceivable in the frontend,
 // inside the same ManagerAndAdminProtectedAccessRoute wrapper as the rest of
 // the Invoices section.
@@ -176,7 +182,8 @@ if (NODE_ENV !== 'test') {
 
 /* ///////////////////////////\\\\  ERROR HANDLER  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 app.use((err, req, res, next) => {
-   const statusCode = err.status || 500;
+   const statusCode = err.code === 'P0409' ? 409 : (err.statusCode || err.status || 500);
+   if (err.code === 'P0409' || err.code === 'SENT_INVOICE_LOCKED') return res.status(409).send({ message: err.message, status: 409, code: 'SENT_INVOICE_LOCKED' });
    const errorMessage = NODE_ENV === 'production' ? 'Server error' : err.message;
 
    if (NODE_ENV === 'production') {

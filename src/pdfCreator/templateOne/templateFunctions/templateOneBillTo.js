@@ -18,7 +18,7 @@ const createBillToSection = (doc, invoiceDetails, preferenceSettings) => {
       .text(`${customer_city}, ${customer_state} ${customer_zip}`, 120, headerHeight + 155)
       .text(customer_phone, 120, headerHeight + 175)
       .text(`Statement Date:     ${statementDate}`, alignRight(`Payment Due Date: ${dueDate}`, +3), headerHeight + 115)
-      .text(`Payment Due Date:     ${dueDate}`, alignRight(`Payment Due Date:      ${dueDate}`, +3), headerHeight + 135);
+      .text(Number(invoiceDetails.invoiceTotal) < 0 ? 'No payment due — credit carries forward' : `Payment Due Date:     ${dueDate}`, alignRight(Number(invoiceDetails.invoiceTotal) < 0 ? 'No payment due — credit carries forward' : `Payment Due Date:      ${dueDate}`, +3), headerHeight + 135);
 };
 
 module.exports = { createBillToSection };

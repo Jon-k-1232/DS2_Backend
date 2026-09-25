@@ -45,43 +45,16 @@ const isSameOrBefore = (date1, date2) => dayjs(date1).isBefore(dayjs(date2)) || 
  * @param {*} customerWriteOffRecords
  * @returns [{object}]
  */
-const filterInvoices = (customerOutstandingInvoices, customerPayments, customersLastInvoiceDate, customerWriteOffRecords) => {
-   const discardedGroups = new Set();
-
-   const invoices = customerOutstandingInvoices.reduce((prev, invoice) => {
-      const { invoice_number, invoice_date, remaining_balance_on_invoice, is_invoice_paid_in_full, fully_paid_date, customer_invoice_id } = invoice;
-
-      // Check if this invoice has a payment after the last invoice date, this ensures if an invoice is paid off, it will show on the same bill as the payment made.
-      const invoiceHasPayment = customerPayments.some(payment => payment.invoice_number === invoice_number);
-      const invoiceHasWriteOff = customerWriteOffRecords.some(writeOff => writeOff.customer_invoice_id === customer_invoice_id);
-
-      // Note: Added checking for if a writeoff has invoice as an error occurred when a writeoff was made to an invoice.
-
-      // Check for conditions to discard this group of invoices
-      if (!invoiceHasPayment && !invoiceHasWriteOff && (is_invoice_paid_in_full || fully_paid_date || Number(remaining_balance_on_invoice) === 0)) {
-         discardedGroups.add(invoice_number);
-      }
-
-      // Validate conditions to consider this invoice.
-      // Use invoice_date (the formal billing date) rather than created_at so that invoices whose DB row
-      // was committed after midnight (batch timezone offset) are not incorrectly excluded.
-      const isValidByDate = isSameOrBefore(invoice_date, customersLastInvoiceDate);
-      const hasPositiveBalance = Number(remaining_balance_on_invoice) > 0;
-
-      if (isValidByDate && hasPositiveBalance && !discardedGroups.has(invoice_number)) {
-         // Check if we already have an invoice with this number — keep the most recently dated one
-         const existingInvoice = prev[invoice_number];
-
-         if (!existingInvoice || dayjs(invoice_date).isAfter(dayjs(existingInvoice.invoice_date))) {
-            prev[invoice_number] = invoice;
-         }
-      }
-
-      return prev;
-   }, {});
-
-   // Filter out discarded groups
-   const filteredInvoices = Object.values(invoices).filter(invoice => !discardedGroups.has(invoice.invoice_number));
-
-   return filteredInvoices;
+const filterInvoices = (rows, customerPayments, lastInvoiceDate) => {
+   // Service orders each chain latest snapshot first, then older snapshots and
+   // its parent. Historical paid flags must never discard a reopened/credit
+   // latest snapshot. The latest row alone is authoritative, for either sign.
+   const latest = new Map();
+   for (const row of rows) {
+      if (!latest.has(row.invoice_number)) latest.set(row.invoice_number, row);
+   }
+   return [...latest.values()].filter(row =>
+      isSameOrBefore(row.invoice_date, lastInvoiceDate) &&
+      Number(row.remaining_balance_on_invoice) !== 0 &&
+      !/absorbed_by:/.test(row.notes || ''));
 };

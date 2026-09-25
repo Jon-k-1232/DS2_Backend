@@ -99,7 +99,7 @@ describe('account-audit-service — exact created_at', () => {
    it('selects created_at::text AS created_at_exact for invoices, payments and write-offs', () => {
       ['getInvoices', 'getPayments', 'getWriteoffs'].forEach(fn => {
          const { sql } = accountAuditService[fn](pg, 1, CID).toSQL();
-         expect(sql, fn).to.match(/^select \*, created_at::text AS created_at_exact from /);
+         expect(sql, fn).to.match(/^select \*, created_at::text AS created_at_exact(?:, .* AS sent_locked)? from /);
       });
    });
 });

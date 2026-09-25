@@ -348,6 +348,17 @@ const invoiceService = {
       }, {});
    },
 
+   async getRetainerEventsByCustomerID(db, accountID, customerIDs, markers) {
+      if (!customerIDs.length) return {};
+      const rows = await db('retainer_events').where({ account_id: Number(accountID) }).where(builder => {
+         customerIDs.forEach(id => builder.orWhere(q => {
+            q.where('customer_id', Number(id));
+            applyLastBillGate(q, 'retainer_events.created_at', markers[id]);
+         }));
+      }).orderBy('event_id');
+      return rows.reduce((out,row) => { (out[row.customer_id] ||= []).push(row); return out; },{});
+   },
+
    async getRetainersByCustomerID(db, accountID, customerIDs, lastBillDateLookup) {
       // created_at_exact (timestamp as text) keeps Postgres' microseconds so the
       // engine picks each chain's TRUE latest snapshot (retainerCalculations);
@@ -423,7 +434,7 @@ const invoiceService = {
          }
 
          // Include parent invoices that do not have children and have a remaining balance
-         if (Number(parentInvoice.remaining_balance_on_invoice) > 0 && !children.length) {
+         if (Number(parentInvoice.remaining_balance_on_invoice) !== 0 && !children.length) {
             outstandingInvoices[parentInvoice.customer_id].push(parentInvoice);
             return;
          }
@@ -437,7 +448,7 @@ const invoiceService = {
          }
 
          // Include parent invoices along with all their children where at least one of the children still has a remaining balance
-         if (children.some(child => Number(child.remaining_balance_on_invoice) > 0)) {
+         if (children.some(child => Number(child.remaining_balance_on_invoice) !== 0)) {
             outstandingInvoices[parentInvoice.customer_id].push(...children, parentInvoice);
             return;
          }
@@ -502,13 +513,13 @@ const invoiceService = {
     * so the audit engine can tell deliberate absorption from ledger drift. This
     * also covers an explicitly allowed same-day re-bill (the first statement of
     * the day is absorbed by the second instead of being summed with it).
-    * Negative remainders (credit memos) are left alone — they were never absorbed
-    * into the new beginning_balance.
+    * Selected credit statements carry negative remainders too; exact chain IDs
+    * close either sign once while preserving immutable sent rows.
     *
     * @param newParent  the freshly inserted parent row (customer_invoice_id,
     *                   invoice_number, invoice_date, created_at)
     */
-   zeroOutAbsorbedInvoices(db, accountID, customerID, newParent, absorbedRootIDs) {
+   async zeroOutAbsorbedInvoices(db, accountID, customerID, newParent, absorbedRootIDs) {
       const { customer_invoice_id: newParentID, invoice_number, invoice_date } = newParent;
       // invoice_date arrives as a JS Date from `returning('*')` (node-postgres parses
       // DATE to local midnight) or as 'YYYY-MM-DD' from a plain object.
@@ -533,7 +544,21 @@ const invoiceService = {
             .andWhere('remaining_balance_on_invoice', '>', 0);
       }
 
-      return query.update({
+      const candidates = await query.clone().select('*');
+      const roots = [...new Set(candidates.map(r => r.parent_invoice_id || r.customer_invoice_id))];
+      const frozen = [];
+      for (const root of roots) {
+         if (await require('./sentInvoiceLocks').lockNumber(db, accountID, 'customer_invoices', root)) {
+            frozen.push(root);
+            const latest = await db('customer_invoices').where({ account_id: accountID }).where(q => q.where('customer_invoice_id', root).orWhere('parent_invoice_id', root))
+               .orderBy('created_at', 'desc').orderBy('customer_invoice_id', 'desc').first();
+            const { customer_invoice_id, created_at, ...copy } = latest;
+            await db('customer_invoices').insert({ ...copy, parent_invoice_id: root, remaining_balance_on_invoice: 0,
+               is_invoice_paid_in_full: true, fully_paid_date: newParent.invoice_date, notes: marker, created_at: db.raw('clock_timestamp()') });
+         }
+      }
+      if (frozen.length) query.whereNotIn(db.raw('COALESCE(parent_invoice_id, customer_invoice_id)'), frozen);
+      return frozen.length + await query.update({
          remaining_balance_on_invoice: 0,
          notes: db.raw(`CASE WHEN notes IS NULL OR notes = '' THEN ? ELSE notes || ' ' || ? END`, [marker, marker])
       });
@@ -583,15 +608,16 @@ const invoiceService = {
          const rows = await query;
          return rows.reduce((acc, r) => ({ ...acc, [r.customer_id]: r.fp }), {});
       };
-      const [payments, writeOffs, invoices, unbilled, retainers] = await Promise.all([
+      const [payments, writeOffs, invoices, unbilled, retainers, events] = await Promise.all([
          q('customer_payments', 'payment_id'),
          q('customer_writeoffs', 'writeoff_id'),
          q('customer_invoices', 'customer_invoice_id'),
          q('customer_transactions', 'transaction_id', query => query.whereNull('ledger.customer_invoice_id')),
-         q('customer_retainers_and_prepayments', 'retainer_id')
+         q('customer_retainers_and_prepayments', 'retainer_id'),
+         q('retainer_events', 'event_id')
       ]);
       return ids.reduce(
-         (acc, id) => ({ ...acc, [id]: [payments[id] || '0', writeOffs[id] || '0', invoices[id] || '0', unbilled[id] || '0', retainers[id] || '0'].join('/') }),
+         (acc, id) => ({ ...acc, [id]: [payments[id] || '0', writeOffs[id] || '0', invoices[id] || '0', unbilled[id] || '0', retainers[id] || '0', events[id] || '0'].join('/') }),
          {}
       );
    },

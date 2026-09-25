@@ -80,7 +80,15 @@ const buildStubDb = (tables = {}) => {
       lastClockMs = Math.max(Date.now(), lastClockMs + 1);
       return new Date(lastClockMs);
    };
-   const raw = (sql, bindings) => ({ [RAW]: true, sql: String(sql), bindings });
+   const raw = (sql, bindings) => {
+         if (/SELECT ds2_locked_invoice/.test(sql)) {
+            const [table, rid, aid] = bindings;
+            const member = (store.invoice_statement_members || []).find(m => m.table_name === table && m.record_id === rid && m.account_id === aid);
+            const issue = member && (store.invoice_issues || []).find(i => i.invoice_id === member.invoice_id && i.account_id === aid);
+            return Promise.resolve({ rows: [{ number: issue?.invoice_number || null }] });
+         }
+         return { [RAW]: true, sql: String(sql), bindings };
+      };
    const resolveRaws = (table, row) => {
       const out = { ...row };
       for (const [column, value] of Object.entries(out)) {
@@ -105,6 +113,7 @@ const buildStubDb = (tables = {}) => {
       let limitN = null;
       const filters = [];
       const selected = [];
+      let groupColumns = [];
       const b = { _forUpdate: false };
 
       const predicate = args => {
@@ -176,6 +185,19 @@ const buildStubDb = (tables = {}) => {
       b.leftJoin = () => b;
       b.innerJoin = () => b;
       b.select = (...columns) => { selected.push(...columns.flat()); return b; };
+      b.groupBy = (...columns) => { groupColumns = columns.flat().map(_col); return b; };
+      // Internal-customer policy uses GROUP BY entity / COUNT(DISTINCT user_id).
+      // Model that query rather than bypassing the policy in flow tests.
+      b.countDistinct = obj => {
+         const [alias, column] = Object.entries(obj)[0];
+         const groups = new Map();
+         for (const row of (store[table] || []).filter(r => b._test(r))) {
+            const key = JSON.stringify(groupColumns.map(c => row[c]));
+            if (!groups.has(key)) groups.set(key, { row, values: new Set() });
+            if (row[_col(column)] != null) groups.get(key).values.add(row[_col(column)]);
+         }
+         return Promise.resolve([...groups.values()].map(({ row, values }) => ({ ...Object.fromEntries(groupColumns.map(c => [c, row[c]])), [alias]: values.size })));
+      };
 
       const rows = () => {
          calls.queries.push({ table, forUpdate: b._forUpdate, filters });

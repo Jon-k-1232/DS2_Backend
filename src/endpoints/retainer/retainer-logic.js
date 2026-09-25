@@ -61,7 +61,7 @@ const createRetainerCore = (db, { accountId, retainerFields }) =>
       const fields = { ...retainerFields, note: stripLinkMarkers(retainerFields.note), account_id: Number(accountId), parent_retainer_id: null };
       await lockCustomerLedger(trx, accountId, fields.customer_id);
 
-      const amount = round2(-Math.abs(Number(fields.starting_amount)));
+      const amount = -round2(Math.abs(Number(fields.starting_amount)));
       if (!(amount < 0)) throw ruleError('Retainer amount must be greater than $0.00.');
       if (!fields.type_of_hold) throw ruleError('Select a type of hold (Retainer or Prepayment).');
 
@@ -93,6 +93,9 @@ const updateRetainerCore = (db, { accountId, retainerFields }) =>
       }
 
       const rootID = row.parent_retainer_id || row.retainer_id;
+      if (await trx('retainer_events').where({account_id:Number(accountId),root_retainer_id:rootID}).first()) {
+         throw ruleError('Retainer event history is immutable; record a new adjustment instead.',409,'RETAINER_EVENT_LOCKED');
+      }
       const chain = await retainerService.getRetainerChain(trx, accountId, rootID);
       const latest = chain[chain.length - 1] || row;
       const root = chain.find(r => r.retainer_id === rootID) || row;
@@ -101,8 +104,8 @@ const updateRetainerCore = (db, { accountId, retainerFields }) =>
       const requested = Number(retainerFields.starting_amount);
       let newStarting = oldStarting;
       if (Number.isFinite(requested)) {
-         if (!(Math.abs(requested) > 0)) throw ruleError('Retainer amount must be greater than $0.00.');
-         newStarting = round2(-Math.abs(requested));
+         newStarting = -round2(Math.abs(requested));
+         if (!(newStarting < 0)) throw ruleError('Retainer amount must be greater than $0.00.');
       }
 
       const delta = round2(newStarting - oldStarting);
@@ -158,6 +161,9 @@ const deleteRetainerCore = (db, { accountId, retainerId }) =>
       await lockCustomerLedgerForRow(trx, accountId, RETAINERS, 'retainer_id', retainerId, 'No matching retainer record found.');
       const [row] = await retainerService.getSingleRetainer(trx, accountId, retainerId);
       const rootID = row.parent_retainer_id || row.retainer_id;
+      if (await trx('retainer_events').where({account_id:Number(accountId),root_retainer_id:rootID}).first()) {
+         throw ruleError('Retainer event history is immutable; record a new adjustment instead.',409,'RETAINER_EVENT_LOCKED');
+      }
 
       if (row.parent_retainer_id) {
          throw ruleError(`This row is a draw-down entry on retainer #${rootID}. Delete the payment or time/charge entry that drew on it instead.`);

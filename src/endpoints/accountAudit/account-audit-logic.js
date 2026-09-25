@@ -219,6 +219,7 @@ const computePerInvoice = ({ chain, payments, writeoffs, transactions }) => {
 
    return {
       was_absorbed: wasAbsorbed,
+      sent_locked: !!parent?.sent_locked,
       root_id: chain.rootId,
       parent_invoice_id: parent?.customer_invoice_id ?? null,
       invoice_number: parent?.invoice_number ?? null,
@@ -241,7 +242,7 @@ const computePerInvoice = ({ chain, payments, writeoffs, transactions }) => {
       transactions_on_invoice: transactionSum,
       expected_remaining: expectedRemaining,
       actual_remaining_used: actualRemaining,
-      is_paid_in_full_db: !!parent?.is_invoice_paid_in_full,
+      is_paid_in_full_db: !!(parent?.sent_locked ? latest?.is_invoice_paid_in_full : parent?.is_invoice_paid_in_full),
       fully_paid_date: fmtDate(parent?.fully_paid_date)
    };
 };
@@ -374,7 +375,7 @@ const detectDiscrepancies = ({
             uncovered_amount: uncovered
          });
       }
-      if (row.parent_total_amount_due > 0 && Math.abs(row.parent_remaining_in_db - row.actual_remaining_used) >= 0.01 && !deliberatelyAbsorbed) {
+      if (!row.sent_locked && row.parent_total_amount_due > 0 && Math.abs(row.parent_remaining_in_db - row.actual_remaining_used) >= 0.01 && !deliberatelyAbsorbed) {
          out.push({
             kind: 'stale_parent_remaining',
             severity: 'medium',
@@ -384,7 +385,7 @@ const detectDiscrepancies = ({
             diff_amount: round2(row.parent_remaining_in_db - row.actual_remaining_used)
          });
       }
-      if (row.is_paid_in_full_db && row.actual_remaining_used > 0.009) {
+      if (row.is_paid_in_full_db && Math.abs(row.actual_remaining_used) > 0.009) {
          out.push({
             kind: 'paid_flag_mismatch_open',
             severity: driftSeverity(row.actual_remaining_used),
@@ -393,7 +394,7 @@ const detectDiscrepancies = ({
             detail: `is_invoice_paid_in_full = true but $${row.actual_remaining_used.toFixed(2)} remains.`
          });
       }
-      if (!row.is_paid_in_full_db && row.actual_remaining_used <= 0.009 && row.parent_total_amount_due > 0 && !deliberatelyAbsorbed) {
+      if (!row.is_paid_in_full_db && Math.abs(row.actual_remaining_used) <= 0.009 && row.parent_total_amount_due > 0 && !deliberatelyAbsorbed) {
          out.push({
             kind: 'paid_flag_mismatch_closed',
             severity: 'low',
@@ -402,7 +403,7 @@ const detectDiscrepancies = ({
             detail: `Remaining is $0 but is_invoice_paid_in_full = false.`
          });
       }
-      if (row.writeoffs_against_invoice > row.parent_total_amount_due + 0.01) {
+      if (row.writeoffs_against_invoice > 0 && row.writeoffs_against_invoice > Math.max(0, row.parent_total_amount_due) + 0.01) {
          out.push({
             kind: 'writeoff_exceeds_invoice',
             severity: 'high',
@@ -439,7 +440,7 @@ const detectDiscrepancies = ({
    return out;
 };
 
-const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions, retainers = [] }) => {
+const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions, retainers = [], retainerEvents = [] }) => {
    const events = [];
    const invoiceById = new Map();
    invoices.forEach(i => invoiceById.set(i.customer_invoice_id, i));
@@ -507,6 +508,12 @@ const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions,
             note: r.note || null
          });
       });
+
+   retainerEvents.forEach(e => events.push({
+      date:fmtDate(e.event_date),sort_ts:new Date(e.event_date).getTime(),type:`retainer_${e.kind}`,reference_id:e.event_id,
+      description:`Retainer ${e.kind} ${e.direction}: $${Number(e.amount).toFixed(2)}; available $${Number(e.available_before).toFixed(2)} to $${Number(e.available_after).toFixed(2)}. ${e.reason}${e.method ? ` / ${e.method}` : ''}${e.reference ? ` / ${e.reference}` : ''}`,
+      charge:0,credit:0,note:e.reason
+   }));
 
    payments.forEach(p => {
       const retainerNote = p.retainer_id ? ' [retainer-funded]' : '';
@@ -613,7 +620,7 @@ const parseCancelledByReversal = note => {
    return match ? Number(match[1]) : null;
 };
 
-const summarizeRetainers = retainers => {
+const summarizeRetainers = (retainers, retainerEvents = []) => {
    const chains = buildRetainerChains(retainers);
    const breakdown = [];
    let total_prepaid_lifetime = 0;
@@ -635,7 +642,11 @@ const summarizeRetainers = retainers => {
       const isCancelled = cancelledByPayment != null;
       const startingAmt = round2(abs(root.starting_amount));
       const currentAmt = round2(abs(latest.current_amount));
-      const drawn = isCancelled ? 0 : round2(startingAmt - currentAmt);
+      const events = retainerEvents.filter(e => Number(e.root_retainer_id) === Number(root.retainer_id));
+      const eventDelta = round2(events.reduce((sum,e) => sum + Number(e.balance_delta),0));
+      const refunded = round2(events.filter(e => e.kind === 'refund').reduce((sum,e) => sum + Number(e.amount),0));
+      const adjusted = round2(events.filter(e => e.kind === 'adjustment').reduce((sum,e) => sum - Number(e.balance_delta),0));
+      const drawn = isCancelled ? 0 : round2(startingAmt - currentAmt - eventDelta);
       const isActive = !isCancelled && !!latest.is_retainer_active;
       if (!isCancelled) total_prepaid_lifetime = round2(total_prepaid_lifetime + startingAmt);
       if (isActive) retainer_available = round2(retainer_available + currentAmt);
@@ -648,6 +659,9 @@ const summarizeRetainers = retainers => {
          starting_amount: startingAmt,
          current_amount: currentAmt,
          drawn_to_date: drawn,
+         refunded_to_date: refunded,
+         adjustments_to_date: adjusted,
+         events,
          is_active: isActive,
          is_cancelled: isCancelled,
          cancelled_by_payment_id: cancelledByPayment,
@@ -671,7 +685,7 @@ const summarizeRetainers = retainers => {
    };
 };
 
-const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transactions, retainers = [], billingDate = billingDateToday() }) => {
+const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transactions, retainers = [], retainerEvents = [], billingDate = billingDateToday() }) => {
    const chains = buildInvoiceChains(invoices);
    const invoiceBreakdown = [];
    chains.forEach(chain => {
@@ -758,20 +772,20 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       };
       const newestGroup = chainsByDateDesc.filter(c => isSameDate(c.invoice_date));
       outstanding_invoices = round2(
-         newestGroup.reduce((s, c) => s + Math.max(0, c.actual_remaining_used), 0)
+         newestGroup.reduce((s, c) => s + c.actual_remaining_used, 0)
       );
       // A same-day statement that a later run absorbed on purpose (zeroed and
       // stamped absorbed_by — zeroOutAbsorbedInvoices works by chain identity,
       // so an explicitly allowed same-day re-bill absorbs the first run) is not
       // a duplicate; only live same-day parents are flagged.
-      const liveNewestGroup = newestGroup.filter(g => !(g.was_absorbed && g.actual_remaining_used === 0));
+      const liveNewestGroup = newestGroup.filter(g => g.actual_remaining_used !== 0);
       if (liveNewestGroup.length > 1) {
          liveNewestGroup.forEach(g => {
             duplicateSameDayParents.push({
                invoice_number: g.invoice_number,
                parent_invoice_id: g.parent_invoice_id,
                invoice_date: g.invoice_date,
-               remaining: round2(Math.max(0, g.actual_remaining_used))
+               remaining: round2(g.actual_remaining_used)
             });
          });
       }
@@ -779,8 +793,8 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       // is stale — its balance has been absorbed by the newest invoice's bb.
       for (let i = newestGroup.length; i < chainsByDateDesc.length; i++) {
          const row = chainsByDateDesc[i];
-         const rem = Math.max(0, row.actual_remaining_used);
-         if (rem > 0.009) {
+         const rem = row.actual_remaining_used;
+         if (Math.abs(rem) > 0.009) {
             staleRolledForward.push({
                invoice_number: row.invoice_number,
                parent_invoice_id: row.parent_invoice_id,
@@ -932,7 +946,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
    // balance engine (calculateInvoices.invoiceTotal) doesn't either; retainers
    // are tracked as a separate "current retainer/prepayment" figure on the
    // customer profile, not netted into the displayed balance.
-   const retainerSummary = summarizeRetainers(retainers);
+   const retainerSummary = summarizeRetainers(retainers, retainerEvents);
    const net_position_after_retainer = round2(audit_balance - retainerSummary.retainer_available);
 
    const discrepancies = detectDiscrepancies({
@@ -947,7 +961,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       duplicateSameDayParents
    });
 
-   const ledger = buildChronologicalLedger({ invoices, payments, writeoffs, transactions, retainers });
+   const ledger = buildChronologicalLedger({ invoices, payments, writeoffs, transactions, retainers, retainerEvents });
 
    return {
       customer: {

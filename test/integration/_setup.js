@@ -65,6 +65,9 @@ const requireDb = async function requireDb() {
    }
    try {
       await db.raw('SELECT 1');
+      if (process.env.DATABASE_NAME === 'ds2_clean') {
+         await db('users').insert({ user_id:21, account_id:1, email:'admin@jimkimmel.com', display_name:'Synthetic foreign admin', access_level:'Super Admin', is_user_active:true, cost_rate:1, billing_rate:1, job_title:'Fixture' }).onConflict('user_id').ignore();
+      }
       // A prod→dev restore wipes the fixture account and every integration
       // test then fails on FK violations. The seed is idempotent — re-apply
       // it whenever the account is missing.

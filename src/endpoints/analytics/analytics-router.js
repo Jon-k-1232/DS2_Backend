@@ -255,6 +255,19 @@ analyticsRouter.route('/jobBudgets/:accountID/:userID').get(async (req, res) => 
 analyticsRouter.route('/yearEndPacket/:accountID/:userID').get(async (req, res) => {
    const db = req.app.get('db');
    const { accountID } = req.params;
+   let archive;
+   const failExport = err => {
+      if (archive) {
+         archive.unpipe(res);
+         archive.abort();
+      }
+      if (res.destroyed || res.writableEnded) return;
+      // Once ZIP bytes are sent, a JSON error would corrupt the file and a
+      // normal end would falsely advertise a completed download.
+      if (res.headersSent) return res.destroy(err);
+      res.removeHeader('Content-Disposition');
+      res.status(500).type('application/json').send({ message: err.message || 'An error occurred while building the year-end packet.', status: 500 });
+   };
    try {
       const year = Number(req.query.year) || new Date().getFullYear() - 1;
       const excludeIds = parseExclude(req);
@@ -271,10 +284,10 @@ analyticsRouter.route('/yearEndPacket/:accountID/:userID').get(async (req, res) 
       res.setHeader('Content-Type', 'application/zip');
       res.setHeader('Content-Disposition', `attachment; filename="year_end_packet_${year}.zip"`);
 
-      const archive = archiver('zip', { zlib: { level: 9 } });
+      archive = archiver('zip', { zlib: { level: 9 } });
       archive.on('error', err => {
          console.log(err);
-         if (!res.headersSent) res.status(500).send({ message: err.message, status: 500 });
+         failExport(err);
       });
       archive.pipe(res);
       archive.append(buildClientRatesCsvLines(clientRates.clients, clientRates.years).join('\n'), { name: `client_rates_${year}.csv` });
@@ -284,9 +297,7 @@ analyticsRouter.route('/yearEndPacket/:accountID/:userID').get(async (req, res) 
       await archive.finalize();
    } catch (err) {
       console.log(err);
-      if (!res.headersSent) {
-         res.status(500).send({ message: err.message || 'An error occurred while building the year-end packet.', status: 500 });
-      }
+      failExport(err);
    }
 });
 

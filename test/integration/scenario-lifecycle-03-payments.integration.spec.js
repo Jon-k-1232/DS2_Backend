@@ -1,0 +1,90 @@
+'use strict';
+const { Scenario, ok, expect, money } = require('./_scenario');
+describe('scenario lifecycle P: settlement and NSF (hand oracle 03-payments.md)', function () {
+   this.timeout(180000);
+   const s = new Scenario(); let c, j, inv, p, reversal, splitRoot;
+   const edit = amount => s.put('/payments/updatePayment/1/1', { payment: { paymentID: p.payment_id, unitCost: amount } });
+   const del = row => s.del('/payments/deletePayment/1/1', { payment: { paymentID: row.payment_id, unitCost: 999999, customerID: 999999, selectedInvoiceID: 999999 } });
+   const reverse = () => s.post('/payments/reversePayment/1/1', { payment: { paymentID: p.payment_id, reason: 'NSF returned by bank' } });
+   const newest = () => s.db('customer_payments').where({ customer_id: c.id }).orderBy('payment_id', 'desc').first();
+   before(async () => { await s.boot(); }); after(async () => { await s.close(); });
+   it('P01 issues $300 through real work and month-end', async () => {
+      c = await s.customer('Scenario Payments'); j = await s.job(c);
+      await s.work(c, j, 300); await s.check(c, { n: 300, b: 0 });
+      inv = await s.statement(c, await s.finalize([c]), 1, [0, 300, 0, 0, 0, 300]);
+   });
+   it('P02 receives $100, edits it to $120, then deletes using stored values', async () => {
+      p = (await s.pay(c, 100, { selectedInvoiceID: inv.customer_invoice_id })).row;
+      expect(money(p.payment_amount)).to.equal(-100); await s.check(c, { n: 200, b: 200 });
+      ok(await edit(120)); expect(money((await newest()).payment_amount)).to.equal(-120);
+      await s.check(c, { n: 180, b: 180 });
+      ok(await del(p)); await s.check(c, { n: 300, b: 300 });
+   });
+   it('P03 exact settlement, NSF and guarded reversal undo', async () => {
+      p = (await s.pay(c, 300, { selectedInvoiceID: inv.customer_invoice_id })).row;
+      await s.check(c, { n: 0, b: 0 });
+      ok(await reverse()); reversal = await newest(); expect(money(reversal.payment_amount)).to.equal(300);
+      await s.check(c, { n: 300, b: 300 });
+      await s.reject(reverse, /already.*revers/i, c, { n: 300, b: 300 });
+      await s.reject(() => s.put('/payments/updatePayment/1/1', { payment: { paymentID: reversal.payment_id, unitCost: 200 } }), /reversal/i, c, { n: 300, b: 300 });
+      await s.reject(() => del(p), /newer payment/i, c, { n: 300, b: 300 });
+      ok(await del(reversal)); await s.check(c, { n: 0, b: 0 });
+      expect((await s.db('customer_payments').where({ payment_id: p.payment_id }).first()).note || '').not.to.match(/\[reversed /);
+      ok(await del(p)); await s.check(c, { n: 300, b: 300 });
+   });
+   it('P04 splits a $350 check into $300 settlement and $50 excess; reversal cancels the excess', async () => {
+      await s.reject(() => s.post('/payments/createPayment/1/1', { payment: s.payment(c, 350, { selectedInvoiceID: inv.customer_invoice_id }) }), /exceed|overpayment/i, c, { n: 300, b: 300 });
+      p = (await s.pay(c, 350, { selectedInvoiceID: inv.customer_invoice_id, captureOverpayment: true })).row;
+      expect(money(p.payment_amount)).to.equal(-300);
+      splitRoot = await s.db('customer_retainers_and_prepayments').where({ customer_id: c.id }).whereNull('parent_retainer_id').first();
+      expect(money(splitRoot.current_amount)).to.equal(-50); await s.check(c, { n: 0, b: 0, r: -50 });
+      await s.reject(() => s.del(`/retainers/deleteRetainer/${splitRoot.retainer_id}/1/1`), /payment/i, c, { n: 0, b: 0, r: -50 });
+      ok(await reverse()); reversal = await newest(); expect(money(reversal.payment_amount)).to.equal(300);
+      await s.check(c, { n: 300, b: 300 });
+      const cancelled = await s.db('customer_retainers_and_prepayments').where({ retainer_id: splitRoot.retainer_id }).first();
+      expect(money(cancelled.current_amount)).to.equal(0); expect(cancelled.is_retainer_active).to.equal(false);
+      expect(money(cancelled.starting_amount)).to.equal(-50);
+      await s.reject(() => s.put('/retainers/updateRetainer/1/1', { retainer: { retainerID: splitRoot.retainer_id, unitCost: 60 } }), /cancelled/i, c, { n: 300, b: 300 });
+      await s.reject(() => s.del(`/retainers/deleteRetainer/${splitRoot.retainer_id}/1/1`), /cancelled/i, c, { n: 300, b: 300 });
+      ok(await del(reversal)); await s.check(c, { n: 0, b: 0, r: -50 });
+      ok(await del(p)); await s.check(c, { n: 300, b: 300 });
+      expect(await s.db('customer_retainers_and_prepayments').where({ retainer_id: splitRoot.retainer_id }).first()).to.equal(undefined);
+   });
+   it('P05 rolls forward $200 plus $50 new work and locks a receipt behind the new statement', async () => {
+      p = (await s.pay(c, 100, { selectedInvoiceID: inv.customer_invoice_id })).row;
+      await s.check(c, { n: 200, b: 200 });
+      await s.shift(31); await s.check(c, { n: 200, b: 200, bucket: 'bucket_31_60' });
+      await s.work(c, j, 50); await s.check(c, { n: 250, b: 200, bucket: 'bucket_31_60' });
+      const second = await s.statement(c, await s.finalize([c]), 2, [200, 50, 0, 0, 0, 250], ['Total Payments Received: -100.00 (reflected in Beginning Balance above)']);
+      await s.reject(() => edit(110), /locked: part of sent invoice/i, c, { n: 250, b: 250 });
+      await s.reject(() => del(p), /locked: part of sent invoice/i, c, { n: 250, b: 250 });
+      const old = await s.db('customer_invoices').where({ customer_invoice_id: inv.customer_invoice_id }).first();
+      expect(money(old.remaining_balance_on_invoice)).to.equal(300);
+      const closed = await s.db('customer_invoices').where({parent_invoice_id:inv.customer_invoice_id}).orderBy('created_at','desc').orderBy('customer_invoice_id','desc').first();
+      expect(money(closed.remaining_balance_on_invoice)).to.equal(0); expect(closed.notes).to.include(`[absorbed_by:${second.invoice_number}@`);
+      const remapped = await s.pay(c, 25, { selectedInvoiceID: inv.customer_invoice_id });
+      expect(remapped.body.message).to.include(`Applied to current invoice ${second.invoice_number}`);
+      expect(remapped.row.note).to.include(`customer referenced ${inv.invoice_number}`);
+      await s.check(c, { n: 225, b: 225 });
+   });
+   it('P06 refuses deleting/reversing a split after its excess has funded work', async () => {
+      const spent = await s.customer('Scenario Spent Excess'); const job = await s.job(spent);
+      await s.work(spent, job, 100); await s.check(spent, { n: 100, b: 0 });
+      const statement = await s.statement(spent, await s.finalize([spent]), 3, [0, 100, 0, 0, 0, 100]);
+      const payment = (await s.pay(spent, 150, { selectedInvoiceID: statement.customer_invoice_id, captureOverpayment: true })).row;
+      await s.check(spent, { n: 0, b: 0, r: -50 });
+      const hold = await s.db('customer_retainers_and_prepayments').where({ customer_id: spent.id }).first();
+      await s.work(spent, job, 20, { selectedRetainerID: hold.retainer_id }); await s.check(spent, { n: 0, b: 0, r: -30, charges: 20, payments: -20, unlinked: [1, 20] });
+      await s.reject(() => s.post('/payments/reversePayment/1/1', { payment: { paymentID: payment.payment_id, reason: 'NSF' } }), /used|drawn|prepayment/i, spent, { n: 0, b: 0, r: -30, unlinked: [1, 20] });
+      await s.reject(() => del(payment), /used|drawn|prepayment/i, spent, { n: 0, b: 0, r: -30, unlinked: [1, 20] });
+   });
+   it('P07 draws a retainer against billed work, reprices and undoes the latest manual draw', async () => {
+      const manual = await s.customer('Scenario Manual Draw'); const job = await s.job(manual); const hold = await s.retainer(manual, 100);
+      await s.work(manual, job, 80); await s.check(manual, { n: 80, b: 0, r: -100 });
+      const statement = await s.statement(manual, await s.finalize([manual]), 4, [0, 80, 0, 0, -100, 80]);
+      const payment = (await s.pay(manual, 30, { selectedInvoiceID: statement.customer_invoice_id, selectedRetainerID: hold.retainer_id, formOfPayment: 'Retainer' })).row;
+      await s.check(manual, { n: 50, b: 50, r: -70 });
+      ok(await s.put('/payments/updatePayment/1/1', { payment: { paymentID: payment.payment_id, unitCost: 40 } })); await s.check(manual, { n: 40, b: 40, r: -60 });
+      ok(await del(payment)); await s.check(manual, { n: 80, b: 80, r: -100 });
+   });
+});

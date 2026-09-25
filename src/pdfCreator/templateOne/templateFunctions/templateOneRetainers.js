@@ -25,6 +25,24 @@ const createRetainersSection = (doc, invoiceDetails, preferenceSettings) => {
    // could even land on top of the total's own text).
    const ruleY = preferenceSettings.endOfGroupingHeight - 4;
    doc.lineCap('butt').lineWidth(1).moveTo(amountX, ruleY).lineTo(right, ruleY).stroke();
+   const eventRows = (retainers.events || []).flatMap(event => {
+      const evidence = Array.from([event.reason,event.method,event.reference].filter(Boolean).join(' / '));
+      const rows = [];
+      // A maximum-length unbroken reason must remain printable. Keep each
+      // segment small enough for an A3 table page; print money exactly once.
+      for (let offset=0; offset<evidence.length; offset+=600) rows.push({...event,continued:offset>0,display_evidence:evidence.slice(offset,offset+600).join('')});
+      return rows;
+   });
+   if (eventRows.length) renderTableSection(doc, invoiceDetails, preferenceSettings, {
+      title: 'Retainer Refunds and Adjustments (availability only)',
+      columns: [
+         { header:'Date / Event', x:leftMargin+10, width:170, cell:r => r.continued ? 'continued' : `${require('dayjs')(r.event_date).format('YYYY-MM-DD')} ${r.kind} ${r.direction}` },
+         { header:'Reason / Method / Reference', x:260, width:right-422, cell:r => r.display_evidence },
+         { header:'Amount / Available after', x:right-150, width:150, align:'right', cell:r => r.continued ? '' : `${Number(r.amount).toFixed(2)} / ${Number(r.available_after).toFixed(2)}` }
+      ], rows:eventRows, subtotalLines:['Retainer activity does not change the amount due.'], describeRow:r => `retainer event ${r.event_id}`
+   });
+
+
 };
 
 module.exports = { createRetainersSection };

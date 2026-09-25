@@ -1,3 +1,4 @@
+const { round2 } = require('../../../payments/ledger-helpers');
 const totalInvoice = (customer_id, invoiceInformation, showWriteOffs, hideRetainers) => {
    const { payments, retainers, writeOffs, transactions, transactionRetainerPayments, outstandingInvoices } = invoiceInformation;
 
@@ -10,13 +11,13 @@ const totalInvoice = (customer_id, invoiceInformation, showWriteOffs, hideRetain
    const retainerAppliedToInvoice = payments.retainerPaymentTotal;
    // What the statement would ask for before the retainer-funded payments of the
    // period were applied (those payments are negative, so subtracting adds back).
-   const preRetainerInvoiceTotal = invoiceTotalHidingWriteOffs + writeOffsTotal - retainerAppliedToInvoice;
+   const preRetainerInvoiceTotal = round2(invoiceTotalHidingWriteOffs + writeOffsTotal - retainerAppliedToInvoice);
    // retainerTotal is the sum of each chain's LATEST snapshot, i.e. the balance
    // that already reflects every draw (retainer-funded work reduces the chain when
    // the transaction is entered). Adding the period's draws back on top of it — as
    // the old formula did against the ORIGINAL balance — double counted them.
    const remainingRetainer = retainerTotal;
-   const invoiceTotal = invoiceTotalHidingWriteOffs + writeOffsTotal;
+   const invoiceTotal = round2(invoiceTotalHidingWriteOffs + writeOffsTotal);
 
    if (isNaN(invoiceTotal)) {
       console.log(`Invoice Total on ${customer_id} is NaN`);

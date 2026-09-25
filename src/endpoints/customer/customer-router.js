@@ -1,3 +1,4 @@
+const { committedResponse } = require('../../utils/committedResponse');
 const { lockCustomerLedger } = require('../payments/ledger-helpers');
 const { requireAccountRow } = require('../../utils/relatedAccount');
 const express = require('express');
@@ -87,24 +88,26 @@ customerRouter
       });
 
       // call active customers
-      const activeCustomers = await customerService.getActiveCustomers(db, trustedAccountId);
-      const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, trustedAccountId);
+      return committedResponse(res, 'Successfully created customer.', async () => {
+         const activeCustomers = await customerService.getActiveCustomers(db, trustedAccountId);
+         const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, trustedAccountId);
 
-      const activeCustomerData = {
-         activeCustomers,
-         grid: createGrid(activeCustomers)
-      };
+         const activeCustomerData = {
+            activeCustomers,
+            grid: createGrid(activeCustomers)
+         };
 
-      const activeRecurringCustomersData = {
-         activeRecurringCustomers,
-         grid: createGrid(activeRecurringCustomers)
-      };
+         const activeRecurringCustomersData = {
+            activeRecurringCustomers,
+            grid: createGrid(activeRecurringCustomers)
+         };
 
-      res.send({
-         customersList: { activeCustomerData },
-         recurringCustomersList: { activeRecurringCustomersData },
-         message: 'Successfully created customer.',
-         status: 200
+         return {
+            customersList: { activeCustomerData },
+            recurringCustomersList: { activeRecurringCustomersData },
+            message: 'Successfully created customer.',
+            status: 200
+         };
       });
    } catch (err) {
       console.log(err);
@@ -278,34 +281,36 @@ customerRouter
       });
 
       // Call active customers
-      const activeCustomers = await customerService.getActiveCustomers(db, trustedAccountId);
-      const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, trustedAccountId);
+      return committedResponse(res, 'Successfully updated customer.', async () => {
+         const activeCustomers = await customerService.getActiveCustomers(db, trustedAccountId);
+         const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, trustedAccountId);
 
-      const activeCustomerData = {
-         activeCustomers,
-         grid: createGrid(activeCustomers)
-      };
+         const activeCustomerData = {
+            activeCustomers,
+            grid: createGrid(activeCustomers)
+         };
 
-      const activeRecurringCustomersData = {
-         activeRecurringCustomers,
-         grid: createGrid(activeRecurringCustomers)
-      };
+         const activeRecurringCustomersData = {
+            activeRecurringCustomers,
+            grid: createGrid(activeRecurringCustomers)
+         };
 
-      // Deactivating a customer (is_customer_active -> false) is the supported
-      // alternative to deleteCustomer's hard-delete-with-no-related-records
-      // rule, so it must NOT be blocked by an open balance or unbilled
-      // billable work — but the caller should be warned rather than have it
-      // happen silently and the debt/hours fall out of the active lists.
-      const warnings = customerTableFields.is_customer_active === false
-         ? await customerService.getDeactivationWarnings(db, trustedAccountId, customerTableFields.customer_id)
-         : [];
+         // Deactivating a customer (is_customer_active -> false) is the supported
+         // alternative to deleteCustomer's hard-delete-with-no-related-records
+         // rule, so it must NOT be blocked by an open balance or unbilled
+         // billable work — but the caller should be warned rather than have it
+         // happen silently and the debt/hours fall out of the active lists.
+         const warnings = customerTableFields.is_customer_active === false
+            ? await customerService.getDeactivationWarnings(db, trustedAccountId, customerTableFields.customer_id)
+            : [];
 
-      res.send({
-         customersList: { activeCustomerData },
-         recurringCustomersList: { activeRecurringCustomersData },
-         warnings,
-         message: 'Successfully updated customer.',
-         status: 200
+         return {
+            customersList: { activeCustomerData },
+            recurringCustomersList: { activeRecurringCustomersData },
+            warnings,
+            message: 'Successfully updated customer.',
+            status: 200
+         };
       });
    } catch (err) {
       console.log(err);
@@ -333,6 +338,8 @@ customerRouter
             const existing = await trx('customers').select('customer_id')
                .where({ account_id: Number(accountID), customer_id: customerId }).forNoKeyUpdate().first();
             if (!existing) return false;
+            const issued = await trx('customer_invoices').where({ account_id: Number(accountID), customer_id: customerId }).whereNull('parent_invoice_id');
+            for (const i of issued) await require('../invoice/sentInvoiceLocks').assertUnlocked(trx, accountID, 'customer_invoices', i.customer_invoice_id);
 
             // Raw existence checks include inactive/history rows and malformed
             // legacy relations that a joined list would hide. Hold the same
@@ -351,17 +358,19 @@ customerRouter
          if (!deleted) return res.send({ message: 'No matching customer record found.', status: 404 });
 
          // call active customers
-         const activeCustomers = await customerService.getActiveCustomers(db, accountID);
+         return committedResponse(res, 'Successfully deleted customer.', async () => {
+            const activeCustomers = await customerService.getActiveCustomers(db, accountID);
 
-         const activeCustomerData = {
-            activeCustomers,
-            grid: createGrid(activeCustomers)
-         };
+            const activeCustomerData = {
+               activeCustomers,
+               grid: createGrid(activeCustomers)
+            };
 
-         res.send({
-            customersList: { activeCustomerData },
-            message: 'Successfully deleted customer.',
-            status: 200
+            return {
+               customersList: { activeCustomerData },
+               message: 'Successfully deleted customer.',
+               status: 200
+            };
          });
       } catch (err) {
          console.log(err);
