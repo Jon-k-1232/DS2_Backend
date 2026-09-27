@@ -78,11 +78,30 @@ describe('Path matrix: defensive database and configuration failures', function 
       { title: 'missing sender configuration', input: { recipientEmails: ['dummy@scenario.test'], subject: 'Local' }, message: /Missing FROM_EMAIL/ }
    ]) it(`email boundary | ${item.title} refuses before storage, network or database writes`, async () => {
       const before = await s.allState(), config = require('../../config'), from = config.FROM_EMAIL;
+      const enabled = process.env.SEND_REAL_EMAIL;
       const modulePath = require.resolve('../../src/utils/email/sendEmail'), cached = require.cache[modulePath];
-      if (item.title === 'missing sender configuration') config.FROM_EMAIL = '';
+      if (item.title === 'missing sender configuration') {
+         config.FROM_EMAIL = '';
+         // The sender is required only for enabled delivery. This refusal must
+         // happen before SES construction; disabled delivery is covered below.
+         process.env.SEND_REAL_EMAIL = 'true';
+      }
       delete require.cache[modulePath];
       let error;
-      try { await require(modulePath).sendEmail(item.input); } catch (e) { error = e; } finally { config.FROM_EMAIL = from; require.cache[modulePath] = cached; }
+      try { await require(modulePath).sendEmail(item.input); } catch (e) { error = e; } finally {
+         config.FROM_EMAIL = from; require.cache[modulePath] = cached;
+         if (enabled === undefined) delete process.env.SEND_REAL_EMAIL; else process.env.SEND_REAL_EMAIL = enabled;
+      }
       expect(error?.message).match(item.message); expect(await s.allState()).deep.eq(before);
+   });
+   it('email boundary | disabled delivery succeeds without sender configuration and writes no database rows', async () => {
+      const before = await s.allState(), config = require('../../config'), from = config.FROM_EMAIL;
+      const modulePath = require.resolve('../../src/utils/email/sendEmail'), cached = require.cache[modulePath];
+      config.FROM_EMAIL = ''; delete require.cache[modulePath];
+      try {
+         const result = await require(modulePath).sendEmail({ recipientEmails: ['dummy@scenario.test'], subject: 'Suppressed local notice' });
+         expect(result).include({ suppressed: true, MessageId: null });
+         expect(await s.allState()).deep.eq(before);
+      } finally { config.FROM_EMAIL = from; require.cache[modulePath] = cached; }
    });
 });

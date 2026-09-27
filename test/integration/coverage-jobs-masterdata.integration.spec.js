@@ -279,8 +279,8 @@ describe('Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, 
                }
             });
          const body = expectEnvelopeOk(res, 'createJob happy path');
-         const jobs = body.accountJobsList.activeJobData.activeJobs;
-         expect(jobs, 'response should carry the account-wide jobs list').to.be.an('array');
+         const jobs = body.changed.jobs;
+         expect(jobs, 'response identifies only the changed job').to.be.an('array');
          const listed = jobs.find(j => j.customer_id === FIXTURE_CUSTOMER_NO_JOBS && j.job_type_id === jobType.job_type_id);
          expect(listed, 'newly created job should appear in the response list').to.exist;
 
@@ -395,10 +395,9 @@ describe('Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, 
          expect(res.status).to.equal(403);
       });
 
-      it('returns an empty list for a customer with no jobs, without crashing', async () => {
+      it('refuses a missing customer instead of implying it has no jobs', async () => {
          const res = await h.as('admin').get(`/jobs/getActiveCustomerJobs/${h.accountID}/${h.adminUserID}/${NOT_FOUND_ID}`);
-         const body = expectEnvelopeOk(res, 'getActiveCustomerJobs not-found customer');
-         expect(body.activeCustomerJobData.activeCustomerJobs).to.deep.equal([]);
+         expect(res.status).to.equal(404);expect(res.body.status).to.equal(404);expect(res.body).not.to.have.property('activeCustomerJobData');
       });
    });
 
@@ -428,7 +427,7 @@ describe('Jobs / master-data HTTP route coverage (job, jobCategories, jobTypes, 
                }
             });
          const body = expectEnvelopeOk(res, 'updateJob happy path');
-         const listed = body.accountJobsList.activeJobData.activeJobs.find(j => j.customer_job_id === job.customer_job_id);
+         const listed = body.changed.jobs.find(j => j.customer_job_id === job.customer_job_id);
          expect(listed.notes).to.equal('after-update');
 
          const row = await h.db('customer_jobs').where('customer_job_id', job.customer_job_id).first();

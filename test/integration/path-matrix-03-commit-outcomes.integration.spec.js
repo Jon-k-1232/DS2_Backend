@@ -30,8 +30,8 @@ describe('Path matrix: committed CRUD is not reported as a failed write',functio
  for(const operation of ['create','update','delete'])it(`customer ${operation} | postcommit list failure reports saved outcome`,async()=>{
   const name=`PM_customer_${operation}_${++serial}`;let c;
   if(operation!=='create')c=await s.customer(name);
-  const svc=service('customer'),original=svc.getActiveCustomers;let calls=0;
-  const r=await s.stub(svc,'getActiveCustomers',function(...args){if(operation==='create'&&calls++===0)return original.apply(this,args);throw Error('path-matrix postcommit read failure');},()=>operation==='create'?s.post('/customer/createCustomer/1/1',{customer:s.customerBody(name)}):operation==='update'?s.put('/customer/updateCustomer/1/1',{customer:{...c.payload,customerCity:'Tucson'}}):s.del(`/customer/deleteCustomer/${c.id}/1/1`));
+  const svc=service('customer');
+  const r=await s.stub(svc,'getActiveCustomersPaginated',()=>{throw Error('path-matrix postcommit read failure');},()=>operation==='create'?s.post('/customer/createCustomer/1/1',{customer:s.customerBody(name)}):operation==='update'?s.put('/customer/updateCustomer/1/1',{customer:{...c.payload,customerCity:'Tucson'}}):s.del(`/customer/deleteCustomer/${c.id}/1/1`));
   expect(r.status,JSON.stringify(r.body)).eq(200);expect(r.body.status).eq(200);expect(r.body.committed).eq(true);expect(r.body.warnings.join(' ')).match(/do not submit/);expect(r.body.message,'existing forms render the message field').match(/saved.*[Rr]eload.*do not submit/);
   const rows=await s.db('customers').where({account_id:1,display_name:name});expect(rows).length(operation==='delete'?0:1);
   if(operation==='update')expect((await s.db('customer_information').where({customer_id:c.id,account_id:1}).first()).customer_city).eq('Tucson');
@@ -39,7 +39,7 @@ describe('Path matrix: committed CRUD is not reported as a failed write',functio
  for(const operation of ['create','update','delete'])it(`job ${operation} | postcommit list failure reports saved outcome`,async()=>{
   const c=await s.customer(`PM_job_${operation}_${++serial}`);let j;if(operation!=='create')j=await s.job(c);
   const body={job:{...s.jobBody(c),customerJobID:j?.customer_job_id,notes:'saved once'}};
-  const r=await s.fail(service('job'),'getActiveJobs',()=>operation==='create'?s.post('/jobs/createJob/1/1',body):operation==='update'?s.put('/jobs/updateJob/1/1',body):s.del(`/jobs/deleteJob/${j.customer_job_id}/1/1`));
+  const r=await s.fail(service('job'),'getJobsPage',()=>operation==='create'?s.post('/jobs/createJob/1/1',body):operation==='update'?s.put('/jobs/updateJob/1/1',body):s.del(`/jobs/deleteJob/${j.customer_job_id}/1/1`));
   expect(r.status,JSON.stringify(r.body)).eq(200);expect(r.body.status).eq(200);expect(r.body.committed).eq(true);expect(r.body.warnings.join(' ')).match(/do not submit/);expect(r.body.message,'existing forms render the message field').match(/saved.*[Rr]eload.*do not submit/);
   expect(r.body.message).match(/^Successfully saved job changes\./);
   const rows=await s.db('customer_jobs').where({account_id:1,customer_id:c.id});expect(rows).length(operation==='delete'?0:1);if(operation!=='delete')expect(rows[0].notes).eq('saved once');

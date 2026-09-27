@@ -327,7 +327,6 @@ const applyHeldEntry = async (db, accountId, entryId, edits, editingUserId) => {
          .update({
             is_processed: true,
             hold_reason: null,
-            matched_user_id: edits.logged_for_user_id,
             suggested_customer_id: edits.customer_id
          })
          .returning('timesheet_entry_id');
@@ -335,7 +334,11 @@ const applyHeldEntry = async (db, accountId, entryId, edits, editingUserId) => {
          throw _serviceError('NOT_FOUND', 'This held entry was not found or has already been applied.');
       }
 
+      await require('../timesheets/review-work-provenance')(trx, accountId, entryId, { employeeId: edits.logged_for_user_id, minutes, costChangeReason: edits.costChangeReason });
+      const currentEntry=await trx('timesheet_entries').where({account_id:accountId,timesheet_entry_id:entryId}).first();
+      const entityId=await require('../billingEntities/tracker-entity').resolve(trx,accountId,currentEntry);
       createdTxn = await addNewTransaction(trx, {
+         entityId,
          accountID: accountId,
          customerID: edits.customer_id,
          customerJobID: edits.customer_job_id,
@@ -497,6 +500,9 @@ const reprocessHeldEntryWithOverrides = async (db, accountId, entryId, overrides
       }
       const appliedTransactionId = await findAppliedTransactionId(trx, accountId, entryId);
       if (appliedTransactionId) throw _alreadyAppliedError(appliedTransactionId);
+
+      await require('../../utils/ledgerAction').actionContext(trx, editingUserId, 'Correct held tracker work before processing.');
+      await require('../timesheets/review-work-provenance')(trx, accountId, entryId, { employeeId: overrides?.logged_for_user_id, minutes: overrides?.duration_minutes, costChangeReason: overrides?.costChangeReason });
 
       // Reset the held entry so the orchestrator picks it up. Keep matched_user_id
       // and suggested_customer_id in case the reviewer doesn't override them — that

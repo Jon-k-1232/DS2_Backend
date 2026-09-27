@@ -1,9 +1,11 @@
+const withBusiness = data => !Array.isArray(data)?data:data.map(row=>row && Object.hasOwn(row,'billing_entity_id')?{...row,billing_entity_name:require('./auditContext').storage.getStore()?.billingEntityNames?.[row.billing_entity_id] || (row.billing_entity_id ? `Business ${row.billing_entity_id}` : 'Needs business assignment')}:row);
 /**
  *  Format data for Mui Grid
  * @param {*} data  - Array of objects
  * @returns  - Object with columns and rows for Mui Grid
  */
 const createGrid = data => {
+   data=withBusiness(data);
    // Defense in depth: a caller occasionally passes through an undefined/null
    // row (e.g. a lookup by id that found nothing) instead of pre-checking
    // first. `data[0]` on undefined/null throws a TypeError; tolerate it the
@@ -39,7 +41,7 @@ const createGrid = data => {
  * @returns {} - {columns: [], rows: []}, object with columns and rows for Mui Grid
  */
 const filterGridByColumnName = (data, columns) => {
-   const filteredColumns = data.columns.filter(col => columns.includes(col.field));
+   const filteredColumns = data.columns.filter(col => columns.includes(col.field) || ['billing_entity_id','billing_entity_name'].includes(col.field));
 
    const filteredRows = data.rows.map(row => {
       return filteredColumns.reduce(
@@ -66,6 +68,7 @@ const filterGridByColumnName = (data, columns) => {
  * @returns
  */
 const generateTreeGridData = (data, rowID, parentProperty) => {
+   data=withBusiness(data);
    if (!data.length) return { rows: [], columns: [] };
    if (!rowID.length || !parentProperty.length) throw new Error('Property is required for tree grid.');
 

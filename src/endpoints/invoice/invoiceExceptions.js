@@ -49,8 +49,10 @@ async function readHistory(db, accountId, invoiceId) {
    }
    const reversals = statementPayments.length ? await db('customer_payments').where({ account_id: accountId, customer_id: parent.customer_id }).where('payment_amount', '>', 0) : [];
    const reversedIds = new Set(reversals.map(r => /^\[reversal of payment #(\d+)\]/.exec(r.note || '')?.[1]).filter(Boolean));
-   return { current_remaining_balance:Number(current?.remaining_balance_on_invoice ?? parent.remaining_balance_on_invoice), sent_locked: !!number, locked_invoice_number: number, conditions: CONDITIONS, issue,
-      events, revisions: revisions.length ? revisions : (number ? [{ revision: 0, artifact_key: parent.invoice_file_location, issued_amount: parent.total_amount_due }] : []),
+   const voided=await db('invoice_voids').where({account_id:accountId,original_invoice_id:root}).first();
+   const rebill=await db('rebill_links').where({account_id:accountId}).where(q=>q.where('original_invoice_id',root).orWhere('replacement_invoice_id',root)).orderByRaw('CASE WHEN original_invoice_id = ? THEN 0 ELSE 1 END',[root]).first();
+   return { void:voided,rebill,current_remaining_balance:Number(current?.remaining_balance_on_invoice ?? parent.remaining_balance_on_invoice), sent_locked: !!number, locked_invoice_number: number, conditions: CONDITIONS, issue,
+      events:await require('../../utils/actorNames')(db,accountId,events), revisions: revisions.length ? revisions : (number ? [{ revision: 0, artifact_key: parent.invoice_file_location, issued_amount: parent.total_amount_due }] : []),
       exceptions: exceptions.map(e => ({ ...e, payments: selected.filter(p => p.exception_id === e.exception_id) })),
       statementPayments: statementPayments.map(p => ({ ...p, eligible_for_exception: Number(p.payment_amount) < 0 && !p.retainer_id && !reversedIds.has(String(p.payment_id)) })) };
 }
@@ -70,6 +72,9 @@ async function flag(db, { accountId, invoiceId, actor, body }) {
          const p = history.statementPayments.find(p => p.payment_id === paymentId);
          if (!p) throw ruleError('Selected payment is not on this statement.', 404);
          if (!p.eligible_for_exception) throw ruleError(`Payment #${paymentId} cannot be reversed by this condition.`, 409);
+         // Receipt workflow calls this service for all member applications in
+         // the same transaction; direct legacy requests must use the receipt.
+         if(require('../../utils/auditContext').storage.getStore()?.request?.originalUrl?.startsWith('/invoices/'))await require('../payments/compatibility-subledger').protect(trx,accountId,paymentId);
          selected.push(p);
       }
       const [exception] = await trx('invoice_exceptions').insert({ account_id: accountId, invoice_id: invoiceId,
@@ -150,4 +155,4 @@ async function transition(db, { accountId, invoiceId, exceptionId, actor, action
       return { exception_id: exceptionId, state, ...detail, ...(artifactKey ? { artifact_key: artifactKey } : {}) };
    });
 }
-module.exports = { id, readHistory, flag, transition, CONDITIONS };
+module.exports = {id,readHistory,flag,transition:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_invoices','customer_invoice_id',input.invoiceId,()=>transition(db,input)),CONDITIONS};

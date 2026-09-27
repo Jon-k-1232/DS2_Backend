@@ -1,6 +1,7 @@
 const { committedResponse } = require('../../utils/committedResponse');
 const { validateLedgerInput } = require('../../utils/ledgerInput');
 const express = require('express');
+const {requireAdmin} = require('../auth/jwt-auth');
 const jsonParser = express.json();
 const { sanitizeFields } = require('../../utils/sanitizeFields');
 const { enforceAccountId } = require('../auth/account-scope');
@@ -17,7 +18,7 @@ const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagi
 // current chain only (absorbed references are remapped and annotated), same
 // customer only, snapshot + parent mirror in ONE transaction under the
 // customer's ledger lock (writeOffs-logic.createWriteOffCore).
-writeOffsRouter.route('/createWriteOffs/:accountID/:userID').post(jsonParser, async (req, res) => {
+writeOffsRouter.route('/createWriteOffs/:accountID/:userID').post(requireAdmin, jsonParser, async (req, res) => {
    const db = req.app.get('db');
    const accountID = Number(req.params.accountID);
 
@@ -33,14 +34,14 @@ writeOffsRouter.route('/createWriteOffs/:accountID/:userID').post(jsonParser, as
       if (req.user?.user_id) writeOffTableFields.created_by_user_id = Number(req.user.user_id);
 
       // Trust the account from the (guard-verified) URL, never the request body.
-      const { message } = await require('../payments/ledger-helpers').withTransaction(db, async trx => {
+      const { message, writeOff } = await require('../payments/ledger-helpers').withTransaction(db, async trx => {
          await require('../../utils/ledgerAction').actionContext(trx, Number(req.user.user_id), 'Manual write-off entry');
          const result = await createWriteOffCore(trx, { accountId: accountID, writeOffFields: writeOffTableFields });
          await require('../duplicates/duplicates-service').detectCreated(trx, 'writeoff', result.writeOff, Number(req.user.user_id));
          return result;
       });
 
-      await sendUpdatedTableWith200Response(db, res, accountID, message);
+      await sendUpdatedTableWith200Response(db, res, accountID, message, {writeoffs:[writeOff]});
    } catch (err) {
       console.log(err);
       res.status(err.inputValidation ? 400 : 200).send({
@@ -90,7 +91,7 @@ writeOffsRouter.route('/getSingleWriteOff/:writeOffID/:accountID/:userID').get(a
 // update a writeOff. Refused once billed (stored-row customer, newest parent
 // created_at); linkage is server-owned; amount edits re-price the latest
 // snapshot + parent mirror (writeOffs-logic.updateWriteOffCore).
-writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(jsonParser, async (req, res) => {
+writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(requireAdmin, jsonParser, async (req, res) => {
    const db = req.app.get('db');
    try {
       validateLedgerInput(req.body.writeOff, 'writeoff', { update: true });
@@ -103,9 +104,9 @@ writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(jsonParser, asy
       writeOffTableFields.account_id = Number(req.params.accountID);
       const { account_id } = writeOffTableFields;
 
-      const { message } = await updateWriteOffCore(db, { accountId: account_id, writeOffFields: writeOffTableFields });
+      const { message, stored } = await updateWriteOffCore(db, { accountId: account_id, writeOffFields: writeOffTableFields });
 
-      await sendUpdatedTableWith200Response(db, res, account_id, message);
+      await sendUpdatedTableWith200Response(db, res, account_id, message, async()=>({writeoffs:await writeOffsService.getSingleWriteOff(db,stored.writeoff_id,account_id)}));
    } catch (err) {
       console.log(err);
       res.status(err.inputValidation ? 400 : 200).send({
@@ -116,7 +117,7 @@ writeOffsRouter.route('/updateWriteOffs/:accountID/:userID').put(jsonParser, asy
 });
 
 // delete a writeOff — symmetric to deletePayment (writeOffs-logic.deleteWriteOffCore).
-writeOffsRouter.route('/deleteWriteOffs/:accountID/:userID').delete(async (req, res) => {
+writeOffsRouter.route('/deleteWriteOffs/:accountID/:userID').delete(requireAdmin, async (req, res) => {
    const db = req.app.get('db');
 
    try {
@@ -128,9 +129,9 @@ writeOffsRouter.route('/deleteWriteOffs/:accountID/:userID').delete(async (req, 
       const { writeoff_id, account_id } = writeOffTableFields;
 
       // Only the id is taken from the body; the linkage comes from the stored row.
-      const { message } = await deleteWriteOffCore(db, { accountId: account_id, writeoffId: writeoff_id });
+      const { message, stored } = await deleteWriteOffCore(db, { accountId: account_id, writeoffId: writeoff_id });
 
-      await sendUpdatedTableWith200Response(db, res, account_id, message);
+      await sendUpdatedTableWith200Response(db, res, account_id, message, {deletedWriteoffs:[stored.writeoff_id]});
    } catch (err) {
       console.log(err);
       res.send({
@@ -186,29 +187,5 @@ writeOffsRouter.route('/getWriteOffs/:accountID/:userID').get(async (req, res) =
    }
 });
 
-const sendUpdatedTableWith200Response = async (db, res, accountID, message) => {
-   return committedResponse(res, message, async () => {
-      // Get all writeOff
-      const activeWriteOffs = await writeOffsService.getActiveWriteOffs(db, accountID);
-      const activeInvoices = await invoiceService.getInvoices(db, accountID);
-
-      // Return Object
-      const activeWriteOffsData = {
-         activeWriteOffs,
-         grid: createGrid(activeWriteOffs)
-      };
-
-      const activeInvoiceData = {
-         activeInvoices,
-         grid: createGrid(activeInvoices),
-         treeGrid: generateTreeGridData(activeInvoices, 'customer_invoice_id', 'parent_invoice_id')
-      };
-
-      return {
-         invoicesList: { activeInvoiceData },
-         writeOffsList: { activeWriteOffsData },
-         message,
-         status: 200
-      };
-   });
-};
+const sendUpdatedTableWith200Response = (db,res,accountID,message,changed={}) =>
+ committedResponse(res,message,async()=>({...await require('../../utils/listPayload').firstPages(db,accountID,['writeoffs','invoices']),changed:typeof changed==='function'?await changed():changed}));

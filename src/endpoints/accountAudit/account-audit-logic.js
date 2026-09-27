@@ -164,7 +164,7 @@ const buildInvoiceChains = invoices => {
    return chains;
 };
 
-const computePerInvoice = ({ chain, payments, writeoffs, transactions }) => {
+const computePerInvoice = ({ chain, payments, writeoffs, transactions, corrections=[] }) => {
    const parent = chain.parent;
    const chainIds = new Set([chain.rootId, ...chain.snapshots.map(s => s.customer_invoice_id)]);
 
@@ -210,7 +210,8 @@ const computePerInvoice = ({ chain, payments, writeoffs, transactions }) => {
    const parentTotal = round2(num(parent?.total_amount_due));
    const latest = chain.snapshots[chain.snapshots.length - 1] || parent;
    const actualRemaining = round2(num(latest?.remaining_balance_on_invoice));
-   const expectedRemaining = round2(parentTotal - paidSum - writeoffSum);
+   const correctionSum=round2(corrections.filter(c=>Number(c.invoice_id)===Number(chain.rootId)).reduce((n,c)=>n+num(c.amount),0));
+   const expectedRemaining = round2(parentTotal - paidSum - writeoffSum + correctionSum);
 
    // Stamped by invoiceService.zeroOutAbsorbedInvoices when a newer invoice
    // absorbed this chain's remaining into its beginning_balance. A zeroed
@@ -240,6 +241,7 @@ const computePerInvoice = ({ chain, payments, writeoffs, transactions }) => {
       paid_at_issue: paidAtIssue,
       writeoffs_against_invoice: writeoffSum,
       transactions_on_invoice: transactionSum,
+      corrections_against_invoice:correctionSum,
       expected_remaining: expectedRemaining,
       actual_remaining_used: actualRemaining,
       is_paid_in_full_db: !!(parent?.sent_locked ? latest?.is_invoice_paid_in_full : parent?.is_invoice_paid_in_full),
@@ -440,7 +442,7 @@ const detectDiscrepancies = ({
    return out;
 };
 
-const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions, retainers = [], retainerEvents = [] }) => {
+const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions, retainers = [], retainerEvents = [], corrections = [] }) => {
    const events = [];
    const invoiceById = new Map();
    invoices.forEach(i => invoiceById.set(i.customer_invoice_id, i));
@@ -497,17 +499,27 @@ const buildChronologicalLedger = ({ invoices, payments, writeoffs, transactions,
    retainers
       .filter(r => !r.parent_retainer_id)
       .forEach(r => {
+         const transferredIn = num(r.credit_transferred_in) > 0;
          events.push({
             date: fmtDate(r.created_at),
             sort_ts: new Date(r.created_at).getTime(),
-            type: 'retainer_established',
-            description: `Retainer established: ${r.display_name || r.type_of_hold || 'Retainer'} — $${round2(abs(r.starting_amount)).toFixed(2)}${r.form_of_payment ? ` (${r.form_of_payment})` : ''}`,
+            type: transferredIn ? 'retainer_credit_transfer_in' : 'retainer_established',
+            description: `${transferredIn ? 'Noncash credit transferred in' : 'Retainer established'}: ${r.display_name || r.type_of_hold || 'Retainer'} — $${round2(abs(r.starting_amount)).toFixed(2)}${r.form_of_payment ? ` (${r.form_of_payment})` : ''}`,
             charge: 0,
             credit: 0,
             reference_id: r.retainer_id,
             note: r.note || null
          });
       });
+
+   retainers.filter(r => num(r.credit_transferred_out) > 0).forEach(r => events.push({
+      date: fmtDate(r.created_at), sort_ts: new Date(r.created_at).getTime(),
+      type: 'retainer_credit_transfer_out', reference_id: r.retainer_id,
+      description: `Noncash credit transferred out: $${round2(num(r.credit_transferred_out)).toFixed(2)}`,
+      charge: 0, credit: 0, note: r.note || null
+   }));
+
+   corrections.forEach(c=>events.push({date:fmtDate(c.effective_date),sort_ts:new Date(c.created_at).getTime(),type:c.kind,reference_id:c.posting_id || c.link_id || c.refund_id,description:`${String(c.kind).replace(/_/g,' ')}: ${c.reason}${c.returned_amount ? '; money returned $'+c.returned_amount : ''}`,charge:Math.max(0,num(c.amount)),credit:Math.max(0,-num(c.amount)),note:c.reason}));
 
    retainerEvents.forEach(e => events.push({
       date:fmtDate(e.event_date),sort_ts:new Date(e.event_date).getTime(),type:`retainer_${e.kind}`,reference_id:e.event_id,
@@ -646,9 +658,11 @@ const summarizeRetainers = (retainers, retainerEvents = []) => {
       const eventDelta = round2(events.reduce((sum,e) => sum + Number(e.balance_delta),0));
       const refunded = round2(events.filter(e => e.kind === 'refund').reduce((sum,e) => sum + Number(e.amount),0));
       const adjusted = round2(events.filter(e => e.kind === 'adjustment').reduce((sum,e) => sum - Number(e.balance_delta),0));
-      const drawn = isCancelled ? 0 : round2(startingAmt - currentAmt - eventDelta);
+      const transferredIn = round2(num(root.credit_transferred_in));
+      const transferredOut = round2([root, ...chain.snapshots].reduce((sum, r) => sum + num(r.credit_transferred_out), 0));
+      const drawn = isCancelled ? 0 : round2(startingAmt - currentAmt - eventDelta - transferredOut);
       const isActive = !isCancelled && !!latest.is_retainer_active;
-      if (!isCancelled) total_prepaid_lifetime = round2(total_prepaid_lifetime + startingAmt);
+      if (!isCancelled) total_prepaid_lifetime = round2(total_prepaid_lifetime + startingAmt - transferredIn);
       if (isActive) retainer_available = round2(retainer_available + currentAmt);
       breakdown.push({
          retainer_id: root.retainer_id,
@@ -661,6 +675,8 @@ const summarizeRetainers = (retainers, retainerEvents = []) => {
          drawn_to_date: drawn,
          refunded_to_date: refunded,
          adjustments_to_date: adjusted,
+         transferred_in: transferredIn,
+         transferred_out: transferredOut,
          events,
          is_active: isActive,
          is_cancelled: isCancelled,
@@ -678,6 +694,8 @@ const summarizeRetainers = (retainers, retainerEvents = []) => {
       total_prepaid_lifetime,
       retainer_available,
       retainer_drawn,
+      transferred_in: round2(breakdown.reduce((sum, chain) => sum + chain.transferred_in, 0)),
+      transferred_out: round2(breakdown.reduce((sum, chain) => sum + chain.transferred_out, 0)),
       active_chains: breakdown.filter(b => b.is_active).length,
       cancelled_chains: breakdown.filter(b => b.is_cancelled).length,
       total_chains: breakdown.length,
@@ -685,11 +703,26 @@ const summarizeRetainers = (retainers, retainerEvents = []) => {
    };
 };
 
-const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transactions, retainers = [], retainerEvents = [], billingDate = billingDateToday() }) => {
+const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transactions, retainers = [], retainerEvents = [], corrections = [], billingDate = billingDateToday() }) => {
+   const sources={invoices,payments,writeoffs,transactions,retainers,retainerEvents,corrections};
+   const entityIds=[...new Set(Object.values(sources).flat().map(r=>r.billing_entity_id).filter(v=>v!=null))];
+   if(entityIds.length>1 || transactions.some(t=>t.billing_entity_id===null)) {
+      const by_entity=entityIds.map(e=>({billing_entity_id:e,...auditCustomerLedger({customer,billingDate,...Object.fromEntries(Object.entries(sources).map(([k,rows])=>[k,rows.filter(r=>r.billing_entity_id===e)]))})}));
+      const base=by_entity[0] || auditCustomerLedger({customer,billingDate,invoices:[],payments:[],writeoffs:[],transactions:[],retainers:[],retainerEvents:[]});
+      const totals={...base.totals};
+      for(const [k,v]of Object.entries(totals))if(typeof v==='number')totals[k]=round2(by_entity.reduce((n,r)=>n+r.totals[k],0));
+      totals.counts=Object.fromEntries(Object.keys(totals.counts).map(k=>[k,by_entity.reduce((n,r)=>n+r.totals.counts[k],0)]));
+      totals.audit_balance_lines=by_entity.flatMap(r=>r.totals.audit_balance_lines.map(line=>({...line,billing_entity_id:r.billing_entity_id})));
+      const held_unbilled=round2(transactions.filter(t=>t.billing_entity_id===null && !t.customer_invoice_id && t.is_transaction_billable).reduce((n,t)=>n+num(t.total_transaction),0));
+      const joined=Object.fromEntries(['invoice_breakdown','discrepancies','ledger'].map(k=>[k,by_entity.flatMap(r=>r[k].map(v=>({...v,billing_entity_id:r.billing_entity_id})))]));
+      const retainersSummary = {...base.retainers,breakdown:by_entity.flatMap(r=>r.retainers.breakdown)};
+      for (const [key,value] of Object.entries(base.retainers)) if (typeof value === 'number') retainersSummary[key] = round2(by_entity.reduce((sum,r)=>sum+r.retainers[key],0));
+      return {...base,...joined,totals,by_entity,held_unbilled,retainers:retainersSummary};
+   }
    const chains = buildInvoiceChains(invoices);
    const invoiceBreakdown = [];
    chains.forEach(chain => {
-      invoiceBreakdown.push(computePerInvoice({ chain, payments, writeoffs, transactions }));
+      invoiceBreakdown.push(computePerInvoice({ chain, payments, writeoffs, transactions, corrections }));
    });
    invoiceBreakdown.sort((a, b) => {
       const aD = a.invoice_date || '';
@@ -850,7 +883,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
    const unbilledByJob = {};
    let unbilled_billable_on_jobs = 0;
    transactions
-      .filter(t => !t.customer_invoice_id && t.customer_job_id && (!t.transaction_date || fmtDate(t.transaction_date) <= billingDate))
+      .filter(t => !t.customer_invoice_id && (t.customer_job_id || t.recurring_occurrence_id) && (!t.transaction_date || fmtDate(t.transaction_date) <= billingDate))
       .forEach(t => {
          if (!(t.customer_job_id in unbilledByJob)) unbilledByJob[t.customer_job_id] = 0;
          if (t.is_transaction_billable) {
@@ -961,7 +994,7 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
       duplicateSameDayParents
    });
 
-   const ledger = buildChronologicalLedger({ invoices, payments, writeoffs, transactions, retainers, retainerEvents });
+   const ledger = buildChronologicalLedger({ invoices, payments, writeoffs, transactions, retainers, retainerEvents, corrections });
 
    return {
       customer: {
@@ -993,6 +1026,8 @@ const auditCustomerLedger = ({ customer, invoices, payments, writeoffs, transact
          retainer_total_prepaid_lifetime: retainerSummary.total_prepaid_lifetime,
          retainer_available: retainerSummary.retainer_available,
          retainer_drawn: retainerSummary.retainer_drawn,
+         retainer_transferred_in: retainerSummary.transferred_in,
+         retainer_transferred_out: retainerSummary.transferred_out,
          net_position_after_retainer,
          counts: {
             parent_invoices: parentInvoices.length,

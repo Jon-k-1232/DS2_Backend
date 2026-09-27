@@ -23,6 +23,15 @@ BEGIN
          VALUES (9001, 'TEST FIXTURE ACCOUNT', 'business', true, 'TEST_FIXTURE_ACCOUNT');
    END IF;
 
+   IF to_regclass('public.billing_entities') IS NOT NULL THEN
+      PERFORM set_config('app.billing_entity_id',(SELECT billing_entity_id::text FROM billing_entities WHERE account_id=9001 AND is_default),true);
+      -- Reviewed spellings in the synthetic tracker workbooks, only tenant9001.
+      INSERT INTO billing_entity_aliases(account_id,billing_entity_id,alias,source,reason)
+       SELECT 9001,billing_entity_id,spelling,'test/fixture','Known single-business regression workbook'
+       FROM billing_entities CROSS JOIN unnest(ARRAY['JFK&A','James F. Kimmel & Associates','Kimmel Financial Advisors']) AS spelling
+       WHERE account_id=9001 AND is_default ON CONFLICT DO NOTHING;
+   END IF;
+
    -- Test users (employees who fill out time trackers).
    IF NOT EXISTS (SELECT 1 FROM users WHERE user_id = 90011) THEN
       INSERT INTO users(user_id, account_id, email, display_name, cost_rate, billing_rate, job_title, access_level, is_user_active)

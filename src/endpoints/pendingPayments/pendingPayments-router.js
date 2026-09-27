@@ -185,6 +185,7 @@ pendingPaymentsRouter.route('/approve/:accountID/:userID').post(jsonParser, asyn
 
          const postedMarker = created.payment ? `[posted_payment:${created.payment.payment_id}]` : `[posted_prepayment_retainer:${created.prepaymentRetainer.retainer_id}]`;
          const pendingPayment = await pendingPaymentsService.markAsProcessed(trx, pendingPaymentId, accountID, {
+            billing_entity_id:require('../billingEntities/entity-context').current(),
             note: appendNoteMarker(pending.note, postedMarker)
          });
          return { created, pendingPayment };

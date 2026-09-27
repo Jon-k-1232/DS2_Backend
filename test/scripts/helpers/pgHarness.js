@@ -51,12 +51,15 @@ const createThrowawayDb = name => {
    return name;
 };
 
-const dropDb = name => {
+const dropDb = (name, { through = Infinity } = {}) => {
    assertThrowawayName(name);
    createThrowawayDb(name);
    const dir = path.dirname(SCHEMA_SNAPSHOT);
-   for (const f of fs.readdirSync(dir).filter(f => /^\d{3}\./.test(f) && Number(f.slice(0,3)) > 18).sort()) psqlFile(name, path.join(dir,f), ['-X','-1','-v','ON_ERROR_STOP=1']);
+   for (const f of fs.readdirSync(dir).filter(f => /^\d{3}\./.test(f) && Number(f.slice(0,3)) > 18 && Number(f.slice(0,3)) <= through).sort()) psqlFile(name, path.join(dir,f), ['-X','-1','-v','ON_ERROR_STOP=1']);
    psqlFile(name, path.join(__dirname,'../../fixtures/clean-room-seed.sql'), ['-X','-1','-v','ON_ERROR_STOP=1']);
+   // The legacy seed is inserted after schema creation. Materialize its H4 cutover
+   // so it cannot create historical fees inside pre-H4 ledger oracles.
+   if (through >= 44) psqlFile(name, path.join(dir,'043.recurring_billing.sql'), ['-X','-1','-v','ON_ERROR_STOP=1']);
 };
 
 /** Apply a raw .sql file to `name` via `psql -f` — used for migration files (handles psql

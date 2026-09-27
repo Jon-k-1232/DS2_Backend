@@ -29,13 +29,13 @@
 
 ## Supported fresh-build baseline and suggestion recovery (F30)
 
-Use the immutable `schema-snapshot-2026-09-22.sql` as the supported clean schema baseline through 018, then apply 019 through 026 in order. For the tracked runner, load the snapshot into an empty database, verify that baseline, record `--baseline 18`, and run pending migrations. Never replay historical 002–018 onto this snapshot; some files recreate populated tables.
+Use the immutable `schema-snapshot-2026-09-22.sql` as the supported clean schema baseline through 018, then apply 019 through042 in order. For the tracked runner, load the snapshot into an empty database, verify that baseline, record `--baseline 18`, and run pending migrations. Never replay historical 002–018 onto this snapshot; some files recreate populated tables.
 
 005 removed three suggestion customer columns later reintroduced outside the numbered history. Migration **022.restore_suggestion_customer_columns.sql** makes that restoration explicit: nullable text entity/display name and integer customer ID with the original customer FK. It is additive/idempotent on the supported snapshot and restores missing columns on a historical-005-shaped database. It preserves existing values but cannot recover values already dropped by 005. `test/scripts/migration-022.spec.js` creates disposable local databases, tests both shapes through every forward migration, exercises the ingestion-shaped upsert and review read, and repeats the forward files to check preservation. No production or production-copy data repair is implied.
 
 ## File contract: numbered migrations are plain SQL
 
-All numbered migrations (currently `002`–`027`) must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
+All numbered migrations (currently `002`–`042`) must be plain SQL — **no `BEGIN;` / `COMMIT;` / `START
 TRANSACTION;` / `END;` line and no psql `\`-meta-command**, outside a
 dollar-quoted (`$$...$$`/`$tag$...$tag$`) block. `scripts/migrate.js` owns
 the transaction wrapper for every file it runs (together with that file's
@@ -395,7 +395,7 @@ Migration tests run serially in **ds2_clean**, rebuilding the baseline as needed
 
 ## 024 — retainer events and duplicate review
 
-`024.retainer_events_duplicates.sql` follows023. It adds retainer_events, duplicate_flags and duplicate_history, indexes and immutable journal/snapshot guards, and allows event rows in statement membership. No business-row backfill. Plain SQL, no top-level BEGIN/COMMIT, and idempotent. `test/scripts/migration-024.spec.js` checks schema rerun/empty data/guards; migrate count is23 numbered files002–024. Scenario reset includes024. Local application used `PGPASSWORD=ds2local psql -h 127.0.0.1 -p 5433 -U ds2 -d <ds2_local|ds2_clean|ds2_scenarios> -X -1 -v ON_ERROR_STOP=1 -f migrations/024.retainer_events_duplicates.sql` by hand on each named database. Production cutover remains a future operator step in `docs/platform/operations.md` and FINAL_REPORT section6.
+`024.retainer_events_duplicates.sql` follows023. It adds retainer_events, duplicate_flags and duplicate_history, indexes and immutable journal/snapshot guards, and allows event rows in statement membership. No business-row backfill. Plain SQL, no top-level BEGIN/COMMIT, and idempotent. `test/scripts/migration-024.spec.js` checks schema rerun/empty data/guards; migrate count is23 numbered files 002–024. Scenario reset includes024. Local application used `PGPASSWORD=ds2local psql -h 127.0.0.1 -p 5433 -U ds2 -d <ds2_local|ds2_clean|ds2_scenarios> -X -1 -v ON_ERROR_STOP=1 -f migrations/024.retainer_events_duplicates.sql` by hand on each named database. Production cutover remains a future operator step in `docs/platform/operations.md` and FINAL_REPORT section6.
 
 ## 025 — optional credit statement selection evidence
 
@@ -413,3 +413,44 @@ After025, apply `026.audit_ledger.sql` with `psql -X -1 -v ON_ERROR_STOP=1 -f`. 
 `027.audit_record_presentations.sql` adds guarded `audit_records.record_type` (`client` / `full_evidence`), source-archive storage key/SHA-256/byte length, validation constraints and a unique archive-key index. Existing PDFs default to full evidence and keep their bytes; no business rows, captured events or chain hashes are rewritten. Plain SQL, idempotent, no transaction wrapper. The runner count is 26 numbered files (002–027); `test/scripts/migration-027.spec.js` checks reruns, preservation, validation and immutable metadata. The scenario reset and clean-room migration harness automatically discover it as a forward migration.
 
 Applied by hand on 2026-09-25 to ds2_local, ds2_clean and ds2_scenarios at 127.0.0.1:5433 with `PGPASSWORD=ds2local psql -X -1 -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 5433 -U ds2 -d <database> -f migrations/027.audit_record_presentations.sql`. Production rollout is a separate future operator step in operations.md and FINAL_REPORT section 6.
+
+## 028–036 — H1 billing businesses and reviewed legacy routing
+
+All nine forward migrations were applied by hand to each authorized local database with `psql -X -1 -v ON_ERROR_STOP=1 -f`; logs are in `docs/decisions/evidence/run-H1`. They are plain SQL, rerunnable and contain no transaction wrapper. The migration count is **35 runnable files (002–036)**. Scenario reset and clean-room restoration discover the complete forward chain; `test/scripts/migration-H1.spec.js` verifies plain SQL, idempotence, guards, exact mapping and append-only audit capture. **037 is next free.**
+
+028 adds businesses, aliases, effective attribution views and held-review evidence. 029 adds integrity, opening routing, idempotency and credit transfers. 030 adds tracker/audit attribution and constraints. 031 fixes imported-payment selection and unused-account teardown. 032 adds reviewed opening slices. 033 fixes generic trigger record-field handling. 034 scopes saved Account Audits. 035 protects default legacy source openings; 036 preserves normal UPDATE behavior outside those openings. Apply 035 and 036 together before resuming writers; do not run the intermediate035 definition in service. No applied migration was edited after execution.
+
+Original account 1 financial/contact/tracker/user fields and row counts are unchanged; audited sidecar insertions and per-client/entity financial reconciliation are enumerated in [H1 results](../docs/decisions/2026-09-26-run-H1-results.md). [Operations](../docs/platform/operations.md#h1-business-cutover) and FINAL_REPORT section14 contain the coordinated future rollout. The old backend must not run against the new write guards. Production application has not been performed.
+
+
+H2 adds037–041: supported legacy-opening amendment, obligation/receipt/credit tables, statement membership/legacy links, deferred receipt conservation, and client-specific credit lineage. Apply each with the standard `psql -X -1 -v ON_ERROR_STOP=1 -f` command in all three local sandboxes. Their application-time source backfills are explicit reviewed operator steps, not migration-time money changes. See [operations](../docs/platform/operations.md#h2-rollout--corrected-legacy-default-and-receipt-subledger). Next free number042; automatic discovery includes these files; `migrate.spec` expects40 forward files.
+
+## H3 correction schema (042)
+
+Apply `042.invoice_corrections.sql` after041 with `psql -X -1 -v ON_ERROR_STOP=1 -f`. It creates seven immutable audited scoped tables, extends frozen statement membership and receipt conservation to money returned. It is idempotent and has no source-row backfill. Local H3 applies it individually to ds2_local, ds2_clean and ds2_scenarios on127.0.0.1:5433. Scenario reset discovers numbered forward files through042 automatically. The migration inventory now has41 numbered files (002–042). Production rollout is documented, not executed, in `docs/platform/operations.md`.
+
+## H4 recurring schema (043–044)
+
+Inventory: **43 files, 002–044; next free045**. `043.recurring_billing.sql` extends the existing plan table, records immutable legacy cutovers, adds audited unique period occurrences/events and their guards, supports staffless recurring Charges and expands statement membership. It generates no charges. `044.recurring_attribution_materialization.sql` allows only physical materialization of a plan's already effective business.
+
+**Populated legacy order:044 preflight,043,044 idempotently**, each with `psql -X -1 -v ON_ERROR_STOP=1 -f`. A plain numeric043-before044 rollout on legacy null-business plans is refused; do not omit the documented preflight. Both files were applied by hand to ds2_local, ds2_clean and ds2_scenarios. Fresh empty-schema migration discovery runs043 then044; the clean-room/scenario legacy seed is subsequently cut over with043. `test/scripts/migration-H4.spec.js` verifies reruns, guards, unchanged financial rows and conversion. Historical view migrations are replayed at their own schema boundary because later migrations append view columns. See [operations](../docs/platform/operations.md#h4-rollout--recurring-billing) and [H4 results](../docs/decisions/2026-09-26-run-H4-results.md) for exact backfill effects and future deployment steps.
+
+## H5 cost provenance (045/046)
+
+`045.work_cost_snapshots.sql` follows044. At H5 acceptance, the inventory was **45 runnable files, 002–046; next free047**. H9 below advances the inventory to 047 and the next free number to048. It adds captured cost/source/time, actual-duration/source and standard billing-value columns to work and trackers, a unique source-tracker FK and immutable audited `legacy_work_cost_estimates`. New rows capture the actual staff cost once; source posting copies that evidence. Historical rows remain physically unchanged; the migration creates one explicitly estimated/unknown sidecar per original work/tracker row and its system audit event. Rerun inserts nothing already present and never replaces rates.
+
+Applied by hand to ds2_local, ds2_clean and ds2_scenarios at127.0.0.1:5433 using `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/045.work_cost_snapshots.sql`; retained logs are in `docs/decisions/evidence/run-H5`. Scenario reset automatically discovers045/046; the migration inventory spec expects45 and `migration-H5.spec.js` verifies idempotence, unchanged old fields, cost edits and audit/immutability guards. Source provenance requires test teardown to delete posted work before its source tracker. See [operations](../docs/platform/operations.md#h5-rollout--honest-analytics-and-cost-provenance) for the future production procedure. No deployed environment was touched.
+
+`046.reviewed_work_cost_snapshots.sql` is the continuation fix, applied with the same command contract to all three sandboxes. It replaces only the capture function: known tracker employee changes require a reason, ordinary matching preserves the original/unknown rate, and supplied manual minutes retain actual duration. It changes no existing row or audit event. `migration-H5-reviewed-work.spec.js` verifies idempotence, matching, explicit reassignment and unknown rates. Apply046 after045 before enabling writers.
+
+## H9 index and loading rollout (047)
+
+Apply `047.bounded_lookup_indexes.sql` after046 with `psql -X -1 -v ON_ERROR_STOP=1 -f`. This adds five indexes on customer_jobs (account/client and account/family), customers (account/active/name/ID), and retainers (account/date/ID and account/client). It creates no tables or write paths and has **zero business-row, audit-row or backfill effects**, including account1. It is plain idempotent SQL, with no BEGIN/COMMIT and no external service calls. The migration inventory is **46 forward files, 002–047; next free048**. Scenario reset discovers047 and `migration-H9.spec.js` verifies reruns and row preservation.
+
+Local application was performed individually on ds2_local, ds2_clean and ds2_scenarios at127.0.0.1:5433; logs are in `docs/decisions/evidence/run-H9`. Future production procedure: schedule the ordinary index-build lock window, apply047 with the command above, deploy backend and frontend together, restart the backend, and hard-reload existing browser sessions because bootstrap/save shapes changed. Do not run the old frontend with the bounded-response backend. Keep `SEND_REAL_EMAIL` and scheduled automation settings at their reviewed values; local verification always has both false. Recheck <1MB initial JSON, paged jobs/client lookup, committed refresh warning, primary entry/record screens and drift0. No production deployment has been performed by H9.
+
+## H10 —048/049 batched reporting views and lock compatibility
+
+048 first introduced joined work/job views.049 is its required forward correction: joined projections live in `billing_reads`, and original single-table `billing_scope` definitions continue to support row locking. Apply048 immediately followed by049 before deploying H10; never leave writers on048 alone. Every file uses `psql -X -1 -v ON_ERROR_STOP=1 -f`, no file-level BEGIN/COMMIT. Both were manually applied to ds2_local, ds2_clean and ds2_scenarios. No source/audit rows or backfill change; no new index.
+
+Current inventory: **48 forward migrations002–049; next free050**. Scenario reset discovers both; `migration-H10.spec.js` tests reruns, exact view/source preservation and every row-lock mode with a competing physical-row lock. Local evidence and future rollout are in [H10 results](../docs/decisions/2026-09-26-run-H10-results.md) and [operations](../docs/platform/operations.md).

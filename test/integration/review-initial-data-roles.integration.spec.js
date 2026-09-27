@@ -25,10 +25,10 @@ describe('F3 initial data role projection', function () {
    if (users.length) await h.db('users').where({account_id:9001}).whereIn('user_id',users).del();
    await h.close();
  });
- for (const [list, section, rows] of paths) it(`returns an empty ${list} including grids and counts to ordinary staff`, () => {
+ for (const [list, section, rows] of paths) it(`returns an empty ${list} without duplicate grids to ordinary staff`, () => {
    const data = blob[list][section];
    expect(data[rows]).to.deep.equal([]);
-   expect(data.grid).to.deep.equal({columns:[],rows:[]});
+   expect(data).not.to.have.property('grid');
    if (data.treeGrid) expect(data.treeGrid.rows).to.deep.equal([]);
    if (data.pagination) {
      expect(data.pagination.totalItems).to.equal(0);
@@ -40,7 +40,7 @@ describe('F3 initial data role projection', function () {
    expect(users).to.have.lengthOf(1);
    expect(users[0]).to.have.all.keys('user_id','display_name');
    expect(Number(users[0].user_id)).to.equal(90011);
-   expect(blob.teamMembersList.activeUserData.grid.rows[0]).to.have.all.keys('id','user_id','display_name');
+   expect(blob.teamMembersList.activeUserData).not.to.have.property('grid');
  });
  it('denies the dedicated ledger route and never queries financial/contact tables for the staff blob', async () => {
    expect((await h.as('employee').get('/transactions/getTransactions/9001/90011')).status).to.equal(403);

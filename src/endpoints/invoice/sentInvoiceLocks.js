@@ -1,8 +1,12 @@
 'use strict';
 const { ruleError } = require('../payments/ledger-helpers');
 const { committedFallback } = require('../../utils/committedResponse');
-const TABLE_KEYS = Object.freeze({ customer_invoices: 'customer_invoice_id', customer_transactions: 'transaction_id',
+const COMPATIBILITY_KEYS = Object.freeze({ customer_invoices: 'customer_invoice_id', customer_transactions: 'transaction_id',
    customer_payments: 'payment_id', customer_writeoffs: 'writeoff_id', customer_retainers_and_prepayments: 'retainer_id' });
+const SUBLEDGER_KEYS=Object.freeze({ar_obligations:'obligation_id',payment_receipts:'receipt_id',ar_applications:'application_id',client_credit_lots:'credit_id',client_credit_events:'event_id',receipt_events:'event_id'});
+const CORRECTION_KEYS=Object.freeze({credit_memos:'memo_id',credit_memo_lines:'line_id',credit_memo_reversals:'reversal_id',invoice_voids:'void_id',rebill_links:'link_id',client_refunds:'refund_id',correction_postings:'posting_id'});
+const RECURRING_KEYS=Object.freeze({recurring_charge_occurrences:'occurrence_id',recurring_occurrence_events:'event_id'});
+const TABLE_KEYS=Object.freeze({...COMPATIBILITY_KEYS,...SUBLEDGER_KEYS,...CORRECTION_KEYS,...RECURRING_KEYS});
 const lockedMessage = number => `locked: part of sent invoice ${number}`;
 async function lockNumber(db, accountId, table, id) {
    if (!Number.isSafeInteger(Number(id)) || Number(id) <= 0) return null;
@@ -30,7 +34,7 @@ async function captureIssue(trx, parent, payload, actor) {
    const [saved] = await trx('invoice_issues').insert(issue).returning('*');
    // The statement includes this customer's ledger basis through the issuance
    // boundary, plus stamped work. Pending, unbilled work remains editable.
-   for (const [table, key] of Object.entries(TABLE_KEYS)) {
+   for (const [table, key] of Object.entries(COMPATIBILITY_KEYS)) {
       const q = trx(table).where({ account_id: parent.account_id, customer_id: parent.customer_id });
       if (table === 'customer_transactions') q.whereNotNull('customer_invoice_id');
       else if (payload) q.whereRaw('created_at <= (SELECT issued_at FROM invoice_issues WHERE account_id=? AND invoice_id=?)', [parent.account_id, parent.customer_invoice_id]);
@@ -42,6 +46,14 @@ async function captureIssue(trx, parent, payload, actor) {
    const events = await trx('retainer_events').where({account_id:parent.account_id,customer_id:parent.customer_id})
       .whereRaw('created_at <= (SELECT issued_at FROM invoice_issues WHERE account_id=? AND invoice_id=?)',[parent.account_id,parent.customer_invoice_id]);
    if(events.length) await trx('invoice_statement_members').insert(events.map(row=>({account_id:parent.account_id,invoice_id:parent.customer_invoice_id,table_name:'retainer_events',record_id:row.event_id,snapshot:JSON.stringify(row)})));
+   for(const [table,key] of Object.entries({...SUBLEDGER_KEYS,...CORRECTION_KEYS})){
+      const rows=await trx(table).where({account_id:parent.account_id,customer_id:parent.customer_id,billing_entity_id:parent.billing_entity_id});
+      if(rows.length)await trx('invoice_statement_members').insert(rows.map(row=>({account_id:parent.account_id,invoice_id:parent.customer_invoice_id,table_name:table,record_id:row[key],snapshot:JSON.stringify(row)})));
+   }
+   const recurring = await trx('recurring_charge_occurrences').where({account_id:parent.account_id,customer_id:parent.customer_id,billing_entity_id:parent.billing_entity_id,state:'issued'});
+   const recurringEvents = recurring.length ? await trx('recurring_occurrence_events').whereIn('occurrence_id',recurring.map(o=>o.occurrence_id)) : [];
+   for(const [table,rows] of [['recurring_charge_occurrences',recurring],['recurring_occurrence_events',recurringEvents]]) if(rows.length)
+      await trx('invoice_statement_members').insert(rows.map(row=>({account_id:parent.account_id,invoice_id:parent.customer_invoice_id,table_name:table,record_id:row[RECURRING_KEYS[table]],snapshot:JSON.stringify(row)})));
    await trx('invoice_revisions').insert({ account_id: saved.account_id, invoice_id: saved.invoice_id, revision: 0,
       artifact_key: saved.artifact_key, payload: issue.payload, issued_amount: parent.total_amount_due, created_by: actor });
    await historyEvent(trx, saved, actor, payload ? 'issued' : 'legacy_issue_recorded', { invoice_number: saved.invoice_number, artifact_key: saved.artifact_key, legacy: !payload, reason: payload?.issueReason || 'Record legacy issuance evidence.', credit_statement_selected: !!saved.credit_selection_reason, before: null, after: { total_amount_due: parent.total_amount_due, invoice_id: parent.customer_invoice_id } });

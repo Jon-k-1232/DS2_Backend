@@ -7,12 +7,14 @@ const { buildStubDb, caught } = require('./_stubDb');
 const ACCOUNT = 9001;
 
 describe('billingReview-service applyHeldEntry', () => {
-   let realAddNewTransaction;
+   let realAddNewTransaction,realResolve;
+   const trackerEntity=require('../../../src/endpoints/billingEntities/tracker-entity');
    let realIsInternalCustomer;
    let addCalls;
    let internalIds;
 
    beforeEach(() => {
+      realResolve=trackerEntity.resolve;trackerEntity.resolve=async()=>777;
       realAddNewTransaction = sharedTransactionFunctions.addNewTransaction;
       realIsInternalCustomer = internalCustomers.isInternalCustomer;
       addCalls = [];
@@ -24,6 +26,7 @@ describe('billingReview-service applyHeldEntry', () => {
       internalCustomers.isInternalCustomer = async (db, accountId, customerId) => internalIds.has(Number(customerId));
    });
    afterEach(() => {
+      trackerEntity.resolve=realResolve;
       sharedTransactionFunctions.addNewTransaction = realAddNewTransaction;
       internalCustomers.isInternalCustomer = realIsInternalCustomer;
    });
@@ -66,6 +69,7 @@ describe('billingReview-service applyHeldEntry', () => {
       const db = makeDb();
       await billingReviewService.applyHeldEntry(db, ACCOUNT, 11, edits({ transaction_type: 'time', total_transaction: 50 }), 7);
       const [fields] = addCalls;
+      expect(fields.entityId).to.equal(777);
       expect(fields.transactionType).to.equal('Time');
       // 20 min -> ceil(20/6) = ceil(3.333) = 4 sixths -> 0.4h; 0.4 × 150 = 60.00
       // (client's 50.00 from unrounded hours is ignored).

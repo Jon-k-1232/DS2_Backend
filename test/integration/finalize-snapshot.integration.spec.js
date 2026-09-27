@@ -127,7 +127,7 @@ describe('integration: finalize snapshot + fingerprint + locked delete guards (r
 
       it('is stable across repeated reads and has one part per ledger table (payments/write-offs/invoices/unbilled/retainers/events)', async () => {
          expect(await fingerprintFor(cust.customerId)).to.equal(base);
-         expect(base.split('/')).to.have.lengthOf(6);
+         expect(base.split('/')).to.have.lengthOf(12);
          expect(base.split('/')[0]).to.match(/^2:[0-9a-f]{32}$/); // two payments
          expect(base.split('/')[1]).to.equal('0'); // no write-offs
          expect(base.split('/')[5]).to.equal('0'); // no retainer events

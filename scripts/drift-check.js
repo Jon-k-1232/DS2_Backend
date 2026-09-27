@@ -18,7 +18,7 @@ const { calculateInvoices } = require('../src/endpoints/invoice/createInvoice/in
 const ACCOUNT_ID = 1;
 const round2 = n => Math.round((Number(n) || 0) * 100) / 100;
 
-const runEngine = async ids => {
+const runEngine = async (knex,ids) => {
   if (!ids.length) return new Map();
   const invoicesToCreateMap = {};
   ids.forEach(id => { invoicesToCreateMap[id] = { customer_id: id, showWriteOffs: false, invoiceNote: null }; });
@@ -27,96 +27,48 @@ const runEngine = async ids => {
   return new Map(
     engineRows.map(r => [
       Number(r.customer_id),
-      { invoiceTotal: round2(r.invoiceTotal), outstanding: round2(r.outstandingInvoices?.outstandingInvoiceTotal) }
+      { invoiceTotal: round2(r.preCreditInvoiceTotal ?? r.invoiceTotal), outstanding: round2(r.outstandingInvoices?.outstandingInvoiceTotal) }
     ])
   );
 };
 
-const runAudit = async customerId => {
-  const [customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents] = await Promise.all([
+const runAudit = async (knex,customerId) => {
+  const [customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents, corrections] = await Promise.all([
     auditSvc.getCustomer(knex, ACCOUNT_ID, customerId),
     auditSvc.getInvoices(knex, ACCOUNT_ID, customerId),
     auditSvc.getPayments(knex, ACCOUNT_ID, customerId),
     auditSvc.getWriteoffs(knex, ACCOUNT_ID, customerId),
     auditSvc.getTransactions(knex, ACCOUNT_ID, customerId),
     auditSvc.getRetainers(knex, ACCOUNT_ID, customerId),
-    auditSvc.getRetainerEvents(knex, ACCOUNT_ID, customerId)
+    auditSvc.getRetainerEvents(knex, ACCOUNT_ID, customerId),
+    auditSvc.getCorrections(knex, ACCOUNT_ID, customerId)
   ]);
-  return auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents });
+  return auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents, corrections });
 };
 
-(async () => {
-  const customers = await knex('customers')
-    .where({ account_id: ACCOUNT_ID, is_customer_active: true })
-    .select('customer_id', 'display_name')
-    .orderBy('customer_id');
-  const activeIds = customers.map(c => Number(c.customer_id));
-
-  // AR view, every row (the service pages; ask for more than can exist).
-  const { rows: arRows, totalCount: arCount } = await accountsReceivableService.getAging(knex, ACCOUNT_ID, { limit: 1000000, offset: 0 });
-  const arById = new Map(arRows.map(r => [Number(r.customer_id), r]));
-  const inactiveArIds = arRows.map(r => Number(r.customer_id)).filter(id => !activeIds.includes(id));
-
-  const engineById = await runEngine([...activeIds, ...inactiveArIds]);
-
-  // 1. engine vs audit (active customers)
-  const out = {};
-  for (const c of customers) {
-    const id = Number(c.customer_id);
-    const audit = await runAudit(id);
-    const engine = engineById.get(id) || { invoiceTotal: 0, outstanding: 0 };
-    const ar = arById.get(id);
-    out[id] = {
-      name: c.display_name,
-      audit: audit.totals.audit_balance,
-      engine: engine.invoiceTotal,
-      diff: round2(audit.totals.audit_balance - engine.invoiceTotal),
-      audit_outstanding: audit.totals.outstanding_invoices,
-      engine_outstanding: engine.outstanding,
-      ar_outstanding: ar ? round2(ar.total_outstanding) : 0,
-      ar_diff: round2((ar ? ar.total_outstanding : 0) - engine.outstanding)
-    };
-  }
-  const mismatched = Object.entries(out)
-    .filter(([, r]) => Math.abs(r.diff) >= 0.01)
-    .map(([id, r]) => ({ customer_id: Number(id), ...r }));
-
-  // 2. engine vs AR (active customers + inactive customers AR lists)
-  const inactiveNames = new Map(arRows.map(r => [Number(r.customer_id), r.display_name]));
-  for (const id of inactiveArIds) {
-    const engine = engineById.get(id) || { invoiceTotal: 0, outstanding: 0 };
-    const ar = arById.get(id);
-    out[id] = {
-      name: inactiveNames.get(id),
-      inactive: true,
-      engine: engine.invoiceTotal,
-      engine_outstanding: engine.outstanding,
-      ar_outstanding: round2(ar.total_outstanding),
-      ar_diff: round2(ar.total_outstanding - engine.outstanding)
-    };
-  }
-  const arMismatched = Object.entries(out)
-    .filter(([, r]) => Math.abs(r.ar_diff) >= 0.01)
-    .map(([id, r]) => ({ customer_id: Number(id), name: r.name, inactive: !!r.inactive, engine_outstanding: r.engine_outstanding, ar_outstanding: r.ar_outstanding, ar_diff: r.ar_diff }));
-
-  console.log(
-    JSON.stringify(
-      {
-        total: customers.length,
-        mismatched: mismatched.length,
-        details: mismatched.slice(0, 25),
-        engine_vs_ar: {
-          compared: activeIds.length + inactiveArIds.length,
-          ar_rows: arCount,
-          ar_inactive_rows: inactiveArIds.length,
-          mismatched: arMismatched.length,
-          details: arMismatched.slice(0, 25)
-        }
-      },
-      null,
-      1
-    )
-  );
-  require('fs').writeFileSync(process.argv[2] || '/tmp/drift-snapshot.json', JSON.stringify(out, null, 1));
-  await knex.destroy();
-})().catch(e => { console.error('ERR', e); process.exit(1); });
+const ctx=require('../src/endpoints/billingEntities/entity-context');
+(async()=>{
+ const result=await ctx.run(null,()=>knex.transaction(async db=>{
+  await db.raw('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY');
+  const customers=await db('customers').where({account_id:ACCOUNT_ID}).orderBy('customer_id');
+  const entities=await ctx.entities(db,ACCOUNT_ID), rows=[];
+  for(const entity of entities)await ctx.run(entity.billing_entity_id,async()=>{
+   const ar=(await accountsReceivableService.getAging(db,ACCOUNT_ID,{limit:1000000})).rows;
+   const engine=await runEngine(db,customers.map(c=>c.customer_id));
+   for(const c of customers){
+    const a=await runAudit(db,c.customer_id),e=engine.get(c.customer_id),r=ar.find(r=>r.customer_id===c.customer_id);
+    rows.push({customer_id:c.customer_id,name:c.display_name,billing_entity_id:entity.billing_entity_id,business:entity.name,
+     engine:e.invoiceTotal,audit:a.totals.audit_balance,engine_outstanding:e.outstanding,audit_outstanding:a.totals.outstanding_invoices,ar_outstanding:round2(r?.total_outstanding),
+     diff:round2(a.totals.audit_balance-e.invoiceTotal),ar_diff:round2((r?.total_outstanding || 0)-e.outstanding),audit_billed_diff:round2(a.totals.outstanding_invoices-e.outstanding)});
+   }
+  });
+  const total=group=>Object.fromEntries(['engine','audit','engine_outstanding','audit_outstanding','ar_outstanding'].map(k=>[k,round2(group.reduce((sum,r)=>sum+r[k],0))]));
+  const allAr=await accountsReceivableService.getAging(db,ACCOUNT_ID,{limit:1000000});
+  const totals=total(rows),aggregateDiff=round2(allAr.rows.reduce((n,r)=>n+r.total_outstanding,0)-totals.engine_outstanding);
+  const mismatches=rows.filter(r=>r.diff || r.ar_diff || r.audit_billed_diff);
+  return {account_id:ACCOUNT_ID,compared:rows.length,customers:customers.length,entities:entities.map(e=>({...e,totals:total(rows.filter(r=>r.billing_entity_id===e.billing_entity_id))})),totals,aggregateDiff,drift:mismatches.length+(aggregateDiff?1:0),mismatches,rows};
+ }));
+ require('fs').writeFileSync(process.argv[2] || '/tmp/drift-snapshot.json',JSON.stringify(result,null,2));
+ console.log(JSON.stringify({compared:result.compared,entities:result.entities.map(e=>({name:e.name,totals:e.totals})),totals:result.totals,drift:result.drift,mismatches:result.mismatches.slice(0,10)},null,2));
+ await knex.destroy();if(result.drift)process.exitCode=1;
+})().catch(async e=>{console.error(e);await knex.destroy();process.exitCode=1;});

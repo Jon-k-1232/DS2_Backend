@@ -88,18 +88,20 @@ describe('integration: analytics service', function () {
       await closeDb();
    });
 
-   it('getClientRates: effective rate = time billings ÷ time hours; charges excluded; lowercase "time" counts', async () => {
+   it('getClientRates: unissued work has value and hours but no issued revenue or cohort rate', async () => {
       const { clients, years, firm } = await analyticsService.getClientRates(db, TEST_ACCOUNT_ID, { yearsBack: 3 });
       expect(years).to.be.an('array').that.includes(2025);
       const acme = clients.find(c => c.customer_id === ACME);
       expect(acme, 'fixture customer present').to.exist;
       const y = acme.years[2025];
-      expect(y.hours).to.equal(4); // billable Time + time
-      expect(y.time_billed).to.equal(400);
-      expect(y.charges_billed).to.equal(50);
-      expect(y.total_billed).to.equal(450);
+      expect(y.work_entered_hours).to.equal(5.5);
+      expect(y.work_entered_value).to.equal(600);
+      expect(y.hours).to.equal(0); // no issued cohort
+      expect(y.time_billed).to.equal(0);
+      expect(y.charges_billed).to.equal(0);
+      expect(y.total_billed).to.equal(0);
       expect(y.time_billed + y.charges_billed).to.equal(y.total_billed);
-      expect(y.effective_rate).to.equal(100);
+      expect(y.effective_rate).to.equal(null);
       expect(firm).to.have.property('suggestion_formula');
    });
 
@@ -108,7 +110,8 @@ describe('integration: analytics service', function () {
       expect(ta.summary.total_hours).to.equal(5.5);
       expect(ta.summary.billable_hours).to.equal(4);
       expect(ta.summary.nonbillable_hours).to.equal(1.5);
-      expect(ta.summary.billed_amount).to.equal(450);
+      expect(ta.summary.billed_amount).to.equal(0);
+      expect(ta.summary.work_entered_value).to.equal(600);
       expect(ta).to.not.have.property('byEmployee'); // removed per request
       expect(ta.byWorkDescription[0].hours).to.equal(5.5);
       const march = ta.monthly.find(m => m.month === 3);
@@ -154,12 +157,13 @@ describe('integration: analytics service', function () {
       const rows = await analyticsService.getJobBudgets(db, TEST_ACCOUNT_ID);
       const job = rows.find(r => r.customer_job_id === 9001001);
       expect(job, 'budgeted fixture job').to.exist;
-      // Billable: 200 + 100 + 50 + 100 + 300 (future-dated, still billable work) = 750.
+      // Billable work through the report cutoff: 200 + 100 + 50 + 100 = 450.
+      // Future work remains outside the report cutoff.
       // The $150 non-billable entry must not consume the client's budget.
-      expect(job.actual).to.equal(750);
+      expect(job.actual).to.equal(450);
       expect(job.budget).to.equal(1000);
-      expect(job.remaining).to.equal(250);
-      expect(job.consumed_pct).to.equal(75);
+      expect(job.remaining).to.equal(550);
+      expect(job.consumed_pct).to.equal(45);
    });
 
    it('getExcludableCustomers: returns the customer list and default-excluded ids', async () => {
@@ -226,26 +230,27 @@ describe('integration: analytics service', function () {
          insertedTransactionIds.push(...insertedBilled.map(r => r.transaction_id));
       });
 
-      it('sums the latest snapshot of every newest-date parent, includes the inactive debtor, and ages by statement date', async () => {
+      it('sums the latest snapshot of every newest-date parent, includes the inactive debtor, and labels unresolved legacy debt at its oldest supporting statement', async () => {
          const { rows } = await accountsReceivableService.getAging(db, TEST_ACCOUNT_ID, { limit: 100, offset: 0 });
          const globex = rows.find(r => Number(r.customer_id) === GLOBEX);
          expect(globex, 'inactive customer with a balance is listed').to.exist;
          expect(globex.is_customer_active).to.equal(false);
          expect(globex.total_outstanding).to.equal(320); // 120 (snapshot, not the 300 mirror) + 200; stale 999 excluded
          expect(globex.statement_count).to.equal(2);
-         expect(globex.bucket_31_60).to.equal(320);
-         expect(globex.oldest_days).to.be.within(44, 46);
+         expect(globex.bucket_61_90).to.equal(320);
+         expect(globex.reconstructed).to.equal(true);
+         expect(globex.oldest_days).to.be.within(74, 76);
          expect(dayjs(globex.statement_date).format('YYYY-MM-DD')).to.equal(ymd(statementDate));
          expect(dayjs(globex.most_recent_invoice_date).format('YYYY-MM-DD')).to.equal(ymd(statementDate));
       });
 
-      it('oldest_open_charge_date walks billed billable charges newest-first (FIFO) until they cover the balance', async () => {
+      it('unresolved legacy aging uses the oldest supporting issued statement, not unrelated work dates', async () => {
          const { rows } = await accountsReceivableService.getAging(db, TEST_ACCOUNT_ID, { limit: 100, offset: 0, search: String(GLOBEX) });
          const [globex] = rows;
          // $100 newest charge does not cover $320, so the $250 charge 60 days
          // before the statement is still (partly) open; the non-billable $500 is ignored.
-         expect(dayjs(globex.oldest_open_charge_date).format('YYYY-MM-DD')).to.equal(ymd(statementDate.subtract(60, 'day')));
-         expect(globex.oldest_open_charge_days).to.be.within(104, 106);
+         expect(dayjs(globex.oldest_open_charge_date).format('YYYY-MM-DD')).to.equal(ymd(statementDate.subtract(30, 'day')));
+         expect(globex.oldest_open_charge_days).to.be.within(74, 76);
       });
 
       it('agrees with the billing engine and the account audit', async () => {

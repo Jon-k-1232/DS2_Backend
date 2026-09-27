@@ -9,8 +9,11 @@ describe('Automation orchestrator', () => {
    let originalMissing;
    let scheduledCalls;
    let invocationCounts;
+   let originalEnabled;
 
    beforeEach(() => {
+      originalEnabled = process.env.RUN_SCHEDULED_AUTOMATIONS;
+      process.env.RUN_SCHEDULED_AUTOMATIONS = 'true';
       scheduledCalls = [];
       invocationCounts = {
          thursday: 0,
@@ -40,6 +43,8 @@ describe('Automation orchestrator', () => {
    });
 
    afterEach(() => {
+      if (originalEnabled === undefined) delete process.env.RUN_SCHEDULED_AUTOMATIONS;
+      else process.env.RUN_SCHEDULED_AUTOMATIONS = originalEnabled;
       schedule.scheduleJob = originalScheduleJob;
       timeTrackerReminders.sendThursdayReminderEmails = originalThursday;
       timeTrackerReminders.sendFridayReminderEmails = originalFriday;

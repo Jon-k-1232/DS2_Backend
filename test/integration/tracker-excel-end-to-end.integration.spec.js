@@ -158,11 +158,17 @@ const sesSends = [];
 const stubSes = () => {
    const own = Object.prototype.hasOwnProperty.call(SESClient.prototype, 'send');
    const original = SESClient.prototype.send;
+   const originalEnabled = process.env.SEND_REAL_EMAIL;
    SESClient.prototype.send = async function stubbedSesSend(command) {
       sesSends.push(command.input);
       return { MessageId: `stub-${sesSends.length}` };
    };
+   // This scenario verifies the emitted notice payload. Opt in only after the
+   // transport is stubbed; H0 tests separately prove suppression of this path.
+   process.env.SEND_REAL_EMAIL = 'true';
    return () => {
+      if (originalEnabled === undefined) delete process.env.SEND_REAL_EMAIL;
+      else process.env.SEND_REAL_EMAIL = originalEnabled;
       if (own) SESClient.prototype.send = original;
       else delete SESClient.prototype.send;
    };
@@ -452,6 +458,7 @@ describe('tracker Excel end-to-end: template → upload → auto-ingest → invo
          const customerIds = created.customers;
          const txnIds = [
             ...(customerIds.length ? await db('customer_transactions').where({ account_id: A }).whereIn('customer_id', customerIds).pluck('transaction_id') : []),
+            ...(allEntryIds.length ? await db('customer_transactions').where({ account_id: A }).whereIn('source_timesheet_entry_id', allEntryIds).pluck('transaction_id') : []),
             ...(allEntryIds.length ? await db('ai_category_training_examples').where({ account_id: A }).whereIn('timesheet_entry_id', allEntryIds).whereNotNull('transaction_id').pluck('transaction_id') : [])
          ];
          const uniqueTxnIds = [...new Set(txnIds)];
@@ -459,12 +466,12 @@ describe('tracker Excel end-to-end: template → upload → auto-ingest → invo
             await db('ai_category_training_examples').where({ account_id: A }).whereIn('timesheet_entry_id', allEntryIds).del();
             await db('ai_call_log').where({ account_id: A }).whereIn('timesheet_entry_id', allEntryIds).del();
             await db('ai_time_tracker_transaction_suggestions').where({ account_id: A }).whereIn('timesheet_entry_id', allEntryIds).del();
-            await db('timesheet_entries').where({ account_id: A }).whereIn('timesheet_entry_id', allEntryIds).del();
          }
          if (uniqueTxnIds.length) {
             await db('ai_category_training_examples').whereIn('transaction_id', uniqueTxnIds).del();
             await db('customer_transactions').where({ account_id: A }).whereIn('transaction_id', uniqueTxnIds).del();
          }
+         if (allEntryIds.length) await db('timesheet_entries').where({ account_id: A }).whereIn('timesheet_entry_id', allEntryIds).del();
          // The rolling child job row addNewTransaction added to the shared fixture job.
          if (created.sharedChildJobs.length) await db('customer_jobs').where({ account_id: A, parent_job_id: JOHN_SMITH_JOB }).whereIn('customer_job_id', created.sharedChildJobs).del();
 

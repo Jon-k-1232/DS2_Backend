@@ -92,7 +92,7 @@ jobCategoriesRouter.route('/deleteJobCategory/:jobCategoryID/:accountID/:userID'
 jobCategoriesRouter.route('/getSingleJobCategory/:jobCategoryID/:accountID/:userID').get(async (req, res) => {
    const db = req.app.get('db');
    const { jobCategoryID, accountID } = req.params;
-   const activeJobCategory = await jobCategoriesService.getSingleJobCategory(db, jobCategoryID, accountID);
+   const activeJobCategory = await require('../../utils/actorNames')(db,accountID,await jobCategoriesService.getSingleJobCategory(db, jobCategoryID, accountID),'created_by_user_id','created_by_user_name');
 
    const activeJobCategoriesData = {
       activeJobCategory,

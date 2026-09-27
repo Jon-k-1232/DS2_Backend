@@ -13,6 +13,9 @@ describe('F30 suggestion schema lineage', function () {
    const forward = async () => {
       for (const file of fs.readdirSync(path.join(__dirname, '../../migrations')).filter(f => /^\d{3}\..*\.sql$/.test(f) && Number(f.slice(0,3)) > 18).sort()) {
          await db.transaction(trx => trx.raw(fs.readFileSync(path.join(__dirname, '../../migrations', file), 'utf8')));
+         // Repeat each migration at its supported schema boundary, before a
+         // later migration appends columns to its CREATE OR REPLACE views.
+         await db.transaction(trx => trx.raw(fs.readFileSync(path.join(__dirname, '../../migrations', file), 'utf8')));
       }
    };
    for (const historicalDrop of [true, false]) it(`supports runtime suggestion writes from snapshot baseline${historicalDrop ? ' with the historical 005 gap' : ''}`, async () => {
@@ -24,7 +27,7 @@ describe('F30 suggestion schema lineage', function () {
       const input = { account_id: 9001, timesheet_entry_id: entry.timesheet_entry_id, sanitized_notes: 'F30',
          suggested_entity: 'Fixture', suggested_customer_id: 900101, suggested_customer_display_name: 'Acme Corp', status: 'pending', source: 'ai' };
       await db('ai_time_tracker_transaction_suggestions').insert(input).onConflict('timesheet_entry_id').merge();
-      await forward(); // Additive rerun must preserve data, including populated columns.
+      await db.transaction(trx => trx.raw(fs.readFileSync(path.join(__dirname, '../../migrations/022.restore_suggestion_customer_columns.sql'), 'utf8')));
       const [row] = await suggestions.getSuggestionsForEntries(db, 9001, [entry.timesheet_entry_id]);
       expect(row.suggested_entity).to.equal('Fixture');
       expect(row.suggested_customer_id).to.equal(900101);

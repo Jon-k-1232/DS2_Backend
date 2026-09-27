@@ -14,6 +14,7 @@ const rateLimit = require('express-rate-limit');
 const { NODE_ENV, CORS_ORIGIN } = require('../config');
 const app = express();
 const automationOrchestrator = require('./automations/automationOrchestrator');
+const { scheduledAutomationsEnabled } = require('./utils/environmentSwitches');
 const customerRouter = require('./endpoints/customer/customer-router');
 const transactions = require('./endpoints/transactions/transactions-router');
 const user = require('./endpoints/user/user-router');
@@ -122,7 +123,9 @@ const expensiveLimiter = rateLimit({
 app.use(apiLimiter);
 app.use(require('./endpoints/invoice/sentInvoiceLocks').lockResponseMiddleware);
 app.use('/auth', authLimiter, authentication);
-app.use('/customer', requireAuth, customerRouter);
+const entityContext = require('./endpoints/billingEntities/entity-context');
+app.use('/billing-entities', requireAuth, require('./endpoints/billingEntities/entities-router'));
+app.use('/customer', requireAuth, entityContext.middleware, customerRouter);
 // The frontend wraps /transactions/*, /jobs/*, /customers/*, /invoices/* in
 // ManagerAndAdminProtectedAccessRoute — plain 'User' staff only use
 // time-tracking upload/history. Mirror that here on every router below whose
@@ -130,25 +133,28 @@ app.use('/customer', requireAuth, customerRouter);
 // payments, write-offs, retainers, pending-payments review, billing-review,
 // time-tracker-staff); previously most of these had no server-side role
 // check at all, so a plain employee token could reach them directly.
-app.use('/jobs', requireAuth, requireManagerOrAdmin, company);
-app.use('/transactions', requireAuth, requireManagerOrAdmin, transactions);
+app.use('/jobs', requireAuth, requireManagerOrAdmin, entityContext.middleware, company);
+app.use('/transactions', requireAuth, requireManagerOrAdmin, entityContext.middleware, transactions);
 // app.use('/transactions', transactions);
 app.use('/user', requireAuth, user);
 // Every page under /invoices/* (invoices grid, quotes, createInvoice,
 // accountsReceivable, invoice detail) is wrapped in ManagerAndAdminProtectedAccessRoute
 // in the frontend (DS2_Frontend/src/Routes/PrimaryRouter.js) — mirror that here
 // rather than leaving individual routes (e.g. createInvoice) ungated.
-app.use('/invoices', requireAuth, requireManagerOrAdmin, invoices);
+const corrections=require('./endpoints/corrections/corrections-router');
+for(const [path,router] of [['/invoices',corrections.invoices],['/credits',corrections.credits],['/credit-memos',corrections.memos],['/refunds',corrections.refunds],['/invoice-voids',corrections.voids]]) app.use(path,requireAuth,requireManagerOrAdmin,entityContext.middleware,router);
+app.use('/invoices', requireAuth, requireManagerOrAdmin, entityContext.middleware, invoices);
 app.use('/jobCategories', requireAuth, requireManagerOrAdmin, jobCategoriesRouter);
 app.use('/account', requireAuth, accountRouter);
 app.use('/jobTypes', requireAuth, requireManagerOrAdmin, jobTypeRouter);
-app.use('/quotes', requireAuth, requireManagerOrAdmin, quotesRouter);
-app.use('/payments', requireAuth, requireManagerOrAdmin, paymentsRouter);
-app.use('/recurringCustomer', requireAuth, recurringCustomerRouter);
-app.use('/duplicates', requireAuth, requireManagerOrAdmin, require('./endpoints/duplicates/duplicates-router'));
-app.use('/retainers', requireAuth, requireManagerOrAdmin, retainerRouter);
-app.use('/writeOffs', requireAuth, requireManagerOrAdmin, writeOffsRouter);
-app.use('/initialData', requireAuth, initialDataRouter);
+app.use('/quotes', requireAuth, requireManagerOrAdmin, entityContext.middleware, quotesRouter);
+app.use('/payments', requireAuth, requireManagerOrAdmin, entityContext.middleware, paymentsRouter);
+app.use('/credits',requireAuth,requireManagerOrAdmin,entityContext.middleware,require('./endpoints/payments/credits-router'));
+app.use('/recurringCustomer', requireAuth, entityContext.middleware, recurringCustomerRouter);
+app.use('/duplicates', requireAuth, requireManagerOrAdmin, entityContext.middleware, require('./endpoints/duplicates/duplicates-router'));
+app.use('/retainers', requireAuth, requireManagerOrAdmin, entityContext.middleware, retainerRouter);
+app.use('/writeOffs', requireAuth, requireManagerOrAdmin, entityContext.middleware, writeOffsRouter);
+app.use('/initialData', requireAuth, entityContext.middleware, initialDataRouter);
 app.use('/workDescriptions', requireAuth, requireManagerOrAdmin, workDescriptionsRouter);
 app.use('/timesheets', requireAuth, timesheetsRouter);
 app.use('/time-tracking', requireAuth, timeTrackingRouter);
@@ -156,28 +162,28 @@ app.use('/time-tracker-staff', requireAuth, requireManagerOrAdmin, timeTrackerSt
 app.use('/api/health', healthRouter);
 app.use('/healthz', healthRouter); // AWS health check endpoint (no auth)
 app.use('/ai-integration', requireAuth, expensiveLimiter, aiIntegrationRouter);
-app.use('/pending-payments', requireAuth, requireManagerOrAdmin, pendingPaymentsRouter);
+app.use('/pending-payments', requireAuth, requireManagerOrAdmin, entityContext.middleware, pendingPaymentsRouter);
 // Bedrock-backed mutations stay behind the expensive limiter; the GET list and
 // poll routes (the Needs Review tab polls reprocess-count every few seconds)
 // must not burn the 30-req/min budget or the tab freezes in 'Processing…'.
 const limitMutationsOnly = (req, res, next) => (req.method === 'GET' || req.method === 'HEAD' ? next() : expensiveLimiter(req, res, next));
-app.use('/billing-review', requireAuth, requireManagerOrAdmin, limitMutationsOnly, billingReviewRouter);
+app.use('/billing-review', requireAuth, requireManagerOrAdmin, entityContext.middleware, limitMutationsOnly, billingReviewRouter);
 app.use('/notifications', requireAuth, notificationsRouter);
 // NOTE: account-audit-router.js already does `.use(requireAuth, requireSuperAdmin)`
 // internally (checked while reviewing this mount) — matches the frontend's
 // AuditorProtectedAccessRoute (super-admin only), so no change needed here.
-app.use('/accountAudit', requireAuth, limitMutationsOnly, accountAuditRouter);
+app.use('/accountAudit', requireAuth, entityContext.middleware, limitMutationsOnly, accountAuditRouter);
 // Deterministic hard record: Admin and Super Admin only. Separate from AI Audit.
-app.use('/auditRecord', requireAuth, require('./endpoints/auditRecord/audit-record-router'));
+app.use('/auditRecord', requireAuth, entityContext.middleware, require('./endpoints/auditRecord/audit-record-router'));
 // Accounts Receivable lives under /invoices/accountsReceivable in the frontend,
 // inside the same ManagerAndAdminProtectedAccessRoute wrapper as the rest of
 // the Invoices section.
-app.use('/accountsReceivable', requireAuth, requireManagerOrAdmin, accountsReceivableRouter);
-app.use('/analytics', requireAuth, requireSuperAdmin, analyticsRouter);
+app.use('/accountsReceivable', requireAuth, requireManagerOrAdmin, entityContext.middleware, accountsReceivableRouter);
+app.use('/analytics', requireAuth, requireSuperAdmin, entityContext.middleware, analyticsRouter);
 
 /* ///////////////////////////\\\\  BACKGROUND JOBS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-if (NODE_ENV !== 'test') {
-   automationOrchestrator.scheduledAutomations();
+if (scheduledAutomationsEnabled()) {
+   automationOrchestrator.scheduledAutomations(() => app.get('db'));
 }
 
 /* ///////////////////////////\\\\  ERROR HANDLER  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

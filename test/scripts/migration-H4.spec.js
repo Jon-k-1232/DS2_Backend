@@ -1,0 +1,21 @@
+'use strict';
+const fs=require('fs'),path=require('path'),harness=require('./helpers/pgHarness');
+const {assertPlainSql}=require('../../scripts/migrate');
+const files=['043.recurring_billing.sql','044.recurring_attribution_materialization.sql'];
+describe('H4 recurring migrations',function(){
+ this.timeout(180000);let db;const name=`ds2_mig_test_h4_${process.pid}`;
+ before(async()=>{if(!harness.isAvailable())throw Error('Authorized local sandbox required');harness.dropDb(name);db=harness.knexFor(name);await db.transaction(trx=>trx.raw(fs.readFileSync(path.join(__dirname,'../../migrations',files[0]),'utf8')));});
+ after(async()=>{if(db)await db.destroy();harness.dropDb(name);});
+ for(const file of files)it(`${file} is plain transactional SQL`,()=>expect(()=>assertPlainSql(fs.readFileSync(path.join(__dirname,'../../migrations',file),'utf8'),file)).not.to.throw());
+ it('is idempotent without inserting charges or changing financial rows',async()=>{const tables=['customer_transactions','customer_invoices','customer_payments','audit_events'],before={};for(const t of tables)before[t]=await db(t).select('*');for(let n=0;n<2;n++)for(const file of files)await db.transaction(trx=>trx.raw(fs.readFileSync(path.join(__dirname,'../../migrations',file),'utf8')));for(const t of tables)expect(await db(t).select('*')).to.deep.equal(before[t]);});
+ for(const table of ['recurring_plan_cutovers','recurring_charge_occurrences','recurring_occurrence_events'])it(`${table} has capture, ownership and truncate guards`,async()=>{const rows=(await db.raw('SELECT tgname FROM pg_trigger WHERE tgrelid=?::regclass AND NOT tgisinternal',[table])).rows.map(r=>r.tgname);expect(rows).to.include.members(['ds2_audit_capture','ds2_ar_scope_guard','ds2_audit_no_truncate']);expect(rows).to.include(table==='recurring_charge_occurrences'?'ds2_recurring_guard':'ds2_audit_immutable');});
+ it('converts old monthly plans once and leaves unsupported frequency visibly held',async()=>{
+  const c=await db('customers').where({account_id:1}).first(),e=await db('billing_entities').where({account_id:1,is_default:true}).first();
+  const ids=[];for(const frequency of ['Monthly','Weekly']){const [p]=await db('public.recurring_customers').insert({account_id:1,customer_id:c.customer_id,billing_entity_id:e.billing_entity_id,subscription_frequency:frequency,bill_on_date:31,recurring_bill_amount:125,start_date:'2024-01-01',is_recurring_customer_active:true,created_by_user_id:1}).returning('*');ids.push(p.recurring_customer_id);}
+  const file=fs.readFileSync(path.join(__dirname,'../../migrations',files[0]),'utf8');await db.transaction(trx=>trx.raw(file));
+  const plans=await db('public.recurring_customers').whereIn('recurring_customer_id',ids).orderBy('recurring_customer_id');expect(plans.map(p=>p.review_status)).to.deep.equal(['ready','needs_review']);expect(plans[0].description).to.equal('Recurring services');expect(plans[0].first_automated_period).not.to.equal(null);expect(await db('recurring_plan_cutovers').whereIn('plan_id',ids)).to.have.length(2);expect(await db('recurring_charge_occurrences')).to.have.length(0);
+  const events=await db('audit_events').where('source','migration/043.recurring_billing');expect(events.every(e=>e.actor_user_id===null && e.actor_name==='system')).to.equal(true);const count=events.length;await db.transaction(trx=>trx.raw(file));expect(await db('audit_events').where('source','migration/043.recurring_billing')).to.have.length(count);
+ });
+ it('rejects a normal work row omitting its employee or catalog selection',async()=>{const c=await db('customers').where({account_id:1}).first(),e=await db('billing_entities').where({account_id:1,is_default:true}).first();let error;try{await db('customer_transactions').insert({account_id:1,customer_id:c.customer_id,billing_entity_id:e.billing_entity_id,logged_for_user_id:null,general_work_description_id:null,created_by_user_id:1,transaction_date:'2026-01-01',transaction_type:'Charge',quantity:1,unit_cost:5,total_transaction:5,is_transaction_billable:true,is_excess_to_subscription:false});}catch(e){error=e;}expect(error?.code).to.equal('P0409');});
+ it('preserves the verified account audit chain',async()=>expect((await db.raw('SELECT ds2_verify_audit(1) AS v')).rows[0].v.valid).to.equal(true));
+});

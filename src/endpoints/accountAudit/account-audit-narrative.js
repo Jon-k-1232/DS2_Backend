@@ -35,6 +35,8 @@ const buildPrompt = result => {
               total_prepaid_lifetime: result.retainers.total_prepaid_lifetime,
               retainer_available: result.retainers.retainer_available,
               retainer_drawn: result.retainers.retainer_drawn,
+              transferred_in_noncash: result.retainers.transferred_in,
+              transferred_out_noncash: result.retainers.transferred_out,
               breakdown: result.retainers.breakdown
            }
          : null,

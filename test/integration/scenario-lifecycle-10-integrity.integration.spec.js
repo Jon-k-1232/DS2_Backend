@@ -26,8 +26,9 @@ describe('scenario lifecycle I: legacy integrity and lock races (08-integrity-an
    }
    async function extraRow(table, key, source, action) {
       assertScenarioEnvironment(); const row = { ...source }; delete row[key];
-      const [inserted] = await s.db(table).insert(row).returning('*');
-      try { return await action(inserted); } finally { await s.db(table).where(key, inserted[key]).delete(); }
+      const [inserted] = await require('./_sent-fixture').fixtureMaintenance(s.db,row.account_id,trx=>trx(table).insert(row).returning('*'));
+      // Deliberately malformed historical fixture; runtime inserts are guarded.
+      try { return await action(inserted); } finally { await require('./_sent-fixture').fixtureMaintenance(s.db,row.account_id,trx=>trx(table).where(key,inserted[key]).delete()); }
    }
    async function waiters(count) {
       for (let attempt = 0; attempt < 200; attempt++) {

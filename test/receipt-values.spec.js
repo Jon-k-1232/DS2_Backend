@@ -1,0 +1,12 @@
+'use strict';
+const v=require('../src/endpoints/payments/receipt-values'),{derive}=require('../src/endpoints/payments/legacy-obligations'),{buckets}=require('../src/endpoints/accountsReceivable/obligation-aging');
+describe('Receipt integer cents and historical obligation oracles',()=>{
+ for(const amount of [0,-1,'1.001','NaN','Infinity','1e2',null,{},'100000000'])it(`rejects invalid positive cents ${JSON.stringify(amount)}`,()=>expect(()=>v.cents(amount)).to.throw());
+ it('allocates the exact $1000 and $1500 check examples',()=>{const debts=[300,450,400].map((n,i)=>({obligation_id:i+1,openCents:n*100}));expect(v.fifo(debts,100000).map(r=>r.amount)).to.deep.equal(['300.00','450.00','250.00']);expect(v.fifo(debts,150000).map(r=>r.amount)).to.deep.equal(['300.00','450.00','400.00']);});
+ for(const date of ['2026-02-30','2099-01-01','2026-9-01','no-date'])it(`rejects invalid receipt date ${date}`,()=>expect(()=>v.date(date)).to.throw());
+ it('keeps all six age boundaries and unknown ages separate from credit',()=>{const asOf='2026-09-26',ds=[0,30,31,60,61,90,91];const obligations=ds.map(days=>({obligation_date:new Date(Date.parse(asOf)-days*86400000).toISOString().slice(0,10),openCents:100}));obligations.push({obligation_date:null,openCents:250});expect(buckets(obligations,asOf)).to.include({bucket_0_30:2,bucket_31_60:2,bucket_61_90:2,bucket_over_90:1,bucket_unknown:2.5});});
+ const invoices=[100,80,50].map((amount,i)=>({customer_invoice_id:i+1,invoice_number:`L${i+1}`,invoice_date:`2026-0${i+1}-01`,created_at:`2026-0${i+1}-01T12:00:00Z`,total_charges:amount,total_write_offs:0,beginning_balance:i===0?0:i===1?100:180}));
+ it('derives a multi-month $80 carried balance as February $30 and March $50',()=>{const r=derive(invoices,8000,{asOf:'2026-03-20'});expect(r.obligations.map(o=>[o.obligation_date,o.openCents])).to.deep.equal([['2026-02-01',3000],['2026-03-01',5000]]);expect(r.inferredReductionCents).to.equal(15000);expect(r.unresolvedCents).to.equal(0);});
+ it('labels an unsupported opening as unknown age, without inventing cash',()=>{const r=derive([],12345,{asOf:'2026-03-20'});expect(r.obligations[0]).to.include({openCents:12345,obligation_date:null,source_kind:'legacy_unresolved'});expect(r.inferredReductionCents).to.equal(0);});
+ it('keeps a signed issued credit out of positive debt buckets',()=>{const r=derive(invoices,-2500,{asOf:'2026-03-20'});expect(r.obligations).to.deep.equal([]);expect(r.statementCreditCents).to.equal(2500);});
+});

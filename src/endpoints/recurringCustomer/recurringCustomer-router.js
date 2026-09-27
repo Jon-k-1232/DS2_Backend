@@ -14,6 +14,7 @@ recurringCustomerRouter.param('accountID', enforceAccountId);
 // gates all of /customers/*. Mirror that on every route here — none of these
 // were previously gated at all.
 recurringCustomerRouter.use(requireManagerOrAdmin);
+recurringCustomerRouter.use(jsonParser, require('./recurring-billing-router'));
 const recurringCustomerService = require('./recurringCustomer-service');
 const customerService = require('../customer/customer-service');
 const { restoreDataTypesRecurringCustomerTableOnCreate, restoreDataTypesRecurringCustomerTableOnUpdate } = require('./recurringCustomerObjects');

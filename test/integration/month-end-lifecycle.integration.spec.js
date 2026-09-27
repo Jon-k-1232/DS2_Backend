@@ -112,7 +112,7 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
    let overpayNoteBeforeReversal;
 
    // ── helpers ────────────────────────────────────────────────────────────────
-   const authed = req => req.set('Authorization', `Bearer ${token}`);
+   const authed = req => require('./_audit-request')(req.set('Authorization', `Bearer ${token}`),db,U);
    const post = (url, body) => authed(supertest(app).post(url).send(body));
    const get = url => authed(supertest(app).get(url));
    const del = (url, body) => authed(supertest(app).delete(url).send(body));
@@ -220,8 +220,8 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
          }),
          `createCustomer (${label})`
       );
-      const listed = body.customersList.activeCustomerData.activeCustomers.find(c => c.display_name === name);
-      expect(listed, `${label}: new customer appears in the returned active-customers list`).to.exist;
+      const listed = body.changed.customers.find(c => c.display_name === name);
+      expect(listed, `${label}: new customer identity is returned independently of pagination`).to.exist;
       const id = listed.customer_id;
       createdCustomerIds.push(id);
 
@@ -254,7 +254,7 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
          }),
          `createJob (${label})`
       );
-      const job = jobBody.accountJobsList.activeJobData.activeJobs.find(j => j.customer_id === id && j.parent_job_id === null);
+      const job = jobBody.changed.jobs.find(j => j.customer_id === id && j.parent_job_id === null);
       expect(job, `${label}: new job appears in the returned jobs list`).to.exist;
 
       const jobRows = await db('customer_jobs').where({ account_id: A, customer_id: id });
@@ -564,7 +564,7 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
    it('4b. time-travel: re-dates the month-1 statement 31 days back so the next finalize is a real month 2', async () => {
       // See the file header. Only the parent is touched; the snapshots created
       // by the following payment/write-off copy invoice_date from the parent.
-      const updated = await require('./_sent-fixture').fixtureMaintenance(db,A, async trx => { return await trx('customer_invoices')
+      const updated = await require('./_sent-fixture').fixtureMaintenance(db,A, async trx => { await require('./_sent-fixture').shiftObligations(trx,A,MONTH_GAP_DAYS,[customerId]); return await trx('customer_invoices')
          .where({ account_id: A, customer_id: customerId, customer_invoice_id: inv1.customer_invoice_id })
          .update({
             invoice_date: trx.raw(`invoice_date - ?::int`, [MONTH_GAP_DAYS]),
@@ -755,11 +755,10 @@ describe('integration: month-end ledger lifecycle (HTTP)', function () {
       expect(audit.invoice_breakdown.find(r => r.invoice_number === inv1.invoice_number).was_absorbed).to.equal(true);
       expect(audit.invoice_breakdown.find(r => r.invoice_number === inv2.invoice_number).was_absorbed).to.equal(false);
       const ar = await arRowFor();
-      // AR computes days_old from the DB clock (UTC) against the invoice's local
-      // calendar date, so a statement issued this evening already reads as one
-      // day old once UTC has rolled past midnight.
-      expect(ar.oldest_days, 'AR now ages from the month-2 invoice').to.be.within(0, 1);
-      expect(money(ar.bucket_0_30)).to.equal(M2_TOTAL);
+      // Rolling the statement never makes the month-1 debt current again.
+      expect(ar.oldest_days, 'oldest original obligation retains its age').to.be.within(31, 32);
+      expect(money(ar.bucket_31_60)).to.equal(M1_REMAINING);
+      expect(money(ar.bucket_0_30)).to.equal(M2_CHARGES);
    });
 
    // DEFECT (write-off credited twice): invoice-service.getWriteOffsByCustomerID

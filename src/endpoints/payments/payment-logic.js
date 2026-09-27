@@ -88,6 +88,10 @@ const paidFlags = remaining => {
  */
 const applyParentMirror = async (trx, accountId, parentInvoiceId, { remaining, paymentsDelta = 0, writeOffsDelta = 0 }) => {
    if (await require('../invoice/sentInvoiceLocks').lockNumber(trx, accountId, INVOICES, parentInvoiceId)) return 0;
+   // A reviewed split has one frozen source parent shared by several business
+   // projections. The newly appended company snapshot is authoritative; a
+   // mirror on the source would either mix the businesses or rewrite evidence.
+   if (trx.client && await trx('billing_cutover_positions').where({account_id:Number(accountId),source_root_id:parentInvoiceId}).first()) return 0;
    const patch = paidFlags(remaining);
    if (round2(paymentsDelta)) patch.total_payments = trx.raw('total_payments + ?', [round2(paymentsDelta)]);
    if (round2(writeOffsDelta)) patch.total_write_offs = trx.raw('total_write_offs + ?', [round2(writeOffsDelta)]);
@@ -273,31 +277,7 @@ const updateObjectsWithRemainingAmounts = (matchingInvoice, paymentTableFields) 
 };
 
 /** Payments / retainers / invoices lists the payment forms refresh from. */
-const buildLedgerTablesPayload = async (db, accountId) => {
-   const [activePayments, activeRetainers, invoicesList] = await Promise.all([
-      paymentsService.getActivePayments(db, accountId),
-      retainersService.getActiveRetainers(db, accountId),
-      invoiceService.getInvoices(db, accountId)
-   ]);
-
-   return {
-      paymentsList: { activePaymentsData: { activePayments, grid: createGrid(activePayments) } },
-      accountRetainersList: {
-         activeRetainerData: {
-            activeRetainers,
-            grid: createGrid(activeRetainers),
-            treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
-         }
-      },
-      invoicesList: {
-         activeInvoiceData: {
-            invoicesList,
-            grid: createGrid(invoicesList),
-            treeGrid: generateTreeGridData(invoicesList, 'customer_invoice_id', 'parent_invoice_id')
-         }
-      }
-   };
-};
+const buildLedgerTablesPayload = (db, accountId) => require('../../utils/listPayload').firstPages(db,accountId,['payments','retainers','invoices']);
 
 /**
  * Send back all tables with success response
@@ -305,8 +285,8 @@ const buildLedgerTablesPayload = async (db, accountId) => {
  * @param {*} res
  * @param {*} paymentTableFields
  */
-const returnTablesWithSuccessResponse = async (db, res, paymentTableFields, message) => {
-   return committedResponse(res, message, () => buildLedgerTablesPayload(db, paymentTableFields.account_id));
+const returnTablesWithSuccessResponse = async (db, res, paymentTableFields, message, changed={}) => {
+   return committedResponse(res, message, async () => ({...await buildLedgerTablesPayload(db, paymentTableFields.account_id),changed:typeof changed==='function'?await changed():changed}));
 };
 
 /**
@@ -568,6 +548,7 @@ const createPaymentCore = (db, { paymentFields, holdAsPrepayment = false, captur
       });
 
       const message = remapMessage ? `Successfully created payment. ${remapMessage}` : 'Successfully created payment.';
+      await require('./compatibility-subledger').sync(trx,'payment',payment);
       return {
          message,
          paymentTableFields: { ...paymentTableFields, customer_invoice_id: snapshot.customer_invoice_id },
@@ -831,6 +812,7 @@ const clearReversalMarker = async (trx, accountId, reversalRecord) => {
  */
 const deletePaymentCore = (db, { accountId, paymentId }) =>
    withTransaction(db, async trx => {
+      await require('./compatibility-subledger').protect(trx,accountId,paymentId);
       await lockCustomerLedgerForRow(trx, accountId, PAYMENTS, 'payment_id', paymentId, 'No matching payment record found.');
       const { paymentRecord, paymentInvoiceRecord, newestParent } = await checkIfPaymentIsAttachedToInvoice(trx, { payment_id: Number(paymentId), account_id: Number(accountId) });
       const isReversal = Number(paymentRecord.payment_amount) > 0;
@@ -881,12 +863,15 @@ const deletePaymentCore = (db, { accountId, paymentId }) =>
          await invoiceService.deleteInvoice(trx, paymentInvoiceRecord.customer_invoice_id, accountId);
       }
 
+      await require('./compatibility-subledger').sync(trx,'payment',paymentRecord,{removed:true});
       await paymentsService.deletePayment(trx, paymentRecord.payment_id, accountId);
 
       let restoredPrepayment = null;
       if (isReversal) {
          await clearReversalMarker(trx, accountId, paymentRecord);
          if (prepaymentToRestore) restoredPrepayment = await applyCancelledPrepaymentRestore(trx, accountId, prepaymentToRestore);
+         const originalId=require('./ledger-helpers').parseReversalOf(paymentRecord.note)?.paymentId;
+         if(originalId){const [original]=await paymentsService.getSinglePayment(trx,originalId,accountId);await require('./compatibility-subledger').sync(trx,'payment',original);}
       }
 
       const message = prepaymentToRelease
@@ -905,6 +890,7 @@ const deletePaymentCore = (db, { accountId, paymentId }) =>
 const updatePaymentCore = (db, { accountId, paymentFields }) =>
    withTransaction(db, async trx => {
       const paymentId = Number(paymentFields.payment_id);
+      await require('./compatibility-subledger').protect(trx,accountId,paymentId);
       await lockCustomerLedgerForRow(trx, accountId, PAYMENTS, 'payment_id', paymentId, 'No matching payment record found.');
 
       // If payment is invoiced, do not allow update
@@ -1000,6 +986,7 @@ const updatePaymentCore = (db, { accountId, paymentFields }) =>
       };
       if (paymentFields.payment_date && dayjs(paymentFields.payment_date).isValid()) patch.payment_date = paymentFields.payment_date;
       await trx(PAYMENTS).where({ account_id: Number(accountId), payment_id: paymentId }).update(patch);
+      await require('./compatibility-subledger').sync(trx,'payment',{...paymentRecord,...Object.fromEntries(Object.entries(patch).filter(([,value])=>value!==undefined))});
 
       return { message: 'Successfully updated payment.', paymentRecord };
    });
@@ -1032,6 +1019,7 @@ const reversePayment = async (db, { accountId, userId, paymentId, reason, except
    return withTransaction(db, async trx => {
       await lockCustomerLedgerForRow(trx, accountId, PAYMENTS, 'payment_id', paymentId, 'No matching payment record found.');
       const [original] = await paymentsService.getSinglePayment(trx, paymentId, accountId);
+      await require('./compatibility-subledger').protect(trx,accountId,paymentId);
 
       const sentNumber = await require('../invoice/sentInvoiceLocks').lockNumber(trx, accountId, PAYMENTS, paymentId);
       if (sentNumber) {
@@ -1089,6 +1077,7 @@ const reversePayment = async (db, { accountId, userId, paymentId, reason, except
          accountId
       );
 
+      await require('./compatibility-subledger').sync(trx,'payment',reversal,{reverseOf:paymentId});
       return {
          message: `Reversed payment #${paymentId}: $${amount.toFixed(2)} restored to ${target.parent.invoice_number}.`,
          reversalFields,
@@ -1113,8 +1102,8 @@ module.exports = {
    buildLedgerTablesPayload,
    returnTablesWithSuccessResponse,
    buildCreatePaymentInput,
-   createPaymentCore,
-   updatePaymentCore,
-   deletePaymentCore,
-   reversePayment
+   createPaymentCore:(db,input)=>require('../billingEntities/record-scope')(db,input.paymentFields.account_id,input.paymentFields.customer_invoice_id?'customer_invoices':'customer_retainers_and_prepayments',input.paymentFields.customer_invoice_id?'customer_invoice_id':'retainer_id',input.paymentFields.customer_invoice_id || input.paymentFields.retainer_id,()=>createPaymentCore(db,input)),
+   updatePaymentCore:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_payments','payment_id',input.paymentFields.payment_id,()=>updatePaymentCore(db,input)),
+   deletePaymentCore:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_payments','payment_id',input.paymentId,()=>deletePaymentCore(db,input)),
+   reversePayment:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_payments','payment_id',input.paymentId,()=>reversePayment(db,input))
 };

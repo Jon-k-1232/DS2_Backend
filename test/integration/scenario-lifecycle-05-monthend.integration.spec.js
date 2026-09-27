@@ -30,16 +30,16 @@ describe('scenario lifecycle M: selective month-end and aging (hand oracle 05-mo
          await s.shift(days); await s.check(a, { n: 100, b: 100, bucket }); await s.check(b, { n: 200, b: 0 });
       });
    }
-   it('M04 pays $40, adds $25, issues two sequential month-2 statements and resets statement aging', async () => {
+   it('M04 pays $40, adds $25, issues two sequential month-2 statements and preserves original obligation ages', async () => {
       await s.pay(a, 40, { selectedInvoiceID: i2.customer_invoice_id }); await s.check(a, { n: 60, b: 60, bucket: 'bucket_over_90' });
       await s.work(a, ja, 25); await s.check(a, { n: 85, b: 60, bucket: 'bucket_over_90' });
       const result = await s.finalize([a, b]);
       i3 = await s.statement(a, result, 3, [60, 25, 0, 0, 0, 85], ['Total Payments Received: -40.00 (reflected in Beginning Balance above)']);
       await s.statement(b, result, 4, [0, 200, 0, 0, 0, 200]);
-      const ar = (await s.check(a, { n: 85, b: 85 })).ar;
+      const ar = (await s.check(a, { n: 85, b: 85, buckets:{bucket_0_30:25,bucket_over_90:60} })).ar;
       expect(String(ar.oldest_open_charge_date).slice(0, 10)).to.equal(ago(91));
-      const arb = (await s.check(b, { n: 200, b: 200 })).ar;
-      expect(String(arb.oldest_open_charge_date).slice(0, 10)).to.equal(ago(91));
+      const arb = (await s.check(b, { n: 200, b: 200, bucket:'bucket_0_30' })).ar;
+      expect(String(arb.oldest_open_charge_date).slice(0, 10)).to.equal(ago(0));
       expect(money((await s.db('customer_invoices').where({ customer_invoice_id: i2.customer_invoice_id }).first()).remaining_balance_on_invoice)).to.equal(100);
    });
    it('M05 refuses even an empty sent statement, as well as linked, absorbed, child and absent invoices', async () => {

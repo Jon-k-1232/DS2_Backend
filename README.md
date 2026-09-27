@@ -2,9 +2,11 @@
 
 DS2 Backend is the Node.js + PostgreSQL API that powers the DS2 time, billing, and invoicing platform. It handles authentication, customer and job management, time tracking ingestion, monthly invoice generation, and integration with email and S3 storage.
 
-Current package version: `0.1.0.36` (mirrors `package.json`).
+Current package version: `0.1.0.42` (mirrors `package.json`).
 
 Looking for the frontend? See [DS2_Frontend/README.md](../DS2_Frontend/README.md) for the React app details.
+
+Feature contracts and the 218-endpoint index are in [docs/README.md](docs/README.md). The [round-two design](docs/decisions/2026-09-26-owner-requests-2.md) records implemented H0–H6 email controls, businesses, receipts and aging, corrections, recurring billing, analytics and navigation. [H7 / PASS5](docs/scenarios/RESULTS-PASS5.md) contains the combined lifecycle, full regression evidence and resulting boundary, reporting and client-form repairs. H8 final program acceptance remains planned.
 
 ## Stack Overview
 - Express 4 with modular routers under `src/endpoints`.
@@ -54,15 +56,11 @@ Looking for the frontend? See [DS2_Frontend/README.md](../DS2_Frontend/README.md
 | `API_TOKEN` | string | Shared token for protected automation endpoints. |
 | `JWT_EXPIRATION` | string | JWT lifetime (e.g. `12h`). |
 | `DOMAIN` | string | Domain used in notification emails. |
-| `FROM_EMAIL` | email | Default sender address. |
-| `FROM_EMAIL_SMTP` | host | SMTP server hostname. |
-| `FROM_EMAIL_SMTP_PORT` | number (optional, default `587`) | SMTP port; set to `465` when using implicit TLS. |
-| `FROM_EMAIL_SMTP_SECURE` | boolean (optional) | Set to `true` to force `secure: true` (defaults to `true` when port `465`). |
-| `FROM_EMAIL_REJECT_UNAUTHORIZED` | boolean (optional, default `true`) | Set to `false` when using self-signed certificates. |
-| `FROM_EMAIL_USERNAME` | string | SMTP username. |
-| `FROM_EMAIL_PASSWORD` | string | SMTP password. |
+| `SEND_REAL_EMAIL` | exact true/false | Production on unless false; all other environments off unless true. Every email uses the shared guarded SES sender. |
+| `RUN_SCHEDULED_AUTOMATIONS` | exact true/false | Same defaults; off prevents scheduled jobs from starting. |
+| `EMAIL_OUTBOX_DIR` | optional local directory | Save suppressed message JSON for inspection; unset logs subject/recipients/time only. |
+| `FROM_EMAIL` | email | Required only when real SES delivery is enabled. |
 | `TIME_TRACKING_ADMIN_EMAILS` | comma-separated string (optional) | Fallback recipients for time-tracker validation/system error alerts when the staff list is empty. |
-| `SEND_TO_EMAILS` | comma-separated string (optional) | Default recipient list used when an email call omits explicit recipients. |
 | `S3_BUCKET_NAME` | string | Bucket containing trackers/invoices/logos. |
 | `S3_REGION` | string | Region for the S3-compatible endpoint. |
 | `S3_ENDPOINT` | URL | Optional override endpoint (trailing slashes trimmed automatically). |
@@ -73,7 +71,9 @@ Looking for the frontend? See [DS2_Frontend/README.md](../DS2_Frontend/README.md
 
 ## Scheduled Automations
 
-`src/automations/automationOrchestrator.js` registers three cron jobs (Phoenix timezone):
+`src/automations/automationOrchestrator.js` registers jobs only when `RUN_SCHEDULED_AUTOMATIONS` is enabled. Keep both switches **false in local environments**, restart after environment changes, and optionally use `EMAIL_OUTBOX_DIR=/tmp/ds2-email-outbox` for private local previews. Suppressed mail resolves normally and is never delivered later. No AWS credentials are needed to suppress it.
+
+When enabled, there are three cron jobs (Phoenix timezone):
 - **Thursday 09:00** – reminder emails for upcoming deadlines.
 - **Friday 15:30** – final weekly reminders.
 - **Daily 09:00** – missing tracker reminders.

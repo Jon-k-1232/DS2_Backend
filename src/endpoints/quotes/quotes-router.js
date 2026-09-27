@@ -60,7 +60,7 @@ quotesRouter.route('/getActiveQuotes/:accountID/:quoteID').get(async (req, res) 
    try {
       const { accountID } = req.params;
 
-      const activeQuotes = await quotesService.getActiveQuotes(db, accountID);
+      const activeQuotes = await require('../../utils/actorNames')(db,accountID,await quotesService.getLabeledQuotes(db, accountID),'created_by_user_id','created_by_user_name');
 
       // Create Mui Grid
       const grid = createGrid(activeQuotes);

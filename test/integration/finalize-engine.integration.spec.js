@@ -115,7 +115,7 @@ describe('integration: finalize engine (HTTP)', function () {
    let rerunParent2;
 
    // ── helpers ────────────────────────────────────────────────────────────────
-   const authed = req => req.set('Authorization', `Bearer ${token}`);
+   const authed = req => require('./_audit-request')(req.set('Authorization', `Bearer ${token}`),db,U);
    const post = (url, body) => authed(supertest(app).post(url).send(body));
    const get = url => authed(supertest(app).get(url));
    const del = url => authed(supertest(app).delete(url));
@@ -229,7 +229,7 @@ describe('integration: finalize engine (HTTP)', function () {
          }),
          `createCustomer (${label})`
       );
-      const listed = body.customersList.activeCustomerData.activeCustomers.find(c => c.display_name === name);
+      const listed = body.changed.customers.find(c => c.display_name === name);
       expect(listed, `${label}: customer listed`).to.exist;
       const customerId = listed.customer_id;
       createdCustomerIds.push(customerId);
@@ -240,7 +240,7 @@ describe('integration: finalize engine (HTTP)', function () {
          }),
          `createJob (${label})`
       );
-      const job = jobBody.accountJobsList.activeJobData.activeJobs.find(j => j.customer_id === customerId && j.parent_job_id === null);
+      const job = jobBody.changed.jobs.find(j => j.customer_id === customerId && j.parent_job_id === null);
       expect(job, `${label}: job listed`).to.exist;
       const info = await db('customer_information').where({ account_id: A, customer_id: customerId }).first();
       return { customerId, jobId: job.customer_job_id, customerInfoId: info.customer_info_id, name };

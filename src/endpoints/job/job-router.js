@@ -76,7 +76,7 @@ jobRouter.route('/createJob/:accountID/:userID').post(jsonParser, async (req, re
       // to — only updateRecentJobTotal creates real version rows, internally.
       jobTableFields.parent_job_id = null;
 
-      await withTransaction(db, async trx => {
+      const createdJob = await withTransaction(db, async trx => {
          await lockCustomerLedger(trx, accountID, jobTableFields.customer_id);
          await requireAccountRow(trx, 'customer_job_types', 'job_type_id', jobTableFields.job_type_id, accountID, 'Job type');
 
@@ -85,9 +85,9 @@ jobRouter.route('/createJob/:accountID/:userID').post(jsonParser, async (req, re
          if (duplicateJob.length) throw new Error('Duplicate job');
 
          // Post new job
-         await jobService.createJob(trx, jobTableFields);
+         return jobService.createJob(trx, jobTableFields);
       });
-      await sendUpdatedTableWith200Response(db, res, accountID);
+      await sendUpdatedTableWith200Response(db, res, accountID, undefined, async()=>({ jobs: await jobService.getActiveCustomerJobs(db,accountID,createdJob.customer_id).where('customer_jobs.customer_job_id',createdJob.customer_job_id) }));
    } catch (err) {
       console.log(err);
       res.send({
@@ -102,8 +102,25 @@ jobRouter.route('/getSingleJob/:customerJobID/:accountID/:userID').get(async (re
    const db = req.app.get('db');
    const { customerJobID, accountID } = req.params;
 
-   const activeJobs = await jobService.getSingleJob(db, customerJobID, accountID);
+   const activeJobs = await require('../../utils/actorNames')(db,accountID,await jobService.getSingleJob(db, customerJobID, accountID),'created_by_user_id','created_by_user_name');
 
+   if(activeJobs.length){
+      const job=activeJobs[0],root=job.parent_job_id || job.customer_job_id;
+      // An edit may refer to an older version that is absent from the first
+      // page. Hydrate that exact row's labels without loading its client's
+      // history, and keep the raw service used by ledger writers unchanged.
+      const [details] = await jobService.getActiveCustomerJobs(db, accountID, job.customer_id)
+         .where('customer_jobs.customer_job_id', job.customer_job_id);
+      if (details) Object.assign(job, details);
+      const family=db('customer_jobs').where({account_id:Number(accountID)}).where(b=>b.where('customer_job_id',root).orWhere('parent_job_id',root)).select('customer_job_id');
+      job.dependencies={};
+      for(const [kind,table,key] of [['transactions','customer_transactions','transaction_id'],['writeoffs','customer_writeoffs','writeoff_id'],['payments','customer_payments','payment_id']]){
+         const query=db(table).where({account_id:Number(accountID)}).whereIn('customer_job_id',family.clone());
+         const count=await query.clone().count('* as count').first();
+         job.dependencies[kind]=await query.select('*').orderBy(key,'desc').limit(100);
+         job.dependencies[kind+'Count']=Number(count.count);
+      }
+   }
    const activeJobData = {
       activeJobs,
       grid: createGrid(activeJobs),
@@ -117,31 +134,28 @@ jobRouter.route('/getSingleJob/:customerJobID/:accountID/:userID').get(async (re
    });
 });
 
-// Get all active jobs for a customer
-jobRouter.route('/getActiveCustomerJobs/:accountID/:userID/:customerID').get(async (req, res) => {
-   const db = req.app.get('db');
-   const { accountID, customerID } = req.params;
-
-   const customerJobs = await jobService.getActiveCustomerJobs(db, accountID, customerID);
-
-   const activeCustomerJobs = jobService.latestFamilyVersions(customerJobs);
-
-   // Add display_name field for autocomplete
-   activeCustomerJobs.forEach(job => (job.display_name = `${job.job_description} - ${job.customer_job_category}`));
-
-   // Return Object
-   const activeCustomerJobData = {
-      activeCustomerJobs,
-      grid: createGrid(activeCustomerJobs),
-      treeGrid: generateTreeGridData(activeCustomerJobs, 'customer_job_id', 'parent_job_id')
-   };
-
-   res.send({
-      activeCustomerJobData,
-      message: 'Successfully retrieved active customer jobs.',
-      status: 200
-   });
-});
+// Bounded read contracts. No account-wide job payload is exposed.
+const {lookupParams}=require('../../utils/lookupParams');
+const {getPaginationMetadata}=require('../../utils/pagination');
+const readJobs=async(req,res)=>{
+   try {
+      const options=lookupParams(req.query),customerId=req.params.customerID;
+      if(req.query.currentCycle!=null){
+         if(!customerId || !['true','false'].includes(req.query.currentCycle))throw ruleError('Invalid currentCycle; use true or false on a client lookup.',400);
+         options.currentCycle=req.query.currentCycle==='true';
+      }
+      if(customerId){
+         if(!/^[1-9]\d*$/.test(customerId) || Number(customerId)>2147483647)throw ruleError('Invalid customer.',400);
+         if(!await req.app.get('db')('customers').where({account_id:Number(req.params.accountID),customer_id:Number(customerId)}).first())throw ruleError('Customer not found.',404);
+      }
+      for(const key of ['jobTypeId','categoryId'])if(req.query[key]!=null){if(typeof req.query[key]!=='string'|| !/^[1-9]\d*$/.test(req.query[key]) || Number(req.query[key])>2147483647)throw ruleError('Invalid '+key+'.',400);options[key]=Number(req.query[key]);}
+      const {jobs,totalCount}=await jobService.getJobsPage(req.app.get('db'),req.params.accountID,{...options,customerId,latest:true});
+      const pagination=getPaginationMetadata(totalCount,options.page,options.limit);
+      res.send({status:200,...(customerId ? {activeCustomerJobData:{activeCustomerJobs:jobs,pagination}} : {accountJobsList:{activeJobData:{activeJobs:jobs,pagination,partial:true}}})});
+   }catch(e){const status=e.statusCode||500;res.status(status).send({status,message:status===500?'Unable to load jobs. Try again.':e.message});}
+};
+jobRouter.get('/getJobs/:accountID/:userID',readJobs);
+jobRouter.get('/getActiveCustomerJobs/:accountID/:userID/:customerID',readJobs);
 
 // Update a job
 jobRouter.route('/updateJob/:accountID/:userID').put(jsonParser, async (req, res) => {
@@ -203,7 +217,7 @@ jobRouter.route('/updateJob/:accountID/:userID').put(jsonParser, async (req, res
          return reassignWarning;
       });
 
-      await sendUpdatedTableWith200Response(db, res, accountID, warning);
+      await sendUpdatedTableWith200Response(db, res, accountID, warning, async()=>({jobs:await jobService.getSingleJob(db,jobTableFields.customer_job_id,accountID)}));
    } catch (error) {
       console.log(error);
       res.send({
@@ -245,7 +259,7 @@ jobRouter.route('/deleteJob/:jobID/:accountID/:userID').delete(jsonParser, async
          // Delete every row in the family (root + prior versions).
          await jobService.deleteJobFamily(trx, familyIds, accountID);
       });
-      await sendUpdatedTableWith200Response(db, res, accountID);
+      await sendUpdatedTableWith200Response(db, res, accountID, undefined, {deletedJobs:[Number(jobID)]});
    } catch (error) {
       console.log(error);
       res.send({
@@ -257,22 +271,6 @@ jobRouter.route('/deleteJob/:jobID/:accountID/:userID').delete(jsonParser, async
 
 module.exports = jobRouter;
 
-const sendUpdatedTableWith200Response = async (db, res, accountID, warning) => committedResponse(res, 'Successfully saved job changes.', async () => {
-   // Get all jobs
-   const activeJobs = await jobService.getActiveJobs(db, accountID);
-
-   const activeJobData = {
-      activeJobs,
-      grid: createGrid(activeJobs),
-      treeGrid: generateTreeGridData(activeJobs, 'customer_job_id', 'parent_job_id')
-   };
-
-   const response = {
-      accountJobsList: { activeJobData },
-      message: 'Successfully saved job changes.',
-      status: 200
-   };
-   if (warning) response.warning = warning;
-
-   return response;
-});
+const sendUpdatedTableWith200Response = async (db,res,accountID,warning,changed={}) => committedResponse(res,'Successfully saved job changes.',async()=>({
+   ...await require('../../utils/listPayload').firstPage(db,accountID,'jobs'),changed:typeof changed==='function'?await changed():changed,...(warning?{warning}:{})
+}));

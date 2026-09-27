@@ -153,6 +153,7 @@ const buildAuditPdf = ({ audit, summary }) => {
          doc.fontSize(12).font('Helvetica-Bold').text('Audit balance breakdown');
          doc.moveDown(0.25);
          doc.fontSize(10);
+         if(totals.held_receipt_credit != null){row('Held receipt credit (separate funds)',fmt(totals.held_receipt_credit));row('Proposed automatic credit use',fmt(totals.proposed_credit_use));row('Proposed next statement',fmt(totals.proposed_statement_total),true);}
          auditBalanceBreakdownLines(totals).forEach(line => row(line.label, fmt(line.amount)));
          doc.moveTo(36, doc.y).lineTo(576, doc.y).stroke();
          doc.moveDown(0.2);
@@ -172,6 +173,8 @@ const buildAuditPdf = ({ audit, summary }) => {
             doc.fontSize(10);
             row('Total prepaid (lifetime)', fmt(totals.retainer_total_prepaid_lifetime));
             row('Drawn down to date', fmt(totals.retainer_drawn));
+            if (totals.retainer_transferred_in) row('Credit transferred in (noncash)', fmt(totals.retainer_transferred_in));
+            if (totals.retainer_transferred_out) row('Credit transferred out (noncash)', fmt(totals.retainer_transferred_out));
             row('Currently available (active retainers)', fmt(totals.retainer_available), true);
             row('Audit balance', fmt(totals.audit_balance));
             row('Net position after applying available retainer', fmt(totals.net_position_after_retainer), true);

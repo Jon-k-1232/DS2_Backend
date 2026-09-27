@@ -5,7 +5,8 @@ const KINDS = Object.freeze({
    transaction:['customer_transactions','transaction_id','total_transaction','transaction_date'],
    payment:['customer_payments','payment_id','payment_amount','payment_date'],
    writeoff:['customer_writeoffs','writeoff_id','writeoff_amount','writeoff_date'],
-   retainer:['customer_retainers_and_prepayments','retainer_id','starting_amount','created_at']
+   retainer:['customer_retainers_and_prepayments','retainer_id','starting_amount','created_at'],
+   payment_receipt:['payment_receipts','receipt_id','amount','receipt_date']
 });
 const norm = v => String(v ?? '').trim().replace(/\s+/g,' ').toLowerCase();
 const kindInfo = kind => { if (!Object.hasOwnProperty.call(KINDS,kind)) throw ruleError('Choose transaction, payment, writeoff or retainer.',400); return KINDS[kind]; };
@@ -17,6 +18,7 @@ function eligible(kind,row) {
    return true;
 }
 function evidence(kind,row) {
+   if(kind==='payment_receipt')return norm(row.reference)?[norm(row.method),norm(row.reference)]:null;
    if (kind === 'transaction') return norm(row.detailed_work_description) ? [row.transaction_type,row.customer_job_id,row.logged_for_user_id,row.general_work_description_id,Number(row.quantity),Number(row.unit_cost),row.is_transaction_billable,norm(row.detailed_work_description)].map(norm) : null;
    if (kind === 'writeoff') return norm(row.writeoff_reason) ? [row.transaction_type,row.customer_job_id,norm(row.writeoff_reason)].map(norm) : null;
    const reference = norm(row.payment_reference_number);
@@ -26,7 +28,7 @@ function evidence(kind,row) {
 function matches(kind,a,b) {
    const [,key,amount,day] = kindInfo(kind);
    const ea=evidence(kind,a), eb=evidence(kind,b);
-   return a[key] !== b[key] && a.account_id === b.account_id && a.customer_id === b.customer_id && eligible(kind,a) && eligible(kind,b) &&
+   return a[key] !== b[key] && a.account_id === b.account_id && a.customer_id === b.customer_id && a.billing_entity_id === b.billing_entity_id && eligible(kind,a) && eligible(kind,b) &&
       Number(a[amount]) === Number(b[amount]) && Math.abs(Date.parse(date(a[day]))-Date.parse(date(b[day]))) <= 3*86400000 && ea && eb && JSON.stringify(ea) === JSON.stringify(eb);
 }
 async function candidates(trx,accountId,customerId,kind) {
@@ -92,7 +94,7 @@ async function flag(db,{accountId,actorId,body}) {
       await lockCustomerLedger(trx,accountId,first.customer_id);
       const row=await record(trx,accountId,body.kind,body.recordId);
       const canonical=body.canonicalId == null ? null : await record(trx,accountId,body.kind,body.canonicalId);
-      if(canonical && canonical.customer_id!==row.customer_id) throw ruleError('Both records must belong to the same customer.',400);
+      if(canonical && (canonical.customer_id!==row.customer_id || canonical.billing_entity_id!==row.billing_entity_id)) throw ruleError('Both records must belong to the same customer and business.',400);
       if(body.kind==='retainer' && (row.parent_retainer_id || canonical?.parent_retainer_id)) throw ruleError('Flag the original retainer receipt, not a balance snapshot.',400);
       await actionContext(trx,actorId,why);
       return {duplicate:await insertFlag(trx,{accountId,actorId,kind:body.kind,row,canonical,why})};
@@ -141,7 +143,8 @@ async function list(db,{accountId,query={}}) {
       f.canonical=f.canonical_id ? await db(table).where({account_id:accountId,[key]:f.canonical_id}).first() || null : null;
       f.locked_invoice_number=await lockNumber(db,accountId,table,f.record_id);
       f.locked_invoice_id=f.locked_invoice_number ? (await db('customer_invoices').where({account_id:accountId,invoice_number:f.locked_invoice_number}).whereNull('parent_invoice_id').first())?.customer_invoice_id : null;
-      f.history=await db('duplicate_history').where({account_id:accountId,duplicate_id:f.duplicate_id}).orderBy('history_id');
+      f.history=await require('../../utils/actorNames')(db,accountId,await db('duplicate_history').where({account_id:accountId,duplicate_id:f.duplicate_id}).orderBy('history_id'));
+      f.customer_name=(await db('customers').where({account_id:accountId,customer_id:f.customer_id}).select('display_name').first())?.display_name || 'Client name not recorded';
    }
    return {duplicates};
 }
@@ -163,6 +166,7 @@ async function resolve(db,{accountId,actorId,duplicateId,body}) {
       await actionContext(trx,actorId,why);
       let before=f, after=null;
       if(body.action==='remove') {
+         if(f.kind==='payment_receipt')throw ruleError(`Receipt #${f.record_id} is immutable. Use its complete-receipt correction; duplicate review never deletes received money.`,409);
          const row=await record(trx,accountId,f.kind,f.record_id);
          const [table]=KINDS[f.kind];
          await assertUnlocked(trx,accountId,table,f.record_id);

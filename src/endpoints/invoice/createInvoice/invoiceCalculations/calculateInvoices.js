@@ -34,7 +34,9 @@ const calculateInvoices = (invoicesToCreate, invoiceQueryData) => {
 
          const invoiceTotal = totalInvoice(customer_id, invoiceInformation, showWriteOffs, hideRetainers);
 
-         return { customer_id, ...invoiceInformation, ...invoiceTotal };
+         const heldCredit=(invoiceQueryData.customerCreditLots?.[customer_id] || []).filter(c=>c.kind==='held_receipt').reduce((n,c)=>n+c.availableCents,0);
+         const heldCreditApplied=Math.min(Math.max(0,Math.round(invoiceTotal.invoiceTotal*100)),heldCredit)/100;
+         return { customer_id, ...invoiceInformation, ...invoiceTotal,correctionSummary:invoiceQueryData.customerCorrections?.[customer_id] || [],receiptSummary:invoiceQueryData.customerReceipts?.[customer_id] || [],preCreditInvoiceTotal:invoiceTotal.invoiceTotal,heldCreditAvailable:heldCredit/100,heldCreditApplied,invoiceTotal:Math.round((invoiceTotal.invoiceTotal-heldCreditApplied)*100)/100 };
       });
    } catch (error) {
       console.log(`Error Calculating Invoices: ${error.message}`);

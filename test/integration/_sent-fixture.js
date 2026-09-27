@@ -9,6 +9,9 @@ async function fixtureMaintenance(db, accountId, fn) {
 }
 async function unseal(db, accountId, customerIds) {
  return fixtureMaintenance(db,accountId,async trx=>{
+   for(const table of ['ar_obligation_carriers','receipt_events','client_credit_events','ar_applications','client_credit_lots','payment_receipts','ar_obligations','ar_derivations']){
+      const query=trx(table).where({account_id:Number(accountId)});if(customerIds)query.whereIn('customer_id',customerIds);await query.del();
+   }
    const flags=trx('duplicate_flags').where({account_id:Number(accountId)});
    if(customerIds) flags.whereIn('customer_id',customerIds);
    const flagIds=await flags.pluck('duplicate_id');
@@ -28,4 +31,10 @@ async function unseal(db, accountId, customerIds) {
      await trx(table).where({account_id:Number(accountId)}).whereIn('invoice_id',ids).del();
  });
 }
-module.exports={fixtureMaintenance,unseal};
+async function shiftObligations(trx,accountId,days,customerIds){
+ for(const [table,columns] of Object.entries({ar_derivations:['as_of'],ar_obligations:['obligation_date','due_date','effective_date'],payment_receipts:['receipt_date'],ar_applications:['effective_date'],client_credit_lots:['effective_date'],client_credit_events:['effective_date'],receipt_events:['effective_date'],ar_obligation_carriers:['effective_date']})){
+  const query=trx(table).where({account_id:accountId});if(customerIds)query.whereIn('customer_id',customerIds);
+  await query.update(Object.fromEntries([...columns.map(column=>[column,trx.raw('?? - ?::int',[column,days])]),['created_at',trx.raw('created_at - ?::interval',[`${days} days`])]]));
+ }
+}
+module.exports={fixtureMaintenance,unseal,shiftObligations};

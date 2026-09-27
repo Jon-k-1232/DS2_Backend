@@ -434,7 +434,7 @@ describe('integration: transaction ledger seams (atomic + locked CRUD, retainer 
          try {
             const request = require('supertest')(server);
             const submit = () => request.post(`/transactions/createTransaction/${base}`)
-               .set('Authorization', `Bearer ${h.mint('admin')}`).send({ transaction: form });
+               .set('Authorization', `Bearer ${h.mint('admin')}`).send({entityId:root.billing_entity_id, transaction: form });
             responses = await Promise.all([submit(), submit()]);
          } finally { await new Promise(resolve => server.close(resolve)); }
          const ok = responses.filter(res => res.status === 200 && Number(res.body.status) === 200);
@@ -672,7 +672,7 @@ describe('integration: transaction ledger seams (atomic + locked CRUD, retainer 
          const [foreignDraw] = await db('customer_retainers_and_prepayments')
             .insert({ ...otherRoot, retainer_id: undefined, created_at: undefined, parent_retainer_id: otherRoot.retainer_id, current_amount: -50 })
             .returning('*');
-         await db('customer_payments').insert({
+         const entry=await require('./_sent-fixture').fixtureMaintenance(db,A,async trx=>{await trx('customer_payments').insert({
             account_id: A,
             customer_id: cust.customerId,
             customer_job_id: job,
@@ -684,7 +684,7 @@ describe('integration: transaction ledger seams (atomic + locked CRUD, retainer 
             is_transaction_billable: true,
             created_by_user_id: U
          });
-         const [entry] = await db('customer_transactions')
+         const [entry] = await trx('customer_transactions')
             .insert({
                account_id: A,
                customer_id: cust.customerId,
@@ -702,6 +702,8 @@ describe('integration: transaction ledger seams (atomic + locked CRUD, retainer 
                created_by_user_id: U
             })
             .returning('*');
+         return entry;});
+
          const before = await ledgerState([cust, other]);
 
          expectEnvelopeRefused(await http.update(formFor(entry, { unitCost: 40, totalTransaction: 40 })), /belongs to a different customer/, 'amount edit');

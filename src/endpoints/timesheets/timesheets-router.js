@@ -386,6 +386,9 @@ timesheetsRouter.route('/moveToTransactions/:accountID/:userID').post(
             if (isNonWorkEntry(claimed[0])) {
                mergedForCreate.isTransactionBillable = false;
             }
+            await require('./review-work-provenance')(trx, accountIdNumber, timesheetEntryID, { employeeId: newTransaction.logged_for_user_id, minutes: mergedForCreate.minutes, costChangeReason: sanitizedEntry.costChangeReason });
+            mergedForCreate.entityId=await require('../billingEntities/tracker-entity').resolve(trx,accountIdNumber,claimed[0]);
+            if(sanitizedEntry.entityId && Number(sanitizedEntry.entityId)!==mergedForCreate.entityId)throw Object.assign(new Error('This tracker entry belongs to another business. Resolve its assignment first.'),{status:409});
             await addNewTransaction(trx, mergedForCreate);
             await timesheetSuggestionsService.updateSuggestion(trx, timesheetEntryID, { status: 'applied' });
          });
@@ -395,6 +398,7 @@ timesheetsRouter.route('/moveToTransactions/:accountID/:userID').post(
             message: 'Successfully moved timesheet entry to transactions.'
          });
       } catch (err) {
+         if(err.statusCode)err.status=err.statusCode;
          if (err.status === 409 || err.status === 400) {
             return res.status(err.status).json({ status: err.status, message: err.message });
          }

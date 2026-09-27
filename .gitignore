@@ -50,3 +50,18 @@ docs/**/evidence/**/*.log
 docs/**/evidence/**/coverage/
 # iCloud-safe dependency folder (node_modules is a symlink into it)
 node_modules.nosync/
+
+# Raw review evidence stays local and is not committed. Playwright traces can hold the
+# local session cookie, and the cutover dumps and drift details hold account-1
+# (production-copy) data. The docs, summaries, sample PDFs and curated screenshots
+# are committed.
+docs/**/evidence/**/*.zip
+docs/**/evidence/**/*.webm
+docs/**/evidence/**/diagnostics/
+docs/**/evidence/**/test-results/
+docs/**/evidence/**/browser-full/
+docs/**/evidence/**/account1-*
+docs/**/evidence/**/*.csv
+docs/**/evidence/**/drift.json
+docs/**/evidence/**/*.png
+!docs/**/evidence/**/screenshots/*.png

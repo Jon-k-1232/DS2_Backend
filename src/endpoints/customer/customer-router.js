@@ -27,6 +27,19 @@ const dayjs = require('dayjs');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const { buildStatementData, renderStatementPdf } = require('./customer-statement');
 
+// Compact identity directory for pickers. Limit is capped at 100; selected
+// inactive clients can be resolved by ID without loading their whole ledger.
+customerRouter.get('/lookup/:accountID/:userID',requireManagerOrAdmin,async(req,res)=>{
+   try {
+      const options=require('../../utils/lookupParams').lookupParams(req.query);
+      const customerId=req.query.customerId;
+      if(customerId && (typeof customerId!=='string' || !/^[1-9]\d*$/.test(customerId) || Number(customerId)>2147483647))throw require('../payments/ledger-helpers').ruleError('Invalid customer.',400);
+      const customers=await customerService.searchCustomers(req.app.get('db'),req.params.accountID,{...options,customerId});
+      if(customerId && !customers.length)return res.status(404).send({status:404,message:'Customer not found.'});
+      res.send({status:200,customers});
+   }catch(e){const status=e.statusCode||500;res.status(status).send({status,message:status===500?'Unable to find clients. Try again.':e.message});}
+});
+
 // Create New Customer
 customerRouter
    .route('/createCustomer/:accountID/:userID')
@@ -50,8 +63,7 @@ customerRouter
       customerTableFields.account_id = trustedAccountId;
 
       // Check for duplicate customer
-      const customers = await customerService.getActiveCustomers(db, trustedAccountId);
-      const duplicateCustomerDisplay = customers.find(customer => customer.display_name === customerTableFields.display_name);
+      const duplicateCustomerDisplay = await db('customers').where({account_id:trustedAccountId,display_name:customerTableFields.display_name,is_customer_active:true}).first();
       if (duplicateCustomerDisplay) throw new Error('Customer already exists with that name.');
 
       // customers + customer_information (+ recurring_customers, when the new
@@ -61,7 +73,7 @@ customerRouter
       // permanent customers row behind with no contact record and no normal
       // way to reach it — getActiveCustomers/getCustomerByID both INNER JOIN
       // customer_information, so the orphan wouldn't even show up to fix.
-      await db.transaction(async trx => {
+      const createdCustomer = await db.transaction(async trx => {
          // Post new customer
          const customerData = await customerService.createCustomer(trx, customerTableFields);
          if (!Object.keys(customerData).length) throw new Error('Error Inserting Customer Into Customer Table.');
@@ -85,30 +97,13 @@ customerRouter
             const recurringCustomer = await recurringCustomerService.createRecurringCustomer(trx, recurringCustomerTableFields);
             if (!Object.keys(recurringCustomer).length) throw new Error('Error Inserting Customer Into Recurring Customer Table.');
          }
+         return customerData;
       });
 
-      // call active customers
-      return committedResponse(res, 'Successfully created customer.', async () => {
-         const activeCustomers = await customerService.getActiveCustomers(db, trustedAccountId);
-         const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, trustedAccountId);
-
-         const activeCustomerData = {
-            activeCustomers,
-            grid: createGrid(activeCustomers)
-         };
-
-         const activeRecurringCustomersData = {
-            activeRecurringCustomers,
-            grid: createGrid(activeRecurringCustomers)
-         };
-
-         return {
-            customersList: { activeCustomerData },
-            recurringCustomersList: { activeRecurringCustomersData },
-            message: 'Successfully created customer.',
-            status: 200
-         };
-      });
+      return committedResponse(res,'Successfully created customer.',async()=>({
+         ...await require('../../utils/listPayload').firstPage(db,trustedAccountId,'customers'),
+         changed:{customers:await customerService.searchCustomers(db,trustedAccountId,{customerId:createdCustomer.customer_id}),recurringCustomers:await recurringCustomerService.getActiveRecurringCustomers(db,trustedAccountId).where('recurring_customers.customer_id',createdCustomer.customer_id)}
+      }));
    } catch (err) {
       console.log(err);
       res.send({
@@ -126,6 +121,19 @@ customerRouter
    const db = req.app.get('db');
    try {
    const { accountID, customerID } = req.params;
+
+   // Entry forms request only their needed history. The full client-profile
+   // route remains available for its actual history/tree views.
+   if(req.query.section != null){
+      if(!['invoices','payments','retainers'].includes(req.query.section) || !/^[1-9]\d*$/.test(customerID) || Number(customerID)>2147483647)
+         return res.status(400).send({status:400,message:'Invalid customer profile section or customer.'});
+      if(!await db('customers').where({account_id:Number(accountID),customer_id:Number(customerID)}).first())
+         return res.status(404).send({status:404,message:'Customer not found.'});
+      if(req.query.section==='payments')return res.send({status:200,customerPaymentData:{customerPayments:await paymentsService.getActivePaymentsForCustomer(db,accountID,customerID)}});
+      if(req.query.section==='retainers')return res.send({status:200,customerRetainerData:{customerRetainers:await retainerService.getCustomerRetainersByID(db,accountID,customerID)}});
+      const customerInvoices=await invoiceService.getCustomerInvoiceByID(db,accountID,customerID);
+      return res.send({status:200,customerInvoiceData:{customerInvoices}});
+   }
 
    const [[customerContactData], customerRetainers, customerPayments, customerInvoices, customerTransactions, customerJobs] = await Promise.all([
       customerService.getCustomerByID(db, accountID, customerID),
@@ -280,38 +288,11 @@ customerRouter
          await recurringCustomerService.reconcileCustomerRecurringFlag(trx, trustedAccountId, customerID);
       });
 
-      // Call active customers
-      return committedResponse(res, 'Successfully updated customer.', async () => {
-         const activeCustomers = await customerService.getActiveCustomers(db, trustedAccountId);
-         const activeRecurringCustomers = await recurringCustomerService.getActiveRecurringCustomers(db, trustedAccountId);
-
-         const activeCustomerData = {
-            activeCustomers,
-            grid: createGrid(activeCustomers)
-         };
-
-         const activeRecurringCustomersData = {
-            activeRecurringCustomers,
-            grid: createGrid(activeRecurringCustomers)
-         };
-
-         // Deactivating a customer (is_customer_active -> false) is the supported
-         // alternative to deleteCustomer's hard-delete-with-no-related-records
-         // rule, so it must NOT be blocked by an open balance or unbilled
-         // billable work — but the caller should be warned rather than have it
-         // happen silently and the debt/hours fall out of the active lists.
-         const warnings = customerTableFields.is_customer_active === false
-            ? await customerService.getDeactivationWarnings(db, trustedAccountId, customerTableFields.customer_id)
-            : [];
-
-         return {
-            customersList: { activeCustomerData },
-            recurringCustomersList: { activeRecurringCustomersData },
-            warnings,
-            message: 'Successfully updated customer.',
-            status: 200
-         };
-      });
+      return committedResponse(res,'Successfully updated customer.',async()=>({
+         ...await require('../../utils/listPayload').firstPage(db,trustedAccountId,'customers'),
+         changed:{customers:await customerService.searchCustomers(db,trustedAccountId,{customerId:customerID}),recurringCustomers:await recurringCustomerService.getActiveRecurringCustomers(db,trustedAccountId).where('recurring_customers.customer_id',customerID)},
+         warnings:customerTableFields.is_customer_active===false ? await customerService.getDeactivationWarnings(db,trustedAccountId,customerID) : []
+      }));
    } catch (err) {
       console.log(err);
       res.send({
@@ -357,21 +338,9 @@ customerRouter
          });
          if (!deleted) return res.send({ message: 'No matching customer record found.', status: 404 });
 
-         // call active customers
-         return committedResponse(res, 'Successfully deleted customer.', async () => {
-            const activeCustomers = await customerService.getActiveCustomers(db, accountID);
-
-            const activeCustomerData = {
-               activeCustomers,
-               grid: createGrid(activeCustomers)
-            };
-
-            return {
-               customersList: { activeCustomerData },
-               message: 'Successfully deleted customer.',
-               status: 200
-            };
-         });
+         return committedResponse(res,'Successfully deleted customer.',async()=>({
+            ...await require('../../utils/listPayload').firstPage(db,accountID,'customers'),changed:{deletedCustomers:[customerId]}
+         }));
       } catch (err) {
          console.log(err);
          res.send({

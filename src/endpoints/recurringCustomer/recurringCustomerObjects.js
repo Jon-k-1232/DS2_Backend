@@ -9,6 +9,10 @@ const dayjs = require('dayjs');
 // actual chosen date is honoured instead of always silently falling back to
 // "now".
 const resolveStartDate = source => source.startDate || source.selectedStartDate || dayjs().format();
+const activeBoolean = value => {
+  if (typeof value !== 'boolean') { const e = new Error('Active must be true or false.'); e.statusCode = 400; throw e; }
+  return value;
+};
 
 const restoreDataTypesRecurringCustomerTableOnCreate = (customer, customerID) => ({
   account_id: Number(customer.accountID),
@@ -24,7 +28,7 @@ const restoreDataTypesRecurringCustomerTableOnCreate = (customer, customerID) =>
   // is still true), so an explicit `isActive: false` on create could never take
   // effect. Default to active when the field is omitted entirely (today's "New
   // Customer" form never sends it) but honour an explicit false.
-  is_recurring_customer_active: customer.isActive === undefined ? true : Boolean(customer.isActive),
+  is_recurring_customer_active: customer.isActive === undefined ? true : activeBoolean(customer.isActive),
   created_by_user_id: Number(customer.userID)
 });
 
@@ -48,7 +52,7 @@ const restoreDataTypesRecurringCustomerTableOnUpdate = (data, customer_id) => {
   // caller explicitly sent a value, so `isActive: false` persists and omitting
   // the field leaves the current DB value alone.
   if (data.isActive !== undefined) {
-    updated.is_recurring_customer_active = Boolean(data.isActive);
+    updated.is_recurring_customer_active = activeBoolean(data.isActive);
   }
 
   return updated;

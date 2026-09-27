@@ -132,6 +132,7 @@ const createWriteOffCore = (db, { accountId, writeOffFields }) =>
       }
 
       const writeOff = await writeOffsService.createWriteOff(trx, { ...fields, created_at: ledgerNow(trx) });
+      await require('../payments/compatibility-subledger').sync(trx,'writeoff',writeOff);
       return { message, writeOff };
    });
 
@@ -189,6 +190,7 @@ const updateWriteOffCore = (db, { accountId, writeOffFields }) =>
          note: writeOffFields.note === undefined ? undefined : preserveSystemMarkers(stored.note, writeOffFields.note)
       };
       await trx(WRITEOFFS).where({ account_id: Number(accountId), writeoff_id: stored.writeoff_id }).update(patch);
+      await require('../payments/compatibility-subledger').sync(trx,'writeoff',{...stored,...Object.fromEntries(Object.entries(patch).filter(([,value])=>value!==undefined))});
 
       return { message: 'Successfully updated write-off.', stored };
    });
@@ -214,8 +216,9 @@ const deleteWriteOffCore = (db, { accountId, writeoffId }) =>
          await invoiceService.deleteInvoice(trx, linkedRow.customer_invoice_id, accountId);
       }
 
+      await require('../payments/compatibility-subledger').sync(trx,'writeoff',stored,{removed:true});
       await writeOffsService.deleteWriteOff(trx, stored.writeoff_id, accountId);
       return { message: 'Successfully deleted write-off.', stored };
    });
 
-module.exports = { createWriteOffCore, updateWriteOffCore, deleteWriteOffCore };
+module.exports = { createWriteOffCore, updateWriteOffCore:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_writeoffs','writeoff_id',input.writeOffFields.writeoff_id,()=>updateWriteOffCore(db,input)), deleteWriteOffCore:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_writeoffs','writeoff_id',input.writeoffId,()=>deleteWriteOffCore(db,input)) };

@@ -6,7 +6,7 @@ const money=v=>Number(v || 0).toLocaleString('en-US',{style:'currency',currency:
 const time=v=>new Intl.DateTimeFormat('en-US',{timeZone:'America/Phoenix',dateStyle:'medium',timeStyle:'short'}).format(new Date(v));
 const date=v=>v?new Intl.DateTimeFormat('en-US',{timeZone:'UTC',dateStyle:'medium'}).format(new Date(String(v).slice(0,10)+'T12:00:00Z')):'Not recorded';
 const TYPES={client:'Client record',full_evidence:'Full evidence record'};
-const entities={customers:'Customer profile',customer_information:'Contact information',customer_jobs:'Job',customer_transactions:'Work',
+const entities={legacy_work_cost_estimates:'Historical labor cost estimate',recurring_plan_cutovers:'Recurring cutover',recurring_charge_occurrences:'Recurring period',recurring_occurrence_events:'Recurring charge history',credit_memos:'Credit memo',credit_memo_lines:'Credited charge',credit_memo_reversals:'Credit memo reversal',invoice_voids:'Original invoice void',rebill_links:'Corrected invoice',client_refunds:'Money returned to client',correction_postings:'Invoice correction',billing_cutover_amendments:'Corrected legacy cutover',legacy_billing_scopes:'Legacy opening scope',ar_derivations:'Reconstructed legacy aging',ar_obligations:'Original invoice obligation',payment_receipts:'Cash received once',ar_applications:'Invoice application',client_credit_lots:'Held client credit',client_credit_events:'Credit use or transfer',receipt_events:'Receipt action',ar_obligation_carriers:'Debt carried forward',billing_entities:'Billing business',billing_entity_aliases:'Tracker spelling',billing_entity_invoice_sequences:'Invoice numbering',billing_cutovers:'Legacy business cutover',legacy_financial_entity_attributions:'Legacy business attribution',billing_entity_reviews:'Business assignment review',billing_entity_resolutions:'Confirmed business assignment',billing_cutover_positions:'Carried legacy balance',billing_cutover_links:'Legacy balance carried forward',billing_credit_transfers:'Credit transfer between businesses',financial_requests:'Saved billing action',customers:'Customer profile',customer_information:'Contact information',customer_jobs:'Job',customer_transactions:'Work',
  customer_payments:'Payment',customer_writeoffs:'Write-off',customer_retainers_and_prepayments:'Retainer',customer_invoices:'Invoice balance',
  recurring_customers:'Recurring billing',customer_rate_agreements:'Rate agreement',customer_quotes:'Quote',retainer_events:'Retainer adjustment',
  duplicate_flags:'Duplicate review',duplicate_history:'Duplicate review history',invoice_issues:'Invoice issuance',invoice_history:'Invoice history',
@@ -15,7 +15,7 @@ const entities={customers:'Customer profile',customer_information:'Contact infor
  ai_time_tracker_transaction_suggestions:'Suggested work',ai_category_training_examples:'Work import confirmation',ledger_normalization_log:'Historical correction',
  audit_records:'Printed record',audit_actions:'Archived document access',users:'Staff profile',accounts:'Firm profile',account_information:'Firm contact information',
  customer_job_types:'Job type',customer_job_categories:'Job category',customer_general_work_descriptions:'Work description'};
-const fields={total_transaction:'Charge',unit_cost:'Rate',quantity:'Quantity',transaction_date:'Work date',detailed_work_description:'Work description',
+const fields={name:'Business name',legal_name:'Legal business name',alias:'Tracker spelling',invoice_prefix:'Invoice prefix',active:'Active',is_default:'Default business',opening_amount:'Opening balance',basis:'Attribution basis',total_transaction:'Charge',unit_cost:'Rate',quantity:'Quantity',transaction_date:'Work date',detailed_work_description:'Work description',
  is_billable:'Billable',is_recurring:'Recurring billing',is_customer_active:'Customer active',is_commercial_customer:'Business customer',is_transaction_billable:'Billable',is_excess_to_subscription:'Outside subscription',payment_amount:'Payment amount',payment_date:'Payment date',
  payment_method:'Payment method',form_of_payment:'Payment method',payment_reference_number:'Check / reference',writeoff_amount:'Write-off amount',writeoff_reason:'Reason',writeoff_date:'Write-off date',
  total_amount_due:'Amount due',remaining_balance:'Remaining balance',total_charges:'Charges',total_payments:'Payments applied',total_writeoffs:'Write-offs applied',
@@ -124,6 +124,10 @@ function detail(e,ctx,index) {
    else omitted.push(key);
    continue;
   }
+  if(['billing_entity_id','destination_entity_id'].includes(key)) {
+   const name=id=>id?(ctx.refs['business:'+id] || 'Business '+id):'Unassigned';const title=key==='destination_entity_id'?'To business':'Billing business';
+   shown.push({field:key,label:title,before:name(v.before),after:name(v.after),text:`${title}: ${name(v.before)} -> ${name(v.after)}`});continue;
+  }
   if(payload(key) || structured(v.before) || structured(v.after)) {
    omitted.push(key);continue;
   }
@@ -172,7 +176,8 @@ function business(entry,ctx) {
   for(const e of rows('customer_writeoffs'))descriptions.push(`Write-off${e.action==='delete'?' removed':e.action==='update'?' changed':''} - ${r(e).writeoff_reason || e.reason || 'account credit'}`);
  }
  for(const e of rows('retainer_events')){const row=r(e);descriptions.push(`Retainer ${row.kind}${row.kind==='adjustment'?' ('+row.direction+')':''} - ${money(row.amount)}${row.reference?', '+(row.method || 'reference')+' #'+row.reference:''}${row.reason?', '+row.reason:''}`);}
- if(!rows('retainer_events').length && !rows('customer_payments').some(e=>r(e).retainer_id))for(const e of rows('customer_retainers_and_prepayments').filter(e=>!r(e).parent_retainer_id))descriptions.push(`Retainer ${e.action==='delete'?'removed':e.action==='update'?'changed':'received'} - ${money(Math.abs(Number(r(e).starting_amount || r(e).current_amount)))}`);
+ for(const e of rows('billing_credit_transfers')){const row=r(e);descriptions.push(`Credit transfer - ${money(row.amount)} from ${ctx.refs['business:'+row.billing_entity_id] || 'source business'} to ${ctx.refs['business:'+row.destination_entity_id] || 'destination business'}; no cash received`);}
+ if(!rows('billing_credit_transfers').length && !rows('retainer_events').length && !rows('customer_payments').some(e=>r(e).retainer_id))for(const e of rows('customer_retainers_and_prepayments').filter(e=>!r(e).parent_retainer_id))descriptions.push(`Retainer ${e.action==='delete'?'removed':e.action==='update'?'changed':'received'} - ${money(Math.abs(Number(r(e).starting_amount || r(e).current_amount)))}`);
  if(!descriptions.length) {
   const priority=['invoice_exceptions','duplicate_flags','invoice_revisions','audit_actions','audit_records','customer_payments_processed','timesheet_entries','customers','customer_information','customer_jobs'];
   const e=priority.map(t=>rows(t)[0]).find(Boolean) || events[0],row=r(e);
@@ -191,7 +196,8 @@ const statementKinds=[
  ['customer_writeoffs','write-off','write-offs'],
  ['customer_retainers_and_prepayments','retainer record','retainer records'],
  ['retainer_events','retainer adjustment','retainer adjustments']
-];
+,
+ ['ar_obligations','original obligation','original obligations'],['payment_receipts','receipt','receipts'],['ar_applications','invoice application','invoice applications'],['client_credit_lots','client credit','client credits'],['client_credit_events','credit event','credit events'],['receipt_events','receipt action','receipt actions']];
 function changeNumbers(numbers) {
  const ranges=[];
  for(let i=0;i<numbers.length;i++) {

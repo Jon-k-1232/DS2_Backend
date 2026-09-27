@@ -95,6 +95,10 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
          }
       }
 
+      await require('../../billingEntities/invoice-entity').commitNumbers(trx, accountID, plannedNumbers);
+      const entityId=require('../../billingEntities/entity-context').current();
+      await require('../../recurringCustomer/recurring-billing').assertReady(trx, Number(accountID), { billingDate, entityId, customerIds: customerIDs });
+      if(entityId)for(const customerId of customerIDs)await require('../../payments/receipt-finalize').prepare(trx,{accountId:accountID,customerId,entityId},billingDate);
       const createdParents = [];
       for (const invoice of newCustomerInvoices) {
          const detail = invoicesWithDetail.find(i => Number(i.customer_id) === Number(invoice.customer_id));
@@ -112,6 +116,7 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
 
          // Absorb exactly the chains whose remaining became this beginning_balance.
          const absorbed = await invoiceService.zeroOutAbsorbedInvoices(trx, accountID, plan.customer_id, parent, plan.absorbedRootIDs);
+         await require('../../billingEntities/cutover').consume(trx,accountID,plan.customer_id,parent.billing_entity_id,plan.absorbedRootIDs,parent.customer_invoice_id);
 
          let transactionsStamped = 0;
          let paymentsStamped = 0;
@@ -137,6 +142,8 @@ const dataInsertionOrchestrator = async (db, invoicesWithDetail, accountBillingI
                throw new Error(`Customer ${plan.customer_id}: a payment on the statement was changed by another run. Nothing was finalized — re-run Create Invoice.`);
             }
          }
+         if(parent.billing_entity_id)await require('../../payments/receipt-finalize').append(trx,{accountId:accountID,customerId:parent.customer_id,entityId:parent.billing_entity_id},parent,detail,Number(userID));
+         await require('../../recurringCustomer/recurring-billing').markIssued(trx, plan.transactionIDs, parent.customer_invoice_id);
          await require('../sentInvoiceLocks').captureIssue(trx, parent, invoicesWithDetail.find(i => Number(i.customer_id) === Number(parent.customer_id)), Number(userID));
          stamped.push({
             customer_id: plan.customer_id,
@@ -277,7 +284,7 @@ const newInvoiceObject = (invoice, pdfFileLocationsMap, userID, billingDate = da
       invoice_number: invoiceNumber,
       due_date: dayjs(dueDate).format('YYYY-MM-DD'),
       beginning_balance: round2(outstandingInvoiceTotal || 0),
-      total_payments: round2(paymentTotal || 0),
+      total_payments: round2((paymentTotal || 0)-(invoice.heldCreditApplied || 0)),
       total_charges: round2(transactionsTotal || 0),
       total_write_offs: round2(writeOffTotal || 0),
       total_retainers: round2(retainerTotal || 0),

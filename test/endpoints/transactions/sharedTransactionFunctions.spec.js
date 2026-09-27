@@ -751,6 +751,7 @@ describe('sharedTransactionFunctions.updateTransactionCore / deleteTransactionCo
       const db = fixture([root(10, 100, 500), root(20, 200, 500), { ...root(21, 200, 500), parent_retainer_id: 20, current_amount: -400 }]);
       db._store.customer_transactions.push({
          transaction_id: 77,
+         logged_for_user_id: 21,
          account_id: 1,
          customer_id: 100,
          customer_job_id: 501,
@@ -776,6 +777,7 @@ describe('sharedTransactionFunctions.updateTransactionCore / deleteTransactionCo
       const db = fixture();
       db._store.customer_transactions.push({
          transaction_id: 66,
+         logged_for_user_id: 21,
          account_id: 1,
          customer_id: 100,
          customer_job_id: 501,

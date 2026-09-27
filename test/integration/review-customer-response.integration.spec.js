@@ -33,8 +33,8 @@ describe('F1 customer update response account isolation', function () {
    it('refreshes customers and recurring rows only from the verified URL account', async () => {
       const res = await h.as('admin').put('/customer/updateCustomer/9001/90013').send({ customer: body() });
       expectEnvelopeOk(res);
-      const customers = res.body.customersList.activeCustomerData.activeCustomers;
-      const recurring = res.body.recurringCustomersList.activeRecurringCustomersData.activeRecurringCustomers;
+      const customers = res.body.changed.customers;
+      const recurring = res.body.changed.recurringCustomers;
       expect(customers.map(r => Number(r.customer_id))).to.include(Number(customer.customer_id));
       expect(recurring.map(r => Number(r.customer_id))).to.include(Number(customer.customer_id));
       for (const row of [...customers, ...recurring]) expect(Number(row.account_id)).to.equal(9001);

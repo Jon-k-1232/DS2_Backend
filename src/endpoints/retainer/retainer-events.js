@@ -25,7 +25,7 @@ async function history(db, accountId, retainerId) {
       const { root,latest } = await load(trx,accountId,retainerId);
       await lockCustomerLedger(trx,accountId,root.customer_id);
       const current = await load(trx,accountId,retainerId);
-      const events = await trx('retainer_events').where({account_id:accountId,root_retainer_id:root.retainer_id}).orderBy('event_id');
+      const events = await require('../../utils/actorNames')(trx,accountId,await trx('retainer_events').where({account_id:accountId,root_retainer_id:root.retainer_id}).orderBy('event_id'));
       const lockedInvoice = await lockNumber(trx,accountId,TABLE,root.retainer_id);
       return { ...current, available:round2(-Number(current.latest.current_amount)), events, lockedInvoice };
    });

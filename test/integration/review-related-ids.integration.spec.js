@@ -27,7 +27,7 @@ describe('F2 related IDs and creator attribution', function () {
    const jobBody = overrides => ({ accountID: 9001, userID: 90012, customerID: c2.customer_id,
       jobTypeID: 900201, quoteAmount: 0, notes: tag, ...overrides });
    const recurringBody = overrides => ({ accountID: 9001, userID: 90012, customerID: c.customer_id,
-      subscriptionFrequency: tag, billingCycle: 1, recurringAmount: 25, startDate: '2026-09-01', ...overrides });
+      subscriptionFrequency: 'Monthly', billingCycle: 1, recurringAmount: 25, startDate: '2026-09-01', ...overrides });
    const quoteBody = overrides => ({ account_id: 9001, created_by_user_id: 90012,
       customer_id: c.customer_id, customer_job_id: job.customer_job_id, amount_quoted: 25,
       is_quote_active: true, notes: tag, ...overrides });
@@ -45,6 +45,7 @@ describe('F2 related IDs and creator attribution', function () {
    });
    after(async () => {
       if (!h) return;
+      await h.db('recurring_customers').where({account_id:9001}).whereIn('customer_id',[c?.customer_id,c2?.customer_id].filter(Boolean)).del();
       // Include rows a vulnerable endpoint accepted before the refusal assertion.
       for (const [table, column] of [['customer_transactions', 'detailed_work_description'], ['customer_quotes', 'notes'],
          ['recurring_customers', 'subscription_frequency'], ['customer_jobs', 'notes'],

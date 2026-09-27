@@ -47,7 +47,7 @@ jobTypeRouter
       const db = req.app.get('db');
       const { jobTypeID, accountID } = req.params;
 
-      const activeJobs = await jobTypeService.getSingleJobType(db, jobTypeID, accountID);
+      const activeJobs = await require('../../utils/actorNames')(db,accountID,await jobTypeService.getSingleJobType(db, jobTypeID, accountID),'created_by_user_id','created_by_user_name');
 
       const activeJobData = {
          activeJobs,

@@ -199,4 +199,4 @@ const deleteRetainerCore = (db, { accountId, retainerId }) =>
       return { rootID };
    });
 
-module.exports = { findMatchingRetainer, createRetainerCore, updateRetainerCore, deleteRetainerCore };
+module.exports = { findMatchingRetainer, createRetainerCore, updateRetainerCore:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_retainers_and_prepayments','retainer_id',input.retainerFields.retainer_id,()=>updateRetainerCore(db,input)), deleteRetainerCore:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_retainers_and_prepayments','retainer_id',input.retainerId,()=>deleteRetainerCore(db,input)) };

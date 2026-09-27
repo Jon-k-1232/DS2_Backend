@@ -836,7 +836,7 @@ const applyTransactionEdit = async ({ db, accountId, transactionId, updates = {}
 };
 
 module.exports = {
-   applyTransactionEdit,
+   applyTransactionEdit:args=>require('../billingEntities/record-scope')(args.db,args.accountId,'customer_transactions','transaction_id',args.transactionId,()=>applyTransactionEdit(args)),
    EDITABLE_FIELDS,
    ERRORS,
    MESSAGES,

@@ -12,9 +12,9 @@ describe('what-if D: duplicate submissions and failures before/after commit', fu
       return { c, j, inv };
    }
    const definitions = {
-      payment: { table: 'customer_payments', pk: 'payment_id', field: 'payment_amount', module: 'payments/payments-service', refresh: 'getActivePayments' },
-      writeoff: { table: 'customer_writeoffs', pk: 'writeoff_id', field: 'writeoff_amount', module: 'writeOffs/writeOffs-service', refresh: 'getActiveWriteOffs' },
-      retainer: { table: 'customer_retainers_and_prepayments', pk: 'retainer_id', field: 'starting_amount', module: 'retainer/retainer-service', refresh: 'getActiveRetainers' },
+      payment: { table: 'customer_payments', pk: 'payment_id', field: 'payment_amount', module: 'payments/payments-service', refresh: 'getActivePaymentsPaginated' },
+      writeoff: { table: 'customer_writeoffs', pk: 'writeoff_id', field: 'writeoff_amount', module: 'writeOffs/writeOffs-service', refresh: 'getActiveWriteOffsPaginated' },
+      retainer: { table: 'customer_retainers_and_prepayments', pk: 'retainer_id', field: 'starting_amount', module: 'retainer/retainer-service', refresh: 'getRetainersPage' },
       transaction: { table: 'customer_transactions', pk: 'transaction_id', field: 'total_transaction', module: 'transactions/transactions-service', refresh: 'getActiveTransactionsPaginated' }
    };
    function action(kind, f, amount = 10, mode = 'create', row) {

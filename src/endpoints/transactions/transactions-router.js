@@ -16,10 +16,28 @@ const dayjs = require('dayjs');
 const { addNewTransaction, updateTransactionCore, deleteTransactionCore } = require('./sharedTransactionFunctions');
 const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagination');
 const { csvRow } = require('../analytics/csv-util');
+// A generated fee owns a permanent period. Deletion means a reasoned skip;
+// direct time-entry editing cannot erase its recurrence or bypass the version.
+async function recurringChange(req, res) {
+   const transactionId = req.body?.transaction?.transactionID || req.body?.transaction?.transaction_id;
+   if (!/^[1-9]\d*$/.test(String(transactionId))) return false;
+   try {
+      const row = await req.app.get('db')('recurring_charge_occurrences').where({ account_id: req.user.account_id, transaction_id: Number(transactionId) }).first();
+      if (!row) return false;
+      if (req.method !== 'DELETE') return res.status(409).send({ status: 409, message: 'Edit recurring charges in Billing → Recurring plans so the period and reason stay together.' });
+      const result = await require('../recurringCustomer/recurring-billing').changeOccurrence(req.app.get('db'), {
+         accountId: Number(req.user.account_id), actorId: Number(req.user.user_id), occurrenceId: row.occurrence_id,
+         body: req.body.transaction, key: req.get('Idempotency-Key')
+      }, true);
+      return res.send({ status: 200, ...result });
+   } catch (error) { const status = error.statusCode || (error.code === 'P0409' ? 409 : 500); return res.status(status).send({ status, message: status === 500 ? 'Unable to change the recurring charge. Nothing was saved.' : error.message }); }
+}
 
 const DEFAULT_TRANSACTIONS_PAGE_SIZE = 20;
 const TRANSACTION_EXPORT_COLUMNS = [
    'transaction_id',
+   'billing_entity_id',
+   'billing_entity_name',
    'customer_id',
    'customer_name',
    'transaction_type',
@@ -58,13 +76,14 @@ transactionsRouter.route('/createTransaction/:accountID/:userID').post(jsonParse
       // in the body is caller-supplied and would make the audit trail spoofable.
       sanitizedNewTransaction.loggedByUserID = Number(req.user.user_id);
 
-      await require('../payments/ledger-helpers').withTransaction(db, async trx => {
+      const created = await require('../payments/ledger-helpers').withTransaction(db, async trx => {
          await require('../../utils/ledgerAction').actionContext(trx, Number(req.user.user_id), 'Manual transaction entry');
          const row = await addNewTransaction(trx, sanitizedNewTransaction);
          await require('../duplicates/duplicates-service').detectCreated(trx, 'transaction', row, Number(req.user.user_id));
+         return row;
       });
 
-      return sendUpdatedTableWith200Response(db, res, accountID);
+      return sendUpdatedTableWith200Response(db, res, accountID, {changed:{transactions:[created]}});
    } catch (err) {
       console.log(err);
       res.send({
@@ -78,21 +97,19 @@ transactionsRouter.route('/createTransaction/:accountID/:userID').post(jsonParse
 transactionsRouter.route('/updateTransaction/:accountID/:userID').put(jsonParser, async (req, res) => {
    const db = req.app.get('db');
    try {
+      if (await recurringChange(req, res)) return;
       // Trust the account from the (guard-verified) URL, never the request body.
       const accountID = Number(req.params.accountID);
-      const { warning } = await updateTransactionCore(db, {
+      const { warning, transaction } = await updateTransactionCore(db, {
          accountId: accountID,
          actorId: Number(req.user.user_id),
          transaction: sanitizeFields(req.body.transaction || {})
       });
 
-      await sendUpdatedTableWith200Response(db, res, accountID, warning ? { warning } : {});
+      await sendUpdatedTableWith200Response(db, res, accountID, {warning,changed:{transactions:[transaction]}});
    } catch (error) {
-      console.log(error);
-      res.send({
-         message: error.message || 'An error occurred while updating the transaction.',
-         status: 500
-      });
+      const status = error.statusCode || 500;
+      res.status(status).send({ message: error.message || 'An error occurred while updating the transaction.', status });
    }
 });
 
@@ -100,15 +117,16 @@ transactionsRouter.route('/updateTransaction/:accountID/:userID').put(jsonParser
 transactionsRouter.route('/deleteTransaction/:accountID/:userID').delete(async (req, res) => {
    const db = req.app.get('db');
    try {
+      if (await recurringChange(req, res)) return;
       // Trust the account from the (guard-verified) URL, never the request body.
       const accountID = Number(req.params.accountID);
-      const { warning } = await deleteTransactionCore(db, {
+      const { warning, transaction } = await deleteTransactionCore(db, {
          accountId: accountID,
          actorId: Number(req.user.user_id),
          transaction: sanitizeFields(req.body.transaction || {})
       });
 
-      await sendUpdatedTableWith200Response(db, res, accountID, warning ? { warning } : {});
+      await sendUpdatedTableWith200Response(db, res, accountID, {warning,changed:{deletedTransactions:[transaction.transaction_id]}});
    } catch (error) {
       console.log(error);
       res.send({
@@ -160,7 +178,8 @@ transactionsRouter.route('/exportTransactions/:accountID/:userID').get(async (re
 
    try {
       const transactions = await transactionsService.getActiveTransactionsForExport(db, accountID, search);
-      const csv = generateTransactionsCsv(transactions, TRANSACTION_EXPORT_COLUMNS);
+      const names=require('../../utils/auditContext').storage.getStore()?.billingEntityNames || {};
+      const csv = generateTransactionsCsv(transactions.map(row=>({...row,billing_entity_name:names[row.billing_entity_id] || 'Assignment needed'})), TRANSACTION_EXPORT_COLUMNS);
       const fileName = `transactions_${dayjs().format('YYYYMMDD_HHmmss')}.csv`;
 
       res.setHeader('Content-Type', 'text/csv');
@@ -269,39 +288,7 @@ async function buildActiveTransactionsList(db, accountID, { page = 1, limit = DE
 
 const sendUpdatedTableWith200Response = async (db, res, accountID, additionalItems = {}, afterCommit = true) => {
    const loadTables = async () => {
-      const [transactionsList, activeRetainers, activeJobs, activePayments] = await Promise.all([
-         buildActiveTransactionsList(db, accountID),
-         retainerService.getActiveRetainers(db, accountID),
-         jobService.getActiveJobs(db, accountID),
-         paymentsService.getActivePayments(db, accountID)
-      ]);
-
-      const activePaymentsData = {
-         activePayments,
-         grid: createGrid(activePayments)
-      };
-
-      const activeRetainerData = {
-         activeRetainers,
-         grid: createGrid(activeRetainers),
-         treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
-      };
-
-      const activeJobData = {
-         activeJobs,
-         grid: createGrid(activeJobs),
-         treeGrid: generateTreeGridData(activeJobs, 'customer_job_id', 'parent_job_id')
-      };
-
-      return {
-         ...additionalItems,
-         transactionsList,
-         accountRetainersList: { activeRetainerData },
-         accountJobsList: { activeJobData },
-         paymentsList: { activePaymentsData },
-         message: 'Successful.',
-         status: 200
-      };
+      return {...await require('../../utils/listPayload').firstPages(db,accountID,['transactions','retainers','payments']),...additionalItems};
    };
    return afterCommit ? committedResponse(res, 'Successful.', loadTables) : res.send(await loadTables());
 };

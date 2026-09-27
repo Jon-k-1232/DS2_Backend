@@ -46,13 +46,13 @@ const sendAccountWideReminder = async ({ accountID, subject, buildHtml, recipien
 
       const html = buildHtml({ accountName });
 
-      await sendEmail({
+      const delivery = await sendEmail({
          recipientEmails,
          subject,
          html
       });
 
-      console.log(`[${new Date().toISOString()}] Sent "${subject}" reminder to account ${accountID} (${recipientEmails.length} recipients).`);
+      console.log(`[${new Date().toISOString()}] ${delivery?.suppressed ? 'Suppressed' : 'Sent'} "${subject}" reminder to account ${accountID} (${recipientEmails.length} recipients).`);
    } catch (error) {
       console.error(`[${new Date().toISOString()}] Failed to send "${subject}" reminder for account ${accountID}: ${error.message}`);
    }
@@ -143,13 +143,13 @@ const sendMissingTrackerRemindersForAccount = async (accountID, recipientUserIds
             `;
 
             try {
-               await sendEmail({
+               const delivery = await sendEmail({
                   recipientEmails: [user.email],
                   subject,
                   html
                });
                subjectsSent.add(`${user.email}-${subject}`);
-               console.log(`[${new Date().toISOString()}] Sent missing tracker reminder to ${user.email} for account ${accountID}.`);
+               console.log(`[${new Date().toISOString()}] ${delivery?.suppressed ? 'Suppressed' : 'Sent'} missing tracker reminder to ${user.email} for account ${accountID}.`);
             } catch (emailError) {
                console.error(`[${new Date().toISOString()}] Failed to send missing tracker reminder to ${user.email} (account ${accountID}): ${emailError.message}`);
             }

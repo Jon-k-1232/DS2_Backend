@@ -10,13 +10,23 @@ const PgClient = require('knex/lib/dialects/postgres');
 const originalQuery = PgClient.prototype.query;
 const control = /^\s*(?:begin|commit|rollback|savepoint|release|set)\b/i;
 const writes = /^\s*(?:(?:--[^\n]*\n|\/\*[\s\S]*?\*\/)\s*)*(?:insert|update|delete|with)\b/i;
-async function setContext(client, connection, ctx) {
+const rowLock = /\bfor\s+(?:(?:no\s+)?key\s+)?(?:update|share)\b/i;
+async function setContext(client, connection, ctx, sql = '') {
    const user = ctx.request?.user || ctx.user;
    const req = ctx.request;
    const source = req ? `${req.method} ${req.baseUrl || ''}${req.route?.path || req.path}` : ctx.source;
    await originalQuery.call(client, connection, {
       sql: "SELECT set_config('app.actor_user_id', ?, true), set_config('app.actor_name', ?, true), set_config('app.audit_source', ?, true), set_config('app.correlation_id', ?, true), set_config('app.audit_reason', ?, true)",
       bindings: [user?.user_id ? String(user.user_id) : '', user?.display_name || '', source || 'system/application', ctx.correlationId, ctx.reason || '']
+   });
+   // Entity read views expose explicit legacy attribution. Search path and selection
+   // are transaction-local, reset before EVERY query, and never used for writes.
+   const read = /^\s*(select|with)\b/i.test(sql) && !/\b(insert into|delete from|update [\w."]+ set)\b/i.test(sql);
+   await originalQuery.call(client, connection, {
+      sql: "SELECT set_config('app.billing_entity_id', ?, true), set_config('search_path', ?, true)",
+      // Joined reporting views cannot accept FOR UPDATE on their nullable
+      // sidecars. Locking reads keep the original single-table scoped views.
+      bindings: [ctx.billingEntityId == null ? '' : String(ctx.billingEntityId), ctx.billingScope && read ? (rowLock.test(sql) ? 'billing_scope, public' : 'billing_reads, billing_scope, public') : 'public']
    });
    // Acquire the chain lock BEFORE customer/user/job locks. Acquiring it only
    // in an AFTER trigger could deadlock an employee deletion against a work
@@ -47,15 +57,16 @@ PgClient.prototype.query = async function auditQuery(connection, query) {
       return result;
    }
    if (this.transacting) {
-      await setContext(this, connection, ctx);
+      await setContext(this, connection, ctx, sql);
       return originalQuery.call(this, connection, query);
    }
-   if (!writes.test(sql)) return originalQuery.call(this, connection, query);
+   if (!writes.test(sql) && !ctx.billingScope) return originalQuery.call(this, connection, query);
    // Legacy one-statement writes also get atomic context and trigger capture.
-   connection.__ds2AuditAccountLocked=null;connection.__ds2AuditReadOnly=false;
-   await originalQuery.call(this, connection, 'BEGIN');
+   const readOnly = !writes.test(sql) && !rowLock.test(sql);
+   connection.__ds2AuditAccountLocked=null;connection.__ds2AuditReadOnly=readOnly;
+   await originalQuery.call(this, connection, readOnly ? 'BEGIN READ ONLY' : 'BEGIN');
    try {
-      await setContext(this, connection, ctx);
+      await setContext(this, connection, ctx, sql);
       const result = await originalQuery.call(this, connection, query);
       await originalQuery.call(this, connection, 'COMMIT');
       return result;
@@ -73,6 +84,6 @@ function middleware(req, res, next) {
 }
 function asSystem(source, fn) {
    const parent=storage.getStore();
-   return storage.run({ source, accountId:parent?.request?.user?.account_id || parent?.accountId, correlationId: parent?.correlationId || randomUUID() }, fn);
+   return storage.run({ billingScope:parent?.billingScope, billingEntityId:parent?.billingEntityId, source, accountId:parent?.request?.user?.account_id || parent?.accountId, correlationId: parent?.correlationId || randomUUID() }, fn);
 }
 module.exports = { middleware, asSystem, storage };

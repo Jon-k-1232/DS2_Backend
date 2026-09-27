@@ -36,7 +36,8 @@ const readBillingSnapshot = async (db, { accountID, invoicesToCreateMap, billing
       const runStartedAt = (await readTrx.raw('SELECT now()::timestamp::text AS ts')).rows[0].ts;
       const ledgerFingerprint = await invoiceService.getLedgerFingerprint(readTrx, accountID, customerIDs);
       if (hooks.afterFingerprint) await hooks.afterFingerprint();
-      const [accountBillingInformation] = await accountService.getAccount(readTrx, accountID);
+      let [accountBillingInformation] = await accountService.getAccount(readTrx, accountID);
+      accountBillingInformation = await require('../../billingEntities/invoice-entity').letterhead(readTrx, accountID, accountBillingInformation);
       const invoiceQueryData = await fetchInitialQueryItems(readTrx, invoicesToCreateMap, accountID, { billingDate });
       return { runStartedAt, ledgerFingerprint, accountBillingInformation, invoiceQueryData };
    });

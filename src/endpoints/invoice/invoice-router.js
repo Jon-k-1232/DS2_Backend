@@ -161,21 +161,24 @@ invoiceRouter.route('/createInvoice/AccountsWithBalance/:accountID/:invoiceID').
    // frontend can show — and accurately filter on — the real invoice total for
    // each customer (retainers, write-offs, etc. all applied).
    let invoiceTotalMap = {};
+   const creditMap={};
    try {
-      const invoicesToCreate = activeOutstandingBalances.map(c => ({ customer_id: c.customer_id, showWriteOffs: false }));
-      const invoicesToCreateMap = invoicesToCreate.reduce((map, obj) => ({ ...map, [obj.customer_id]: obj }), {});
-      const invoiceQueryData = await fetchInitialQueryItems(db, invoicesToCreateMap, accountID, { billingDate });
-      const calculated = calculateInvoices(invoicesToCreate, invoiceQueryData);
-      invoiceTotalMap = calculated.reduce((map, inv) => ({ ...map, [inv.customer_id]: Number(inv.invoiceTotal || 0) }), {});
+      const scope=require('../billingEntities/entity-context');
+      const groups=[...new Set(activeOutstandingBalances.map(c=>c.billing_entity_id || null))];
+      for(const entityId of groups) await scope.run(entityId,async()=>{
+         const invoicesToCreate=activeOutstandingBalances.filter(c=>(c.billing_entity_id || null)===entityId).map(c=>({customer_id:c.customer_id,showWriteOffs:false}));
+         const invoiceQueryData=await fetchInitialQueryItems(db,Object.fromEntries(invoicesToCreate.map(c=>[c.customer_id,c])),accountID,{billingDate});
+         for(const inv of calculateInvoices(invoicesToCreate,invoiceQueryData)){const key=`${inv.customer_id}:${entityId || ''}`;invoiceTotalMap[key]=Number(inv.invoiceTotal || 0);creditMap[key]={held_credit_available:inv.heldCreditAvailable,held_credit_applied:inv.heldCreditApplied,pre_credit_total:inv.preCreditInvoiceTotal};}
+      });
    } catch (e) {
       return res.status(500).send({ status: 500, message: 'Unable to calculate statement balances. Refresh before selecting invoices.' });
    }
 
    // Merge the real invoice_total into each eligibility row
    const balancesWithTotals = activeOutstandingBalances.map(c => ({
-      ...c,
-      invoice_total: invoiceTotalMap[c.customer_id] ?? 0,
-      is_credit_statement: Number(invoiceTotalMap[c.customer_id]) < 0
+      ...c,...creditMap[`${c.customer_id}:${c.billing_entity_id || ''}`],
+      invoice_total: invoiceTotalMap[`${c.customer_id}:${c.billing_entity_id || ''}`] ?? 0,
+      is_credit_statement: Number(invoiceTotalMap[`${c.customer_id}:${c.billing_entity_id || ''}`]) < 0
    }));
 
    // Most recent audit per customer — only counts as "passed" if the audit's
@@ -186,18 +189,18 @@ invoiceRouter.route('/createInvoice/AccountsWithBalance/:accountID/:invoiceID').
    let lastAuditMap = {};
    try {
       const latestAudits = await db('account_audits')
-         .select(db.raw('DISTINCT ON (customer_id) customer_id, created_at AS last_audit_at, audit_balance AS last_audit_balance, app_invoice_total AS last_app_invoice_total'))
+         .select(db.raw('DISTINCT ON (customer_id, billing_entity_id) customer_id, billing_entity_id, created_at AS last_audit_at, audit_balance AS last_audit_balance, app_invoice_total AS last_app_invoice_total'))
          .where('account_id', accountID)
          .whereIn('customer_id', customerIds)
          .where('status', 'completed')
-         .orderByRaw('customer_id, created_at DESC');
-      lastAuditMap = latestAudits.reduce((map, a) => ({ ...map, [a.customer_id]: a }), {});
+         .orderByRaw('customer_id, billing_entity_id, created_at DESC');
+      lastAuditMap = latestAudits.reduce((map, a) => ({ ...map, [`${a.customer_id}:${a.billing_entity_id || ''}`]: a }), {});
    } catch (e) {
       console.warn('[AccountsWithBalance] audit lookup failed:', e.message);
    }
 
    const balancesWithAudits = balancesWithTotals.map(c => {
-      const a = lastAuditMap[c.customer_id];
+      const a = lastAuditMap[`${c.customer_id}:${c.billing_entity_id || ''}`];
       const passed =
          a &&
          a.last_app_invoice_total != null &&
@@ -218,7 +221,7 @@ invoiceRouter.route('/createInvoice/AccountsWithBalance/:accountID/:invoiceID').
    const activeOutstandingBalancesData = {
       activeOutstandingBalances: balancesWithAudits,
       grid: filterGridByColumnName(fullGrid, [
-         'customer_id', 'business_name', 'customer_name', 'display_name',
+         'billing_entity_id', 'billing_entity_name', 'entity_key', 'customer_id', 'business_name', 'customer_name', 'display_name',
          'write_off_count', 'retainer_event_count', 'outstanding_invoice_total', 'billable_transactions_total',
          'invoice_total', 'is_credit_statement', 'last_audit_at', 'last_invoice_number', 'last_invoice_date', 'billed_today'
       ])
@@ -248,6 +251,16 @@ invoiceRouter.route('/createInvoice/:accountID/:userID').post(requireManagerOrAd
       if (owned.length !== requestedIDs.length) throw ruleError('Selected customer was not found in this account.', 404);
       const billingDate = billingDateToday();
       const runID = randomUUID();
+      if (isFinalized) {
+         const recurring = await require('../recurringCustomer/recurring-billing').prepareForFinalize(db, {
+            accountId: Number(accountID), actorId: Number(userID), key: randomUUID(), source: 'finalize',
+            body: { billingDate, entityId: req.billingEntity?.billing_entity_id, customerIds: requestedIDs }
+         });
+         if (recurring.generated || recurring.catchUpRequired) {
+            return res.status(409).send({ status: 409, code: 'RECURRING_REVIEW_REQUIRED', recurring,
+               message: recurring.generated ? 'Due recurring charges were prepared. Refresh Create Invoice and review them before finalizing.' : 'Recurring catch-up or plan review is required before finalizing this business.' });
+         }
+      }
 
       // SAME-DAY RE-FINALIZE GUARD. Running Create Invoice twice in one day for
       // the same customer produced a second parent statement whose beginning
@@ -634,6 +647,6 @@ const exceptionHandler = fn => async (req, res) => {
    }
 };
 invoiceRouter.get('/:invoiceID/history/:accountID/:userID', exceptionHandler((db, a) => exceptions.readHistory(db, a.accountId, a.invoiceId)));
-invoiceRouter.post('/:invoiceID/exceptions/:accountID/:userID', jsonParser, exceptionHandler(exceptions.flag));
-invoiceRouter.post('/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID', jsonParser, exceptionHandler((db, a) => exceptions.transition(db, { ...a, action: 'reverse' })));
-invoiceRouter.post('/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID', jsonParser, exceptionHandler((db, a) => exceptions.transition(db, { ...a, action: a.body?.action })));
+invoiceRouter.post('/:invoiceID/exceptions/:accountID/:userID', require('../auth/jwt-auth').requireAdmin,jsonParser, exceptionHandler(exceptions.flag));
+invoiceRouter.post('/:invoiceID/exceptions/:exceptionID/reverse/:accountID/:userID', require('../auth/jwt-auth').requireAdmin,jsonParser, exceptionHandler((db, a) => exceptions.transition(db, { ...a, action: 'reverse' })));
+invoiceRouter.post('/:invoiceID/exceptions/:exceptionID/resolve/:accountID/:userID', require('../auth/jwt-auth').requireAdmin,jsonParser, exceptionHandler((db, a) => exceptions.transition(db, { ...a, action: a.body?.action })));

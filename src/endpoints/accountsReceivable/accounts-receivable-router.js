@@ -16,7 +16,7 @@ const SORTABLE_AR_COLUMNS = [
    'bucket_0_30',
    'bucket_31_60',
    'bucket_61_90',
-   'bucket_over_90',
+   'bucket_over_90','bucket_unknown','statement_credit','unapplied_credit','billing_entity_name',
    'total_outstanding',
    'last_payment_date',
    'has_work_since_last_payment',
@@ -25,7 +25,7 @@ const SORTABLE_AR_COLUMNS = [
    'oldest_open_charge_date',
    'is_customer_active'
 ];
-const AGE_FILTERS = ['30', '60', '90', 'over_90'];
+const AGE_FILTERS = ['30', '60', '90', 'over_90','unknown'];
 
 const parseSort = req => {
    const sort = SORTABLE_AR_COLUMNS.includes(req.query.sort) ? req.query.sort : null;
@@ -36,11 +36,9 @@ const parseFilter = req => (AGE_FILTERS.includes(req.query.filter) ? req.query.f
 
 const fmtCurrencyForCsv = v => (v == null ? '' : Number(v).toFixed(2));
 
-// Buckets / "Days Since Last Invoice" are STATEMENT age (days since the newest
-// statement). "Oldest Open Charge Date" / "Days Since Oldest Open Charge" are
-// the real receivable age: the oldest billed charge still unpaid when credits
-// are applied oldest-first (see accounts-receivable-service).
+// Every bucket uses each remaining obligation's original date, at both cutoffs.
 const EXPORT_COLUMNS = [
+   { header: 'Billing Business', get:r=>r.billing_entity_name || '' },
    { header: 'Customer ID', get: r => r.customer_id },
    { header: 'Business Name', get: r => r.business_name || '' },
    { header: 'Customer Name', get: r => r.customer_name || '' },
@@ -49,9 +47,15 @@ const EXPORT_COLUMNS = [
    { header: '31-60 Days', get: r => fmtCurrencyForCsv(r.bucket_31_60) },
    { header: '61-90 Days', get: r => fmtCurrencyForCsv(r.bucket_61_90) },
    { header: '>90 Days', get: r => fmtCurrencyForCsv(r.bucket_over_90) },
+   { header: 'Unknown age', get:r=>fmtCurrencyForCsv(r.bucket_unknown) },
+   { header: 'Issued statement credit',get:r=>fmtCurrencyForCsv(r.statement_credit) },
+   { header: 'Unapplied receipt credit',get:r=>fmtCurrencyForCsv(r.unapplied_credit) },
+   { header: 'As of',get:r=>r.asOf },
+   { header: 'Recorded through',get:r=>r.recordedThrough },
+   { header: 'Aging basis',get:r=>r.aging_basis },
    { header: 'Total Owed', get: r => fmtCurrencyForCsv(r.total_outstanding) },
    { header: 'Most Recent Invoice Date', get: r => csvDate(r.statement_date || r.most_recent_invoice_date) },
-   { header: 'Days Since Last Invoice', get: r => (r.oldest_days == null ? '' : r.oldest_days) },
+   { header: 'Days Since Oldest Obligation', get: r => (r.oldest_days == null ? '' : r.oldest_days) },
    { header: 'Last Payment Date', get: r => csvDate(r.last_payment_date) },
    { header: 'Last Payment Amount', get: r => fmtCurrencyForCsv(r.last_payment_amount) },
    { header: 'Work Since Last Payment', get: r => (r.has_work_since_last_payment ? 'Yes' : 'No') },
@@ -85,13 +89,13 @@ accountsReceivableRouter
          const { sort, direction } = parseSort(req);
          const filter = parseFilter(req);
 
-         const { rows, totalCount } = await accountsReceivableService.getAging(db, accountID, {
+         const { rows, totalCount, entityTotals, asOf, recordedThrough } = await accountsReceivableService.getAging(db, accountID, {
             search: typeof search === 'string' ? search : '',
             limit,
             offset,
             sort,
             direction,
-            filter
+            filter,asOf:req.query.asOf,recordedThrough:req.query.recordedThrough
          });
 
          const pagination = getPaginationMetadata(totalCount, page, limit);
@@ -99,6 +103,7 @@ accountsReceivableRouter
          return res.status(200).send({
             arAging: {
                customers: rows,
+               entityTotals,asOf,recordedThrough,
                pagination,
                searchTerm: typeof search === 'string' ? search.trim() : ''
             },
@@ -108,7 +113,7 @@ accountsReceivableRouter
       } catch (error) {
          console.error('Error fetching AR aging:', error);
          const isPaginationError = error.message && error.message.includes('Invalid pagination');
-         const statusCode = isPaginationError ? 400 : 500;
+         const statusCode = error.statusCode || (isPaginationError ? 400 : 500);
          return res.status(statusCode).send({
             message: error.message || 'An error occurred while retrieving AR aging.',
             status: statusCode
@@ -136,7 +141,7 @@ accountsReceivableRouter
             offset: 0,
             sort,
             direction,
-            filter
+            filter,asOf:req.query.asOf,recordedThrough:req.query.recordedThrough
          });
 
          const csv = generateArCsv(rows);
@@ -147,9 +152,9 @@ accountsReceivableRouter
          return res.status(200).send(csv);
       } catch (error) {
          console.error('Error exporting AR aging:', error);
-         return res.status(500).send({
+         return res.status(error.statusCode || 500).send({
             message: error.message || 'An error occurred while exporting AR aging.',
-            status: 500
+            status: error.statusCode || 500
          });
       }
    });

@@ -1,0 +1,47 @@
+'use strict';
+const context=require('../billingEntities/entity-context');
+const ledger=require('../payments/receipt-ledger');
+const {cutoffs,day}=require('../payments/receipt-values');
+const bucketFields=['bucket_0_30','bucket_31_60','bucket_61_90','bucket_over_90','bucket_unknown'];
+const age=(date,asOf)=>date?Math.floor((Date.parse(asOf)-Date.parse(day(date)))/86400000):null;
+function buckets(obligations,asOf){
+ const out=Object.fromEntries(bucketFields.map(k=>[k,0]));let oldest=null,oldestDate=null;
+ for(const o of obligations){if(o.openCents<=0)continue;const days=age(o.obligation_date,asOf);const key=days==null?'bucket_unknown':days<=30?'bucket_0_30':days<=60?'bucket_31_60':days<=90?'bucket_61_90':'bucket_over_90';out[key]+=o.openCents;
+  if(days!=null && (oldest==null || days>oldest)){oldest=days;oldestDate=day(o.obligation_date);}
+ }
+ return {...Object.fromEntries(Object.entries(out).map(([k,n])=>[k,n/100])),oldest_days:oldest,oldest_open_charge_days:oldest,oldest_open_charge_date:oldestDate};
+}
+async function getAging(db,accountId,options={},legacyAging){
+ cutoffs(options);const selected=context.current();
+ return db.transaction(async trx=>{
+  await trx.raw('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY');
+  const cutoff=await require('../payments/receipt-values').databaseCutoffs(trx,options);
+  const entities=(await context.entities(trx,accountId)).filter(e=>!selected || e.billing_entity_id===selected);
+  const customers=await trx('public.customers').where({account_id:accountId});
+  const rows=[];
+  for(const entity of entities)await context.run(entity.billing_entity_id,async()=>{
+   const old=await legacyAging(trx,accountId,{limit:2147483647,offset:0,excludeIds:options.excludeIds});
+   const excluded=new Set((options.excludeIds || []).map(Number));
+   const selectedCustomers=customers.filter(c=>!excluded.has(c.customer_id));
+   const states=await require('../payments/receipt-balances').readMany(trx,{accountId:Number(accountId),entityId:entity.billing_entity_id,customerIds:selectedCustomers.map(c=>c.customer_id)},cutoff);
+   for(const c of customers){
+    if(excluded.has(c.customer_id))continue;
+    const state=states[c.customer_id];
+    const credits=state.credits || [],held=credits.filter(l=>l.kind==='held_receipt').reduce((n,l)=>n+l.availableCents,0),issued=state.derived?credits.filter(l=>l.kind==='statement_credit').reduce((n,l)=>n+l.availableCents,0):state.legacy.statementCreditCents;
+    if(!state.billedCents && !held && !state.obligations.some(o=>o.openCents>0))continue;
+    const previous=old.rows.find(r=>r.customer_id===c.customer_id) || {};
+    rows.push({...previous,customer_id:c.customer_id,display_name:c.display_name,business_name:c.business_name,customer_name:c.customer_name,is_customer_active:c.is_customer_active,
+     billing_entity_id:entity.billing_entity_id,billing_entity_name:entity.name,entity_key:`${c.customer_id}:${entity.billing_entity_id}`,
+     ...buckets(state.obligations,cutoff.asOf),total_outstanding:state.billedCents/100,gross_obligations:state.obligations.reduce((n,o)=>n+o.openCents,0)/100,statement_credit:issued/100,unapplied_credit:held/100,
+     reconstructed:!state.derived || state.reconstructed,aging_basis:state.derived && !state.reconstructed?'Original obligation dates':'Reconstructed legacy opening; FIFO estimate with unresolved ages identified',...cutoff});
+   }
+  });
+  const search=String(options.search || '').trim().toLowerCase(),filterKey={30:'bucket_0_30',60:'bucket_31_60',90:'bucket_61_90',over_90:'bucket_over_90',unknown:'bucket_unknown'}[options.filter];
+  const filtered=rows.filter(r=>(!filterKey || r[filterKey]>0) && (!search || ['display_name','business_name','customer_name','customer_id'].some(k=>String(r[k] || '').toLowerCase().includes(search))));
+  const key=options.sort || 'oldest_days',direction=options.direction==='asc'?1:-1;
+  filtered.sort((a,b)=>{const x=a[key],y=b[key];if(x==null)return y==null?0:1;if(y==null)return -1;return direction*(typeof x==='number'?x-y:String(x).localeCompare(String(y))) || a.customer_id-b.customer_id || a.billing_entity_id-b.billing_entity_id;});
+  const entityTotals=Object.fromEntries(entities.map(e=>[e.billing_entity_id,Math.round(filtered.filter(r=>r.billing_entity_id===e.billing_entity_id).reduce((n,r)=>n+r.total_outstanding,0)*100)/100]));
+  return {rows:filtered.slice(options.offset || 0,(options.offset || 0)+(options.limit || 50)),totalCount:filtered.length,entityTotals,...cutoff};
+ });
+}
+module.exports={buckets,getAging};

@@ -26,8 +26,10 @@ const buildStatementData = async (db, accountId, customerId, { start, end }) => 
       auditService.getRetainerEvents(readTrx, accountId, customerId)
    ]);
 
-   const accountInfo = await invoiceService.getAccountPayToInfo(readTrx, accountId);
-   const audit = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents });
+   let accountInfo = await invoiceService.getAccountPayToInfo(readTrx, accountId);
+   accountInfo = await require('../billingEntities/invoice-entity').letterhead(readTrx,accountId,accountInfo);
+   const corrections=await auditService.getCorrections(readTrx,accountId,customerId);
+   const audit = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents,corrections });
 
    const startDate = start ? dayjs(start) : null;
    const endDate = end ? dayjs(end) : dayjs();
@@ -43,9 +45,18 @@ const buildStatementData = async (db, accountId, customerId, { start, end }) => 
       if (endDate && d.isAfter(endDate, 'day')) return;
       events.push(event);
    });
+   const receivables=await require('../payments/receivables-report').read(readTrx,accountId,customerId,{asOf:endDate.format('YYYY-MM-DD'),...(startDate?{start:startDate.format('YYYY-MM-DD')}:{})});
    const closingBalance = events.length ? events[events.length - 1].running_balance : openingBalance;
 
+   const entityStatements=audit.by_entity ? await Promise.all(audit.by_entity.map(async section=>{
+      const entity=await readTrx('billing_entities').where({account_id:accountId,billing_entity_id:section.billing_entity_id}).first();
+      let opening=0;const lines=[];
+      for(const event of section.ledger){const d=dayjs(event.date);if(startDate && d.isBefore(startDate,'day'))opening=event.running_balance;else if(!d.isAfter(endDate,'day'))lines.push(event);}
+      return {customer,audit:section,receivables:{...receivables,sections:receivables.sections.filter(r=>r.billing_entity_id===section.billing_entity_id)},events:lines,openingBalance:opening,closingBalance:lines.length?lines[lines.length-1].running_balance:opening,
+       billingEntity:entity,range:{start:startDate?startDate.format('MM/DD/YYYY'):'account opening',end:endDate.format('MM/DD/YYYY')}};
+   })) : null;
    return {
+      entityStatements,receivables,
       customer,
       accountInfo,
       audit,
@@ -59,11 +70,16 @@ const buildStatementData = async (db, accountId, customerId, { start, end }) => 
    };
 });
 
-const renderStatementPdf = ({ customer, audit, events, openingBalance, closingBalance, range }, accountInfo = {}) => {
-   const doc = new PDFDocument({ size: 'LETTER', margin: 50, bufferPages: true });
+const renderStatementPdf = (data, accountInfo = {}, targetDocument = null) => {
+   if(data.entityStatements?.length)return renderGroupedStatements(data,accountInfo);
+   const {customer,audit,events,openingBalance,closingBalance,range,billingEntity}=data;
+   const doc = targetDocument || new PDFDocument({ size: 'LETTER', margin: 50, bufferPages: true });
    const chunks = [];
-   doc.on('data', c => chunks.push(c));
-   const done = new Promise(resolve => doc.on('end', () => resolve(Buffer.concat(chunks))));
+   const done = targetDocument ? null : new Promise((resolve,reject) => {
+      doc.on('data', c => chunks.push(c));
+      doc.on('end', () => resolve(Buffer.concat(chunks)));
+      doc.on('error',reject);
+   });
 
    const pageWidth = doc.page.width;
    const left = 50;
@@ -72,6 +88,7 @@ const renderStatementPdf = ({ customer, audit, events, openingBalance, closingBa
    // Header
    doc.font('Helvetica-Bold').fontSize(18).text(accountInfo.account_name || 'James F. Kimmel & Associates', left, 50);
    doc.font('Helvetica').fontSize(10).text(`Statement of Account — ${range.start} through ${range.end}`, left, doc.y + 2);
+   if(billingEntity)doc.font('Helvetica-Bold').text(`Business: ${billingEntity.legal_name}`,left,doc.y+4);
    doc.moveDown(0.5);
    doc.font('Helvetica-Bold').fontSize(12).text(customer.display_name || customer.customer_name || customer.business_name, left, doc.y + 6);
    doc.font('Helvetica').fontSize(9).fillColor('#444')
@@ -149,8 +166,29 @@ const renderStatementPdf = ({ customer, audit, events, openingBalance, closingBa
    );
    doc.fillColor('#000');
 
-   doc.end();
+   if(data.receivables){
+      y=doc.y+18;
+      const line=(value,bold=false)=>{if(y>bottomLimit-25){doc.addPage();y=60;}doc.font(bold?'Helvetica-Bold':'Helvetica').fontSize(9).text(value,left,y,{width:right-left});y=doc.y+7;};
+      line(`Receivables as of ${data.receivables.asOf}; recorded through ${data.receivables.recordedThrough}`,true);
+      for(const section of data.receivables.sections){
+         line(`${section.business}: billed balance ${fmtMoney(section.billed_balance)}; issued credit ${fmtMoney(section.issued_statement_credit)}; held receipt credit ${fmtMoney(section.held_receipt_credit)}`,true);
+         const a=section.aging;line(`Original invoice ages: 0–30 ${fmtMoney(a.bucket_0_30)} / 31–60 ${fmtMoney(a.bucket_31_60)} / 61–90 ${fmtMoney(a.bucket_61_90)} / over 90 ${fmtMoney(a.bucket_over_90)} / unknown ${fmtMoney(a.bucket_unknown)}`);
+         line('Cash received (each receipt once; allocations are already included in activity above)',true);
+         for(const r of section.receipts)line(`Receipt #${r.receipt_id} · ${require('../payments/receipt-values').day(r.receipt_date)} · ${r.method} ${r.reference || ''} · ${fmtMoney(r.amount)}${r.source_kind==='manual'?'':' · historical/legacy source'}`);
+         for(const o of section.obligations)line(`${o.invoice_number || 'Original invoice #'+o.original_invoice_id} · ${o.obligation_date?require('../payments/receipt-values').day(o.obligation_date):'Unknown legacy age'} · remaining ${fmtMoney(o.openCents/100)}`);
+      }
+   }
+   if (!targetDocument) doc.end();
    return done;
 };
 
+async function renderGroupedStatements(data,accountInfo){
+   const doc=new PDFDocument({size:'LETTER',margin:50,bufferPages:true}),chunks=[];
+   const done=new Promise((resolve,reject)=>{doc.on('data',c=>chunks.push(c));doc.on('end',()=>resolve(Buffer.concat(chunks)));doc.on('error',reject);});
+   for(const [index,statement] of data.entityStatements.entries()){
+      if(index)doc.addPage();
+      renderStatementPdf(statement,{...accountInfo,account_name:statement.billingEntity.legal_name},doc);
+   }
+   doc.end();return done;
+}
 module.exports = { buildStatementData, renderStatementPdf };

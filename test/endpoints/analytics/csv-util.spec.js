@@ -117,7 +117,7 @@ describe('report CSV builders', () => {
          [{ display_name: '@evil', years: { 2025: { hours: 2, total_billed: 100, effective_rate: 50, agreed_rate: null, margin: -12.5 } }, last_full_year_rate: 50, yoy_pct: -3.2, suggested_rate: null }],
          [2025]
       );
-      expect(lines[1]).to.equal("'@evil,2,100,50,,-12.5,50,-3.2,");
+      expect(lines[1]).to.equal("'@evil,2,100,50,,-12.5,,,,50,-3.2,");
    });
 
    it('AR router export: shared encoder + new receivable-age columns', () => {
@@ -144,6 +144,6 @@ describe('report CSV builders', () => {
          }
       ]).split('\n');
       expect(csv[0]).to.match(/Oldest Open Charge Date,Days Since Oldest Open Charge,Active Customer$/);
-      expect(csv[1]).to.equal("5,'+Biz,\"Kim, Jo\",Jo Kim,10.00,0.00,0.00,0.00,10.00,2026-09-15,8,,,Yes,2026-07-13,72,Yes");
+      expect(csv[1]).to.equal(",5,'+Biz,\"Kim, Jo\",Jo Kim,10.00,0.00,0.00,0.00,,,,,,,10.00,2026-09-15,8,,,Yes,2026-07-13,72,Yes");
    });
 });

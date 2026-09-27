@@ -23,6 +23,11 @@ if (process.argv.some(arg => provisioningSpecs.has(require('path').basename(arg)
 // process) and start the scheduled reminder jobs inside mocha. config.js only
 // branches on 'production', so DB/S3 settings from the env file are unaffected.
 process.env.NODE_ENV = 'test';
+// Scoped switch tests explicitly enable only stubbed senders/schedulers. The
+// general regression process must never inherit an enabled outbound switch.
+process.env.SEND_REAL_EMAIL = 'false';
+process.env.RUN_SCHEDULED_AUTOMATIONS = 'false';
+delete process.env.EMAIL_OUTBOX_DIR;
 process.env.S3_BUCKET_NAME = process.env.S3_BUCKET_NAME || 'test-bucket';
 process.env.S3_REGION = process.env.S3_REGION || 'us-east-1';
 process.env.S3_ENDPOINT = process.env.S3_ENDPOINT || 'http://localhost';

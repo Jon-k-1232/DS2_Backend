@@ -9,7 +9,7 @@ const createChargesSection = (doc, invoiceDetails, preferenceSettings) => {
    renderTableSection(doc, invoiceDetails, preferenceSettings, {
       title: 'Professional Services',
       columns: [
-         { header: 'Job', x: leftMargin + 10, width: 110, cell: row => `${row.jobID}` },
+         { header: 'Job', x: leftMargin + 10, width: 110, cell: row => `${row.jobID ?? ''}` },
          { header: 'Job Description', x: 200, width: amountX - 200 - 12, cell: row => `${row.jobDescription}` },
          { header: 'Charge', x: amountX, width: 100, align: 'right', cell: row => Number(row.jobTotal).toFixed(2) }
       ],

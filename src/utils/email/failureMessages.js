@@ -19,13 +19,13 @@ const sendErrorNotificationForAutomation = async (accountID = 1, errorMessage, a
       }
 
       // Send the email
-      await sendEmail({
+      const delivery = await sendEmail({
          body: `A DS2 automation failure occurred on:\n\nAutomation Name: ${automationName}\n\nTime: ${dayjs().format()}\n\n${errorMessage}`,
          subject: `DS2 Automation Error`,
          recipientEmails: emailRecipients
       });
 
-      console.log(`[${new Date().toISOString()}] Sent error notification for account ${accountID}.`);
+      console.log(`[${new Date().toISOString()}] ${delivery?.suppressed ? 'Suppressed' : 'Sent'} error notification for account ${accountID}.`);
    } catch (emailErr) {
       console.error(`[${new Date().toISOString()}] Failed to send error notification for account ${accountID}: ${emailErr.message}`);
    }

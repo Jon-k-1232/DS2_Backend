@@ -54,6 +54,7 @@ const _connect = () => {
       },
       pool: { min: 0, max: 4, acquireTimeoutMillis: 5_000, idleTimeoutMillis: 1_000 }
    });
+   require('../fixtures/entity-fixtures')(_db);
    return _db;
 };
 
@@ -75,8 +76,10 @@ const requireDb = async function requireDb() {
       if (!rows.length) {
          await db.raw(fs.readFileSync(SEED_PATH, 'utf8'));
       }
+      const entity=await db('billing_entities').where({account_id:TEST_ACCOUNT_ID,is_default:true}).first();
+      if(entity)for(const alias of ['JFK&A','James F. Kimmel & Associates','Kimmel Financial Advisors'])await db('billing_entity_aliases').insert({account_id:TEST_ACCOUNT_ID,billing_entity_id:entity.billing_entity_id,alias,source:'test/fixture',reason:'Known single-business regression workbook'}).onConflict(['account_id','billing_entity_id','normalized_alias']).ignore();
    } catch (e) {
-      this.skip();
+      throw e;
    }
    return db;
 };
@@ -88,6 +91,7 @@ const cleanupTestData = async db => {
       await db('notifications').where({ account_id: TEST_ACCOUNT_ID }).del();
       await db('template_downloads').where({ account_id: TEST_ACCOUNT_ID }).del();
       await db('ai_time_tracker_transaction_suggestions').where({ account_id: TEST_ACCOUNT_ID }).del();
+      for (const table of ['recurring_occurrence_events', 'recurring_charge_occurrences']) await db(table).where({ account_id: TEST_ACCOUNT_ID }).del();
       await db('customer_transactions').where({ account_id: TEST_ACCOUNT_ID }).del();
       await db('timesheet_entries').where({ account_id: TEST_ACCOUNT_ID }).del();
    } finally {

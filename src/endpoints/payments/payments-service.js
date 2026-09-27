@@ -1,6 +1,7 @@
+const receiptReference=db=>db.raw('(SELECT coalesce(a.receipt_id,c.origin_receipt_id) FROM ar_applications a LEFT JOIN client_credit_lots c ON c.credit_id=a.credit_id WHERE a.account_id=customer_payments.account_id AND a.compatibility_payment_id=customer_payments.payment_id ORDER BY a.application_id DESC LIMIT 1) AS receipt_id');
 const buildActivePaymentsQuery = (db, accountID) => {
    return db
-      .select('customer_payments.*', db.raw('customers.display_name as customer_name'), db.raw('users.display_name as created_by_user_name'))
+      .select('customer_payments.*',receiptReference(db), db.raw('customers.display_name as customer_name'), db.raw('users.display_name as created_by_user_name'))
       .from('customer_payments')
       .join('customers', 'customer_payments.customer_id', 'customers.customer_id')
       .join('users', 'customer_payments.created_by_user_id', 'users.user_id')
@@ -49,7 +50,7 @@ const paymentsService = {
 
    getActivePaymentsForCustomer(db, accountID, customerID) {
       return db
-         .select('customer_payments.*', db.raw('customers.display_name as customer_name'), db.raw('users.display_name as created_by_user_name'))
+         .select('customer_payments.*',receiptReference(db), db.raw('customers.display_name as customer_name'), db.raw('users.display_name as created_by_user_name'))
          .from('customer_payments')
          .join('customers', 'customer_payments.customer_id', 'customers.customer_id')
          .join('users', 'customer_payments.created_by_user_id', 'users.user_id')
@@ -63,11 +64,11 @@ const paymentsService = {
    },
 
    getSinglePayment(db, paymentID, accountID) {
-      return db.select().from('customer_payments').where('account_id', accountID).andWhere('payment_id', Number(paymentID));
+      return db.select('customer_payments.*',receiptReference(db)).from('customer_payments').where('account_id', accountID).andWhere('payment_id', Number(paymentID));
    },
 
    getPaymentsForInvoice(db, accountID, invoiceID) {
-      return db.select().from('customer_payments').where('account_id', accountID).andWhere('customer_invoice_id', invoiceID);
+      return db.select('customer_payments.*',receiptReference(db)).from('customer_payments').where('account_id', accountID).andWhere('customer_invoice_id', invoiceID);
    },
 
    updatePayment(db, updatedPayment, accountId) {

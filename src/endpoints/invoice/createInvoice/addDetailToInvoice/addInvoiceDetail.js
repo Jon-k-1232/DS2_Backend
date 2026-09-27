@@ -49,7 +49,7 @@ const loadCompanyLogo = async accountBillingInformation => {
    // accountService.getAccount()'s `SELECT *`, so storage_slug is already on
    // the row; see src/utils/storageSlug.js.
    const storageSlug = accountBillingInformation?.storage_slug || '';
-   const fallbackS3Key = storageSlug ? `${storageSlug}/app/assets/logo.png` : null;
+   const fallbackS3Key = storageSlug && (!accountBillingInformation?.entity_letterhead || accountBillingInformation.entity_letterhead.is_default) ? `${storageSlug}/app/assets/logo.png` : null;
 
    const candidateLogoKey = typeof rawLogoValue === 'string' ? rawLogoValue.trim() : '';
 
@@ -66,6 +66,15 @@ const loadCompanyLogo = async accountBillingInformation => {
       console.warn(`Ignoring account_company_logo "${candidateLogoKey}" for invoice generation — not under this account's own logo prefix.`);
    }
 
+   // An explicitly uploaded entity logo is frozen evidence. Missing or altered
+   // bytes must stop issuance instead of silently printing a different logo.
+   const digest=accountBillingInformation?.entity_letterhead?.logo_sha256;
+   if (digest) {
+      if (!logoKey) throw new Error('The business logo does not belong to this account.');
+      const body=await safeFetchS3LogoBuffer(logoKey);
+      if (!body || require('crypto').createHash('sha256').update(body).digest('hex')!==digest) throw new Error('The business logo is missing or changed. Upload it again before issuing.');
+      return body;
+   }
    if (logoKey) {
       try {
          let logoBuffer = await safeFetchS3LogoBuffer(logoKey);
@@ -75,6 +84,8 @@ const loadCompanyLogo = async accountBillingInformation => {
          }
 
          if (logoBuffer) {
+            const expected=accountBillingInformation?.entity_letterhead?.logo_sha256;
+            if(expected && require('crypto').createHash('sha256').update(logoBuffer).digest('hex')!==expected) throw new Error('The business logo changed. Upload a new logo before issuing.');
             return logoBuffer;
          }
       } catch (error) {
@@ -107,7 +118,7 @@ const addInvoiceDetails = async (calculatedInvoices, invoiceQueryData, invoicesT
       const { customer_id, invoiceNote, includeCreditStatement = false, issueReason = 'Finalize selected statement (sent and locked).' } = invoicesToCreateMap[invoiceCalculation.customer_id];
       const { lastInvoiceNumber, customerInformation } = invoiceQueryData;
       // No conforming statement yet for this year → the sequence restarts at 00001.
-      const startingInvoiceNumber = lastInvoiceNumber?.invoice_number || `INV-${billingYear}-00000`;
+      const startingInvoiceNumber = lastInvoiceNumber?.invoice_number || `${invoiceQueryData.billingEntity?.invoice_prefix || 'INV'}-${billingYear}-00000`;
 
       const customerContactInformation = customerInformation[customer_id];
       if (!customerContactInformation) {
@@ -116,7 +127,7 @@ const addInvoiceDetails = async (calculatedInvoices, invoiceQueryData, invoicesT
       const invoiceNumber = incrementAnInvoiceOrQuote(startingInvoiceNumber, i, billingYear);
       const dueDate = statementDate.add(16, 'day').format('MM/DD/YYYY');
 
-      return { includeCreditStatement, issueReason, invoiceNumber, dueDate, billingDate: statementDate.format('YYYY-MM-DD'), globalInvoiceNote, invoiceNote, accountBillingInformation, customerContactInformation, companyLogo, ...invoiceCalculation };
+      return { billing_entity_id:invoiceQueryData.billingEntity?.billing_entity_id, letterhead:invoiceQueryData.billingEntity, logo_sha256:require('crypto').createHash('sha256').update(companyLogo).digest('hex'), includeCreditStatement, issueReason, invoiceNumber, dueDate, billingDate: statementDate.format('YYYY-MM-DD'), globalInvoiceNote, invoiceNote, accountBillingInformation, customerContactInformation, companyLogo, ...invoiceCalculation };
    });
 };
 

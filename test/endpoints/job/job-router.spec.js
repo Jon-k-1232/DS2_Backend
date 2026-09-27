@@ -1,9 +1,12 @@
+describe('job route mutation contracts',()=>{
 const express = require('express');
 const jobRouter = require('../../../src/endpoints/job/job-router');
 const jobService = require('../../../src/endpoints/job/job-service');
 const { buildFakeDb: rawFakeDb } = require('../transactions/_fakeDb');
 const buildFakeDb = tables => rawFakeDb({ customer_job_types: [{ job_type_id: 1, account_id: 1 }, { job_type_id: 2, account_id: 1 }], ...tables });
 
+before(()=>{jobService._h9OriginalPage=jobService.getJobsPage;jobService.getJobsPage=async(db)=>({jobs:(db._store.customer_jobs||[]).slice(0,20),totalCount:(db._store.customer_jobs||[]).length});});
+after(()=>{jobService.getJobsPage=jobService._h9OriginalPage;delete jobService._h9OriginalPage;});
 const ACCOUNT = 1;
 const USER = 21;
 
@@ -239,4 +242,6 @@ describe('job-router — ledger-serialized create/update (A2)', () => {
          }
       });
    });
+});
+
 });

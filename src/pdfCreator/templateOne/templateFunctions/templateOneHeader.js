@@ -2,17 +2,13 @@ const createPdfHeader = (doc, invoiceDetails, preferenceSettings) => {
    const { invoiceNumber, accountBillingInformation, companyLogo } = invoiceDetails;
    const { account_name, account_street, account_city, account_state, account_zip, account_phone, account_email } = accountBillingInformation;
    const { boldFont, normalFont, headerHeight, rightMargin, leftMargin, pageWidth, alignRight } = preferenceSettings;
-   const emailWidth = doc.widthOfString(account_email);
-
    doc.image(companyLogo, leftMargin, headerHeight, { width: 50 });
 
-   doc.font(normalFont)
-      .fontSize(12)
-      .text(`${account_name}`, 140, headerHeight)
-      .text(`${account_street}`, 140, headerHeight + 15)
-      .text(`${account_city}, ${account_state} ${account_zip}`, 140, headerHeight + 30)
-      .text(`Phone: ${account_phone}`, 140, headerHeight + 45)
-      .text(`Email: ${account_email}`, 140, headerHeight + 60);
+   const cityState = [account_city, account_state].filter(Boolean).join(', ');
+   const lines = [account_name, account_street, [cityState, account_zip].filter(Boolean).join(' '),
+      account_phone ? `Phone: ${account_phone}` : '', account_email ? `Email: ${account_email}` : ''].filter(Boolean);
+   doc.font(normalFont).fontSize(12);
+   lines.forEach((line, index) => doc.text(line, 140, headerHeight + index * 15));
 
    const title = Number(invoiceDetails.invoiceTotal) < 0 ? 'CREDIT STATEMENT' : 'INVOICE';
    doc.font(boldFont).fontSize(20).text(title, alignRight(title, 0), headerHeight);

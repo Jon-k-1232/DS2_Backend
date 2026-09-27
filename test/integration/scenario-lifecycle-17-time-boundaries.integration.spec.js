@@ -18,7 +18,8 @@ describe('duration boundaries through manual, held review, invoice, audit, AR an
   // .1+.1+.2+.3+.3+.3+1+1+1.1 = 4.4; $605.
   expect(total).to.equal(1210);
   const analytics=await require('../../src/endpoints/analytics/analytics-service').getTimeAllocation(s.db,1,{year:Number(today().slice(0,4))});
-  expect(analytics.summary.total_hours).to.equal(8.8);
+  // Both entry paths retain actual minutes: 239/60 hours each; billed quantity stays 8.8.
+  expect(analytics.summary.total_hours).to.equal(7.97);
   expect(analytics.trackerByCategory.find(r=>r.category==='Tax work').hours).to.equal(3.98);
   await s.statement(c,await s.finalize([c]),1,[0,1210,0,0,0,1210]);
  });

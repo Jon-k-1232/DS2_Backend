@@ -120,6 +120,7 @@ describe('integration: customer CRUD defects (fixes 4 & 5)', function () {
    describe('POST /customer/createCustomer — atomic transaction (fix 4)', () => {
       it('rolls back the customers row when the recurring_customers insert fails (no orphan left behind)', async () => {
          const body = uniqueCustomerBody({
+            entityId:(await db('billing_entities').where({account_id:A,is_default:true}).first()).billing_entity_id,
             isCustomerRecurring: true,
             subscriptionFrequency: 'Monthly',
             // billingCycle deliberately omitted -> Number(undefined) = NaN ->

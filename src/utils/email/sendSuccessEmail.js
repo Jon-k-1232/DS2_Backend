@@ -25,13 +25,13 @@ DS2 Automation Service
 `;
 
       // Send the email
-      await sendEmail({
+      const delivery = await sendEmail({
          recipientEmails: [recipientEmail],
          subject,
          body
       });
 
-      console.log(`[${new Date().toISOString()}] Success email sent to "${recipientEmail}" for "${timesheetName}".`);
+      console.log(`[${new Date().toISOString()}] Success email ${delivery?.suppressed ? 'suppressed' : 'sent'} to "${recipientEmail}" for "${timesheetName}".`);
    } catch (error) {
       console.error(`[${new Date().toISOString()}] Failed to send success email for "${timesheetName}": ${error.message}`);
       throw error;

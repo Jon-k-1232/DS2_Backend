@@ -605,7 +605,6 @@ const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, cust
             is_processed: true,
             hold_reason: null,
             ai_attempted_at: new Date(),
-            matched_user_id: employeeMatch.userId,
             suggested_customer_id: customerMatch.customerId
          })
          .returning('timesheet_entry_id');
@@ -615,8 +614,10 @@ const _autoInsertEntry = async (db, { entry, accountId, userId, suggestion, cust
          throw err;
       }
 
+      await require('./review-work-provenance')(trx, accountId, entry.timesheet_entry_id, { employeeId: employeeMatch.userId, minutes: minutesValue, costChangeReason: ov.costChangeReason });
       await addNewTransaction(trx, {
          accountID: accountId,
+         entityId: entry.billing_entity_id,
          customerID: customerMatch.customerId,
          customerJobID: customerJobId,
          selectedRetainerID: null,
@@ -707,6 +708,19 @@ const _customerPatternsFor = (db, accountId, customerId, catalogs) => {
 };
 
 const processEntry = async ({ db, accountId, userId, entry, catalogs, fewShots, costSoFarUsd = 0, overrides = null }) => {
+   // Company attribution is deterministic and precedes every AI/customer decision.
+   const entityResult = await db.raw("SELECT public.ds2_effective_entity(?, 'timesheet_entries', ?, ?) AS assigned, public.ds2_entity_match(?, ?) AS matches", [accountId, entry.timesheet_entry_id, entry.billing_entity_id || null, accountId, entry.entity || '']);
+   const mapping = entityResult.rows[0];
+   const entityId = mapping.assigned || (mapping.matches.length === 1 ? mapping.matches[0] : null);
+   const activeEntity=entityId && await db('billing_entities').where({account_id:accountId,billing_entity_id:entityId,active:true}).first();
+   if (!activeEntity) {
+      const holdReason = mapping.matches.length > 1 ? 'entity_ambiguous' : 'entity_unknown';
+      await db('timesheet_entries').where({account_id:accountId,timesheet_entry_id:entry.timesheet_entry_id,is_processed:false}).update({hold_reason:holdReason});
+      await require('../billingEntities/entities-service').captureTrackerReviews(db,[{...entry,billing_entity_id:null}]);
+      return {entryId:entry.timesheet_entry_id,decision:'hold',reason:holdReason,costUsd:0};
+   }
+   await require('../billingEntities/entity-context').requireEntity(db, accountId, entityId);
+   entry = {...entry,billing_entity_id:entityId};
    // Reviewer overrides (from the "Rerun AI Processing" path) replace the AI's
    // matching/inference for the fields the reviewer corrected. Fields not in
    // overrides flow through normal AI logic. This lets the reviewer fix just

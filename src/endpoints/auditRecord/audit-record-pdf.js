@@ -127,6 +127,7 @@ async function render(data, meta) {
    section('Closing position');
    line(`Closing balance for this range: ${p.money(data.closing_balance)}`);
    line(`Current balance at generation: ${p.money(data.current.running_balance)} (billed ${p.money(data.current.billed_balance)}; unbilled ${p.money(data.current.unbilled_balance)}). Retainer available: ${p.money(data.current.retainer_available)}.`);
+   if(data.current.held_credit_available!=null)line(`Held receipt credit: ${p.money(data.current.held_credit_available)}. Proposed next statement after credit: ${p.money(data.current.proposed_statement_balance)}.`);
    room(180);section('Verification');
    line(`Record ID: ${meta.record_id} | ${p.TYPES[type]}`);
    line(`Hash-chain anchor event: ${data.verification.event_id || 'genesis'}`);

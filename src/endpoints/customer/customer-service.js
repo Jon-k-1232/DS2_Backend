@@ -26,6 +26,19 @@ const applyCustomersSearchFilter = (query, searchTerm) => {
 };
 
 const customerService = {
+   async getCustomerDirectory(db, accountID) {
+      const [{count}] = await db('customers').where({account_id:Number(accountID),is_customer_active:true}).count('*');
+      const totalCount=Number(count), threshold=1000;
+      const customers = totalCount<=threshold ? await customerService.searchCustomers(db,accountID,{limit:threshold}) : [];
+      return {activeCustomers:customers, totalCount, threshold, remote:totalCount>threshold};
+   },
+   searchCustomers(db, accountID, {limit=20,offset=0,searchTerm='',customerId}={}) {
+      const query=db('customers').select('customer_id','account_id','display_name','customer_name','business_name','is_recurring','is_customer_active').where({account_id:Number(accountID)});
+      if(customerId) query.where('customer_id',customerId);
+      else query.where('is_customer_active',true);
+      if(searchTerm)query.where(b=>b.whereILike('display_name',`%${searchTerm}%`).orWhereILike('business_name',`%${searchTerm}%`).orWhereILike('customer_name',`%${searchTerm}%`).orWhereRaw('customer_id::text = ?',[searchTerm]));
+      return query.orderBy('display_name').orderBy('customer_id').limit(limit).offset(offset);
+   },
    getContactMailingInformation(db, accountID, customerID) {
       return db
          .select(
@@ -86,7 +99,8 @@ const customerService = {
          .leftJoin('recurring_customers', function () {
             this.on('customers.customer_id', '=', 'recurring_customers.customer_id')
                .andOn('recurring_customers.is_recurring_customer_active', '=', db.raw('?', [true]))
-               .andOn('recurring_customers.account_id', '=', db.raw('?', [accountID]));
+               .andOn('recurring_customers.account_id', '=', db.raw('?', [accountID]))
+               .andOn('recurring_customers.recurring_customer_id', '=', db.raw('(SELECT min(r.recurring_customer_id) FROM recurring_customers r WHERE r.account_id = customers.account_id AND r.customer_id = customers.customer_id AND r.is_recurring_customer_active = true)'));
          });
    },
 

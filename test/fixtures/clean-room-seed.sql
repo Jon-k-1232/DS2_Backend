@@ -31,6 +31,8 @@ INSERT INTO account_information (account_id, account_street, account_city, accou
 SELECT 1, '100 Ledger Way', 'Phoenix', 'AZ', '85001', 'billing@clean.test', '602-555-0100', true, true, true, true
 WHERE NOT EXISTS (SELECT 1 FROM account_information WHERE account_id = 1);
 
+DO $$ BEGIN IF to_regclass('public.billing_entities') IS NOT NULL THEN PERFORM set_config('app.billing_entity_id',(SELECT billing_entity_id::text FROM billing_entities WHERE account_id=1 AND is_default),true);END IF;END $$;
+
 -- Users -----------------------------------------------------------------------
 INSERT INTO users (user_id, account_id, email, display_name, cost_rate, billing_rate, job_title, access_level, is_user_active) VALUES
    (1, 1, 'sa@clean.test',    'Sam Superadmin', 80.00, 200.00, 'Partner',    'Super Admin', true),

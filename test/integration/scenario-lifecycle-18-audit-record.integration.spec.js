@@ -7,7 +7,7 @@ const fs=require('fs');
 describe('owner decision 6 hard account audit record',function(){
  this.timeout(180000);const s=new Scenario();let c,j,r,w,receipt,invoice,record,bytes,sourceArchive;
  const url=()=>`/auditRecord/customer/${c.id}/1/999`;
- const totals=async(n,b,available)=>{const h=ok(await s.get(url()+'?limit=100'));expect(h.current).to.deep.equal({running_balance:n,billed_balance:b,unbilled_balance:Math.round((n-b)*100)/100,retainer_available:available});expect(h.closing_balance).to.equal(n);expect(h.verification.valid).to.equal(true);return h;};
+ const totals=async(n,b,available)=>{const h=ok(await s.get(url()+'?limit=100'));expect(h.current).to.deep.equal({running_balance:n,billed_balance:b,unbilled_balance:Math.round((n-b)*100)/100,retainer_available:available,held_credit_available:0,proposed_statement_balance:n});expect(h.closing_balance).to.equal(n);expect(h.verification.valid).to.equal(true);return h;};
  const state=async()=>({business:await s.state(),audit:await s.db('audit_events').orderBy('event_id'),heads:await s.db('audit_chain_heads').orderBy('account_id'),records:await s.db('audit_records').orderBy('record_id')});
  const refusal=async(fn,status)=>{const before=await state();const response=await fn();expect(response.status,JSON.stringify(response.body).slice(0,500)).to.equal(status);expect(await state()).to.deep.equal(before);return response;};
  const download=(id=record.record_id,kind='pdf')=>s.get(url()+`/records/${id}/${kind}`).buffer(true).parse((res,cb)=>{const chunks=[];res.on('data',b=>chunks.push(b));res.on('end',()=>cb(null,Buffer.concat(chunks)));});
@@ -17,7 +17,7 @@ describe('owner decision 6 hard account audit record',function(){
   const h=await totals(120,0,0);const events=h.entries.flatMap(x=>x.events);
   const edited=events.find(e=>e.entity==='customer_transactions'&&e.action==='update');
   expect(edited.changes.total_transaction).to.deep.equal({before:100,after:120});
-  for(const e of events){expect(e.actor_user_id).to.equal(1);expect(e.actor_name).to.equal('Sam Superadmin');expect(e.correlation_id).to.match(/^[a-f0-9-]{36}$/);expect(e.source).to.match(/^(POST|PUT) /);}
+  for(const e of events.filter(e=>!['billing_entities','billing_cutovers','billing_entity_invoice_sequences'].includes(e.entity))){expect(e.actor_user_id).to.equal(1);expect(e.actor_name).to.equal('Sam Superadmin');expect(e.correlation_id).to.match(/^[a-f0-9-]{36}$/);expect(e.source).to.match(/^(POST|PUT) /);}
   expect(events.some(e=>e.entity==='customers')).to.equal(true);expect(events.some(e=>e.entity==='customer_jobs')).to.equal(true);
  });
  it('retainer receipt/draw/refund/increase remain separate from debt: $120+$50-$50-$20=$100; available $100-$50-$10+$5=$45',async()=>{
@@ -73,7 +73,10 @@ describe('owner decision 6 hard account audit record',function(){
   expect(record.generated_by).to.equal(2);expect(record.generated_by_name).to.equal('Ada Admin');
   const evidence=await download(record.record_id,'evidence');expect(evidence.status).to.equal(200);sourceArchive=JSON.parse(evidence.body.toString('utf8'));expect(pdf.sha256(evidence.body)).to.equal(record.evidence_sha256);expect(evidence.headers['x-evidence-sha256']).to.equal(record.evidence_sha256);
   expect(pdf.sha256(Buffer.from(JSON.stringify(sourceArchive)))).to.equal(record.evidence_sha256);
-  const captured=await s.db('audit_events').where({account_id:1}).where(q=>q.where('customer_id',c.id).orWhere('previous_customer_id',c.id)).where('event_id','<=',record.chain_event_id).orderBy('event_id');
+  const accountEvents=await s.db('audit_events').where({account_id:1}).where('event_id','<=',record.chain_event_id).orderBy('event_id');
+  const clientPostings=new Set(accountEvents.filter(e=>e.customer_id===c.id || e.previous_customer_id===c.id).map(e=>e.transaction_id));
+  const captured=accountEvents.filter(e=>e.customer_id===c.id || e.previous_customer_id===c.id ||
+   (clientPostings.has(e.transaction_id) && ['billing_entities','billing_entity_aliases','billing_entity_invoice_sequences','billing_cutovers'].includes(e.entity)));
   const selected=captured.filter(e=>service.phoenixDay(e.occurred_at)>='2020-01-01' && service.phoenixDay(e.occurred_at)<=today());
   const entries=sourceArchive.data.entries,changes=entries.flatMap(e=>e.presentation.changes);
   expect(entries.length).to.equal(new Set(selected.map(e=>e.transaction_id)).size);
@@ -90,17 +93,17 @@ describe('owner decision 6 hard account audit record',function(){
   expect(covered.slice().sort()).to.deep.equal(selected.map(e=>String(e.event_id)).sort());
   expect(new Set(covered).size).to.equal(selected.length);
   expect(clientChanges.flatMap(c=>c.covered_change_numbers).sort((a,b)=>a-b)).to.deep.equal(selected.map((_,i)=>i+1));
-  expect(summaries.map(c=>c.change_count)).to.deep.equal([11,15,2]);
+  expect(summaries.map(c=>c.change_count)).to.deep.equal([14,19,2]);
   expect(summaries.map(c=>c.item_counts)).to.deep.equal([
-   {customer_invoices:1,customer_transactions:2,customer_payments:1,customer_writeoffs:1,customer_retainers_and_prepayments:4,retainer_events:2},
-   {customer_invoices:4,customer_transactions:2,customer_payments:2,customer_writeoffs:1,customer_retainers_and_prepayments:4,retainer_events:2},
+   {customer_invoices:1,customer_transactions:2,customer_payments:1,customer_writeoffs:1,customer_retainers_and_prepayments:4,retainer_events:2,ar_obligations:1,payment_receipts:1,ar_applications:1},
+   {customer_invoices:4,customer_transactions:2,customer_payments:2,customer_writeoffs:1,customer_retainers_and_prepayments:4,retainer_events:2,ar_obligations:1,payment_receipts:1,ar_applications:2},
    {customer_payments:1,customer_invoices:1}]);
   for(const entry of entries)for(const summary of entry.presentation.client_changes.filter(c=>c.kind==='statement_archive')){
    const members=entry.events.filter(e=>e.entity==='invoice_statement_members' && String(e.after_value.invoice_id)===String(entry.events.find(e=>String(e.event_id)===String(summary.event_id)).after_value.invoice_id));
    expect(summary.covered_event_ids.map(String)).to.deep.equal(members.map(e=>String(e.event_id)));
    expect(summary.change_count).to.equal(members.length);expect(Object.values(summary.item_counts).reduce((n,v)=>n+v,0)).to.equal(members.length);
   }
-  expect(sourceArchive.data.coverage).to.include({archive_summaries:3,summarized_changes:28,client_lines:selected.length-28+3});
+  expect(sourceArchive.data.coverage).to.include({archive_summaries:3,summarized_changes:35,client_lines:selected.length-35+3});
   const response=await download();expect(response.status).to.equal(200);bytes=response.body;expect(pdf.sha256(bytes)).to.equal(record.document_sha256);expect(pdf.verifyContent(bytes,record.content_sha256)).to.equal(true);
   let overwriteError;try{await storage.putObject(`audit-records/1/${c.id}/${record.record_id}.pdf`,Buffer.from('replacement'),'application/pdf',{}, {ifNoneMatch:'*'});}catch(e){overwriteError=e;}
   expect(overwriteError?.$metadata?.httpStatusCode,'local storage refuses overwrite of the exact archived key').to.equal(412);
@@ -109,17 +112,17 @@ describe('owner decision 6 hard account audit record',function(){
   const text=s.pdf(bytes);for(const expected of ['Account history and audit record','Audit lifecycle','Ada Admin','100.00','110.00','Bank returned check','Document SHA-256','sent and locked'])expect(text).to.include(expected);
   const listed=(text.match(/Change \d+\./g) || []).length;
   const summarized=[...text.matchAll(/Covers (\d+) captured changes/g)].reduce((n,m)=>n+Number(m[1]),0);
-  expect(listed).to.equal(changes.length-28);expect(summarized).to.equal(28);expect(listed+summarized).to.equal(selected.length);
+  expect(listed).to.equal(changes.length-35);expect(summarized).to.equal(35);expect(listed+summarized).to.equal(selected.length);
   expect((text.match(/Posting \d+ \|/g) || []).length).to.equal(entries.length);
   for(const table of [...Object.keys(service.TABLES),'audit_records','audit_actions'])expect(text).not.to.include(table);
   expect(text).not.to.match(/"[^"\n]+"\s*:/);expect(text).not.to.include('retainer_draw:');expect(text).not.to.include('payment #2');
   const compact=value=>value.replace(/\s+/g,' ').trim();
   for(const entry of entries){expect(compact(text)).to.include(compact(entry.presentation.description));for(const change of entry.presentation.client_changes){if(change.kind==='statement_archive')expect(compact(text)).to.include(compact(change.text));else {expect(compact(text)).to.include(compact(change.label));for(const field of change.fields)expect(compact(text)).to.include(compact(field.text));}}}
-  expect(compact(text)).to.include(`${selected.length-28} changes listed individually; 28 archived statement-copy changes covered by 3 summary lines`);
+  expect(compact(text)).to.include(`${selected.length-35} changes listed individually; 35 archived statement-copy changes covered by 3 summary lines`);
   expect(text).not.to.include('(statement copy)');expect(text).not.to.include('/auditRecord/');expect(text).not.to.include('Retrieve via GET');expect(text).not.to.include('endpoint');
   expect(compact(text)).to.include("give the firm its record ID; the firm's system recomputes the SHA-256 digest and checks it against the stored original and the audit chain.");
   for(const digest of [record.content_sha256,record.chain_hash,record.evidence_sha256])expect(compact(text)).to.include(digest);
-  const info=require('child_process').execFileSync('pdfinfo',['-'],{input:bytes}).toString();expect(Number(info.match(/Pages:\s+(\d+)/)[1])).to.be.at.most(6);
+  const info=require('child_process').execFileSync('pdfinfo',['-'],{input:bytes}).toString();expect(Number(info.match(/Pages:\s+(\d+)/)[1])).to.be.at.most(7);
   await s.db('customers').where({customer_id:c.id}).update({display_name:'Name after printing'});
   expect((await download()).body.equals(bytes)).to.equal(true);
   const list=ok(await s.get(url()+'/records'));expect(list.records[0].record_id).to.equal(record.record_id);expect(list.records[0]).not.to.have.property('storage_key');
@@ -139,7 +142,7 @@ describe('owner decision 6 hard account audit record',function(){
   const compact=text.replace(/\s+/g,' ');expect(compact).to.include('Full evidence record');expect(compact).to.include('Object,');expect(compact).to.include('bytes, SHA-256');expect(compact).to.include('actor Ada Admin (user #2)');expect(compact).to.include('Generated by: 2');expect(compact).not.to.include('Generated by: $2.00');expect(compact).to.include('Debit $30.00; Credit $0.00');expect(compact).to.include('[retainer_draw:');expect(compact).to.include('Retainer availability change $100.00');
   const allChanges=evidence.body.data.entries.flatMap(e=>e.presentation.changes);
   expect((text.match(/Change \d+\./g) || []).length).to.equal(allChanges.length);
-  expect((text.match(/\(statement copy\)/g) || []).length).to.equal(28);
+  expect((text.match(/\(statement copy\)/g) || []).length).to.equal(35);
   for(const change of allChanges)expect(compact).to.include(change.label.replace(/\s+/g,' '));
   expect(compact).to.include(`Retrieve via GET /auditRecord/customer/${c.id}/1/2/records/${full.record_id}/evidence`);
   let descriptors=0;

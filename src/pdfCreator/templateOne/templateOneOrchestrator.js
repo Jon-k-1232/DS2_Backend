@@ -47,6 +47,7 @@ const createPDF = async invoiceDetails => {
    createChargesSection(doc, invoiceDetails, preferenceSettings);
    writeOffs.writeOffRecords.length && createWriteOffsSection(doc, invoiceDetails, preferenceSettings);
    (retainers.retainerRecords.length || retainers.events?.length) && createRetainersSection(doc, invoiceDetails, preferenceSettings);
+   require('./templateFunctions/templateOneCorrections').createCorrectionsSection(doc,invoiceDetails,preferenceSettings);
    createTotalsSection(doc, invoiceDetails, preferenceSettings);
    createNotesSection(doc, invoiceDetails, preferenceSettings);
 

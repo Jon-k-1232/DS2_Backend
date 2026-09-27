@@ -14,7 +14,6 @@ const jobTypeService = require('../jobType/jobType-service');
 const writeOffsService = require('../writeOffs/writeOffs-service');
 const paymentsService = require('../payments/payments-service');
 const workDescriptionService = require('../workDescriptions/workDescriptions-service');
-const { createGrid, generateTreeGridData } = require('../../utils/gridFunctions');
 const { getPaginationMetadata } = require('../../utils/pagination');
 const DEFAULT_TRANSACTIONS_PAGE_SIZE = 20;
 
@@ -27,7 +26,7 @@ initialDataRouter.route('/initialBlob/:accountID/:userID').get(async (req, res) 
       await initialData(db, res, accountID, req.user);
    } catch (err) {
       console.log(err);
-      res.send({
+      res.status(500).send({
          message: err.message || 'An error occurred while retrieving the initial data.',
          status: 500
       });
@@ -53,7 +52,7 @@ const initialData = async (db, res, accountID, requestingUser) => {
       activeRetainers,
       workDescriptions
    ] = isPrivilegedCaller(requestingUser) ? await Promise.all([
-      customerService.getActiveCustomers(db, accountID),
+      customerService.getCustomerDirectory(db, accountID),
       recurringCustomerService.getActiveRecurringCustomers(db, accountID),
       accountUserService.getActiveAccountUsers(db, accountID),
       transactionsService.getActiveTransactionsPaginated(db, accountID, {
@@ -70,7 +69,7 @@ const initialData = async (db, res, accountID, requestingUser) => {
          offset: 0,
          searchTerm: ''
       }),
-      jobService.getActiveJobs(db, accountID),
+      Promise.resolve([]),
       jobCategoriesService.getActiveJobCategories(db, accountID),
       jobTypeService.getActiveJobTypes(db, accountID),
       writeOffsService.getActiveWriteOffsPaginated(db, accountID, {
@@ -83,7 +82,7 @@ const initialData = async (db, res, accountID, requestingUser) => {
          offset: 0,
          searchTerm: ''
       }),
-      retainerService.getActiveRetainers(db, accountID),
+      retainerService.getActiveRetainers(db, accountID).limit(20),
       workDescriptionService.getActiveWorkDescriptions(db, accountID)
    ]) : [
       // Staff upload/history uses dedicated self-scoped endpoints. Keep shell
@@ -93,27 +92,21 @@ const initialData = async (db, res, accountID, requestingUser) => {
       [], [], [], { writeoffs: [], totalCount: 0 }, { payments: [], totalCount: 0 }, [], []
    ];
 
-   const activeCustomerData = {
-      activeCustomers,
-      grid: createGrid(activeCustomers)
-   };
+   const activeCustomerData = Array.isArray(activeCustomers) ? {activeCustomers,remote:false,threshold:1000,totalCount:0} : activeCustomers;
 
    const activeRecurringCustomersData = {
       activeRecurringCustomers,
-      grid: createGrid(activeRecurringCustomers)
    };
 
    const sanitizedActiveUsers = activeUsers;
    const activeUserData = {
       activeUsers: sanitizedActiveUsers,
-      grid: createGrid(sanitizedActiveUsers)
    };
 
    const { transactions: activeTransactions, totalCount: transactionsCount } = activeTransactionsPage;
 
    const activeTransactionsData = {
       activeTransactions,
-      grid: createGrid(activeTransactions),
       pagination: getPaginationMetadata(transactionsCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 
@@ -124,52 +117,42 @@ const initialData = async (db, res, accountID, requestingUser) => {
    // server-side; per-customer trees come from the profile endpoint).
    const activeInvoiceData = {
       activeInvoices,
-      grid: createGrid(activeInvoices),
       pagination: getPaginationMetadata(invoicesCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 
    const activeJobData = {
       activeJobs,
-      grid: createGrid(activeJobs),
-      treeGrid: generateTreeGridData(activeJobs, 'customer_job_id', 'parent_job_id')
    };
 
    const activeJobCategoriesData = {
       activeJobCategories,
-      grid: createGrid(activeJobCategories)
    };
 
    const activeJobTypesData = {
       jobTypesData,
-      grid: createGrid(jobTypesData)
    };
 
    const { writeoffs: activeWriteOffs, totalCount: writeoffsCount } = activeWriteOffsPage;
    const activeWriteOffsData = {
       activeWriteOffs,
-      grid: createGrid(activeWriteOffs),
       pagination: getPaginationMetadata(writeoffsCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 
    const { payments: activePayments, totalCount: paymentsCount } = activePaymentsPage;
    const activePaymentsData = {
       activePayments,
-      grid: createGrid(activePayments),
       pagination: getPaginationMetadata(paymentsCount, 1, DEFAULT_TRANSACTIONS_PAGE_SIZE)
    };
 
    const activeRetainerData = {
       activeRetainers,
-      grid: createGrid(activeRetainers),
-      treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
    };
 
    const activeWorkDescriptionsData = {
       workDescriptions,
-      grid: createGrid(workDescriptions)
    };
 
-   res.send({
+   res.send(require('../../utils/listPayload').compactPayload({
       customersList: { activeCustomerData },
       recurringCustomersList: { activeRecurringCustomersData },
       teamMembersList: { activeUserData },
@@ -184,5 +167,5 @@ const initialData = async (db, res, accountID, requestingUser) => {
       workDescriptionsList: { activeWorkDescriptionsData },
       message: 'Successfully Retrieved Data.',
       status: 200
-   });
+   }));
 };

@@ -29,12 +29,13 @@ retainerRouter.route('/createRetainer/:accountID/:userID').post(jsonParser, asyn
 
       // Post new retainer. The account comes from the (guard-verified) URL and
       // the customer must belong to it; see retainer-logic.createRetainerCore.
-      await require('../payments/ledger-helpers').withTransaction(db, async trx => {
+      const created = await require('../payments/ledger-helpers').withTransaction(db, async trx => {
          await require('../../utils/ledgerAction').actionContext(trx, Number(req.user.user_id), 'Manual retainer entry');
          const row = await createRetainerCore(trx, { accountId: Number(accountID), retainerFields: retainerTableFields });
          await require('../duplicates/duplicates-service').detectCreated(trx, 'retainer', row, Number(req.user.user_id));
+         return row;
       });
-      await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully created new retainer.');
+      await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully created new retainer.', {retainers:[created]});
    } catch (err) {
       console.log(err);
       res.status(err.code === 'RETAINER_EVENT_LOCKED' ? 409 : err.inputValidation ? 400 : 200).send({
@@ -62,7 +63,7 @@ retainerRouter.route('/updateRetainer/:accountID/:userID').put(jsonParser, async
       // Update retainer — preserves the chain's draw history (balance shifts by
       // the starting-amount delta; active flag follows the balance).
       await updateRetainerCore(db, { accountId: Number(accountID), retainerFields: retainerTableFields });
-      await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully updated retainer.');
+      await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully updated retainer.', async()=>({retainers:await retainerService.getSingleRetainer(db,accountID,retainerTableFields.retainer_id)}));
    } catch (err) {
       console.log(err);
       res.status(err.code === 'RETAINER_EVENT_LOCKED' ? 409 : err.inputValidation ? 400 : 200).send({
@@ -82,7 +83,7 @@ retainerRouter.route('/deleteRetainer/:retainerID/:accountID/:userID').delete(js
       // transaction or payment, or the chain has draw-down snapshots (draws
       // reference the snapshot ids, so checking only this row missed them).
       await deleteRetainerCore(db, { accountId: Number(accountID), retainerId: Number(retainerID) });
-      await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully deleted retainer.');
+      await sendUpdatedTableWith200Response(db, res, accountID, 'Successfully deleted retainer.', {deletedRetainers:[Number(retainerID)]});
    } catch (err) {
       console.log(err);
       res.status(err.code === 'RETAINER_EVENT_LOCKED' ? 409 : 200).send({
@@ -104,7 +105,7 @@ retainerRouter.route('/getSingleRetainer/:retainerID/:accountID/:userID').get(as
       if (!Number.isInteger(retainerId) || retainerId <= 0) {
          return res.send({ message: 'No matching retainer record found.', status: 404 });
       }
-      const activeRetainer = await retainerService.getSingleRetainer(db, accountID, retainerId);
+      const activeRetainer = await require('../../utils/actorNames')(db,accountID,await retainerService.getSingleRetainer(db, accountID, retainerId),'created_by_user_id','created_by_user_name');
 
       if (!activeRetainer.length) {
          return res.send({ message: 'No matching retainer record found.', status: 404 });
@@ -158,25 +159,15 @@ retainerRouter.route('/getActiveRetainers/:customerID/:accountID/:userID').get(a
 const eventService = require('./retainer-events');
 const { route: eventRoute } = require('../../utils/ledgerAction');
 retainerRouter.get('/:retainerID/events/:accountID/:userID', eventRoute(req => eventService.history(req.app.get('db'), Number(req.params.accountID), req.params.retainerID)));
-retainerRouter.post('/:retainerID/events/:accountID/:userID', jsonParser, eventRoute(req => eventService.createEvent(req.app.get('db'), {accountId:Number(req.params.accountID),actorId:Number(req.user.user_id),retainerId:req.params.retainerID,body:req.body})));
+retainerRouter.post('/:retainerID/events/:accountID/:userID', require('../auth/jwt-auth').requireAdmin, jsonParser, eventRoute(req => eventService.createEvent(req.app.get('db'), {accountId:Number(req.params.accountID),actorId:Number(req.user.user_id),retainerId:req.params.retainerID,body:req.body})));
 
 module.exports = retainerRouter;
 
-const sendUpdatedTableWith200Response = async (db, res, accountID, message = 'Successfully created new retainer.') => {
-   return committedResponse(res, message, async () => {
-      // Get all retainers
-      const activeRetainers = await retainerService.getActiveRetainers(db, accountID);
+const sendUpdatedTableWith200Response = (db,res,accountID,message='Successfully saved retainer.',changed={}) =>
+   committedResponse(res,message,async()=>({...await require('../../utils/listPayload').firstPage(db,accountID,'retainers'),changed:typeof changed==='function'?await changed():changed}));
 
-      const activeRetainerData = {
-         activeRetainers,
-         grid: createGrid(activeRetainers),
-         treeGrid: generateTreeGridData(activeRetainers, 'retainer_id', 'parent_retainer_id')
-      };
-
-      return {
-         accountRetainersList: { activeRetainerData },
-         message,
-         status: 200
-      };
-   });
-};
+retainerRouter.get('/getRetainers/:accountID/:userID',async(req,res)=>{
+ try{const options=require('../../utils/lookupParams').lookupParams(req.query);const {retainers,totalCount}=await retainerService.getRetainersPage(req.app.get('db'),req.params.accountID,options);
+ res.send({status:200,accountRetainersList:{activeRetainerData:{activeRetainers:retainers,partial:true,pagination:require('../../utils/pagination').getPaginationMetadata(totalCount,options.page,options.limit)}}});
+ }catch(e){const status=e.statusCode||500;res.status(status).send({status,message:status===500?'Unable to load retainers. Try again.':e.message});}
+});

@@ -12,6 +12,19 @@ const { getPaginationParams, getPaginationMetadata } = require('../../utils/pagi
 const { buildCreatePaymentInput, createPaymentCore, updatePaymentCore, deletePaymentCore, returnTablesWithSuccessResponse, reversePayment } = require('./payment-logic');
 const { positiveIntOrNull } = require('./ledger-helpers');
 const { clientSafeMessage } = require('../../utils/clientError');
+const {route}=require('../../utils/ledgerAction');
+const {requireAdmin}=require('../auth/jwt-auth');
+const receipts=require('./receipts-service');
+const receiptArgs=req=>({accountId:Number(req.user.account_id),actorId:Number(req.user.user_id),body:req.body || {},query:req.query,receiptId:req.params.receiptID,applicationId:req.params.applicationID,key:req.get('Idempotency-Key')});
+paymentsRouter.get('/open-obligations',route(req=>receipts.open(req.app.get('db'),receiptArgs(req))));
+paymentsRouter.get('/receipts',route(req=>receipts.list(req.app.get('db'),receiptArgs(req))));
+paymentsRouter.post('/receipts',route(req=>receipts.create(req.app.get('db'),receiptArgs(req))));
+paymentsRouter.get('/receipts/:receiptID',route(req=>receipts.detail(req.app.get('db'),receiptArgs(req))));
+paymentsRouter.post('/receipts/:receiptID/applications/:applicationID/correct',requireAdmin,route(req=>receipts.correct(req.app.get('db'),receiptArgs(req))));
+paymentsRouter.post('/receipts/:receiptID/exceptions',requireAdmin,route(req=>receipts.flag(req.app.get('db'),receiptArgs(req))));
+paymentsRouter.post('/receipts/:receiptID/cancellations',requireAdmin,route(req=>receipts.cancel(req.app.get('db'),receiptArgs(req))));
+paymentsRouter.post('/receipts/:receiptID/reversals',requireAdmin,route(req=>receipts.reverse(req.app.get('db'),receiptArgs(req))));
+paymentsRouter.post('/receipts/:receiptID/resolve',requireAdmin,route(req=>receipts.resolve(req.app.get('db'),receiptArgs(req))));
 
 // Create a new payment. All ledger writes (retainer draw, invoice snapshot,
 // payment row, parent mirror, prepayment retainer) run in ONE transaction
@@ -24,7 +37,7 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
       const sanitizedNewPayment = sanitizeFields(req.body.payment || {});
       validateLedgerInput(sanitizedNewPayment, 'payment', { update: false });
       const input = buildCreatePaymentInput(sanitizedNewPayment, req.params.accountID, req.user?.user_id);
-      const { message, paymentTableFields } = await require('./ledger-helpers').withTransaction(db, async trx => {
+      const { message, paymentTableFields, payment, snapshot, prepaymentRetainer, retainerDraw } = await require('./ledger-helpers').withTransaction(db, async trx => {
          await require('../../utils/ledgerAction').actionContext(trx, Number(req.user.user_id), 'Manual payment entry');
          const result = await createPaymentCore(trx, input);
          await require('../duplicates/duplicates-service').detectCreated(trx, 'payment', result.payment, Number(req.user.user_id));
@@ -34,12 +47,12 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
          }
          return result;
       });
-      return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
+      return returnTablesWithSuccessResponse(db, res, paymentTableFields, message, {payments:payment?[payment]:[],invoices:snapshot?[snapshot]:[],retainers:[prepaymentRetainer,retainerDraw].filter(Boolean)});
    } catch (err) {
       console.log(err);
-      res.status(err.inputValidation ? 400 : 200).send({
+      res.status(err.code==='RECEIPT_APPLICATION_LOCKED'?409:err.inputValidation ? 400 : 200).send({
          message: err.message || 'An error occurred while creating the Payment.',
-         status: err.inputValidation ? 400 : 500
+         status: err.code==='RECEIPT_APPLICATION_LOCKED'?409:err.inputValidation ? 400 : 500
       });
    }
 });
@@ -49,23 +62,23 @@ paymentsRouter.route('/createPayment/:accountID/:userID').post(jsonParser, async
 // restores the debt on the customer's CURRENT chain (snapshot + parent
 // mirror), with both rows cross-annotated. The audit engine understands
 // positive payment rows as reversals (sign-aware paid sums).
-paymentsRouter.route('/reversePayment/:accountID/:userID').post(jsonParser, async (req, res) => {
+paymentsRouter.route('/reversePayment/:accountID/:userID').post(requireAdmin,jsonParser, async (req, res) => {
    const db = req.app.get('db');
    try {
       const sanitized = sanitizeFields(req.body.payment || {});
-      const { message, reversalFields } = await reversePayment(db, {
+      const { message, reversalFields, reversal, cancelledPrepayment } = await reversePayment(db, {
          accountId: Number(req.params.accountID),
          // Audit trail: the AUTHENTICATED user, never the caller-supplied URL :userID.
          userId: Number(req.user?.user_id),
          paymentId: Number(sanitized.paymentID),
          reason: (sanitized.reason || '').trim()
       });
-      return returnTablesWithSuccessResponse(db, res, reversalFields, message);
+      return returnTablesWithSuccessResponse(db, res, reversalFields, message, {payments:[reversal],retainers:cancelledPrepayment?[cancelledPrepayment]:[]});
    } catch (err) {
       console.log(err);
-      res.send({
+      res.status(err.code==='RECEIPT_APPLICATION_LOCKED'?409:200).send({
          message: err.message || 'An error occurred while reversing the payment.',
-         status: 500
+         status: err.code==='RECEIPT_APPLICATION_LOCKED'?409:500
       });
    }
 });
@@ -99,7 +112,7 @@ paymentsRouter.route('/getSinglePayment/:paymentID/:accountID/:userID').get(asyn
       console.log(err);
       res.send({
          message: clientSafeMessage(err, 'An error occurred while retrieving the payment.'),
-         status: 500
+         status: err.code==='RECEIPT_APPLICATION_LOCKED'?409:500
       });
    }
 });
@@ -120,12 +133,12 @@ paymentsRouter.route('/updatePayment/:accountID/:userID').put(jsonParser, async 
       paymentTableFields.account_id = Number(req.params.accountID);
 
       const { message } = await updatePaymentCore(db, { accountId: paymentTableFields.account_id, paymentFields: paymentTableFields });
-      return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
+      return returnTablesWithSuccessResponse(db, res, paymentTableFields, message, async()=>({payments:await paymentsService.getSinglePayment(db,paymentTableFields.payment_id,paymentTableFields.account_id)}));
    } catch (err) {
       console.log(err);
-      res.status(err.inputValidation ? 400 : 200).send({
+      res.status(err.code==='RECEIPT_APPLICATION_LOCKED'?409:err.inputValidation ? 400 : 200).send({
          message: err.message || 'An error occurred while updating the Payment.',
-         status: err.inputValidation ? 400 : 500
+         status: err.code==='RECEIPT_APPLICATION_LOCKED'?409:err.inputValidation ? 400 : 500
       });
    }
 });
@@ -144,12 +157,12 @@ paymentsRouter.route('/deletePayment/:accountID/:userID').delete(jsonParser, asy
       paymentTableFields.account_id = Number(req.params.accountID);
 
       const { message } = await deletePaymentCore(db, { accountId: paymentTableFields.account_id, paymentId: paymentTableFields.payment_id });
-      return returnTablesWithSuccessResponse(db, res, paymentTableFields, message);
+      return returnTablesWithSuccessResponse(db, res, paymentTableFields, message, {deletedPayments:[paymentTableFields.payment_id]});
    } catch (err) {
       console.log(err);
-      res.send({
+      res.status(err.code==='RECEIPT_APPLICATION_LOCKED'?409:200).send({
          message: err.message || 'An error occurred while deleting the Payment.',
-         status: 500
+         status: err.code==='RECEIPT_APPLICATION_LOCKED'?409:500
       });
    }
 });

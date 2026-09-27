@@ -15,9 +15,17 @@ const paymentsService = require('../../payments/payments-service');
  * @returns {}
  */
 const findCustomersNeedingInvoices = async (db, accountID, today = billingDateToday()) => {
+   const scope=require('../../billingEntities/entity-context');
+   if(require('../../../utils/auditContext').storage.getStore()?.billingScope && !scope.current()) {
+      const rows=[];for(const entity of await scope.entities(db,accountID)) rows.push(...await scope.run(entity.billing_entity_id,()=>findCustomersNeedingInvoices(db,accountID,today)));
+      return rows;
+   }
    const [customers, invoices, transactions, retainers, writeOffs, payments, events] = await fetchData(db, accountID);
    const [invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, eventsByCustomer] = groupDataByCustomerId([invoices, transactions, retainers, writeOffs, payments, events]);
-   return invoiceEligibilityPerCustomer(customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today, eventsByCustomer);
+   const rows=invoiceEligibilityPerCustomer(customers, invoicesByCustomer, transactionsByCustomer, retainersByCustomer, writeOffsByCustomer, paymentsByCustomer, today, eventsByCustomer);
+   const eid=scope.current();if(!eid)return rows;
+   const entity=await scope.requireEntity(db,accountID,eid,{active:false});
+   return rows.map(r=>({...r,billing_entity_id:eid,billing_entity_name:entity.name,entity_key:`${r.customer_id}:${eid}`}));
 };
 
 module.exports = { findCustomersNeedingInvoices };
@@ -27,7 +35,12 @@ const fetchData = async (db, accountID) => {
    return Promise.all([
       customerService.getActiveCustomers(db, accountID),
       invoiceService.getInvoices(db, accountID),
-      transactionsService.getActiveTransactions(db, accountID),
+      // Eligibility only counts unbilled work and its stored amounts. Retain
+      // the existing owned-label joins, but avoid serializing the entire work
+      // history and resolving unused business/lock/catalog display columns.
+      transactionsService.getActiveTransactions(db, accountID)
+         .clearSelect().select('customer_transactions.customer_id','customer_transactions.customer_invoice_id','customer_transactions.transaction_date','customer_transactions.is_transaction_billable','customer_transactions.total_transaction')
+         .whereNull('customer_transactions.customer_invoice_id'),
       retainerService.getActiveRetainers(db, accountID),
       writeOffsService.getActiveWriteOffs(db, accountID),
       paymentsService.getActivePayments(db, accountID),

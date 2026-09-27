@@ -595,11 +595,25 @@ const applyBillabilityPolicy = async (trx, fields) => {
    }
 };
 
+const workMinutesContext = async (trx, input) => {
+   const value = input.transactionType?.toLowerCase() === 'time' ? input.minutes : null;
+   const present = value != null && value !== '';
+   if (present && (!Number.isFinite(Number(value)) || Number(value) <= 0 || Number(value) > 1e9)) throw ruleError('Time requires positive, finite actual minutes.', 400);
+   await trx.raw("SELECT set_config('app.work_minutes', ?, true)", [present ? String(Number(value)) : '']);
+};
+
 const addNewTransaction = async (db, sanitizedNewTransaction) => {
+   const scope = require('../billingEntities/entity-context');
+   const selected = sanitizedNewTransaction?.entityId ?? sanitizedNewTransaction?.billing_entity_id;
+   if (selected && scope.current() !== Number(selected)) {
+      await scope.requireEntity(db, Number(sanitizedNewTransaction.account_id ?? sanitizedNewTransaction.accountID), selected);
+      return scope.run(Number(selected), () => addNewTransaction(db, sanitizedNewTransaction));
+   }
    // Parse before taking any lock (pure; the transaction_type normaliser
    // throws on bad input). A new entry is never already billed: the invoice
    // link is set only by finalize.
    const fields = { ...restoreDataTypesTransactionsTableOnCreate(validateTransactionPrice(sanitizedNewTransaction || {})), customer_invoice_id: null };
+   if (sanitizedNewTransaction.timesheetEntryID) fields.source_timesheet_entry_id = Number(sanitizedNewTransaction.timesheetEntryID);
 
    return withTransaction(db, async trx => {
       const { account_id, customer_id, customer_job_id, retainer_id } = fields;
@@ -607,6 +621,21 @@ const addNewTransaction = async (db, sanitizedNewTransaction) => {
 
       await lockTransactionLedger(trx, account_id, customer_id);
       await applyBillabilityPolicy(trx, fields);
+
+      if (fields.source_timesheet_entry_id != null) {
+         if (!Number.isSafeInteger(fields.source_timesheet_entry_id) || fields.source_timesheet_entry_id < 1) throw ruleError('Select a valid tracker source.',400);
+         const source = await trx('public.timesheet_entries').where({account_id,timesheet_entry_id:fields.source_timesheet_entry_id}).forUpdate().first();
+         if (!source) throw ruleError('Tracker source was not found.',404);
+         const resolved = await trx.raw("SELECT ds2_effective_entity(?, 'timesheet_entries', ?, ?) AS entity, ds2_entity_match(?, ?) AS matches, COALESCE(?::integer, (SELECT CASE WHEN count(*)=1 THEN min(user_id) END FROM public.users WHERE account_id=? AND lower(btrim(display_name))=lower(btrim(?)))) AS staff_id",[account_id,source.timesheet_entry_id,source.billing_entity_id,account_id,source.entity || '',source.matched_user_id,account_id,source.employee_name || '']);
+         // A held tracker can acquire an exact alias after upload. Use the same
+         // unique resolution as ingestion, while legacy ledger scope still wins.
+         const { entity, matches } = resolved.rows[0];
+         const sourceEntity = entity ?? (matches?.length === 1 ? matches[0] : null);
+         if (sourceEntity == null || Number(sourceEntity) !== Number(scope.current())) throw ruleError('Tracker source belongs to a different business.',409);
+         if (resolved.rows[0].staff_id && Number(resolved.rows[0].staff_id) !== Number(fields.logged_for_user_id)) throw ruleError('The employee must match the tracker source. Correct the source attribution first.',409);
+         if (source.suggested_customer_id && Number(source.suggested_customer_id) !== Number(customer_id)) throw ruleError('Tracker source belongs to a different client.',409);
+         if (await trx('public.customer_transactions').where({account_id,source_timesheet_entry_id:source.timesheet_entry_id}).first()) throw ruleError('This tracker entry has already been posted.',409);
+      }
 
       await requireAccountRow(trx, 'users', 'user_id', fields.logged_for_user_id, fields.account_id, 'Employee');
       await requireAccountRow(trx, 'customer_general_work_descriptions', 'general_work_description_id', fields.general_work_description_id, fields.account_id, 'Work description');
@@ -622,6 +651,7 @@ const addNewTransaction = async (db, sanitizedNewTransaction) => {
       await updateRecentJobTotal(trx, customer_job_id, account_id, fields.total_transaction);
 
       const draw = drawPlan ? await writeRetainerDraw(trx, drawPlan, fields.created_by_user_id) : null;
+      await workMinutesContext(trx, sanitizedNewTransaction);
       const created = await transactionsService.createTransaction(trx, { ...fields, retainer_id: draw ? draw.retainer_id : null });
       if (draw) {
          await paymentsService.createPayment(trx, { ...buildAutoRetainerPayment(created, { rootId: drawPlan.rootId, drawId: draw.retainer_id }), created_at: ledgerNow(trx) });
@@ -664,6 +694,12 @@ const updateTransactionCore = async (db, { accountId, transaction, actorId }) =>
       if (stored.customer_invoice_id) throw ruleError('Transaction is attached to an invoice and cannot be updated.', 423);
 
       await requireAccountRow(trx, 'users', 'user_id', fields.logged_for_user_id, fields.account_id, 'Employee');
+      if (Number(stored.logged_for_user_id) !== Number(fields.logged_for_user_id)) {
+         const reason = String(transaction.costChangeReason || '').trim();
+         if (!reason || reason.length > 2000) throw ruleError('Explain the employee change (1 to 2000 characters); their cost rate will be captured for this work.', 400);
+         await trx.raw("SELECT set_config('app.cost_change_reason', ?, true)", [reason]);
+      }
+
       await requireAccountRow(trx, 'customer_general_work_descriptions', 'general_work_description_id', fields.general_work_description_id, fields.account_id, 'Work description');
 
       // Cross-customer job guard - refuse before any writes happen.
@@ -709,6 +745,8 @@ const updateTransactionCore = async (db, { accountId, transaction, actorId }) =>
             if (action === 'retain') assertRetainerCanAbsorb(chainInfo, link, amountDelta);
          }
       }
+
+      await workMinutesContext(trx, transaction);
 
       // ---- writes ----
       // Job total(s): a job change with no amount change (or vice versa) must
@@ -813,8 +851,8 @@ module.exports = {
    applyBillabilityPolicy,
    assertJobBelongsToCustomer,
    addNewTransaction,
-   updateTransactionCore,
-   deleteTransactionCore,
+   updateTransactionCore:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_transactions','transaction_id',input.transaction.transactionID || input.transaction.transaction_id,()=>updateTransactionCore(db,input)),
+   deleteTransactionCore:(db,input)=>require('../billingEntities/record-scope')(db,input.accountId,'customer_transactions','transaction_id',input.transaction.transactionID || input.transaction.transaction_id,()=>deleteTransactionCore(db,input)),
    lockTransactionLedger,
    decideFundingAction,
    differenceBetweenOldAndNewTransaction,

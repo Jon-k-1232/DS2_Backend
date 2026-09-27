@@ -1,539 +1,102 @@
-const { lockCustomerLedger } = require('../payments/ledger-helpers');
-const { billingDateToday } = require('../invoice/billingDate');
-/**
- * Billing & time analytics.
- *
- * Built on customer_transactions as the source of truth for performed work:
- *   - transaction_type 'Time': quantity = hours, total_transaction = USD
- *   - other types (Charge, …): fixed-fee amounts; excluded from hourly-rate math
- * Sign/storage conventions per the DS2 schema: writeoffs stored negative
- * (ABS()-ed here), timesheet_entries.duration is minutes.
- *
- * Effective hourly rate = time billings ÷ time hours, per customer per year.
- * That's the number the firm actually realized — independent of book rates.
- */
-
-const round2 = n => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
-const num = v => Number(v) || 0;
-
-// transaction_type is not normalized in the data: prod carries 'Time' AND
-// 'time' (5,130 rows), so every comparison is case-insensitive. The complement
-// is NULL-safe so hours/time + charges always add up to the total.
-const IS_TIME = col => `LOWER(${col}) = 'time'`;
-const IS_NOT_TIME = col => `COALESCE(LOWER(${col}), '') <> 'time'`;
-
-// Build a SQL "NOT IN (...)" fragment from a list of customer ids to exclude.
-// Ids are coerced to integers and non-integers dropped, so the values are safe
-// to inline (no injection surface). Empty list → no clause.
-const excludeFrag = (excludeIds, column) => {
-   // Positive integers only — drops 0 (from an empty '' segment) and out-of-range
-   // values so a stray param never appends a no-op or invalid NOT IN clause.
-   const clean = (excludeIds || []).map(Number).filter(n => Number.isInteger(n) && n > 0 && n < 2147483647);
-   return clean.length ? ` AND ${column} NOT IN (${clean.join(',')})` : '';
-};
-
-// Customers the firm filters out of analytics by default — its own related
-// entities, whose internal bookkeeping would otherwise swamp client metrics.
-// Matched by display-name pattern so new same-family customers are caught too.
-const DEFAULT_EXCLUDE_NAME_PATTERNS = ['LTDFH%', 'James F%Kimmel%Associate%', 'Kimmel Financial Partner%', 'Jim Kimmel Insurance Agenc%'];
-
-const median = values => {
-   if (!values.length) return null;
-   const sorted = [...values].sort((a, b) => a - b);
-   const mid = Math.floor(sorted.length / 2);
-   return sorted.length % 2 ? sorted[mid] : round2((sorted[mid - 1] + sorted[mid]) / 2);
-};
-
-const analyticsService = {
-   /**
-    * Per-customer, per-year billing history with firm-wide reference stats.
-    * Returns every client that had billable activity in the window — the page
-    * itself is the cross-client comparison.
-    */
-   async getClientRates(db, accountId, { yearsBack = 6, excludeIds = [] } = {}) {
-      const currentYear = new Date().getFullYear();
-      const startYear = currentYear - Math.max(1, Math.min(yearsBack, 15)) + 1;
-
-      const [{ rows }, { rows: agreementRows }] = await Promise.all([
-         db.raw(
-            `
-            WITH yearly AS (
-               SELECT ct.customer_id,
-                      EXTRACT(YEAR FROM ct.transaction_date)::int AS year,
-                      COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours,
-                      COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS time_billed,
-                      COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${IS_NOT_TIME('ct.transaction_type')}), 0) AS charges_billed,
-                      COALESCE(SUM(ct.total_transaction), 0) AS total_billed,
-                      -- What the time cost the firm: hours × the employee's cost_rate.
-                      COALESCE(SUM(ct.quantity * COALESCE(u.cost_rate, 0)) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS labor_cost,
-                      COUNT(*)::int AS entries
-               FROM customer_transactions ct
-               LEFT JOIN users u ON u.user_id = ct.logged_for_user_id
-               WHERE ct.account_id = :accountId
-                 AND ct.is_transaction_billable = true
-                 AND ct.transaction_date >= make_date(:startYear, 1, 1)${excludeFrag(excludeIds, 'ct.customer_id')}
-               GROUP BY 1, 2
-            ),
-            wo AS (
-               SELECT customer_id,
-                      EXTRACT(YEAR FROM writeoff_date)::int AS year,
-                      SUM(ABS(writeoff_amount)) AS writeoffs
-               FROM customer_writeoffs
-               WHERE account_id = :accountId
-                 AND writeoff_date >= make_date(:startYear, 1, 1)
-               GROUP BY 1, 2
-            )
-            SELECT y.customer_id, y.year, y.hours, y.time_billed, y.charges_billed, y.total_billed, y.labor_cost, y.entries,
-                   COALESCE(w.writeoffs, 0) AS writeoffs,
-                   c.display_name, c.is_commercial_customer, c.is_customer_active
-            FROM yearly y
-            LEFT JOIN wo w ON w.customer_id = y.customer_id AND w.year = y.year
-            JOIN customers c ON c.customer_id = y.customer_id
-            ORDER BY c.display_name, y.year
-            `,
-            { accountId, startYear }
-         ),
-         db.raw(
-            `SELECT customer_id, agreement_year, agreed_rate, notes
-             FROM customer_rate_agreements
-             WHERE account_id = :accountId AND agreement_year >= :startYear`,
-            { accountId, startYear }
-         )
-      ]);
-
-      const agreementsByCustomer = new Map();
-      agreementRows.forEach(a => {
-         if (!agreementsByCustomer.has(a.customer_id)) agreementsByCustomer.set(a.customer_id, {});
-         agreementsByCustomer.get(a.customer_id)[a.agreement_year] = { agreed_rate: round2(num(a.agreed_rate)), notes: a.notes };
-      });
-
-      const clientsById = new Map();
-      const ratesByYear = new Map(); // year -> [{customer_id, rate}]
-
-      rows.forEach(r => {
-         if (!clientsById.has(r.customer_id)) {
-            clientsById.set(r.customer_id, {
-               customer_id: r.customer_id,
-               display_name: r.display_name,
-               is_commercial: r.is_commercial_customer,
-               is_active: r.is_customer_active,
-               years: {}
-            });
-         }
-         const hours = round2(num(r.hours));
-         const timeBilled = round2(num(r.time_billed));
-         const totalBilled = round2(num(r.total_billed));
-         const writeoffs = round2(num(r.writeoffs));
-         const laborCost = round2(num(r.labor_cost));
-         const effectiveRate = hours > 0 ? round2(timeBilled / hours) : null;
-         const agreement = agreementsByCustomer.get(r.customer_id)?.[r.year] || null;
-         // Margin: what the client paid (net of write-offs) minus what the time
-         // cost the firm. Fixed charges count as revenue with no labor cost here.
-         const margin = round2(totalBilled - writeoffs - laborCost);
-
-         clientsById.get(r.customer_id).years[r.year] = {
-            hours,
-            time_billed: timeBilled,
-            charges_billed: round2(num(r.charges_billed)),
-            total_billed: totalBilled,
-            writeoffs,
-            realization_pct: totalBilled > 0 ? round2(((totalBilled - writeoffs) / totalBilled) * 100) : null,
-            entries: r.entries,
-            effective_rate: effectiveRate,
-            labor_cost: laborCost,
-            margin,
-            margin_pct: totalBilled > 0 ? round2((margin / totalBilled) * 100) : null,
-            agreed_rate: agreement?.agreed_rate ?? null,
-            rate_variance: agreement && effectiveRate !== null ? round2(effectiveRate - agreement.agreed_rate) : null
-         };
-
-         // Require a meaningful sample before a client's rate shapes firm stats.
-         if (effectiveRate !== null && hours >= 1) {
-            if (!ratesByYear.has(r.year)) ratesByYear.set(r.year, []);
-            ratesByYear.get(r.year).push({ customer_id: r.customer_id, rate: effectiveRate });
-         }
-      });
-
-      // Firm-wide stats per year + per-client percentile ranks.
-      const firmYears = {};
-      ratesByYear.forEach((entries, year) => {
-         const rates = entries.map(e => e.rate);
-         firmYears[year] = {
-            clients: entries.length,
-            median_rate: median(rates),
-            avg_rate: round2(rates.reduce((a, b) => a + b, 0) / rates.length)
-         };
-         const sorted = [...rates].sort((a, b) => a - b);
-         entries.forEach(({ customer_id, rate }) => {
-            const below = sorted.filter(x => x < rate).length;
-            const pct = Math.round((below / sorted.length) * 100);
-            const yearRow = clientsById.get(customer_id).years[year];
-            if (yearRow) yearRow.firm_percentile = pct;
-         });
-      });
-
-      // Suggested current-year rate: the client's last full-year realized rate
-      // grown by the firm's median year-over-year rate growth. Transparent and
-      // simple — a starting point for the conversation, not an oracle.
-      const lastFullYear = currentYear - 1;
-      const priorYear = currentYear - 2;
-      const yoyGrowths = [];
-      clientsById.forEach(client => {
-         const a = client.years[priorYear]?.effective_rate;
-         const b = client.years[lastFullYear]?.effective_rate;
-         if (a && b && a > 0) yoyGrowths.push((b - a) / a);
-      });
-      const firmMedianYoY = yoyGrowths.length ? median(yoyGrowths) : 0;
-
-      const clients = [...clientsById.values()].map(client => {
-         const lastRate = client.years[lastFullYear]?.effective_rate ?? null;
-         const priorRate = client.years[priorYear]?.effective_rate ?? null;
-         const currentRate = client.years[currentYear]?.effective_rate ?? null;
-         return {
-            ...client,
-            last_full_year_rate: lastRate,
-            current_year_rate: currentRate,
-            yoy_pct: lastRate && priorRate ? round2(((lastRate - priorRate) / priorRate) * 100) : null,
-            suggested_rate: lastRate ? round2(lastRate * (1 + firmMedianYoY)) : null
-         };
-      });
-
-      const years = [];
-      for (let y = startYear; y <= currentYear; y++) years.push(y);
-
-      return {
-         clients,
-         years,
-         firm: {
-            years: firmYears,
-            median_yoy_pct: round2(firmMedianYoY * 100),
-            last_full_year: lastFullYear,
-            suggestion_formula: `last full-year realized rate (${lastFullYear}) × (1 + firm median YoY rate growth ${round2(firmMedianYoY * 100)}%)`
-         }
-      };
-   },
-
-   /**
-    * Where the year's time actually went: billable client work vs
-    * administrative and everything else, by work description, employee,
-    * customer, and month. Includes the raw tracker view (timesheet_entries)
-    * so held/unprocessed rows still show up in the end-of-year picture.
-    */
-   async getTimeAllocation(db, accountId, { year, excludeIds = [] } = {}) {
-      const y = Number(year) || new Date().getFullYear();
-      const bounds = { accountId, start: `${y}-01-01`, end: `${y}-12-31` };
-      const exTxn = excludeFrag(excludeIds, 'customer_id');
-      const exCt = excludeFrag(excludeIds, 'ct.customer_id');
-
-      const [summaryRes, byWorkDescRes, byCustomerRes, monthlyRes, trackerRes, yearsRes] = await Promise.all([
-         db.raw(
-            `
-            SELECT COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')}), 0) AS total_hours,
-                   COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')} AND is_transaction_billable), 0) AS billable_hours,
-                   COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')} AND NOT is_transaction_billable), 0) AS nonbillable_hours,
-                   COALESCE(SUM(total_transaction) FILTER (WHERE is_transaction_billable), 0) AS billed_amount,
-                   COUNT(*)::int AS entries
-            FROM customer_transactions
-            WHERE account_id = :accountId AND transaction_date BETWEEN :start AND :end${exTxn}
-            `,
-            bounds
-         ),
-         db.raw(
-            `
-            SELECT gwd.general_work_description AS work_description,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')} AND ct.is_transaction_billable), 0) AS billable_hours,
-                   COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) AS billed_amount,
-                   COUNT(*)::int AS entries
-            FROM customer_transactions ct
-            JOIN customer_general_work_descriptions gwd ON gwd.general_work_description_id = ct.general_work_description_id
-            WHERE ct.account_id = :accountId AND ct.transaction_date BETWEEN :start AND :end${exCt}
-            GROUP BY 1
-            ORDER BY hours DESC, billed_amount DESC
-            `,
-            bounds
-         ),
-         db.raw(
-            `
-            SELECT c.customer_id, c.display_name AS customer,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours,
-                   COALESCE(SUM(ct.total_transaction) FILTER (WHERE ct.is_transaction_billable), 0) AS billed_amount
-            FROM customer_transactions ct
-            JOIN customers c ON c.customer_id = ct.customer_id
-            WHERE ct.account_id = :accountId AND ct.transaction_date BETWEEN :start AND :end${exCt}
-            GROUP BY c.customer_id, c.display_name
-            ORDER BY hours DESC, c.customer_id
-            LIMIT 20
-            `,
-            bounds
-         ),
-         db.raw(
-            `
-            SELECT EXTRACT(MONTH FROM transaction_date)::int AS month,
-                   COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')} AND is_transaction_billable), 0) AS billable_hours,
-                   COALESCE(SUM(quantity) FILTER (WHERE ${IS_TIME('transaction_type')} AND NOT is_transaction_billable), 0) AS nonbillable_hours,
-                   COALESCE(SUM(total_transaction) FILTER (WHERE is_transaction_billable), 0) AS billed_amount
-            FROM customer_transactions
-            WHERE account_id = :accountId AND transaction_date BETWEEN :start AND :end${exTxn}
-            GROUP BY 1
-            ORDER BY 1
-            `,
-            bounds
-         ),
-         db.raw(
-            `
-            SELECT COALESCE(NULLIF(TRIM(category), ''), '(uncategorized)') AS category,
-                   ROUND(SUM(duration) / 60.0, 2) AS hours,
-                   COUNT(*)::int AS entries
-            FROM timesheet_entries
-            WHERE account_id = :accountId AND date BETWEEN :start AND :end AND is_deleted = false
-            GROUP BY 1
-            ORDER BY hours DESC
-            `,
-            bounds
-         ),
-         db.raw(
-            `
-            SELECT DISTINCT EXTRACT(YEAR FROM transaction_date)::int AS year
-            FROM customer_transactions
-            WHERE account_id = :accountId${exTxn}
-            ORDER BY year DESC
-            `,
-            { accountId }
-         )
-      ]);
-
-      const s = summaryRes.rows[0] || {};
-      const totalHours = round2(num(s.total_hours));
-      const billableHours = round2(num(s.billable_hours));
-
-      // A handful of transactions carry typo'd future dates (2027–2058 in dev
-      // data) — keep them out of the year picker. They remain reachable by
-      // querying the year directly, and they're flagged for cleanup.
-      const maxSaneYear = new Date().getFullYear() + 1;
-
-      return {
-         year: y,
-         availableYears: yearsRes.rows.map(r => r.year).filter(yr => yr <= maxSaneYear),
-         summary: {
-            total_hours: totalHours,
-            billable_hours: billableHours,
-            nonbillable_hours: round2(num(s.nonbillable_hours)),
-            billable_pct: totalHours > 0 ? round2((billableHours / totalHours) * 100) : null,
-            billed_amount: round2(num(s.billed_amount)),
-            entries: s.entries || 0
-         },
-         byWorkDescription: byWorkDescRes.rows.map(r => ({
-            work_description: r.work_description,
-            hours: round2(num(r.hours)),
-            billable_hours: round2(num(r.billable_hours)),
-            nonbillable_hours: round2(num(r.hours) - num(r.billable_hours)),
-            billed_amount: round2(num(r.billed_amount)),
-            entries: r.entries
-         })),
-         byCustomer: byCustomerRes.rows.map(r => ({
-            customer_id: r.customer_id,
-            customer: r.customer,
-            hours: round2(num(r.hours)),
-            billed_amount: round2(num(r.billed_amount))
-         })),
-         monthly: monthlyRes.rows.map(r => ({
-            month: r.month,
-            billable_hours: round2(num(r.billable_hours)),
-            nonbillable_hours: round2(num(r.nonbillable_hours)),
-            billed_amount: round2(num(r.billed_amount))
-         })),
-         trackerByCategory: trackerRes.rows.map(r => ({
-            category: r.category,
-            hours: round2(num(r.hours)),
-            entries: r.entries
-         }))
-      };
-   },
-
-   /** Record (or update) the agreed rate for a client-year. One row per pair. */
-   upsertRateAgreement(db, accountId, { customerId, year, agreedRate, notes, userId }) {
-      return db.transaction(async trx => {
-         await lockCustomerLedger(trx, accountId, customerId);
-         return trx.raw(
-         `
-         INSERT INTO customer_rate_agreements (account_id, customer_id, agreement_year, agreed_rate, notes, created_by_user_id)
-         VALUES (:accountId, :customerId, :year, :agreedRate, :notes, :userId)
-         ON CONFLICT (account_id, customer_id, agreement_year)
-         DO UPDATE SET agreed_rate = EXCLUDED.agreed_rate, notes = EXCLUDED.notes
-         RETURNING *
-         `,
-         { accountId, customerId, year, agreedRate, notes: notes || null, userId }
-         ).then(r => r.rows[0]);
-      });
-   },
-
-   /**
-    * Work performed but never billed, aged from the transaction date. The
-    * billing engine bills every unbilled transaction regardless of age (the
-    * Wild West fix), so anything old here is money waiting on a billing run —
-    * or a candidate for write-off.
-    *
-    * Future-dated rows (transaction_date > today — typos such as 2027–2058)
-    * are kept OUT of the amounts, hours, entries, oldest date and every bucket
-    * (they used to land in 0–30) and reported per customer as
-    * future_dated_count / future_dated_amount so they can be corrected. A
-    * customer whose only unbilled work is future-dated still gets a row.
-    */
-   async getWipAging(db, accountId, { excludeIds = [], billingDate = billingDateToday() } = {}) {
-      const due = 'ct.is_transaction_billable AND ct.transaction_date <= CAST(:billingDate AS date)';
-      const future = 'ct.is_transaction_billable AND ct.transaction_date > CAST(:billingDate AS date)';
-      const { rows } = await db.raw(
-         `
-         SELECT c.customer_id, c.display_name, c.is_customer_active,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due}), 0) AS unbilled_amount,
-                COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')} AND ${due}), 0) AS unbilled_hours,
-                COUNT(*) FILTER (WHERE ${due})::int AS entries,
-                MIN(ct.transaction_date) FILTER (WHERE ${due}) AS oldest_date,
-                CAST(:billingDate AS date) - (MIN(ct.transaction_date) FILTER (WHERE ${due})) AS days_old,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date >= CAST(:billingDate AS date) - 30), 0) AS bucket_0_30,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CAST(:billingDate AS date) - 30 AND ct.transaction_date >= CAST(:billingDate AS date) - 60), 0) AS bucket_31_60,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CAST(:billingDate AS date) - 60 AND ct.transaction_date >= CAST(:billingDate AS date) - 90), 0) AS bucket_61_90,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due} AND ct.transaction_date < CAST(:billingDate AS date) - 90), 0) AS bucket_over_90,
-                COUNT(*) FILTER (WHERE ${future})::int AS future_dated_count,
-                COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${future}), 0) AS future_dated_amount
-         FROM customer_transactions ct
-         JOIN customers c ON c.customer_id = ct.customer_id
-         WHERE ct.account_id = :accountId
-           AND ct.customer_invoice_id IS NULL${excludeFrag(excludeIds, 'ct.customer_id')}
-         GROUP BY c.customer_id, c.display_name, c.is_customer_active
-         HAVING COALESCE(SUM(ct.total_transaction) FILTER (WHERE ${due}), 0) > 0
-             OR COUNT(*) FILTER (WHERE ${future}) > 0
-         ORDER BY oldest_date ASC NULLS LAST, c.customer_id ASC
-         `,
-         { accountId, billingDate }
-      );
-      return rows.map(r => ({
-         customer_id: r.customer_id,
-         display_name: r.display_name,
-         is_active: r.is_customer_active,
-         unbilled_amount: round2(num(r.unbilled_amount)),
-         unbilled_hours: round2(num(r.unbilled_hours)),
-         entries: r.entries,
-         oldest_date: r.oldest_date,
-         days_old: r.days_old,
-         bucket_0_30: round2(num(r.bucket_0_30)),
-         bucket_31_60: round2(num(r.bucket_31_60)),
-         bucket_61_90: round2(num(r.bucket_61_90)),
-         bucket_over_90: round2(num(r.bucket_over_90)),
-         future_dated_count: r.future_dated_count || 0,
-         future_dated_amount: round2(num(r.future_dated_amount))
-      }));
-   },
-
-   /**
-    * Budget vs actual per parent job. Actual = BILLABLE work on the job (the
-    * parent row or any of its rolling child rows), summed from
-    * customer_transactions. customer_jobs.current_job_total is NOT used: it is
-    * the running total of every transaction, billable or not, so internal /
-    * non-billable time used to consume the client's agreed budget.
-    */
-   async getJobBudgets(db, accountId, { excludeIds = [] } = {}) {
-      const { rows } = await db.raw(
-         `
-         SELECT cj.customer_job_id, cj.agreed_job_amount, cj.is_job_complete,
-                c.customer_id, c.display_name AS customer_name,
-                cjt.job_description,
-                COALESCE(billable.actual_total, 0) AS actual_total
-         FROM customer_jobs cj
-         JOIN customers c ON c.customer_id = cj.customer_id
-         LEFT JOIN customer_job_types cjt ON cjt.job_type_id = cj.job_type_id
-         LEFT JOIN LATERAL (
-            SELECT SUM(ct.total_transaction) AS actual_total
-            FROM customer_transactions ct
-            WHERE ct.account_id = :accountId
-              AND ct.is_transaction_billable = true
-              AND (
-                 ct.customer_job_id = cj.customer_job_id
-                 OR ct.customer_job_id IN (
-                    SELECT child.customer_job_id FROM customer_jobs child
-                    WHERE child.parent_job_id = cj.customer_job_id AND child.account_id = :accountId
-                 )
-              )
-         ) billable ON true
-         WHERE cj.account_id = :accountId
-           AND cj.parent_job_id IS NULL
-           AND cj.agreed_job_amount IS NOT NULL
-           AND cj.agreed_job_amount > 0${excludeFrag(excludeIds, 'c.customer_id')}
-         ORDER BY c.display_name, cjt.job_description
-         `,
-         { accountId }
-      );
-      return rows.map(r => {
-         const budget = round2(num(r.agreed_job_amount));
-         const actual = round2(num(r.actual_total));
-         return {
-            customer_job_id: r.customer_job_id,
-            customer_id: r.customer_id,
-            customer_name: r.customer_name,
-            job_description: r.job_description,
-            budget,
-            actual,
-            consumed_pct: budget > 0 ? round2((actual / budget) * 100) : null,
-            remaining: round2(budget - actual),
-            is_complete: !!r.is_job_complete
-         };
-      });
-   },
-
-   /**
-    * Tax-season staffing view: hours per employee per ISO week for Jan 1 –
-    * Apr 15 of the requested year and the prior year, side by side.
-    */
-   async getTaxSeasonCapacity(db, accountId, { year, excludeIds = [] } = {}) {
-      const y = Number(year) || new Date().getFullYear();
-      const exCt = excludeFrag(excludeIds, 'ct.customer_id');
-      const seasonFor = async seasonYear => {
-         const { rows } = await db.raw(
-            `
-            SELECT u.user_id, u.display_name AS employee,
-                   EXTRACT(WEEK FROM ct.transaction_date)::int AS week,
-                   COALESCE(SUM(ct.quantity) FILTER (WHERE ${IS_TIME('ct.transaction_type')}), 0) AS hours
-            FROM customer_transactions ct
-            JOIN users u ON u.user_id = ct.logged_for_user_id
-            WHERE ct.account_id = :accountId
-              AND ct.transaction_date BETWEEN make_date(:seasonYear, 1, 1) AND make_date(:seasonYear, 4, 15)${exCt}
-            GROUP BY u.user_id, u.display_name, week
-            ORDER BY u.display_name, u.user_id, week
-            `,
-            { accountId, seasonYear }
-         );
-         return rows.map(r => ({ user_id: r.user_id, employee: r.employee, week: r.week, hours: round2(num(r.hours)) }));
-      };
-      const [current, prior] = await Promise.all([seasonFor(y), seasonFor(y - 1)]);
-      return { year: y, current, prior };
-   },
-
-   /**
-    * The customer list for the analytics exclude filter, plus the ids excluded
-    * by default (the firm's own related entities, matched by name pattern).
-    */
-   async getExcludableCustomers(db, accountId) {
-      const likeClauses = DEFAULT_EXCLUDE_NAME_PATTERNS.map((_, i) => `display_name ILIKE :p${i}`).join(' OR ');
-      const patternBindings = DEFAULT_EXCLUDE_NAME_PATTERNS.reduce((acc, p, i) => ({ ...acc, [`p${i}`]: p }), {});
-
-      const [{ rows: customers }, { rows: defaults }] = await Promise.all([
-         // Active customers plus any default-excluded entity (which may be
-         // inactive) — so every pre-selected default is a valid picker option.
-         db.raw(
-            `SELECT customer_id, display_name FROM customers
-             WHERE account_id = :accountId AND (is_customer_active = true OR ${likeClauses})
-             ORDER BY display_name`,
-            { accountId, ...patternBindings }
-         ),
-         db.raw(`SELECT customer_id FROM customers WHERE account_id = :accountId AND (${likeClauses})`, { accountId, ...patternBindings })
-      ]);
-
-      return {
-         customers: customers.map(c => ({ customer_id: c.customer_id, display_name: c.display_name })),
-         defaultExcludedIds: defaults.map(r => r.customer_id)
-      };
+'use strict';
+const model=require('./reporting-model');
+const {lockCustomerLedger}=require('../payments/ledger-helpers');
+const {billingDateToday}=require('../invoice/billingDate');
+const {round,sum}=model;
+// A packet may pass its one prepared repeatable-read snapshot. This is an
+// explicit in-request value, never a cross-request cache or client parameter.
+const load=(db,accountId,input,prepared)=>prepared?Promise.resolve({...prepared,options:model.options(input)}):model.load(db,accountId,input);
+const median=values=>{if(!values.length)return null;const s=[...values].sort((a,b)=>a-b),i=Math.floor(s.length/2);return s.length%2?s[i]:round((s[i-1]+s[i])/2);};
+const selected=(d,w)=>d.options.entityId==null || w.worked_for_entity_id===d.options.entityId;
+const groups=(rows,key)=>{const m=new Map();for(const r of rows){const k=key(r);if(!m.has(k))m.set(k,[]);m.get(k).push(r);}return [...m.entries()];};
+const DEFAULT_EXCLUDE_NAME_PATTERNS=['LTDFH%','James F%Kimmel%Associate%','Kimmel Financial Partner%','Jim Kimmel Insurance Agenc%'];
+const service={
+ async getBillingPerformance(db,accountId,input={},prepared){return model.report(await load(db,accountId,input,prepared));},
+ async getClientRates(db,accountId,input={},prepared) {
+  const currentYear=Number(input.year || billingDateToday().slice(0,4));
+  const yearsBack=Number(input.yearsBack ?? 6);
+  if(!Number.isInteger(yearsBack) || yearsBack<1 || yearsBack>15)throw require('../payments/ledger-helpers').ruleError('Years back must be from 1 to 15.',400);
+  const startYear=currentYear-yearsBack+1,years=Array.from({length:yearsBack},(_,i)=>startYear+i);
+  const d=await load(db,accountId,{...input,start:`${startYear}-01-01`,end:`${currentYear}-12-31`},prepared);
+  const clients=[],firmYears={},ratesByYear=new Map();
+  for(const c of d.customers.filter(c=>!d.options.excludeIds.includes(c.customer_id))){
+   const client={customer_id:c.customer_id,display_name:c.display_name,is_commercial:c.is_commercial_customer,is_active:c.is_customer_active,years:{}};
+   for(const y of years){
+    const s=model.summarize(d,{customerId:c.customer_id,start:`${y}-01-01`,end:`${y}-12-31`});
+    if(!s.entries && !s.issued_statements && !s.total_billed)continue;
+    const docs=d.documents.filter(r=>r.customer_id===c.customer_id && (d.options.entityId==null || r.billing_entity_id===d.options.entityId) && r.date.startsWith(String(y)));
+    const timeBilled=sum(docs,r=>r.standard?Math.round(r.net_after_corrections*sum(r.support.filter(w=>w.isTime),w=>w.standard)/r.standard):0)/100;
+    const rate=s.cohort_hours>0?round(timeBilled/s.cohort_hours):null;
+    client.years[y]={...s,hours:s.cohort_hours,billed_hours:s.cohort_hours,time_billed:round(timeBilled),charges_billed:round(s.total_billed-timeBilled),effective_rate:rate,realization_pct:s.billing_realization_pct};
+    if(rate!=null && s.cohort_hours>=1){if(!ratesByYear.has(y))ratesByYear.set(y,[]);ratesByYear.get(y).push({customer_id:c.customer_id,rate});}
    }
+   if(Object.keys(client.years).length)clients.push(client);
+  }
+  const agreements=await db('public.customer_rate_agreements').where({account_id:Number(accountId)}).where('agreement_year','>=',startYear);
+  for(const c of clients)for(const [y,r] of Object.entries(c.years)){const a=agreements.find(a=>a.customer_id===c.customer_id && a.agreement_year===Number(y));r.agreed_rate=a?Number(a.agreed_rate):null;r.rate_variance=a && r.effective_rate!=null?round(r.effective_rate-Number(a.agreed_rate)):null;}
+  for(const [year,rows] of ratesByYear){const rates=rows.map(r=>r.rate);firmYears[year]={clients:rows.length,median_rate:median(rates),avg_rate:round(sum(rows,r=>r.rate)/rows.length)};for(const r of rows)clients.find(c=>c.customer_id===r.customer_id).years[year].firm_percentile=Math.round(rates.filter(n=>n<r.rate).length/rates.length*100);}
+  const lastFullYear=currentYear-1,priorYear=currentYear-2,growths=[];
+  for(const c of clients){const a=c.years[priorYear]?.effective_rate,b=c.years[lastFullYear]?.effective_rate;if(a && b)growths.push((b-a)/a);}
+  const growth=median(growths)||0;
+  for(const c of clients){const last=c.years[lastFullYear]?.effective_rate ?? null,prior=c.years[priorYear]?.effective_rate ?? null;Object.assign(c,{last_full_year_rate:last,current_year_rate:c.years[currentYear]?.effective_rate ?? null,yoy_pct:last && prior?round((last-prior)/prior*100):null,suggested_rate:last?round(last*(1+growth)):null});}
+  return {version:2,definitions:model.DEFINITIONS,clients:clients.sort((a,b)=>a.display_name.localeCompare(b.display_name)),years,firm:{years:firmYears,median_yoy_pct:round(growth*100),last_full_year:lastFullYear,suggestion_formula:`last full-year issued cohort rate (${lastFullYear}) × (1 + firm median YoY ${round(growth*100)}%)`}};
+ },
+ async getTimeAllocation(db,accountId,input={},prepared){
+  const y=Number(input.year || billingDateToday().slice(0,4));
+  const d=await load(db,accountId,{...input,year:y,asOf:input.asOf || `${y}-12-31`},prepared);
+  const work=d.work.filter(w=>selected(d,w) && w.date>=d.options.start && w.date<=d.options.end && w.date<=d.options.asOf);
+  const summaryRows=rows=>{const h=sum(rows,w=>w.hours),b=sum(rows.filter(w=>w.is_transaction_billable),w=>w.hours);return {hours:round(h),billable_hours:round(b),nonbillable_hours:round(h-b),work_entered_value:sum(rows,w=>w.standard)/100,entries:rows.length};};
+  const events=d.billingEvents.filter(e=>(d.options.entityId==null || e.billing_entity_id===d.options.entityId) && e.date>=d.options.start && e.date<=d.options.end && e.date<=d.options.asOf);
+  const descBilled=new Map();
+  for(const e of events){const doc=d.documents.find(r=>r.id===e.invoice_id);const support=doc?.support || [],shares=model.allocate(e.net,doc?.weights || []);if(!support.length)descBilled.set('Charge only / unattributed',(descBilled.get('Charge only / unattributed')||0)+e.net);support.forEach((w,i)=>descBilled.set(w.work_description,(descBilled.get(w.work_description)||0)+shares[i]));}
+  const descriptions=new Map(groups(work,w=>w.work_description));for(const k of descBilled.keys())if(!descriptions.has(k))descriptions.set(k,[]);
+  const customerIds=new Set([...work.map(w=>w.customer_id),...events.map(e=>e.customer_id)]);
+  const totals=summaryRows(work),billed=sum(events,e=>e.net)/100;
+  return {version:2,definitions:model.DEFINITIONS,year:y,availableYears:[...new Set(d.work.filter(w=>selected(d,w)).map(w=>Number(w.date.slice(0,4))))].filter(n=>n<=Number(billingDateToday().slice(0,4))+1).sort((a,b)=>b-a),
+   summary:{...totals,total_hours:totals.hours,billable_pct:totals.hours>0?round(totals.billable_hours/totals.hours*100):null,billed_amount:billed,held_hours:round(sum(d.held.filter(w=>selected(d,w) && w.date>=d.options.start && w.date<=d.options.end && w.date<=d.options.asOf),w=>w.hours))},
+   byWorkDescription:[...descriptions].map(([label,rows])=>({work_description:label,...summaryRows(rows),billed_amount:(descBilled.get(label)||0)/100})).sort((a,b)=>b.hours-a.hours),
+   byCustomer:[...customerIds].map(customerId=>({customer_id:customerId,customer:d.customers.find(c=>c.customer_id===customerId)?.display_name || `Client ${customerId}`,...summaryRows(work.filter(w=>w.customer_id===customerId)),billed_amount:sum(events.filter(e=>e.customer_id===customerId),e=>e.net)/100})).sort((a,b)=>b.hours-a.hours || a.customer_id-b.customer_id).slice(0,20),
+   monthly:[...new Set([...work.map(w=>Number(w.date.slice(5,7))),...events.map(e=>Number(e.date.slice(5,7)))])].sort((a,b)=>a-b).map(month=>({month,...summaryRows(work.filter(w=>Number(w.date.slice(5,7))===month)),billed_amount:sum(events.filter(e=>Number(e.date.slice(5,7))===month),e=>e.net)/100})),
+   trackerByCategory:groups(d.trackers.filter(t=>!t.is_deleted && selected(d,t) && !d.options.excludeIds.includes(t.suggested_customer_id) && require('../payments/receipt-values').day(t.date)>=d.options.start && require('../payments/receipt-values').day(t.date)<=d.options.end && require('../payments/receipt-values').day(t.date)<=d.options.asOf),t=>String(t.category||'').trim() || '(uncategorized)').map(([category,rows])=>({category,hours:round(sum(rows,r=>Number(r.duration)/60)),entries:rows.length}))
+  };
+ },
+ upsertRateAgreement(db,accountId,{customerId,year,agreedRate,notes,userId}){return db.transaction(async trx=>{await lockCustomerLedger(trx,accountId,customerId);return trx.raw(`INSERT INTO customer_rate_agreements(account_id,customer_id,agreement_year,agreed_rate,notes,created_by_user_id) VALUES(?,?,?,?,?,?) ON CONFLICT(account_id,customer_id,agreement_year) DO UPDATE SET agreed_rate=EXCLUDED.agreed_rate,notes=EXCLUDED.notes RETURNING *`,[accountId,customerId,year,agreedRate,notes||null,userId]).then(r=>r.rows[0]);});},
+ async getWipAging(db,accountId,input={},prepared){
+  const asOf=input.asOf || input.billingDate || billingDateToday();
+  const d=await load(db,accountId,{...input,asOf},prepared);
+  const wip=d.work.filter(w=>selected(d,w) && w.is_transaction_billable && !w.document);
+  const result=groups(wip,w=>w.customer_id).map(([customerId,rows])=>{
+   const due=rows.filter(w=>w.date<=asOf && w.eligible),future=rows.filter(w=>w.date>asOf),held=rows.filter(w=>w.date<=asOf && !w.eligible);
+   const age=w=>Math.floor((Date.parse(asOf)-Date.parse(w.date))/86400000);
+   const c=d.customers.find(c=>c.customer_id===customerId),oldest=due.map(w=>w.date).sort()[0]||null;
+   return {customer_id:customerId,display_name:c?.display_name,is_active:c?.is_customer_active,unbilled_amount:sum(due,w=>w.value)/100,unbilled_hours:round(sum(due,w=>w.hours)),entries:due.length,oldest_date:oldest,days_old:oldest?age({date:oldest}):null,
+    bucket_0_30:sum(due.filter(w=>age(w)<=30),w=>w.value)/100,bucket_31_60:sum(due.filter(w=>age(w)>30 && age(w)<=60),w=>w.value)/100,bucket_61_90:sum(due.filter(w=>age(w)>60 && age(w)<=90),w=>w.value)/100,bucket_over_90:sum(due.filter(w=>age(w)>90),w=>w.value)/100,future_dated_count:future.length,future_dated_amount:sum(future,w=>w.value)/100,held_amount:sum(held,w=>w.value)/100,asOf};
+  }).filter(r=>r.entries || r.future_dated_count || r.held_amount);
+  for(const [customerId,rows] of groups(d.held.filter(w=>selected(d,w) && w.date<=asOf),w=>w.suggested_customer_id)){
+   let row=result.find(r=>r.customer_id===customerId);if(!row){const c=d.customers.find(c=>c.customer_id===customerId);row={customer_id:customerId ?? 'unassigned',display_name:c?.display_name || 'Unassigned tracker work',is_active:c?.is_customer_active ?? true,unbilled_amount:0,unbilled_hours:0,entries:0,oldest_date:null,days_old:null,bucket_0_30:0,bucket_31_60:0,bucket_61_90:0,bucket_over_90:0,future_dated_count:0,future_dated_amount:0,held_amount:0,asOf};result.push(row);}
+   row.held_amount=round((row.held_amount||0)+sum(rows,w=>w.standard)/100);row.held_hours=round(sum(rows,w=>w.hours));row.held_entries=rows.length;
+  }
+  return result.sort((a,b)=>String(a.oldest_date||'9999').localeCompare(String(b.oldest_date||'9999')) || String(a.customer_id).localeCompare(String(b.customer_id))); 
+ },
+ async getJobBudgets(db,accountId,input={},prepared){
+  const d=await load(db,accountId,input,prepared),jobMap=new Map(d.jobs.map(j=>[j.customer_job_id,j]));
+  const root=id=>{const j=jobMap.get(id);return j?.parent_job_id || id;};
+  return d.jobs.filter(j=>!j.parent_job_id && Number(j.agreed_job_amount)>0 && !d.options.excludeIds.includes(j.customer_id) && (!d.options.entityId || !j.billing_entity_id || j.billing_entity_id===d.options.entityId)).map(j=>{
+   const work=d.work.filter(w=>selected(d,w) && root(w.customer_job_id)===j.customer_job_id && w.is_transaction_billable && w.date<=d.options.asOf);
+   const actual=sum(work,w=>w.value)/100,budget=Number(j.agreed_job_amount);
+   return {customer_job_id:j.customer_job_id,customer_id:j.customer_id,customer_name:d.customers.find(c=>c.customer_id===j.customer_id)?.display_name,job_description:d.jobTypes.find(t=>t.job_type_id===j.job_type_id)?.job_description,budget,actual,work_entered_value:actual,wip:sum(work.filter(w=>!w.document),w=>w.value)/100,consumed_pct:budget>0?round(actual/budget*100):null,remaining:round(budget-actual),is_complete:!!j.is_job_complete};
+  }).sort((a,b)=>String(a.customer_name).localeCompare(String(b.customer_name)));
+ },
+ async getTaxSeasonCapacity(db,accountId,input={},prepared){
+  const y=Number(input.year || billingDateToday().slice(0,4)),d=await load(db,accountId,{...input,year:y,asOf:input.asOf || `${y}-12-31`},prepared);
+  const week=date=>{const dt=new Date(date+'T00:00:00Z');dt.setUTCDate(dt.getUTCDate()+4-(dt.getUTCDay()||7));return Math.ceil(((dt-new Date(Date.UTC(dt.getUTCFullYear(),0,1)))/86400000+1)/7);};
+  const season=year=>groups(d.work.filter(w=>selected(d,w) && w.isTime && w.date>=`${year}-01-01` && w.date<=`${year}-04-15` && w.date<=d.options.asOf),w=>`${w.logged_for_user_id}/${week(w.date)}`).map(([key,rows])=>({user_id:rows[0].logged_for_user_id,employee:rows[0].employee,is_active:rows[0].staff_active,week:Number(key.split('/')[1]),hours:round(sum(rows,w=>w.hours))})).sort((a,b)=>a.employee.localeCompare(b.employee)||a.user_id-b.user_id||a.week-b.week);
+  return {version:2,year:y,current:season(y),prior:season(y-1),basis:'Actual service hours; inactive staff retained; quantity-only records estimated'};
+ },
+ async getExcludableCustomers(db,accountId){
+  const like=DEFAULT_EXCLUDE_NAME_PATTERNS.map(()=> 'display_name ILIKE ?').join(' OR ');
+  const all=await db.raw(`SELECT customer_id,display_name,is_customer_active,(${like}) AS default_excluded FROM public.customers WHERE account_id=? ORDER BY display_name`,[...DEFAULT_EXCLUDE_NAME_PATTERNS,accountId]);
+  return {customers:all.rows.filter(r=>r.is_customer_active || r.default_excluded).map(({customer_id,display_name})=>({customer_id,display_name})),defaultExcludedIds:all.rows.filter(r=>r.default_excluded).map(r=>r.customer_id)};
+ }
 };
-
-module.exports = analyticsService;
+module.exports=service;

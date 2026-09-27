@@ -16,7 +16,9 @@ async function committedResponse(res, message, loadTables) {
    res.locals = res.locals || {};
    res.locals.ds2CommittedOutcome = { message };
    try {
-      return res.send({ ...await loadTables(), message, status: 200 });
+      const payload=await loadTables();
+      if(payload.customersList?.activeCustomerData && payload.changed)payload.customersList.activeCustomerData.changes=payload.changed;
+      return res.send(require('./listPayload').compactPayload({ ...payload, message, status: 200, committed: true }));
    } catch (error) {
       console.error('Committed mutation: response refresh failed', error);
       return res.send(committedFallback(message));

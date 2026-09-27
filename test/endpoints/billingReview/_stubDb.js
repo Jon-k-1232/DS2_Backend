@@ -151,6 +151,10 @@ const buildStubDb = (tables = {}) => {
          return add('and', predicate(args));
       };
       b.andWhere = b.where;
+      b.whereRaw = (sql, bindings) => {
+         if (sql !== 'lower(btrim(display_name)) = lower(btrim(?))') throw new Error('stubDb: unsupported whereRaw');
+         return add('and', row => row.display_name != null && bindings[0] != null && String(row.display_name).trim().toLowerCase() === String(bindings[0]).trim().toLowerCase());
+      };
       b.orWhere = (...args) => add('or', predicate(args));
       b.whereNot = (...args) => {
          const p = predicate(args);

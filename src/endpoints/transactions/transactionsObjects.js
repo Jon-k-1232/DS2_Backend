@@ -38,6 +38,7 @@ const restoreDataTypesTransactionsTableOnCreate = transaction => ({
    // Prefer an already-trusted snake_case account_id (the router sets this
    // from req.params.accountID, never from the request body) and only fall
    // back to the camelCase body field for callers that don't set it.
+   ...(transaction.billing_entity_id || transaction.entityId ? {billing_entity_id:Number(transaction.billing_entity_id ?? transaction.entityId)} : {}),
    account_id: Number(transaction.account_id ?? transaction.accountID),
    customer_id: Number(transaction.customerID),
    customer_job_id: Number(transaction.customerJobID),
@@ -60,6 +61,7 @@ const restoreDataTypesTransactionsTableOnCreate = transaction => ({
 
 const restoreDataTypesTransactionsTableOnUpdate = transaction => ({
    transaction_id: Number(transaction.transactionID),
+   ...(transaction.billing_entity_id || transaction.entityId ? {billing_entity_id:Number(transaction.billing_entity_id ?? transaction.entityId)} : {}),
    account_id: Number(transaction.account_id ?? transaction.accountID),
    customer_id: Number(transaction.customerID),
    customer_job_id: Number(transaction.customerJobID),

@@ -43,6 +43,7 @@ router.get(base+'/verify',handler(async(req,res,a,c)=>{
 router.get(base+'/records',handler(async(req,res,a,c)=>{
    const db=req.app.get('db'),filter=options(req.query);await service.customer(db,a,c);
    const q=db('audit_records').where({account_id:a,customer_id:c});
+   const entityId=require('../billingEntities/entity-context').current();if(entityId)q.where({billing_entity_id:entityId});
    const count=await q.clone().count({n:'*'}).first();
    const records=await q.orderBy([{column:'generated_at',order:'desc'},{column:'record_id',order:'desc'}]).limit(filter.limit).offset(filter.offset);
    res.send({status:200,total:Number(count.n),records:records.map(publicRecord)});
@@ -74,7 +75,7 @@ router.post(base+'/records',handler(async(req,res,a,c)=>{
    // insertion permits newer unrelated postings without a stale chain-head write.
    const result=await db.transaction(async trx=>{
       const [saved]=await trx('audit_records').insert({record_id,record_type:recordType,evidence_storage_key:evidenceKey,evidence_sha256:evidenceHash,evidence_byte_length:evidence.length,account_id:a,customer_id:c,start_date:filter.startDate,end_date:filter.endDate,
-         generated_at:meta.generated_at,generated_by:meta.generated_by,generated_by_name:meta.generated_by_name,storage_key:key,
+         billing_entity_id:data.billing_entity_id,generated_at:meta.generated_at,generated_by:meta.generated_by,generated_by_name:meta.generated_by_name,storage_key:key,
          document_sha256:rendered.document_sha256,content_sha256:rendered.content_sha256,chain_event_id:data.verification.event_id,
          chain_hash:data.verification.hash,byte_length:rendered.body.length}).returning('*');
       if(!saved)throw new Error('Audit record insert failed');

@@ -1,0 +1,67 @@
+'use strict';
+const {randomUUID}=require('crypto');
+const values=require('./receipt-values');
+const {cents,dollars,day,today,cutoffs}=values;
+const {ruleError,ledgerNow}=require('./ledger-helpers');
+const context=require('../billingEntities/entity-context');
+const {sha}=require('../billingEntities/entities-service');
+const base=s=>({account_id:s.accountId,customer_id:s.customerId,billing_entity_id:s.entityId});
+async function creditLots(trx,scope,options={}){
+ const {asOf,recordedThrough}=await values.databaseCutoffs(trx,options);
+ const lots=await trx('client_credit_lots').where(base(scope)).where('effective_date','<=',asOf).where('created_at','<=',recordedThrough).orderBy(['effective_date','credit_id']);
+ const events=await trx('client_credit_events').where(base(scope)).where('effective_date','<=',asOf).where('created_at','<=',recordedThrough);
+ return lots.map(l=>({...l,availableCents:cents(l.amount)+events.filter(e=>e.credit_id===l.credit_id).reduce((n,e)=>n+cents(e.amount)*e.direction,0)}));
+}
+async function read(trx,scope,options={}){
+ const cutoff=await values.databaseCutoffs(trx,options),where=base(scope);
+ const derivation=await trx('ar_derivations').where(where).first();
+ if(!derivation || cutoff.asOf<day(derivation.as_of) || new Date(cutoff.recordedThrough)<new Date(derivation.created_at)){
+  const legacy=derivation?{...require('./legacy-obligations').derive(derivation.manifest.sources.filter(r=>require('./legacy-obligations').recorded(r)<=new Date(cutoff.recordedThrough)),require('./legacy-obligations').historicalBalance(derivation.manifest.sources,cutoff),{...cutoff,payments:(derivation.manifest.paymentSources || []).filter(p=>day(p.payment_date)<=cutoff.asOf && require('./legacy-obligations').recorded(p)<=new Date(cutoff.recordedThrough))}),accountId:scope.accountId,customerId:scope.customerId,entityId:scope.entityId}:await require('./legacy-obligations').plan(trx,scope,options);
+  const credits=await creditLots(trx,scope,cutoff);
+  return {...cutoff,derived:false,obligations:legacy.obligations.map((o,i)=>({...o,obligation_id:`legacy-${i}`,amount:dollars(o.openCents),carrying_invoice_id:null})),credits,legacy,billedCents:legacy.billedCents,ledgerFingerprint:sha(JSON.stringify({scope,legacy,credits})),reconstructed:true};
+ }
+ const obligations=await trx('ar_obligations as o').leftJoin('public.customer_invoices as i','i.customer_invoice_id','o.original_invoice_id')
+ .where({'o.account_id':scope.accountId,'o.customer_id':scope.customerId,'o.billing_entity_id':scope.entityId})
+ .where('o.effective_date','<=',cutoff.asOf).where('o.created_at','<=',cutoff.recordedThrough).select('o.*','i.invoice_number').orderBy([{column:'o.obligation_date',nulls:'last'},{column:'o.original_invoice_id'},{column:'o.obligation_id'}]);
+ const applications=await trx('ar_applications').where(where).where('effective_date','<=',cutoff.asOf).where('created_at','<=',cutoff.recordedThrough).orderBy('application_id');
+ const carriers=await trx('ar_obligation_carriers').where(where).where('effective_date','<=',cutoff.asOf).where('created_at','<=',cutoff.recordedThrough).orderBy('carrier_id');
+ const credits=await creditLots(trx,scope,cutoff);
+ const open=obligations.map(o=>({...o,openCents:cents(o.amount)-applications.filter(a=>a.obligation_id===o.obligation_id).reduce((n,a)=>n+cents(a.amount)*a.direction,0),carrying_invoice_id:carriers.filter(c=>c.obligation_id===o.obligation_id).slice(-1)[0]?.invoice_id || o.original_invoice_id}));
+ const billedCents=open.reduce((n,o)=>n+o.openCents,0)-credits.filter(c=>c.kind==='statement_credit').reduce((n,c)=>n+c.availableCents,0);
+ const financial=await require('../invoice/invoice-service').getLedgerFingerprint(trx,scope.accountId,[scope.customerId]);
+ return {...cutoff,derived:true,obligations:open,applications,credits,billedCents,ledgerFingerprint:sha(JSON.stringify({scope,obligations:open,applications,credits,financial})),reconstructed:obligations.some(o=>o.source_kind.startsWith('legacy'))};
+}
+async function snapshot(trx,scope,amountCents,actorId,reference,note,targetId,effectiveDate=today()){
+ const core=require('./payment-logic');
+ const targets=await core.getCurrentChainTargets(trx,scope.accountId,scope.customerId);
+ const target=targets.find(t=>t.parent.customer_invoice_id===targetId) || targets.reduce((best,t)=>!best || t.remaining>best.remaining?t:best,null);
+ if(!target)throw ruleError('No current statement carries this debt. Refresh the account audit.',409);
+ const amount=Number(dollars(amountCents));
+ const fields={...base(scope),payment_amount:amount,payment_date:effectiveDate,form_of_payment:amount>0?'Reversal':'Receipt application',payment_reference_number:reference || null,is_transaction_billable:true,created_by_user_id:actorId,note};
+ const {invoiceInsertionObject}=core.updateObjectsWithRemainingAmounts({...target.latestRow},fields);
+ const row=await require('../invoice/invoice-service').createInvoice(trx,{...invoiceInsertionObject,billing_entity_id:scope.entityId,created_at:ledgerNow(trx)});
+ const payment=await require('./payments-service').createPayment(trx,{...fields,customer_invoice_id:row.customer_invoice_id,created_at:ledgerNow(trx)});
+ await core.applyParentMirror(trx,scope.accountId,target.parent.customer_invoice_id,{remaining:invoiceInsertionObject.remaining_balance_on_invoice,paymentsDelta:amount});
+ return {payment,carrier:target.parent.customer_invoice_id};
+}
+async function application(trx,scope,{obligation,amountCents,receiptId=null,creditId=null,date,actorId,reason,sourceKind='receipt',sourceKey,compatibility=true,reference,issuedPosting=null}){
+ const posting=issuedPosting || (compatibility?await snapshot(trx,scope,-amountCents,actorId,reference,reason,obligation.carrying_invoice_id,date):null);
+ const [row]=await trx('ar_applications').insert({...base(scope),obligation_id:obligation.obligation_id,receipt_id:receiptId,credit_id:creditId,amount:dollars(amountCents),source_kind:sourceKind,source_key:sourceKey || randomUUID(),compatibility_payment_id:posting?.payment.payment_id || null,carrying_invoice_id:posting?.carrier || obligation.carrying_invoice_id || obligation.original_invoice_id,effective_date:date,reason}).returning('*');
+ return row;
+}
+async function reverseApplication(trx,scope,app,{date,actorId,reason,compatibility=true}){
+ const carrier=await trx('ar_obligation_carriers').where({...base(scope),obligation_id:app.obligation_id}).orderBy('carrier_id','desc').first();
+ const posting=compatibility?await snapshot(trx,scope,cents(app.amount),actorId,null,`[reversal of payment #${app.compatibility_payment_id}] ${reason}`,carrier?.invoice_id || app.carrying_invoice_id,date):null;
+ const [row]=await trx('ar_applications').insert({...base(scope),obligation_id:app.obligation_id,receipt_id:app.receipt_id,credit_id:app.credit_id,amount:app.amount,direction:-1,reversal_of:app.application_id,source_kind:'reversal',source_key:`reverse/${app.application_id}`,compatibility_payment_id:posting?.payment.payment_id || null,carrying_invoice_id:posting?.carrier || app.carrying_invoice_id,effective_date:date,reason}).returning('*');return row;
+}
+async function consumeCredit(trx,scope,lot,obligation,amountCents,{date,actorId,reason,compatibility=true,issuedParent=null}){
+ let issuedPosting=null;
+ if(issuedParent && lot.kind==='held_receipt'){
+  const payment=await require('./payments-service').createPayment(trx,{...base(scope),customer_invoice_id:issuedParent.customer_invoice_id,payment_amount:-amountCents/100,payment_date:date,form_of_payment:'Receipt credit',created_by_user_id:actorId,is_transaction_billable:true,note:`Credit #${lot.credit_id} from receipt #${lot.origin_receipt_id}; ${reason}`,created_at:trx.raw('(SELECT created_at FROM public.customer_invoices WHERE customer_invoice_id=?)',[issuedParent.customer_invoice_id])});
+  issuedPosting={payment,carrier:issuedParent.customer_invoice_id};
+ }
+ const app=await application(trx,scope,{obligation,amountCents,creditId:lot.credit_id,date,actorId,reason,sourceKind:lot.kind,compatibility:compatibility && lot.kind==='held_receipt',issuedPosting});
+ await trx('client_credit_events').insert({...base(scope),credit_id:lot.credit_id,amount:dollars(amountCents),direction:-1,kind:'application',application_id:app.application_id,effective_date:date,reason});
+ return app;
+}
+module.exports={base,read,creditLots,application,reverseApplication,consumeCredit,snapshot};

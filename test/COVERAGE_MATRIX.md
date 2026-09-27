@@ -1,6 +1,6 @@
 # Route coverage matrix
 
-The 2026-09-25 [Pass 3 path matrix](../docs/scenarios/path-matrix.md) extends this historical reference inventory to all 160 currently mounted routes, with executed happy/refusal proofs and explicit unreachable-site reasons.
+The 2026-09-26 [H7 round-two path matrix](../docs/scenarios/round2-path-matrix.md) extends the [Pass 3 matrix](../docs/scenarios/path-matrix.md) from 160 to 218 mounted contracts, with named happy/refusal proofs, an executable inventory of all 58 additions and full-table preservation checks. [PASS5](../docs/scenarios/RESULTS-PASS5.md) records the complete accepted commands. H9 adds three bounded read routes and its own whole-database refusal matrix (`path-matrix-H9-loading.integration.spec.js`), bringing the current inventory to221. The generated reference inventory below is retained as historical evidence, not current behavioral coverage.
 
 Generated 2026-09-23T23:49:08.553Z by scripts/test-coverage-matrix.js — 135/135 routes referenced by at least one spec.
 
@@ -143,3 +143,6 @@ _Caveat: this matrix counts route REFERENCES — a spec file whose describe/it t
 | GET | `/writeOffs/getSingleWriteOff/:writeOffID/:accountID/:userID` | writeOffs/writeOffs-router.js | `integration/coverage-transactions-retainers-writeoffs.integration.spec.js` |
 | GET | `/writeOffs/getWriteOffs/:accountID/:userID` | writeOffs/writeOffs-router.js | `integration/coverage-transactions-retainers-writeoffs.integration.spec.js` |
 | PUT | `/writeOffs/updateWriteOffs/:accountID/:userID` | writeOffs/writeOffs-router.js | `integration/coverage-transactions-retainers-writeoffs.integration.spec.js` |
+## H3 executable correction coverage
+
+The historical generated inventory above is supplemented by all15 H3 contracts in [the current endpoint index](../docs/README.md#h3-endpoint-index-additions). `path-matrix-H3-corrections.integration.spec.js` executes successful reads/posts and validation, authority, tenant, missing/locked/stale/retry, DB and storage refusals with all-table equality. `path-matrix-H3-admin-adjustments.integration.spec.js` proves admin/SUPER ADMIN success for every existing adjustment family. `scenario-H3-corrections.integration.spec.js` executes hand-calculated money oracles. UI/Jest/Playwright and full acceptance counts: [H3 results](../docs/decisions/2026-09-26-run-H3-results.md).

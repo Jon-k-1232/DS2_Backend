@@ -46,6 +46,7 @@ class Scenario {
       this.db = knex({ client: 'pg', connection: { host: process.env.DB_DEV_HOST, port: 5433, user: 'ds2', password: process.env.DATABASE_PASSWORD, database: process.env.DATABASE_NAME, ssl: false }, pool: { min: 0, max: 8 } });
       expect((await this.db.raw('select current_database() as db')).rows[0].db).to.equal(process.env.DATABASE_NAME);
       this.scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'ds2-scenarios-'));
+      require('../fixtures/entity-fixtures')(this.db);
       app.set('db', this.db);
       config.JWT_SECRET = process.env.JWT_SECRET;
       this.request = supertest(app);
@@ -172,8 +173,9 @@ class Scenario {
       expect(ar ? money(ar.total_outstanding) : 0, `${c.name} AR`).to.equal(e.b);
       if (e.b === 0) expect(ar, 'AR omits zero balances').to.equal(undefined);
       if (ar) {
-         const fields = ['bucket_0_30', 'bucket_31_60', 'bucket_61_90', 'bucket_over_90'];
-         for (const field of fields) expect(money(ar[field]), `${c.name} ${field}`).to.equal(field === (e.bucket || fields[0]) ? e.b : 0);
+         const fields = ['bucket_0_30', 'bucket_31_60', 'bucket_61_90', 'bucket_over_90','bucket_unknown'];
+         expect(money(fields.reduce((n,k)=>n+Number(ar[k] || 0),0)-Number(ar.statement_credit || 0)),`${c.name} aged obligations less issued credit`).to.equal(e.b);
+         if(e.bucket || e.buckets)for (const field of fields) expect(money(ar[field]), `${c.name} ${field}`).to.equal(e.buckets?e.buckets[field] || 0:field===e.bucket?e.b:0);
       }
       return { preview: p, audit: a, ar };
    }
@@ -232,6 +234,9 @@ class Scenario {
          // Synthetic calendar fixture only. Runtime has no unlock switch.
          await trx.raw('SET LOCAL session_replication_role = replica');
          await trx('invoice_issues').update({ issued_at: trx.raw("issued_at - ?::interval", [`${days} days`]) });
+         for(const [table,columns] of Object.entries({credit_memos:['effective_date'],credit_memo_lines:[],credit_memo_reversals:['effective_date'],invoice_voids:['effective_date'],rebill_links:['effective_date'],client_refunds:['effective_date'],correction_postings:['effective_date'],ar_derivations:['as_of'],ar_obligations:['obligation_date','due_date','effective_date'],payment_receipts:['receipt_date'],ar_applications:['effective_date'],client_credit_lots:['effective_date'],client_credit_events:['effective_date'],receipt_events:['effective_date'],ar_obligation_carriers:['effective_date']})) {
+            await trx(table).where({account_id:1}).update(Object.fromEntries([...columns.map(column=>[column,trx.raw('?? - ?::int',[column,days])]),['created_at',trx.raw('created_at - ?::interval',[`${days} days`])]]));
+         }
          for (const [table, columns] of Object.entries({ customer_invoices: ['invoice_date', 'due_date', 'start_date', 'end_date', 'fully_paid_date'], customer_transactions: ['transaction_date'], customer_payments: ['payment_date'], customer_writeoffs: ['writeoff_date'], customer_retainers_and_prepayments: [], retainer_events: ['event_date'], customer_jobs: [] })) {
             await trx(table).where({ account_id: 1 }).update(Object.fromEntries([...columns.map(column => [column, trx.raw('?? - ?::int', [column, days])]), ['created_at', trx.raw("created_at - ?::interval", [`${days} days`])]]));
          }

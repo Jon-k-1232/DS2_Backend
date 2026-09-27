@@ -342,7 +342,7 @@ describe('integration: ledger CRUD integrity (payments, write-offs, retainers, p
       return error;
    };
 
-   const authed = req => req.set('Authorization', `Bearer ${token}`);
+   const authed = req => require('./_audit-request')(req.set('Authorization', `Bearer ${token}`),db,U);
    const http = {
       post: (url, body) => authed(supertest(app).post(url).send(body)),
       put: (url, body) => authed(supertest(app).put(url).send(body)),

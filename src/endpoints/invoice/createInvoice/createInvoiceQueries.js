@@ -10,6 +10,7 @@ const invoiceService = require('../invoice-service');
 const fetchInitialQueryItems = async (db, invoicesToCreateMap, accountID, { billingDate } = {}) => {
    try {
       const customerIDs = Object.keys(invoicesToCreateMap);
+      const entity = await require('../../billingEntities/invoice-entity').selected(db, accountID);
       const billingYear = billingDate ? Number(String(billingDate).slice(0, 4)) : new Date().getFullYear();
 
       // All other data fetching depends on this returning the correct date of the last invoice per customer.
@@ -22,7 +23,7 @@ const fetchInitialQueryItems = async (db, invoicesToCreateMap, accountID, { bill
       ]);
 
       const [lastInvoiceNumber, accountPayToInfo, customerInformation, customerTransactions, customerPayments, customerWriteOffs, customerRetainers, customerOutstandingInvoices, customerRetainerEvents] = await Promise.all([
-         invoiceService.getLastInvoiceNumber(db, accountID, { year: billingYear }),
+         invoiceService.getLastInvoiceNumber(db, accountID, { year: billingYear, prefix:entity?.invoice_prefix || 'INV' }),
          invoiceService.getAccountPayToInfo(db, accountID),
          invoiceService.getCustomerInformation(db, accountID, customerIDs),
          invoiceService.getTransactionsByCustomerID(db, accountID, customerIDs, lastInvoiceDateByCustomerID, { billingDate }),
@@ -33,12 +34,19 @@ const fetchInitialQueryItems = async (db, invoicesToCreateMap, accountID, { bill
          invoiceService.getRetainerEventsByCustomerID(db, accountID, customerIDs, lastInvoiceMarkerByCustomerID)
       ]);
 
+      const {customerCreditLots,customerCorrections,customerReceipts}=entity
+         ? await require('./statementExtras').read(db,{accountId:Number(accountID),entityId:entity.billing_entity_id,customerIds:customerIDs.map(Number)},lastInvoiceMarkerByCustomerID,billingDate)
+         : {customerCreditLots:{},customerCorrections:{},customerReceipts:{}};
       return {
+         customerReceipts,
+         customerCorrections,
+         customerCreditLots,
          lastInvoiceNumber,
          billingYear,
+         billingEntity:entity,
          lastInvoiceDateByCustomerID,
          lastInvoiceMarkerByCustomerID,
-         accountPayToInfo,
+         accountPayToInfo: require('../../billingEntities/invoice-entity').payTo(entity, accountPayToInfo),
          customerInformation,
          customerTransactions,
          customerPayments,

@@ -19,13 +19,21 @@ const { calculateInvoices } = require('../invoice/createInvoice/invoiceCalculati
 // formula that drives the invoice eligibility screen. Returns null on
 // failure so a transient app-side error never aborts an audit.
 const computeAppBalance = async (db, accountId, customerId) => {
+   const scope=require('../billingEntities/entity-context');
+   if(require('../../utils/auditContext').storage.getStore()?.billingScope && !scope.current()){
+      const results=[];for(const e of await scope.entities(db,accountId))results.push(await scope.run(e.billing_entity_id,()=>computeAppBalance(db,accountId,customerId)));
+      return Object.fromEntries(Object.keys(results[0] || {}).map(k=>[k,Math.round(results.reduce((n,r)=>n+Number(r?.[k] || 0),0)*100)/100]));
+   }
    const invoicesToCreateMap = { [customerId]: { customer_id: customerId, showWriteOffs: false } };
    const invoicesToCreate = [invoicesToCreateMap[customerId]];
    const invoiceQueryData = await fetchInitialQueryItems(db, invoicesToCreateMap, accountId);
    const r = calculateInvoices(invoicesToCreate, invoiceQueryData);
    if (!r || !r.length) return null;
    return {
-      invoiceTotal: Number(r[0].invoiceTotal),
+      invoiceTotal: Number(r[0].preCreditInvoiceTotal ?? r[0].invoiceTotal),
+      proposedStatementTotal: Number(r[0].invoiceTotal),
+      heldCreditAvailable: Number(r[0].heldCreditAvailable || 0),
+      heldCreditApplied: Number(r[0].heldCreditApplied || 0),
       outstandingInvoiceTotal: Number(r[0].outstandingInvoices?.outstandingInvoiceTotal || 0),
       transactionsTotal: Number(r[0].transactions?.transactionsTotal || 0),
       paymentTotal: Number(r[0].payments?.paymentTotal || 0),
@@ -145,7 +153,8 @@ async function runAuditBatch(db, accountId, ids, notes, auditUser, jobId) {
                accountAuditService.getRetainers(readTrx, accountId, customerId),
                accountAuditService.getRetainerEvents(readTrx, accountId, customerId)
             ]);
-            const result = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents });
+            const corrections=await accountAuditService.getCorrections(readTrx,accountId,customerId);
+            const result = auditCustomerLedger({ customer, invoices, payments, writeoffs, transactions, retainers, retainerEvents,corrections });
             let appBalance = null;
             let appBalanceError = null;
             try {
@@ -155,6 +164,10 @@ async function runAuditBatch(db, accountId, ids, notes, auditUser, jobId) {
                appBalanceError = (e.message || String(e)).slice(0, 500);
                console.warn(`[audit-job] app balance failed for ${customerId}: ${appBalanceError}`);
             }
+            result.receivables=await require('../payments/receivables-report').read(readTrx,accountId,customerId);
+            result.totals.held_receipt_credit=result.receivables.held_receipt_credit;
+            result.totals.proposed_credit_use=appBalance?.heldCreditApplied || 0;
+            result.totals.proposed_statement_total=appBalance?.proposedStatementTotal ?? result.totals.audit_balance;
             return { result, appBalance, appBalanceError };
          });
          if (!snapshot) {
@@ -195,6 +208,7 @@ async function runAuditBatch(db, accountId, ids, notes, auditUser, jobId) {
                totals: result.totals,
                invoice_breakdown: result.invoice_breakdown,
                retainers: result.retainers,
+               receivables: result.receivables,
                methodology: result.methodology,
                generated_at: result.generated_at
             }),

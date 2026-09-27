@@ -470,6 +470,17 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
       foreignEntry = await db('timesheet_entries').where({ account_id: FOREIGN_ACCOUNT }).orderBy('timesheet_entry_id', 'asc').first();
    });
 
+   it('H5 captures the validated tracker owner cost before approval despite a same-name colleague and admin uploader', async () => {
+      const owner = await db('users').where({ account_id: A, user_id: ELIZA }).first();
+      expect(otherEliza.display_name).to.equal(owner.display_name);
+      for (const entry of T.T1.entries) {
+         expect(entry.matched_user_id).to.equal(ELIZA);
+         expect(entry.cost_rate_source).to.equal('recorded');
+         expect(Number(entry.cost_rate_snapshot)).to.equal(Number(owner.cost_rate));
+         expect(Number(entry.actual_duration_minutes)).to.equal(Number(entry.duration));
+      }
+   });
+
    after(async () => {
       restoreEnv();
       restoreSes();
@@ -478,18 +489,20 @@ describe('time-tracking + timesheets routes: HTTP coverage (account 9001)', func
          const entryIds = created.timesheetNames.length ? await db('timesheet_entries').where({ account_id: A }).whereIn('timesheet_name', created.timesheetNames).pluck('timesheet_entry_id') : [];
          const txnIds = [
             ...(created.customers.length ? await db('customer_transactions').where({ account_id: A }).whereIn('customer_id', created.customers).pluck('transaction_id') : []),
+            ...(entryIds.length ? await db('customer_transactions').where({ account_id: A }).whereIn('source_timesheet_entry_id', entryIds).pluck('transaction_id') : []),
             ...(entryIds.length ? await db('ai_category_training_examples').where({ account_id: A }).whereIn('timesheet_entry_id', entryIds).whereNotNull('transaction_id').pluck('transaction_id') : [])
          ];
          if (entryIds.length) {
             await db('ai_category_training_examples').where({ account_id: A }).whereIn('timesheet_entry_id', entryIds).del();
             await db('ai_call_log').where({ account_id: A }).whereIn('timesheet_entry_id', entryIds).del();
             await db('ai_time_tracker_transaction_suggestions').where({ account_id: A }).whereIn('timesheet_entry_id', entryIds).del();
-            await db('timesheet_entries').where({ account_id: A }).whereIn('timesheet_entry_id', entryIds).del();
          }
          if (txnIds.length) {
             await db('ai_category_training_examples').whereIn('transaction_id', [...new Set(txnIds)]).del();
             await db('customer_transactions').where({ account_id: A }).whereIn('transaction_id', [...new Set(txnIds)]).del();
          }
+         // H5 source provenance is a real FK: remove owned posted work first.
+         if (entryIds.length) await db('timesheet_entries').where({ account_id: A }).whereIn('timesheet_entry_id', entryIds).del();
          if (created.customers.length) {
             await db('customer_jobs').where({ account_id: A }).whereIn('customer_id', created.customers).del();
             await db('customer_information').where({ account_id: A }).whereIn('customer_id', created.customers).del();

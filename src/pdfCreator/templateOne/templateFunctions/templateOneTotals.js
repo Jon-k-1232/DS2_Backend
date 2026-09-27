@@ -11,7 +11,8 @@ const createTotalsSection = (doc, invoiceDetails, preferenceSettings) => {
    const showRetainerSummary = retainers.retainerRecords.length > 0 || Number(retainerAppliedToInvoice) !== 0;
 
    // 3 retainer lines + rule, or nothing, then the Balance Due line.
-   const blockHeight = showRetainerSummary ? lineHeight * 4.5 : lineHeight * 2;
+   const hasCredit=Number(invoiceDetails.heldCreditAvailable || 0)>0;
+   const blockHeight = (showRetainerSummary ? lineHeight * 4.5 : lineHeight * 2)+(hasCredit?lineHeight*3:0);
 
    let y = preferenceSettings.endOfGroupingHeight + 25;
 
@@ -20,6 +21,13 @@ const createTotalsSection = (doc, invoiceDetails, preferenceSettings) => {
    // mid-page. If it doesn't fit where the previous section left off, the
    // entire block moves to a fresh page.
    if (y + blockHeight > bottom) y = startContinuationPage(doc, invoiceDetails, preferenceSettings);
+   if(hasCredit){
+      doc.font(normalFont).fontSize(12)
+       .text(`Receipt credit available: ${Number(invoiceDetails.heldCreditAvailable).toFixed(2)}`,leftMargin,y,{width:right-leftMargin,align:'right'})
+       .text(`Receipt credit applied this statement: ${Number(invoiceDetails.heldCreditApplied).toFixed(2)}`,leftMargin,y+lineHeight,{width:right-leftMargin,align:'right'})
+       .text(`Receipt credit remaining: ${(invoiceDetails.heldCreditAvailable-invoiceDetails.heldCreditApplied).toFixed(2)}`,leftMargin,y+lineHeight*2,{width:right-leftMargin,align:'right'});
+      y+=lineHeight*3;
+   }
 
    if (showRetainerSummary) {
       doc.font(normalFont)

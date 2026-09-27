@@ -177,7 +177,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
    let ePayrollJobId;
 
    // ── HTTP helpers ───────────────────────────────────────────────────────────
-   const authed = req => req.set('Authorization', `Bearer ${token}`);
+   const authed = req => require('./_audit-request')(req.set('Authorization', `Bearer ${token}`),db,SA.id);
    const post = (url, body) => authed(supertest(app).post(url).send(body));
    const put = (url, body) => authed(supertest(app).put(url).send(body));
    const get = url => authed(supertest(app).get(url));
@@ -220,6 +220,7 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
    const advanceCalendar = async days => {
       await require('./_sent-fixture').fixtureMaintenance(db,A,async trx => {
       const iv = `${days} days`;
+      await require('./_sent-fixture').shiftObligations(trx,A,days);
       await trx.raw(
          `UPDATE customer_invoices SET invoice_date = invoice_date - ?::int, due_date = due_date - ?::int, start_date = start_date - ?::int, end_date = end_date - ?::int, fully_paid_date = fully_paid_date - ?::int, created_at = created_at - ?::interval WHERE account_id = ?`,
          [days, days, days, days, days, iv, A]
@@ -1082,36 +1083,20 @@ describe('clean-room regression: three statement cycles on ds2_clean', function 
       expect(body.arAging.pagination, 'pagination metadata').to.be.an('object');
       const reportedTotal = ['totalCount', 'totalItems', 'total', 'count'].map(k => body.arAging.pagination[k]).find(v => v != null);
       expect(Number(reportedTotal), `pagination total (${JSON.stringify(body.arAging.pagination)})`).to.equal(5);
-      // Hand-computed FIFO (newest charge first, stop once the outstanding
-      // balance is covered), from the entry dates logged in steps 1a/3a/5a —
-      // independent of the production algorithm the loop below re-runs. The
-      // calendar advanced 31 days twice: month-1 entries are 62 days older than
-      // logged, month-2 entries 31 days older, month-3 entries as logged.
-      //   A 300 ← a6 100 (−5d) + a5 200 (−6d, month 2)               → −(6+31)
-      //   B 530 ← b5 150 + b4 200 + b3 30 + part of b2 350 (−8d, m1)  → −(8+62)
-      //   C 350 ← c4 200 (−5d) + c3 150 (−6d, month 2)               → −(6+31)
-      //   D 350 ← d3 50 + d2 75 + part of d1 300 (−9d, month 1)       → −(9+62)
-      //   F 360 ← f2 100 (−4d) + part of f1 300 (−9d, month 1)        → −(9+62)
-      const HAND_OLDEST_OPEN_DAYS_AGO = { A: 6 + MONTH_GAP_DAYS, B: 8 + 2 * MONTH_GAP_DAYS, C: 6 + MONTH_GAP_DAYS, D: 9 + 2 * MONTH_GAP_DAYS, F: 9 + 2 * MONTH_GAP_DAYS };
-      for (const key of ['A', 'B', 'C', 'D', 'F']) {
-         const row = rows.find(r => r.customer_id === CUST[key].id);
-         expect(money(row.total_outstanding), `${key} total_outstanding`).to.equal(END_OUTSTANDING[key]);
-         expect(money(row.bucket_0_30), `${key} bucket 0–30 (statement today)`).to.equal(END_OUTSTANDING[key]);
-         expect(money(row.bucket_31_60) + money(row.bucket_61_90) + money(row.bucket_over_90), `${key} older buckets empty`).to.equal(0);
-         expect(row.oldest_days, `${key} statement age`).to.be.within(0, 1);
-         expect(ymd(row.statement_date), `${key} statement date`).to.equal(todayBilling());
+      // True aging starts when a charge is first invoiced, not when the work
+      // was entered or when debt was carried forward. Hand-computed remnants:
+      // A: M2 200 + M3 100; B: M1 180 + M2 200 + M3 150;
+      // C: M2 150 + M3 200; D: M1 300 + M2 50; F: first issued now 360.
+      const buckets={A:[100,200,0],B:[150,200,180],C:[200,150,0],D:[0,50,300],F:[360,0,0]};
+      const ages={A:31,B:62,C:31,D:62,F:0};
+      for(const key of ['A','B','C','D','F']){
+         const row=rows.find(r=>r.customer_id===CUST[key].id);
+         expect(row.total_outstanding,`${key} remaining`).to.equal(END_OUTSTANDING[key]);
+         expect([row.bucket_0_30,row.bucket_31_60,row.bucket_61_90],`${key} original obligation buckets`).to.deep.equal(buckets[key]);
+         expect(row.bucket_over_90+row.bucket_unknown).to.equal(0);
+         expect(row.oldest_days).to.equal(ages[key]);
+         expect(ymd(row.oldest_open_charge_date)).to.equal(daysAgo(ages[key]));
          expect(row.is_customer_active).to.equal(true);
-         // FIFO: walking billed billable charges newest-first, the oldest charge
-         // still needed to cover the outstanding balance.
-         const charges = await db('customer_transactions').where({ account_id: A, customer_id: CUST[key].id, is_transaction_billable: true }).whereNotNull('customer_invoice_id').orderBy([{ column: 'transaction_date', order: 'desc' }, { column: 'transaction_id', order: 'desc' }]);
-         let covered = 0;
-         let oldestOpen = null;
-         for (const charge of charges) {
-            if (covered < END_OUTSTANDING[key]) oldestOpen = ymd(charge.transaction_date);
-            covered = money(covered + num(charge.total_transaction));
-         }
-         expect(ymd(row.oldest_open_charge_date), `${key} oldest open charge (FIFO)`).to.equal(oldestOpen);
-         expect(ymd(row.oldest_open_charge_date), `${key} oldest open charge (hand-computed)`).to.equal(daysAgo(HAND_OLDEST_OPEN_DAYS_AGO[key]));
       }
       expect(rows.find(r => r.customer_id === CUST.B.id).statement_count, 'B: absorbed + re-billed statements dated today').to.equal(2);
       expect(rows.find(r => r.customer_id === CUST.D.id).statement_count).to.equal(1);

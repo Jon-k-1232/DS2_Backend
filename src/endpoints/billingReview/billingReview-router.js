@@ -136,7 +136,7 @@ billingReviewRouter.route('/:entryID/:accountID/:userID').put(
          const created = await billingReviewService.applyHeldEntry(db, accountId, entryId, req.body || {}, userId);
          res.status(200).json({ message: 'ok', transaction: created });
       } catch (err) {
-         const status = SERVICE_ERROR_STATUS[err.code] || 500;
+         const status = err.statusCode || SERVICE_ERROR_STATUS[err.code] || 500;
          if (status >= 500) _logUnexpected('applyHeldEntry', err);
          res.status(status).json({ ..._errorBody(err, status, 'The held entry could not be applied.'), field: err.field });
       }
@@ -222,7 +222,7 @@ billingReviewRouter.route('/reprocess-count/:accountID/:userID').get(
          const ids = await billingReviewService.listEntriesForReprocess(db, accountId, { mode, limit: 2000 });
          res.status(200).json({ message: 'ok', mode, count: ids.length, eligible: _isAutoIngestAllowed(accountId) });
       } catch (err) {
-         const status = SERVICE_ERROR_STATUS[err.code] || 500;
+         const status = err.statusCode || SERVICE_ERROR_STATUS[err.code] || 500;
          if (status >= 500) _logUnexpected('reprocess-count', err);
          res.status(status).json(_errorBody(err, status, 'Could not count entries to reprocess.'));
       }
@@ -301,7 +301,7 @@ billingReviewRouter.route('/reprocess-with-overrides/:entryID/:accountID/:userID
          const result = await billingReviewService.reprocessHeldEntryWithOverrides(db, accountId, entryId, overrides, userId);
          res.status(200).json({ message: 'ok', ...result });
       } catch (err) {
-         const status = SERVICE_ERROR_STATUS[err.code] || 500;
+         const status = err.statusCode || SERVICE_ERROR_STATUS[err.code] || 500;
          if (status >= 500) _logUnexpected('reprocessWithOverrides', err);
          res.status(status).json({
             ..._errorBody(err, status, 'An unexpected error occurred.'),

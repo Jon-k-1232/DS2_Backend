@@ -65,8 +65,8 @@ const groupWriteOffsByJob = (customerWriteOffRecords, showWriteOffs) => {
  */
 const groupAndTotalTransactionsByJob = (customerTransactions, groupedWriteOffs) => {
    return customerTransactions.reduce((prev, transaction) => {
-      const jobDescription = transaction.job_description;
-      const currentJobKey = transaction.customer_job_id;
+      const jobDescription = transaction.recurring_occurrence_id ? transaction.detailed_work_description : transaction.job_description || 'Services and recurring fees';
+      const currentJobKey = transaction.recurring_occurrence_id ? `recurring-${transaction.recurring_occurrence_id}` : transaction.customer_job_id == null ? UNASSIGNED_JOB_KEY : transaction.customer_job_id;
       const customerID = transaction.customer_id;
 
       // On job initialization, add the writeoffs to the job
@@ -76,7 +76,7 @@ const groupAndTotalTransactionsByJob = (customerTransactions, groupedWriteOffs) 
          // Total the jobs write offs
          const jobWriteOffTotal = jobWriteOffRecords.length ? jobWriteOffRecords.reduce((acc, curr) => acc + Number(curr.writeoff_amount), 0) : 0;
          // Create Job Object
-         prev[currentJobKey] = { jobDescription, customerID, jobID: currentJobKey, jobTotal: 0 + jobWriteOffTotal, jobWriteOffTotal, jobWriteOffRecords, transactionRecords: [] };
+         prev[currentJobKey] = { jobDescription, customerID, jobID: transaction.customer_job_id, jobTotal: 0 + jobWriteOffTotal, jobWriteOffTotal, jobWriteOffRecords, transactionRecords: [] };
       }
 
       // Regardless of if a monthly customer has additional work or not, if the work is billable, add it to the total. All that matters is if a transaction is billable or not.

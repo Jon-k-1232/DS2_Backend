@@ -20,9 +20,12 @@ async function reset() {
    const args = ['-X', '-1', '-v', 'ON_ERROR_STOP=1', '-h', process.env.DB_DEV_HOST, '-p', '5433', '-U', 'ds2', '-d', database];
    const options = { cwd: root, env: { ...process.env, PGPASSWORD: process.env.DATABASE_PASSWORD }, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 };
    execFileSync('psql', [...args, '-c', 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;'], { ...options, stdio: ['ignore', 'pipe', 'pipe'] });
+   // Includes H10 048/049 batched read views with original row-locking views.
    const migrations = ['schema-snapshot-2026-09-22.sql', ...fs.readdirSync(path.join(root, 'migrations')).filter(n => /^\d{3}\./.test(n) && Number(n.slice(0,3)) > 18).sort()];
    for (const file of migrations) execFileSync('psql', [...args, '-f', path.join('migrations', file)], { ...options, stdio: ['ignore', 'pipe', 'pipe'] });
    execFileSync('psql', [...args, '-f', 'test/fixtures/clean-room-seed.sql'], { ...options, stdio: ['ignore', 'pipe', 'pipe'] });
+   // H4 explicitly includes the recurring cutover for the post-migration legacy seed.
+   execFileSync('psql', [...args, '-f', 'migrations/043.recurring_billing.sql'], { ...options, stdio: ['ignore', 'pipe', 'pipe'] });
    console.log(`Reset ${database}: schema baseline + forward migrations + clean-room seed.`);
 }
 if (require.main === module) reset().catch(e => { console.error(e.message); process.exitCode = 1; });

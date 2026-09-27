@@ -7,5 +7,5 @@ const args=req=>({accountId:Number(req.params.accountID),actorId:Number(req.user
 router.get('/:accountID/:userID',route(req=>service.list(req.app.get('db'),args(req))));
 router.post('/:accountID/:userID',route(req=>service.flag(req.app.get('db'),args(req))));
 router.post('/scan/:accountID/:userID',route(req=>service.scan(req.app.get('db'),args(req))));
-router.post('/:duplicateID/resolve/:accountID/:userID',route(req=>service.resolve(req.app.get('db'),args(req))));
+router.post('/:duplicateID/resolve/:accountID/:userID',(req,res,next)=>req.body?.action==='remove'?require('../auth/jwt-auth').requireAdmin(req,res,next):next(),route(req=>service.resolve(req.app.get('db'),args(req))));
 module.exports=router;

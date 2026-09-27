@@ -73,7 +73,7 @@ describe('owner decision 1: retainer refunds and adjustments',function(){
   await s.db('customer_retainers_and_prepayments').where({retainer_id:hold.retainer_id}).update({current_amount:-5,is_retainer_active:true});
   const other=await s.customer('Malformed chain fixture');
   const {retainer_id,created_at,...fields}=hold;
-  const [child]=await s.db('customer_retainers_and_prepayments').insert({...fields,customer_id:other.id,parent_retainer_id:hold.retainer_id}).returning('*');
+  const [child]=await require('./_sent-fixture').fixtureMaintenance(s.db,1,trx=>trx('customer_retainers_and_prepayments').insert({...fields,customer_id:other.id,parent_retainer_id:hold.retainer_id}).returning('*')); // Deliberate historical corruption, rejected on normal INSERT.
   for(const call of [()=>s.get(path),()=>s.post(path,body('refund',1))])await s.reject(call,/inconsistent/,null,null,409);
   await s.db('customer_retainers_and_prepayments').where({retainer_id:child.retainer_id}).del();
   await s.db('customer_retainers_and_prepayments').where({retainer_id:hold.retainer_id}).del();

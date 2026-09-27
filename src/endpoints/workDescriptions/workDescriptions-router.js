@@ -39,7 +39,7 @@ workDescriptionsRouter.route('/getSingleWorkDescription/:workDescriptionID/:acco
 
    try {
       // Get single work description
-      const workDescriptionData = await workDescriptionService.getSingleWorkDescription(db, workDescriptionID, accountID);
+      const workDescriptionData = await require('../../utils/actorNames')(db,accountID,await workDescriptionService.getSingleWorkDescription(db, workDescriptionID, accountID),'created_by_user_id','created_by_user_name');
 
       const activeWorkDescriptionData = {
          workDescriptionData,

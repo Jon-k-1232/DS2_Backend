@@ -6,7 +6,15 @@ const {expect}=require('chai');
 module.exports=function auditedRequest(request,db,actorId){
  const then=request.then;
  request.then=function(resolve,reject){
-  return then.call(this).then(async response=>{
+  return (async()=>{
+   // Fixture callers remain explicit single-business requests. Dedicated entity
+   // validation specs use raw Supertest and do not pass this convenience builder.
+   if((this._data?.customer?.isCustomerRecurring || /\/(createTransaction|createPayment|createRetainer|createWriteOffs?|createRecurringCustomer|createQuote|createInvoice|approve)(?:\/|$)/i.test(this.url)) && this._data && typeof this._data==='object' && !Buffer.isBuffer(this._data) && !Array.isArray(this._data) && require('../../src/endpoints/billingEntities/entity-context').selected({body:this._data,query:{}})===undefined && actorId){
+    const user=await db('users').where({user_id:actorId}).first();
+    if(user){const entity=await db('billing_entities').where({account_id:user.account_id,is_default:true}).first();if(entity)this._data={entityId:entity.billing_entity_id,...this._data};}
+   }
+   return then.call(this);
+  })().then(async response=>{
    const correlation=response.headers['x-correlation-id'];
    if(correlation){
     const events=await db('audit_events').where({correlation_id:correlation});

@@ -25,7 +25,7 @@ describe('026 universal append-only audit ledger',function(){
       await db('users').where({user_id:2}).update({display_name:'New Ada'});
       expect((await db('audit_events').where({event_id:event.event_id}).first()).actor_name).to.equal('Ada Admin');
       const last=await db('audit_events').orderBy('event_id','desc').first();expect(last.actor_name).to.equal('system');expect(last.source).to.contain('database/');
-      await db('customer_quotes').insert({account_id:1,customer_id:1,amount_quoted:7,is_quote_active:true,created_by_user_id:2});
+      await db('customer_quotes').insert({account_id:1,customer_id:1,amount_quoted:7,billing_entity_id:(await db('billing_entities').where({account_id:1,is_default:true}).first()).billing_entity_id,is_quote_active:true,created_by_user_id:2});
       await db('customer_quotes').where({account_id:1,customer_id:1}).del();
       expect((await db('audit_events').where({entity:'customer_quotes',action:'delete'}).first()).before_value.amount_quoted).to.equal(7);
    });

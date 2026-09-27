@@ -995,8 +995,8 @@ describe('integration: coverage — invoices, account audit, accounts receivable
          expect(res.headers['content-type']).to.include('text/csv');
          expect(res.headers['content-disposition']).to.include('accounts_receivable_');
          const lines = res.text.split('\n');
-         expect(lines[0]).to.equal('Customer ID,Business Name,Customer Name,Display Name,0-30 Days,31-60 Days,61-90 Days,>90 Days,Total Owed,Most Recent Invoice Date,Days Since Last Invoice,Last Payment Date,Last Payment Amount,Work Since Last Payment,Oldest Open Charge Date,Days Since Oldest Open Charge,Active Customer');
-         const dataLine = lines.find(l => l.startsWith(`${custB.customerId},`));
+         expect(lines[0]).to.equal('Billing Business,Customer ID,Business Name,Customer Name,Display Name,0-30 Days,31-60 Days,61-90 Days,>90 Days,Unknown age,Issued statement credit,Unapplied receipt credit,As of,Recorded through,Aging basis,Total Owed,Most Recent Invoice Date,Days Since Oldest Obligation,Last Payment Date,Last Payment Amount,Work Since Last Payment,Oldest Open Charge Date,Days Since Oldest Open Charge,Active Customer');
+         const dataLine = lines.find(l => l.includes(`,${custB.customerId},`));
          expect(dataLine, 'custB row present').to.exist;
          expect(dataLine).to.include(`'${custB.name}`);
          expect(dataLine).to.not.include(`,${custB.name},`); // never unescaped/unprefixed

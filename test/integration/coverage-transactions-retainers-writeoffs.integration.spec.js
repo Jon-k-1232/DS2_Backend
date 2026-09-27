@@ -752,7 +752,7 @@ describe('integration: transactions / retainers / write-offs route coverage', fu
    // ─────────────────────────────────────────────────────────────────────────
    describe('GET /transactions/exportTransactions/:accountID/:userID', () => {
       const EXPORT_HEADER =
-         'transaction_id,customer_id,customer_name,transaction_type,quantity,unit_cost,total_transaction,customer_invoice_id,retainer_id,is_transaction_billable,is_excess_to_subscription,transaction_date,created_at,logged_for_user_name,job_description,general_work_description,detailed_work_description';
+         'transaction_id,billing_entity_id,billing_entity_name,customer_id,customer_name,transaction_type,quantity,unit_cost,total_transaction,customer_invoice_id,retainer_id,is_transaction_billable,is_excess_to_subscription,transaction_date,created_at,logged_for_user_name,job_description,general_work_description,detailed_work_description';
 
       it('happy path: CSV has the header row, and a negative unit_cost stays intact', async () => {
          const cust = await makeCustomer('txn-export');
@@ -772,7 +772,7 @@ describe('integration: transactions / retainers / write-offs route coverage', fu
          const myLine = lines.find(l => l.startsWith(`${created.transaction_id},`));
          expect(myLine, 'exported row for the created transaction').to.exist;
          const cells = myLine.split(',');
-         expect(cells[5], 'unit_cost column stays a plain, unquoted negative number').to.equal('-18.75');
+         expect(cells[7], 'unit_cost column stays a plain, unquoted negative number').to.equal('-18.75');
       });
 
       it('401 without a token, 403 for another tenant URL, 403 for an employee (manager+ required)', async () => {

@@ -477,6 +477,9 @@ timeTrackingRouter.post(
          const normalizedEntries = (validationResult.entries || []).map(entry => ({
             account_id: accountIdNumber,
             user_id: effectiveUserId,
+            // Validation established this owner even when two staff share a
+            // display name. Capture their cost now, before held-row approval.
+            matched_user_id: effectiveUserId,
             employee_name: toNullableString(entry.employee_name),
             timesheet_name: null, // placeholder, set after storedFileName computed
             time_tracker_start_date: toISODate(metadata.startDate),
@@ -689,7 +692,7 @@ timeTrackingRouter.post(
          }
 
          if (staffNotifiedCount) {
-            console.log(`[${new Date().toISOString()}] Successfully notified ${staffNotifiedCount} time tracker staff member(s) of upload "${storedFileName}".`);
+            console.log(`[${new Date().toISOString()}] Staff notification attempt completed for ${staffNotifiedCount} recipient(s) of upload "${storedFileName}". See sender delivery/suppression logs.`);
          }
 
          // Optionally send user-facing success emails; disabled by default to avoid duplicate notices.
@@ -710,7 +713,7 @@ timeTrackingRouter.post(
                   console.error(`[${new Date().toISOString()}] Failed to send success email to owner (${ownerEmail}): ${emailError.message}`, emailError.stack);
                }
             } else if (ownerEmail) {
-               console.info(`[${new Date().toISOString()}] Skipping duplicate success email to owner (${ownerEmail}); already notified as staff.`);
+               console.info(`[${new Date().toISOString()}] Skipping duplicate success email to owner (${ownerEmail}); already included in staff notice.`);
             }
 
             if (submitterEmail && submitterEmail !== ownerEmail && !staffEmailSet.has(String(submitterEmail).toLowerCase())) {
@@ -721,14 +724,14 @@ timeTrackingRouter.post(
                   console.error(`[${new Date().toISOString()}] Failed to send success email to submitter (${submitterEmail}): ${emailError.message}`, emailError.stack);
                }
             } else if (submitterEmail && submitterEmail !== ownerEmail) {
-               console.info(`[${new Date().toISOString()}] Skipping duplicate success email to submitter (${submitterEmail}); already notified as staff.`);
+               console.info(`[${new Date().toISOString()}] Skipping duplicate success email to submitter (${submitterEmail}); already included in staff notice.`);
             }
 
             if (notifiedEmails.size) {
-               console.log(`[${new Date().toISOString()}] Sent confirmation email(s) to: ${Array.from(notifiedEmails).join(', ')}.`);
+               console.log(`[${new Date().toISOString()}] Confirmation email attempts completed for: ${Array.from(notifiedEmails).join(', ')}. See sender delivery/suppression logs.`);
             }
          } else {
-            console.info(`[${new Date().toISOString()}] User success emails disabled; only "ready for review" notifications sent to staff.`);
+            console.info(`[${new Date().toISOString()}] User success emails disabled; staff notification attempts completed. See sender delivery/suppression logs.`);
          }
 
          console.log(

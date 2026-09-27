@@ -6,6 +6,16 @@ const RETAINERS = 'customer_retainers_and_prepayments';
 const chainFilter = rootRetainerID => builder => builder.where('retainer_id', rootRetainerID).orWhere('parent_retainer_id', rootRetainerID);
 
 const retainersService = {
+   async getRetainersPage(db,accountID,{limit=20,offset=0,searchTerm=''}={}) {
+      const query=retainersService.getActiveRetainers(db,accountID);
+      if(searchTerm)query.where(b=>b.whereILike('customers.display_name',`%${searchTerm}%`)
+         .orWhereILike(`${RETAINERS}.display_name`,`%${searchTerm}%`)
+         .orWhereILike(`${RETAINERS}.payment_reference_number`,`%${searchTerm}%`)
+         .orWhereILike(`${RETAINERS}.note`,`%${searchTerm}%`));
+      const count=await query.clone().clearSelect().clearOrder().count('* as count').first();
+      const retainers=await query.orderBy('retainer_id','desc').limit(limit).offset(offset);
+      return {retainers,totalCount:Number(count.count)};
+   },
    // Must stay desc, used in finding if an invoice has to be created
    getActiveRetainers(db, accountID) {
       return db

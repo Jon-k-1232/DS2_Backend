@@ -267,9 +267,13 @@ const timesheetsService = {
          .returning('*');
    },
 
-   insertTimesheetEntriesWithTransaction(trx, entries) {
+   async insertTimesheetEntriesWithTransaction(trx, entries) {
       if (!entries.length) return Promise.resolve([]);
-      return trx('timesheet_entries').insert(entries).returning('*');
+      const entities = require('../billingEntities/entities-service');
+      await entities.classifyTracker(trx, entries);
+      const rows = await trx('timesheet_entries').insert(entries).returning('*');
+      await entities.captureTrackerReviews(trx, rows);
+      return rows;
    }
 };
 

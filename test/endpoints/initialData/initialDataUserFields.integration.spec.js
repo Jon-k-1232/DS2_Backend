@@ -92,9 +92,11 @@ describe('integration: /initialData strips sensitive user fields for non-privile
          expect(employeeRes.body, `employee response missing ${key}`).to.have.property(key);
          expect(adminRes.body, `admin response missing ${key}`).to.have.property(key);
       });
-      // grid shape (columns/rows) is still derived the same way for both.
-      expect(employeeRes.body.teamMembersList.activeUserData).to.have.property('grid');
-      expect(employeeRes.body.teamMembersList.activeUserData.grid).to.have.property('columns');
-      expect(employeeRes.body.teamMembersList.activeUserData.grid).to.have.property('rows');
+      // H9: both roles receive one row representation; view grids are client-side.
+      for(const response of [employeeRes,adminRes]){
+         expect(response.body.teamMembersList.activeUserData).not.to.have.property('grid');
+         expect(response.body.teamMembersList.activeUserData.activeUsers).to.be.an('array');
+         expect(response.body.accountJobsList.activeJobData.activeJobs).to.deep.equal([]);
+      }
    });
 });

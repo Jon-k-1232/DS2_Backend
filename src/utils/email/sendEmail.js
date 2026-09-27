@@ -1,6 +1,9 @@
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
-const dayjs = require('dayjs');
+const fs = require('fs').promises;
+const path = require('path');
+const { randomUUID } = require('crypto');
 const { FROM_EMAIL } = require('../../../config');
+const { realEmailEnabled } = require('../environmentSwitches');
 
 const AWS_REGION = process.env.AWS_REGION || 'us-west-2';
 
@@ -31,7 +34,8 @@ const normalizeAddresses = value => {
 };
 
 /**
- * Send an email using AWS SES.
+ * Send through SES when enabled; otherwise log and optionally save a local
+ * outbox message. Suppression is a normal result, never a delivery claim.
  * @param {Object} options
  * @param {string[]|string} options.recipientEmails - Primary recipients.
  * @param {string} options.subject - Email subject.
@@ -52,12 +56,54 @@ const sendEmail = async ({ recipientEmails, subject, body, html, cc, bcc, attach
       throw new Error('sendEmail called without a subject.');
    }
 
+   const ccList = normalizeAddresses(cc);
+   const bccList = normalizeAddresses(bcc);
+
+   // Check on every call, even if a previous enabled send cached a client.
+   // Do not construct SES, discover credentials, or require FROM_EMAIL here.
+   if (!realEmailEnabled()) {
+      const entry = {
+         event: 'email_suppressed',
+         id: randomUUID(),
+         timestamp: new Date().toISOString(),
+         from: FROM_EMAIL || null,
+         subject,
+         to,
+         cc: ccList,
+         bcc: bccList
+      };
+      console.log(JSON.stringify(entry));
+      let outboxPath = null;
+      if (process.env.EMAIL_OUTBOX_DIR) {
+         try {
+            const directory = path.resolve(process.env.EMAIL_OUTBOX_DIR);
+            await fs.mkdir(directory, { recursive: true, mode: 0o700 });
+            const filename = path.join(directory, `${entry.id}.json`);
+            await fs.writeFile(filename, JSON.stringify({
+               ...entry,
+               body: body || null,
+               html: html || null,
+               // Basic SES does not send attachments. Store metadata only,
+               // never attachment bytes or paths to other private files.
+               attachments: (attachments || []).map(attachment => ({
+                  filename: attachment.filename || null,
+                  contentType: attachment.contentType || null
+               }))
+            }, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+            outboxPath = filename;
+         } catch (error) {
+            console.warn(JSON.stringify({
+               event: 'email_outbox_failed', id: entry.id,
+               timestamp: new Date().toISOString(), message: error.message
+            }));
+         }
+      }
+      return { suppressed: true, MessageId: null, suppressionId: entry.id, outboxPath };
+   }
+
    if (!FROM_EMAIL) {
       throw new Error('Missing FROM_EMAIL configuration.');
    }
-
-   const ccList = normalizeAddresses(cc);
-   const bccList = normalizeAddresses(bcc);
 
    // Note: attachments require SendRawEmail API which is more complex
    if (attachments && attachments.length > 0) {
