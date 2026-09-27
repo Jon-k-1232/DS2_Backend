@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-09-26T15:20:28.093952+00:00",
+  "method": "Browser downloads; ZIP extraction for original/replacement; pdftoppm rendering and visual inspection of every page.",
+  "documents": [
+    {
+      "file": "pdfs/credit-memo.pdf",
+      "bytes": 1756,
+      "sha256": "ba3d9893f63cc176e3e0b8a4c2e51a684a398b7191be3b67c56c681511ca592a",
+      "visual_qa": "Readable page layout, source references, signed amount, reason and footer checked."
+    },
+    {
+      "file": "pdfs/memo-reversal.pdf",
+      "bytes": 1677,
+      "sha256": "305d15fd7f02b20d8c6ff3b5dbc8046192a44b74157e3711103b78761f1bee2a",
+      "visual_qa": "Readable page layout, source references, signed amount, reason and footer checked."
+    },
+    {
+      "file": "pdfs/refund.pdf",
+      "bytes": 1732,
+      "sha256": "2b3e3a123b4764c6f9ecd406edeceb0199e035df86f0c9e7e031b94d6f22f560",
+      "visual_qa": "Readable page layout, source references, signed amount, reason and footer checked."
+    },
+    {
+      "file": "pdfs/replacement.pdf",
+      "bytes": 5911,
+      "sha256": "80da730d5fffbab50aa3b71dd3eb54d97f60a134f2368ce8dee0f15ce20ebe2d",
+      "visual_qa": "Readable page layout, source references, signed amount, reason and footer checked."
+    },
+    {
+      "file": "pdfs/void-original.pdf",
+      "bytes": 5616,
+      "sha256": "9a5ef11dbe293a4460fd24e873033ce1ee5875189af34fef67d5c6e3a0975999",
+      "visual_qa": "Readable page layout, source references, signed amount, reason and footer checked."
+    },
+    {
+      "file": "pdfs/void.pdf",
+      "bytes": 1780,
+      "sha256": "4f7f9134880d8566efc0a3121bc286b0e56c343ef4192dbc2bd8075d93389d39",
+      "visual_qa": "Readable page layout, source references, signed amount, reason and footer checked."
+    }
+  ],
+  "replacement_oracle": {
+    "original_invoice": "INV-2026-00302",
+    "replacement_invoice": "INV-2026-00303",
+    "original_amount": 22.5,
+    "corrected_charges": 30,
+    "released_credit_applied": 22.5,
+    "payable": 7.5
+  },
+  "interest_line": "Preserved in the existing original and replacement invoice templates."
+}

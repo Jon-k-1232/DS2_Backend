@@ -103,3 +103,16 @@ Invoice archive downloads additionally return500 with no bytes if recording the 
 ## Run 5 presentation
 
 Run 5 archives both Client and Full evidence PDFs plus a separate UTF-8 JSON source under the private `audit-records/` prefix. Both objects use unique UUID names and conditional create-only writes. The scoped evidence download verifies key identity, bytes, SHA-256, chain and anchor; generic file download never gains access to this prefix. Metadata never exposes either storage key. See [Audit Record storage and API](audit-ledger.md).
+
+## H1 business scope (2026-09-26)
+
+Entity logos use `<storage_slug>/app/assets/entities/<entityId>/<uuid>.<png|jpg>`, validated content type/size and SHA-256. Uploads require admin reason/version; reads verify account path and digest. Invoice creation refuses a missing/altered selected custom logo. New artifact keys are unique and create-only. The local cutover report verifies old DB rows and stored paths; it does not claim verification of remote original artifact bytes because AWS was not accessed.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H3 update — 2026-09-26
+
+New correction PDFs are private create-only objects under corrections/<account>/<customer>/<UUID>.pdf. Authenticated document routes check account ownership and stored SHA-256. Missing storage returns500 and hash mismatch409, without writes. An unreferenced artifact may remain after a later DB rollback; do not treat it as an issued document.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).

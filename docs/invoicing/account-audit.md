@@ -1,5 +1,7 @@
 # Account audit
 
+**H6 navigation:** Reports → Account audit: `/reports/account-audit`, still Super Admin only. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 Audit reads `sent_locked` from the SQL lock function. For issued parents, a different latest-child balance is expected and is no longer `stale_parent_remaining`; paid-flag consistency uses the latest child. Unissued legacy mirrors retain their old diagnostic. Absorption markers on new closing children preserve chain detection. No arithmetic is changed: Audit balance equals Create Invoice; its billed component equals AR. Bounced reversals contribute once. [Contract](invoices.md).
@@ -7,7 +9,7 @@ Audit reads `sent_locked` from the SQL lock function. For issued parents, a diff
 
 ## 1. Purpose and UI
 
-Account Audit independently recomputes customer balances from raw ledger rows, compares them with the billing engine, records discrepancies and saves an audit report/PDF. UI route `/invoices/accountAudit` uses AccountAuditPage, AuditDetailDialog and AuditPrintView in `../DS2_Frontend/src/Pages/AccountAudit/`. The route has an auditor gate. The page polls a batch every two seconds and initially hides customers whose saved app balance is zero or missing. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:28`, `../DS2_Frontend/src/Pages/AccountAudit/AccountAuditPage.js:66`, `../DS2_Frontend/src/Pages/AccountAudit/AccountAuditPage.js:200`.
+Account Audit independently recomputes customer balances from raw ledger rows, compares them with the billing engine, records discrepancies and saves an audit report/PDF. UI route `/reports/account-audit` uses AccountAuditPage, AuditDetailDialog and AuditPrintView in `../DS2_Frontend/src/Pages/AccountAudit/`. The route has an auditor gate. The page polls a batch every two seconds and initially hides customers whose saved app balance is zero or missing. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:28`, `../DS2_Frontend/src/Pages/AccountAudit/AccountAuditPage.js:66`, `../DS2_Frontend/src/Pages/AccountAudit/AccountAuditPage.js:200`.
 
 An audit is a stored observation, not an automatic repair. The independent logic does not import invoice calculators; a separate engine call supplies the comparison. Source: `src/endpoints/accountAudit/account-audit-logic.js:673`, `src/endpoints/accountAudit/account-audit-router.js:137`.
 
@@ -248,3 +250,34 @@ Outstanding invoices now sum the latest signed balances of the newest-date chain
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
 
 Pass 3 verifies optional comparison/PDF-store failures independently of numerical audit completion. An unavailable stored PDF may be rebuilt; if rendering also fails, the response is JSON 500. PDF headers are set only after bytes are ready, so error JSON is never mislabeled as a PDF. Failed audit recording cannot create partial financial writes. See `path-matrix-08-reports.integration.spec.js`.
+
+## H1 business scope (2026-09-26)
+
+Reads and run requests accept `entityId`. The independent audit partitions all-business input and engine comparisons by business; compare N and B separately. Saved `account_audits.billing_entity_id` retains the run scope, and a client’s recent audit badge cannot reuse another business’s comparison. Historical null scope means all businesses. Audit Record remains the separate deterministic history tab.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+Account Audit continues independently calculating raw N=B+U+P. Engine comparison uses `preCreditInvoiceTotal`; the saved summary and printed audit separately show held receipt credit, proposed credit use and proposed statement total. The summary also retains per-business original-obligation ages, receipt evidence and both cutoffs. This prevents a proposed $350 credit use on $500 raw N from being reported as $350 drift. The expected proposed payable amount is $150. See [H2 oracles](../scenarios/H2-receipts-and-aging.md).
+
+
+## H3 update — 2026-09-26
+
+Audit reads correction_postings alongside payments/write-offs, so expected current carrier remaining includes signed correction effects. Chronological audit includes corrected charges and money returned. Latest children/absorption remain authoritative; Create Invoice, Audit and AR must agree.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H4 recurring reconciliation
+
+Account Audit recognizes jobless work only when backed by a recurring occurrence. Skipped fees remain nonbillable; issued recurring charges participate in the same latest-child/absorption calculations. Audit Record replay attaches occurrence provenance before computing balances, so the supported fee is not silently dropped. [H4 oracles](../scenarios/H4-recurring.md) reconcile the $375→$225→$265 lifecycle.
+
+## H10 measurement and independence
+
+The list and audit calculation remain independent of invoice pricing. H10's common work/job read-view optimization changes only how identical source rows are fetched. A read-only measurement runs the raw accounting phase for all 338 protected clients; it deliberately excludes saved audit jobs, AI narratives and PDF uploads, which would write account-1 evidence. Per-client background audit progress, saved evidence and existing failure behavior remain unchanged. See [H10 results](../decisions/2026-09-26-run-H10-results.md) for the separately measured list, calculation phase and unchanged three-way drift checks.
+
+
+## H8 presentation and help
+
+Account Audit disables selected actions during a reload and after a failed read. It clears stale result rows and ignores an older search response arriving after the latest request. Existing business selection, independent arithmetic, stored evidence, permissions and background execution are unchanged. Delayed/failing reads and out-of-order searches have Jest and browser regressions.

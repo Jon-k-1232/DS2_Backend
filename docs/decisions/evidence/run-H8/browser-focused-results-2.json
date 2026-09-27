@@ -1,0 +1,2875 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@20/20.20.2/bin/node",
+      "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/node_modules/.bin/playwright",
+      "test",
+      "tests/page-help-H8.spec.js",
+      "tests/mistakes-H8.spec.js",
+      "tests/readiness-H8.spec.js",
+      "--workers=1",
+      "--retries=0"
+    ],
+    "configFile": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/playwright.config.js",
+    "rootDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/preflight.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "mistakes-H8.spec.js",
+      "file": "mistakes-H8.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Receive payment survives a network failure without writing and retry posts once",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490039845_d95584"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2911,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:20:39.531Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490039845_d95584"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-47693afe9741d355db48",
+          "file": "mistakes-H8.spec.js",
+          "line": 17,
+          "column": 43
+        },
+        {
+          "title": "Receive payment survives a server failure without writing and retry posts once",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490042756_064afa"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2518,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:20:42.749Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490042756_064afa"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-0a432e4b0866857ecf90",
+          "file": "mistakes-H8.spec.js",
+          "line": 17,
+          "column": 43
+        },
+        {
+          "title": "lost receipt response can be retried without recording a second check",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490045277_1f0496"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2592,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:20:45.271Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490045277_1f0496"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-42932f5e27d1f21ef07b",
+          "file": "mistakes-H8.spec.js",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "receipt correction controls wait for open invoices and a read error can be retried safely",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490047876_91506b"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2352,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:20:47.868Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490047876_91506b"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-67ec84bbb604adefed91",
+          "file": "mistakes-H8.spec.js",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "credit-memos handles server and network read errors without stale actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490050231_4cc2de"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2226,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:20:50.225Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490050231_4cc2de"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-9d01b1eab6dd72ec45dd",
+          "file": "mistakes-H8.spec.js",
+          "line": 45,
+          "column": 46
+        },
+        {
+          "title": "refunds handles server and network read errors without stale actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490052463_cf8947"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2262,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:20:52.456Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490052463_cf8947"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-27623d367eabefe8b49b",
+          "file": "mistakes-H8.spec.js",
+          "line": 45,
+          "column": 46
+        },
+        {
+          "title": "two tabs cannot finalize the same reviewed credit memo twice; back and refresh preserve the issued original",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490054729_873cd0"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8943,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "(node:23999) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)\nversions published after the first week of January 2027\nwill require node >=22. You are running node v20.20.2.\n\nTo continue receiving updates to AWS services, bug fixes,\nand security updates please upgrade to node >=22.\n\nMore information can be found at: https://a.co/c895JFp\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                    },
+                    {
+                      "text": "(node:23999) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:20:54.723Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490054729_873cd0"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-db266ee5fe4969fdaf4b",
+          "file": "mistakes-H8.spec.js",
+          "line": 52,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "page-help-H8.spec.js",
+      "file": "page-help-H8.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "AR uses plain labels and keeps report history collapsed at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490063694_71e71c"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1790,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:03.688Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490063694_71e71c"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "ar-1280",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-AR-uses-plain-fcd59-history-collapsed-at-1280px/attachments/ar-1280-cba12c996d564e7cbb1f178cff5b2f0f5ec65c8e.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-7b1c1d897410508c6bde",
+          "file": "page-help-H8.spec.js",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "credit memo names, status, sentence case and document numbers are clear at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490065489_2b6ee2"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7625,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:05.483Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490065489_2b6ee2"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "credit-memos-1280",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-credit-memo-n-a41b5-numbers-are-clear-at-1280px/attachments/credit-memos-1280-2909a7c9eb338ff288bc2ff276526786859701a4.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-423470cd90d99067f9eb",
+          "file": "page-help-H8.spec.js",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "page help covers /clients",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490073120_ba5b1a"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2657,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:13.113Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490073120_ba5b1a"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-clients",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-clients/attachments/page-clients-8c7b8fb2a5ed90cf124dcf4a460e839e885ccd36.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-0114b97e771991d5dfa6",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/entries",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490075782_31f38f"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2660,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:15.774Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490075782_31f38f"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-work-entries",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-work-entries/attachments/page-work-entries-a192d13fa63ecc503502ac29d8fd7845fdc0e770.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-a0f91ce62a61d843cd01",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/jobs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490078445_998870"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2689,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:18.439Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490078445_998870"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-work-jobs",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-work-jobs/attachments/page-work-jobs-6a91e819e5ca826cd3287353255751fc323485e6.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-cdc8d1bf4635962762ea",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/review",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490081140_cb1527"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2641,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:21.133Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490081140_cb1527"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-work-review",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-work-review/attachments/page-work-review-381c06b4fa36c4feb53ec369fa5a02e9c9277ddc.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-b1252a645d688ab793b2",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/review/entities",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490083784_f6b3dc"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2593,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:23.778Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490083784_f6b3dc"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-work-review-entities",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-work-review-entities/attachments/page-work-review-entities-2f0a73546bc3bc4c8ed5c1bfe9c84de856d119b8.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-c9394e93f3069056d617",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/duplicates",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490086381_ce6004"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2639,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:26.376Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490086381_ce6004"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-work-duplicates",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-work-duplicates/attachments/page-work-duplicates-1b961134e971d72cbf189bfb416f07f4500e7ad0.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-e9248c537c462bb7f0df",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/create",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490089025_4e3b04"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2930,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:29.019Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490089025_4e3b04"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-billing-create",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-create/attachments/page-billing-create-2540efc85aa13f05d858eeec65433b20cbf514bc.png"
+                    },
+                    {
+                      "name": "help-billing-create",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-create/attachments/help-billing-create-35ed9149130c99856f560f67fc38a85a4bae5020.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-474bfa6d081792acaa20",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/invoices",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490091963_c7c205"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2725,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:31.955Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490091963_c7c205"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-billing-invoices",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-invoices/attachments/page-billing-invoices-64cb1f8e968925adbbb62b699d32291739915555.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-990df8a385230296e84b",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/quotes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490094692_d89f94"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2632,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:34.686Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490094692_d89f94"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-billing-quotes",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-quotes/attachments/page-billing-quotes-d854e7bdfa90c0220e08980c0714b20579a22b4a.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-78682dc934827cb6ca2c",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/recurring",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490097329_eae0fc"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2740,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:37.322Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490097329_eae0fc"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-billing-recurring",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-recurring/attachments/page-billing-recurring-f33ecf58fd74705f094aca883d2a72e3d26a683f.png"
+                    },
+                    {
+                      "name": "help-billing-recurring",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-recurring/attachments/help-billing-recurring-44b72a083a93e63ad1ec3bcbfb94a233ab344691.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-6c05580fbedc42b9984f",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/credit-memos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490100081_dec6b4"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2657,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:40.069Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490100081_dec6b4"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-billing-credit-memos",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-credit-memos/attachments/page-billing-credit-memos-7be11445d58d086c0ec2aa161e20e371911d9b1f.png"
+                    },
+                    {
+                      "name": "help-billing-credit-memos",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-credit-memos/attachments/help-billing-credit-memos-4fadc15cce3bf4d7f5dde0029ee818e3fabe4bb4.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-44307787d4aab09e3091",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/receive",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490102739_349f2a"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2723,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:42.733Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490102739_349f2a"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-payments-receive",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-receive/attachments/page-payments-receive-53e2331eca431346e2ddb86401caa749f50334c4.png"
+                    },
+                    {
+                      "name": "help-payments-receive",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-receive/attachments/help-payments-receive-fcff346e81a2fc2389e1ce3787b1e6b8b0d3dbf3.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-f6e6e96631f58ce0a2d9",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/receipts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490105467_929ccd"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2628,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:45.461Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490105467_929ccd"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-payments-receipts",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-receipts/attachments/page-payments-receipts-0a242030d98830afba20881426e472202b08202e.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-d0cf8e4a06011206d3ab",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/imports",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490108100_8f4aad"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2645,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:48.094Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490108100_8f4aad"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-payments-imports",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-imports/attachments/page-payments-imports-da5be4ce31ca46582c6f870d3bed7238b04b1985.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-a2f1ba7b9916910355b7",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/credits",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490110749_30fb22"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2546,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:50.743Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490110749_30fb22"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-payments-credits",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-credits/attachments/page-payments-credits-9ac82ec79b14f32cc014dfec822668feeda36a1e.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-6e62823646a6691f2794",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/retainers",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490113301_4d0430"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2722,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:53.294Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490113301_4d0430"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-payments-retainers",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-retainers/attachments/page-payments-retainers-1e910775c59bb1be2b14fdcff9986952660bc336.png"
+                    },
+                    {
+                      "name": "help-payments-retainers",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-retainers/attachments/help-payments-retainers-20f87368fda050dccd6ea7699076283ad838a608.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-cd36d9103262116a2366",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/refunds",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490116033_b1d13a"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2609,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:56.025Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490116033_b1d13a"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-payments-refunds",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-refunds/attachments/page-payments-refunds-c13e5c62b0fd13b33d8631eba8cd83e1614506fa.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-b94680120e06f74b1afd",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/transfers",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490118646_de20af"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2633,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:21:58.640Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490118646_de20af"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-payments-transfers",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-transfers/attachments/page-payments-transfers-daf47c8ecfc3eed3d9af7fd26235e707f5c61137.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-c49974ba7c4285356459",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /receivables/aging",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490121285_e049d7"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2925,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:01.277Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490121285_e049d7"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-receivables-aging",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-receivables-aging/attachments/page-receivables-aging-e27189fc62a4052622ff530e5bd3e690302b546b.png"
+                    },
+                    {
+                      "name": "help-receivables-aging",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-receivables-aging/attachments/help-receivables-aging-100968a830bf9113c85b97568e3fb2da9cac3210.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-9db56519df49010b079b",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /receivables/write-offs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490124214_7e6c03"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2794,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:04.207Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490124214_7e6c03"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-receivables-write-offs",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-receivables-write-offs/attachments/page-receivables-write-offs-22070f37f4fc04079e061865aa574dd89bedbb66.png"
+                    },
+                    {
+                      "name": "help-receivables-write-offs",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-receivables-write-offs/attachments/help-receivables-write-offs-821cad6893e7aa7c922514198424322ff7ececc6.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-4e096bad9bea5aadbbc5",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/billing-performance",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490127020_e1b276"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2884,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:07.010Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490127020_e1b276"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-reports-billing-performance",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-reports-billing-performance/attachments/page-reports-billing-performance-206162c4a92fd583634bf73c8c68ed84c8963e8a.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-9fa8720e9805c1992658",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/client-rates",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490129907_ee40d4"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3000,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:09.901Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490129907_ee40d4"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-reports-client-rates",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-reports-client-rates/attachments/page-reports-client-rates-7219e16a4611a727d22b5786dca45eaa01824f19.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-22d9d467744418925327",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/time-allocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490132912_1d3225"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2637,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:12.905Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490132912_1d3225"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-reports-time-allocation",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-reports-time-allocation/attachments/page-reports-time-allocation-82ae46e232a8222b895a80434cf5ac497fbbb171.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-b7843107eca4d72572ce",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/wip-aging",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490135555_048cff"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2622,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:15.547Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490135555_048cff"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-reports-wip-aging",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-reports-wip-aging/attachments/page-reports-wip-aging-0221bb3401500dc0e2f9445a88609d11c96d98e0.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-ec6eb9e922b38021b99f",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/job-budgets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490138180_81a766"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2636,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:18.174Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490138180_81a766"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-reports-job-budgets",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-reports-job-budgets/attachments/page-reports-job-budgets-5c0d525b09990ca315698dedae177c5452d14d2c.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-48026dd3e6b9346a930a",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/tax-capacity",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490140821_40157f"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2590,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:20.814Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490140821_40157f"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-reports-tax-capacity",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-reports-tax-capacity/attachments/page-reports-tax-capacity-79bb1499a883a8b2a9e1829461601a828902217c.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-73ad7c79d84e7a5bcb50",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/account-audit",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490143415_9f088e"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2707,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:23.410Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490143415_9f088e"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-reports-account-audit",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-reports-account-audit/attachments/page-reports-account-audit-6144363be4f3605d0880c1070a80a60573d9a354.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-3e5e11c99d7e3bd5a0a1",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /time-tracking/upload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490146127_587fbf"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2564,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:26.121Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490146127_587fbf"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-time-tracking-upload",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-time-tracking-upload/attachments/page-time-tracking-upload-79cc5c855b993a91b1054b240c22ab04ce9dd94e.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-37ebdf1e19f386bc0628",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /time-tracking/history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490148696_c6b1ea"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2531,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:28.690Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490148696_c6b1ea"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-time-tracking-history",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-time-tracking-history/attachments/page-time-tracking-history-f946c1312ae6988bd910a981e1583ec736908243.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-4d7c6ce4429ac6434fdc",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /time-tracking/trackingAdministration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490151232_caa6b5"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2611,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:31.226Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490151232_caa6b5"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-time-tracking-trackingAdministration",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-cov-dea94-king-trackingAdministration/attachments/page-time-tracking-trackingAdministration-d5e00c4a122b4443154ff93c3616c810f798b5e2.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-5f82189cf7131e10516a",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/entities",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490153848_54ed1c"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2651,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:33.842Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490153848_54ed1c"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-settings-entities",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-entities/attachments/page-settings-entities-ab25cf32d182ed4919d5006649caf99d11e7878e.png"
+                    },
+                    {
+                      "name": "help-settings-entities",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-entities/attachments/help-settings-entities-a5595048bf84b6fd5c6aef833123aa68a328cc29.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-fe4edbc16162607253a0",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/account",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490156504_5fe91c"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2533,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:36.498Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490156504_5fe91c"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-settings-account",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-account/attachments/page-settings-account-8169713313fe8e80c703f2e9aba2a813360f0488.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-7de3e9f311cc0b27be2b",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/users",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490159047_788d71"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2611,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:39.038Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490159047_788d71"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-settings-users",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-users/attachments/page-settings-users-bb6b827bc88e87df743b7c1bb9858c71469c5445.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-adeb93197b8eaf071655",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/automations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490161661_6cd933"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2653,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:41.654Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490161661_6cd933"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-settings-automations",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-automations/attachments/page-settings-automations-8245f6c5a0647c1ed2e162b46d755c1b82aa768a.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-5c253c510e91ee945f8f",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/job-categories",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490164318_61b50c"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2688,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:44.312Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490164318_61b50c"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-settings-job-categories",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-job-categories/attachments/page-settings-job-categories-8d0e6e8cd214aa9fb2ecfd79a1e5a4b48681f8d5.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-e069e40218c6f1842479",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/job-types",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490167010_f3d5d5"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2654,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:47.004Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490167010_f3d5d5"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-settings-job-types",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-job-types/attachments/page-settings-job-types-ebc0d93084d7fe16fbf3794ce20f103bfbfcc6f6.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-c629e352ea745b240f88",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/work-descriptions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490169668_51628a"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2676,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:49.663Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490169668_51628a"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-settings-work-descriptions",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-work-descriptions/attachments/page-settings-work-descriptions-b784a82adf79fa1213f9de80fa4b1c62dde4c504.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-d3aa04652dec36e78703",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/tracker-template",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490172349_1ae603"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2641,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:52.343Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490172349_1ae603"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-settings-tracker-template",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-tracker-template/attachments/page-settings-tracker-template-ca1ec785831de4a0dfb746f94dadc0ddc55c5261.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-dd04bd946e53f4e6310a",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/tracker",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490174994_532401"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2626,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:54.988Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490174994_532401"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "page-settings-tracker",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-tracker/attachments/page-settings-tracker-d404043e25e83537bee0e48c1f3bccc408109389.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-af5950d48b4bbf277793",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "every client tab has its own help and Audit Record explains immutable evidence",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490177629_dd8fe4"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9425,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:22:57.621Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490177629_dd8fe4"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-audit-record",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-every-client--b20c0-explains-immutable-evidence/attachments/help-audit-record-55741bf6e43c986f23f2deddecacea13377b0d31.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-294c05f0bab78c43f19b",
+          "file": "page-help-H8.spec.js",
+          "line": 63,
+          "column": 1
+        },
+        {
+          "title": "invoice help explains void and rebill without unlocking the original",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490187059_5288c9"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8087,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:23:07.052Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490187059_5288c9"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-void-and-rebill",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-invoice-help--8ceb8-hout-unlocking-the-original/attachments/help-void-and-rebill-183fdff9d88627133e841f34e3134e84793d9446.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-6a5d205f0d7bf5ae7864",
+          "file": "page-help-H8.spec.js",
+          "line": 75,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "readiness-H8.spec.js",
+      "file": "readiness-H8.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Create invoices waits for its data before enabling money or export controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490195160_cabfac"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6340,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:23:15.153Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490195160_cabfac"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69b988b5c9ac546199de-3d15ad75b2d296edf74f",
+          "file": "readiness-H8.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "Accounts receivable waits for its data before enabling money or export controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490201504_a2eb77"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7892,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:23:21.497Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490201504_a2eb77"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69b988b5c9ac546199de-4cbbb580b77e18580eef",
+          "file": "readiness-H8.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "Billing performance waits for its data before enabling money or export controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490209404_b54443"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6447,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:23:29.395Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490209404_b54443"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69b988b5c9ac546199de-bfd8f10128bb78a6b5ed",
+          "file": "readiness-H8.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "Account Audit cannot run an old selection during loading or after an error",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490215856_629b1d"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2963,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:23:35.849Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490215856_629b1d"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69b988b5c9ac546199de-84ea9a944a326ec32a17",
+          "file": "readiness-H8.spec.js",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "late grid data on /clients respects keyboard focus on page help",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490218823_443aaf"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2569,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:23:38.817Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490218823_443aaf"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69b988b5c9ac546199de-7b56ec1368f4f1e7f374",
+          "file": "readiness-H8.spec.js",
+          "line": 36,
+          "column": 3
+        },
+        {
+          "title": "late grid data on /billing/invoices respects keyboard focus on page help",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790490221397_da4138"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2575,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:23:41.391Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790490221397_da4138"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69b988b5c9ac546199de-a700b7179d7175591d7b",
+          "file": "readiness-H8.spec.js",
+          "line": 36,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-27T06:20:38.985Z",
+    "duration": 185004.52300000002,
+    "expected": 56,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

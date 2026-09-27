@@ -1,0 +1,677 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@20/20.20.2/bin/node",
+      "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/node_modules/.bin/playwright",
+      "test",
+      "tests/recurring-billing.spec.js",
+      "--workers=1"
+    ],
+    "configFile": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/playwright.config.js",
+    "rootDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/preflight.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "recurring-billing.spec.js",
+      "file": "recurring-billing.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "plan screen validates zero/negative fee, end before start and missing reason, then saves a description-only plan",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439400457_c1f318"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4300,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:16:40.183Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439400457_c1f318"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-32135562c1a56d389052",
+          "file": "recurring-billing.spec.js",
+          "line": 18,
+          "column": 1
+        },
+        {
+          "title": "opening Create Invoice prepares a fee with scheduling off and a second open creates no duplicate",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439404756_f8ae7c"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5349,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:16:44.748Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439404756_f8ae7c"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-a05f82cebd7809060b3b",
+          "file": "recurring-billing.spec.js",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "edit and skip require reasons, keep fees editable and never regenerate the skipped period",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439410112_f96372"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3878,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:16:50.103Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439410112_f96372"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-7fb76cfbed6ab4da8494",
+          "file": "recurring-billing.spec.js",
+          "line": 25,
+          "column": 1
+        },
+        {
+          "title": "double-click generation and retry generate one period, and changed retry key is refused",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439413993_29dbbb"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2955,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:16:53.987Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439413993_29dbbb"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-ecb8a13e912aedb00ef2",
+          "file": "recurring-billing.spec.js",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "plan rate edits preserve prepared charges and deactivation mid-period leaves them visible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439416953_99273f"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3189,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:16:56.946Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439416953_99273f"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-3a23ab3ba7a4fc7f1a7b",
+          "file": "recurring-billing.spec.js",
+          "line": 31,
+          "column": 1
+        },
+        {
+          "title": "stale plan save is refused and retains the entered rate and reason",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439420146_185be2"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2894,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:17:00.140Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439420146_185be2"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-463e6d84bae641ad6539",
+          "file": "recurring-billing.spec.js",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "catch-up caps preparation at12 and explicit skips remain skipped",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439423046_2879ae"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3543,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:17:03.039Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439423046_2879ae"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-279114bf653e3ac58e86",
+          "file": "recurring-billing.spec.js",
+          "line": 37,
+          "column": 1
+        },
+        {
+          "title": "finalizing locks recurring charges and the PDF includes the period",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439426594_13209e"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5585,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "(node:95715) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)\nversions published after the first week of January 2027\nwill require node >=22. You are running node v20.20.2.\n\nTo continue receiving updates to AWS services, bug fixes,\nand security updates please upgrade to node >=22.\n\nMore information can be found at: https://a.co/c895JFp\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                    },
+                    {
+                      "text": "(node:95715) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:17:06.586Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439426594_13209e"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "finalize-result",
+                      "contentType": "application/json",
+                      "body": "ewogICJzdGF0dXMiOiAyMDAsCiAgIm1lc3NhZ2UiOiAiRmluYWxpemVkIDEgaW52b2ljZShzKS4iLAogICJza2lwcGVkQ3VzdG9tZXJzIjogW10sCiAgImZpbGVMb2NhdGlvbiI6ICJURVNUX0ZJWFRVUkVfQUNDT1VOVC9pbnZvaWNpbmcvZmluYWxfaW52b2ljZXMvMDktMjYtMjAyNl9UXzA5XzE3XzExXzE5NGVmMDcwLTQxYWMtNGQ2My1iMDFhLTg0ODNhMmY1YTVmZi96aXBwZWRfZmlsZXMuemlwIgp9"
+                    },
+                    {
+                      "name": "finalized-invoice.zip",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/recurring-billing-finalizi-23191-the-PDF-includes-the-period/attachments/finalized-invoice-zip-bdc80c1765ceff0f4a8899aff55dd8617bbe0f57.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-e238f425436bba5c45d3",
+          "file": "recurring-billing.spec.js",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "a server failure preserves plan input and a retry succeeds",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439432183_53eadf"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2770,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:17:12.176Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439432183_53eadf"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-449301e39e59a2be564a",
+          "file": "recurring-billing.spec.js",
+          "line": 43,
+          "column": 1
+        },
+        {
+          "title": "legacy recurring bookmark redirects and missing detail recovers clearly",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439434962_8cef81"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3793,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:17:14.953Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439434962_8cef81"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-4aa93577188776732589",
+          "file": "recurring-billing.spec.js",
+          "line": 46,
+          "column": 1
+        },
+        {
+          "title": "recurring plans enforce manager permissions in UI and API",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439438760_0219aa"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3241,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:17:18.752Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439438760_0219aa"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-daeb4a9344b2d3c48568",
+          "file": "recurring-billing.spec.js",
+          "line": 49,
+          "column": 56
+        },
+        {
+          "title": "recurring plans enforce super admin permissions in UI and API",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439442005_8c2cb1"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3308,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:17:21.998Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439442005_8c2cb1"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-4d5332d398022f931970",
+          "file": "recurring-billing.spec.js",
+          "line": 49,
+          "column": 56
+        },
+        {
+          "title": "recurring plans enforce employee permissions in UI and API",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790439445317_b0ea9d"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2451,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-26T16:17:25.311Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790439445317_b0ea9d"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2047a1c768e533e0afe2-0991586e395ef060d5ae",
+          "file": "recurring-billing.spec.js",
+          "line": 49,
+          "column": 56
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-26T16:16:39.767Z",
+    "duration": 48019.592000000004,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

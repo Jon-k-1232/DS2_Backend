@@ -1,0 +1,42 @@
+[
+  {
+    "name": "frontend-jest",
+    "command": [
+      "node_modules/.bin/react-scripts",
+      "test",
+      "--watchAll=false"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend",
+    "environment": {
+      "CI": "true"
+    },
+    "started_at": "2026-09-26T21:41:35.043494+00:00",
+    "seconds": 17.58,
+    "exit_code": 0,
+    "counts": {
+      "tests": 494,
+      "suites": 79,
+      "skipped": 0
+    }
+  },
+  {
+    "name": "frontend-build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend",
+    "environment": {
+      "CI": "true"
+    },
+    "started_at": "2026-09-26T21:41:52.625997+00:00",
+    "seconds": 11.18,
+    "exit_code": 0,
+    "counts": {
+      "passing": 0,
+      "failing": 0,
+      "pending": 0
+    }
+  }
+]

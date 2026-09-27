@@ -1,0 +1,19 @@
+{
+  "command": [
+    "npx",
+    "playwright",
+    "test",
+    "tests/business-entities.spec.js",
+    "tests/path-matrix-owner-decisions.spec.js",
+    "tests/user-mistakes-audit.spec.js",
+    "tests/receive-payment.spec.js"
+  ],
+  "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e",
+  "environment": {
+    "PLAYWRIGHT_BROWSERS_PATH": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/.browsers",
+    "PW_TEST_CONNECT_WS_ENDPOINT": "ws://127.0.0.1:3334/"
+  },
+  "exit": 0,
+  "seconds": 218.59,
+  "log": "playwright-targeted-final.log"
+}

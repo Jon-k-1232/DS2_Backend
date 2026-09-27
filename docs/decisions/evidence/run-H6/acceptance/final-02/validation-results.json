@@ -1,0 +1,27 @@
+[
+  {
+    "name": "playwright",
+    "command": [
+      "npx",
+      "playwright",
+      "test",
+      "--workers=1",
+      "--max-failures=5"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e",
+    "environment": {
+      "NODE_OPTIONS": "--max-old-space-size=8192",
+      "PLAYWRIGHT_BROWSERS_PATH": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/.browsers",
+      "PW_TEST_CONNECT_WS_ENDPOINT": "ws://127.0.0.1:3334/"
+    },
+    "started_at": "2026-09-26T21:22:41.876204+00:00",
+    "seconds": 484.05,
+    "exit_code": 1,
+    "counts": {
+      "passed": 83,
+      "failed": 5,
+      "skipped": 0,
+      "pending": 0
+    }
+  }
+]

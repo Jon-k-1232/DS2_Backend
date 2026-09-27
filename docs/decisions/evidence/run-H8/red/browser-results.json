@@ -1,0 +1,284 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@20/20.20.2/bin/node",
+      "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/node_modules/.bin/playwright",
+      "test",
+      "tests/page-help-H8.spec.js",
+      "--grep",
+      "AR uses|credit memo names",
+      "--workers=1"
+    ],
+    "configFile": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/playwright.config.js",
+    "rootDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/preflight.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "page-help-H8.spec.js",
+      "file": "page-help-H8.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "AR uses plain labels and keeps report history collapsed at 1280px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790488277208_53db73"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17366,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('columnheader', { name: 'Our business', exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('columnheader', { name: 'Our business', exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('columnheader', { name: 'Our business', exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('columnheader', { name: 'Our business', exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('columnheader', { name: 'Our business', exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('columnheader', { name: 'Our business', exact: true })\u001b[22m\n\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js:19:80",
+                    "location": {
+                      "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                      "column": 80,
+                      "line": 19
+                    },
+                    "snippet": "  17 |  await page.goto('/receivables/aging');await expect(page.getByText('Example client',{exact:true})).toBeVisible();\n  18 |  await capture(page,info,'ar-1280');\n> 19 |  await expect(page.getByRole('columnheader',{name:'Our business',exact:true})).toBeVisible();\n     |                                                                                ^\n  20 |  await expect(page.getByRole('columnheader',{name:'Client company',exact:true})).toBeVisible();\n  21 |  await expect(page.getByLabel('Include records saved through')).toBeHidden();\n  22 |  await page.getByRole('button',{name:'Advanced: reproduce an earlier report'}).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                        "column": 80,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('columnheader', { name: 'Our business', exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('columnheader', { name: 'Our business', exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('columnheader', { name: 'Our business', exact: true })\u001b[22m\n\n\n  17 |  await page.goto('/receivables/aging');await expect(page.getByText('Example client',{exact:true})).toBeVisible();\n  18 |  await capture(page,info,'ar-1280');\n> 19 |  await expect(page.getByRole('columnheader',{name:'Our business',exact:true})).toBeVisible();\n     |                                                                                ^\n  20 |  await expect(page.getByRole('columnheader',{name:'Client company',exact:true})).toBeVisible();\n  21 |  await expect(page.getByLabel('Include records saved through')).toBeHidden();\n  22 |  await page.getByRole('button',{name:'Advanced: reproduce an earlier report'}).click();\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js:19:80"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T05:51:16.907Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790488277208_53db73"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "ar-1280",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-AR-uses-plain-fcd59-history-collapsed-at-1280px/attachments/ar-1280-cba12c996d564e7cbb1f178cff5b2f0f5ec65c8e.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-AR-uses-plain-fcd59-history-collapsed-at-1280px/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-AR-uses-plain-fcd59-history-collapsed-at-1280px/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-AR-uses-plain-fcd59-history-collapsed-at-1280px/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-AR-uses-plain-fcd59-history-collapsed-at-1280px/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                    "column": 80,
+                    "line": 19
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-7b1c1d897410508c6bde",
+          "file": "page-help-H8.spec.js",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "credit memo names, status, sentence case and document numbers are clear at 1280px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790488295015_451b68"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 23950,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('columnheader', { name: 'Status', exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('columnheader', { name: 'Status', exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('columnheader', { name: 'Status', exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('columnheader', { name: 'Status', exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('columnheader', { name: 'Status', exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('columnheader', { name: 'Status', exact: true })\u001b[22m\n\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js:41:74",
+                    "location": {
+                      "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                      "column": 74,
+                      "line": 41
+                    },
+                    "snippet": "  39 |  const row=page.getByRole('row').filter({hasText:memo.number});await expect(row).toBeVisible();\n  40 |  await capture(page,info,'credit-memos-1280');\n> 41 |  await expect(page.getByRole('columnheader',{name:'Status',exact:true})).toBeVisible();\n     |                                                                          ^\n  42 |  await expect(row).toContainText('Admin Person');await expect(row).not.toContainText('User #90013');await expect(row).toContainText('Issued');\n  43 |  const number=row.getByRole('cell',{name:memo.number,exact:true});expect(await number.evaluate(n=>getComputedStyle(n).whiteSpace)).toBe('nowrap');\n  44 |  expect(await page.getByRole('link',{name:'Open an invoice to issue a credit memo'}).evaluate(n=>getComputedStyle(n).textTransform)).toBe('none');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                        "column": 74,
+                        "line": 41
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('columnheader', { name: 'Status', exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('columnheader', { name: 'Status', exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('columnheader', { name: 'Status', exact: true })\u001b[22m\n\n\n  39 |  const row=page.getByRole('row').filter({hasText:memo.number});await expect(row).toBeVisible();\n  40 |  await capture(page,info,'credit-memos-1280');\n> 41 |  await expect(page.getByRole('columnheader',{name:'Status',exact:true})).toBeVisible();\n     |                                                                          ^\n  42 |  await expect(row).toContainText('Admin Person');await expect(row).not.toContainText('User #90013');await expect(row).toContainText('Issued');\n  43 |  const number=row.getByRole('cell',{name:memo.number,exact:true});expect(await number.evaluate(n=>getComputedStyle(n).whiteSpace)).toBe('nowrap');\n  44 |  expect(await page.getByRole('link',{name:'Open an invoice to issue a credit memo'}).evaluate(n=>getComputedStyle(n).textTransform)).toBe('none');\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js:41:74"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "(node:97482) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)\nversions published after the first week of January 2027\nwill require node >=22. You are running node v20.20.2.\n\nTo continue receiving updates to AWS services, bug fixes,\nand security updates please upgrade to node >=22.\n\nMore information can be found at: https://a.co/c895JFp\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                    },
+                    {
+                      "text": "(node:97482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-09-27T05:51:34.893Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790488295015_451b68"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "credit-memos-1280",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-credit-memo-n-a41b5-numbers-are-clear-at-1280px/attachments/credit-memos-1280-2909a7c9eb338ff288bc2ff276526786859701a4.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-credit-memo-n-a41b5-numbers-are-clear-at-1280px/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-credit-memo-n-a41b5-numbers-are-clear-at-1280px/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-credit-memo-n-a41b5-numbers-are-clear-at-1280px/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-credit-memo-n-a41b5-numbers-are-clear-at-1280px/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                    "column": 74,
+                    "line": 41
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-423470cd90d99067f9eb",
+          "file": "page-help-H8.spec.js",
+          "line": 32,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-27T05:51:16.341Z",
+    "duration": 42957.77,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

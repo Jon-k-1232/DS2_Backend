@@ -1,0 +1,350 @@
+[
+  {
+    "method": "GET",
+    "path": "/billing-entities",
+    "feature": "H1",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/billing-entities",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/billing-entities/balances",
+    "feature": "H1",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/billing-entities/review",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/billing-entities/review/:entryID/resolve",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/billing-entities/transfers",
+    "feature": "H1",
+    "role": "Employee (history)"
+  },
+  {
+    "method": "POST",
+    "path": "/billing-entities/transfers",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/billing-entities/work/:transactionID",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/billing-entities/work/:transactionID",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/billing-entities/cutover",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/billing-entities/cutover/amendment",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/billing-entities/cutover/amendment",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/billing-entities/cutover/candidates",
+    "feature": "H1",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/billing-entities/cutover",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/billing-entities/:entityID",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "PATCH",
+    "path": "/billing-entities/:entityID",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/billing-entities/:entityID/aliases",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "DELETE",
+    "path": "/billing-entities/:entityID/aliases/:aliasID",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/billing-entities/:entityID/logo",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/billing-entities/:entityID/logo",
+    "feature": "H1",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/payments/open-obligations",
+    "feature": "H2",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/payments/receipts",
+    "feature": "H2",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/payments/receipts",
+    "feature": "H2",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/payments/receipts/:receiptID",
+    "feature": "H2",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/payments/receipts/:receiptID/applications/:applicationID/correct",
+    "feature": "H2",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/payments/receipts/:receiptID/exceptions",
+    "feature": "H2",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/payments/receipts/:receiptID/cancellations",
+    "feature": "H2",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/payments/receipts/:receiptID/reversals",
+    "feature": "H2",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/payments/receipts/:receiptID/resolve",
+    "feature": "H2",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/credits",
+    "feature": "H2",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/credits/transfers",
+    "feature": "H2",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/credits/transfers",
+    "feature": "H2",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/invoices/:invoiceID/corrections",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/invoices/:invoiceID/credit-memos",
+    "feature": "H3",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/invoices/:invoiceID/void-rebill/preview",
+    "feature": "H3",
+    "role": "Admin"
+  },
+  {
+    "method": "POST",
+    "path": "/invoices/:invoiceID/void-rebill",
+    "feature": "H3",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/credits/:creditID/refundable",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/credits/:creditID/refunds",
+    "feature": "H3",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/credit-memos",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/credit-memos/reversals/:recordID/pdf",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/credit-memos/:recordID",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/credit-memos/:recordID/pdf",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/credit-memos/:memoID/reversals",
+    "feature": "H3",
+    "role": "Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/refunds",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/refunds/:recordID",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/refunds/:recordID/pdf",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/invoice-voids/:recordID/pdf",
+    "feature": "H3",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/recurringCustomer/plans",
+    "feature": "H4",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/recurringCustomer/plans",
+    "feature": "H4",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/recurringCustomer/plans/:planID",
+    "feature": "H4",
+    "role": "Manager"
+  },
+  {
+    "method": "PATCH",
+    "path": "/recurringCustomer/plans/:planID",
+    "feature": "H4",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/recurringCustomer/due",
+    "feature": "H4",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/recurringCustomer/prepare",
+    "feature": "H4",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/recurringCustomer/:planID/catch-up",
+    "feature": "H4",
+    "role": "Manager"
+  },
+  {
+    "method": "PATCH",
+    "path": "/recurringCustomer/occurrences/:occurrenceID",
+    "feature": "H4",
+    "role": "Manager"
+  },
+  {
+    "method": "POST",
+    "path": "/recurringCustomer/occurrences/:occurrenceID/skip",
+    "feature": "H4",
+    "role": "Manager"
+  },
+  {
+    "method": "GET",
+    "path": "/analytics/billingPerformance/:accountID/:userID",
+    "feature": "H5",
+    "role": "Super Admin"
+  },
+  {
+    "method": "GET",
+    "path": "/analytics/billingPerformance/:accountID/:userID/export",
+    "feature": "H5",
+    "role": "Super Admin"
+  }
+]

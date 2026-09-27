@@ -1,0 +1,189 @@
+{
+  "stats": {
+    "startTime": "2026-09-26T10:11:42.142Z",
+    "duration": 717619.12,
+    "expected": 109,
+    "skipped": 0,
+    "unexpected": 11,
+    "flaky": 0
+  },
+  "errors": [],
+  "failed": [
+    {
+      "file": "account-users.spec.js",
+      "title": "admin identity is refused the Account Users page, and the sidebar hides its link",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/account-users.spec.js",
+              "column": 70,
+              "line": 44
+            },
+            "message": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Account', exact: true })\u001b[22m\n\n\n  42 |     await page.goto('/account/accountSettings');\n  43 |     await expect(page.getByRole('heading', { name: 'Account Settings', exact: true })).toBeVisible();\n> 44 |     await page.getByRole('button', { name: 'Account', exact: true }).click();\n     |                                                                      ^\n  45 |     await expect(page.getByRole('link', { name: 'Account Settings', exact: true })).toBeVisible();\n  46 |     await expect(page.getByRole('link', { name: 'Automations', exact: true })).toBeVisible();\n  47 |     await expect(page.getByRole('link', { name: 'Account Users', exact: true })).toHaveCount(0);\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/account-users.spec.js:44:70"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "auth-and-navigation.spec.js",
+      "title": "admin sidebar: Account / Account Settings",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/auth-and-navigation.spec.js",
+              "column": 93,
+              "line": 36
+            },
+            "message": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Account', exact: true })\u001b[22m\n\n\n  34 |       await expect(page.getByPlaceholder('Search customers')).toBeVisible();\n  35 |       const link = page.getByRole('link',{name:label,exact:true});\n> 36 |       if (!(await link.isVisible())) await page.getByRole('button',{name:group,exact:true}).click();\n     |                                                                                             ^\n  37 |       await link.click();\n  38 |       await expect(page).toHaveURL(new RegExp(path.replaceAll('/','\\\\/') + '(?:/.*)?$'));\n  39 |       await page.waitForLoadState('networkidle');\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/auth-and-navigation.spec.js:36:93"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "auth-and-navigation.spec.js",
+      "title": "admin sidebar: Account / Automations",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/auth-and-navigation.spec.js",
+              "column": 93,
+              "line": 36
+            },
+            "message": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Account', exact: true })\u001b[22m\n\n\n  34 |       await expect(page.getByPlaceholder('Search customers')).toBeVisible();\n  35 |       const link = page.getByRole('link',{name:label,exact:true});\n> 36 |       if (!(await link.isVisible())) await page.getByRole('button',{name:group,exact:true}).click();\n     |                                                                                             ^\n  37 |       await link.click();\n  38 |       await expect(page).toHaveURL(new RegExp(path.replaceAll('/','\\\\/') + '(?:/.*)?$'));\n  39 |       await page.waitForLoadState('networkidle');\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/auth-and-navigation.spec.js:36:93"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "invoices-quotes.spec.js",
+      "title": "age-filter chips narrow the AR table for a real 9001 balance",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js",
+              "column": 65,
+              "line": 60
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('row').filter({ hasText: 'E2E_1790417692764_a05499 Mary Ann Van Buren' })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('row').filter({ hasText: 'E2E_1790417692764_a05499 Mary Ann Van Buren' }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('row').filter({ hasText: 'E2E_1790417692764_a05499 Mary Ann Van Buren' })\u001b[22m\n\n\n   at ../lib/ui.js:60\n\n  58 |   await closeForm(page);\n  59 |   await page.getByPlaceholder('Search customers').fill(prefix);\n> 60 |   await expect(page.getByRole('row').filter({ hasText: name })).toBeVisible();\n     |                                                                 ^\n  61 |   const [customer] = rows(`SELECT customer_id FROM customers WHERE account_id=9001 AND display_name=${literal(name)}`);\n  62 |   expect(customer).toBeTruthy();\n  63 |   return { name, id: customer.customer_id, prefix };\n    at createCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:60:65)\n    at billedCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:100:20)\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/invoices-quotes.spec.js:95:22"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "payments-writeoffs-retainers.spec.js",
+      "title": "payment, write-off, positive reversal and original-payment refusal refresh grids",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js",
+              "column": 22,
+              "line": 212
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[role=\"row\"][data-id=\"20154\"]').locator('[data-field=\"remaining_balance_on_invoice\"]')\nExpected substring: \u001b[32m\"22.50\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[role=\"row\"][data-id=\"20154\"]').locator('[data-field=\"remaining_balance_on_invoice\"]') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('[role=\"row\"][data-id=\"20154\"]').locator('[data-field=\"remaining_balance_on_invoice\"]')\u001b[22m\n\n\n   at ../lib/ui.js:212\n\n  210 |     await page.waitForTimeout(50); // allow MUI's virtual window to paint\n  211 |   }\n> 212 |   await expect(cell).toContainText(value);\n      |                      ^\n  213 |   await scroller.evaluate(el => { el.scrollLeft=0; });\n  214 | }\n  215 | async function invoicePreview(page, customer, testInfo, {entityId,expectedTotal='22.50'} = {}) {\n    at expectCellValue (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:212:22)\n    at expectGridValueInRow (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:203:3)\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payments-writeoffs-retainers.spec.js:71:3"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "user-mistakes-audit.spec.js",
+      "title": "client and full evidence: print, list, reopen, verify; plain language and one invoice archive summary",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js",
+              "column": 45,
+              "line": 26
+            },
+            "message": "Error: {\"message\":\"Customer already exists with that name.\",\"status\":500}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n   at ../lib/ui.js:26\n\n  24 |   const body = await r.json();\n  25 |   expect(r.ok(), JSON.stringify(body)).toBeTruthy();\n> 26 |   expect(body.status, JSON.stringify(body)).toBe(200);\n     |                                             ^\n  27 |   return body;\n  28 | }\n  29 | async function openForm(page, route, button) {\n    at submit (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:26:45)\n    at createCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:57:3)\n    at billedCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:100:20)\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/user-mistakes-audit.spec.js:17:13"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "user-mistakes-decisions.spec.js",
+      "title": "duplicate flag rejects missing IDs, supports dismissal and removes only an unbilled duplicate",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js",
+              "column": 45,
+              "line": 26
+            },
+            "message": "Error: {\"message\":\"Customer already exists with that name.\",\"status\":500}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n   at ../lib/ui.js:26\n\n  24 |   const body = await r.json();\n  25 |   expect(r.ok(), JSON.stringify(body)).toBeTruthy();\n> 26 |   expect(body.status, JSON.stringify(body)).toBe(200);\n     |                                             ^\n  27 |   return body;\n  28 | }\n  29 | async function openForm(page, route, button) {\n    at submit (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:26:45)\n    at createCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:57:3)\n    at billedCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:100:20)\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/user-mistakes-decisions.spec.js:95:11"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "user-mistakes-decisions.spec.js",
+      "title": "sent receipt exception requires selection and reason; reversal and revision preserve original bytes",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js",
+              "column": 45,
+              "line": 26
+            },
+            "message": "Error: {\"message\":\"Customer already exists with that name.\",\"status\":500}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n   at ../lib/ui.js:26\n\n  24 |   const body = await r.json();\n  25 |   expect(r.ok(), JSON.stringify(body)).toBeTruthy();\n> 26 |   expect(body.status, JSON.stringify(body)).toBe(200);\n     |                                             ^\n  27 |   return body;\n  28 | }\n  29 | async function openForm(page, route, button) {\n    at submit (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:26:45)\n    at createCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:57:3)\n    at billedCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:100:20)\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/user-mistakes-decisions.spec.js:124:11"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "user-mistakes-financial.spec.js",
+      "title": "writeoff: rapid double submit saves once with exact arithmetic",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js",
+              "column": 45,
+              "line": 26
+            },
+            "message": "Error: {\"message\":\"Customer already exists with that name.\",\"status\":500}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n   at ../lib/ui.js:26\n\n  24 |   const body = await r.json();\n  25 |   expect(r.ok(), JSON.stringify(body)).toBeTruthy();\n> 26 |   expect(body.status, JSON.stringify(body)).toBe(200);\n     |                                             ^\n  27 |   return body;\n  28 | }\n  29 | async function openForm(page, route, button) {\n    at submit (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:26:45)\n    at createCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:57:3)\n    at billedCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:100:20)\n    at customerFor (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/user-mistakes-financial.spec.js:8:58)\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/user-mistakes-financial.spec.js:16:15"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "user-mistakes-financial.spec.js",
+      "title": "retainer: failed network submit gives an error and leaves the entered form retryable",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js",
+              "column": 45,
+              "line": 26
+            },
+            "message": "Error: {\"message\":\"Customer already exists with that name.\",\"status\":500}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n   at ../lib/ui.js:26\n\n  24 |   const body = await r.json();\n  25 |   expect(r.ok(), JSON.stringify(body)).toBeTruthy();\n> 26 |   expect(body.status, JSON.stringify(body)).toBe(200);\n     |                                             ^\n  27 |   return body;\n  28 | }\n  29 | async function openForm(page, route, button) {\n    at submit (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:26:45)\n    at createCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:57:3)\n    at customerFor (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/user-mistakes-financial.spec.js:9:13)\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/user-mistakes-financial.spec.js:63:15"
+          }
+        ]
+      ]
+    },
+    {
+      "file": "user-mistakes-financial.spec.js",
+      "title": "payment: negative entry is one credit, never a reversal",
+      "errors": [
+        [
+          {
+            "location": {
+              "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js",
+              "column": 45,
+              "line": 26
+            },
+            "message": "Error: {\"message\":\"Customer already exists with that name.\",\"status\":500}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n   at ../lib/ui.js:26\n\n  24 |   const body = await r.json();\n  25 |   expect(r.ok(), JSON.stringify(body)).toBeTruthy();\n> 26 |   expect(body.status, JSON.stringify(body)).toBe(200);\n     |                                             ^\n  27 |   return body;\n  28 | }\n  29 | async function openForm(page, route, button) {\n    at submit (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:26:45)\n    at createCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:57:3)\n    at billedCustomer (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/ui.js:100:20)\n    at customerFor (/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/user-mistakes-financial.spec.js:8:58)\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/user-mistakes-financial.spec.js:80:15"
+          }
+        ]
+      ]
+    }
+  ]
+}

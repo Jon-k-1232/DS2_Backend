@@ -1,5 +1,7 @@
 # Accounts, users and authentication
 
+**H6 navigation:** Settings → Account settings `/settings/account`, Account users `/settings/users`, and Automations `/settings/automations`. Sign-in preserves an internal requested bookmark. [Route/permission and bookmark rules](workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 New invoice history/exception routes inherit manager/admin/super-admin/owner plus matching-account authorization. Each exception/reversal/revision records the authenticated user ID; URL userID cannot spoof the actor. Invoice issuance/history evidence adds user/account references and preserves ordinary deletion dependencies. [Routes](../invoicing/invoices.md#3-api-reference).
@@ -11,7 +13,7 @@ Source review: 2026-09-24. Backend-relative `path:line` citations describe check
 
 `/login` renders `Pages/Login/Login.js` and `LoginForm.js`. The form uses GoogleLogin with a `jimkimmel.com` hosted-domain hint, then posts its credential to DS2. Google verification on the backend is authoritative. The UI stores account/user/name/job-title/access-level plus an expiry marker in sessionStorage, not the JWT. Axios sends credentials. Sources: `../DS2_Frontend/src/Routes/PrimaryRouter.js:86`, `../DS2_Frontend/src/Pages/Login/LoginForm.js:15`, `../DS2_Frontend/src/Pages/Login/LoginForm.js:52`, `../DS2_Frontend/src/Services/TokenService.js:7`, `../DS2_Frontend/src/index.js:10`.
 
-`/account/accountUsers` renders `Pages/Account/AccountGrids/AccountUsersGrid.js`; its add/edit/delete components are `AccountForms/AddNewUser/AddUser.js`, `AccountForms/EditAccount/EditUser.js` and `AccountForms/DeleteUser/DeleteUser.js`. `/account/accountSettings` uses `Pages/Account/AccountSettings/AccountSettings.js`, `AccountForms/EditAccount/UpdateAccount.js`, and `UpdateAccountAddress.js`. `/account/automations` uses `Pages/Account/Automations/AccountAutomations.js`. User administration is Super Admin-only; settings/automations are Admin/Super Admin-only. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/AccountRoutes.js:1`, `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/AccountRoutes.js:23`, `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/UsersSubRoutes.js:37`.
+`/settings/users` renders `Pages/Account/AccountGrids/AccountUsersGrid.js`; its add/edit/delete components are `AccountForms/AddNewUser/AddUser.js`, `AccountForms/EditAccount/EditUser.js` and `AccountForms/DeleteUser/DeleteUser.js`. `/settings/account` uses `Pages/Account/AccountSettings/AccountSettings.js`, `AccountForms/EditAccount/UpdateAccount.js`, and `UpdateAccountAddress.js`. `/settings/automations` uses `Pages/Account/Automations/AccountAutomations.js`. User administration is Super Admin-only; settings/automations are Admin/Super Admin-only. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/AccountRoutes.js:1`, `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/AccountRoutes.js:23`, `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/UsersSubRoutes.js:37`.
 
 ## 2. Access rules and role matrix across routers
 
@@ -24,13 +26,13 @@ In the matrix, **M** = Manager, Admin, Super Admin, legacy Owner; **A** = Admin,
 | Router/mount | Backend gate and exceptions |
 |---|---|
 | `/auth` | Public google/logout; renew requires valid active identity. `src/endpoints/auth/auth-router.js:23`, `src/endpoints/auth/auth-router.js:80`. |
-| `/customer` | Authentication at mount; all six handlers require M. `src/endpoints/customer/customer-router.js:29`, `src/endpoints/customer/customer-router.js:118`, `src/endpoints/customer/customer-router.js:212`, `src/endpoints/customer/customer-router.js:239`, `src/endpoints/customer/customer-router.js:316`, `src/endpoints/customer/customer-router.js:384`. |
+| `/customer` | Authentication at mount; all customer handlers require M. `src/endpoints/customer/customer-router.js:29`, `src/endpoints/customer/customer-router.js:118`, `src/endpoints/customer/customer-router.js:212`, `src/endpoints/customer/customer-router.js:239`, `src/endpoints/customer/customer-router.js:316`, `src/endpoints/customer/customer-router.js:384`. |
 | `/jobs`, `/transactions`, `/invoices`, `/jobCategories`, `/jobTypes`, `/quotes`, `/payments` | Authentication + M at mount. `src/app.js:130`, `src/app.js:138`. |
 | `/recurringCustomer` | Authentication at mount + M throughout router. `src/app.js:144`, `src/endpoints/recurringCustomer/recurringCustomer-router.js:13`. |
 | `/retainers`, `/writeOffs`, `/workDescriptions` | Authentication + M. `src/app.js:145`, `src/app.js:148`. |
 | `/user` | Authentication + self/privileged URL user; create/update/delete S; fetch self or privileged. `src/endpoints/user/user-router.js:1`, `src/endpoints/user/user-router.js:41`. |
 | `/account` | Create S; update/information/automation GET+PUT A. `src/endpoints/account/account-router.js:115`, `src/endpoints/account/account-router.js:151`, `src/endpoints/account/account-router.js:234`, `src/endpoints/account/account-router.js:275`. |
-| `/initialData` | Authentication + own account only. Nonprivileged callers receive empty collections and only their own user_id/display_name; privileged roles retain full lists (fixed [F3](../_review/findings.md#f3)). `src/app.js:147`, `src/endpoints/initialData/initialData-router.js:22`, `src/endpoints/initialData/initialData-router.js:56`. |
+| `/initialData` | Authentication + own account only. Nonprivileged callers receive empty collections and only their own user_id/display_name; privileged roles receive compact reference data and bounded ledger first pages, with no jobs list (fixed [F3](../_review/findings.md#f3)). `src/app.js:147`, `src/endpoints/initialData/initialData-router.js:22`, `src/endpoints/initialData/initialData-router.js:56`. |
 | `/timesheets` | Self/privileged queryUserID on per-employee reads; M for account queue/count/move/delete; AI kickoff allows self or privileged entries. `src/endpoints/timesheets/timesheets-router.js:5`, `src/endpoints/timesheets/timesheets-router.js:36`, `src/endpoints/timesheets/timesheets-router.js:88`. |
 | `/time-tracking` | Self/privileged URL user; additional owner/on-behalf/template rules in time-tracking.md. `src/endpoints/timeTracking/timeTracking-router.js:30`. |
 | `/time-tracker-staff` | Authentication + M. `src/app.js:151`. |
@@ -235,7 +237,7 @@ User create writes one scoped row, then rereads roster. Update can change email/
 
 Self-deactivation uses the validated boolean. Update and delete acquire the same account FOR NO KEY UPDATE lock and re-read/count active Super Admins inside the mutation transaction. Concurrent demotions therefore cannot both remove the last administrator (fixed [F29](../_review/findings.md#f29)); `review-user-guards.integration.spec.js` covers malformed flags, omission, self-deactivation and a controlled concurrent demotion.
 
-Automation update serializes on the account row and commits enabled state and recipient replacement together. Replacement validates requested active owned users before deleting old recipients. Invalid recipients or later write failures roll back the full request ([F19](../_review/findings.md#f19), fixed). An intentionally saved empty recipient list retains the existing meaning of all active users with email. Automation keys are thursday_reminder_emails, friday_reminder_emails, missing_tracker_reminders and ai_training_weekly_upload. The last remains configurable but has no scheduled upload job; see operations. Sources: `src/endpoints/account/automation-settings-service.js:56`, `src/endpoints/account/automation-settings-service.js:101`, `src/automations/automationScripts/timeTrackerReminders.js:24`, `src/automations/automationDefinitions.js:1`.
+Global `RUN_SCHEDULED_AUTOMATIONS` must be enabled before these preferences can schedule reminders, and `SEND_REAL_EMAIL` must be enabled for delivery. They are environment controls with production-on/nonproduction-off defaults and exact overrides, documented in [operations](operations.md#h0--delivery-and-scheduler-controls-2026-09-26); this account settings API cannot override them. Automation update serializes on the account row and commits enabled state and recipient replacement together. Replacement validates requested active owned users before deleting old recipients. Invalid recipients or later write failures roll back the full request ([F19](../_review/findings.md#f19), fixed). An intentionally saved empty recipient list retains the existing meaning of all active users with email. Automation keys are thursday_reminder_emails, friday_reminder_emails, missing_tracker_reminders and ai_training_weekly_upload. The last remains configurable but has no scheduled upload job; see operations. Sources: `src/endpoints/account/automation-settings-service.js:56`, `src/endpoints/account/automation-settings-service.js:101`, `src/automations/automationScripts/timeTrackerReminders.js:24`, `src/automations/automationDefinitions.js:1`.
 
 Logout clears only the cookie; it does not revoke a separately held JWT or write a server session record. Renewal requires an unexpired JWT; it does not re-contact Google. Source: `src/endpoints/auth/auth-router.js:80`.
 
@@ -268,3 +270,20 @@ Migration026 captures changes to this feature's audited customer/financial recor
 ## Pass 3 response after a committed change
 
 Customer/recurring, job, catalog, quote and user mutations in this guide preserve their successful response payload. If the mutation commits but rebuilding its response lists fails, the API returns HTTP 200 with `status: 200`, `committed: true` and a warning to reload without submitting the change again. Precommit errors retain their existing refusal and rollback behavior. This prevents a saved create, edit or delete from being reported as an unsuccessful write. Regression: `path-matrix-03-commit-outcomes.integration.spec.js`, with exactly one stored mutation checked for each create/update/delete. Drafts stay editable and write nothing to the ledger; finalize is the sent/lock boundary.
+
+## H1 business scope (2026-09-26)
+
+Business settings, tracker assignment and opening allocation are Admin/Super Admin only. New cross-business credit transfers use the existing case-insensitive `requireAdmin`; any one admin can act, with no second approver. Managers/employees can read transfer history. H3 now enforces the same admin-only rule on write-off CRUD, retainer events, corrections, bounced-check actions and monetary duplicate removal, with role checks before business/form validation. Existing entry/payment/finalize/read permissions are unchanged.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H3 update — 2026-09-26
+
+Only existing admin/super admin roles (case-insensitive requireAdmin) may apply write-offs/adjustments: write-off create/edit/delete, retainer events, invoice corrections/refunds/transfers, bounced-check actions and monetary duplicate removal. Any admin acts alone. Manager history access and existing employee page restrictions remain; no approval/period close was added.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H9 shared response representation
+
+Committed mutation responses omit server-built grid/tree copies; the browser derives those views on demand from the existing small master-data row lists. Their role gates, payload fields and mutation rules are unchanged. Customer/job/financial lists follow the stricter [bounded response contract](../platform/performance.md). Route delivery is lazy and record URLs fetch selected references directly.

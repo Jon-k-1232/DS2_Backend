@@ -1,0 +1,652 @@
+{
+  "basis": "H1-start SHA256 inventory plus retained H1 end-state change hashes; no Git used. New or previously uninventoried files are marked, not presumed H2 authorship. Source/test/migration/script files and the review report; other docs and generated artifacts are described in the run results.",
+  "files": [
+    {
+      "path": "DS2_Backend/migrations/037.legacy_opening_scope_amendment.sql",
+      "before_sha256": null,
+      "after_sha256": "a37acc4d819e91886475b7310c1fb6ad405a5bec5c9eac63750bc4b0395a1132",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/migrations/038.receipt_obligation_subledger.sql",
+      "before_sha256": null,
+      "after_sha256": "730b332387806c619ee593e3e0eafdd875327848849a603053fba7b18bd39eef",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/migrations/039.receipt_membership_and_legacy_links.sql",
+      "before_sha256": null,
+      "after_sha256": "153252e020b08ec9c4baeeb7df870eecbd13e59d274adcd31285984d70c7707b",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/migrations/040.receipt_conservation_and_opening_sources.sql",
+      "before_sha256": null,
+      "after_sha256": "9e2414339306f897ec7ee779c089db9f4cf4c7a415fb1f9cc827634225f53908",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/migrations/041.receipt_lineage_integrity.sql",
+      "before_sha256": null,
+      "after_sha256": "dce6c8a75aba9398a285f244e7295d93ab59217912fbad96f546e62ef1e46659",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/migrations/README.md",
+      "before_sha256": "d1ffc99660cd4a6766de39f0c58c86d2050ef047fef90522366afb339ae945b5",
+      "after_sha256": "5dfb78768f3199e14ffe5864c15f5d73f5216ca23e1009eb81ffed0b518241f9",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/scripts/amend-entity-cutover.js",
+      "before_sha256": null,
+      "after_sha256": "314b28e72077889d62fe1c3ad19259dab5e75d2f9451da8a7ab0a7de83ac981c",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/scripts/derive-legacy-obligations.js",
+      "before_sha256": null,
+      "after_sha256": "20d92cf70bebb0887232033d8248af52472166eed8e5586029a9476dbf54875e",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/scripts/drift-check.js",
+      "before_sha256": "135917f13a942f91c48a277724f7d3e9e635225d2efe4a64e7a55e1eb437e123",
+      "after_sha256": "b11230508ae1d3844c61c66d0b3e863637636c32154042f7ac4c47c7d7a40fce",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/scripts/entity-cutover-report.js",
+      "before_sha256": "40df7e20822cb4d8a21735c2fb5d5e03f9a753f78161fa263cc0c11d46cce4ac",
+      "after_sha256": "4d6b8b9e07c70299a6ad49bc8a193826543eee6922ac3a580ce60c7d054a9a62",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/scripts/review-2026-09/FINAL_REPORT.md",
+      "before_sha256": "399933de2b4bea6c3d5335b6fa6501b7907e67f4c1b2057a7928a53d1e0c0873",
+      "after_sha256": "db5358dc07bccd0db12aafd442b4562a7e6005cce6e1335b13bbbf2b781ee8c6",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/app.js",
+      "before_sha256": "ddcd0215eafdf86d3f21ade0a062403f545810817c725775cc6799cf1fff210a",
+      "after_sha256": "0d4c0e970703e0601cf6fe4446cfa191b453ffccdd801c7e2f2eca00da198a10",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/accountAudit/account-audit-pdf.js",
+      "before_sha256": "3da05e14746b3e529801cfc09f3c140fb38a166ab4c50cf6c23a8f3119758832",
+      "after_sha256": "193710435465106cf73860751640f105bf97010d8dbd5b3fda260c1216053c07",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/accountAudit/account-audit-router.js",
+      "before_sha256": "d3fe49f8324a1db990c76553a9df380ca870f89f0710187dea3b5e34017c9814",
+      "after_sha256": "f58aa9078f11abc11cb4b3ca4512f35baf558f199b5414343cd7b4a7759d1e0f",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/accountsReceivable/accounts-receivable-router.js",
+      "before_sha256": "dff16cd879fb8a57fb70a9280a1b03a36cf32fd0523689c0c6167e647e0b524e",
+      "after_sha256": "aaef4e44e1d546bc9bf50007a751a3682c7b3afcb166738651172f479d4a123a",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/accountsReceivable/accounts-receivable-service.js",
+      "before_sha256": "19fff70b69063e88f8f93f1e7d0e80411ab653b69f615ef701221b97fcdce38d",
+      "after_sha256": "08c24c3c4da737734552fe0d86e7b744a408622b997128c46798e46769c4e506",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/accountsReceivable/obligation-aging.js",
+      "before_sha256": null,
+      "after_sha256": "d62c5e43b5ab791ddc35b5971d6328d29369162015b1a2391c20b95bf9a524c9",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/auditRecord/audit-record-pdf.js",
+      "before_sha256": "88666d3b5887ada2e516565ee6bed53cb18b0fd35af03b370c7684124a2df5d0",
+      "after_sha256": "cdd0afc02554d5b7172f474908636a26f6fd298441bcf4c006605f2f1954b6fe",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/auditRecord/audit-record-presentation.js",
+      "before_sha256": "264b31b592786df14b54fc051156deffe6f00d0718dd5ccdb0bdb05fe0206a26",
+      "after_sha256": "cddc1ccbb81f00f5a71ac23fb32e0141e73f3634a0ac166a9e4d5f2009a73aea",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/auditRecord/audit-record-service.js",
+      "before_sha256": "a6ec21f82a0b38ef22605e7f7372ebe504d9f4148454f6854169e2565339fbd0",
+      "after_sha256": "36e616d39dce00437cd1b80dd6f6c0c535f0d09cdcfd21337e6ebb4e07639c68",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/billingEntities/balances.js",
+      "before_sha256": "c576913992d7d48f7c2a8bc73d9154e02c6bfdabadb513c5241f6475efb49309",
+      "after_sha256": "a05480d2c836064caa9822d1da57a13a33ebc29f13f43c0e4bf4470ae01ff35b",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/billingEntities/cutover-amendment.js",
+      "before_sha256": null,
+      "after_sha256": "1fe7c41098b7e21f2f988d173889e14bded77268f7e0218eccb421ac9b73635b",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/billingEntities/entities-router.js",
+      "before_sha256": "8d7fcf830a79a404f106c143e7c0c4dff77b161ae68ea400fa103dd34944a1da",
+      "after_sha256": "e3aa4cd9407b7b48531ae274c05ac7929a98a890f2c3c42a590db50c973db5e7",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/billingEntities/entities-service.js",
+      "before_sha256": "99081ecd90b8463de6e52462dbcc3190726d7230e2b5541276fca75af15b67b9",
+      "after_sha256": "7e8b9ad5e7b5f21314c3d2692e01998f2c284258317c2c5033ec92b579a591a1",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/customer/customer-statement.js",
+      "before_sha256": "a2df0272760788f86a268b20263c13ce662f6f2bc4971f251bd7cad39b62767c",
+      "after_sha256": "a32122ff37330403642c219535bd1768b22057f523806f276321788b60f234b5",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/duplicates/duplicates-service.js",
+      "before_sha256": "2701cd59e869c93fe10b6b548f7c4effa85e2d5246ae2e1802f7a38439c3c365",
+      "after_sha256": "d93540f25bc6ca1cef270feee28b9b14398834c9b8cb8ac736e9beb80d51f4cf",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/invoice/createInvoice/createInvoiceQueries.js",
+      "before_sha256": "b1caea66bf73f090a4ed22396ffc313bfe7831d12ac15b45575f9d9a777acc77",
+      "after_sha256": "d4a9d38d274ec488893ee779b37c27d1d4ccceff6debe87d1c1b1dbc3fca7f80",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/invoice/createInvoice/invoiceCalculations/calculateInvoices.js",
+      "before_sha256": "80a4c35ee60e0aa529aada042807e552918fd33a9fef3a2c7dabebe6bcb6d654",
+      "after_sha256": "105ea24c5f3f6c084fca93939026b328119c7ba189a61a1fb811bb58770af6df",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/invoice/invoice-router.js",
+      "before_sha256": "edf749e779028fdd3e6fd9505553824e852e5dfa099fc38316796187e664af94",
+      "after_sha256": "5ca9c5e15332824f3530a8f33ff12d513448841cae4acff2a2729d741bb058ab",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/invoice/invoice-service.js",
+      "before_sha256": "9b0d4ae5ca13c7b861db6389b1d21d18e95a6551402ed87db56ead888aec46b4",
+      "after_sha256": "2c6c7fa2cb4d8aaad01e7d5719002eeca2ee8235d17c11a23456d8a8201a3dcd",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/invoice/invoiceDataInsertions/dataInsertionOrchestrator.js",
+      "before_sha256": "aac46df524b6758e41ed5b2a0be3fd835894203fb1c96283959174ab4186239e",
+      "after_sha256": "6daac32be282cbde8c44dd161313ac1569f5f274906f718b7de6680b63fd636e",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/invoice/invoiceExceptions.js",
+      "before_sha256": "2502fdb76a3d37881acea3085186c79bfa27a06bf75598bddc68b9364583cc20",
+      "after_sha256": "a26e786da3de1ba9a245ef1df41f46f379b01b8c26c88d3405a437075f69bb2b",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/invoice/sentInvoiceLocks.js",
+      "before_sha256": "522ab73c1aa76ebd89cc03e71f30fb3ebaea26cb6e1dd65d4ec14c1eca3b6a94",
+      "after_sha256": "9f4d14711a985014c626f1327706bbabe8a11068cec67f6d486102431a156a76",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/compatibility-subledger.js",
+      "before_sha256": null,
+      "after_sha256": "c1f61806063e4883bb9bce8c4b758ed8d8f01a937cf8d6bd04dac15f57ff2145",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/credits-router.js",
+      "before_sha256": null,
+      "after_sha256": "9cd2637144b55bb89caa672014a2c6e7a804853321670f5385b8b3946a84c2c1",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/legacy-obligations.js",
+      "before_sha256": null,
+      "after_sha256": "6e08fc5b6b3186056085ebfcd6e324d97c5ab2cf6d4f0b0c9f1fe08b9fe591bf",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/payment-logic.js",
+      "before_sha256": "9200353bc58c9968668195e626f24a99bd7322db88ad8814080af708221f504a",
+      "after_sha256": "90d9541c7dec050e280908154e4fdddbd53a7e7f50aa9b2d8bb47bf076b3d98c",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/payments-router.js",
+      "before_sha256": "2f0589713c8130e24a52e27bacc5c8559b8765ad2351fec6d99edd0e28c0adf7",
+      "after_sha256": "26475bb79a11131c451ede16619a6bf8b8b09dd02e4cf7e551050484515ee85b",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/payments-service.js",
+      "before_sha256": "c8a63d79f2845225c8984e99d40bc7d42320b9fefdf21ba2b10768f9f59b77f5",
+      "after_sha256": "a18ac7b5a446d53e5d534b4a3f813fd52a5132e28f5652f643155b44cb6ca3b1",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/receipt-finalize.js",
+      "before_sha256": null,
+      "after_sha256": "572f8e46e26f6f48e96a09cc0d5d596fa768dfdca41113f3a3794b2e9abf4d99",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/receipt-ledger.js",
+      "before_sha256": null,
+      "after_sha256": "d1d6016c1889fc55b92fcac6a366ca98ac3041e4930e627a60b1614177b76ab5",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/receipt-values.js",
+      "before_sha256": null,
+      "after_sha256": "57dc1e9d924b2019482844cbca56daafc3995279a3ebf203b91118451724305e",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/receipts-service.js",
+      "before_sha256": null,
+      "after_sha256": "80516c8fa89bfdb7cf335a130eff8bc545729cb1feefb2a10a5ac9d369889da6",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/payments/receivables-report.js",
+      "before_sha256": null,
+      "after_sha256": "b55c023e1eab0357bfd05ec9931d2fc962068f3a26d164fad8cc45ab3785fdcd",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/src/endpoints/writeOffs/writeOffs-logic.js",
+      "before_sha256": "dbd1d62103bf9c14ce2521350af431b9b8f6dd50f1ecca691c817b9161d61c36",
+      "after_sha256": "6c70419e42a1fad1bb0bb7206d2d6fcce7e897958e342c10593a90486ece498d",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/pdfCreator/templateOne/templateFunctions/templateOnePayments.js",
+      "before_sha256": "e3a4301b7bfe99ff1230a71453f3bec98e8b7e7c25e82515875795068d979f0e",
+      "after_sha256": "bfc5655ea5db42beac8fdd01c434e833c5b8df4c5ce67d93c6e03b0015bcb633",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/src/pdfCreator/templateOne/templateFunctions/templateOneTotals.js",
+      "before_sha256": "b857fdec71359c37737e4623f7ee1a9f3e345b4800a93e01d30ca4d474ce4c63",
+      "after_sha256": "2e3ba461753d18d6cbe2cfe5b4fad6d6c6b7a9bdd4c56726e0c3f39b68fbe90b",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/endpoints/analytics/csv-util.spec.js",
+      "before_sha256": "bde9e92498c837958374759443bfbdb8f0d48b0d704de0470811caeea9e0a57f",
+      "after_sha256": "964ffe4b7cf8007d6a4095d01931fe38cbe1d266105f23bef4eb026852c6c517",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/integration/_scenario.js",
+      "before_sha256": "bd0db0be64b5a25c63bb5d8153b6c294ac5f6cca2ff6d2429e2c1d1bd73bd6a3",
+      "after_sha256": "3f44807d88b17757893bc110044abbd060246c7abd4755c4b824280924d95c83",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/integration/_sent-fixture.js",
+      "before_sha256": "d26f86fd9f7b3feb54faca78a14f09bef6c9a8eede2220d3199cfa6177b8c099",
+      "after_sha256": "05069ca64471d5b73829529f14a23379f530dd2024ab53db7dac3a2092166d6e",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/integration/analytics.integration.spec.js",
+      "before_sha256": "837c16ea993f0fa8883b01c3895f8c820273feb22bcda28f917ca009131a1397",
+      "after_sha256": "4e39d76255bbffc64e4959f6192e241e3005f3ffee390536c138f7435f5ca0bb",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/integration/clean-room-regression.integration.spec.js",
+      "before_sha256": "99c62e7946001eb714a05c0ee2b4049a7b8268b5cbd7c26df7fdf2d95078d51f",
+      "after_sha256": "e3b12262dd8ee6ce4a05ee636a221b7157ca82edc85a3b342829f83f7985a6ad",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "before_sha256": "c19d49c210b19c7ef879aab4da0470614e25d7bfac3d84d64e65ab19168008cd",
+      "after_sha256": "081746920ec083aa63af5f7997606000fbcb016b277536efc4824f8b81d5435a",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/integration/finalize-snapshot.integration.spec.js",
+      "before_sha256": "cb06f1450a4f6db05edc1f9dc67556ac6bdb4a63045f4b49c4d7817b2bf466e1",
+      "after_sha256": "29b74dde363de3e9b3d877df8a9197a9a3fff8e3d176c87c900ca1421deed7cc",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/integration/month-end-lifecycle.integration.spec.js",
+      "before_sha256": "a57b846099d5f780a146d3ac22f174b8284d78b083b8decacfb25988815ecd9b",
+      "after_sha256": "0a4029d7f1e405607979ace1804e63ee0b8c6ced37537459f85ed4de4f345e99",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/integration/path-matrix-H2-credit-transfers.integration.spec.js",
+      "before_sha256": null,
+      "after_sha256": "85cb627fe61256f088df152029ec6b16ed25a8f74c28e975f0558fb3a0cde039",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/test/integration/path-matrix-H2-receipts.integration.spec.js",
+      "before_sha256": null,
+      "after_sha256": "7e50c42e3606dbc5ea3bcb2a7e4bb79eeee63a0522179340b67903ada2d1107e",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/test/integration/scenario-H2-cutover.integration.spec.js",
+      "before_sha256": null,
+      "after_sha256": "850451063eab5c058e6a8ffc0238b5d5da12fdb66fbdf72cd9471ac39f0f418a",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/test/integration/scenario-H2-receipts.integration.spec.js",
+      "before_sha256": null,
+      "after_sha256": "0cedcdf0256cf8b5e3f3fb03b2f661b31225c02136ff0c04d00b9540d2d13777",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/test/integration/scenario-lifecycle-05-monthend.integration.spec.js",
+      "before_sha256": "5fa269b855d3ce860f5710ab01b3ce6af167862025904861614f8ec8cfb9dfe4",
+      "after_sha256": "877eb280a30524e2ffb3af93e6ba58f18886f858cb926620a7a4968d4a4a2e36",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "before_sha256": "eb628fc46dca205618768ecb7b2d957ad71da189425ac2eb3ed6fce8a3d4e0ee",
+      "after_sha256": "77263ea25bb6adbcf418eb4a659a901184ec4b32e5451864166d31d976a7e897",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/receipt-values.spec.js",
+      "before_sha256": null,
+      "after_sha256": "ebf84d22faba92ee1f92fbd2e5aaf3910d68ac86ddac9a95490aee1305a4dc27",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Backend/test/scripts/migrate.spec.js",
+      "before_sha256": "d86d2ada5116c2358cd2461fd4d10fdbec2442ac5eeefdd7d7c836d576a95205",
+      "after_sha256": "f186c33cc4f851be598feaadf640a8c1f69cb2e56784ee6198d3b039602a5303",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Backend/test/scripts/migration-H2.spec.js",
+      "before_sha256": null,
+      "after_sha256": "a6afbeba357d0529fbd9b3092004f64defac77016d7b4b9237aef9aae122bfd7",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Frontend/e2e/lib/auth.js",
+      "before_sha256": "4cd613c0ac7f15a247a2a365603b5da517615c08c22b949c5e2fe9f5c5a899e9",
+      "after_sha256": "16816b25c62087fd90bcdead9164fe3e27f441d916aca77b05808a9025c7c7eb",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/e2e/lib/db.js",
+      "before_sha256": "30ef1d3efb8cd2e9ece151af9162943f8fedda5888984a23fa7973eb155f8306",
+      "after_sha256": "b06f359f2208b0b17a9f0292cb5a33be0be081dbafd593bdd3c591349f7b0e9f",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/e2e/tests/business-entities.spec.js",
+      "before_sha256": "4ba30a5ac168b12391a44a0d5816e9f6c820d189205caa29ffbb164f493fa293",
+      "after_sha256": "e215c9839445f19ffa9a872fd874d8660d97d74a99b04208b80e89478c0c6b19",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/e2e/tests/path-matrix-owner-decisions.spec.js",
+      "before_sha256": "832a6b1e8371f8d50b85651cc1aa65f466bdf9f048e1658bc183f68e40074b41",
+      "after_sha256": "e0dcdb85c26448996d005b53f9d7c2cd8b0a570ea8a1ad269fa51af71de6641b",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/e2e/tests/receive-payment.spec.js",
+      "before_sha256": null,
+      "after_sha256": "6aba6f8090015393d46ac5316b7a00a1c7dbf3c732755a41a70367ccd13cf4f6",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Frontend/e2e/tests/user-mistakes-audit.spec.js",
+      "before_sha256": "662e15182f5ddb14b63cdd2e42e094074a20be3e48caba577dbafe4c230f3454",
+      "after_sha256": "5eba970cabce000c6ce2ef5f601f327b674d1ccbe30973e7e96fc5883b87375e",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Components/DataGrids/CreateInvoiceGrid.js",
+      "before_sha256": "193a7d24dfe09566fe2ce9f7c649a3a09b6acca592587249bddec9baf765f721",
+      "after_sha256": "9a95ba5caa9358ae077ab6bdd92ba27e7fc912c46f1f2b89eff5c5cf6d8ecba0",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Components/ReceiptApplicationNotice.js",
+      "before_sha256": null,
+      "after_sha256": "734d436fb76c8a6911200472ad9373eaa5222aba635fa79465b25039dce8336b",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/AccountAudit/AuditPrintView.js",
+      "before_sha256": "89a2eeee9dae90267ebe14a6fefac0dcb03e25afa52e7f406392228f2b861e76",
+      "after_sha256": "77c88da35feca41f76f58bd7420a693a08127c361523ea5f461ee737fc559b21",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/AccountAudit/AuditPrintView.test.js",
+      "before_sha256": "04a5139bdc1972b97e97c839641b1890b7469fe441025ae88ea88dcb17fae0d9",
+      "after_sha256": "eba2e6d16980ff47d49d5fa2708411fafb844cf717b278ab9ae112796de8e3f4",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/AccountsReceivable/AccountsReceivablePage.credit.test.js",
+      "before_sha256": "724f9a69aa67ebf2503ee5c07c38a067286d50c6d81c1eed31b78c12d5efbaf6",
+      "after_sha256": "463c8a25d5711e9a5bc5cdd5bdf166be266842fdc2346cdea071e5c7abaa6a03",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/AccountsReceivable/AccountsReceivablePage.js",
+      "before_sha256": "6ba2e591a922e30ea83b52d5ce34a85afb6f5148e2e769c2de2f588e49da3f81",
+      "after_sha256": "1855f4db0e4b2a908c214730a39d049223ae9a0801c4bba96b2ac07e999d65f0",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/BillingEntities/BillingEntities.test.js",
+      "before_sha256": "ab25123dd14a67f9d83db62eab98188e24b6253da6543e3f9d259bf837ddc343",
+      "after_sha256": "9ffa50d145a6c4f8eb54b9270d2a4ca1c30d888bb48360eb0a372b156af25eff",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/BillingEntities/CreditTransferPage.js",
+      "before_sha256": "e2f5c9dc9b404b42593864686199d2c39bb5ed8473e3a233e10fd6ab49da831d",
+      "after_sha256": "f6dda4c773ff5ce969c4d6c707dfd8a59bb5b494218e02d21dc1065e0dbf1f9d",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/BillingEntities/CutoverPage.js",
+      "before_sha256": "59fe77da9ea1d0a5b7611a9432cfa0b7c1569959e4dd7e844aaa953a13ead9d4",
+      "after_sha256": "4063ca03fb43f29ddb9a9f0a4c78cc0b9715a72dba5dbbaebe5af879572decb5",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerProfile.js",
+      "before_sha256": "efc0921b3f9da037ccbd14e7f83735ff7b27fdf5d06563f4a7d7f8bd80f13837",
+      "after_sha256": "33232fe913db8796069288a1fd46431ba539fc7edcdc903b91112ca119e6564d",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerProfile.payments.test.js",
+      "before_sha256": "b1dd0ec1f88350bb1c89c21ece08afba7fb12e5da387860d065733ab503b5173",
+      "after_sha256": "08a1b03ad7bcf0b889ac02bb83d9eb06151f18896617f2584acdf2a18494e5ad",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerProfileAuditRecord.js",
+      "before_sha256": "303fd873365fd47924dc55989bc8b7c1c71e2b1025cff354679e1c70b7c05443",
+      "after_sha256": "9d4c6ff4c364ad4784e5e1d53cfbed2b3550cc64ed82740d8a54914a91a7405a",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerProfileAuditRecord.test.js",
+      "before_sha256": "1541296f7c527b33274405c6fa62c6ff3494814980ab404b70c6c33f35b1f16a",
+      "after_sha256": "0aa0d98d34246fd2db156767038025e3eeea8bb6291935d418b9d89b05e1a0d0",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Invoices/InvoiceDetails/InvoiceHistory.js",
+      "before_sha256": "adcbb72d16bcd4eaa0c4b8eceb3f1a66ddbd94bd9f19bc574aa410fb98ce4fd4",
+      "after_sha256": "485c3a25a49a152a28f48cb11446bb8052b59d9c794356a94d15106ac1ae87cb",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Invoices/InvoiceDetails/InvoiceHistory.test.js",
+      "before_sha256": "5bf1d20e696737d09a43807af6b4a7c8f60cb90cfd92e86570c788ff9c835e22",
+      "after_sha256": "70ae08332a41fdafdca757fb1c3d0c7af98f57ea3e460b234c0344aa9cf80744",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Payments/Payments.test.js",
+      "before_sha256": null,
+      "after_sha256": "e6d02bcb3357e71f6dc0fdf183ef5649fd647d957ae1568c51cde50956631657",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Payments/ReceiptCreditTransfer.js",
+      "before_sha256": null,
+      "after_sha256": "e90263b025d1e298e037abfbe9858654a0ac4917de758c587e6eaed4940dc79b",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Payments/ReceiptCreditTransfer.test.js",
+      "before_sha256": null,
+      "after_sha256": "871e5e229cd7bad0aaab3536ba8f7badbf2b5193006e3472bb940151737df7d9",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Payments/ReceiptDetailPage.js",
+      "before_sha256": null,
+      "after_sha256": "6d25ae0cb3e8a7dc3a4d5f5699782f286a2231a6594ccd0cb7c108c14d6e6183",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Payments/ReceiptsPage.js",
+      "before_sha256": null,
+      "after_sha256": "4c2d395b95b4a3590c0a8d3c25181fac952a00e00892306a40165543c2184a2e",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Payments/ReceivePaymentPage.js",
+      "before_sha256": null,
+      "after_sha256": "d3b3315e800cea235baea40604035340e7ae36f884070f8dad5baf3d59898b82",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Transactions/Duplicates/PossibleDuplicates.js",
+      "before_sha256": "536469f2ad55aebda56f54cb08eb187df1ef480ece23277640d06617f582d95d",
+      "after_sha256": "8ccbaccebc34a57e0712228114e3e03ffd8394e1118dd937422534753fa3c926",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Transactions/Duplicates/PossibleDuplicates.test.js",
+      "before_sha256": "ec558dc9709310bd2514e59924fcad477288354c7726dfc76efcbc473b8c054f",
+      "after_sha256": "a0dd48b2327c66e81153a46eed44568eb5dddbf8a75106031e8581ebc35abb07",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Transactions/TransactionForms/DeleteTransaction/DeletePayment.js",
+      "before_sha256": "b03f21d7652814303af805ad677d1797ba13c34b1c1115aab188e36902543492",
+      "after_sha256": "50d0d6e0d85ddf59841eff0f7102cbfc0fc96e857d2931f1c58ca4afa128388d",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Transactions/TransactionForms/EditTransaction/EditPayment.js",
+      "before_sha256": "5f21488fb90be088f389a5a0c4232e2923469d676b8961ea5e5aea8b06fd37a5",
+      "after_sha256": "ca4c7600e6c7c7618c9738ce67ddc89b9f9520fcfe501850c99a57f00a301b90",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Transactions/TransactionForms/ReversePayment/ReversePayment.js",
+      "before_sha256": "ac03a75bfd76a4640114c30b196d9040b442c6161620e4a8aa4920e10be78bd6",
+      "after_sha256": "94da33c195a8d15280343c969902b037c9d1642804f9746fcf7fe354c46cda99",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Transactions/TransactionForms/ReversePayment/ReversePayment.test.js",
+      "before_sha256": "126e25743c66e0b6ff17d2ed78a7b67ac5199f738e36184328d2b0ecdb5a8a76",
+      "after_sha256": "9bc30c03fd34d4346fea0d43b0b8b28c33110996d32224d47aed027bb4a521e6",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Transactions/TransactionGrids/GridFocus.test.js",
+      "before_sha256": "15ff1ac92b166f12019815c2d0730c1e4de787ccb42d6f48c6a02fb03f406c31",
+      "after_sha256": "a813a9b9f4788a3e636034c7e2140b8a63035a14aa4ba56254f98ee1408d6410",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Transactions/TransactionGrids/PaymentsGrid.js",
+      "before_sha256": "2ede928fded04a2b7f2f500fb69d66e998c837e72f5d162bdc114376e0e8113e",
+      "after_sha256": "a91d3de3b0c9859167648e0e1cb35099e86bbfb0b772547a4ce0e0a5cabd7bf5",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Pages/Transactions/TransactionGrids/PaymentsGrid.test.js",
+      "before_sha256": "410f35a5e0542d48fa6dc5cdddf143859fa1f18871762e256eac206d71e25909",
+      "after_sha256": "1bf7d22629b177cb5c0aaca0f512e77a90f44a8af5aa58aa5315db799582a9ba",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/PaymentSubRoutes.js",
+      "before_sha256": "0e202b24e6fcbdb7cf230243c7076b649a4936471819d9cb4a88965913b2cb46",
+      "after_sha256": "6182128e70f2683c14c50465af0c3caeaa23600566abf4ddc270b9fc4c461102",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Routes/PrimaryRouter.js",
+      "before_sha256": "d67cb54d1229ac26ecede7643830470061f99e9863da6b152c34e056f5287739",
+      "after_sha256": "6aeb79e1b38e7e315d21f4262556561c904ecb842ed403913d87817da35ea414",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Routes/SidebarRoutes.js",
+      "before_sha256": "d33f16e99a32ef81044cc1824a50b325108b073c26a2cf27943dd33a4d8ed5cc",
+      "after_sha256": "d14d8b02957dc662b52f7fe5555db7ba21f1e53dd1ded006e8ba41c8513f66e2",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Services/ApiCalls/AccountsReceivableCalls.js",
+      "before_sha256": "b46906bb0ec1ebd130f9829762f2df15b8492a6a9ac277ed612dfd8c9f780c5f",
+      "after_sha256": "e95468541e1f4e1011edb816ba9f90d6df1f3fcabaaf19f4d5c8488beb86300b",
+      "comparison": "changed"
+    },
+    {
+      "path": "DS2_Frontend/src/Services/ApiCalls/ReceiptCalls.js",
+      "before_sha256": null,
+      "after_sha256": "8440623628d0092c53a5d78f1526eccd793b61c9cbf23dd51eeaddcb54ec1c7b",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Lambdas/Process_Payment_Images/tests/test_database.py",
+      "before_sha256": null,
+      "after_sha256": "adead178b3f3cbb839998d723dfaf2f4e136918c8c64cd4f93cda754eb666d18",
+      "comparison": "not_in_saved_baseline"
+    },
+    {
+      "path": "DS2_Lambdas/Process_Payment_Images/tests/test_pii_barrier.py",
+      "before_sha256": null,
+      "after_sha256": "5894e5119d43c868d82f27d1e3c42a00307f3ca1751b777d9a477edcb90886c9",
+      "comparison": "not_in_saved_baseline"
+    }
+  ],
+  "interest_template": {
+    "path": "DS2_Backend/src/pdfCreator/templateOne/templateFunctions/templateOneNotes.js",
+    "before_sha256": "d4374919de9b11add44eeadef3ab00afd0c1b2803fd399dcc5b6699991697193",
+    "after_sha256": "d4374919de9b11add44eeadef3ab00afd0c1b2803fd399dcc5b6699991697193"
+  }
+}

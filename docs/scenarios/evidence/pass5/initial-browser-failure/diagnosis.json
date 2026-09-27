@@ -1,0 +1,12 @@
+{
+  "browser_failure": "net::ERR_NETWORK_IO_SUSPENDED",
+  "request": "POST /customer/createCustomer/9001/90013",
+  "fixture": "E2E_1790465787498_a6dd52",
+  "audit_event": {
+    "event_id": 432891,
+    "entity": "customers",
+    "action": "insert",
+    "occurred_at": "2026-09-26T23:36:28.788Z"
+  },
+  "finding": "The customer committed but the browser lost the response before the retainer scenario began. Customer submission lacked visible transport-error handling and an in-flight guard; separate failing Jest tests reproduce both UI gaps."
+}

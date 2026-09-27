@@ -1,0 +1,249 @@
+{
+  "login": {
+    "bytes": 175160,
+    "elapsedMs": 266.70458299999996
+  },
+  "saveRefreshes": {
+    "transaction": {
+      "bytes": 31488,
+      "counts": {
+        "activeTransactions": 20,
+        "activePayments": 20,
+        "activeRetainers": 3
+      },
+      "method": "Read-only first-page builder; no save or changed record written"
+    },
+    "job": {
+      "bytes": 11589,
+      "counts": {
+        "activeJobs": 20
+      },
+      "method": "Read-only first-page builder; no save or changed record written"
+    },
+    "payment": {
+      "bytes": 28845,
+      "counts": {
+        "activePayments": 20,
+        "activeRetainers": 3,
+        "activeInvoices": 20
+      },
+      "method": "Read-only first-page builder; no save or changed record written"
+    },
+    "writeoff": {
+      "bytes": 27256,
+      "counts": {
+        "activeWriteOffs": 20,
+        "activeInvoices": 20
+      },
+      "method": "Read-only first-page builder; no save or changed record written"
+    },
+    "retainer": {
+      "bytes": 1535,
+      "counts": {
+        "activeRetainers": 3
+      },
+      "method": "Read-only first-page builder; no save or changed record written"
+    },
+    "customer": {
+      "bytes": 11710,
+      "counts": {
+        "activeCustomers": 20
+      },
+      "method": "Read-only first-page builder; no save or changed record written"
+    }
+  },
+  "jobs": [
+    {
+      "customerId": 6,
+      "entityId": null,
+      "currentCycle": false,
+      "historyRows": 20595,
+      "samples": [
+        30.004957999999988,
+        25.2376670000001,
+        26.6584170000001,
+        27.588666999999987,
+        30.81770900000015,
+        29.633584000000155,
+        26.299833000000035
+      ],
+      "median": 27.588666999999987
+    },
+    {
+      "customerId": 5,
+      "entityId": null,
+      "currentCycle": false,
+      "historyRows": 18563,
+      "samples": [
+        26.24420800000007,
+        24.27841599999988,
+        23.381041000000096,
+        24.901665999999977,
+        27.469291000000112,
+        26.04062500000009,
+        24.151041000000077
+      ],
+      "median": 24.901665999999977
+    },
+    {
+      "customerId": 298,
+      "entityId": null,
+      "currentCycle": false,
+      "historyRows": 397,
+      "samples": [
+        9.417709000000059,
+        7.022791999999981,
+        7.039125000000013,
+        7.991833000000042,
+        6.884291000000076,
+        6.957125000000133,
+        8.594959000000017
+      ],
+      "median": 7.039125000000013
+    },
+    {
+      "customerId": 6,
+      "entityId": 2,
+      "currentCycle": false,
+      "historyRows": 20595,
+      "samples": [
+        21.438958000000184,
+        24.0189170000001,
+        23.327792000000045,
+        25.12649999999985,
+        23.856042000000116,
+        31.953207999999904,
+        26.171666000000187
+      ],
+      "median": 24.0189170000001
+    },
+    {
+      "customerId": 5,
+      "entityId": 2,
+      "currentCycle": false,
+      "historyRows": 18563,
+      "samples": [
+        24.336832999999842,
+        26.790667000000212,
+        24.293500000000222,
+        22.995582999999897,
+        22.694750000000113,
+        22.60220799999979,
+        23.126459000000068
+      ],
+      "median": 23.126459000000068
+    },
+    {
+      "customerId": 298,
+      "entityId": 2,
+      "currentCycle": false,
+      "historyRows": 397,
+      "samples": [
+        8.41341599999987,
+        9.918541999999889,
+        8.037374999999884,
+        7.857457999999951,
+        10.670500000000175,
+        7.142791000000216,
+        6.884208999999828
+      ],
+      "median": 8.037374999999884
+    },
+    {
+      "customerId": 6,
+      "entityId": null,
+      "currentCycle": true,
+      "historyRows": 20595,
+      "samples": [
+        15.272500000000036,
+        22.160249999999905,
+        18.978417000000263,
+        17.5790420000003,
+        16.53237500000023,
+        15.948083999999653,
+        17.009415999999874
+      ],
+      "median": 17.009415999999874
+    },
+    {
+      "customerId": 5,
+      "entityId": null,
+      "currentCycle": true,
+      "historyRows": 18563,
+      "samples": [
+        15.340416000000005,
+        15.346708000000035,
+        16.805249999999887,
+        19.928917000000183,
+        19.154207999999926,
+        16.851083000000017,
+        16.979917000000114
+      ],
+      "median": 16.851083000000017
+    },
+    {
+      "customerId": 298,
+      "entityId": null,
+      "currentCycle": true,
+      "historyRows": 397,
+      "samples": [
+        7.7977499999997235,
+        9.844417000000249,
+        9.532250000000204,
+        18.18316700000014,
+        7.747125000000324,
+        9.241833000000042,
+        5.787166999999954
+      ],
+      "median": 9.241833000000042
+    },
+    {
+      "customerId": 6,
+      "entityId": 2,
+      "currentCycle": true,
+      "historyRows": 20595,
+      "samples": [
+        40.89775000000009,
+        41.429167000000234,
+        42.858374999999796,
+        43.047667000000274,
+        43.59712499999978,
+        43.828791999999794,
+        43.801540999999816
+      ],
+      "median": 43.047667000000274
+    },
+    {
+      "customerId": 5,
+      "entityId": 2,
+      "currentCycle": true,
+      "historyRows": 18563,
+      "samples": [
+        43.40708399999994,
+        43.48683400000027,
+        41.899832999999944,
+        41.94470799999999,
+        43.758208000000195,
+        51.26012499999979,
+        43.677000000000135
+      ],
+      "median": 43.48683400000027
+    },
+    {
+      "customerId": 298,
+      "entityId": 2,
+      "currentCycle": true,
+      "historyRows": 397,
+      "samples": [
+        14.346874999999727,
+        14.689249999999902,
+        16.884915999999976,
+        15.850416999999652,
+        14.99566700000014,
+        16.795000000000073,
+        16.198624999999993
+      ],
+      "median": 15.850416999999652
+    }
+  ]
+}

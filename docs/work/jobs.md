@@ -1,5 +1,7 @@
 # Jobs and job families
 
+**H6 navigation:** Time & Work → Client jobs: `/work/jobs`; record edit/delete URLs include the job ID. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 Deleting or reassigning a job family containing frozen invoice work, receipts or write-offs (including families with no work) now returns HTTP 409 naming that statement before the generic linked-record refusal. Customer locks and SQL triggers protect concurrent/indirect writes. Ordinary description edits do not regenerate archived statement content. New work on the same family still appends normal job snapshots. [Sent contract](../invoicing/invoices.md).
@@ -7,9 +9,9 @@ Deleting or reassigning a job family containing frozen invoice work, receipts or
 
 ## 1. Purpose and UI
 
-A job assigns a reusable job type to a customer, with quote/agreed amounts, notes, completion and a stored running total. `/jobs/jobsList` renders `JobsGrid`/`ExpandableGrid`. The add dialog uses `NewJob` and `NewJobSelections`. Row navigation opens `/jobs/jobsList/deleteJob`; the subroute menu also provides `/jobs/jobsList/editJob`, using `DeleteJob` and `EditJob` (`../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobRoutes.js:24`, `../DS2_Frontend/src/Pages/Jobs/JobGrids/JobsGrid.js:15`, `../DS2_Frontend/src/Pages/Jobs/JobGrids/JobsGrid.js:44`, `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobSubRoutes.js:35`). Customer-profile jobs appear at `/customers/customersList/customerProfile/:customerId/customerJobs` in `CustomerProfileJobs` (`../DS2_Frontend/src/Routes/GroupedRoutes/CustomerRoutes/CustomerProfileSubRoutes.js:94`).
+A job assigns a reusable job type to a customer, with quote/agreed amounts, notes, completion and a stored running total. `/work/jobs` uses `JobsGrid` and the server-paged `PagedRegister`; search, business filter and sorting are server-side. Add uses `NewJob` and `NewJobSelections`. Edit/delete load the selected ID at `/work/jobs/:recordId/:action` through `RecordPage`. Customer-profile job trees remain scoped to the selected client. Legacy bookmarks redirect through the workspace navigation rules above.
 
-The form selects an active customer, category and type, and permits quote amount, agreed amount, notes, quote status and completion (`../DS2_Frontend/src/Pages/Jobs/JobForms/AddJob/FormSubComponents/NewJobSelections.js:28`). Review date: 2026-09-24; code and tests were read only.
+The form selects a customer, category and type, and permits quote amount, agreed amount, notes, quote status and completion. Customer choices use the compact directory through 1,000 active clients and server type-ahead above that threshold. Job lookup, dependency previews, empty/error states, mutations and historical record hydration are covered by H9 Jest and browser regression.
 
 ## 2. Access rules
 
@@ -23,7 +25,7 @@ Token verification accepts HS256 only. User lookup and role lookup both require 
 
 Common transport errors: HTTP 401/403 above; HTTP 429 for the general 300/minute limiter unless test/disabled; malformed JSON HTTP 400 and over-1-MB JSON HTTP 413. Uncaught errors use `err.status || 500`, production `{message:'Server error'}`, nonproduction `{message,error}` (`src/app.js:70`, `src/app.js:94`, `src/app.js:100`, `src/app.js:178`). **E500** means HTTP 200, `{message,status:500}`. Job mutation handlers convert **all** caught errors, including ledger errors with intended 400/404/409 statuses, into E500 (`src/endpoints/job/job-router.js:78`, `src/endpoints/job/job-router.js:191`, `src/endpoints/job/job-router.js:231`).
 
-All path parameters below are required. There are no query parameters for server sorting, filters, pagination or search (`src/endpoints/job/job-router.js:52`, `src/endpoints/job/job-router.js:88`, `src/endpoints/job/job-router.js:108`).
+All path parameters below are required. The register and client lookup support bounded paging, search, sorting and business filters, described in [H9 bounded job reads](#h9-bounded-job-reads). Mutation fields remain unchanged.
 
 ### Create
 
@@ -41,7 +43,8 @@ All path parameters below are required. There are no query parameters for server
 
 | Method | Path | Inputs | Success | Errors and triggers |
 |---|---|---|---|---|
-| GET | `/jobs/getActiveCustomerJobs/:accountID/:userID/:customerID` | IDs; no active/completed filter option | HTTP 200 `{activeCustomerJobData:{activeCustomerJobs:[row],grid,treeGrid},message:'Successfully retrieved active customer jobs.',status:200}`; missing customer/jobs gives empty list | Common errors; uncaught HTTP 500 for SQL/read failure. `src/endpoints/job/job-router.js:108` |
+| GET | `/jobs/getActiveCustomerJobs/:accountID/:userID/:customerID` | IDs plus bounded lookup parameters; optional `currentCycle=true` | HTTP 200 `{status:200,activeCustomerJobData:{activeCustomerJobs,pagination}}`; owned client with no matches returns empty rows | HTTP 400 invalid input, 404 missing/foreign client, 500 read failure; auth/business guards also apply. |
+| GET | `/jobs/getJobs/:accountID/:userID` | Bounded lookup parameters; no current-cycle mode | HTTP 200 `{status:200,accountJobsList:{activeJobData:{activeJobs,pagination,partial:true}}}` | HTTP 400 invalid input, 500 read failure; auth/business guards also apply. |
 
 ### Update
 
@@ -55,7 +58,7 @@ All path parameters below are required. There are no query parameters for server
 |---|---|---|---|---|
 | DELETE | `/jobs/deleteJob/:jobID/:accountID/:userID` | IDs only; ID can be root or version | HTTP 200 envelope J | Common errors; E500 for missing/changed job or missing customer; any transaction/write-off/payment in family; other FK failure such as quote reference; query failure. `src/endpoints/job/job-router.js:201`, `migrations/schema-snapshot-2026-09-22.sql:2022` |
 
-Envelope **J**: `{accountJobsList:{activeJobData:{activeJobs:[joinedRow],grid,treeGrid}},message:'Successfully created new job.',status:200,warning?}`. The same message is returned after create, update and delete. Successful reassignment adds `Job was reassigned to a different customer. It had no linked transactions, write-offs, or payments.` (`src/endpoints/job/job-router.js:177`, `src/endpoints/job/job-router.js:261`).
+Envelope **J**: `{accountJobsList:{activeJobData:{activeJobs,pagination,partial:true}},changed:{jobs?,deletedJobs?},committed:true,message,status:200,warning?}`. Refresh is first20 current job families only; no grid/tree copies. Changed identities are independent of the page. Successful reassignment retains its explicit warning. A failed postcommit refresh returns the existing saved/reload/do-not-resubmit envelope.
 
 | `job` field | Type, requirement, and actual mapping |
 |---|---|
@@ -83,15 +86,15 @@ Reads join `customer_job_types`, `customer_job_categories`, `customers`, `users`
 
 | View/helper | Exact read |
 |---|---|
-| Account jobs | Select `customer_jobs.*`, explicit type description/category ID/active/estimated time/book rate fields, category label, customer display name as `customer_name`, creator display name as `created_by_user`. INNER JOIN all four related tables on their IDs. Each joined table must share the jobs account. Order by jobs `created_at ASC, customer_job_id ASC`. No active/completion/quote predicate. Includes every version (`src/endpoints/job/job-service.js:22`). |
-| Single job | Raw jobs columns by account and exact job ID; no family expansion (`src/endpoints/job/job-service.js:14`). |
+| Account jobs | H9 `getJobsPage` scopes account/business, ranks family versions by created_at DESC then ID DESC, and keeps rank1 before search/sort/paging. Joins owned types/categories/customers; no implicit active/completion/quote filter. Limit<=100. |
+| Single job | Exact account/ID row with whole-family linked transaction/write-off/payment counts and at most100 preview rows of each kind. |
 | Customer jobs source | `customer_jobs.*` plus type description/category ID and category label from scoped INNER JOIN types/categories; jobs account/customer equality and type/category account equality; jobs `created_at ASC, customer_job_id ASC`. No completion/active filter (`src/endpoints/job/job-service.js:41`). |
-| Customer jobs endpoint reduction | Keep the last SQL-ordered row per parent-or-own family ID. Add `display_name = job_description + ' - ' + customer_job_category`. Timestamp ordering retains PostgreSQL precision and ID breaks ties. Profile tree totals use the same selection. Fixed [F23](../_review/findings.md#f23), tested by `review-job-selection.integration.spec.js`. |
+| Customer jobs endpoint reduction | H9 ranks latest versions in SQL, then searches, sorts and pages the selected client/business. It never transfers all historical versions merely to reduce them in JavaScript. Display label remains description + category. |
 | Family IDs | Read selected job by account/ID; root = parent or own ID; select account jobs where own ID=root OR parent=root (`src/endpoints/job/job-service.js:77`). |
 | `getRecentJob` | Resolve the owned family and select copyable columns from its latest row, ordered created-at DESC then job ID DESC (`src/endpoints/job/job-service.js:106`). |
 | Customer-profile tree | Uses all customer job rows, builds tree, replaces each displayed root total with the child having greatest `customer_job_id`; never sums snapshot totals (`src/endpoints/customer/customer-router.js:165`). |
 
-`createGrid` uses first-row columns and positional IDs. `generateTreeGridData` maps each row by job ID, links direct parents, and promotes a row with missing parent to a root (`src/utils/gridFunctions.js:6`, `src/utils/gridFunctions.js:68`). Account grids do not apply the customer-profile root-total replacement (`src/endpoints/job/job-router.js:265`, `../DS2_Frontend/src/Pages/Jobs/JobGrids/JobsGrid.js:44`).
+Register rows use stable job IDs and latest family snapshots. The browser derives grid views on access; bootstrap and save responses contain no duplicate grid/tree rows. Single-record and per-client profile readers retain their legacy presentation shape; the profile links direct family children and promotes rows with a missing parent. The profile root-total replacement remains separate from account-register paging.
 
 ## 6. Calculations
 
@@ -143,3 +146,32 @@ Migration026 captures changes to this feature's audited customer/financial recor
 Customer/recurring, job, catalog, quote and user mutations in this guide preserve their successful response payload. If the mutation commits but rebuilding its response lists fails, the API returns HTTP 200 with `status: 200`, `committed: true` and a warning to reload without submitting the change again. Precommit errors retain their existing refusal and rollback behavior. This prevents a saved create, edit or delete from being reported as an unsuccessful write. Regression: `path-matrix-03-commit-outcomes.integration.spec.js`, with exactly one stored mutation checked for each create/update/delete. Drafts stay editable and write nothing to the ledger; finalize is the sent/lock boundary.
 
 The shared create/update/delete response says job changes were saved; it does not describe an update or deletion as creating a new job. A committed refresh failure includes the reload/do-not-resubmit warning in `message` as well as `warnings`, so existing forms display it. The exact saved-row and response assertions are in `path-matrix-03-commit-outcomes`.
+
+## H1 business scope (2026-09-26)
+
+New-job UI chooses a billing business. Existing shared jobs can serve explicitly selected work in any business; a business-specific job can serve only its own business. Filtered trees retain shared roots and matching children. Changing a form’s business clears an incompatible job. Reassigning a work entry’s business does not independently move or recompute job-family totals.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+## H4 recurring jobs
+
+A recurring plan may select an open same-client/business job or use a description-only fee. Shared jobs remain supported. Generation refuses a missing, closed or wrong-business job, and maintains the existing job-family total when generating or editing a charge. Plan changes affect ungenerated periods only; [recurring billing](recurring-billing.md) owns those contracts.
+
+## H9 bounded job reads
+
+`GET /jobs/getJobs/:accountID/:userID` is the account register. `GET /jobs/getActiveCustomerJobs/:accountID/:userID/:customerID` now shares the bounded query for client choices. Both require the existing manager/admin gate and account ownership; `entityId` passes through effective-business scope. Inputs: `page` positive integer (default1, max1,000,000), `limit`1–100 (default20), `search` string <=200 characters, `direction=asc|desc`, `sort` one of customer_job_id/customer_name/job_description/created_at/current_job_total/is_job_complete. Optional positive `jobTypeId`/`categoryId` narrow dependency previews. Default order is ID ascending for read endpoints; mutation first-page refresh orders descending.
+
+Each returns `status:200` and rows plus `{page,limit,totalItems,totalPages}`: account reads use `accountJobsList.activeJobData.{activeJobs,pagination,partial:true}`; client reads use `activeCustomerJobData.{activeCustomerJobs,pagination}`. Only latest family versions are included. Search matches description, category, client name, job notes or exact job ID. Invalid query returns400; malformed client400; missing/foreign client404; auth401/403; database failure500 with a safe retry message. Empty searches/high pages succeed with an empty bounded list and correct total. No duplicate grid/tree data is sent.
+
+Create/edit/delete return a changed job (or deleted ID) and the first20 account jobs, via the [H9 save contract](../platform/performance.md#mutation-responses). Single-job reads hydrate the selected historical version’s description, category and book rate, and include `dependencies` for the complete family: counts and up to100 each of transactions/writeoffs/payments. The delete screen blocks any linked family and explains payment-only links. Client-profile trees remain client-scoped. Catalog deletion queries by type/category instead of relying on bootstrap jobs. Current owned endpoint count: **6**. Proof: `path-matrix-H9-loading`, existing family/ledger suites and browser jobs/edit/delete tests.
+
+### Scoped entry-form reads (H9)
+
+The write-off job picker adds `currentCycle=true` to the existing per-client endpoint. It searches/pages exact referenced job versions and preserves the former amount rule: sum only billable work without an invoice or retainer, grouped by exact job ID. Zero-valued historical groups remain selectable; IDs disambiguate identical descriptions. Lifetime `current_job_total` is never substituted for this amount. Client/business changes invalidate old choices and clear the visible job text and server search, even when switching away and back. Recurring-plan and inline billing-review job searches use the same scope reset. The current-cycle aggregate uses account-qualified unique-key joins with the exact `ds2_effective_entity` precedence: explicit entity, amended legacy billing scope, original attribution, then reviewed resolution. Read-only legacy equivalence tests compare both the rows and amounts with the existing scoped view.
+
+Legacy payment and write-off invoice selectors request `GET /customer/activeCustomers/customerByID/A/U/C?section=invoices&entityId=E`. This projection returns only that client's invoice snapshots in `customerInvoiceData`, preserving current-chain/absorption selection rules without downloading jobs, work, payments or retainers. It rejects malformed sections and missing/foreign clients, retains existing role/business guards, and performs no writes. Full client-profile/history views remain unchanged. Late responses cannot reset an invoice/job or overwrite the new client's choices.
+
+
+## H8 review presentation
+
+Job deletion review shows the creator name from the scoped detail response, including inactive staff, and names the service instead of labeling it a type ID. Dependency instructions say to move the linked records to the correct job. Read-only labels never change job records, dependencies, deletion guards or audit evidence.

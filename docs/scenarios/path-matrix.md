@@ -1,5 +1,7 @@
 # Pass 3: route-by-route happy and unhappy path matrix
 
+**H7 / PASS5 extension:** [round-two matrix](round2-path-matrix.md) adds the 58 H1–H5 contracts and indexes changed existing routes, bringing the current inventory to **218**. [Combined lifecycle](H7-combined-lifecycle.md), [execution results](RESULTS-PASS5.md). Counts and line references below retain their historical Pass3 meaning; they are not a fresh branch-count claim for H7.
+
 Observed against the local sandbox on 2026-09-25. The specification was written first in [path-matrix-expectations.md](path-matrix-expectations.md). Finalize is the sent/lock boundary; drafts remain editable and write nothing to the ledger. No production/AWS resource was used.
 
 ## Totals and counting convention
@@ -11422,4 +11424,3 @@ Every T reference resolves to the full Mocha title and spec path; dynamically ge
 <a id="t1288"></a>**T1288** — [test/utils/piiRedactor.spec.js](../../test/utils/piiRedactor.spec.js)
 
 ` piiRedactor assertNoPii / containsAnyName (defense-in-depth invariant) throws when serialized payload contains an employee name `
-

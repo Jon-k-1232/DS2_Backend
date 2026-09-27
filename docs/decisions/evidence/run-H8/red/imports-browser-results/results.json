@@ -1,0 +1,355 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@20/20.20.2/bin/node",
+      "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/node_modules/.bin/playwright",
+      "test",
+      "tests/payment-imports-H8.spec.js",
+      "--workers=1",
+      "--retries=0"
+    ],
+    "configFile": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/playwright.config.js",
+    "rootDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/preflight.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "payment-imports-H8.spec.js",
+      "file": "payment-imports-H8.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "payment imports new: errors are visible, reload recovers, and no money is written",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790493407139_895a8b"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16111,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Payments could not be loaded. Reload the list to try again.\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Payments could not be loaded. Reload the list to try again.\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js:15:40",
+                    "location": {
+                      "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js",
+                      "column": 40,
+                      "line": 15
+                    },
+                    "snippet": "  13 |  });\n  14 |  await page.goto('/payments/imports');if(status!=='new')await page.getByRole('tab',{name:tab,exact:true}).click();\n> 15 |  await expect(page.getByRole('alert')).toContainText('Payments could not be loaded. Reload the list to try again.');\n     |                                        ^\n  16 |  await expect(page.getByRole('grid')).toHaveCount(0);await expect(page.getByText(message,{exact:true})).toHaveCount(0);\n  17 |  expect(audit()).toEqual(before);failed=false;await page.getByRole('button',{name:'Reload payments',exact:true}).click();\n  18 |  await expect(page.getByText(message,{exact:true})).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js",
+                        "column": 40,
+                        "line": 15
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Payments could not be loaded. Reload the list to try again.\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n\n  13 |  });\n  14 |  await page.goto('/payments/imports');if(status!=='new')await page.getByRole('tab',{name:tab,exact:true}).click();\n> 15 |  await expect(page.getByRole('alert')).toContainText('Payments could not be loaded. Reload the list to try again.');\n     |                                        ^\n  16 |  await expect(page.getByRole('grid')).toHaveCount(0);await expect(page.getByText(message,{exact:true})).toHaveCount(0);\n  17 |  expect(audit()).toEqual(before);failed=false;await page.getByRole('button',{name:'Reload payments',exact:true}).click();\n  18 |  await expect(page.getByText(message,{exact:true})).toBeVisible();\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js:15:40"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T07:16:46.861Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790493407139_895a8b"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-cec32-ers-and-no-money-is-written/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-cec32-ers-and-no-money-is-written/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-cec32-ers-and-no-money-is-written/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-cec32-ers-and-no-money-is-written/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js",
+                    "column": 40,
+                    "line": 15
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "615af68abe0d783cfe96-c6135306a7b60e4442af",
+          "file": "payment-imports-H8.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "payment imports processed: errors are visible, reload recovers, and no money is written",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790493423618_84b788"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16170,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Payments could not be loaded. Reload the list to try again.\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Payments could not be loaded. Reload the list to try again.\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js:15:40",
+                    "location": {
+                      "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js",
+                      "column": 40,
+                      "line": 15
+                    },
+                    "snippet": "  13 |  });\n  14 |  await page.goto('/payments/imports');if(status!=='new')await page.getByRole('tab',{name:tab,exact:true}).click();\n> 15 |  await expect(page.getByRole('alert')).toContainText('Payments could not be loaded. Reload the list to try again.');\n     |                                        ^\n  16 |  await expect(page.getByRole('grid')).toHaveCount(0);await expect(page.getByText(message,{exact:true})).toHaveCount(0);\n  17 |  expect(audit()).toEqual(before);failed=false;await page.getByRole('button',{name:'Reload payments',exact:true}).click();\n  18 |  await expect(page.getByText(message,{exact:true})).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js",
+                        "column": 40,
+                        "line": 15
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Payments could not be loaded. Reload the list to try again.\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n\n  13 |  });\n  14 |  await page.goto('/payments/imports');if(status!=='new')await page.getByRole('tab',{name:tab,exact:true}).click();\n> 15 |  await expect(page.getByRole('alert')).toContainText('Payments could not be loaded. Reload the list to try again.');\n     |                                        ^\n  16 |  await expect(page.getByRole('grid')).toHaveCount(0);await expect(page.getByText(message,{exact:true})).toHaveCount(0);\n  17 |  expect(audit()).toEqual(before);failed=false;await page.getByRole('button',{name:'Reload payments',exact:true}).click();\n  18 |  await expect(page.getByText(message,{exact:true})).toBeVisible();\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js:15:40"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T07:17:03.504Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790493423618_84b788"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-98987-ers-and-no-money-is-written/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-98987-ers-and-no-money-is-written/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-98987-ers-and-no-money-is-written/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-98987-ers-and-no-money-is-written/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js",
+                    "column": 40,
+                    "line": 15
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "615af68abe0d783cfe96-d7080ceb0dfd6a8ebde0",
+          "file": "payment-imports-H8.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "payment imports all: errors are visible, reload recovers, and no money is written",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790493440190_794fa8"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 20853,
+                  "error": {
+                    "message": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('tab', { name: 'All payments', exact: true })\u001b[22m\n",
+                    "stack": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('tab', { name: 'All payments', exact: true })\u001b[22m\n\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js:14:107",
+                    "location": {
+                      "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js",
+                      "column": 107,
+                      "line": 14
+                    },
+                    "snippet": "  12 |   return failed?route.fulfill({status:503,json:{status:503,message:'Synthetic unavailable list'}}):route.fulfill({json:{status:200,payments:[],pagination:{totalItems:0}}});\n  13 |  });\n> 14 |  await page.goto('/payments/imports');if(status!=='new')await page.getByRole('tab',{name:tab,exact:true}).click();\n     |                                                                                                           ^\n  15 |  await expect(page.getByRole('alert')).toContainText('Payments could not be loaded. Reload the list to try again.');\n  16 |  await expect(page.getByRole('grid')).toHaveCount(0);await expect(page.getByText(message,{exact:true})).toHaveCount(0);\n  17 |  expect(audit()).toEqual(before);failed=false;await page.getByRole('button',{name:'Reload payments',exact:true}).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js",
+                        "column": 107,
+                        "line": 14
+                      },
+                      "message": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('tab', { name: 'All payments', exact: true })\u001b[22m\n\n\n  12 |   return failed?route.fulfill({status:503,json:{status:503,message:'Synthetic unavailable list'}}):route.fulfill({json:{status:200,payments:[],pagination:{totalItems:0}}});\n  13 |  });\n> 14 |  await page.goto('/payments/imports');if(status!=='new')await page.getByRole('tab',{name:tab,exact:true}).click();\n     |                                                                                                           ^\n  15 |  await expect(page.getByRole('alert')).toContainText('Payments could not be loaded. Reload the list to try again.');\n  16 |  await expect(page.getByRole('grid')).toHaveCount(0);await expect(page.getByText(message,{exact:true})).toHaveCount(0);\n  17 |  expect(audit()).toEqual(before);failed=false;await page.getByRole('button',{name:'Reload payments',exact:true}).click();\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js:14:107"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T07:17:20.075Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790493440190_794fa8"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-aac95-ers-and-no-money-is-written/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-aac95-ers-and-no-money-is-written/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-aac95-ers-and-no-money-is-written/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/payment-imports-H8-payment-aac95-ers-and-no-money-is-written/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/payment-imports-H8.spec.js",
+                    "column": 107,
+                    "line": 14
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "615af68abe0d783cfe96-2d7d08361e21826a5f80",
+          "file": "payment-imports-H8.spec.js",
+          "line": 8,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-27T07:16:46.315Z",
+    "duration": 54762.905,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

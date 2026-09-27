@@ -1,5 +1,9 @@
 # Payments
 
+**H6 navigation:** Payments & Credits → Payment receipts: `/payments/receipts`. Historical entry/application controls remain at `/payments/receipts/legacy`; receipt-backed records redirect to their receipt. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
+H2 adds the primary [Receive payment workflow](receipts-and-obligations.md): one check, original-invoice allocations, remainder as held credit, and complete-receipt corrections. This document retains the six compatibility payment contracts. Receipt-backed applications link to the receipt detail and reject ordinary edits/deletes/reversals with HTTP409. Bounced-check routes and UI actions require admin/super admin; other billing access is unchanged.
+
 ## Owner decision update — 2026-09-25
 
 Pass 4 UI correction: background grid refreshes preserve focus in open payment forms (`GridFocus.test.js`).
@@ -19,7 +23,7 @@ Payments reduce the customer's current billed debt. They can use received money 
 
 | Location | Route and files |
 | --- | --- |
-| Account payments grid and add dialog | `/transactions/customerPayments`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:28`; `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/PaymentsGrid.js:80`; `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/Payment.js:61`. |
+| Account payments grid and add dialog | `/payments/receipts`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:28`; `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/PaymentsGrid.js:80`; `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/Payment.js:61`. |
 | Payment detail actions | `/transactions/customerPayments/deletePayment` and `/transactions/customerPayments/reversePayment`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/PaymentSubRoutes.js:40`. Components: `DeleteTransaction/DeletePayment.js` and `ReversePayment/ReversePayment.js` under `../DS2_Frontend/src/Pages/Transactions/TransactionForms/`. `EditTransaction/EditPayment.js` exists there, but both its `editPayment` route and navigation item are commented out. The update API remains available. (`../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/PaymentSubRoutes.js:55`, `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/PaymentSubRoutes.js:90`.) |
 | Customer payments | `/customers/customersList/customerProfile/:customerId/customerPayments`; `../DS2_Frontend/src/Routes/GroupedRoutes/CustomerRoutes/CustomerProfileSubRoutes.js:95`; `../DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerProfilePayments.js:1`. |
 | Invoice payments | `/invoices/invoices/invoiceDetail/invoicePayments`; `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceSubRoutes.js:56`; `../DS2_Frontend/src/Pages/Invoices/InvoiceDetails/InvoicePayments.js:1`. |
@@ -113,7 +117,7 @@ Create and update use `{payment:{...}}`; fields are sanitized before mapping. De
 | Errors | Common middleware errors; HTTP 400/JSON 400 for invalid pagination; HTTP 500/JSON 500 for other query/grid errors. |
 | Source | `src/endpoints/payments/payments-router.js:146`, `src/endpoints/payments/payments-service.js:32`. |
 
-`ledgerTables` contains `paymentsList.activePaymentsData.{activePayments,grid}`, `accountRetainersList.activeRetainerData.{activeRetainers,grid,treeGrid}`, and `invoicesList.activeInvoiceData.{invoicesList,grid,treeGrid}`. All are whole-account lists, not the user's current page/search. They are read after commit. A refresh failure returns committed success with a reload warning; it never reports that the completed posting failed. (`src/endpoints/payments/payment-logic.js:273`, `src/endpoints/payments/payment-logic.js:305`.)
+`ledgerTables` contains first20 `paymentsList.activePaymentsData.activePayments`, `accountRetainersList.activeRetainerData.activeRetainers`, and `invoicesList.activeInvoiceData.activeInvoices`, each with pagination and partial:true. Successful saves also expose changed records/IDs. There are no account-wide lists or grid/tree duplicates. They are read after commit; a failed refresh remains committed success with reload/do-not-resubmit guidance.
 
 ### Pass 2 input and committed-response contract
 
@@ -238,3 +242,28 @@ A chosen negative statement uses the same immutable sent boundary and exception 
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## H1 business scope (2026-09-26)
+
+The payment form requires a visible active business. Its invoice and retainer choices are filtered to that business and reset when the client/business changes. The backend validates the same-account/client/entity links; existing payment edits resolve their stored business. A payment against a reviewed legacy opening appends a scoped child snapshot and never mirrors onto the frozen original. The compatibility form retains single-payment/retainer handling; H2 Receive payment supplies multi-invoice original-obligation allocation. Unused funds may move only through the reasoned admin transfer described in the business guide.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H3 update — 2026-09-26
+
+Credit memos and void/rebill are invoice corrections, not new received payments. Client-credit refunds record money returned in client_refunds; customer_payments is not a fake cash reversal. Admin-only bounced-check controls remain enforced in API and UI.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H9 loading update
+
+Create/edit/delete/reversal refreshes contain the first20 payments, invoices and retainers, with changed records where relevant. Neither all payments nor duplicate invoice grids travel after a save. Receive payment and credit screens use the same compact/remote customer picker. The independent receipt ledger, correction permissions and conservation rules are unchanged.
+
+See [bounded loading and save responses](../platform/performance.md) for the current wire contract and [H9 results](../decisions/2026-09-26-run-H9-results.md) for full regression evidence. These details supersede older full-list/grid response descriptions in this guide. Committed refresh warnings still mean saved: reload, do not resubmit.
+
+### Scoped entry-form reads (H9)
+
+The write-off job picker adds `currentCycle=true` to the existing per-client endpoint. It searches/pages exact referenced job versions and preserves the former amount rule: sum only billable work without an invoice or retainer, grouped by exact job ID. Zero-valued historical groups remain selectable; IDs disambiguate identical descriptions. Lifetime `current_job_total` is never substituted for this amount. Client/business changes invalidate old choices. The current-cycle aggregate uses account-qualified unique-key joins with the exact `ds2_effective_entity` precedence: explicit entity, amended legacy billing scope, original attribution, then reviewed resolution. Read-only legacy equivalence tests compare both the rows and amounts with the existing scoped view.
+
+Legacy payment and write-off invoice selectors request `GET /customer/activeCustomers/customerByID/A/U/C?section=invoices&entityId=E`. This projection returns only that client's invoice snapshots in `customerInvoiceData`, preserving current-chain/absorption selection rules without downloading jobs, work, payments or retainers. It rejects malformed sections and missing/foreign clients, retains existing role/business guards, and performs no writes. Full client-profile/history views remain unchanged. Late responses cannot reset an invoice/job or overwrite the new client's choices.

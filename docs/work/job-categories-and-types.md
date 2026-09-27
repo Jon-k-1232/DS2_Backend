@@ -1,8 +1,10 @@
 # Job categories and job types
 
+**H6 navigation:** Settings → Job categories and Job types: `/settings/job-categories` and `/settings/job-types`. Existing manager access is retained. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## 1. Purpose and UI
 
-Categories group job types. Types supply a job description, book rate and estimated straight time. Account lists are `/jobs/jobCategoriesList` and `/jobs/jobTypesList`. Grids use add dialogs, with edit/delete subroutes at `editJobCategory`, `deleteJobCategory`, `editJobType`, and `deleteJobType`. Relevant components are `JobCatagoriesGrid`, `JobTypesGrid`, `NewJobCategory`, `NewJobType`, `EditJobCategory`, `EditJobTypes`, `DeleteJobCategory`, and `DeleteJobTypes` (`../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobRoutes.js:3`, `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobCategorySubRoutes.js:6`, `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobTypeSubRoutes.js:6`). The new/edit job form filters the active type list by selected category (`../DS2_Frontend/src/Pages/Jobs/JobForms/AddJob/FormSubComponents/NewJobSelections.js:22`).
+Categories group job types. Types supply a job description, book rate and estimated straight time. Account lists are `/settings/job-categories` and `/settings/job-types`. Grids use add dialogs, with edit/delete subroutes at `editJobCategory`, `deleteJobCategory`, `editJobType`, and `deleteJobType`. Relevant components are `JobCatagoriesGrid`, `JobTypesGrid`, `NewJobCategory`, `NewJobType`, `EditJobCategory`, `EditJobTypes`, `DeleteJobCategory`, and `DeleteJobTypes` (`../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobRoutes.js:3`, `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobCategorySubRoutes.js:6`, `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobTypeSubRoutes.js:6`). The new/edit job form filters the active type list by selected category (`../DS2_Frontend/src/Pages/Jobs/JobForms/AddJob/FormSubComponents/NewJobSelections.js:22`).
 
 Review date: 2026-09-24. Backend paths are relative to DS2_Backend; frontend paths begin `../DS2_Frontend/`. Test assertions were inspected, not executed.
 
@@ -158,3 +160,15 @@ Migration026 captures changes to this feature's audited customer/financial recor
 Customer/recurring, job, catalog, quote and user mutations in this guide preserve their successful response payload. If the mutation commits but rebuilding its response lists fails, the API returns HTTP 200 with `status: 200`, `committed: true` and a warning to reload without submitting the change again. Precommit errors retain their existing refusal and rollback behavior. This prevents a saved create, edit or delete from being reported as an unsuccessful write. Regression: `path-matrix-03-commit-outcomes.integration.spec.js`, with exactly one stored mutation checked for each create/update/delete. Drafts stay editable and write nothing to the ledger; finalize is the sent/lock boundary.
 
 The shared category/type create, update and delete responses say that the changes were saved; they do not label a create or edit as a deletion. If the write committed but list refresh failed, the saved/reload/do-not-resubmit guidance appears in both `message` (for existing forms) and `warnings`. `path-matrix-03-commit-outcomes` verifies these envelopes together with the exact committed rows.
+
+## H9 loading update
+
+The category/type deletion screens fetch at most100 current jobs by categoryId/jobTypeId from the paged Jobs API and show the full matching count. They expose read failures and never infer deletion safety from a missing bootstrap list. Backend dependency checks remain authoritative. Grid/tree copies are omitted from committed catalog responses and derived locally.
+
+See [bounded loading and save responses](../platform/performance.md) for the current wire contract and [H9 results](../decisions/2026-09-26-run-H9-results.md) for full regression evidence. These details supersede older full-list/grid response descriptions in this guide. Committed refresh warnings still mean saved: reload, do not resubmit.
+
+## H8 creator names
+
+Single job-category and job-type reads add `created_by_user_name` for the same-account creator, including inactive users. Deletion reviews display that name and retain the ID in a tooltip. This is presentation only; source catalog records, write rules and dependency refusals are unchanged.
+
+Work-description deletion uses the same named-creator rule. Shared grids keep internal record keys in their row data for navigation while presenting names and sentence-case headers; raw ID columns are removed from ordinary grids, not from stored evidence or server exports.

@@ -1,0 +1,154 @@
+[
+  {
+    "name": "Create invoices",
+    "route": "/billing/create",
+    "interactiveMs": 1500,
+    "readiness": "shell plus networkidle",
+    "blobBytes": 175160,
+    "calls": [
+      {
+        "url": "/version.txt",
+        "status": 200
+      },
+      {
+        "url": "/notifications/1/21/unread-count",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/initialData/initialBlob/1/21",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "name": "Enter time",
+    "route": "/work/entries?entry=time",
+    "interactiveMs": 1498,
+    "readiness": "shell plus networkidle",
+    "blobBytes": 175160,
+    "calls": [
+      {
+        "url": "/version.txt",
+        "status": 200
+      },
+      {
+        "url": "/notifications/1/21/unread-count",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/initialData/initialBlob/1/21",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/transactions/getTransactions/1/21",
+        "status": 200
+      },
+      {
+        "url": "/transactions/getTransactions/1/21",
+        "status": 200
+      },
+      {
+        "url": "/transactions/getTransactions/1/21",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "name": "Receive payment",
+    "route": "/payments/receive",
+    "interactiveMs": 1475,
+    "readiness": "shell plus networkidle",
+    "blobBytes": 175160,
+    "calls": [
+      {
+        "url": "/notifications/1/21/unread-count",
+        "status": 200
+      },
+      {
+        "url": "/version.txt",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/initialData/initialBlob/1/21",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "name": "Jobs",
+    "route": "/work/jobs",
+    "interactiveMs": 1537,
+    "readiness": "shell plus networkidle",
+    "blobBytes": 175160,
+    "calls": [
+      {
+        "url": "/version.txt",
+        "status": 200
+      },
+      {
+        "url": "/notifications/1/21/unread-count",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/jobs/getJobs/1/21",
+        "status": 200
+      },
+      {
+        "url": "/initialData/initialBlob/1/21",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "name": "Create invoices data ready",
+    "route": "/billing/create",
+    "interactiveMs": 5103,
+    "readiness": "actual balance rows and enabled controls; recurring preparation replaced with read-only due preview",
+    "calls": [
+      {
+        "url": "/version.txt",
+        "status": 200
+      },
+      {
+        "url": "/notifications/1/21/unread-count",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/recurringCustomer/prepare",
+        "status": 200
+      },
+      {
+        "url": "/initialData/initialBlob/1/21",
+        "status": 200
+      },
+      {
+        "url": "/invoices/createInvoice/AccountsWithBalance/1/21",
+        "status": 200
+      }
+    ]
+  }
+]

@@ -143,3 +143,25 @@ Migration026 captures changes to this feature's audited customer/financial recor
 ## Run 5 presentation
 
 Run 5 adds Client record and Full evidence record layouts to the separate Audit Record PDF, with aligned money columns, grouped human changes and source-archive verification. These do not change invoice/statement PDFs, issued totals, six-minute pricing, retainer application or finalize=sent locks. See [Audit Record presentation](../platform/audit-ledger.md#client-and-full-evidence-presentation-run-5).
+
+## H1 business scope (2026-09-26)
+
+Invoice headers use the selected business’s legal/contact/address fields, prefix and verified tenant-owned logo. Missing optional contact fields do not print empty Phone/Email labels. Issue payloads freeze the selected letterhead; old issue artifacts are not regenerated. The printed interest line is unchanged. All-business customer statements show separate business sections and current amounts rather than a combined payable invoice. H1’s synthetic PDFs are rendered and inspected in the run evidence.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+H2 newly generated statements show each manual receipt once, then distinguish payment allocation activity from cash received. Totals display held credit available, automatically applied and remaining. The printed interest template is unchanged. Customer statements append business-specific original-date aging, remaining obligations and receipt summaries with both historical cutoffs. Account Audit PDFs show raw N and proposed credit use/payable separately. Historical archived PDFs are not regenerated or fetched from AWS.
+
+
+## H3 update — 2026-09-26
+
+Subsequent statements include the document number, reason and amount of unprinted credit memos, reversals, voids and money returned. Standalone immutable correction PDFs use the business legal name and verified SHA-256. Replacement invoices use the existing template and new number; the interest line is unchanged.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H4 recurring period labels
+
+Recurring lines print their editable service description, immutable covered-period dates and current fee. Description-only fees need no fabricated job or staff name. Skipped fees do not print or charge. The existing printed interest line is unchanged. [H4 oracles](../scenarios/H4-recurring.md) include downloaded PDF period assertions.

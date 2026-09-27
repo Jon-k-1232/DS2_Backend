@@ -1,5 +1,7 @@
 # Month-end finalization
 
+**H6 navigation:** Billing → Create invoices: `/billing/create`; finalize still means sent and locked. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 The successful finalize transaction is the issuance/sent boundary; draft generation is not sent. After parent creation/stamping, capture the exact renderer payload, artifact key and ledger basis into invoice_issues/membership/revision 0/history in the same transaction. Existing issued chains are absorbed by appending zero closing children, never editing their rows. Storage/DB failures before commit leave no issued metadata; concurrent writers serialize on customer locks. New same-day issuance uses the existing explicit rebill rule. [Full contract](invoices.md).
@@ -9,7 +11,7 @@ The successful finalize transaction is the issuance/sent boundary; draft generat
 
 ## 1. Purpose and UI
 
-Finalization issues rolling statements, links newly billed transactions/payments, absorbs prior statement balances and creates download artifacts. The same Create Invoice page also offers drafts and CSV-only output. Route: `/invoices/createInvoice`; page: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:17`; output defaults are CSV=true, draft=false, finalize=false. At least one selected customer and one output option are required by the UI, and finalized billing opens a confirmation dialog. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:26`, `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:10`, `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:62`.
+Finalization issues rolling statements, links newly billed transactions/payments, absorbs prior statement balances and creates download artifacts. The same Create Invoice page also offers drafts and CSV-only output. Route: `/billing/create`; page: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:17`; output defaults are CSV=true, draft=false, finalize=false. At least one selected customer and one output option are required by the UI, and finalized billing opens a confirmation dialog. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:26`, `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:10`, `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:62`.
 
 After success, completed selections are cleared; skipped customer choices remain available. A subsequent download failure is displayed separately from successful finalization. The server also returns committed success plus warnings when the combined ZIP or invoice-list refresh fails; see [F15](../_review/findings.md#f15). Source: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:85`.
 
@@ -208,3 +210,25 @@ Migration025 adds immutable `invoice_issues.credit_selection_reason`; session ac
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## H1 business scope (2026-09-26)
+
+`invoiceConfiguration.invoiceCreationSettings.entityId` is required. One run issues one business’s statements. Finalize freezes that business’s legal letterhead, logo hash and prefixed year sequence; concurrent numbering uses account/sequence locks and stale-run refusal. Same-day guards are per business. Carry-forward appends closing snapshots for frozen default or split openings and records consumption links. Drafts/CSV retain existing editability and credit-selection behavior; no old row or PDF is renumbered or rewritten.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+Finalization retains the existing immutable artifact/statement transaction. H2 adds obligations, credit applications/events, compatibility receipt-credit lines and carrier links atomically. The receipt-credit compatibility row uses the statement timestamp so the next statement gate cannot count it again. Paid obligations also advance to the latest carrier: a later bounced check restores debt on the current statement, not an absorbed root. A new statement date cannot precede the latest issued business statement. Storage or database failure rolls back money and subledger evidence together.
+
+
+## H3 update — 2026-09-26
+
+H3 replacement invoices finalize immediately as sent/locked with a new number. Standard finalize includes pending correction evidence and applies available credit once. Original documents and the printed interest line remain unchanged.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H4 recurring finalize boundary
+
+Finalize runs recurring preparation before its pricing snapshot. If due fees were generated, it returns HTTP409 with their periods and refresh instructions, creates no invoice, and keeps the explicitly reported preparation committed. Once reviewed, readiness is rechecked inside the existing account/client ledger lock. Capped or held recurring plans block billing for that business. Issuing freezes linked occurrences and events with the existing statement membership. A skipped fee is nonbillable and cannot regenerate. PDF preview remains read-only. See [recurring billing](../work/recurring-billing.md).

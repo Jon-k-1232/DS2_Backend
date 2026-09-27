@@ -1,6 +1,8 @@
 # Possible duplicates
 
-Owner decision 4 is implemented by `duplicates/duplicates-service.js`, `duplicates-router.js`, migration 024, common grid badges and frontend `/transactions/possibleDuplicates`. All four routes require authenticated Manager/Admin/Super Admin/Owner, exact session account, session actor and a reason for mutations. They never provide an invoice unlock.
+**H6 navigation:** Time & Work → Possible duplicates: `/work/duplicates`; duplicateId query links remain supported. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
+Owner decision 4 is implemented by `duplicates/duplicates-service.js`, `duplicates-router.js`, migration 024, common grid badges and frontend `/work/duplicates`. All four routes require authenticated Manager/Admin/Super Admin/Owner, exact session account, session actor and a reason for mutations. They never provide an invoice unlock.
 
 | Route | Inputs and result |
 |---|---|
@@ -38,3 +40,25 @@ Credit statements lock at finalize exactly like debit statements; duplicate flag
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## H1 business scope (2026-09-26)
+
+Financial records returned to duplicate review include effective business attribution and business-scoped ledger reads. Duplicate removal remains subject to the stored record’s entity/sent guards. H3 applies the owner’s Admin/Super Admin-only rule to removal holding money; flag/dismiss behavior stays unchanged.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+H2 adds kind `payment_receipt` and receipt-level date/method/reference/amount detection within client/business. A reasoned acknowledgement retains duplicate evidence. Applications of one check do not become duplicate cash receipts. Immutable receipt rows cannot be deleted from duplicate review; use the admin-only complete unissued cancellation or issued correction workflow. Flagging/dismissal remain unchanged. H3 implements the broader existing monetary-removal permission retrofit.
+
+
+## H3 update — 2026-09-26
+
+Resolve `action=remove` now requires admin or super admin; managers/employees cannot remove money. Flag, scan and dismiss retain existing permissions. The review screen hides Remove/Confirm for nonadmins and explains why. Issued duplicate financial records remain locked; use a supported invoice correction where appropriate.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H8 readable review history
+
+Duplicate list responses add the same-account client display name and resolve each history event's `actor_name`, including inactive staff. The review shows names rather than raw client/staff IDs. Record identifiers needed to select a candidate remain explicit. Labels are read-time presentation only: flags, reasons, removals, permissions and append-only history are unchanged.

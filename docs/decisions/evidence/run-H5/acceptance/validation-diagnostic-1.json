@@ -1,0 +1,74 @@
+[
+  {
+    "name": "unit",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "--recursive",
+      "--exclude",
+      "test/integration/**",
+      "test"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "started_at": "2026-09-26T18:14:13.609323+00:00",
+    "seconds": 82.49,
+    "exit_code": 0,
+    "counts": {
+      "passing": 1220,
+      "failing": 0,
+      "pending": 0
+    }
+  },
+  {
+    "name": "analytics.integration.spec",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/analytics.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "started_at": "2026-09-26T18:15:36.102499+00:00",
+    "seconds": 1.98,
+    "exit_code": 0,
+    "counts": {
+      "passing": 11,
+      "failing": 0,
+      "pending": 0
+    }
+  },
+  {
+    "name": "billing-regression.integration.spec",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/billing-regression.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "started_at": "2026-09-26T18:15:38.077966+00:00",
+    "seconds": 1.12,
+    "exit_code": 1,
+    "counts": {
+      "passing": 1,
+      "failing": 1,
+      "pending": 0
+    }
+  }
+]

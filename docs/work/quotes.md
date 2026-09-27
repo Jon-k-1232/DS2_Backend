@@ -1,8 +1,10 @@
 # Quotes
 
+**H6 navigation:** Billing → Quotes: `/billing/quotes`. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## 1. Purpose and UI
 
-Quotes store a proposed amount against a customer and job. `/invoices/quotes` renders `QuotesGrid`, which fetches the quote list once initial customer data is present, then displays a `DataGridTable`. The create-quote route in the frontend is commented out. Create/update/delete backend APIs exist, but corresponding live quote forms were **not determined from the code** reviewed (`../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:25`, `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:36`, `../DS2_Frontend/src/Pages/Invoices/InvoiceGrids/QuotesGrid.js:32`).
+Quotes store a proposed amount against a customer and job. `/billing/quotes` renders `QuotesGrid`, which fetches the quote list once initial customer data is present, then displays a `DataGridTable`. The create-quote route in the frontend is commented out. Create/update/delete backend APIs exist, but corresponding live quote forms were **not determined from the code** reviewed (`../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:25`, `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:36`, `../DS2_Frontend/src/Pages/Invoices/InvoiceGrids/QuotesGrid.js:32`).
 
 The list API's second path parameter is named `quoteID`; the frontend passes `userID` because the backend ignores that parameter (`../DS2_Frontend/src/Services/ApiCalls/FetchCalls.js:337`, `src/endpoints/quotes/quotes-router.js:51`). These `customer_quotes` rows are separate from a job's `is_quote` and `job_quote_amount` fields (`src/endpoints/quotes/quotesObjects.js:1`, `src/endpoints/job/jobObjects.js:6`). Review date: 2026-09-24; source and test assertions were read, not run.
 
@@ -59,7 +61,7 @@ Only `customer_quotes` is read/written by this service: identity, account, custo
 
 ## 5. Read logic
 
-Despite its name, `getActiveQuotes` selects **every** `customer_quotes` row for the account, including `is_quote_active=false`. No join, active predicate, grouping, `ORDER BY`, pagination, text search or selectable sorting exists. List and post-mutation refresh use the same query (`src/endpoints/quotes/quotes-service.js:2`). Grid keys derive from the first record; empty data produces `{columns:[],rows:[]}` (`src/utils/gridFunctions.js:6`). There is no single-quote API; `quoteID` on GET does not narrow the result (`src/endpoints/quotes/quotes-router.js:54`).
+Despite its name, `getActiveQuotes` selects **every** `customer_quotes` row for the account, including `is_quote_active=false`. The H8 GET reader joins the same-account client, job and service type, and adds the creator name for display. Its list still has no active predicate, grouping, `ORDER BY`, pagination or server text search. Post-mutation refresh retains the original raw query (`src/endpoints/quotes/quotes-service.js:2`). Grid keys derive from the first record; empty data produces `{columns:[],rows:[]}` (`src/utils/gridFunctions.js:6`). There is no single-quote API; `quoteID` on GET does not narrow the result (`src/endpoints/quotes/quotes-router.js:54`).
 
 ## 6. Calculations
 
@@ -91,3 +93,18 @@ Migration026 captures changes to this feature's audited customer/financial recor
 ## Pass 3 response after a committed change
 
 Customer/recurring, job, catalog, quote and user mutations in this guide preserve their successful response payload. If the mutation commits but rebuilding its response lists fails, the API returns HTTP 200 with `status: 200`, `committed: true` and a warning to reload without submitting the change again. Precommit errors retain their existing refusal and rollback behavior. This prevents a saved create, edit or delete from being reported as an unsuccessful write. Regression: `path-matrix-03-commit-outcomes.integration.spec.js`, with exactly one stored mutation checked for each create/update/delete. Drafts stay editable and write nothing to the ledger; finalize is the sent/lock boundary.
+
+## H1 business scope (2026-09-26)
+
+Quote creation carries the selected billing business; list/filter and matching job choices retain it. Entity selection is validated in the shared request scope and same-account links. Existing quote dates/amount semantics remain as documented; no issued multi-company statement is created.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+## H9 shared response representation
+
+Committed mutation responses omit server-built grid/tree copies; the browser derives those views on demand from the existing small master-data row lists. Their role gates, payload fields and mutation rules are unchanged. Customer/job/financial lists follow the stricter [bounded response contract](../platform/performance.md). Route delivery is lazy and record URLs fetch selected references directly.
+
+
+## H8 readable register
+
+The quote register remains read-only in the UI. It displays client, service and creator names instead of raw keys, with sentence-case column labels. Joins include account and client ownership; inactive creators can still be named. These response-only labels change no stored quote or audit event. The help panel explicitly describes the register’s read-only boundary. Scenario and browser tests verify real named quote rows and unchanged audit evidence; existing quote CRUD/role/tenant/error coverage remains.

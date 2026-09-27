@@ -1,0 +1,57 @@
+{
+  "readOnly": true,
+  "client": 6,
+  "method": "Supplemental replay of frozen original readers with original SQL views vs optimized readers; unchanged source data; no profile POST, upload or write.",
+  "before": {
+    "allBusinessBalances": {
+      "samples": [
+        441.44608299999993,
+        433.627166,
+        418.33170799999994
+      ],
+      "medianMs": 433.627166,
+      "queries": 90
+    },
+    "singleBusinessCalculation": {
+      "samples": [
+        2386.611583,
+        2436.4613750000008,
+        2419.1976670000004
+      ],
+      "medianMs": 2419.1976670000004,
+      "queries": 105
+    },
+    "auditRunReadPhase": {
+      "elapsedMs": 41250.136834000004,
+      "queries": 53302,
+      "clients": 338
+    }
+  },
+  "after": {
+    "allBusinessBalances": {
+      "samples": [
+        147.1337910000002,
+        176.49587500000052,
+        167.01008300000103
+      ],
+      "medianMs": 167.01008300000103,
+      "queries": 90
+    },
+    "singleBusinessCalculation": {
+      "samples": [
+        2421.103624999996,
+        2410.900582999995,
+        2413.777332999998
+      ],
+      "medianMs": 2413.777332999998,
+      "queries": 105
+    },
+    "auditRunReadPhase": {
+      "elapsedMs": 40292.145249999994,
+      "queries": 53302,
+      "clients": 338
+    }
+  },
+  "equalityNote": "Complete calculation data compared; only the Audit execution timestamp generated_at is excluded.",
+  "equal": true
+}

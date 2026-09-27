@@ -1,5 +1,7 @@
 # Retainers and prepayments
 
+**H6 navigation:** Payments & Credits → Retainers & deposits: `/payments/retainers`; client Credits & retainers tab: `/clients/:customerId/credits`. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 Pass 4 UI correction: receipt submission is disabled while pending, including rapid double-clicks. Request failures show the server message, preserve entered values and permit an explicit retry. Zero/invalid amounts are refused before submission; signed receipt inputs keep their documented negative-credit normalization. The shared grid toolbar also preserves an open form and its success message across refreshes.
@@ -21,7 +23,7 @@ A retainer/prepayment holds credit for a customer. One root records the starting
 
 | UI | Route and files |
 | --- | --- |
-| Retainer grid/add | `/transactions/customerRetainers`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:31`; `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/RetainersGrid.js:7`; `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/Retainer.js:25`. |
+| Retainer grid/add | `/payments/retainers`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:31`; `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/RetainersGrid.js:7`; `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/Retainer.js:25`. |
 | Delete | `/transactions/customerRetainers/deleteRetainer`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/RetainerSubRoutes.js:36`; `../DS2_Frontend/src/Pages/Transactions/TransactionForms/DeleteTransaction/DeleteRetainer.js:1`. |
 | Edit availability | `EditRetainer.js` exists under frontend `Pages/Transactions/TransactionForms/EditTransaction`, but the `editRetainer` route is commented out. The backend update endpoint is implemented. (`../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/RetainerSubRoutes.js:43`.) |
 | Customer history | `/customers/customersList/customerProfile/:customerId/retainersAndPrePayments`; `../DS2_Frontend/src/Routes/GroupedRoutes/CustomerRoutes/CustomerProfileSubRoutes.js:96`; `../DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerRetainers.js:4`. |
@@ -35,7 +37,7 @@ All seven endpoints require active-user authentication and role `manager`, `admi
 
 ## 3. API reference
 
-Ledger-state business errors below use **HTTP200 with a JSON error status**; the input validation contract below uses **HTTP400**, except authentication/account/role/parser/rate-limit middleware. Every endpoint can receive the common HTTP 401/403/400/413/429/500 errors described in [conventions](ledger-conventions.md#3-api-conventions). There is no paginated retainer-router account-list endpoint. Whole-account history comes from initial-data loading and mutation responses. (`src/endpoints/retainer/retainer-router.js:13`, `src/endpoints/retainer/retainer-router.js:123`, `src/endpoints/initialData/initialData-router.js:110`.)
+Ledger-state business errors below use **HTTP200 with a JSON error status**; the input validation contract below uses **HTTP400**, except authentication/account/role/parser/rate-limit middleware. Every endpoint can receive the common HTTP 401/403/400/413/429/500 errors described in [conventions](ledger-conventions.md#3-api-conventions). H9 adds the paged account register described below; initial data and save refreshes are bounded. (`src/endpoints/retainer/retainer-router.js:13`, `src/endpoints/retainer/retainer-router.js:123`, `src/endpoints/initialData/initialData-router.js:110`.)
 
 ### Body fields
 
@@ -58,7 +60,7 @@ Nullable-string parsing and XSS sanitization follow conventions. SQL column limi
 | --- | --- |
 | Method/path | `POST /retainers/createRetainer/:accountID/:userID` |
 | Body | `{retainer:{customerID,unitCost,typeOfHold,...optionalFields}}`. |
-| Success | HTTP 200, `{status:200,message,accountRetainersList:{activeRetainerData:{activeRetainers,grid,treeGrid}}}`; refreshed whole-account history. |
+| Success | HTTP 200, `{status:200,message,accountRetainersList:{activeRetainerData:{activeRetainers,grid,treeGrid}}}`; H9: first20 rows with changed record/deleted identity; no grid/tree copies. |
 | Errors | Common middleware errors; otherwise HTTP 200/JSON 500: invalid/missing customer, customer outside account, nonnegative/invalid rounded amount, missing type, DB constraint/query failure, or precommit database failure. |
 | Source | `src/endpoints/retainer/retainer-router.js:13`, `src/endpoints/retainer/retainer-logic.js:55`, `src/endpoints/retainer/retainer-router.js:150`. |
 
@@ -68,7 +70,7 @@ Nullable-string parsing and XSS sanitization follow conventions. SQL column limi
 | --- | --- |
 | Method/path | `PUT /retainers/updateRetainer/:accountID/:userID` |
 | Body | `{retainer:{retainerID,...optionalFields}}`. Can address a root or child; starting balance/descriptors affect the chain. |
-| Success | Same whole-account response as create. |
+| Success | Same bounded response as create. |
 | Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing/malformed/foreign retainer, attempted customer reassignment, finite zero amount, nonzero balance change on cancelled prepayment, new starting credit below amount already drawn, or precommit DB failure. There is no billed-statement refusal in this core. |
 | Source | `src/endpoints/retainer/retainer-router.js:40`, `src/endpoints/retainer/retainer-logic.js:85`. |
 
@@ -78,7 +80,7 @@ Nullable-string parsing and XSS sanitization follow conventions. SQL column limi
 | --- | --- |
 | Method/path | `DELETE /retainers/deleteRetainer/:retainerID/:accountID/:userID` |
 | Parameters/body | Required positive integer/coercible retainer URL ID. No business body fields. |
-| Success | Same whole-account response as create. |
+| Success | Same bounded response as create. |
 | Errors | Common middleware errors; otherwise HTTP 200/JSON 500: missing/malformed/foreign ID, selected child, cancelled root, any draw child, any transaction/payment reference to chain rows, a payment's prepayment-root marker, or precommit DB failure. |
 | Source | `src/endpoints/retainer/retainer-router.js:66`, `src/endpoints/retainer/retainer-logic.js:156`. |
 
@@ -120,7 +122,7 @@ The important links/status are `[retainer_draw:N]` on payments; `[prepayment_ret
 
 | Read | Exact query behavior |
 | --- | --- |
-| Account grid/refresh | Despite the name `getActiveRetainers`, returns **all** account rows, including inactive/history. Inner-joins customers/users for names. Orders `created_at DESC` only. Initial data and mutation responses use this service; frontend renders the tree. (`src/endpoints/retainer/retainer-service.js:10`, `src/endpoints/initialData/initialData-router.js:110`, `src/endpoints/retainer/retainer-router.js:150`.) |
+| Account grid/refresh | H9 pages account history by created_at DESC, retainer_id DESC, with client-name/business filters. Initial data and mutation refreshes have at most20 rows; the register is flat and server-paged. Only client profiles retain history trees. |
 | Customer profile | All raw rows by account and customer, no ordering or pagination. Packaged as `customerRetainerData` with grid/tree. (`src/endpoints/retainer/retainer-service.js:24`, `src/endpoints/customer/customer-router.js:125`, `src/endpoints/customer/customer-router.js:143`.) |
 | Single | Raw row array filtered by account and retainer ID; not the whole chain. (`src/endpoints/retainer/retainer-service.js:28`.) |
 | Active picker | Rank all this customer's account rows by `ROW_NUMBER() OVER (PARTITION BY COALESCE(parent_retainer_id,retainer_id) ORDER BY created_at DESC,retainer_id DESC)`. Only afterward keep `rn=1`, `current_amount<0`, `is_retainer_active=true`. Order resulting rows by creation descending. An exhausted latest row cannot expose an older balance. (`src/endpoints/retainer/retainer-service.js:71`.) |
@@ -215,3 +217,34 @@ Selected negative invoice statements carry customer debt credits separately from
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## H1 business scope (2026-09-26)
+
+Retainer/prepayment roots and children belong to one business. Funds cannot pay another business’s work. `/payments/transfers` appends equal source/destination retainer evidence and one immutable transfer without a new cash-payment row. Only Admin/Super Admin can transfer, alone; managers/employees can read history. Transfer roots/evidence cannot be edited or deleted in place. H3 now enforces the owner addendum on existing refund/adjustment APIs and screens: admin and super admin may act alone; other roles have no posting controls and receive HTTP 403.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+H2 Receive payment excess is a separate held receipt-credit lot, automatically used at next issuance, with no duplicate retainer root. Existing explicit retainers and old single-payment excess retain their current chain/event rules. Legacy root deposits get descriptive derived receipt headers, never another spendable balance. Retainer draws synchronize obligation reductions and are not new cash. Receipt-credit transfer uses `/credits/transfers`; the existing retainer transfer stays `/billing-entities/transfers`. See [receipt compatibility boundary](receipts-and-obligations.md#compatibility-boundary-and-legacy-reconstruction).
+
+
+## H3 update — 2026-09-26
+
+POST retainer events (refund and adjustment) now requires `requireAdmin`; admin or super admin acts alone. Managers may read permitted history but have no event form. Legacy recording of received retainer funds keeps its existing permissions. General client-credit refunds use the separate corrections workflow.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H9 paged retainer register
+
+`GET /retainers/getRetainers/:accountID/:userID` requires the existing manager/admin read gate. It accepts `page`1–1,000,000 (default1), `limit`1–100 (default20), a `search` <=200 characters across client name, hold label, payment reference and note and the existing optional business scope. It returns `{status:200,accountRetainersList:{activeRetainerData:{activeRetainers,pagination,partial:true}}}`, ordered created_at DESC then retainer_id DESC. Validation400, auth401/403, safe read failure500; empty pages200. Reads change no ledger/audit rows. The register pages root and draw history as individual rows; both remain reachable for the same dependency and draw-deletion safeguards. A client profile still provides its local tree.
+
+Retainer create/edit/delete responses now include `changed.retainers`/`deletedRetainers` and first20 rows only, with no grid/tree duplicates. Transaction/payment saves likewise refresh only a bounded page. Per-client available-credit selection and append-only refund/adjustment rules are unchanged. Current owned endpoint count: **8**. [H9 response and loading contract](../platform/performance.md) supersedes earlier whole-account refresh descriptions.
+
+
+H9 also applies the profile projection to active payment record editors and pending-payment review (`section=invoices`). Editors hydrate their exact selected job and retainer separately. Retainer deletion uses `section=payments` to check the complete client payment history, including links outside any grid page, without fetching jobs or work. Retainer credit transfer uses `section=retainers`; all business balances remain available for choosing the source. These projections retain the existing manager/admin read guards, selected-business behavior and failure recovery. The actual client profile still loads its full per-client history/tree views.
+
+## H8 staff-name presentation
+
+Retainer event history and the single-retainer deletion review resolve the creator's name within the account, including inactive staff. Responses add `actor_name` or `created_by_user_name`; stored event rows and issued evidence are unchanged. The UI shows the name and keeps the user ID in a tooltip. Admin-only refunds/adjustments and dependency/issued-record deletion guards are unchanged.

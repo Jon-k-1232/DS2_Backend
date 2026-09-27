@@ -1,5 +1,7 @@
 # Timesheets and ingestion
 
+**H6 navigation:** Time & Work → Work review `/work/review`; Time Tracking → Employee trackers `/time-tracking/trackingAdministration`. [Route/permission and bookmark rules](workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 Imported/approved/reprocessed transactions meet the same SQL sent-record guard as manual routes. A write attempting to edit/delete/relink frozen work raises P0409 and rolls back the transaction; user-facing route errors normalize to HTTP 409 with the invoice number. New unstamped work still ingests normally. Existing six-minute ingestion rounding remains unchanged. [Sent contract](../invoicing/invoices.md).
@@ -11,7 +13,7 @@ Source review: 2026-09-24. Citations are backend-relative unless prefixed `../DS
 
 `timesheet_entries` is the holding table between workbook upload and customer_transactions. An upload can be pending, held for review, processed, or soft-deleted. Upload success does not mean all entries became billable transactions. Sources: `migrations/schema-snapshot-2026-09-22.sql:1013`, `src/endpoints/timesheets/auto-ingest-orchestrator.js:664`.
 
-`/time-tracking/billingReview` renders `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js`, with `tabs/NeedsReviewTab.js`, `tabs/ConsolidatedTab.js`, `tabs/PreInvoiceTab.js` and `components/ReviewBillingDialog.js`. The route requires Manager/Admin/Super Admin. Legacy employee tracker screens live below `/transactions/employeeTimeTrackerTransactions/*`, routed by `EmployeeEntrySubRoutes.js`; grids include `TimeTrackerStatusGrid.js`, `EmployeeTimesheetsGrid.js` and `TimesheetsByMonthGrid.js` under Pages/Transactions/TransactionGrids. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:41`, `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:13`, `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:32`.
+`/work/review` renders `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js`, with `tabs/NeedsReviewTab.js`, `tabs/ConsolidatedTab.js`, `tabs/PreInvoiceTab.js` and `components/ReviewBillingDialog.js`. The route requires Manager/Admin/Super Admin. Legacy employee tracker screens live below `/transactions/employeeTimeTrackerTransactions/*`, routed by `EmployeeEntrySubRoutes.js`; grids include `TimeTrackerStatusGrid.js`, `EmployeeTimesheetsGrid.js` and `TimesheetsByMonthGrid.js` under Pages/Transactions/TransactionGrids. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:41`, `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:13`, `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:32`.
 
 ## 2. Access rules
 
@@ -240,3 +242,22 @@ Coverage: **9 owned endpoint contracts**. See the [endpoint index](../README.md#
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## H1 business scope (2026-09-26)
+
+Raw tracker business text is normalized with NFKC, whitespace, case and punctuation only. One distinct active exact name/legal name/alias is required; unknown or ambiguous text is held before model calls. No customer/user label is used to guess a company. Admin mapping records an immutable reasoned resolution without changing raw text. Manual movement and billing-review apply verify the resolved business and forbid wrong-business jobs/funding.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+H2's legacy amendment releases pre-cutover work to the default opening scope. Historical unmatched tracker text is reporting-only and appears in the candidate report; it does not block billing. Newly recorded unknown/ambiguous tracker work still enters the business-review hold. Entry recording time, not a backdated service date, determines whether the legacy policy applies.
+
+## H5 — preserve first-recorded labor evidence
+
+Migration045 installs cost/standard-value/actual-minute capture on source trackers and work. Validated uploads supply the actual owner as `matched_user_id` before insertion, so a manager uploader or duplicate employee display name cannot select the wrong labor rate. Held and nonbillable rows capture cost at entry; later approval copies that source rate and actual minutes rather than the current staff rate. Billing remains six-minute round-up; labor uses actual minutes. Unknown cost remains explicitly unknown, and historical rows use a migration-time estimated sidecar without source rewrites.
+
+Posting persists unique `source_timesheet_entry_id`. Source tenancy, employee, customer and effective/unique exact-alias business are checked inside the transaction; duplicates/conflicts refuse atomically. Reporting deduplicates posted/source copies and uses historical tracker worked-for attribution separately from the billed-by business. See [analytics](../invoicing/analytics.md) and [H5 oracle](../scenarios/H5-honest-analytics.md).
+
+H5 continuation046 preserves supplied actual manual minutes independently of rounded billing quantity. Held-entry apply/manual move/AI rerun record corrected source minutes atomically with their claim; known employee reassignment requires `costChangeReason` and captures the selected staff rate. The held-review form requests that reason. A failed apply rolls back source corrections, financial writes and audit events. An unknown employee matched later does not invent a historical rate.

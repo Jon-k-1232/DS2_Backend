@@ -1,5 +1,7 @@
 # DS2 documentation
 
+**Round 2:** [integrated design](decisions/2026-09-26-owner-requests-2.md), [corrected legacy cutover](platform/billing-entities.md), [Receive payment and true aging](ledger/receipts-and-obligations.md), [H2 oracles](scenarios/H2-receipts-and-aging.md), [H2 results](decisions/2026-09-26-run-H2-results.md). H3 adds [invoice corrections and refunds](ledger/invoice-corrections.md), [hand oracles](scenarios/H3-corrections.md), and [H3 results](decisions/2026-09-26-run-H3-results.md). Its 15 routes bring the index to **207 implemented contracts**. H4 adds [recurring billing](work/recurring-billing.md), [oracles](scenarios/H4-recurring.md) and [results](decisions/2026-09-26-run-H4-results.md). Its nine routes bring the current index to **216 implemented contracts**. H5 adds [honest analytics](invoicing/analytics.md), [oracles](scenarios/H5-honest-analytics.md) and [results](decisions/2026-09-26-run-H5-results.md). Its two read/export routes bring the current index to **218 implemented contracts**. H6 adds [category navigation and bookmark compatibility](platform/workspace-navigation.md), [browser scenarios](scenarios/H6-navigation.md) and [H6 results](decisions/2026-09-26-run-H6-results.md). H7 adds the [combined money lifecycle](scenarios/H7-combined-lifecycle.md), [218-contract path matrix](scenarios/round2-path-matrix.md), [PASS5 evidence](scenarios/RESULTS-PASS5.md) and [H7 results](decisions/2026-09-26-run-H7-results.md). H8 adds [page help](platform/page-help.md), [complete browser/mistake coverage](scenarios/H8-browser-and-help.md), [PASS6 evidence](scenarios/RESULTS-PASS6.md) and [H8 results](decisions/2026-09-26-run-H8-results.md), with no new endpoint contracts. H6/H7/H8 add no endpoint contracts. H9 adds [bounded loading](platform/performance.md), [scenario oracles](scenarios/H9-bounded-loading.md) and [results](decisions/2026-09-26-run-H9-results.md). Its three read endpoints bring the current index to **221 implemented contracts**. H10 adds [batched financial reads](platform/performance.md), [equivalence oracles](scenarios/H10-batched-calculations.md) and [performance/validation results](decisions/2026-09-26-run-H10-results.md), with **no new endpoints or routes**; the index remains **221 contracts**.
+
 Reviewed against the local source; owner decisions 1–6 implemented on 2026-09-25.
 
 Start with the [owner decision record](decisions/2026-09-24-owner-decisions.md), [sent invoice workflow](invoicing/invoices.md) and [run 1 results](decisions/2026-09-24-run-1-results.md). Run 2 adds [retainer events](ledger/retainers-and-prepayments.md) and [duplicate review](ledger/duplicates.md); see [run 2 results](decisions/2026-09-25-run-2-results.md). Run 3 adds [optional credit statements and time-increment validation](decisions/2026-09-25-run-3-results.md) and the [combined five-decision lifecycle](scenarios/16-owner-combined.md). Run 4 adds the deterministic [Audit Record](platform/audit-ledger.md), separate from AI Audit; see [run 4 results](decisions/2026-09-25-run-4-results.md). Run 5 adds readable Client and Full evidence records with verified source downloads; see [run 5 results](decisions/2026-09-25-run-5-results.md). Run 6 collapses archived statement copies and uses plain client verification wording; see [run 6 results](decisions/2026-09-25-run-6-results.md).
@@ -12,11 +14,36 @@ DS2 is an account-scoped practice management and billing application. It connect
 2. Read [ledger conventions](ledger/ledger-conventions.md) before interpreting balances or changing financial records.
 3. Open the owning feature guide from the catalog or endpoint index. Its API section defines inputs, responses, role checks and errors. Calculation and edit sections describe what the code actually does.
 4. Read [consolidated findings](_review/findings.md) for confirmed inconsistencies and proposed fixes. The four original review files remain historical evidence; their overlapping endpoint totals are superseded here.
-5. Run the [Pass 2 what-if and careless-user scenarios](scenarios/what-if-and-mistakes.md) and the [Pass 1 scenario catalogue](scenarios/README.md) for hand-written financial oracles and local-only reset instructions. Read the [Pass 2 execution report](scenarios/RESULTS-PASS2.md) and retained [Pass 1 report](scenarios/RESULTS.md) for exact results and open business decisions. Pass4 adds [actual-screen mistake scenarios](scenarios/ui-mistakes.md) and [fresh execution evidence](scenarios/RESULTS-PASS4.md), including both readable Audit Record print options and the supplied external browser connection.
+5. Run the [scenario catalogue](scenarios/README.md) for hand-written financial oracles and local-only reset instructions. [PASS6](scenarios/RESULTS-PASS6.md) records the H8 full browser and mistake pass after the H9/H10 loading improvements. [PASS5](scenarios/RESULTS-PASS5.md) retains the H7 full regression, both owner rounds and the [combined two-business lifecycle](scenarios/H7-combined-lifecycle.md). Retained [Pass 2 mistake scenarios](scenarios/what-if-and-mistakes.md), [Pass 2 results](scenarios/RESULTS-PASS2.md) and [Pass 1 results](scenarios/RESULTS.md) explain earlier decisions. Pass4's [actual-screen mistakes](scenarios/ui-mistakes.md) and [results](scenarios/RESULTS-PASS4.md) include both readable Audit Record print options and the supplied external browser connection.
 
 Source citations use `path:line`, relative to DS2_Backend. A `../DS2_Frontend/` or `../DS2_Lambdas/` prefix identifies a sibling repository. The original consistency pass inspected assertions without running tests. Subsequent F8–F22 fixes and their executed local regressions are recorded in the [remediation log](_review/fixes-F8-F22.md); affected guides describe the fixed behavior. This is local verification, not deployment evidence.
 
 Every endpoint has exactly one owning **feature** contract. Supporting guides cross-link it. The index repeats only method, path, role and ownership for navigation; it is not a second contract. Some guides abbreviate `A=:accountID`, `U=:userID` and `Q=:queryUserID`; this index expands them.
+
+
+## H2 added endpoint index
+
+| Method | Path | Role | Owner |
+|---|---|---|---|
+| GET | `/payments/open-obligations` | Manager/admin | [receipts](ledger/receipts-and-obligations.md) |
+| GET | `/payments/receipts` | Manager/admin | [receipts](ledger/receipts-and-obligations.md) |
+| POST | `/payments/receipts` | Manager/admin | [receipts](ledger/receipts-and-obligations.md) |
+| GET | `/payments/receipts/:receiptID` | Manager/admin | [receipts](ledger/receipts-and-obligations.md) |
+| POST | `/payments/receipts/:receiptID/applications/:applicationID/correct` | Admin | [receipts](ledger/receipts-and-obligations.md) |
+| POST | `/payments/receipts/:receiptID/cancellations` | Admin | [receipts](ledger/receipts-and-obligations.md) |
+| POST | `/payments/receipts/:receiptID/exceptions` | Admin | [receipts](ledger/receipts-and-obligations.md) |
+| POST | `/payments/receipts/:receiptID/reversals` | Admin | [receipts](ledger/receipts-and-obligations.md) |
+| POST | `/payments/receipts/:receiptID/resolve` | Admin | [receipts](ledger/receipts-and-obligations.md) |
+| GET | `/credits` | Manager/admin | [receipts](ledger/receipts-and-obligations.md) |
+| GET | `/credits/transfers` | Manager/admin | [receipts](ledger/receipts-and-obligations.md) |
+| POST | `/credits/transfers` | Admin | [receipts](ledger/receipts-and-obligations.md) |
+| GET | `/billing-entities/cutover/amendment` | Admin | [business entities](platform/billing-entities.md) |
+| POST | `/billing-entities/cutover/amendment` | Admin | [business entities](platform/billing-entities.md) |
+| GET | `/billing-entities/cutover/candidates` | Manager/admin | [business entities](platform/billing-entities.md) |
+
+## Frontend route index
+
+The [workspace route index](platform/workspace-navigation.md#navigation) lists all 39 sidebar leaves, role gates, stable record URLs and old-path redirects. Browser navigation changes do not rename the APIs below (221 after H9).
 
 ## Document catalog
 
@@ -25,28 +52,33 @@ Every endpoint has exactly one owning **feature** contract. Supporting guides cr
 | [README.md](README.md) | Reading guide, complete document catalog, router ownership and endpoint index. | — |
 | [architecture.md](architecture.md) | Request flow, data relationships, background work, storage and month-end lifecycle. | — |
 | [ledger/ledger-conventions.md](ledger/ledger-conventions.md) | Shared signs, rounding, invoice/retainer chains, markers and ledger locks. | 0 |
+| [ledger/receipts-and-obligations.md](ledger/receipts-and-obligations.md) | One receipt, immutable applications, held credit, corrections and transfers. | 12 |
+| [ledger/invoice-corrections.md](ledger/invoice-corrections.md) | Credit memos, void/rebill, client refunds, protected originals and admin-only actions. | 15 |
 | [ledger/payments.md](ledger/payments.md) | Receipts, edits, deletion, NSF reversals and invoice/retainer effects. | 6 |
-| [ledger/retainers-and-prepayments.md](ledger/retainers-and-prepayments.md) | Retainer receipt chains, refunds, adjustments, available credit and draws. | 7 |
+| [ledger/retainers-and-prepayments.md](ledger/retainers-and-prepayments.md) | Retainer receipt chains, refunds, adjustments, available credit and draws. | 8 |
 | [ledger/write-offs-and-adjustments.md](ledger/write-offs-and-adjustments.md) | Write-off posting and lifecycle, with links to work corrections. | 5 |
 | [ledger/duplicates.md](ledger/duplicates.md) | Possible duplicate detection, review, dismissal and guarded removal. | 4 |
 | [ledger/pending-payments.md](ledger/pending-payments.md) | Payment extraction, review, atomic approval and source-file handling. | 10 |
-| [work/customers.md](work/customers.md) | Customer/contact profiles, recurring settings, statements and deletion rules. | 10 |
+| [work/recurring-billing.md](work/recurring-billing.md) | Entity-specific recurring plans, period generation, catch-up, reasoned edit/skip and sent locks. | 9 |
+| [work/customers.md](work/customers.md) | Customer/contact profiles, recurring settings, statements and deletion rules. | 11 |
 | [work/initial-data-and-notifications.md](work/initial-data-and-notifications.md) | Bootstrap payload, role redaction, notifications and read status. | 5 |
 | [work/job-categories-and-types.md](work/job-categories-and-types.md) | Category/type catalogs, ownership checks and edit/delete behavior. | 8 |
-| [work/jobs.md](work/jobs.md) | Customer jobs, version families, stored totals and lifecycle rules. | 5 |
+| [work/jobs.md](work/jobs.md) | Customer jobs, version families, stored totals and lifecycle rules. | 6 |
 | [work/quotes.md](work/quotes.md) | Quote records, field handling, account scope and CRUD behavior. | 4 |
 | [work/transactions.md](work/transactions.md) | Direct work entry, job totals, retainer funding and billed edit guards. | 7 |
 | [work/work-descriptions.md](work/work-descriptions.md) | General work-description catalog and create/update/delete rules. | 4 |
 | [invoicing/account-audit.md](invoicing/account-audit.md) | Independent ledger reconciliation, saved audit jobs, narrative and PDFs. | 7 |
 | [invoicing/accounts-receivable.md](invoicing/accounts-receivable.md) | Current statement balances, aging buckets, open-charge estimates and CSV. | 2 |
-| [invoicing/analytics.md](invoicing/analytics.md) | Rates, time allocation, WIP, budgets, capacity and reporting exports. | 10 |
+| [invoicing/analytics.md](invoicing/analytics.md) | Issued revenue, work/WIP, applied receipts, cost snapshots, realization, margin and entity reporting. | 12 |
 | [invoicing/billing-review.md](invoicing/billing-review.md) | Held work, weekly/pre-invoice review, reprocessing and guarded corrections. | 10 |
 | [invoicing/create-invoice-engine.md](invoicing/create-invoice-engine.md) | Signed customer eligibility, credit selection, snapshot inputs and invoice calculations. | 1 |
 | [invoicing/invoices.md](invoicing/invoices.md) | Invoice register, frozen detail, exceptions, revisions, history and guarded deletion. | 8 |
 | [invoicing/month-end-finalize.md](invoicing/month-end-finalize.md) | The shared generation request, drafts/CSV, final commit and artifacts. | 1 |
 | [invoicing/pdf-statements.md](invoicing/pdf-statements.md) | Invoice and customer-statement layout, amounts and pagination. | 0 |
 | [platform/accounts-users-auth.md](platform/accounts-users-auth.md) | Google sessions, account settings, users, roles and automation settings. | 12 |
+| [platform/billing-entities.md](platform/billing-entities.md) | Business settings, exact tracker mapping, ledger partitioning, legacy cutover and reasoned credit transfers. | 20 |
 | [platform/audit-ledger.md](platform/audit-ledger.md) | Deterministic client Audit Record, append-only capture, verification and two immutable PDF types. | 7 |
+| [platform/workspace-navigation.md](platform/workspace-navigation.md) | H6 categories, browser routes, redirects, permissions and accessible page patterns. | 0 |
 | [platform/operations.md](platform/operations.md) | Health aliases, configuration, migrations, reminders and repair procedures. | 4 |
 | [platform/storage-and-downloads.md](platform/storage-and-downloads.md) | S3 namespaces, key authorization and the generic export downloader. | 1 |
 | [platform/time-tracking.md](platform/time-tracking.md) | Tracker upload/history, templates, ownership and notification staff. | 13 |
@@ -60,7 +92,7 @@ Every endpoint has exactly one owning **feature** contract. Supporting guides cr
 
 ## Coverage and ownership
 
-The source contains **160 route contracts** across **30 mounts and 29 router modules**. They include all **135** method/path entries in `test/COVERAGE_MATRIX.md`, plus the twenty-five below. Aliases count separately. The retired ALL-method catch-all counts once; implicit Express HEAD/OPTIONS behavior does not add contracts. The health root routes accept both trailing-slash and slashless forms under the current non-strict router settings.
+The source contains **221 route contracts** across **37 mounts and 32 router modules**. They include all **135** method/path entries in `test/COVERAGE_MATRIX.md`, plus the twenty-five below, H1’s seventeen entity routes H2’s fifteen routes and H3’s fifteen correction routes, H4’s nine recurring routes and H5’s two reporting routes and H9’s three bounded lookup/register reads. Aliases count separately. The retired ALL-method catch-all counts once; implicit Express HEAD/OPTIONS behavior does not add contracts. The health root routes accept both trailing-slash and slashless forms under the current non-strict router settings.
 
 The matrix is a route-reference inventory, not proof that every branch was tested. Its omissions are retained here without editing the matrix or application code. Mount evidence: `src/app.js:124` through the analytics mount at `src/app.js:176`; each owning guide cites its router handlers.
 
@@ -106,6 +138,7 @@ Each router has one primary guide below. The invoice router delegates its calcul
 | `/analytics` | `src/endpoints/analytics/analytics-router.js` | [analytics.md](invoicing/analytics.md) |
 | `/api/health` | `src/endpoints/health/health-router.js` | [operations.md](platform/operations.md) |
 | `/auth` | `src/endpoints/auth/auth-router.js` | [accounts-users-auth.md](platform/accounts-users-auth.md) |
+| `/billing-entities` | `src/endpoints/billingEntities/entities-router.js` | [billing-entities.md](platform/billing-entities.md) |
 | `/billing-review` | `src/endpoints/billingReview/billingReview-router.js` | [billing-review.md](invoicing/billing-review.md) |
 | `/duplicates` | `src/endpoints/duplicates/duplicates-router.js` | [duplicates.md](ledger/duplicates.md) |
 | `/customer` | `src/endpoints/customer/customer-router.js` | [customers.md](work/customers.md) |
@@ -167,6 +200,8 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 | GET | `/accountsReceivable/aging/:accountID/:userID` | M | [accounts-receivable.md](invoicing/accounts-receivable.md#3-api-reference) |
 | GET | `/accountsReceivable/aging/:accountID/:userID/export` | M | [accounts-receivable.md](invoicing/accounts-receivable.md#3-api-reference) |
 | ALL | `/ai-integration/*` | Authenticated | [timesheets-and-ingestion.md](platform/timesheets-and-ingestion.md#3-api-reference) |
+| GET | `/analytics/billingPerformance/:accountID/:userID` | S | [analytics.md](invoicing/analytics.md#3-api-reference) |
+| GET | `/analytics/billingPerformance/:accountID/:userID/export` | S | [analytics.md](invoicing/analytics.md#3-api-reference) |
 | GET | `/analytics/clientRates/:accountID/:userID` | S | [analytics.md](invoicing/analytics.md#3-api-reference) |
 | GET | `/analytics/clientRates/:accountID/:userID/export` | S | [analytics.md](invoicing/analytics.md#3-api-reference) |
 | GET | `/analytics/exclusions/:accountID/:userID` | S | [analytics.md](invoicing/analytics.md#3-api-reference) |
@@ -192,8 +227,9 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 | POST | `/billing-review/reprocess/:accountID/:userID` | M | [billing-review.md](invoicing/billing-review.md#3-api-reference) |
 | PUT | `/billing-review/transaction/:transactionID/:accountID/:userID` | M | [billing-review.md](invoicing/billing-review.md#3-api-reference) |
 | GET | `/billing-review/weekly/:accountID/:userID` | M | [billing-review.md](invoicing/billing-review.md#3-api-reference) |
+| GET | `/customer/lookup/:accountID/:userID` | M | [customers.md](work/customers.md#h9-customer-directory-and-search) |
 | GET | `/customer/activeCustomers/:accountID/:userID` | M | [customers.md](work/customers.md#3-api-reference) |
-| GET | `/customer/activeCustomers/customerByID/:accountID/:userID/:customerID` | M | [customers.md](work/customers.md#3-api-reference) |
+| GET | `/customer/activeCustomers/customerByID/:accountID/:userID/:customerID` (`section=invoices`, `payments` or `retainers` for entry forms) | M | [customers.md](work/customers.md#3-api-reference) |
 | POST | `/customer/createCustomer/:accountID/:userID` | M | [customers.md](work/customers.md#3-api-reference) |
 | DELETE | `/customer/deleteCustomer/:customerID/:accountID/:userID` | M | [customers.md](work/customers.md#3-api-reference) |
 | GET | `/customer/statement/:accountID/:userID/:customerID` | M | [customers.md](work/customers.md#3-api-reference) |
@@ -222,7 +258,8 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 | PUT | `/jobTypes/updateJobType/:accountID/:userID` | M | [job-categories-and-types.md](work/job-categories-and-types.md#3-api-reference) |
 | POST | `/jobs/createJob/:accountID/:userID` | M | [jobs.md](work/jobs.md#3-api-reference) |
 | DELETE | `/jobs/deleteJob/:jobID/:accountID/:userID` | M | [jobs.md](work/jobs.md#3-api-reference) |
-| GET | `/jobs/getActiveCustomerJobs/:accountID/:userID/:customerID` | M | [jobs.md](work/jobs.md#3-api-reference) |
+| GET | `/jobs/getJobs/:accountID/:userID` | M | [jobs.md](work/jobs.md#h9-bounded-job-reads) |
+| GET | `/jobs/getActiveCustomerJobs/:accountID/:userID/:customerID` (bounded search; optional `currentCycle=true`) | M | [jobs.md](work/jobs.md#3-api-reference) |
 | GET | `/jobs/getSingleJob/:customerJobID/:accountID/:userID` | M | [jobs.md](work/jobs.md#3-api-reference) |
 | PUT | `/jobs/updateJob/:accountID/:userID` | M | [jobs.md](work/jobs.md#3-api-reference) |
 | GET | `/notifications/:accountID/:userID` | Self / M | [initial-data-and-notifications.md](work/initial-data-and-notifications.md#3-api-reference) |
@@ -255,6 +292,7 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 | PUT | `/recurringCustomer/updateRecurringCustomer` | M | [customers.md](work/customers.md#3-api-reference) |
 | POST | `/retainers/createRetainer/:accountID/:userID` | M | [retainers-and-prepayments.md](ledger/retainers-and-prepayments.md#3-api-reference) |
 | DELETE | `/retainers/deleteRetainer/:retainerID/:accountID/:userID` | M | [retainers-and-prepayments.md](ledger/retainers-and-prepayments.md#3-api-reference) |
+| GET | `/retainers/getRetainers/:accountID/:userID` | M | [retainers](ledger/retainers-and-prepayments.md#h9-paged-retainer-register) |
 | GET | `/retainers/getActiveRetainers/:customerID/:accountID/:userID` | M | [retainers-and-prepayments.md](ledger/retainers-and-prepayments.md#3-api-reference) |
 | GET | `/retainers/getSingleRetainer/:retainerID/:accountID/:userID` | M | [retainers-and-prepayments.md](ledger/retainers-and-prepayments.md#3-api-reference) |
 | PUT | `/retainers/updateRetainer/:accountID/:userID` | M | [retainers-and-prepayments.md](ledger/retainers-and-prepayments.md#3-api-reference) |
@@ -322,3 +360,65 @@ Account parameters must match the session account; Super Admin is not a cross-ac
 | POST | `/duplicates/:duplicateID/resolve/:accountID/:userID` | M | [Duplicates](ledger/duplicates.md) |
 
 Run 3 changes existing endpoint contracts without adding routes: Create Invoice eligibility/generation, signed Account Audit/AR, and shared time-pricing paths. See the [decision record](decisions/2026-09-24-owner-decisions.md) and [run 3 results](decisions/2026-09-25-run-3-results.md). Finalize means sent and locked; drafts remain editable and write nothing to the ledger.
+
+### H1 business entity endpoint index additions
+
+All account IDs and actors come from the verified session. `A` means Admin or Super Admin, `M` the existing financial-operator gate, and Authenticated includes read-only employees. Optional `entityId` now scopes existing financial lists/exports; new financial documents require an active choice.
+
+| Method | Path | Role | Owning document |
+|---|---|---|---|
+| GET | `/billing-entities` | M | [Business entities](platform/billing-entities.md#api) |
+| POST | `/billing-entities` | A | [Business entities](platform/billing-entities.md#api) |
+| GET | `/billing-entities/balances` | M | [Business entities](platform/billing-entities.md#api) |
+| GET | `/billing-entities/review` | A | [Business entities](platform/billing-entities.md#api) |
+| POST | `/billing-entities/review/:entryID/resolve` | A | [Business entities](platform/billing-entities.md#api) |
+| GET | `/billing-entities/transfers` | Authenticated | [Business entities](platform/billing-entities.md#api) |
+| POST | `/billing-entities/transfers` | A | [Business entities](platform/billing-entities.md#api) |
+| GET | `/billing-entities/work/:transactionID` | A | [Business entities](platform/billing-entities.md#api) |
+| POST | `/billing-entities/work/:transactionID` | A | [Business entities](platform/billing-entities.md#api) |
+| GET | `/billing-entities/cutover` | A | [Business entities](platform/billing-entities.md#api) |
+| POST | `/billing-entities/cutover` | A | [Business entities](platform/billing-entities.md#api) |
+| GET | `/billing-entities/:entityID` | A | [Business entities](platform/billing-entities.md#api) |
+| PATCH | `/billing-entities/:entityID` | A | [Business entities](platform/billing-entities.md#api) |
+| POST | `/billing-entities/:entityID/aliases` | A | [Business entities](platform/billing-entities.md#api) |
+| DELETE | `/billing-entities/:entityID/aliases/:aliasID` | A | [Business entities](platform/billing-entities.md#api) |
+| GET | `/billing-entities/:entityID/logo` | A | [Business entities](platform/billing-entities.md#api) |
+| POST | `/billing-entities/:entityID/logo` | A | [Business entities](platform/billing-entities.md#api) |
+
+## H3 endpoint index additions
+
+All session-account routes below use `src/endpoints/corrections/corrections-router.js`. Reads retain manager-level access; all POSTs require admin or super admin, without approval. Contract details and refusal behavior: [corrections](ledger/invoice-corrections.md).
+
+| Method | Route | Role |
+|---|---|---|
+| GET | `/invoices/:invoiceID/corrections` | Manager/admin |
+| POST | `/invoices/:invoiceID/credit-memos` | Admin |
+| POST | `/invoices/:invoiceID/void-rebill/preview` | Admin |
+| POST | `/invoices/:invoiceID/void-rebill` | Admin |
+| GET | `/credits/:creditID/refundable` | Manager/admin |
+| POST | `/credits/:creditID/refunds` | Admin |
+| GET | `/credit-memos` | Manager/admin |
+| GET | `/credit-memos/:recordID` | Manager/admin |
+| GET | `/credit-memos/:recordID/pdf` | Manager/admin |
+| POST | `/credit-memos/:memoID/reversals` | Admin |
+| GET | `/credit-memos/reversals/:recordID/pdf` | Manager/admin |
+| GET | `/refunds` | Manager/admin |
+| GET | `/refunds/:recordID` | Manager/admin |
+| GET | `/refunds/:recordID/pdf` | Manager/admin |
+| GET | `/invoice-voids/:recordID/pdf` | Manager/admin |
+
+Existing write-off create/update/delete, retainer-event POST and duplicate resolve `action=remove` are now admin-only. Bounced-check actions retain/enforce the same rule. Duplicate flag/dismiss and payment/invoice entry permissions are unchanged.
+
+## H4 endpoint index additions
+
+| Method | Path | Role | Owner |
+|---|---|---|---|
+| GET | `/recurringCustomer/plans` | Manager/admin | [recurring billing](work/recurring-billing.md#api-contracts) |
+| POST | `/recurringCustomer/plans` | Manager/admin | [recurring billing](work/recurring-billing.md#api-contracts) |
+| GET | `/recurringCustomer/plans/:planID` | Manager/admin | [recurring billing](work/recurring-billing.md#api-contracts) |
+| PATCH | `/recurringCustomer/plans/:planID` | Manager/admin | [recurring billing](work/recurring-billing.md#api-contracts) |
+| GET | `/recurringCustomer/due` | Manager/admin | [recurring billing](work/recurring-billing.md#api-contracts) |
+| POST | `/recurringCustomer/prepare` | Manager/admin | [recurring billing](work/recurring-billing.md#api-contracts) |
+| POST | `/recurringCustomer/:planID/catch-up` | Manager/admin | [recurring billing](work/recurring-billing.md#api-contracts) |
+| PATCH | `/recurringCustomer/occurrences/:occurrenceID` | Manager/admin | [recurring billing](work/recurring-billing.md#api-contracts) |
+| POST | `/recurringCustomer/occurrences/:occurrenceID/skip` | Manager/admin | [recurring billing](work/recurring-billing.md#api-contracts) |

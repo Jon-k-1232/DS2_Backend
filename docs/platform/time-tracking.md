@@ -1,5 +1,7 @@
 # Time tracking: templates, uploads, history and ownership
 
+**H6 navigation:** Personal upload/history and employee tracker administration retain their paths. Work review moves to Time & Work; tracker settings/template move to Settings. [Route/permission and bookmark rules](workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 A tracker re-upload/reprocess cannot rewrite work already captured on a sent invoice: the ledger SQL guard rejects the mutation, including indirect writes. New rows retain existing ingestion and rounding behavior. The tracker-to-invoice integration remains covered using account 9001 only. [Sent contract](../invoicing/invoices.md).
@@ -9,7 +11,7 @@ Source review: 2026-09-24. Paths beginning `src/`, `test/`, `scripts/` or `migra
 
 ## 1. Purpose and UI
 
-Employees download a workbook, enter time, upload it, and retrieve previous uploads. Validation creates holding rows; it does not itself guarantee a billable transaction. Ingestion is documented in [timesheets-and-ingestion.md](timesheets-and-ingestion.md). The frontend routes are `/time-tracking/upload`, `/time-tracking/history`, `/time-tracking/update-template` and `/time-tracking/settings`. They render `UploadTimeTracker`, `TimeTrackerHistory`, `UpdateTimeTrackerTemplate` and `TimeTrackingSettings`, respectively. Sources: `../DS2_Frontend/src/Routes/PrimaryRouter.js:151`, `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:22`.
+Employees download a workbook, enter time, upload it, and retrieve previous uploads. Validation creates holding rows; it does not itself guarantee a billable transaction. Ingestion is documented in [timesheets-and-ingestion.md](timesheets-and-ingestion.md). The frontend routes are `/time-tracking/upload`, `/time-tracking/history`, `/settings/tracker-template` and `/settings/tracker`. They render `UploadTimeTracker`, `TimeTrackerHistory`, `UpdateTimeTrackerTemplate` and `TimeTrackingSettings`, respectively. Sources: `../DS2_Frontend/src/Routes/PrimaryRouter.js:151`, `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:22`.
 
 The component files are `../DS2_Frontend/src/Pages/TimeTracking/Upload/UploadTimeTracker.js`, `../DS2_Frontend/src/Pages/TimeTracking/History/TimeTrackerHistory.js`, `../DS2_Frontend/src/Pages/TimeTracking/TemplateUpdate/UpdateTimeTrackerTemplate.js`, and `../DS2_Frontend/src/Pages/Account/TimeTrackingSettings/TimeTrackingSettings.js`; their route imports are at `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:1`. API calls send file bytes as an ArrayBuffer, URI-encode `x-file-name`, and use blob responses for downloads. Source: `../DS2_Frontend/src/Services/ApiCalls/TimeTrackingCalls.js:18`.
 
@@ -205,7 +207,7 @@ B1 validates active employees; C6 onward validates work descriptions; D6 onward 
 
 Upload validates before opening its save transaction. Inside the transaction it takes `pg_advisory_xact_lock(hashtext('ds2.timesheet_upload'), ownerID)` **before** duplicate queries and filename allocation. This serializes concurrent submissions for the same employee. It gzips original bytes, uploads with original-content-type and URI-encoded stored-filename metadata, inserts only nonduplicate holding rows, and records exact file ownership with source `upload` in the same database transaction. On failure it rolls back and tries to delete the S3 object. S3 and PostgreSQL are not one atomic store; failed cleanup can leave an orphan. Sources: `src/endpoints/timeTracking/timeTracking-router.js:530`, `src/endpoints/timeTracking/timeTracking-router.js:552`, `src/endpoints/timeTracking/timeTracking-router.js:602`, `src/endpoints/timeTracking/trackerOwners.js:31`.
 
-After commit it schedules eligible AI ingestion and looks up billing staff for success mail. Staff lookup and email sending share a best-effort catch; either failure is logged and preserves the committed upload response (201 with storedKey, fileName and inserted_count). Fixed [F28](../_review/findings.md#f28); `review-tracker-outcome.integration.spec.js` verifies persisted bytes/entries/owner and duplicate retry. Optional owner/requester success mail requires `TIME_TRACKER_SEND_USER_SUCCESS_EMAILS=1`; duplicates already on the staff list are omitted. Validation/system failure mail targets active tracker staff, falling back to `TIME_TRACKING_ADMIN_EMAILS`. SES needs FROM_EMAIL; actual delivery is not determined from the code. Sources: `src/endpoints/timeTracking/timeTracking-router.js:658`, `src/endpoints/timeTracking/timeTracking-router.js:670`, `src/endpoints/timeTracking/timeTracking-router.js:697`, `src/timeTrackerValidation/notifications.js:33`, `src/utils/email/sendEmail.js:44`.
+After commit it schedules eligible AI ingestion and looks up billing staff for success mail. Staff lookup and email sending share a best-effort catch; either failure is logged and preserves the committed upload response (201 with storedKey, fileName and inserted_count). Fixed [F28](../_review/findings.md#f28); `review-tracker-outcome.integration.spec.js` verifies persisted bytes/entries/owner and duplicate retry. Optional owner/requester success mail requires `TIME_TRACKER_SEND_USER_SUCCESS_EMAILS=1`; duplicates already on the staff list are omitted. Validation/system failure mail targets active tracker staff, falling back to `TIME_TRACKING_ADMIN_EMAILS`. All notification paths use the shared sender. `SEND_REAL_EMAIL=false` suppresses delivery before SES/credentials and does not require FROM_EMAIL; it logs subject/recipients/UTC time and optionally saves JSON under EMAIL_OUTBOX_DIR. Suppression resolves normally, preserving upload success. Enabled SES delivery requires FROM_EMAIL. Production defaults on unless exact false; other environments default off unless exact true. Actual external delivery was never attempted during local validation. Sources: `src/endpoints/timeTracking/timeTracking-router.js:658`, `src/endpoints/timeTracking/timeTracking-router.js:670`, `src/endpoints/timeTracking/timeTracking-router.js:697`, `src/timeTrackerValidation/notifications.js:33`, `src/utils/email/sendEmail.js:44`.
 
 There is no uploaded-tracker edit/delete endpoint. Deleting a holding row does not delete the workbook or ownership record; see the ingestion document. Template delete removes only an S3 object. Template upload uses `timeTracker_<timestamp>_<UUID><extension>` and a conditional S3 put (`If-None-Match: *`). Simultaneous uploads retain separate versions; an unexpected collision fails without replacing the existing bytes (fixed [F7](../_review/findings.md#f7)). Source: `src/endpoints/timeTracking/timeTracking-router.js:1340`.
 
@@ -247,3 +249,32 @@ Upload duration parsing retains whole raw minutes (explicit hours convert to nea
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+
+## H0 reminder and notification safety
+
+`RUN_SCHEDULED_AUTOMATIONS` uses the same production-on/nonproduction-off defaults and exact overrides as `SEND_REAL_EMAIL`. The scheduler is not registered while disabled. The Thursday/Friday/missing-tracker schedules, account settings and recipient selection are otherwise unchanged. Scheduling and delivery are independent: an enabled schedule with email off produces suppressed attempts. This switch does not disable explicit uploads or their processing; their notices still pass through the email gate. See [operations controls](operations.md#h0--delivery-and-scheduler-controls-2026-09-26).
+
+Regression executes the three tracker notices (validated, validation failure, system error), three reminder paths, processed-timesheet success and automation-failure notice through the actual sender, with both switch states and stubbed SES. The upload route's only H0 change is accurate attempt/suppression log wording; existing upload success/error/tenant/storage/commit tests remain intact. No new screen or API is added. [H0 scenario expectations](../scenarios/H0-email-and-automations.md).
+
+## H1 business scope (2026-09-26)
+
+The workbook’s free-text Entity column remains accepted. Exact configured active businesses/aliases map to billing entity IDs; spelling mistakes and ambiguous names remain review items, visible to admins through Business assignments. Deactivation stops new mappings but preserves historical raw tracker evidence. Existing owner/self upload, download and privacy rules remain in effect.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+Pre-cutover tracker business is reporting attribution only under the H2 correction; all original open money remains default. The three unmatched account1 legacy tracker rows are retained in the report, not queued for billing business review. New tracker rows still require one exact active business mapping or explicit resolution.
+
+## H5 upload cost capture
+
+After validating selected owner and workbook identity, upload stores that owner in `matched_user_id` before the source-row cost trigger executes. Cost belongs to the validated employee, including same-name staff, and not the uploader. Held rows preserve the captured rate/actual minutes until posting. Source cost fields remain internal; employee tracker read projections do not expose coworkers' cost data. The reporting/cost contract and estimate labels are in [analytics](../invoicing/analytics.md#5-cost-and-business-provenance).
+
+H5 continuation046 preserves supplied actual manual minutes independently of rounded billing quantity. Held-entry apply/manual move/AI rerun record corrected source minutes atomically with their claim; known employee reassignment requires `costChangeReason` and captures the selected staff rate. The held-review form requests that reason. A failed apply rolls back source corrections, financial writes and audit events. An unknown employee matched later does not invent a historical rate.
+
+
+## H8 business-language review
+
+Work review explains unavailable automated matching in business language and points staff to manual review or their administrator. Server feature-flag names remain operational configuration, not instructions in the employee workflow. The eligibility guard and matching behavior are unchanged.

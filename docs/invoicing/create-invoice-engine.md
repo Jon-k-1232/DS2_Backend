@@ -1,5 +1,7 @@
 # Create-invoice engine
 
+**H6 navigation:** Billing → Create invoices: `/billing/create`. Existing entity, recurring, credit-statement and finalize controls remain. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 Rolling arithmetic is unchanged. Issued parents remain original evidence, while latest child snapshots carry receipts, write-offs, reversals and closing absorption. A new statement does not sum those historical parents. Finalize captures immutable rendering/membership after stamping. Negative statements are displayed as credit and require individual explicit selection to finalize; the signed credit carries forward once. [Owner decisions](../decisions/2026-09-24-owner-decisions.md).
@@ -7,7 +9,7 @@ Rolling arithmetic is unchanged. Issued parents remain original evidence, while 
 
 ## 1. Purpose and UI
 
-The engine builds the next rolling statement from existing balances, unbilled work and payments/write-offs entered since the last statement. UI route: `/invoices/createInvoice`. Page: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:17`; grid wrapper: `../DS2_Frontend/src/Pages/Invoices/InvoiceGrids/CreateInvoiceGrid.js:5`; route: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:26`. The customer profile also requests a balance preview with all output flags false. Source: `../DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerProfile.js:44`.
+The engine builds the next rolling statement from existing balances, unbilled work and payments/write-offs entered since the last statement. UI route: `/billing/create`. Page: `../DS2_Frontend/src/Pages/Invoices/CreateNewInvoice/CreateNewInvoices.js:17`; grid wrapper: `../DS2_Frontend/src/Pages/Invoices/InvoiceGrids/CreateInvoiceGrid.js:5`; route: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:26`. The customer profile also requests a balance preview with all output flags false. Source: `../DS2_Frontend/src/Pages/Customer/CustomerProfile/CustomerProfile.js:44`.
 
 Source review date: 2026-09-24. The original review inspected tests; executed local remediation checks are in the [F8–F22 log](../_review/fixes-F8-F22.md). Backend paths are relative to DS2_Backend; frontend paths begin with ../DS2_Frontend. The schema snapshot is the baseline, supplemented by later migrations, especially storage_slug. This does not establish live database state. Source: `migrations/README.md:12`.
 
@@ -183,3 +185,31 @@ Rows include `is_credit_statement` and signed `invoice_total`. Bulk selection ex
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## H1 business scope (2026-09-26)
+
+Eligibility and engine queries now execute within one chosen business. The GET eligibility URL contains the fixed `AccountsWithBalance` segment; it is not an account ID and must not bypass entity middleware. The grid previews the same scoped amount the issue engine uses. Newest statement dates, payment/write-off gates, held funds, outstanding chains and stamped work are all business-specific. A latest successful audit badge must match both client and business. Only unresolved post-cutover work is held. Pre-cutover opening work remains in default business, independent of tracker reporting attribution.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+The repeatable-read invoice input includes available credit lots and receipt summaries. Preview is read-only. `preCreditInvoiceTotal` retains raw N, while `heldCreditAvailable`, `heldCreditApplied` and `invoiceTotal` describe proposed credit use. The eligibility response exposes corresponding snake_case fields; zero proposed totals remain selectable when credit pays new work. Finalization derives legacy obligations before creating the parent, appends only new net charges, spends oldest available credit against oldest obligations, captures membership and refuses any nonzero obligation/statement reconciliation difference. Gross new charges and adjustments remain separate components.
+
+
+## H3 update — 2026-09-26
+
+The engine loads unprinted entity-scoped corrections and prints each document once. Their effect is already in current child snapshots, so correctionSummary is informational and never added again. Frozen membership includes the seven H3 tables. Optional credit statements preserve memo/refund lineage.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H4 prepare before review
+
+Create Invoice first POSTs `/recurringCustomer/prepare` for the chosen business, then reads this eligibility endpoint. Preparation is capped and visible; failures or catch-up block submission. Read-only GET/preview does not generate a fee. Supported description-only recurring Charges are included even without a job, with their period in the invoice line; preexisting unsupported jobless work is not reclassified. [Recurring billing](../work/recurring-billing.md) explains edit/skip and source attribution. Billing, Account Audit and AR continue to agree per business.
+
+## H10 batched reads
+
+The public eligibility and preview/finalize contracts are unchanged. Eligibility reads only the existing eligible unbilled-work columns needed for its counts and amounts, retaining every owned-label/recurring join. Pricing fetches credit lots/events, each correction table and new receipt headers once for the selected customers, instead of eight reads per client. Receipt gates still compare the exact parent timestamp in PostgreSQL, including microseconds and the original UTC conversion. All original financial calculators, rounding, original-date gates, retainer events and credit selection remain.
+
+Migrations 048/049 make the work and job entity views set-based with the identical explicit → amended scope → original attribution → reviewed resolution precedence and shared-job rule. Every returned row is checked against the unchanged `ds2_effective_entity` function. No application cache is introduced. The existing repeatable-read billing snapshot and full finalize fingerprints/stale refusal are unchanged. [H10 timings and equivalence](../decisions/2026-09-26-run-H10-results.md), [hand oracle](../scenarios/H10-batched-calculations.md).

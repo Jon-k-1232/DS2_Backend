@@ -21,3 +21,6 @@ Each statement verifies signed components, number, due date +16 days, PDF beginn
 Deletion control: a separate issued zero/no-linked-work statement00005=(0,0,0,0,0,0) refuses deletion with409 and remains archived. A statement with work, children, absorbed source/target chains or nonzero beginning balance cannot be deleted; absent and foreign IDs cannot delete anything. Safe unissued empty-parent deletion remains covered separately; issued invoice numbers are retained.
 
 Finalize failure matrix: invalid/empty/duplicate/foreign selection, missing mailing contact, numbered-series exhaustion, stale ledger fingerprint, concurrent same-day run, transaction/payment stamping races and injected precommit database/storage failures leave no new committed statement. Postcommit combined-export or register-refresh failure must report committed identities/warnings so a careless retry cannot duplicate a statement. See R tests and existing finalize regressions.
+
+
+H2 aging update: current billed balance remains the same signed B oracle, but carried debt keeps its original obligation age. Old helpers that assumed all B was current now assert bucket conservation; dedicated [H2 oracles](H2-receipts-and-aging.md) independently assert each original-age bucket, both cutoffs, two rollovers, receipt credit and full reversal. No monetary or refusal coverage was removed.

@@ -172,3 +172,25 @@ Migration026 captures changes to this feature's audited customer/financial recor
 ## Run 5 presentation
 
 Run 5 changes only Audit Record presentation. Client-facing USD uses `$1,234.56` and signed credits `-$1,234.56`; Debit/Credit columns are positive magnitudes and retainer funds are positive availability. Stored signs and rolling-balance replay are unchanged. Invoice issuance remains informational, and retainer draws remain counted once. See [Audit Record](../platform/audit-ledger.md).
+
+## H1 business scope (2026-09-26)
+
+Financial scope is `(account, client, billing business)`. B is the signed current billed balance for that business, U eligible unbilled work, P pending signed adjustments, and N the next statement. Held funds remain separate. Compare Create Invoice and Account Audit on N and AR on B, within the same scope; all-business totals sum the separate company results. New entries carry an explicit entity, inherited child snapshots stay in that entity, and unknown imported work stays held. Legacy sidecars and opening positions preserve source records; reviewed splits substitute for their source chain, never add another charge.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+H2 adds immutable obligations/applications beneath the rolling statement ledger; it does not replace current child snapshots or absorption markers. B is positive remaining obligations less already-issued credit. N=B+U+P remains the pre-credit next statement. Held receipt credit is shown separately and used once at finalization; new receipt gross is never summed together with its allocation rows as cash. Original obligation dates survive every carry-forward. Every subledger write is audited with actor/source/reason. See [receipt rules](receipts-and-obligations.md).
+
+
+## H3 update — 2026-09-26
+
+H3 correction_postings append signed changes to the current invoice carrier without masquerading as cash/write-offs. Credit memos/voids reduce it; memo reversals and issued-credit refunds increase it. Held-receipt refunds affect held funds only. New rows/PDFs lock at finalize and use reasoned compensating entries.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H5 reporting identities
+
+Work/WIP is not issued revenue. New statement charge components are gross billed, prebill concessions/credit memos/void components produce net billed, and receipt-backed applications are collected. Balance forward/child snapshots never become another bill; deposits, transfers, noncash credit and refunds retain separate source kinds. Cohort margin uses captured actual-hour cost; historical cost estimates are immutable and labeled, unknown cost suppresses margin. Historical worked-for tracker attribution never changes default-billed balances. [Definitions and formulas](../invoicing/analytics.md#4-definitions-and-reconciliation), [hand oracle](../scenarios/H5-honest-analytics.md).

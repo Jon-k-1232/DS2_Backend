@@ -1,0 +1,67 @@
+{
+  "generated_at": "2026-09-26T11:19:12.185762+00:00",
+  "accepted_commands": 91,
+  "unit": {
+    "passing": 1158,
+    "failing": 0,
+    "pending": 0
+  },
+  "integration": {
+    "files": 83,
+    "passing": 2797,
+    "failing": 0,
+    "pending": 0
+  },
+  "scenarios": {
+    "passing": 1640,
+    "failing": 0,
+    "pending": 0,
+    "files": 42
+  },
+  "cleanroom": {
+    "passing": 18,
+    "failing": 0,
+    "pending": 0
+  },
+  "lambda": {
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "pending": 0
+  },
+  "frontend_jest": {
+    "command": "CI=true node_modules/.bin/react-scripts test --watchAll=false",
+    "exit_code": 0,
+    "tests": 277,
+    "suites": 52,
+    "failed": 0,
+    "skipped": 0,
+    "pending": 0,
+    "log": "frontend-jest-final.log",
+    "validation_note": "Reran all frontend Jest after the AR cleanup build fix; accepted log is final."
+  },
+  "frontend_build_exit_code": 0,
+  "playwright": {
+    "passed": 124,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "errors": []
+  },
+  "drift": {
+    "account_id": 1,
+    "compared": 1014,
+    "customers": 338,
+    "totals": {
+      "engine": -946351.75,
+      "audit": -946351.75,
+      "engine_outstanding": 41015,
+      "audit_outstanding": 41015,
+      "ar_outstanding": 41015
+    },
+    "aggregateDiff": 0,
+    "drift": 0
+  },
+  "overlap": "Dedicated scenarios and clean-room rerun files already included in integration; counts are not additive unique tests.",
+  "validation_scope": "All required commands were run. After the final client-audit history change, H1 and Audit Record integration files, all unit tests, all scenarios, drift and full Playwright were rerun. Other accepted commands were not repeated because their source did not change."
+}

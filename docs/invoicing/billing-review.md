@@ -1,5 +1,7 @@
 # Billing Review
 
+**H6 navigation:** Time & Work → Work review: `/work/review`; unresolved business assignments: `/work/review/entities` (admin). [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 Cascade edit now checks the statement lock before planning, optional text processing, no-op return or financial changes, then rechecks under the customer lock. Sent transactions return HTTP 409 `SENT_INVOICE_LOCKED` for every edit (including notes/date/job/customer moves). The consolidated row displays Sent — locked and disables Edit. The financial cascade algorithm below remains available only for unissued records; old issued-edit success tests were replaced by stable-evidence refusal tests plus retained unissued recomputation/rollback coverage. Reprocessing/import writes meet the same database barrier. [Exception alternative](invoices.md).
@@ -7,7 +9,7 @@ Cascade edit now checks the statement lock before planning, optional text proces
 
 ## 1. Purpose and UI
 
-Billing Review resolves held time-tracker entries and reviews processed transactions before billing. Route `/time-tracking/billingReview` uses `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js:6`. Its mounted tabs are NeedsReviewTab and ConsolidatedTab with period='unbilled'. PreInvoiceTab exists in the folder but is not mounted by BillingReviewPage. The edit dialog is components/ReviewBillingDialog.js; cascade effects are displayed by components/CascadeImpactPanel.js. Sources: `../DS2_Frontend/src/Routes/PrimaryRouter.js:151`, `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:40`, `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js:25`. API calls are in `../DS2_Frontend/src/Services/ApiCalls/BillingReviewCalls.js:49`.
+Billing Review resolves held time-tracker entries and reviews processed transactions before billing. Route `/work/review` uses `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js:6`. Its mounted tabs are NeedsReviewTab and ConsolidatedTab with period='unbilled'. PreInvoiceTab exists in the folder but is not mounted by BillingReviewPage. The edit dialog is components/ReviewBillingDialog.js; cascade effects are displayed by components/CascadeImpactPanel.js. Sources: `../DS2_Frontend/src/Routes/PrimaryRouter.js:151`, `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:40`, `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js:25`. API calls are in `../DS2_Frontend/src/Services/ApiCalls/BillingReviewCalls.js:49`.
 
 ## 2. Access rules
 
@@ -301,3 +303,24 @@ Held review prices raw duration using the same six-minute helper as manual entry
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## H1 business scope (2026-09-26)
+
+Business assignment is a prerequisite to automatic posting. Unknown/ambiguous/inactive tracker text appears in the admin business-assignment queue at `/work/review/entities`; resolution needs an active choice, source hash and reason. It preserves raw tracker text and returns the line to existing billing review. Already processed/deleted sources and stale/double resolutions refuse without writes.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+## H9 loading update
+
+Needs review/consolidated client filters and inline edits use the shared customer picker. Review dialogs hydrate only the suggested/selected client and its scoped jobs; they do not depend on initialBlob accountJobsList. The per-client job response is bounded, with type-ahead on entry/edit choices.
+
+See [bounded loading and save responses](../platform/performance.md) for the current wire contract and [H9 results](../decisions/2026-09-26-run-H9-results.md) for full regression evidence. These details supersede older full-list/grid response descriptions in this guide. Committed refresh warnings still mean saved: reload, do not resubmit.
+
+The H9 review form waits until suggested client/jobs finish loading before its one-time default population. Later lookup replies cannot silently leave the initial job unset or reset a form already being edited. Lookup failures are shown and the operator can choose references manually.
+
+Inline processed-work review uses the shared client type-ahead in both directory modes. The selected client identity also seeds inline job creation. Job choices use the transaction business; changing client clears the old job and search, requires a new job, and preserves entered work through lookup or save failures. The H9 browser oracle moves one $22.50 transaction between two fixture clients after proving refusal paths leave them unchanged. A selected historical client no longer depends on the directory containing every client.
+
+
+## H8 presentation and help
+
+When automated matching is unavailable, Work review tells staff to review entries manually or ask an administrator. Server feature-flag names remain in operational documentation instead of user-facing instructions. Eligibility and posting rules are unchanged.

@@ -1,4 +1,6 @@
-# DS2 full review and fix pass — 2026-09-22 → 2026-09-25
+# DS2 full review and fix pass — 2026-09-22 → 2026-09-27
+
+**Latest local follow-up, H8 (2026-09-27):** [PASS6](../../docs/scenarios/RESULTS-PASS6.md) and [H8 results](../../docs/decisions/2026-09-26-run-H8-results.md) record shared page help, the complete browser/mistake pass after H9/H10, presentation/readiness repairs and local validation. All 51 required commands passed: 5,724 unique tests plus a second consecutive 340-test browser pass, with zero final failures/skips/pending/flakes/retries. Drift is 0; the direct read-only reference counts and twelve protected digests match, and the audit chain verifies. H2’s corrected default-business opening remains authoritative. Production/cloud facts below are dated historical evidence and were not rechecked during H8. H8 uses only the authorized local sandbox, with the owner's explicit read-only reference-count clarification; no Git, deployment, AWS or real email.
 
 Branch `review/full-audit-2026-09` in DS2_Backend and DS2_Frontend (cut from `master`, which equals GitHub `master`: backend 45a57e9, frontend 53863d1). Nothing was deployed. The production database was only read (one `pg_dump` into a local Docker Postgres). Every fix, migration and test ran against that local copy (`ds2_local`), a clean-room database (`ds2_clean`) and a local MinIO standing in for S3.
 
@@ -356,3 +358,229 @@ Run on 2026-09-25 against the final code, after every Astra run, with the backen
 | Playwright, real browser | 114 passed, 0 failed, 0 flaky, 0 skipped |
 
 The dedicated scenario and clean-room runs repeat files that are also in the integration row, so their counts should not be added together. `ds2_local` holds only accounts 1 and 9001. Account 1 matches the snapshot `ds2_ref_20260922` except for migration 019's intended normalizations, listed at the top of this section.
+
+
+## 13. Owner round 2, H0 — integrated design and outbound switches (2026-09-26)
+
+H0 implements only `SEND_REAL_EMAIL`, `RUN_SCHEDULED_AUTOMATIONS`, structured suppression logs and optional private local JSON outbox. Both use exact production-on-unless-false / nonproduction-off-unless-true semantics. App startup and the orchestrator refuse job registration when disabled; every email caller uses the guarded sender. Disabled mail requires neither FROM_EMAIL nor AWS credentials and returns normally. Outbox failure warns without falling through to SES. Tracker notice completion logs no longer claim a suppressed message was sent.
+
+[Integrated design](../../docs/decisions/2026-09-26-owner-requests-2.md) specifies future H1–H8 entities/cutover, obligation/application aging, receipt/credit workflow, corrections, recurring fees, cost snapshots/reporting and canonical navigation. [H0 results](../../docs/decisions/2026-09-26-run-H0-results.md) is the authoritative local validation/count/effect record. **H0 has no migration, no database backfill, no new route or screen. Migration028 remains free.** No account1 financial effects are intended.
+
+Future production rollout for H0: deploy the backend change, set explicit desired values for both switches, restart the process and inspect configuration/account recipient preferences. Exact production with unset switches defaults ON; local `.env.local` is explicitly false/false and is not a deployable environment template. Outbox is optional, local and contains message content; use a private path or leave unset. No live-email test or production/AWS action is authorized by the local work. No migration/runner-count/reset change is needed. For future H1–H5 migrations, follow the design order and add reviewed row-level cutover manifests plus concrete rollout commands in those runs; none was applied here.
+
+Local backend restart used the managed request/done handshake. Validation keeps one test process at a time, with SES/schedulers stubbed in explicit on-mode tests and normal tests forced off. The existing tracker fault-injection tests now explicitly enable only their already-stubbed SES boundary; their original no-write/committed-upload assertions remain. The missing-FROM_EMAIL test is retained for on-mode and paired with a no-write suppression success test. No coverage was silently dropped. Full results, preserved first-pass failure evidence and final acceptance are linked from the H0 result record.
+
+
+H0 browser-report note: two complete runs each passed114/114 assertions but exited1 during HTML generation (`RangeError: Invalid string length`), including a retry with source snippets disabled. The final e2e configuration uses standard list and JSON reporters, retaining all tests, source locations and attachments. H0 results retain both failed-process records and distinguish the final accepted full-suite command. HTML export remains a documented tooling limitation; no browser assertion or test was dropped.
+
+Final H0 acceptance: **all 89 commands exited 0**. Backend unit **1,145**; integration **2,760 across 81 files**; dedicated scenarios **1,603 across 40 files**; clean-room **18**; Lambda **17**; frontend Jest **264 tests / 49 suites**; production build passed; full Playwright **114 passed**, with no report errors or flaky tests. Every accepted test command has zero failures, skipped or pending tests. Scenario/clean-room counts overlap integration and are not additional unique tests. Read-only drift is **0 across 320 customers**.
+
+After the final browser run, the read-only account-1 census still matched the initial and retained reference counts: customers **338**, customer_transactions **39,052**, customer_payments **1,005**, customer_writeoffs **657**, customer_invoices **2,253**, timesheet_entries **28,255**, users **23**; account-1 audit events **0**. The reference database was not accessed. H0 introduced **zero account-1 migration effects and no migration**. Exact commands, final counts and prior failed attempts are preserved in the linked H0 result/evidence files. Documentation, workspace MEMORY and the Obsidian mirror are updated; Graphify refreshed from 484 code files to 1,990 nodes and 2,663 edges without model calls.
+
+## 14. Owner round 2, H1 — billing businesses (2026-09-26)
+
+H1 implements the Entities section of the owner design locally: multiple managed businesses per account, required business selection on financial work, isolated rolling balances and statements, per-business letterhead and numbering, exact tracker mapping/review, business filters throughout financial reporting, reviewed legacy opening allocations and admin-only noncash credit transfers. The [H1 results](../../docs/decisions/2026-09-26-run-H1-results.md) contain the concrete routes/screens, scenario oracles, migration/effect inventory, final test counts and evidence. H2 true aging/receipt allocation, H3 corrections and its existing-action permission retrofit, H4 recurring preparation, H5 analytics definitions and H6 navigation remain later work.
+
+### 14.1 Future production rollout — not executed
+
+Pause financial/import/account writers and schedules after backup and local rehearsal. Apply the existing017–027 prerequisites, then **028→036** in order with `psql -X -1 -v ON_ERROR_STOP=1 -f`, retaining every log. 028 installs the entity/sidecar/review/read-view schema;029 adds relationships/openings/transfers;030 adds tracker/audit/default safeguards;031 handles imported-payment first choice and unused-account teardown;032 adds reviewed opening slices;033 fixes generic trigger field access;034 scopes saved audits;035 freezes default opening sources;036 passes ordinary mutable invoice updates through that guard. Apply035 and036 together before writers resume. No applied migration was edited. **037 is next free.**
+
+Deploy the matching backend then frontend before resuming writers. Old binaries cannot supply mandatory business context. Keep outbound mail and schedules disabled for checks. Review legal names/letterheads, default routing, tracker holds and per-client/entity B/U/P/N/funds. Opening allocations require signed shares summing exactly to unchanged source evidence, an admin reason and UUID request; held funds move by a separate admin transfer. Preserve original artifact bytes and independently compare hashes using the operator's established archive process. This run did not access AWS. Verify three-view drift0 and the account audit chain, then accept/resume. Use the restricted application role and retained audit storage already required in section12.3. After new postings, corrections must be forward-only.
+
+The full migration command form and coordinated checks are in [operations](../../docs/platform/operations.md#h1-business-cutover). The local-only cutover report script intentionally hard-codes loopback ds2_local and is not a production connector. All nine migrations were applied manually to ds2_local, ds2_clean and ds2_scenarios during this run. Reset/migration specs discover35 runnable files002–036. No production connection, deployment, real email, Git operation or commit occurred.
+
+### 14.2 Protected account1 effects and reconciliation
+
+All original fields and row counts in11 source tables are hash-verified unchanged against the saved pre-H1 inventory. Required counts match the retained reference census: customers338, transactions39,052, payments1,005, write-offs657, invoices2,253, trackers28,255, users23. The reference database was not connected to. New nullable columns leave the historical physical entity values null; immutable sidecars supply their attribution.
+
+Intended account1 additions: **3 businesses,1 cutover,51,084 legacy attributions,20,146 unresolved-work review rows,39 default opening positions totaling41,015.00 and71,273 migration audit events**. The audit chain verifies. There are no account1 custom opening splits, review resolutions, transfers, new receipts, new invoices, consumption links, sequence reservations or idempotency request rows. The [cutover report and CSVs](../../docs/decisions/evidence/run-H1/account1-cutover-report.json) enumerate every source ID/hash and inserted effect.
+
+Billed41,015.00, pending adjustments−1,493,344.00 and held funds5,472.00 are unchanged. Original eligible work1,513,217.50 equals resolved eligible work505,977.25 plus held eligible work1,007,240.25. Original recomputed next statement60,888.50 equals resolved−946,351.75 plus that held eligible work. All conservation differences are0. Total unresolved work1,007,598.25 includes358.00 not currently eligible. The before values are a recomputation of unchanged physical sources, not a captured pre-migration engine run. The large historical adjustments remain for accountant review; no balancing write or automatic refund was made. Original remote artifact digests remain independently unverified because AWS access was prohibited; original source fields/paths are unchanged.
+
+### 14.3 H1 acceptance
+
+All **91 required commands exited 0**, with **zero failures, skipped or pending tests**; Playwright had zero flaky tests and no report errors. Integration files ran one at a time, and no test processes overlapped. Backend unit **1,158**; integration **2,797 across 83 files**; dedicated scenarios **1,640 across 42 files**; clean-room **18**; Lambda **17**; frontend Jest **277 tests / 52 suites**; production build passed; full Playwright **124 passed**. Read-only drift is **0 across 1,014 client/business comparisons**, with aggregate difference 0.
+
+After the final browser run, account 1 original row hashes/counts and the intended additions in section 14.2 still match; its audit chain verifies. The reference database and remote artifact bytes were not accessed. The linked H1 result and evidence files retain commands, counts, earlier failed attempts and the final restart acknowledgment. Final audit pagination was corrected so unrelated firm-wide numbering changes do not fill a client's history; full account-chain verification remains intact.
+
+Documentation, workspace MEMORY and the Obsidian mirror are updated. Graphify refreshed 504 code files into 2,065 nodes, 2,771 edges, 328 communities and 2,393 graph notes without model calls. No Git operation, commit, deployment, production/AWS access or real email occurred. H2 starts at migration 037.
+
+
+## 15. H2 follow-up — corrected opening scope and original debt aging (2026-09-26)
+
+The H1 tracker-based billing cutover is superseded by the owner-approved default: keep all pre-cutover B/U/P/held funds together. Tracker business is reporting attribution only. The supported reasoned amendment restored account 1's default B = $41,015.00, U = $1,513,217.50, P = −$1,493,344.00, N = $60,888.50 and held funds = $5,472.00. Other businesses start at zero; no legacy work is held. Original H1 numbers remain historical evidence. Per-client equality and source hashes are retained under `docs/decisions/evidence/run-H2/cutover`.
+
+Apply migrations 037–041 in numeric order, each with `psql -X -1 -v ON_ERROR_STOP=1 -f`, before the reviewed amendment and legacy derivation in [operations](../../docs/platform/operations.md#h2-rollout--corrected-legacy-default-and-receipt-subledger). The amendment refuses changes after financial activity resumes. Derivation uses the corrected default scope and reconciles 307 manifests / 53 opening obligations to billed debt of $41,015.00, with no unresolved age residual. Source records are unchanged. H3 starts at 042.
+
+H2 adds Receive payment, immutable receipt/application/credit evidence, original-date aging with two historical cutoffs, automatic excess-credit use, complete-receipt bounce, admin unissued cancellation/application correction, and receipt-credit transfer lineage. Old single-payment/retainer/import interfaces remain compatibility sources; see the deliberate design adjustment and [H2 results](../../docs/decisions/2026-09-26-run-H2-results.md) for exact boundaries, evidence and accepted counts. No production/AWS connection, real email, Git command or commit was performed.
+
+
+Final H2 acceptance: unit **1,184**; integration **2,894 across 87 files**; dedicated scenarios **1,737 across 46 files**; clean-room **18**; Lambda **17**; Jest **301 tests / 54 suites**; CI build passed; full Playwright **143 passed**. Accepted results have zero failures, skipped, pending or flaky tests. Scenario/clean-room totals overlap integration. Read-only drift is **0 across 1,014 client/business comparisons**.
+
+The final protected-data census retains customers 338, transactions 39,052, payments 1,005, write-offs 657, invoices 2,253, trackers 28,255 and users 23. All 11 original source tables retain identical rows and hashes. H2 adds only the documented immutable scope/derivation evidence and 68,676 audit events; the 139,949-event account chain verifies. Graphify refreshed 522 code files to 2,148 nodes and 2,918 edges, with zero model tokens.
+
+
+## 16. Owner round 2 — H3 corrections (2026-09-26, local only)
+
+Migration042 and the new entity-scoped correction service implement locked credit memos/reversals, void/rebill with preserved original/new-number PDF, and client-credit refunds recorded as money returned. Admin/super admin alone may apply corrections and legacy write-off CRUD, retainer events, duplicate money removal and bounced-check actions. No approval or period-close workflow. H2 opening and printed interest line remain unchanged. [H3 results](../../docs/decisions/2026-09-26-run-H3-results.md) records exact final acceptance counts and protected data verification; [contracts](../../docs/ledger/invoice-corrections.md) and [oracles](../../docs/scenarios/H3-corrections.md) cover behavior.
+
+Production step, NOT executed: after the approved H2 rollout through041, pause writes and apply `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/042.invoice_corrections.sql` with an explicitly approved production connection, deploy backend/frontend together, verify new audit/scope/immutable triggers, admin403 and per-business drift0. There is no H3 account-1 backfill. Never drop correction evidence after use. See [operations](../../docs/platform/operations.md#h3-rollout--corrections-and-adjustment-permissions). Local migration was applied to all three authorized sandbox databases; no reference-database connection.
+
+Final H3 acceptance: unit **1,194**; integration **3,002 across 90 files**; dedicated scenarios **1,845 across 49 files**; clean-room **18**; Lambda **17**; Jest **325 tests / 56 suites**; CI build passed; full Playwright **160 passed**. All **98 required commands exited 0**, with zero failures, skipped, pending or flaky tests. Scenario/clean-room totals overlap integration. Read-only drift is **0 across 1,014 client/business comparisons**. All 12 account-1 census counts/digests are unchanged, all seven correction tables have zero account-1 rows, and the audit chain verifies the unchanged **139,949 events**. Required source counts match the retained reference census without connecting to that database.
+
+## 17. H4 — recurring billing (2026-09-26, local only)
+
+Owner item7 now uses entity-specific plans, monthly/quarterly/semiannual/annual calendar periods, idempotent preparation, reasoned pending edit/skip, bounded visible catch-up and sent locks. Create Invoice prepares before eligibility, independent of the scheduler. Finalize repeats preparation and requires refresh if a fee was missing from the review. System generation has an audit source; no invented staff time or change to excess-work semantics, rolling balances, printed interest or admin-only issued adjustments.
+
+Production operator step: **044 guard preflight →043 recurring cutover →044 idempotent final step**, each plain SQL applied with `psql -X -1 -v ON_ERROR_STOP=1 -f`. Keep real email/scheduling off and financial writes paused during migration/deploy. 044 only materializes an already effective business, preserving actual-transfer permissions. 043 records the old plans and starts automatic fees at the first due date on/after the Phoenix rollout date; never auto-bill earlier periods. Verify every first period/fee before opening Create Invoice. Backend deploy precedes frontend. No deployment was performed in H4.
+
+Local intended account-1 effects: eight existing plan rows gain physical default business and H4 metadata, eight immutable cutover rows, sixteen audit events. No charge, invoice, payment, write-off, timesheet, customer or user row changes. Existing fees/dates/flags remain. Local Sep26 cutover means Oct1 for all eight plans. Their prior periods stay excluded unless explicitly reviewed. Schema inventory43 files, next free045. Scenario reset includes043/044 and explicitly backfills the legacy seed inserted after schema creation. Historical migration specs apply each file twice at its own schema boundary rather than replaying an old view definition over later appended columns.
+
+The new contracts and complete accepted counts are maintained in [recurring rules](../../docs/work/recurring-billing.md), [hand oracles](../../docs/scenarios/H4-recurring.md) and [H4 results](../../docs/decisions/2026-09-26-run-H4-results.md). Those results are the current handoff for this run; older totals in this report are historical.
+
+
+Final H4 acceptance: unit **1,208**; integration **3,082 across 92 files**; standalone scenarios **1,925 across 51 files**; clean-room **18**; Lambda **17**; Jest **346 tests / 60 suites**; CI build passed; full Playwright **176 passed**. All **100 required commands exited 0**, with zero failures, skipped, pending or flaky tests. Five final backend rechecks also passed and replace earlier results without double-counting. Drift remains **0 across 1,014 client/business comparisons**.
+
+Final protected-data verification confirms the seven required source counts and unchanged row digests, ten untouched table digests overall, exactly eight plan metadata updates, eight cutovers and sixteen system audit events. There are no account-1 occurrences or new fees. The original 139,949 audit events are unchanged, and the full 139,965-event chain verifies. Offline Graphify has 2,246 nodes and 3,087 edges from 542 code files, with no model calls. The final recurring PDF and Create Invoice screenshot passed visual review; the printed interest line is unchanged.
+
+## 18. H5 — honest analytics and cost provenance (2026-09-26, local implementation)
+
+H5 implements definition version2: work/WIP, issued gross/net charges, applied receipts, separate cash/corrections/credits, cohort realizations and captured-cost margins. Historical source rows remain immutable and estimates are explicitly labeled. All six analytics pages and the year-end packet have business filtering; legacy effort follows tracker worked-for attribution while revenue/balances retain billed-by business. New canonical page `/reports/billing-performance` and two read/export contracts bring the endpoint index to218. Analytics remains Super Admin only; no period close or approval workflow is added.
+
+**Future production rollout:** pause source writers after H1–H4, apply `045.work_cost_snapshots.sql` then `046.reviewed_work_cost_snapshots.sql`, each with `psql -X -1 -v ON_ERROR_STOP=1 -f`, deploy matching backend/frontend, verify rate-capture/issued locks/estimate labels and independent drift0, then resume. Migrations045/046 were applied by hand only to the three authorized local databases. There are45 runnable migrations002–046;047 is next free. Source and audit guards remain active. Full procedure: [operations](../../docs/platform/operations.md#h5-rollout--honest-analytics-and-cost-provenance).
+
+Protected account1 retains338 customers,39,052 transactions,1,005 payments,657 write-offs,2,253 invoices,28,255 trackers and23 users. All original columns/rows match pre-H5 hashes and retained reference counts; the reference database was not connected. Intended H5 effects are67,307 estimate sidecars and67,307 system audit events, with zero original-field changes and zero populated new source columns on old rows. The complete207,272-event chain verifies. [Protected evidence](../../docs/decisions/evidence/run-H5/account1-verification.json).
+
+The continuation repaired the exact-alias ingestion source guard, account-scoped exclusions, legacy raw-tracker filtering, cutoff handling and validated-owner cost capture, and updated cleanup/status assertions without dropping their refusal/state checks. [H5 rules](../../docs/invoicing/analytics.md), [hand oracles](../../docs/scenarios/H5-honest-analytics.md) and [H5 results](../../docs/decisions/2026-09-26-run-H5-results.md) hold the complete implementation, accepted command counts, source manifest, graph refresh and visual evidence. Production/AWS/real email/Git were not used.
+
+H5 continuation additionally applied046 to all three local sandboxes. This function-only fix changes no protected rows: reasoned tracker employee changes capture the corrected cost; approved minute corrections and manual actual minutes reach labor cost. Production rollout must apply045 then046 before writers resume.
+
+
+Final H5 acceptance: **all 102 required commands have accepted exit-0 results**, with zero failures, skipped, pending or flaky tests. Unit **1,225**; integration **3,192 / 94 files**; standalone scenarios **2,034 / 53 files**; clean-room **18**; Lambda **17**; Jest **381 / 67 suites**; CI build passed; full remote Playwright **184 passed**. Nine targeted rechecks replace earlier results without double-counting. Drift is **0 / 1,014 client/business comparisons**. The [consolidated manifest](../../docs/decisions/evidence/run-H5/acceptance/final-acceptance.json) identifies the accepted command and evidence log for every result.
+
+The final post-browser account-1 verification confirms all seven required counts and ten unchanged original business-table digests, the unchanged 139,965-event audit prefix, exactly 67,307 estimate inserts and 67,307 system audit events, and a valid 207,272-event chain. No original source row was edited, and migration 046 made no row changes. The reference database was never connected.
+
+Validation also repaired delayed transaction-editor initialization, a late business-list response clearing new drafts, and an exclusion tooltip intercepting clicks, with Jest/browser regressions. A failed fixture teardown's exact duplicate employee was deactivated only in account 9001 with an audit reason. Earlier diagnostic failures are retained. The full browser command now uses an 8 GB test-client heap (`NODE_OPTIONS=--max-old-space-size=8192`) after the default 4 GB runner exhausted before the final two tests; application and browser servers were not changed.
+
+Offline Graphify processed **547 code files / 2,276 nodes / 3,154 edges / 349 communities / 2,625 graph notes**, with no model calls. Three oracle PDF pages and the report body passed visual review. The shared global-header/sidebar overlap is recorded for H6 navigation. Documentation, workspace MEMORY and the Obsidian mirror are synchronized. This is a completed local H5 implementation, not a production deployment or final H6–H8 program acceptance.
+
+## 19. H6 — navigation by category (2026-09-26, local implementation)
+
+Eight categories and 39 sidebar leaves expose every H1–H5 screen, including Quotes. Canonical routes, old bookmark redirects, stable record editors and client/invoice tabs remove dependence on selected-row state. Shared headers/breadcrumbs, quick actions, named dialogs, keyboard focus, loading/error recovery and responsive drawer/header spacing support the main workflows. Client shortcuts carry client/business scope into payments and credits. [H6 results](../../docs/decisions/2026-09-26-run-H6-results.md) contain the before/after map, exact paths, scenario coverage and evidence.
+
+**Production rollout:** build/deploy the frontend using the normal operator procedure after reviewing local evidence. Retain SPA fallback and all compatibility redirects. No backend route/runtime change, backend restart, migration or account-1 backfill is required; next free migration remains 047. All 218 backend contracts and financial/audit rules are unchanged. Any admin alone can apply adjustments; no approval workflow or period close. No production deployment was performed.
+
+- **Accepted validation.** All 102 required commands exited 0: unit 1,225; integration 3,192 / 94 files; standalone scenarios 2,034 / 53 files; clean-room 18; Lambda 17; Jest 494 / 79 suites; CI build passed; full remote Playwright 259 passed. Zero final failures, skips, pending or flaky tests. Scenario/clean-room totals overlap integration. Final visual/keyboard rechecks are separate, not double-counted. Drift 0 / 1,014 client/business comparisons.
+- **Protected data and rollout.** No migration or backfill; 047 remains next free. Required account-1 counts remain 338/39,052/1,005/657/2,253/28,255/23 and all 12 captured table digests are unchanged. The 207,272-event audit chain verifies. Retained reference counts match without connecting to that database. No backend runtime/API/schema change or restart; deployment is frontend-only and remains an operator action. No Git, production/AWS, real-email or deployment action was performed.
+- **Verification repairs and handoff.** Existing employee transfer-history access is retained. Invoice downloads leave the loaded detail visible. User deletion handles transport failures and double submits; a synthetic Super Admin CRUD browser flow verifies the session actor in its audit events. Account-menu keyboard focus and role-appropriate Home links, settled drawer transitions and narrow recurring-filter labels are covered. Offline Graphify: 554 files, 2,293 nodes, 3,175 edges, 348 communities and 2,641 notes, with no model calls. Documentation and the Obsidian mirror are synchronized. No owner decision is blocking H6.
+
+[Accepted command manifest](../../docs/decisions/evidence/run-H6/acceptance/final-acceptance.json), [protected verification](../../docs/decisions/evidence/run-H6/account1-verification.json), [route rules](../../docs/platform/workspace-navigation.md).
+
+## 20. H7 — full regression, integrated lifecycle and refusal repairs (2026-09-26)
+
+Unit **1,227**; integration **3,392 / 98 files**; standalone scenarios **2,234 / 57 files**; clean-room **18**; Lambda **17**; Jest **498 / 80 suites**; CI build passed; full remote Playwright **260 passed**.
+
+All **106 required commands have accepted exit-0 results**, with zero final failures, skipped, pending or flaky tests. Accepted rechecks of eight command groups replace earlier results without double-counting. Scenario and clean-room totals overlap integration. The nine targeted browser repetitions are additional evidence, not added to the full-suite count. Drift is **0 / 1,014**, with aggregate difference 0. [Consolidated accepted commands](../../docs/decisions/evidence/run-H7/acceptance/final-acceptance.json).
+
+The two-business hand oracle verifies both owner rounds through original debt, cash/application/credit transfers, recurring work, retainer events, memo/refund/void/rebill, a complete bounced check and fresh collection, including immutable originals and Audit Record. Malformed inputs, unsupported dates, correction timing and wrong-target retries now refuse before writes. Reporting preserves cash/noncash/retainer lineage and single source-fee ownership. The existing New Customer form prevents double submits and displays retained-draft recovery after a lost response. All prior coverage remains; [PASS5](../../docs/scenarios/RESULTS-PASS5.md) retains failing-first evidence and the initial browser network suspension.
+
+All seven required source counts match the retained reference census, all 12 captured table counts/digests are unchanged, and the **207,272-event** audit chain verifies. The reference database was never connected. H7 has **zero intended migration/backfill effects and zero observed account-1 changes**. Next migration remains 047. Required counts: customers 338; transactions 39,052; payments 1,005; write-offs 657; invoices 2,253; trackers 28,255; users 23. [Post-browser verification](../../docs/decisions/evidence/run-H7/account1-verification.json).
+
+**Production rollout:** deploy the reviewed backend and frontend after existing H0–H6 prerequisites, including migration 046; restart through the normal operator process and verify input/retry boundaries, customer recovery, report arithmetic and drift. H7 adds no migration and requires no stored-request or financial-data rewrite. No deployment was performed. Next migration remains 047. Existing admin-only adjustments, no approval workflow/period close, default-business cutover and printed interest line remain unchanged.
+
+Offline Graphify: 554 source files, 2,295 nodes, 3,180 edges, 348 communities and 2,643 graph notes, with no model calls. Documentation, workspace MEMORY and Obsidian are synchronized. No owner decision blocks the local H7 handoff.
+
+## 21. H9 index and loading rollout (047)
+
+Apply `047.bounded_lookup_indexes.sql` after046 with `psql -X -1 -v ON_ERROR_STOP=1 -f`. This adds five indexes on customer_jobs (account/client and account/family), customers (account/active/name/ID), and retainers (account/date/ID and account/client). It creates no tables or write paths and has **zero business-row, audit-row or backfill effects**, including account1. It is plain idempotent SQL, with no BEGIN/COMMIT and no external service calls. The migration inventory is **46 forward files, 002–047; next free048**. Scenario reset discovers047 and `migration-H9.spec.js` verifies reruns and row preservation.
+
+Local application was performed individually on ds2_local, ds2_clean and ds2_scenarios at127.0.0.1:5433; logs are in `docs/decisions/evidence/run-H9`. Future production procedure: schedule the ordinary index-build lock window, apply047 with the command above, deploy backend and frontend together, restart the backend, and hard-reload existing browser sessions because bootstrap/save shapes changed. Do not run the old frontend with the bounded-response backend. Keep `SEND_REAL_EMAIL` and scheduled automation settings at their reviewed values; local verification always has both false. Recheck <1MB initial JSON, paged jobs/client lookup, committed refresh warning, primary entry/record screens and drift0. No production deployment has been performed by H9.
+
+H9 accepted local verification: Unit **1,232**; all integration **3,486 / 100 files**, including scenarios **2,324 / 58 files** and clean-room **18**; Lambda **17**; Jest **527 / 84 suites**; CI build passed; full remote Playwright **269 passed**. All accepted checks have zero failures, skipped, pending or flaky tests. Scenario/clean-room counts overlap integration. Focused repetitions are not double-counted. Drift 0 / 1,014; protected counts/digests and the 207,272-event audit chain verify. See the H9 results for measurements, the initial read-only reference-boundary deviation, retained failing/interrupted evidence and final acceptance. No deployment was performed.
+
+## 22. H10 account-wide read rollout (048/049)
+
+This is a future operator procedure; only the three authorized local databases were changed. After047, pause financial writers and apply `048.batched_work_entity_views.sql` then **immediately** `049.separate_batched_reads_from_locking_views.sql`, each with `psql -X -1 -v ON_ERROR_STOP=1 -f`. Do not resume or deploy with048 alone: its joined views cannot accept FOR UPDATE.049 restores the original locking views and installs two batched nonlocking projections in `billing_reads`. Both files are plain idempotent SQL. Inventory48 files002–049; next050.
+
+The pair changes schema/view definitions only: **zero business rows, zero audit events, zero backfills**, including account1. It adds no index, financial table or write path. Existing unique sidecar indexes support the joins. Deploy the matching backend and restart through the normal operator process; frontend payload/routes remain compatible. Preserve email/scheduler settings, audit/lock triggers and all financial permissions. Verify the four row-lock modes, work edits, finalize stale refusal, per-business engine/Audit/AR drift0 and all page budgets before resuming. No production deployment or production timing claim is made.
+
+[H10 results](../../docs/decisions/2026-09-26-run-H10-results.md) retain before/after query counts and timings, all validation attempts, original-reader comparisons, source/audit verification and exact local migration logs. Use retained reference evidence for protected counts; never connect to ds2_ref_20260922. No owner policy change is needed for this read optimization.
+
+H10 accepted local validation: unit1,238; ordinary integration1,163 /42 files; scenarios2,334 /59 files; clean-room18 (all integration3,515 /102 files); Lambda17; Jest527 /84 suites; CI build passed; full remote Playwright278. All accepted checks have zero failures, skips, pending or flaky tests. Drift0 /1,014, twelve protected source/audit hashes unchanged, seven retained reference counts matched,207,272-event audit chain verified. Loaded-workspace Create invoices854ms first rows/860ms ready; AR443ms; Audit list127ms; all analytics816–967ms. Cold Create invoices5,103→1,314ms. Full Audit read phase40.29s and largest-client selected balance2.41s remain measured costs, outside the listed readiness budgets. See the linked H10 results for exact before/after tables and retained failures.
+
+
+## 23. H8 page help, browser coverage and rollout handoff (2026-09-27, local only)
+
+**Accepted locally:** unit **1,238**; all integration **3,523 /103 files** (ordinary **1,163 /42**, scenarios **2,342 /60**, clean-room **18**); Lambda **17**; Jest **606 /91 suites**; CI build passed; full Playwright **340 + 340** consecutively, retries zero. All 51 required commands exited 0. Zero accepted failures, skips, pending, flakes or retries; **5,724 unique tests**. Drift **0 /1,014**, seven direct reference counts and twelve source/audit digests match; **207,272 audit events** verify. All 954 source/test/schema hashes remain unchanged across the browser pair. See [PASS6](../../docs/scenarios/RESULTS-PASS6.md) for exact commands, durations and performance measurements. Earlier red, failed and explicitly interrupted attempts remain in run-H8 evidence and are excluded from acceptance.
+
+H8 adds an accessible information button to the shared header, with 52 route/tab explanations in one content source and a byte-checked generated owner guide. It clarifies issuer/client columns, report-history controls, estimated aging, neutral zero totals, credit memo status/document numbers, named actors and ordinary grid labels. Receipt/memo/Audit actions wait for their data; delayed grids preserve keyboard focus. Payment imports exposes read errors, supports reload, ignores stale month responses and keeps page two selected during loading. Test oracles include a lost-response $50 receipt, two-tab $5 memo on $22.50, and a $1,000 receipt followed by a $25 rollover bill with $175 due.
+
+There is **no H8 migration, backfill, new table, financial write path or endpoint**. The inventory remains 221 endpoint contracts and 48 forward migration files, 002–049; 050 remains free. Future authorized rollout deploys the matching backend presentation readers before the frontend, after the existing 049 prerequisite. Existing writer-pause, schema/cutover, restricted runtime-role and immutable archive requirements remain. H8 introduces no production SQL step. Verify generated help, keyboard focus, named records, read-error recovery, invoice/receipt corrections, actual report rows/totals and three-view drift. All admin-only adjustment rules remain, with no second-person approval or period close.
+
+H8's intended protected account-1 effects are **zero**. The owner explicitly permits direct count comparison against ds2_ref_20260922 using default_transaction_read_only=on; this supersedes the earlier run-specific reference-access restrictions for this pass only. Seven required counts, twelve source/audit row digests and audit-chain verification are recorded in PASS6. H9/H10 measurement artifacts are preserved separately from H8 remeasurements.
+
+Offline Graphify: **585 files, 2,381 nodes, 3,282 edges, 354 communities and 2,735 generated notes**, zero model tokens. Feature rules, integrated design, help, scenarios, operation notes and the workspace memory log accompany the handoff; the existing sync script also mirrors H8 before/after screenshots into DS2_Notes. No owner policy question blocks this local implementation.
+
+## 24. Owner round 2 — summary, rollout at a glance and Claude's final regression (2026-09-27)
+
+Jon's second round of requests came on 2026-09-25/26, after the industry-standard assessment in `docs/_review/industry-standard-assessment.md`. They are quoted word for word in `docs/decisions/2026-09-26-owner-requests-2.md`. Astra built them in runs H0–H10, Claude reviewed every run, and all of it was tested locally only.
+
+| Request | Outcome |
+|---|---|
+| 1. Switch for email to real people | `SEND_REAL_EMAIL` and `RUN_SCHEDULED_AUTOMATIONS`: on in production, off elsewhere unless set to 'true' (H0) |
+| 2. True aging and one-check payments | An obligation/application subledger with Receive payment: apply oldest first, and the remainder becomes held credit used at the next billing (H2) |
+| 3. Several businesses per account | Billing businesses with their own letterhead, numbering and statements. Pre-cutover open items stay with the default business (H1, corrected in H2) |
+| 5. Corrections | Credit memos, void-and-rebill and credit refunds (H3) |
+| 6. Period close / approvals | Not needed (Jon). Instead, write-offs and every adjustment are Admin/Super Admin only, with no second approver (H3) |
+| 7. Recurring billing ready in Create Invoice | Plans are prepared idempotently when Create Invoice opens (H4) |
+| 8. Honest analytics | Billed means issued. Cost uses snapshots. "Worked for" and "billed by" are shown per business (H5) |
+| UX grouped by category | Eight categories, 39 destinations, redirects (H6), plus an "i" help panel on every page (H8) |
+| Speed ("snappy, not waiting on data calls") | Login data 93.7 MB → 175 KB, lazy routes, per-client jobs, small save responses (H9). Create Invoice 5.1 s → 0.85 s (H10) |
+| 4, 9, 10 | Not built, by design: no QuickBooks or bank feeds, no collections or online payments, no interest. The 18% line is unchanged |
+
+**Incident.** Before the switch existed, the local sandbox's scheduled reminders emailed two staff members through real SES: on 2026-09-24 at 09:00 and on 2026-09-25 at 15:30. The switches now prevent it, and the sandbox backend runs with `AWS_PROFILE=ds2-sandbox-no-aws`, so it has no AWS credentials at all.
+
+### 24.1 Rollout at a glance (future operator step; not performed)
+1. Back up production and rehearse the whole sequence on a restored copy. Pause financial and import writers and account creation.
+2. Apply migrations **017 → 049** in order by hand with `psql -X -1 -v ON_ERROR_STOP=1 -f`. Run the 019 rehearsal first (section 10.1). The new backend must follow 020 immediately (section 6).
+3. Run the reviewed cutover tools in this order:
+   1. The business cutover. Every pre-cutover open item stays with the default business, so each client's next statement must equal its pre-cutover value.
+   2. The legacy obligation derivation. The accountant reviews its report.
+   3. The recurring plan conversion. The first automated period is on or after the rollout date, with no back-billing.
+   4. The cost estimate sidecars.
+   Sections 14–22 give each run's exact steps.
+4. Deploy the backend, then the frontend. The production task definition must **not** set `SEND_REAL_EMAIL=false` or `RUN_SCHEDULED_AUTOMATIONS=false`. Run the tracker-owner backfill (section 6).
+5. Use a restricted runtime database role. Give the `audit-records/` storage prefix create-only retention.
+6. Verify:
+   - drift 0, per business and in total;
+   - next statements equal their pre-cutover values;
+   - aging totals equal the billed balance;
+   - Create Invoice prepares recurring charges;
+   - the performance budgets hold.
+   Then resume writers.
+7. Accountant items:
+   - historical issued invoices without an archived PDF;
+   - the legacy aging derivation report;
+   - pre-cutover unbilled work that belongs to another business (use the candidate report; nothing moves automatically);
+   - the 14 migration-019 exceptions;
+   - the 113 payment mis-tags;
+   - future-dated transaction typos.
+
+### 24.2 Claude's final independent regression (final code, 2026-09-27)
+Each suite ran by itself; every integration file ran in its own process. The backend was restarted on the final code with the email and AWS guards on.
+
+| Suite | Result |
+|---|---|
+| Backend unit | 1,238 passing, 0 failing, 0 pending |
+| Integration: all 103 files, each run alone | 3,523 passing, 0 failing, 0 pending |
+| Dedicated scenario run | 2,342 passing |
+| Clean-room | 18 passing |
+| Drift, read-only on `ds2_local` | 0 across 1,014 comparisons. Engine = Audit = AR per business: James F. Kimmel & Associates next statements $60,888.50 and outstanding $41,015; the other businesses $0 |
+| Payment-image Lambda | 17 passing |
+| Frontend Jest | 606 tests in 91 suites passing |
+| Frontend build | passed |
+| Playwright, real browser (run with `NODE_OPTIONS=--max-old-space-size=8192`) | 340 passed, 0 failed, 0 flaky, 0 skipped |
+
+**Data checks.** `ds2_local` still holds only accounts 1 and 9001. Account 1's original values match `ds2_ref_20260922` apart from migration 019's intended changes. The migrations added new columns and sidecars and changed no original value.
+
+**Evidence policy.** Raw evidence stays on this Mac and is gitignored: Playwright traces (which can hold the local session cookie), account-1 cutover dumps, CSVs, drift details, diagnostics and uncurated screenshots. The docs, summaries, sample PDFs and curated screenshots are committed.

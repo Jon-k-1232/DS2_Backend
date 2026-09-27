@@ -1,0 +1,92 @@
+[
+  {
+    "file": "month-end-lifecycle.integration.spec.js",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/month-end-lifecycle.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "env": ".env.local",
+    "exit": 0,
+    "seconds": 7.67,
+    "passing": 19,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "file": "scenario-lifecycle-18-audit-record.integration.spec.js",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-lifecycle-18-audit-record.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "env": ".env.scenarios",
+    "exit": 1,
+    "seconds": 10.06,
+    "passing": 31,
+    "failing": 1,
+    "pending": 0
+  },
+  {
+    "file": "scenario-H2-receipts.integration.spec.js",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-H2-receipts.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "env": ".env.scenarios",
+    "exit": 0,
+    "seconds": 6.91,
+    "passing": 5,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "file": "path-matrix-H2-receipts.integration.spec.js",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/path-matrix-H2-receipts.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "env": ".env.scenarios",
+    "exit": 0,
+    "seconds": 7.33,
+    "passing": 54,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "file": "scenario-H1-entities.integration.spec.js",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/scenario-H1-entities.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "env": ".env.scenarios",
+    "exit": 0,
+    "seconds": 7.56,
+    "passing": 12,
+    "failing": 0,
+    "pending": 0
+  }
+]

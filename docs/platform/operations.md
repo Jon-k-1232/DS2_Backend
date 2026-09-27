@@ -1,10 +1,30 @@
 # Platform operations
 
-Source review: 2026-09-24. This guide records code and dated repository evidence. It does not assert that production was migrated, deployed, backfilled or tested during this task. All commands below are instructions for a future authorized operation; none was executed for this documentation review.
+Initial source review:2026-09-24, with subsequent local implementation results recorded by run. This guide does not assert that production was migrated, deployed, backfilled or tested. Production commands are future separately authorized operations; later run sections identify migrations and checks actually executed in the local sandbox.
+
+## H0 — delivery and scheduler controls (2026-09-26)
+
+Implemented in `src/utils/environmentSwitches.js`, the shared sender and app/orchestrator startup. [Integrated design](../decisions/2026-09-26-owner-requests-2.md) records implemented H1–H5 businesses, corrected cutover, receipts, aging, corrections, recurring billing and honest analytics; H6 implements [category navigation](workspace-navigation.md); H7 adds [full regression and boundary repairs](../scenarios/RESULTS-PASS5.md). H8 adds [shared page help and browser/mistake repairs](../decisions/2026-09-26-run-H8-results.md), including visible import-list errors and safe reloads. H9 implements [bounded loading](performance.md) with index migration047. [H0 results](../decisions/2026-09-26-run-H0-results.md) records switch validation. H0 required no migration; H1/H2 use028–041, H3 uses042 and H4 uses043/044 and H5 uses045/046, H9 uses047 and H10 uses048/049;050 is next free. The email/scheduler switch change itself does not alter financial rows, issued artifacts, account automation preferences or API contracts.
+
+| Variable | Exact behavior |
+|---|---|
+| `SEND_REAL_EMAIL` | In exact `NODE_ENV=production`, on unless the value is exactly `false`; everywhere else off unless exactly `true`. Controls every tracker, reminder, success and failure email through `src/utils/email/sendEmail.js`. |
+| `RUN_SCHEDULED_AUTOMATIONS` | Same defaults/overrides. Off means app startup does not call the scheduler and direct orchestrator calls register no jobs. Per-account preferences only apply after this global gate. |
+| `EMAIL_OUTBOX_DIR` | Optional local directory for suppressed message JSON. Unset logs only; configured writes one UUID file per attempt with text/HTML and attachment metadata (no attachment bytes/paths). Newly created directory0700/files0600, create-only. Outbox failure warns but still suppresses successfully. |
+
+Values are case-sensitive: `TRUE`, `FALSE`, `0`, empty or whitespace-padded values are not explicit overrides and use the environment default. The switches are independent. A developer may run the scheduler with email false to inspect attempts safely. `.env.local` sets **both false** and remains local/uncommitted. General test setup also forces both false; focused tests enable only stubbed SES/scheduling. No production or AWS connection was used for H0.
+
+Suppression happens before SES construction/credential discovery and before requiring FROM_EMAIL. It emits structured `email_suppressed` JSON with subject, to/cc/bcc and UTC timestamp and returns `{suppressed:true, MessageId:null, suppressionId, outboxPath}`. Enabled delivery retains the normal SES result/error. Input without recipients/subject remains invalid. Caller logs distinguish suppression from sending; tracker uploads keep their existing best-effort post-commit notification behavior. Suppressed mail is never queued for later delivery.
+
+For local inspection set `EMAIL_OUTBOX_DIR=/tmp/ds2-email-outbox` in the backend process environment and keep SEND_REAL_EMAIL=false. Read the JSON with a local editor; it includes recipient addresses and message content, so use a private directory and manage retention locally. No HTTP route serves it. Basic SES attachments remain unsupported. Leave outbox unset in normal regression so tests do not accumulate messages.
+
+Restart the backend after editing its environment; H0 used the externally managed restart request/done files and verified the newer `ok` acknowledgement. Deployment instructions (future operator action): deploy backend code, set explicit desired switches in that environment, restart, inspect effective configuration and existing account recipient preferences. Production without explicit overrides defaults both on; copy neither sandbox false nor implicit defaults accidentally. Turning the scheduler off stops registration on restart; it does not retroactively cancel timers inside an already-running process. No live-email smoke test is authorized by this local run. Roll back configuration by explicit values and restart; no database rollback is needed.
+
+Coverage and hand expectations: [H0 switch scenarios](../scenarios/H0-email-and-automations.md), `test/email-switches.spec.js`, existing automation schedule test and the defensive-fault route matrix. Future entity/subledger migrations and reviewed cutover order are specified in the design, **not applied by H0**.
 
 ## 1. Purpose and UI
 
-This guide covers startup, configuration, health, scheduled reminders, notifications, migrations, review/backfill tools and local validation. Reminders are configured at `/account/automations`; notification UI is `../DS2_Frontend/src/Components/Notifications/NotificationBell.js`, with `useNotifications.js` and `Services/ApiCalls/NotificationsCalls.js`. Health and maintenance scripts have no owner-facing page. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/AccountRoutes.js:47`, `../DS2_Frontend/src/Components/Notifications/NotificationBell.js:1`, `src/endpoints/health/health-router.js:1`.
+This guide covers startup, configuration, health, scheduled reminders, notifications, migrations, review/backfill tools and local validation. Reminders are configured at `/settings/automations`; notification UI is `../DS2_Frontend/src/Components/Notifications/NotificationBell.js`, with `useNotifications.js` and `Services/ApiCalls/NotificationsCalls.js`. Health and maintenance scripts have no owner-facing page. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/AccountRoutes/AccountRoutes.js:47`, `../DS2_Frontend/src/Components/Notifications/NotificationBell.js:1`, `src/endpoints/health/health-router.js:1`.
 
 ## 2. Access and execution boundaries
 
@@ -69,7 +89,7 @@ These are names/defaults read by code, not disclosed live credentials. Numeric t
 | GOOGLE_CLIENT_ID; GOOGLE_WORKSPACE_DOMAIN; CORS_ORIGIN | Google audience/domain; comma-separated trimmed origin allowlist with credentials, otherwise CORS origin false. Frontend hosted-domain hint is hardcoded independently. `src/endpoints/auth/auth-service.js:8`, `src/app.js:71`. |
 | DISABLE_RATE_LIMIT | Exact true disables API/expensive limiters; NODE_ENV=test also skips these. Auth limiter remains. Intended sandbox use is explicit in e2e README. `src/app.js:81`, `src/app.js:94`, `../DS2_Frontend/e2e/README.md:9`. |
 | S3_BUCKET_NAME; S3_REGION; S3_ENDPOINT; S3_ACCESS_KEY_ID/S3_SECRET_ACCESS_KEY | Bucket/region/endpoint required outside tests; strip endpoint trailing slashes; optional paired static credentials otherwise AWS chain. `config.js:19`, `src/utils/s3.js:1`. |
-| AWS_REGION; FROM_EMAIL; TIME_TRACKING_ADMIN_EMAILS; TIME_TRACKER_SEND_USER_SUCCESS_EMAILS | SES region default us-west-2, sender required, comma-list failure-recipient fallback, owner/requester success mail only exact '1'. `src/utils/email/sendEmail.js:5`, `src/timeTrackerValidation/notifications.js:33`, `src/endpoints/timeTracking/timeTracking-router.js:697`. |
+| AWS_REGION; FROM_EMAIL; TIME_TRACKING_ADMIN_EMAILS; TIME_TRACKER_SEND_USER_SUCCESS_EMAILS | SES region default us-west-2, sender required only for enabled real delivery, comma-list failure-recipient fallback, owner/requester success mail only exact '1'. `src/utils/email/sendEmail.js:5`, `src/timeTrackerValidation/notifications.js:33`, `src/endpoints/timeTracking/timeTracking-router.js:697`. |
 | TIME_TRACKER_AI_FEATURE_FLAG; TIME_TRACKER_AI_TEST_ACCOUNT_IDS | on=all, test=comma-list account IDs, off/default/other=none. `src/endpoints/timesheets/auto-ingest-runner.js:8`. |
 | BEDROCK_REGION; BEDROCK_MODEL_TIMETRACKER_FAST; BEDROCK_MODEL_TIMETRACKER | Default us-west-2; Haiku `us.anthropic.claude-haiku-4-5-20251001-v1:0`; Sonnet `us.anthropic.claude-sonnet-4-5-20250929-v1:0`. `config.js:24`. |
 | BEDROCK_MODEL_AUDIT | Optional audit narrative model; falls back to BEDROCK_MODEL_TIMETRACKER_FAST then the Haiku ID above. Audit fallback model is BEDROCK_MODEL_TIMETRACKER then the Sonnet ID above. `src/endpoints/accountAudit/account-audit-narrative.js:5`. |
@@ -131,7 +151,7 @@ Reminder account selection left-joins settings for the key and includes active a
 
 ## 6. Scheduling and calculations
 
-Each non-test app process starts node-schedule jobs in America/Phoenix: Thursday 09:00, Friday 15:30, and daily 09:00 for missing prior-week trackers. Previous week is dayjs.startOf('week') minus one week through endOf('week') (Sunday–Saturday with default locale). Dedupe sets are in memory within a send invocation; no durable send log/distributed scheduler lock prevents a second process from sending again. Source: `src/app.js:173`, `src/automations/automationOrchestrator.js:10`, `src/automations/automationScripts/timeTrackerReminders.js:81`, `src/automations/automationScripts/timeTrackerReminders.js:131`.
+Each app process with `RUN_SCHEDULED_AUTOMATIONS` enabled starts node-schedule jobs in America/Phoenix: Thursday 09:00, Friday 15:30, and daily 09:00 for missing prior-week trackers. Previous week is dayjs.startOf('week') minus one week through endOf('week') (Sunday–Saturday with default locale). Dedupe sets are in memory within a send invocation; no durable send log/distributed scheduler lock prevents a second process from sending again. Source: `src/app.js:173`, `src/automations/automationOrchestrator.js:10`, `src/automations/automationScripts/timeTrackerReminders.js:81`, `src/automations/automationScripts/timeTrackerReminders.js:131`.
 
 AI daily cost rounds six decimals and uses UTC midnight; billing dates/reminders use Phoenix. These are deliberately distinct code clocks, not a shared business-day cost period. The visible ai_training_weekly_upload setting no longer has a scheduled job; current examples are read directly for few-shot prompts. Sources: `src/ai_integrations/bedrock/cost.js:1`, `src/endpoints/timesheets/auto-ingest-orchestrator.js:155`, `src/automations/automationOrchestrator.js:4`.
 
@@ -177,7 +197,7 @@ Report runs require explicit DS2_ENV_FILE and DATABASE_NAME, use READ ONLY REPEA
 
 Documented sandbox endpoints are frontend localhost:3003, backend 127.0.0.1:8003, PostgreSQL 127.0.0.1:5433/ds2_local, MinIO port9000/bucket ds2-local. Frontend API must use localhost:8003 for cookie host consistency. ds2_clean is the separate clean-room database; ds2_ref_20260922 is recorded as pristine reference. The backend compose file only starts backend on external ds2_network; it is **not** a self-contained Postgres/MinIO sandbox bootstrap. Current running state is not determined from the code. Sources: `../DS2_Frontend/e2e/README.md:26`, `package.json:10`, `scripts/review-2026-09/FINAL_REPORT.md:257`, `docker-compose.backend.yml:3`.
 
-The following are **write-capable test operations**, listed for a future authorized local run. None was run here. `test:unit` excludes only test/integration/**, so it still discovers endpoint *.integration.spec.js and test/scripts suites that create/drop throwaway databases. `requireDb()` can seed account9001; cleanup deletes fixtures. Do not describe the npm unit command as inherently read-only. Sources: `package.json:7`, `test/integration/_setup.js:60`, `test/scripts/helpers/pgHarness.js:55`.
+The following are **write-capable test operations**. Authorized H0–H6 local executions are recorded in their run results. `test:unit` excludes only test/integration/**, so it still discovers endpoint *.integration.spec.js and test/scripts suites that rebuild the authorized clean-room schema. `requireDb()` can seed account9001; cleanup deletes fixtures. Do not describe the npm unit command as inherently read-only. Sources: `package.json:7`, `test/integration/_setup.js:60`, `test/scripts/helpers/pgHarness.js:55`.
 
 | Run location / command | Scope and requirements |
 |---|---|
@@ -189,6 +209,8 @@ The following are **write-capable test operations**, listed for a future authori
 | Frontend/e2e: `npm test` | Separate Playwright package, existing local apps required, one worker/no retries. Preflight checks DB/MinIO identity and AI flag off. Writes via actual UI. Setup/install commands and backend override DS2_BACKEND_DIR are in e2e README. |
 | Lambda: `python3 -m unittest discover -s tests` | Unit tests in a separately prepared Lambda dependency environment; database/AWS dependencies are stubbed by these test files. Do not run process_payments.py as a test: CLI is the real pipeline. |
 | Sources | `package.json:7`, `test/setup.js:1`, `../DS2_Frontend/package.json:43`, `../DS2_Frontend/e2e/README.md:7`, `../DS2_Frontend/e2e/playwright.config.js:4`, `../DS2_Lambdas/Process_Payment_Images/tests/test_database.py:1`. |
+
+For this sandbox, use the [full external-browser command](../../../DS2_Frontend/e2e/README.md) with `PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:3334/`, one worker and `NODE_OPTIONS=--max-old-space-size=8192`. H5's uninterrupted suite exhausted the default 4 GB test-client heap after 182 passing cases. The 8 GB limit applies only to the test process and its children, and does not change the managed servers. Do not launch Chromium locally or accept an aborted run as full validation.
 
 ## 8. Invariants and recorded verification
 
@@ -248,7 +270,7 @@ Future production operator step, not executed here: back up and rehearse, pause 
 
 Validate draft/no-ledger behavior; finalize=sent and locked; default skip and individually chosen credit; negative/positive/zero carry-forward; signed AR/Audit agreement; session actor/reason; retainer refund evidence, duplicate guarded removal and bounced-check revision/roll-forward. Verify six-minute boundaries and cent rounding. Do not roll back to code that drops signed credits after any credit statement has been issued; restore a compatible backend or use a reviewed recovery plan that preserves immutable evidence. Decision6 is implemented by migration026 below.
 
-Local hand applications of025 completed on ds2_local, ds2_clean and ds2_scenarios (loopback5433); storage remained MinIO9000. No production/AWS connection or server restart is authorized. See [run3 results](../decisions/2026-09-25-run-3-results.md) for exact tests, counts and protected account1 comparison.
+Local hand applications of025 completed on ds2_local, ds2_clean and ds2_scenarios (loopback5433); storage remained MinIO9000. No production/AWS connection or server restart is authorized. See [run3 results](../decisions/2026-09-25-run-3-results.md) for exact tests, counts and protected account 1 comparison.
 
 
 ### Owner run 4 rollout — migration026
@@ -266,3 +288,140 @@ Future authorized operator step only: back up and rehearse; apply `027.audit_rec
 ### Owner run 6 presentation follow-up
 
 Run 6 requires no migration or data operation. A future authorized release deploys the matching backend formatter/PDF renderer and frontend tab. Check that new client prints summarize archived statement copies with reconciled covered-change counts and plain verification instructions; full evidence still itemizes every copy and retains API paths. Previously stored documents and source archives must reopen with their original bytes. The migration027 and retention requirements above remain unchanged. Local validation and samples: `docs/decisions/2026-09-25-run-6-results.md`. No deployment was performed in this run.
+
+## H1 business cutover
+
+The following H1 steps are historical context. The H2 rollout below supersedes tracker-based legacy billing assignment/holds. Apply the corrected default amendment and derive/reconcile obligations before any billing resumes.
+
+H1 is local only. Apply **028 through 036 in order** during the coordinated schema/backend/frontend maintenance window, after the earlier017–027 prerequisites. Financial writers and scheduled automations must remain stopped until the entity-aware backend is running. Do not let an old binary write against the mandatory-entity schema. The next free migration is 037. Scenario reset discovers all forward migrations; migrate.spec expects 35 numbered files 002–036.
+
+| Migration | Effect |
+|---|---|
+| 028 | Entity/alias/number/cutover/review schema; explicit legacy sidecars and financial read views |
+| 029 | Entity integrity, default opening positions, audited requests and paired credit transfers |
+| 030 | Exact tracker attribution, audit company metadata, sequence identity and default/entity constraints |
+| 031 | First pending-payment assignment and removal of unused default when an account is deleted |
+| 032 | Reviewed source-preserving opening allocations and per-business virtual roots |
+| 033 | Generic entity trigger uses JSON fields for rows without invoice-parent columns |
+| 034 | Saved Account Audit business scope |
+| 035 | Default opening evidence gets the same original-row protection as reviewed splits |
+| 036 | Ordinary mutable invoice updates pass their NEW row through that protection trigger |
+
+All nine files are idempotent plain SQL. They were applied manually with `psql -X -1 -v ON_ERROR_STOP=1 -f` to ds2_local, ds2_clean and ds2_scenarios. Do not edit an applied file. Apply 035 and 036 together with the rest before writers resume;035’s intermediate update-return behavior is corrected by 036.
+
+Future production operator steps, **not performed here**:
+
+1. Take the approved backup and fresh export; rehearse on the authorized local restore. Save the pre-028 per-row/source-artifact inventory and reviewed business names/defaults. The shipped local-only `scripts/entity-cutover-report.js` is intentionally hard-wired to ds2_local, not a production connector. Archive the original artifacts through the operator’s established process and compare their hashes independently; this run did not fetch AWS objects.
+2. Pause financial writers. Use the operator’s reviewed connection/session and run each exact file, in order, with the command form below. Retain each output. Do not copy local environment credentials into deployment.
+3. Deploy backend, then frontend. Keep SEND_REAL_EMAIL=false and RUN_SCHEDULED_AUTOMATIONS=false for smoke checks. Validate health, entity settings, filters, exact tracker holds and the mandatory business picker with approved test strategy; do not send real messages as a test.
+4. Default migration routing attributes billed balances, pending non-work adjustments and held funds to the default business. Review the exported report. An admin may apply an unconsumed opening manifest using `/billing-entities/cutover` with exact source hashes, signed shares summing to each source, reason and UUID request key. Held funds use a separate admin credit transfer. Both are single-admin decisions, not approval workflows. Existing account 1 data was not custom-split in this run.
+5. Reconcile B, U, P, N and held funds for every business and in total, including separately held eligible work when comparing before/after; compare Create Invoice/Account Audit on N and AR on B. Verify the append-only account audit chain and source preservation. Resume writers only after the operator’s acceptance. After new issued activity, use forward corrections rather than deleting evidence or disabling guards.
+
+```sh
+# Operator sets reviewed PGHOST/PGPORT/PGUSER/PGDATABASE outside this example.
+# No production command was run during H1.
+for migration in migrations/028.*.sql migrations/029.*.sql migrations/030.*.sql migrations/031.*.sql migrations/032.*.sql migrations/033.*.sql migrations/034.*.sql migrations/035.*.sql migrations/036.*.sql; do
+  psql -X -1 -v ON_ERROR_STOP=1 -f "$migration" || exit 1
+done
+```
+
+Protected account 1 rows are unchanged in all 11 inventoried source tables. Exact counts, sidecar/review rows, 39 default opening positions totaling 41,015.00, historical unresolved work and artifact-verification limits are in [the cutover report](../decisions/evidence/run-H1/account1-cutover-report.json). The seven required source counts match the retained reference census; ds2_ref_20260922 was not accessed. [H1 results](../decisions/2026-09-26-run-H1-results.md) owns the final test counts and current verification status.
+
+
+## H2 rollout — corrected legacy default and receipt subledger
+
+Use one maintenance window before billing resumes. Apply migrations 037–041 in numeric order as plain idempotent SQL, each with `psql -X -1 -v ON_ERROR_STOP=1 -f <file>`. The files do not open or commit their own transaction; `psql -1` supplies that boundary. All five were applied manually to ds2_local, ds2_clean and ds2_scenarios. Scenario reset and the migration harness discover the forward chain; migration count is 40 files (002–041). H3 begins at 042. These migrations do not rewrite original account-1 financial rows.
+
+1. Install schema/backend with `SEND_REAL_EMAIL=false` and `RUN_SCHEDULED_AUTOMATIONS=false` in the local sandbox. Retain old manifests and a source hash/count census. Keep financial posting paused during the reviewed cutover amendment.
+2. GET `/billing-entities/cutover/amendment` as an admin and retain its manifest/hash. POST the same endpoint with that hash, a reason and a UUID. This is the supported operator path for superseding H1 before billing resumes. It rejects stale sources, prior amendment and resumed financial activity; it never edits an old manifest. The local CLI uses exactly the same service:
+
+```sh
+node scripts/amend-entity-cutover.js --database ds2_local --account 1 --manifest /tmp/reviewed-amendment.json
+node scripts/amend-entity-cutover.js --database ds2_local --account 1 --manifest /tmp/reviewed-amendment.json --apply --reason 'Keep settled legacy opening items together in default business'
+```
+
+3. Reconcile **each client**, and totals: default B/U/P/N/held funds equal the original single scope; every other business starts at zero; no pre-cutover work is held; drift is zero. Preserve the superseding manifest, application receipt, per-client comparison and original hashes. Export `/billing-entities/cutover/candidates`; no automatic movement is authorized. Admins can explicitly move reviewed unbilled items with a reason later.
+4. Plan legacy obligation derivation only after the correction, retain its hash and unresolved-age report, then apply atomically:
+
+```sh
+node scripts/derive-legacy-obligations.js --database ds2_local --account 1 --manifest /tmp/reviewed-aging.json
+node scripts/derive-legacy-obligations.js --database ds2_local --account 1 --manifest /tmp/reviewed-aging.json --apply --reason 'Derive original debt ages from reviewed default opening evidence'
+```
+
+The CLIs in this local program intentionally accept only the three authorized local database names and loopback PostgreSQL. Production operators use the authenticated amendment endpoint and the same reviewed derivation service in their approved operational environment; this run does not authorize a production connection or remove the local guard. The application also derives a previously unseen scope transactionally before its first receipt or finalization. A rerun finds the existing derivation and does not duplicate it. Do not delete a derivation to force a new result; future accountant corrections require new events.
+
+5. Reconcile derived obligations less issued credit to original B, then repeat the raw N/billed drift check. Retain both report cutoffs. Deploy the matching frontend and run local receipt/credit/aging/browser scenarios before any separately authorized production release.
+
+Account-1 amendment effects: one superseding manifest, one amendment, 67,307 new legacy scope records, one idempotency record and corresponding system audit events. Legacy derivation adds 307 scope manifests and 53 opening obligations totaling $41,015.00, plus labeled legacy payment/root-retainer headers; no new cash, credit or issued invoice. Original rows, dates, amounts and artifact paths are unchanged. Exact evidence counts and accepted tests are in [H2 results](../decisions/2026-09-26-run-H2-results.md). Original AWS PDF bytes were not accessed.
+
+Retain `docs/decisions/evidence/run-H2/` for review. Earlier failed test attempts are separate diagnostic evidence, not acceptance. Backend restart remains managed through the request/done files; ports are 3334 for the external Playwright browser, 8003 for the backend and 3003 for the frontend. Never launch or stop servers in this run.
+
+## H3 rollout — corrections and adjustment permissions
+
+Local-only H3 applied `042.invoice_corrections.sql` by hand, separately and transactionally to ds2_local, ds2_clean and ds2_scenarios at127.0.0.1:5433. No account-1 financial/source/audit rows are intended to change. The new tables start empty; no H3 cutover/backfill is needed. H2's corrected default-business opening is preserved. The next free migration after H3 is043.
+
+For a separately authorized production rollout: verify the reviewed H2 amendments/derivation and migration041; take the normal database/artifact backup; pause financial writes; apply `psql -X -1 -v ON_ERROR_STOP=1 -f migrations/042.invoice_corrections.sql` with the operator's approved connection; then deploy backend/frontend together and restart the backend. Verify all seven tables' audit/ownership/immutable triggers, statement membership, the revised receipt-conservation function and admin403 enforcement. Confirm original source counts/values unchanged and per-business drift0 before enabling correction entry. Do not drop these append-only tables or revert the conservation function after refunds have been recorded; repair through a reviewed forward migration. Backend rollback after postings also requires a reader capable of accounting for correction_postings. No production command, AWS connection or real-email test was performed by H3.
+
+[Correction contracts](../ledger/invoice-corrections.md), [oracles](../scenarios/H3-corrections.md), [results and exact validation](../decisions/2026-09-26-run-H3-results.md).
+
+## H4 rollout — recurring billing
+
+H4 is implemented and verified only in the authorized local sandbox; production rollout is a separate operator action. Keep `SEND_REAL_EMAIL=false` and `RUN_SCHEDULED_AUTOMATIONS=false` during cutover. Back up normally, record the eight existing plans and the default-business attribution, and stop financial writes for the migration/deploy window. Do not run historical recurring generation as part of migration.
+
+For a populated legacy installation, hand-apply **044 as a guard preflight, then043, then044 idempotently**, each using `psql -X -1 -v ON_ERROR_STOP=1 -f <file>`. Migration044 only permits a recurring row's null physical business to become its already effective business; the admin gate remains for genuine reclassification. Applying043 before this preflight on legacy null-business plans is refused atomically. Do not edit or renumber the applied migration files. Fresh schema/reset can apply043 then044 normally; the scenario seed is inserted afterward and explicitly receives the043 cutover.
+
+- `044.recurring_attribution_materialization.sql`: guard preflight, no data backfill.
+- `043.recurring_billing.sql`: plan columns; cutover, occurrence and event tables; unique plan/period; audit/scope/immutability guards; supported fee staff/catalog nullability with deferred guard; extended entity read view and frozen statement membership. Eight monthly plans materialize the existing default business and receive a default service description, original calendar anchor, rollout date, first automated period, version and review state. Existing source amounts/dates/flags are preserved. No charges, invoices or earlier financial balances are generated/changed.
+- Reapply044 safely as the final numeric migration step. Inventory is now43 migration files (002–044); next free number045.
+
+The rollout date uses **America/Phoenix on execution**, not the H4 development date. Review each `recurring_plan_cutovers.original` against the updated plan and require `first_automated_period` to be the first due date on/after that rollout date. Unsupported legacy frequencies are `needs_review` and blocked. Locally, Sep26 cutover makes all eight day1 Monthly plans start automatically Oct1. Fees are unchanged and sum to $3,520.54 per monthly period. Earlier periods remain excluded and visible; generating them requires selected periods, reason and confirmation that they were not already billed manually.
+
+Deploy backend before frontend. Open each business's Recurring plans and then Create Invoice; verify the returned periods, cap, readiness and balances before finalizing. Opening Create Invoice generates due fees even with scheduling off. If finalize itself prepares omitted fees, its409 response means **fees prepared, no invoice issued**; refresh and review before retry. A capped preparation can be continued in Review catch-up or another explicitly visible capped preparation. Leave the optional daily backstop disabled until these plan dates/amounts are checked. It has no email dependency.
+
+Local application evidence, exact protected-data deltas, serial acceptance logs and rollout limitations are in [H4 results](../decisions/2026-09-26-run-H4-results.md). Local cleanup removed381 orphaned recurring fixture rows belonging only to account9001 before migration; this is **not** a production cleanup instruction. No account-1 plan or source row was deleted. The seven required protected source counts must still equal the retained reference census after rollout; verify the audit chain and drift per business.
+
+## H5 rollout — honest analytics and cost provenance
+
+This is a future operator rollout; H5 performed local-only work. Coordinate matching schema/backend/frontend deployment, preserving H0 real-email/scheduler settings and the existing issued-row locks. No period-close or approval feature is required.
+
+1. Complete H1–H4, including the corrected H2 default-business opening and H4's044 preflight. Inventory existing issued evidence, original source counts and audit chain. Do not change business attribution to make reporting totals look different.
+2. Pause work/tracker writers. Apply `045.work_cost_snapshots.sql`, then `046.reviewed_work_cost_snapshots.sql`, each with `psql -X -1 -v ON_ERROR_STOP=1 -f`. It adds nullable provenance columns, unique tracker source linkage, capture triggers and an immutable audited estimate sidecar. Historical financial/tracker fields remain untouched. Existing staff rates are estimates as of migration, not asserted historical rates. Unknown stays unknown. Preserve the migration log/counts and capture timestamp; rerun is idempotent.
+3. Deploy the matching backend and frontend before resuming writers. New work captures logged-for staff cost; validated upload owner captures held tracker cost. Approval copies source evidence. Employee reassignment before issue requires an audit reason; issued edits still refuse. Do not run old ingestion against the new reporting contract.
+4. Confirm super-admin-only report access, new `/analytics/billingPerformance/:accountID/:userID` and `/export`, and `/reports/billing-performance`. Update consumers: response `version=2`; `total_billed` now means issued net billing and `work_entered_value` is separate. Downloads/year-end packet retain definitions, business and cutoff labels. Existing old analytics page URLs remain valid until H6 redirects them.
+5. Use the hand oracle: standard200, concession20, issue180, receipt120, bad-debt10, memo20 → net billed160, cost60, margin100, billing/collection realization80%, plus unbilled WIP100. Change staff rate30→50 and verify the old cost60 remains. Check legacy worked-for/billed-by attribution without moving B/U/P. Verify audit chain, protected counts and independent Create Invoice/Account Audit/AR drift0 before resuming.
+
+Local account1 effects were exactly **67,307 immutable estimate rows** (39,052 transactions and28,255 trackers), **67,307 system audit events**, zero original-field/row changes and zero nonnull new source columns. All estimates had known migration-time rates and are labeled estimated;15,422 transaction sidecars link actual tracker duration,23,630 use quantity estimates, 28,255 tracker sidecars preserve actual minutes. 046 is a function-only replacement for reviewed staff/minutes and actual manual minutes; it changes no historical row or audit event. Existing139,965 audit events remain unchanged;207,272 total events verify. The original seven counts match retained reference evidence without connecting to the reference DB. [Read-only verifier and evidence](../decisions/evidence/run-H5/account1-verification.json), [H5 results](../decisions/2026-09-26-run-H5-results.md).
+
+## H6 rollout — frontend navigation
+
+H6 has no migration, backfill, new backend endpoint or server restart requirement. Deploy the reviewed frontend with its existing H1–H5 backend and schema. At H6 acceptance,047 was next free; H9 below adds047. Retain the static-host SPA fallback for all historical and canonical paths. Open a bookmarked client/invoice, refresh a stable editor, and verify employee/manager/admin/Super Admin menus and direct-route gates. Check the expanded/collapsed header and narrow drawer. Verify ordinary entry/finalize permissions and admin-only adjustment controls remain as documented. No email/scheduler setting is changed by this frontend rollout. [Route and redirect map](workspace-navigation.md), [H6 results](../decisions/2026-09-26-run-H6-results.md).
+
+## H7 rollout — request boundaries and reporting lineage
+
+H7 has no migration/backfill;047 was next free at its acceptance, before H9 below added047. Intended account-1 effects: none. Deploy the reviewed backend repairs and frontend customer-form safeguards after the full H0–H6 prerequisites, restarting the backend through the normal operator process. Existing contracts and routes remain compatible. No stored retry request, issued invoice, ledger row or report sidecar is rewritten; no manual data repair is needed. Validate same-target retries, wrong-target 409, malformed-input/year-zero 400, dated correction refusal, released-retainer reporting, single pending customer submission, visible lost-response recovery and per-business drift 0. Local managed restart/evidence and complete results are in [H7 results](../decisions/2026-09-26-run-H7-results.md). Production deployment remains a separately authorized operator action.
+
+## H9 index and loading rollout (047)
+
+Apply `047.bounded_lookup_indexes.sql` after046 with `psql -X -1 -v ON_ERROR_STOP=1 -f`. This adds five indexes on customer_jobs (account/client and account/family), customers (account/active/name/ID), and retainers (account/date/ID and account/client). It creates no tables or write paths and has **zero business-row, audit-row or backfill effects**, including account1. It is plain idempotent SQL, with no BEGIN/COMMIT and no external service calls. The migration inventory is **46 forward files, 002–047; next free048**. Scenario reset discovers047 and `migration-H9.spec.js` verifies reruns and row preservation.
+
+Local application was performed individually on ds2_local, ds2_clean and ds2_scenarios at127.0.0.1:5433; logs are in `docs/decisions/evidence/run-H9`. Future production procedure: schedule the ordinary index-build lock window, apply047 with the command above, deploy backend and frontend together, restart the backend, and hard-reload existing browser sessions because bootstrap/save shapes changed. Do not run the old frontend with the bounded-response backend. Keep `SEND_REAL_EMAIL` and scheduled automation settings at their reviewed values; local verification always has both false. Recheck <1MB initial JSON, paged jobs/client lookup, committed refresh warning, primary entry/record screens and drift0. No production deployment has been performed by H9.
+
+H9 accepted local verification: Unit **1,232**; all integration **3,486 / 100 files**, including scenarios **2,324 / 58 files** and clean-room **18**; Lambda **17**; Jest **527 / 84 suites**; CI build passed; full remote Playwright **269 passed**. All accepted checks have zero failures, skipped, pending or flaky tests. Scenario/clean-room counts overlap integration. Focused repetitions are not double-counted. Drift 0 / 1,014; protected counts/digests and the 207,272-event audit chain verify. See the H9 results for measurements, the initial read-only reference-boundary deviation, retained failing/interrupted evidence and final acceptance. No deployment was performed.
+
+## H10 account-wide read rollout (048/049)
+
+This is a future operator procedure; only the three authorized local databases were changed. After047, pause financial writers and apply `048.batched_work_entity_views.sql` then **immediately** `049.separate_batched_reads_from_locking_views.sql`, each with `psql -X -1 -v ON_ERROR_STOP=1 -f`. Do not resume or deploy with048 alone: its joined views cannot accept FOR UPDATE.049 restores the original locking views and installs two batched nonlocking projections in `billing_reads`. Both files are plain idempotent SQL. Inventory48 files002–049; next050.
+
+The pair changes schema/view definitions only: **zero business rows, zero audit events, zero backfills**, including account1. It adds no index, financial table or write path. Existing unique sidecar indexes support the joins. Deploy the matching backend and restart through the normal operator process; frontend payload/routes remain compatible. Preserve email/scheduler settings, audit/lock triggers and all financial permissions. Verify the four row-lock modes, work edits, finalize stale refusal, per-business engine/Audit/AR drift0 and all page budgets before resuming. No production deployment or production timing claim is made.
+
+[H10 results](../decisions/2026-09-26-run-H10-results.md) retain before/after query counts and timings, all validation attempts, original-reader comparisons, source/audit verification and exact local migration logs. Use retained reference evidence for protected counts; never connect to ds2_ref_20260922. No owner policy change is needed for this read optimization.
+
+H10 accepted local validation: unit1,238; ordinary integration1,163 /42 files; scenarios2,334 /59 files; clean-room18 (all integration3,515 /102 files); Lambda17; Jest527 /84 suites; CI build passed; full remote Playwright278. All accepted checks have zero failures, skips, pending or flaky tests. Drift0 /1,014, twelve protected source/audit hashes unchanged, seven retained reference counts matched,207,272-event audit chain verified. Loaded-workspace Create invoices854ms first rows/860ms ready; AR443ms; Audit list127ms; all analytics816–967ms. Cold Create invoices5,103→1,314ms. Full Audit read phase40.29s and largest-client selected balance2.41s remain measured costs, outside the listed readiness budgets. See the linked H10 results for exact before/after tables and retained failures.
+
+## H8 rollout step — page help and browser fixes
+
+H8 adds no migration, table, backfill or financial write path. The migration inventory remains 48 files, 002–049; 050 is next free. Deploy the matching backend read-response name fields and receipt invoice references before the frontend presentation update. Regenerate/check `docs/platform/page-help.md` from the frontend content file, then complete the existing writer-pause/migration/cutover rollout for earlier H runs; H8 does not replace it. Keep local `SEND_REAL_EMAIL=false` and `RUN_SCHEDULED_AUTOMATIONS=false`. No production deployment or real email was performed by H8.
+
+For this H8 pass, the owner explicitly authorized **read-only** comparison with `ds2_ref_20260922`. Every such connection sets `default_transaction_read_only=on` and selects counts only; the reference remains unmodified. Earlier run-specific prohibitions remain historical records, not a reason to omit the requested comparison. See [PASS6](../scenarios/RESULTS-PASS6.md) and the [H8 results](../decisions/2026-09-26-run-H8-results.md).
+
+H8 validation uses `scripts/review-2026-09/validate-H8.py` to run required commands serially, `acceptance-H8.py` to reject nonzero/skipped/pending/flaky/retried acceptance, and `census-H8.py after` for the explicitly authorized read-only reference comparison and protected table digests. It adds no server lifecycle management. The final two complete browser commands must be adjacent accepted runs with no intervening product changes. Performance evidence is copied into run-H8 before restoring historical H9/H10 artifacts.

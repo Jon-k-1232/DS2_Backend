@@ -94,7 +94,7 @@ Customer ledger locks serialize core financial writers. Customer deletion now ho
 | Timesheet AI ingestion | Enabled for on, or test with an allowed account. setImmediate starts work inside the API process, with bounded parallelism. Matching/model decisions either hold a row or conditionally claim it and call the shared transaction writer. This is not a durable job queue. See [ingestion](platform/timesheets-and-ingestion.md#7-create-edit-delete-and-side-effects). |
 | Payment-image Lambda | Handles the first S3 event record, reads OCR/CSV/text, redacts numeric PII, matches customers and inserts pending rows. It then archives the source and may delete the pending object. It does not itself post customer_payments. The extracted batch commits atomically before archival; archive upload and HEAD length verification precede pending deletion. Failures propagate for retry (fixed [F5](_review/findings.md#f5) and [F6](_review/findings.md#f6)). See [pending payments](ledger/pending-payments.md). |
 | Account-audit batch | API starts an in-process job. Each customer gets one repeatable-read, read-only ledger/engine snapshot. Saved audits, optional model narrative and best-effort S3 PDFs follow. Poll state lives in a process-local Map and expires after two hours; audit records persist. See [account audit](invoicing/account-audit.md#7-create-edit-and-delete). |
-| Reminder schedules | Every non-test API process schedules Thursday 09:00, Friday 15:30 and daily 09:00 jobs in America/Phoenix. The daily job checks missing prior-week trackers. There is no distributed scheduler lock or durable send log. The weekly AI-training setting has no scheduled upload job. See [operations](platform/operations.md#6-scheduling-and-calculations). |
+| Reminder schedules | Every API process with `RUN_SCHEDULED_AUTOMATIONS` enabled schedules Thursday 09:00, Friday 15:30 and daily 09:00 jobs in America/Phoenix. The daily job checks missing prior-week trackers. There is no distributed scheduler lock or durable send log. The weekly AI-training setting has no scheduled upload job. See [operations](platform/operations.md#6-scheduling-and-calculations). |
 
 Sources: `src/endpoints/timesheets/auto-ingest-runner.js:55`, `src/endpoints/timesheets/auto-ingest-orchestrator.js:712`, `src/endpoints/accountAudit/account-audit-router.js:133`, `src/automations/automationOrchestrator.js:10`, `src/app.js:173`.
 
@@ -139,3 +139,44 @@ Migration026 and the central transaction context capture financial/customer muta
 ## Run 5 presentation
 
 Run 5 adds a server presentation shared by the Audit Record tab and two PDF types. Each new print archives its source JSON and PDF with immutable metadata and verified retrieval; migration 027 adds only their presentation/archive metadata. Capture and financial calculations stay at the existing boundaries. See [Audit Record](platform/audit-ledger.md).
+
+
+## H0 — outbound email and scheduled execution
+
+The single sender (`src/utils/email/sendEmail.js`) gates all eight email paths before SES client construction. `SEND_REAL_EMAIL` and `RUN_SCHEDULED_AUTOMATIONS` share `src/utils/environmentSwitches.js`: exact production defaults on unless exact false; every other environment defaults off unless exact true. App startup and the scheduler entry point both enforce the automation gate. The controls are independent of one another and of per-account reminder preferences.
+
+A suppressed attempt logs subject, normalized to/cc/bcc and UTC timestamp, optionally writes a private local JSON outbox file, and returns a normal suppressed result. No AWS credentials or FROM_EMAIL are needed for suppression, and outbox errors cannot trigger a send. Enabled email uses the existing SES payload/result/error contract. No financial table, API response contract, UI route, ledger lock, rolling balance or PDF changes. [Operations](platform/operations.md#h0--delivery-and-scheduler-controls-2026-09-26) describes environment/restart behavior; [H0 results](decisions/2026-09-26-run-H0-results.md) records executed tests.
+
+The [round-two integrated design](decisions/2026-09-26-owner-requests-2.md) is the future contract for entity-scoped balance-forward chains, obligations/applications, corrections, recurring preparation, cost snapshots and navigation. These are planned H1–H8 components, not yet implemented by H0.
+
+## H1 business scope (2026-09-26)
+
+Accounts own billing businesses while customers/users remain account-wide. Request-local business selection controls transaction-local PostgreSQL read views; explicit legacy attributions and reviewed opening slices preserve source rows. New public-table writes pass entity and sent-record guards, with capture to the existing append-only audit ledger. Business-aware invoice/AR/Audit calculations keep separate chains and aggregate only report totals. See the business feature contract for the schema and rollout order.
+
+[Business entity contracts and rules](platform/billing-entities.md) and [H1 results](decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+The H2 obligation/application ledger is beneath the existing balance-forward invoice system. One receipt can allocate to several original obligations while compatibility postings update current statement snapshots. Held receipt credit remains separate until applied; receipt/credit corrections append compensating events. Original ages and both historical cutoffs support AR and audit reports. Corrected legacy opening scope holds all pre-cutover B/U/P/funds together in default; tracker attribution never routes historical billing.
+
+
+## H3 correction layer
+
+The existing balance-forward engine remains authoritative. An immutable correction document produces original-obligation applications/credit events and a signed `correction_postings` entry tied to a new child on the current carrier. A void/rebill preserves the original issue and source work, releases/reapplies funding by lineage, and issues a new-number replacement. Client refunds dispose of held or issued credit without fake incoming cash. Database audit triggers capture all seven correction tables with actor/reason; read models include them in statements, AR, Account Audit and Audit Record. [Rules and routes](ledger/invoice-corrections.md), [results](decisions/2026-09-26-run-H3-results.md).
+
+## H4 recurring preparation
+
+[Recurring billing](work/recurring-billing.md) extends existing plans with business, calendar and version fields, immutable cutover evidence and unique period occurrences. Create Invoice POSTs preparation before its read-only balance request. Finalize prepares before pricing and rechecks readiness under the ledger lock; a newly prepared fee causes a review-required409 with no invoice. A gated daily system backstop is optional. Generated fees are Charges without invented staff time. Audit Record, frozen statement membership and entity-specific rolling balances include them.
+
+## H5 reporting provenance
+
+The analytics v2 reader builds issued-document, correction, application and work cohorts in a read-only repeatable-read snapshot, with an optional audit-replayed knowledge cutoff. `legacy_work_cost_estimates` is an immutable audited sidecar; new work/source trackers carry captured cost and duration evidence. The reader distinguishes worked-for attribution from billed-by ledger business and excludes duplicate source/statement copies. Independent AR, Account Audit and Create Invoice reconciliation remains separate. See [analytics API and rules](invoicing/analytics.md) and [H5 results](decisions/2026-09-26-run-H5-results.md).
+
+## H6 browser workspace
+
+The [category workspace](platform/workspace-navigation.md) centralizes canonical routes, stable record IDs, compatibility redirects and existing route guards. `WorkspaceRoutes.js` mounts the unchanged feature screens; `navigation.json` and `SidebarRoutes.js` supply menu permissions and current-page metadata. `routePaths.js` maps historical links, `RecordPage.js` loads selected records through existing scoped APIs, and `useWorkspaceData.js` isolates the complete reference lists by session. No financial schema, API contract, background process or money rule changes.
+
+## H9 loading boundaries
+
+The browser bootstrap now carries compact references and bounded first pages, never account-wide jobs or server-built duplicate grids. Job/client lookup and paged register reads are separate from shared context; record URLs hydrate only their selected references. Workspace code splits by route and prefetches likely next routes when idle. [Loading contracts, threshold, response patching and budgets](platform/performance.md) define the current implementation. Migration047 is index-only. Earlier full-list descriptions in historical assessments are the measured baseline, not the current wire contract.

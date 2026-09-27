@@ -1,8 +1,10 @@
 # General work descriptions
 
+**H6 navigation:** Settings → Work descriptions: `/settings/work-descriptions`, with existing manager access. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## 1. Purpose and UI
 
-General work descriptions are the account's reusable labels for time and charge entries. The list is `/jobs/workDescriptionsList`. Its grid opens the add form. Edit and delete are `/jobs/workDescriptionsList/editWorkDescription` and `/jobs/workDescriptionsList/deleteWorkDescription`. Files: `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobRoutes.js:30`, `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/WorkDescriptionSubRoutes.js:35`, `../DS2_Frontend/src/Pages/WorkDescriptions/WorkDescriptionGrids/WorkDescriptionGrids.js:1`. Time and charge selectors use these labels (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeOptions.js:44`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/ChargeOptions.js:25`).
+General work descriptions are the account's reusable labels for time and charge entries. The list is `/settings/work-descriptions`. Its grid opens the add form. Edit and delete are `/jobs/workDescriptionsList/editWorkDescription` and `/jobs/workDescriptionsList/deleteWorkDescription`. Files: `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/JobRoutes.js:30`, `../DS2_Frontend/src/Routes/GroupedRoutes/JobRoutes/WorkDescriptionSubRoutes.js:35`, `../DS2_Frontend/src/Pages/WorkDescriptions/WorkDescriptionGrids/WorkDescriptionGrids.js:1`. Time and charge selectors use these labels (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/TimeOptions.js:44`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/FormSubComponents/ChargeOptions.js:25`).
 
 This is a source review dated 2026-09-24. Tests were read, not executed. Backend paths are relative to DS2_Backend; `../DS2_Frontend/` identifies the frontend repository.
 
@@ -105,3 +107,12 @@ Migration026 captures changes to this feature's audited customer/financial recor
 ## Pass 3 response after a committed change
 
 Customer/recurring, job, catalog, quote and user mutations in this guide preserve their successful response payload. If the mutation commits but rebuilding its response lists fails, the API returns HTTP 200 with `status: 200`, `committed: true` and a warning to reload without submitting the change again. Precommit errors retain their existing refusal and rollback behavior. This prevents a saved create, edit or delete from being reported as an unsuccessful write. Regression: `path-matrix-03-commit-outcomes.integration.spec.js`, with exactly one stored mutation checked for each create/update/delete. Drafts stay editable and write nothing to the ledger; finalize is the sent/lock boundary.
+
+## H9 shared response representation
+
+Committed mutation responses omit server-built grid/tree copies; the browser derives those views on demand from the existing small master-data row lists. Their role gates, payload fields and mutation rules are unchanged. Customer/job/financial lists follow the stricter [bounded response contract](../platform/performance.md). Route delivery is lazy and record URLs fetch selected references directly.
+
+
+## H8 presentation and help
+
+Deletion review shows the creator by name using the scoped detail response, including inactive staff. IDs are available in tooltips; ordinary grids use sentence-case labels and omit internal-key columns. Referenced-record deletion and issued-record guards are unchanged.

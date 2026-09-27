@@ -1,0 +1,27 @@
+{
+  "migration": "migrations/042.invoice_corrections.sql",
+  "migration_sha256": "4cc548d50517892eeec80102c4fa68713ef19c64f22317dd4f8d39b74a741f4c",
+  "applied_at_host": "127.0.0.1:5433",
+  "application": "Manual psql -X -1 -v ON_ERROR_STOP=1 -f for each authorized database",
+  "logs": [
+    {
+      "database": "ds2_local",
+      "log": "migration042-local.log",
+      "logged_errors": 0,
+      "sha256": "095c7e05b60b8fd74a251253751a0ca31daf66f20a10ad9f49539a64e2889294"
+    },
+    {
+      "database": "ds2_clean",
+      "log": "migration042-clean.log",
+      "logged_errors": 0,
+      "sha256": "095c7e05b60b8fd74a251253751a0ca31daf66f20a10ad9f49539a64e2889294"
+    },
+    {
+      "database": "ds2_scenarios",
+      "log": "migration042-scenarios.log",
+      "logged_errors": 0,
+      "sha256": "095c7e05b60b8fd74a251253751a0ca31daf66f20a10ad9f49539a64e2889294"
+    }
+  ],
+  "intended_source_row_effect": "None; tables and guards only. No account-1 backfill."
+}

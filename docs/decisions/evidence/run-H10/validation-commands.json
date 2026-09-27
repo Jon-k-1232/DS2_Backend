@@ -1,0 +1,1195 @@
+[
+  {
+    "step": "unit",
+    "attempt": 1,
+    "log": "unit.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "--recursive",
+      "--exclude",
+      "test/integration/**",
+      "test"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 91.35,
+    "passing": 1234,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "analytics.integration.spec",
+    "attempt": 1,
+    "log": "analytics.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/analytics.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.32,
+    "passing": 11,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "billing-regression.integration.spec",
+    "attempt": 1,
+    "log": "billing-regression.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/billing-regression.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 1,
+    "seconds": 1.22,
+    "passing": 1,
+    "failing": 1,
+    "pending": 0
+  },
+  {
+    "step": "unit",
+    "attempt": 2,
+    "log": "unit-attempt-2.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "--recursive",
+      "--exclude",
+      "test/integration/**",
+      "test"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 92.03,
+    "passing": 1238,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "analytics.integration.spec",
+    "attempt": 2,
+    "log": "analytics.integration.spec-attempt-2.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/analytics.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.11,
+    "passing": 11,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "billing-regression.integration.spec",
+    "attempt": 2,
+    "log": "billing-regression.integration.spec-attempt-2.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/billing-regression.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.22,
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "cascade-edit-recompute.integration.spec",
+    "attempt": 1,
+    "log": "cascade-edit-recompute.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/cascade-edit-recompute.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.0,
+    "passing": 11,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "coverage-account-users-auth-misc.integration.spec",
+    "attempt": 1,
+    "log": "coverage-account-users-auth-misc.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-account-users-auth-misc.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 2.17,
+    "passing": 200,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "coverage-billing-review.integration.spec",
+    "attempt": 1,
+    "log": "coverage-billing-review.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-billing-review.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.11,
+    "passing": 31,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "coverage-downloads-authz.integration.spec",
+    "attempt": 1,
+    "log": "coverage-downloads-authz.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-downloads-authz.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.01,
+    "passing": 36,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "coverage-invoices-audit-ar-analytics.integration.spec",
+    "attempt": 1,
+    "log": "coverage-invoices-audit-ar-analytics.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 8.46,
+    "passing": 131,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "coverage-jobs-masterdata.integration.spec",
+    "attempt": 1,
+    "log": "coverage-jobs-masterdata.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-jobs-masterdata.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.85,
+    "passing": 124,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "coverage-payments-pending.integration.spec",
+    "attempt": 1,
+    "log": "coverage-payments-pending.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-payments-pending.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 3.29,
+    "passing": 102,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "coverage-pending-payments-authz.integration.spec",
+    "attempt": 1,
+    "log": "coverage-pending-payments-authz.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-pending-payments-authz.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.05,
+    "passing": 10,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "coverage-timetracking-timesheets.integration.spec",
+    "attempt": 1,
+    "log": "coverage-timetracking-timesheets.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-timetracking-timesheets.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 13.0,
+    "passing": 107,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "coverage-transactions-retainers-writeoffs.integration.spec",
+    "attempt": 1,
+    "log": "coverage-transactions-retainers-writeoffs.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/coverage-transactions-retainers-writeoffs.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 3.61,
+    "passing": 84,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "finalize-engine.integration.spec",
+    "attempt": 1,
+    "log": "finalize-engine.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/finalize-engine.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 3.96,
+    "passing": 15,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "finalize-snapshot.integration.spec",
+    "attempt": 1,
+    "log": "finalize-snapshot.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/finalize-snapshot.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.07,
+    "passing": 9,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "month-end-lifecycle.integration.spec",
+    "attempt": 1,
+    "log": "month-end-lifecycle.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/month-end-lifecycle.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 2.9,
+    "passing": 19,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "orchestrator.integration.spec",
+    "attempt": 1,
+    "log": "orchestrator.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/orchestrator.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 8.66,
+    "passing": 7,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "payment-reversal.integration.spec",
+    "attempt": 1,
+    "log": "payment-reversal.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/payment-reversal.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 4.5,
+    "passing": 49,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "performance-H10.integration.spec",
+    "attempt": 1,
+    "log": "performance-H10.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/performance-H10.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 153.26,
+    "passing": 19,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "performance-H9.integration.spec",
+    "attempt": 1,
+    "log": "performance-H9.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/performance-H9.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 4.04,
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "pii-leak.integration.spec",
+    "attempt": 1,
+    "log": "pii-leak.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/pii-leak.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 2.57,
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-account-atomicity.integration.spec",
+    "attempt": 1,
+    "log": "review-account-atomicity.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-account-atomicity.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.51,
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-analytics-identities.integration.spec",
+    "attempt": 1,
+    "log": "review-analytics-identities.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-analytics-identities.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.41,
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-audit-download.integration.spec",
+    "attempt": 1,
+    "log": "review-audit-download.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-audit-download.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.45,
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-audit-filter.integration.spec",
+    "attempt": 1,
+    "log": "review-audit-filter.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-audit-filter.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.42,
+    "passing": 3,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-customer-delete.integration.spec",
+    "attempt": 1,
+    "log": "review-customer-delete.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-customer-delete.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.89,
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-customer-recurring.integration.spec",
+    "attempt": 1,
+    "log": "review-customer-recurring.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-customer-recurring.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.38,
+    "passing": 8,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-customer-response.integration.spec",
+    "attempt": 1,
+    "log": "review-customer-response.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-customer-response.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.41,
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-initial-data-roles.integration.spec",
+    "attempt": 1,
+    "log": "review-initial-data-roles.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-initial-data-roles.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.52,
+    "passing": 18,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-invoice-outcomes.integration.spec",
+    "attempt": 1,
+    "log": "review-invoice-outcomes.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-invoice-outcomes.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.45,
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-job-family.integration.spec",
+    "attempt": 1,
+    "log": "review-job-family.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-job-family.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.41,
+    "passing": 4,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-job-selection.integration.spec",
+    "attempt": 1,
+    "log": "review-job-selection.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-job-selection.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.43,
+    "passing": 2,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-pending-files.integration.spec",
+    "attempt": 1,
+    "log": "review-pending-files.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-pending-files.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.32,
+    "passing": 7,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-rate-agreements.integration.spec",
+    "attempt": 1,
+    "log": "review-rate-agreements.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-rate-agreements.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.46,
+    "passing": 10,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-related-ids.integration.spec",
+    "attempt": 1,
+    "log": "review-related-ids.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-related-ids.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.36,
+    "passing": 24,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-retainer-dates.integration.spec",
+    "attempt": 1,
+    "log": "review-retainer-dates.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-retainer-dates.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.33,
+    "passing": 1,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-statement-snapshot.integration.spec",
+    "attempt": 1,
+    "log": "review-statement-snapshot.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-statement-snapshot.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.41,
+    "passing": 1,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-template-storage.integration.spec",
+    "attempt": 1,
+    "log": "review-template-storage.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-template-storage.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.5,
+    "passing": 1,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-tracker-outcome.integration.spec",
+    "attempt": 1,
+    "log": "review-tracker-outcome.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-tracker-outcome.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.41,
+    "passing": 1,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-transaction-policy.integration.spec",
+    "attempt": 1,
+    "log": "review-transaction-policy.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-transaction-policy.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.34,
+    "passing": 22,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "review-user-guards.integration.spec",
+    "attempt": 1,
+    "log": "review-user-guards.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/review-user-guards.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 1.41,
+    "passing": 7,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "tracker-excel-end-to-end.integration.spec",
+    "attempt": 1,
+    "log": "tracker-excel-end-to-end.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/tracker-excel-end-to-end.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 3.99,
+    "passing": 33,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "transactions-ledger-seams.integration.spec",
+    "attempt": 1,
+    "log": "transactions-ledger-seams.integration.spec.log",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "test/integration/transactions-ledger-seams.integration.spec.js",
+      "--exit",
+      "--timeout",
+      "180000"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 3.04,
+    "passing": 28,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "scenarios",
+    "attempt": 1,
+    "log": "scenarios.log",
+    "command": [
+      "npm",
+      "run",
+      "-s",
+      "test:scenarios"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {},
+    "exit": 0,
+    "seconds": 443.96,
+    "passing": 2334,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "cleanroom",
+    "attempt": 1,
+    "log": "cleanroom.log",
+    "command": [
+      "npm",
+      "run",
+      "-s",
+      "test:cleanroom"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {},
+    "exit": 0,
+    "seconds": 7.14,
+    "passing": 18,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "lambda",
+    "attempt": 1,
+    "log": "lambda.log",
+    "command": [
+      "python3",
+      "-m",
+      "pytest",
+      "-q",
+      "tests"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Lambdas/Process_Payment_Images",
+    "environment": {},
+    "exit": 0,
+    "seconds": 1.09,
+    "passing": 0,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "frontend-jest",
+    "attempt": 1,
+    "log": "frontend-jest.log",
+    "command": [
+      "node_modules/.bin/react-scripts",
+      "test",
+      "--watchAll=false"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend",
+    "environment": {
+      "CI": "true"
+    },
+    "exit": 0,
+    "seconds": 16.8,
+    "passing": 0,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "frontend-build",
+    "attempt": 1,
+    "log": "frontend-build.log",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend",
+    "environment": {
+      "CI": "true"
+    },
+    "exit": 0,
+    "seconds": 9.86,
+    "passing": 0,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "drift",
+    "attempt": 1,
+    "log": "drift.log",
+    "command": [
+      "node",
+      "scripts/drift-check.js",
+      "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend/docs/decisions/evidence/run-H10/drift.json"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local",
+      "DATABASE_NAME": "ds2_local",
+      "PGOPTIONS": "-c default_transaction_read_only=on"
+    },
+    "exit": 0,
+    "seconds": 10.93,
+    "passing": 0,
+    "failing": 0,
+    "pending": 0
+  },
+  {
+    "step": "playwright-full",
+    "attempt": 1,
+    "log": "playwright-full.log",
+    "command": [
+      "npx",
+      "playwright",
+      "test",
+      "--workers=1"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e",
+    "environment": {
+      "PLAYWRIGHT_BROWSERS_PATH": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/.browsers",
+      "PW_TEST_CONNECT_WS_ENDPOINT": "ws://127.0.0.1:3334/"
+    },
+    "exit": 0,
+    "seconds": 1207.82,
+    "passing": 0,
+    "failing": 0,
+    "pending": 0
+  }
+]

@@ -1,0 +1,337 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@20/20.20.2/bin/node",
+      "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/node_modules/.bin/playwright",
+      "test",
+      "tests/payment-imports-H8.spec.js",
+      "tests/receive-payment.spec.js",
+      "--grep",
+      "payment imports|one .* check",
+      "--workers=1",
+      "--retries=0"
+    ],
+    "configFile": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/playwright.config.js",
+    "rootDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/preflight.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "payment-imports-H8.spec.js",
+      "file": "payment-imports-H8.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "payment imports new: errors are visible, reload recovers, and no money is written",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790493564759_0985d0"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1357,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T07:19:24.492Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790493564759_0985d0"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "615af68abe0d783cfe96-c6135306a7b60e4442af",
+          "file": "payment-imports-H8.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "payment imports processed: errors are visible, reload recovers, and no money is written",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790493566116_d9bafb"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1145,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T07:19:26.108Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790493566116_d9bafb"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "615af68abe0d783cfe96-d7080ceb0dfd6a8ebde0",
+          "file": "payment-imports-H8.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "payment imports all: errors are visible, reload recovers, and no money is written",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790493567264_1d2001"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1142,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T07:19:27.258Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790493567264_1d2001"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "615af68abe0d783cfe96-2d7d08361e21826a5f80",
+          "file": "payment-imports-H8.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "payment imports keep the selected month when an earlier request finishes last",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790493568411_4c45b3"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1763,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T07:19:28.405Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790493568411_4c45b3"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "615af68abe0d783cfe96-f67c027241b14ae17660",
+          "file": "payment-imports-H8.spec.js",
+          "line": 24,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "receive-payment.spec.js",
+      "file": "receive-payment.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "one $1000 check applies $300, $450 and $250; original aging and receipt history agree",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790493570187_006fc0"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9086,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "(node:65936) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)\nversions published after the first week of January 2027\nwill require node >=22. You are running node v20.20.2.\n\nTo continue receiving updates to AWS services, bug fixes,\nand security updates please upgrade to node >=22.\n\nMore information can be found at: https://a.co/c895JFp\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                    },
+                    {
+                      "text": "(node:65936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-09-27T07:19:30.181Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790493570187_006fc0"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "finalize-result",
+                      "contentType": "application/json",
+                      "body": "ewogICJzdGF0dXMiOiAyMDAsCiAgIm1lc3NhZ2UiOiAiRmluYWxpemVkIDEgaW52b2ljZShzKS4iLAogICJza2lwcGVkQ3VzdG9tZXJzIjogW10sCiAgImZpbGVMb2NhdGlvbiI6ICJURVNUX0ZJWFRVUkVfQUNDT1VOVC9pbnZvaWNpbmcvZmluYWxfaW52b2ljZXMvMDktMjctMjAyNl9UXzAwXzE5XzM4XzRmYTMwMjU5LTFmY2MtNDIwMi1iMDU4LTI0ZWJjNzlhMzhhNy96aXBwZWRfZmlsZXMuemlwIgp9"
+                    },
+                    {
+                      "name": "finalized-invoice.zip",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/receive-payment-one-1000-c-2da50-g-and-receipt-history-agree/attachments/finalized-invoice-zip-cb02cac50a9b1ebf932cc5cfdae73283c795daef.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ac399f212bd44e3edd1-f3c1c940599909575731",
+          "file": "receive-payment.spec.js",
+          "line": 18,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-27T07:19:23.960Z",
+    "duration": 15329.598,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

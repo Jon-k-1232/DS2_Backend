@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node_modules/.bin/mocha",
+    "--require",
+    "test/setup.js",
+    "test/integration/path-matrix-H2-receipts.integration.spec.js",
+    "--exit",
+    "--timeout",
+    "180000"
+  ],
+  "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+  "environment": {
+    "DS2_ENV_FILE": ".env.scenarios"
+  },
+  "exit": 0,
+  "seconds": 8.95,
+  "log": "receipt-path-final.log"
+}

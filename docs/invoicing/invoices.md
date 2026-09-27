@@ -1,12 +1,14 @@
 # Invoice register, immutable statements and exceptions
 
+**H6 navigation:** Billing → Invoices: `/billing/invoices`; stable details: `/billing/invoices/:invoiceId`, with original/replacement/correction links and protected history. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 Revision packaging: each revision ZIP contains its clearly marked correction PDF **and the exact unchanged original PDF**. Reprint/resend both together; this preserves full original itemization for modern and historical invoices. Missing/corrupt original archives fail before resolution commits.
 
 See the [owner decision record](../decisions/2026-09-24-owner-decisions.md) for the five-decision contract. This guide describes run 1, decisions 3 and 5.
 
 ## 1. Screens and issuance
 
-Month-end **finalize commits issuance**. DS2 has no separate emailed/mailed status, so this is the precise meaning of **Sent — locked**; it does not assert delivery. Draft previews are not issued. The register at `/invoices/invoices` and protected ledger rows display the lock and invoice number. Edit/delete/reversal forms direct the operator to the owning invoice's history.
+Month-end **finalize commits issuance**. DS2 has no separate emailed/mailed status, so this is the precise meaning of **Sent — locked**; it does not assert delivery. Draft previews are not issued. The register at `/billing/invoices` and protected ledger rows display the lock and invoice number. Edit/delete/reversal forms direct the operator to the owning invoice's history.
 
 **Owner confirmation (2026-09-25):** drafts stay editable; finalizing an invoice is the same as sending it, so a finalized invoice and its transactions, payments, write-offs and retainers are locked. See the [decision record](../decisions/2026-09-24-owner-decisions.md#shared-rules-and-issuance-boundary).
 
@@ -82,3 +84,25 @@ Opening an issued original/revision through the invoice downloader now records a
 ### Pass 3 response failure checks
 
 Deleting an allowed empty, unissued legacy invoice confirms the committed deletion even if the refreshed invoice list fails. Likewise, failure of the shared sent-lock/duplicate-status decoration after a committed change returns success with `committed: true` and a reload warning; it does not expose rows missing their lock state or invite a duplicate submission. This fallback retains the finalized download link, skipped-customer identities and committed invoice IDs, so a partial batch remains actionable. Read-only decoration failure remains an error with no writes. Drafts remain editable and write nothing to the ledger; finalize is the sent/lock boundary. See `path-matrix-09-ledger-defenses` and `path-matrix-14-response-decoration` integration tests.
+
+## H1 business scope (2026-09-26)
+
+Invoice register and selectors expose the billing business and accept `entityId`. New numbering is per business/year with a unique account prefix; the default keeps INV. Original finalized business/number/letterhead cannot switch. Reviewed legacy source IDs may appear as one virtual opening row per business; the UI uses a composite key for those rows to prevent one company replacing another in the grid. All-business views are reports; creation requires a single business.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+H2 adds receipt-level exception links. One complete check flags all issued statements containing any direct or later credit application; reversal restores every application on the current carrier. Receipt-backed entries cannot bypass this through a single-payment exception. Flag/reverse/revision/roll-forward controls and routes are admin-only. Receipt reversal commits before artifact resolution, so a failed revision remains visibly unresolved and retryable. Original rows/PDFs stay frozen. See [receipt contracts](../ledger/receipts-and-obligations.md).
+
+
+## H3 update — 2026-09-26
+
+Invoice detail now offers admin-only Credit memo and Void and rebill. Voided originals retain their original row, number, issue and PDF; derived status and linked new-number replacement are visible. Reprint original still works. Correction documents are separately archived and locked.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H8 history presentation
+
+Invoice history events add a same-account `actor_name` at read time, including inactive staff. The browser shows this name with the user ID in a tooltip; original issue payloads, history rows and archived documents remain unchanged. A late invoice-list response no longer moves keyboard focus away from another control, including **About this page**.

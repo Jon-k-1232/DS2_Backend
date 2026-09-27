@@ -1,5 +1,7 @@
 # Time and charge transactions
 
+**H6 navigation:** Time & Work → Work entries: `/work/entries`; one-click Enter time: `/work/entries?entry=time`. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## Owner decision update — 2026-09-25
 
 Pass 4 UI correction: a transaction-grid refresh preserves keyboard focus in an open form. It no longer forcibly focuses the background search field and interrupts customer selection. The same correction applies to payment and write-off grids; `GridFocus.test.js` covers all three.
@@ -15,9 +17,9 @@ Sent stamped transactions now refuse every edit/delete and Billing Review cascad
 
 ## 1. Purpose and UI
 
-Transactions record employee time or a charge against a customer and job. `/transactions/customerTransactions` renders `TransactionsGrid`; its Time and Charge dialogs use `Time.js`, `Charge.js`, `TimeOptions.js` and `ChargeOptions.js`. Customer profiles also show the customer's transactions (`../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:27`, `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/TransactionsGrid.js:99`, `../DS2_Frontend/src/Routes/GroupedRoutes/CustomerRoutes/CustomerProfileSubRoutes.js:93`).
+Transactions record employee time or a charge against a customer and job. `/work/entries` renders `TransactionsGrid`; its Time and Charge dialogs use `Time.js`, `Charge.js`, `TimeOptions.js` and `ChargeOptions.js`. Customer profiles also show the customer's transactions (`../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:27`, `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/TransactionsGrid.js:99`, `../DS2_Frontend/src/Routes/GroupedRoutes/CustomerRoutes/CustomerProfileSubRoutes.js:93`).
 
-The forms start with today's date, quantity1, unit cost0, billable=true, excess-to-subscription=false and no retainer (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/Time.js:15`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/Charge.js:12`). `/transactions/employeeTimeTrackerTransactions` and `/time-tracking/trackingAdministration` instead render `EmployeeTrackerDashboard`, which calls timesheet-count/history APIs. An active UI consumer of the older transaction endpoint `fetchEmployeeTransactions` is **not determined from the code**: its fetch wrapper exists but the dashboard-widget call is commented out (`../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/EmployeeEntrySubRoutes.js:3`, `../DS2_Frontend/src/Routes/PrimaryRouter.js:139`, `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/EmployeeTrackerDashboard.js:25`, `../DS2_Frontend/src/Services/ApiCalls/FetchCalls.js:431`, `../DS2_Frontend/src/Pages/Dashboard/EmployeeTimeWidget.js:3`).
+The forms start with today's date, quantity1, unit cost0, billable=true, excess-to-subscription=false and no retainer (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/Time.js:15`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/Charge.js:12`). `/time-tracking/trackingAdministration` and `/time-tracking/trackingAdministration` instead render `EmployeeTrackerDashboard`, which calls timesheet-count/history APIs. An active UI consumer of the older transaction endpoint `fetchEmployeeTransactions` is **not determined from the code**: its fetch wrapper exists but the dashboard-widget call is commented out (`../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/EmployeeEntrySubRoutes.js:3`, `../DS2_Frontend/src/Routes/PrimaryRouter.js:139`, `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/EmployeeTrackerDashboard.js:25`, `../DS2_Frontend/src/Services/ApiCalls/FetchCalls.js:431`, `../DS2_Frontend/src/Pages/Dashboard/EmployeeTimeWidget.js:3`).
 
 The grid requests 20 rows initially, debounces search by 300 ms, and exports all matching records rather than only the current page. The delete subroute is live; the edit subroute and edit menu are commented out, although an edit component and backend PUT exist (`../DS2_Frontend/src/Pages/Transactions/TransactionGrids/TransactionsGrid.js:15`, `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/TransactionsGrid.js:194`, `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionSubRoutes.js:37`). Review date: 2026-09-24. Source and tests were read; no database or tests were run.
 
@@ -77,7 +79,7 @@ Common transport errors: HTTP 401/403 above; HTTP 429 from the general 300/minut
 |---|---|---|---|---|
 | GET | `/transactions/fetchEmployeeTransactions/:startDate/:endDate/:accountID/:userID` | All path fields required; dates passed through dayjs `.format()`, no explicit validity/range check | HTTP 200 T plus `userTime:[{user,time,customers:[{customer,time,jobs:[{job,time,transactions:[...]}]}]}]` | Common errors; E500 for query/date failure; refresh failure returns E500 without a committed flag. Inverted valid range simply finds no matching time. `src/endpoints/transactions/transactions-router.js:209`, `src/endpoints/transactions/transactionLogic.js:1` |
 
-Refresh **T** is `{transactionsList,accountRetainersList:{activeRetainerData:{activeRetainers,grid,treeGrid}},accountJobsList:{activeJobData:{activeJobs,grid,treeGrid}},paymentsList:{activePaymentsData:{activePayments,grid}},message:'Successful.',status:200,warning?,userTime?}`. Transactions reset to page 1, limit 20, empty search; other lists are unpaginated. No newly created transaction ID is returned separately (`src/endpoints/transactions/transactions-router.js:242`, `src/endpoints/transactions/transactions-router.js:265`).
+Refresh **T** contains first20 `transactionsList`, `accountRetainersList` and `paymentsList` rows, each with pagination/partial:true, plus `{status:200,message,committed:true,changed,warning?}` for saves. Changed transaction rows or deleted IDs are explicit; jobs and users are omitted. No server grid/tree duplicates. Employee-time reads additionally return their existing date-scoped `userTime`.
 
 | Transaction field | Actual type, requirement, and limit |
 |---|---|
@@ -242,3 +244,41 @@ Manual duration pricing, tracker ingestion and held review use ceil(minutes/6)/1
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## H1 business scope (2026-09-26)
+
+Manual time and charge forms require a visible active business; choosing another client/business clears invalid jobs, invoice and retainer choices. Missing/inactive/foreign choices refuse before money writes. A source tracker line resolves by exact mapping or remains held. Admin-only Reassign billing business requires reason and current source hash, permits unissued/unfunded work, and retains its current compatible/shared job. Issued work cannot switch. Registers/filter/export use `entityId`; transaction CSV adds `billing_entity_id` and `billing_entity_name` immediately after `transaction_id`, with the existing formula-injection protection.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+H2 correction: pre-cutover open work stays in the default billing business and is not held, even when its tracker attribution is another business or unknown. Tracker attribution remains separately reportable. The read-only candidate report identifies newer unbilled tracker-different work; only a reasoned admin reassignment moves it. Post-cutover manual and tracker business requirements are unchanged.
+
+
+## H3 update — 2026-09-26
+
+Void/rebill does not insert replacement employee time or charge transactions. Corrected bill amounts are frozen in rebill_links/issue correctionLines with original evidence; original work/cost provenance remains once for H5 reporting.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H4 recurring charge boundaries
+
+Generated recurring fees are ordinary billable, nonexcess quantity-one Charges linked to a permanent period. Staff, job and catalog joins retain these supported rows even without staff/job IDs. Transaction payloads include `recurring_plan_id`; edit/delete screens link to the recurring plan. The legacy edit API refuses recurring rows; delete requires UUID key, expectedVersion and reason and translates to skip, keeping the original charge nonbillable. Issued and skipped periods stay locked. Covered-work defaults now resolve the selected business and service date against active plans; the explicit excess flag and independent billable choice remain. See [recurring billing](recurring-billing.md).
+
+## H5 cost provenance and employee corrections
+
+New work captures `cost_rate_snapshot`, source and timestamp for the logged-for employee, standard billing value, and actual tracker minutes when a verified source exists. Direct manual quantity hours are labeled estimated duration. Historical rows keep original fields and use immutable `legacy_work_cost_estimates`; later current-rate edits never recost them. Charges do not become labor hours.
+
+Changing quantity before issue keeps the captured cost rate. Changing staff requires `costChangeReason` (1–2000 characters), captures the new employee's rate and records the session actor/reason atomically. The edit form explains the reason and retains it after a failure. Issued work remains immutable. A source tracker is unique, same-account/client/employee/business verified, and immutable after posting. A newly resolved exact alias uses ingestion's same unique-match rule; ambiguous business is refused. The source and posted copy count once. [Analytics contract](../invoicing/analytics.md), [oracles](../scenarios/H5-honest-analytics.md).
+
+H5 also makes `PUT /transactions/updateTransaction/:accountID/:userID` return the actual rule-error HTTP status (400 validation/reason,404 missing,409 stale conflict,423 attached/locked,500 unexpected failure), matching its JSON status. Existing creation/deletion envelopes remain as documented. Regression refusal tests keep complete before/after state checks while updating these intentional HTTP expectations.
+
+H5 continuation046 preserves supplied actual manual minutes independently of rounded billing quantity. Held-entry apply/manual move/AI rerun record corrected source minutes atomically with their claim; known employee reassignment requires `costChangeReason` and captures the selected staff rate. Both the regular transaction form and held-review form request that reason. A failed apply rolls back source corrections, financial writes and audit events. An unknown employee matched later does not invent a historical rate.
+
+## H9 loading update
+
+Time/charge entry and payment job choices fetch the selected client/business on demand, with type-ahead, explicit error state and stale-request cancellation. Billing Review resolves only its chosen client and jobs. Create/edit/delete return changed transaction/deleted ID and the first20 transactions/payments/retainers; no job or user list is returned. Financial snapshots still commit atomically under the existing locks.
+
+See [bounded loading and save responses](../platform/performance.md) for the current wire contract and [H9 results](../decisions/2026-09-26-run-H9-results.md) for full regression evidence. These details supersede older full-list/grid response descriptions in this guide. Committed refresh warnings still mean saved: reload, do not resubmit.

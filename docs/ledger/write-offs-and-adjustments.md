@@ -1,5 +1,7 @@
 # Write-offs and adjustments
 
+**H6 navigation:** Receivables → Write-offs: `/receivables/write-offs`. Records remain visible to existing readers and actions remain admin-only. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 Pass 4 UI correction: background grid refreshes preserve focus in open write-off forms (`GridFocus.test.js`).
 
 Write-off details tolerate customer/job lookups still loading and retain their stored IDs. Sent write-offs immediately show **Sent — locked** and **Open invoice history**, without an ordinary delete control (`SentScreens.test.js`).
@@ -21,17 +23,17 @@ An invoice-linked write-off immediately reduces current billed debt through a sn
 
 | UI | Route and files |
 | --- | --- |
-| Write-off grid/add | `/transactions/customerWriteOffs`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:30`; `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/WriteOffsGrid.js:77`; `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/WriteOff.js:34`. |
+| Write-off grid/add | `/receivables/write-offs`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:30`; `../DS2_Frontend/src/Pages/Transactions/TransactionGrids/WriteOffsGrid.js:77`; `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/WriteOff.js:34`. |
 | Delete | `/transactions/customerWriteOffs/deleteWriteOff`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/WriteOffSubRoutes.js:36`; `../DS2_Frontend/src/Pages/Transactions/TransactionForms/DeleteTransaction/DeleteWriteOff.js:1`. |
 | Edit availability | `EditWriteOff.js` exists under frontend `Pages/Transactions/TransactionForms/EditTransaction`; its `editWriteOff` route and menu item are commented out. The update API exists. (`../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/WriteOffSubRoutes.js:43`.) |
 | Invoice history | `/invoices/invoices/invoiceDetail/invoiceWriteOffs`; `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceSubRoutes.js:57`; `../DS2_Frontend/src/Pages/Invoices/InvoiceDetails/InvoiceWriteOffs.js:1`. |
-| Work corrections | `/time-tracking/billingReview`; `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:41`; `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js:6`; its consolidated/pre-invoice tabs and `components/CascadeImpactPanel.js` show correction impact. |
+| Work corrections | `/work/review`; `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:41`; `../DS2_Frontend/src/Pages/Transactions/BillingReview/BillingReviewPage.js:6`; its consolidated/pre-invoice tabs and `components/CascadeImpactPanel.js` show correction impact. |
 
-The write-off form offers prior-invoice and current-job selections. Its help says adjustments are unsupported, asks for the invoice number in the reason, and describes a job outstanding-amount limit. Those statements are not equivalent to backend validation: the API requires a nonempty reason but no invoice-number pattern; it allows general credits and does not cap an uninvoiced credit to a job's current balance. The separate billing-review correction path exists. (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/WriteOff.js:60`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/WriteOff.js:89`, `src/endpoints/writeOffs/writeOffs-logic.js:75`, `src/endpoints/billingReview/billingReview-router.js:311`.)
+The write-off form offers prior-invoice and current-job selections. Its help describes write-off entry; finalized-invoice credit memos and void/rebill are now available from invoice detail. Those statements are not equivalent to backend validation: the API requires a nonempty reason but no invoice-number pattern; it allows general credits and does not cap an uninvoiced credit to a job's current balance. The separate billing-review correction path exists. (`../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/WriteOff.js:60`, `../DS2_Frontend/src/Pages/Transactions/TransactionForms/AddTransaction/WriteOff.js:89`, `src/endpoints/writeOffs/writeOffs-logic.js:75`, `src/endpoints/billingReview/billingReview-router.js:311`.)
 
 ## 2. Access rules
 
-All documented routes require active-user authentication and role `manager`, `admin`, `super admin`, or `owner`. `enforceAccountId` requires integer URL account ID equal to the authenticated user's account. No self-or-privileged check applies to URL user ID. Creates and adjustment events use the authenticated actor; ordinary write-off edits preserve the original creator. Wrong/missing authentication returns HTTP 401; wrong account/role returns 403. Frontend manager-level routes include `owner`, matching the backend (fixed [F37](../_review/findings.md#f37)). (`src/app.js:146`, `src/app.js:160`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/writeOffs/writeOffs-router.js:6`, `src/endpoints/writeOffs/writeOffs-router.js:29`, `src/endpoints/billingReview/billingReview-router.js:317`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.)
+Reads retain active-user authentication and the existing manager-level financial role gate. Create/update/delete additionally require `requireAdmin`: only `admin` or `super admin`, case-insensitively. Managers, employees and `owner` without an admin role get403 for adjustments, with no writes. One admin acts alone. `enforceAccountId` requires integer URL account ID equal to the authenticated user's account. No self-or-privileged check applies to URL user ID. Creates and adjustment events use the authenticated actor; ordinary write-off edits preserve the original creator. Wrong/missing authentication returns HTTP 401; wrong account/role returns 403. Frontend manager-level routes include `owner`, matching the backend (fixed [F37](../_review/findings.md#f37)). (`src/app.js:146`, `src/app.js:160`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `src/endpoints/writeOffs/writeOffs-router.js:6`, `src/endpoints/writeOffs/writeOffs-router.js:29`, `src/endpoints/billingReview/billingReview-router.js:317`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.)
 
 ## 3. API reference
 
@@ -101,7 +103,7 @@ Create/update input errors return HTTP400. Other write-off mutation and single-r
 | Errors | Common middleware errors; real HTTP/JSON 400 for bad pagination; real HTTP/JSON 500 for other errors. |
 | Source | `src/endpoints/writeOffs/writeOffs-router.js:135`, `src/endpoints/writeOffs/writeOffs-service.js:40`. |
 
-`writeOffTables` contains `invoicesList.activeInvoiceData.{activeInvoices,grid,treeGrid}` and `writeOffsList.activeWriteOffsData.{activeWriteOffs,grid}`. Note the invoice array key is `activeInvoices`, unlike payment responses' `invoicesList`. These are full-account refreshes after commit, without current page/search constraints. (`src/endpoints/writeOffs/writeOffs-router.js:178`.)
+`writeOffTables` contains first20 `invoicesList.activeInvoiceData.activeInvoices` and `writeOffsList.activeWriteOffsData.activeWriteOffs`, each with pagination/partial:true, plus changed write-off/deleted identity. H9 omits account-wide refreshes and grid/tree duplicates. The user's active page/search remains local and refetches independently.
 
 ### Billing-review transaction adjustment
 
@@ -198,3 +200,24 @@ Manual write-off creation flags possible duplicates atomically when same custome
 ## Owner decision 6 — hard Audit Record
 
 Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+
+## H1 business scope (2026-09-26)
+
+Write-off forms and registers carry the business; invoice/job targets must match it. Current-chain resolution and latest child snapshots are per business, including reviewed opening slices. The owner now permits any one Admin/Super Admin, and nobody else, to apply/edit/delete write-offs and adjustments; H3 is explicitly responsible for retrofitting these existing routes/screens. H1 applies that rule to its new cross-business transfer action and does not add approval or period-close workflow.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+After H2 derivation, invoice-linked compatibility write-offs also append obligation reductions. Editing/removing an eligible unissued write-off appends exact application reversals and replacement applications, preserving original debt ages. Pending work concessions become part of the next newly issued net obligation. Existing billed locks remain. The existing write-off permission retrofit remains H3 as assigned by the owner.
+
+## H9 loading update
+
+Create/edit/delete return the changed write-off/deleted ID and first20 write-offs/invoices. No full-account write-off refresh or grid/tree copy is sent. Admin-only writes and sent-lock refusals remain enforced. Customer and record hydration works outside the current grid page.
+
+See [bounded loading and save responses](../platform/performance.md) for the current wire contract and [H9 results](../decisions/2026-09-26-run-H9-results.md) for full regression evidence. These details supersede older full-list/grid response descriptions in this guide. Committed refresh warnings still mean saved: reload, do not resubmit.
+
+### Scoped current-cycle choices (H9)
+
+The job picker uses bounded per-client search with `currentCycle=true` and the selected business. The amount remains billable, unbilled, non-retainer work grouped by exact job ID, including zero-valued historical groups; identical descriptions show IDs. The invoice picker requests only that client's/business's invoice snapshots (`section=invoices` on the existing profile route), preserving rolling-chain and absorption rules. Neither picker downloads jobs, payments or work history through the full profile. Loading/errors and stale-reply guards prevent old choices from replacing a new client/business. See the [hand oracle](../scenarios/H9-bounded-loading.md#current-cycle-picker-oracle).

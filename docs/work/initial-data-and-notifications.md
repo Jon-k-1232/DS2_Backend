@@ -1,5 +1,7 @@
 # Initial data and notifications
 
+**H6 navigation:** Notifications open canonical `/work/review` links. Reference lists load independently per account/user/role, reject obsolete responses, and expose retry after failure. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
 ## 1. Purpose and UI
 
 `PrimaryRouter` loads the initial data blob after login into shared customer data used by grids and selectors. This is not a separate page. The fetch wrapper is `getInitialAppData` in `FetchCalls` (`../DS2_Frontend/src/Routes/PrimaryRouter.js:55`, `../DS2_Frontend/src/Services/ApiCalls/FetchCalls.js:44`).
@@ -12,7 +14,7 @@ Tracker notification staff and their settings UI are documented in [time trackin
 
 | Area | Actual authorization |
 |---|---|
-| Initial blob | `requireAuth` at mount, account guard only. No role gate or self check. URL userID is ignored. Session role selects the payload: manager/admin/super admin/owner receive full lists; other roles receive empty lists/grids/counts plus only their own user_id and display_name (fixed [F3](../_review/findings.md#f3)) (`src/app.js:147`, `src/endpoints/initialData/initialData-router.js:4`, `src/endpoints/initialData/initialData-router.js:45`). |
+| Initial blob | `requireAuth` at mount, account guard only. No role gate or self check. URL userID is ignored. Session role selects the payload: manager/admin/super admin/owner receive compact references and bounded pages; other roles receive empty lists/counts plus only their own user_id and display_name (fixed [F3](../_review/findings.md#f3)) (`src/app.js:147`, `src/endpoints/initialData/initialData-router.js:4`, `src/endpoints/initialData/initialData-router.js:45`). |
 | Notifications | `requireAuth`, `enforceAccountId`, `enforceSelfOrPrivileged`. Plain users must request their own user ID; manager/admin/super admin/owner may request another user's notifications within their account (`src/app.js:161`, `src/endpoints/notifications/notifications-router.js:4`, `src/endpoints/auth/account-scope.js:22`). |
 
 Roles are compared lowercase. Auth uses cookie JWT before Bearer; validates token and loads subject user by email; missing/invalid/expired token or missing user returns HTTP 401. Role/self/account rejection returns HTTP 403. Account parameter must number-convert to integer equal to session account. Frontend manager access accepts admin/manager/super admin/owner, matching the backend (`src/endpoints/auth/jwt-auth.js:7`, `src/endpoints/auth/jwt-auth.js:18`, `src/endpoints/auth/jwt-auth.js:64`, `src/endpoints/auth/account-scope.js:7`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`).
@@ -27,7 +29,7 @@ Common transport behavior: the global 300/minute limiter, unless test/disabled, 
 
 | Method | Path | Inputs | Success | Errors and triggers |
 |---|---|---|---|---|
-| GET | `/initialData/initialBlob/:accountID/:userID` | Required path IDs; account checked, user ignored. No body/search/page/limit/filter | HTTP 200 blob B below | Common auth/account/transport errors; caught read/format failure ->HTTP 200 `{message,status:500}`. No partial-success blob. `src/endpoints/initialData/initialData-router.js:22` |
+| GET | `/initialData/initialBlob/:accountID/:userID` | Required path IDs; account checked, user ignored. No body/search/page/limit/filter | HTTP 200 blob B below | Common auth/account/transport errors; caught read/format failure ->HTTP 500 `{message,status:500}`. No partial-success blob. `src/endpoints/initialData/initialData-router.js:22` |
 
 ### List notifications
 
@@ -59,7 +61,7 @@ Health contracts belong to [operations](../platform/operations.md#3-operational-
 
 ## 4. Data model
 
-For privileged callers, initial data reads the tables listed in section5. User rows contain user_id/account_id/email/display_name/cost_rate/billing_rate/job_title/access_level/is_user_active/created_at. Nonprivileged callers receive only their own user_id and display_name, with every other collection empty. No customer/contact/master-data/ledger queries run for them; privileged callers retain their existing fields (`src/endpoints/initialData/initialData-router.js:43`, `migrations/schema-snapshot-2026-09-22.sql:1117`).
+For privileged callers, initial data reads the tables listed in section5. User rows contain user_id/account_id/email/display_name/cost_rate/billing_rate/job_title/access_level/is_user_active/created_at. Nonprivileged callers receive only their own user_id and display_name, with every other collection empty. No customer/contact/master-data/ledger queries run for them; privileged callers receive compact client identity fields plus the existing authorized catalog and ledger fields (`src/endpoints/initialData/initialData-router.js:43`, `migrations/schema-snapshot-2026-09-22.sql:1117`).
 
 | Table | Columns, limits and relationships |
 |---|---|
@@ -71,24 +73,24 @@ Notification type constants are tracker_upload_processed, rows_held_for_review, 
 
 ## 5. Read logic
 
-For privileged callers, blob **B** has all rows below plus `{message:'Successfully Retrieved Data.',status:200}`. Each nested object includes `grid`. Four lists have fixed page1/limit20 metadata; callers cannot change this through the blob endpoint. No search term is supplied. Promise.all performs independent queries without one consistent database snapshot (`src/endpoints/initialData/initialData-router.js:65`, `src/endpoints/initialData/initialData-router.js:190`).
+For privileged callers, blob **B** has all rows below plus `{message:'Successfully Retrieved Data.',status:200}`. H9 omits every `grid`/`treeGrid`, keeps jobs empty, and bounds ledger lists to20. Four ledger lists have page1/limit20 metadata; retainers have a bounded first-20 array and load their own register pagination separately. Callers cannot change this through the blob endpoint. No search term is supplied. Promise.all performs independent queries without one consistent database snapshot (`src/endpoints/initialData/initialData-router.js:65`, `src/endpoints/initialData/initialData-router.js:190`).
 
 | Blob path / row key | Exact source read and shape additions |
 |---|---|
-| `customersList.activeCustomerData.activeCustomers` | All customers INNER JOIN owned active contacts, customer active and both account predicates; customer_name ASC; no pagination (`src/endpoints/customer/customer-service.js:1`, `src/endpoints/customer/customer-service.js:52`). |
+| `customersList.activeCustomerData.activeCustomers` | Compact active identities, <=1000; above threshold an empty array with remote:true. No contact joins. Includes totalCount/threshold/remote. |
 | `recurringCustomersList.activeRecurringCustomersData.activeRecurringCustomers` | Active recurring account rows INNER JOIN customers on ID and account; only customer display_name added; no customer-active predicate or order (`src/endpoints/recurringCustomer/recurringCustomer-service.js:3`). |
-| `teamMembersList.activeUserData.activeUsers` | SELECT * active users by account, no order; redaction before grid creation (`src/endpoints/user/user-service.js:2`, `src/endpoints/initialData/initialData-router.js:124`). |
+| `teamMembersList.activeUserData.activeUsers` | SELECT * active users by account, no order; redaction before serialization (`src/endpoints/user/user-service.js:2`, `src/endpoints/initialData/initialData-router.js:124`). |
 | `transactionsList.activeTransactionsData.activeTransactions` | Transactions.* + customer/employee/work/type labels; INNER customer/user/job, LEFT general description/type; transaction account; created_at DESC; count+first20; pagination (`src/endpoints/transactions/transactions-service.js:1`, `src/endpoints/transactions/transactions-service.js:51`). |
 | `invoicesList.activeInvoiceData.activeInvoices` | Invoices.* + customer/creator labels; INNER customer/user; invoice account, invoice_date DESC; parents and snapshots; count+first20; pagination, **no treeGrid** (`src/endpoints/invoice/invoice-service.js:31`, `src/endpoints/invoice/invoice-service.js:59`, `src/endpoints/initialData/initialData-router.js:138`). |
-| `accountJobsList.activeJobData.activeJobs` | jobs.* plus explicit type fields and category/customer/creator labels; INNER types/categories/customers/users, jobs account, jobs created_at ASC then job ID ASC; all versions/completion states; treeGrid by customer_job_id/parent_job_id (`src/endpoints/job/job-service.js:22`). |
+| `accountJobsList.activeJobData.activeJobs` | Empty compatibility array. Jobs are fetched through bounded register/client lookup endpoints. |
 | `jobCategoriesList.activeJobCategoriesData.activeJobCategories` | Raw account categories, active=true, no order (`src/endpoints/jobCategories/jobCategories-service.js:2`). |
 | `jobTypesList.activeJobTypesData.jobTypesData` | types.* + category label LEFT JOIN category; type account/active, job_description ASC (`src/endpoints/jobType/jobType-service.js:18`). |
 | `writeOffsList.activeWriteOffsData.activeWriteOffs` | writeoffs.* + customer/creator labels and job/type labels; INNER customer/user, LEFT job/type; writeoff account; created_at DESC, count+first20; pagination (`src/endpoints/writeOffs/writeOffs-service.js:1`, `src/endpoints/writeOffs/writeOffs-service.js:40`). |
 | `paymentsList.activePaymentsData.activePayments` | payments.* + customer/creator labels; INNER customer/user; payment account; created_at DESC, count+first20; pagination (`src/endpoints/payments/payments-service.js:1`, `src/endpoints/payments/payments-service.js:36`). |
-| `accountRetainersList.activeRetainerData.activeRetainers` | retainer rows + customer/creator labels; INNER customer/user; retainer account; created_at DESC, **no active filter**; all rows, treeGrid by retainer_id/parent_retainer_id (`src/endpoints/retainer/retainer-service.js:10`). |
+| `accountRetainersList.activeRetainerData.activeRetainers` | First20 account history rows; the register independently pages and filters via getRetainers. |
 | `workDescriptionsList.activeWorkDescriptionsData.workDescriptions` | Raw owned active general descriptions, general_work_description ASC; note row key workDescriptions, unlike mutation response's workDescriptionsData (`src/endpoints/workDescriptions/workDescriptions-service.js:2`, `src/endpoints/initialData/initialData-router.js:185`). |
 
-Quotes are not in B. Pagination uses counts of those joined queries, not raw table counts, and each count/page pair is separate. There is no sort tie-breaker on the paginated services. Grid derives columns from first-row keys and creates positional IDs; empty grids have empty columns/rows. Trees attach direct parents or promote rows with missing parents (`src/endpoints/initialData/initialData-router.js:130`, `src/utils/pagination.js:22`, `src/utils/gridFunctions.js:6`, `src/utils/gridFunctions.js:68`).
+Quotes are not in B. Pagination uses counts from the scoped joined queries, with separate count/page reads. Jobs and retainers use stable ID tie-breakers in their new paged services; other lists retain their existing ordering. No presentation grids or trees are constructed for the blob. The browser derives them only on access, using a unique database ID where available. Client-profile trees retain their per-client snapshot rules.
 
 Notification list reads raw rows by account+user, newest created_at first, limited, with optional read_at NULL and mandatory expires_at NULL OR expires_at>current JavaScript Date. Count uses identical ownership/expiry and read_at NULL but no limit. Equality with expiry time is expired. No SQL joins or secondary sort (`src/endpoints/notifications/notifications-service.js:42`).
 
@@ -98,7 +100,7 @@ Health root reads no data; check performs only `db.raw('SELECT 1')`. Healthy mea
 
 ## 6. Calculations
 
-Blob metadata has page1, limit20, totalItems from count, totalPages=`ceil(count/20)`. It calculates no new balances; it returns stored monetary values. Tree construction does not sum child snapshots (`src/endpoints/initialData/initialData-router.js:130`, `src/utils/pagination.js:22`, `src/utils/gridFunctions.js:68`).
+Blob metadata has page1, limit20, totalItems from count, totalPages=`ceil(count/20)`. It calculates no new balances; it returns stored monetary values. Browser-derived trees do not sum child snapshots (`src/endpoints/initialData/initialData-router.js:130`, `src/utils/pagination.js:22`, `src/utils/gridFunctions.js:68`).
 
 Unread count is Number(database COUNT or0). Staff active IDs are a filter+map, not a role grant. For example, a membership marked active for a deactivated user is present in activeStaffUserIds but absent from email/fan-out recipient queries (`src/endpoints/notifications/notifications-service.js:52`, `src/endpoints/timeTrackerStaff/timeTrackerStaff-router.js:19`, `src/endpoints/timeTrackerStaff/timeTrackerStaff-service.js:24`).
 
@@ -112,7 +114,7 @@ Internal notification insertion requires truthy account/user/type/title in the s
 
 Auto-ingestion runs only with valid db/account/user/nonempty entryIds and feature flag `TIME_TRACKER_AI_FEATURE_FLAG=on`, or `test` with account listed in comma-separated `TIME_TRACKER_AI_TEST_ACCOUNT_IDS`; default/off/other values skip. It schedules processing with setImmediate, then inserts fan-out notifications. Insertion failure is logged and does not undo processed work. Fatal processing failure is logged; despite the constant, this runner does not emit ai_processing_failed. A persistent queue/retry/delivery guarantee is **not determined from the code** (`src/endpoints/timesheets/auto-ingest-runner.js:8`, `src/endpoints/timesheets/auto-ingest-runner.js:55`, `src/endpoints/timesheets/auto-ingest-runner.js:69`).
 
-UI navigation is tracker_upload_processed ->`/time-tracking/history`; held/new-customer/failure ->`/time-tracking/billingReview?tab=needsReview`; unknown ->`/time-tracking/billingReview`. Notification text is displayed as React text. Navigation still passes through the target route's own role gate; receiving a notification grants no new access (`../DS2_Frontend/src/Components/Notifications/notificationRouting.js:1`, `../DS2_Frontend/src/Components/Notifications/NotificationBell.js:46`, `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:41`).
+UI navigation is tracker_upload_processed ->`/time-tracking/history`; held/new-customer/failure ->`/time-tracking/billingReview?tab=needsReview`; unknown ->`/work/review`. Notification text is displayed as React text. Navigation still passes through the target route's own role gate; receiving a notification grants no new access (`../DS2_Frontend/src/Components/Notifications/notificationRouting.js:1`, `../DS2_Frontend/src/Components/Notifications/NotificationBell.js:46`, `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:41`).
 
 Staff membership changes are documented in [time tracking](../platform/time-tracking.md#7-create-edit-delete-and-side-effects). They do not alter notification history.
 
@@ -131,7 +133,7 @@ Staff CRUD itself sends no emails. Later tracker validation obtains active staff
 
 ## 9. Limitations and open decisions
 
-F3 is fixed by role-based payload construction before any protected query. F2 joins are account-scoped as described in the affected feature guides. For privileged callers, large unpaginated master/customer/job/retainer lists and independent reads remain part of this endpoint's contract (`src/endpoints/initialData/initialData-router.js:65`).
+F3 is fixed by role-based payload construction before any protected query. F2 joins are account-scoped as described in the affected feature guides. For privileged callers, only small master catalogs remain unpaged; customer identities switch to server search above1000, jobs are omitted, and retainer history is capped20. Independent reads remain part of this endpoint's contract (`src/endpoints/initialData/initialData-router.js:65`).
 
 Notification paging, user-configurable retention, reliable background retry and expiry cleanup are **not determined from the code**. The health check does not verify migration readiness. Staff membership identifies recipients, not permission to approve work; role gates still control billing review (`src/endpoints/notifications/notifications-router.js:13`, `src/endpoints/timesheets/auto-ingest-runner.js:72`, `src/endpoints/health/health-service.js:7`, `../DS2_Frontend/src/Routes/GroupedRoutes/TimeTrackingRoutes/TimeTrackingRoutes.js:41`).
 
@@ -146,4 +148,27 @@ Staff upload/history uses its existing self-scoped endpoints; initialBlob retain
 
 ## Owner run 2 — retainers and duplicate review
 
-Financial rows in initial-data, customer profiles, single-row reads and mutation refresh payloads now carry `possible_duplicate` and `duplicate_ids` from open account-scoped reviews. Common grid columns render the badge even when a feature hides ordinary metadata columns. No new notification or automatic deletion is produced; review lives at `/transactions/possibleDuplicates`.
+Financial rows in initial-data, customer profiles, single-row reads and mutation refresh payloads now carry `possible_duplicate` and `duplicate_ids` from open account-scoped reviews. Common grid columns render the badge even when a feature hides ordinary metadata columns. No new notification or automatic deletion is produced; review lives at `/work/duplicates`.
+
+## H1 business scope (2026-09-26)
+
+Bootstrap financial rows expose effective business attribution for downstream pickers and columns. Entity-filtered paginated pages keep their own results and do not replace account-wide customer lists. Notifications and user-role redaction remain unchanged. A remembered picker choice is keyed by account and client.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+## H4 recurring lookup fields
+
+The privileged initial payload retains `recurringCustomersList.activeRecurringCustomersData.activeRecurringCustomers`, now including explicit business, active dates and plan metadata. Time/charge forms use those fields for selected-business coverage instead of the global customer flag. Staff bootstrap remains redacted and its self-scoped tracker workflow is unchanged. Plan management uses the canonical [recurring APIs](recurring-billing.md); Create Invoice explicitly prepares before its own balance read.
+
+## H9 bootstrap and browser state
+
+The current shape and migration path are specified in [bounded loading](../platform/performance.md). `useWorkspaceData` initializes once per identity/role and derives local grid views only when accessed. No `grid`/`treeGrid` travels in the bootstrap or committed save responses. Paged reads never replace the shared client directory. Changed client identities are patched; selected record references stay local. Staff redaction, notification polling and no-real-email controls remain unchanged. H9's read-only account-scale budget asserts <1,000,000 JSON bytes; the old ~93.7MB triple-job payload is retained only as baseline evidence.
+
+### Scoped entry-form reads (H9)
+
+The write-off job picker adds `currentCycle=true` to the existing per-client endpoint. It searches/pages exact referenced job versions and preserves the former amount rule: sum only billable work without an invoice or retainer, grouped by exact job ID. Zero-valued historical groups remain selectable; IDs disambiguate identical descriptions. Lifetime `current_job_total` is never substituted for this amount. Client/business changes invalidate old choices. The current-cycle aggregate uses account-qualified unique-key joins with the exact `ds2_effective_entity` precedence: explicit entity, amended legacy billing scope, original attribution, then reviewed resolution. Read-only legacy equivalence tests compare both the rows and amounts with the existing scoped view.
+
+Legacy payment and write-off invoice selectors request `GET /customer/activeCustomers/customerByID/A/U/C?section=invoices&entityId=E`. This projection returns only that client's invoice snapshots in `customerInvoiceData`, preserving current-chain/absorption selection rules without downloading jobs, work, payments or retainers. It rejects malformed sections and missing/foreign clients, retains existing role/business guards, and performs no writes. Full client-profile/history views remain unchanged. Late responses cannot reset an invoice/job or overwrite the new client's choices.
+
+
+H9 also applies the profile projection to active payment record editors and pending-payment review (`section=invoices`). Editors hydrate their exact selected job and retainer separately. Retainer deletion uses `section=payments` to check the complete client payment history, including links outside any grid page, without fetching jobs or work. Retainer credit transfer uses `section=retainers`; all business balances remain available for choosing the source. These projections retain the existing manager/admin read guards, selected-business behavior and failure recovery. The actual client profile still loads its full per-client history/tree views.

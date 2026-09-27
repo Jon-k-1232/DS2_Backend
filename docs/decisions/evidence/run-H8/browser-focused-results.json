@@ -1,0 +1,2558 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@20/20.20.2/bin/node",
+      "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/node_modules/.bin/playwright",
+      "test",
+      "tests/page-help-H8.spec.js",
+      "tests/mistakes-H8.spec.js",
+      "--workers=1"
+    ],
+    "configFile": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/playwright.config.js",
+    "rootDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/lib/preflight.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "mistakes-H8.spec.js",
+      "file": "mistakes-H8.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Receive payment survives a network failure without writing and retry posts once",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489138470_84d824"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 3134,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    Object {\u001b[22m\n\u001b[32m-     \"amount\": \"50.00\",\u001b[39m\n\u001b[31m+     \"amount\": 50,\u001b[39m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    Object {\u001b[22m\n\u001b[32m-     \"amount\": \"50.00\",\u001b[39m\n\u001b[31m+     \"amount\": 50,\u001b[39m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js:26:100",
+                    "location": {
+                      "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js",
+                      "column": 100,
+                      "line": 26
+                    },
+                    "snippet": "  24 |  if(await page.getByRole('button',{name:'Review payment',exact:true}).count())await page.getByRole('button',{name:'Review payment',exact:true}).click();\n  25 |  await page.getByRole('button',{name:'Record payment',exact:true}).click();await expect(page.getByRole('link',{name:'View receipt'})).toBeVisible();\n> 26 |  expect(rows(`SELECT amount FROM payment_receipts WHERE account_id=9001 AND customer_id=${c.id}`)).toEqual([{amount:'50.00'}]);\n     |                                                                                                    ^\n  27 | });\n  28 | test('lost receipt response can be retried without recording a second check',async({page,prefix})=>{\n  29 |  const c=await createCustomer(page,prefix);await receiveForm(page,c);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js",
+                        "column": 100,
+                        "line": 26
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    Object {\u001b[22m\n\u001b[32m-     \"amount\": \"50.00\",\u001b[39m\n\u001b[31m+     \"amount\": 50,\u001b[39m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\n  24 |  if(await page.getByRole('button',{name:'Review payment',exact:true}).count())await page.getByRole('button',{name:'Review payment',exact:true}).click();\n  25 |  await page.getByRole('button',{name:'Record payment',exact:true}).click();await expect(page.getByRole('link',{name:'View receipt'})).toBeVisible();\n> 26 |  expect(rows(`SELECT amount FROM payment_receipts WHERE account_id=9001 AND customer_id=${c.id}`)).toEqual([{amount:'50.00'}]);\n     |                                                                                                    ^\n  27 | });\n  28 | test('lost receipt response can be retried without recording a second check',async({page,prefix})=>{\n  29 |  const c=await createCustomer(page,prefix);await receiveForm(page,c);\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js:26:100"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:05:38.166Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489138470_84d824"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/mistakes-H8-Receive-paymen-5f0cb-riting-and-retry-posts-once/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/mistakes-H8-Receive-paymen-5f0cb-riting-and-retry-posts-once/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/mistakes-H8-Receive-paymen-5f0cb-riting-and-retry-posts-once/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/mistakes-H8-Receive-paymen-5f0cb-riting-and-retry-posts-once/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js",
+                    "column": 100,
+                    "line": 26
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "825749760443d1366d73-47693afe9741d355db48",
+          "file": "mistakes-H8.spec.js",
+          "line": 17,
+          "column": 43
+        },
+        {
+          "title": "Receive payment survives a server failure without writing and retry posts once",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489142017_4bbec3"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2859,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    Object {\u001b[22m\n\u001b[32m-     \"amount\": \"50.00\",\u001b[39m\n\u001b[31m+     \"amount\": 50,\u001b[39m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    Object {\u001b[22m\n\u001b[32m-     \"amount\": \"50.00\",\u001b[39m\n\u001b[31m+     \"amount\": 50,\u001b[39m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js:26:100",
+                    "location": {
+                      "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js",
+                      "column": 100,
+                      "line": 26
+                    },
+                    "snippet": "  24 |  if(await page.getByRole('button',{name:'Review payment',exact:true}).count())await page.getByRole('button',{name:'Review payment',exact:true}).click();\n  25 |  await page.getByRole('button',{name:'Record payment',exact:true}).click();await expect(page.getByRole('link',{name:'View receipt'})).toBeVisible();\n> 26 |  expect(rows(`SELECT amount FROM payment_receipts WHERE account_id=9001 AND customer_id=${c.id}`)).toEqual([{amount:'50.00'}]);\n     |                                                                                                    ^\n  27 | });\n  28 | test('lost receipt response can be retried without recording a second check',async({page,prefix})=>{\n  29 |  const c=await createCustomer(page,prefix);await receiveForm(page,c);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js",
+                        "column": 100,
+                        "line": 26
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    Object {\u001b[22m\n\u001b[32m-     \"amount\": \"50.00\",\u001b[39m\n\u001b[31m+     \"amount\": 50,\u001b[39m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\n  24 |  if(await page.getByRole('button',{name:'Review payment',exact:true}).count())await page.getByRole('button',{name:'Review payment',exact:true}).click();\n  25 |  await page.getByRole('button',{name:'Record payment',exact:true}).click();await expect(page.getByRole('link',{name:'View receipt'})).toBeVisible();\n> 26 |  expect(rows(`SELECT amount FROM payment_receipts WHERE account_id=9001 AND customer_id=${c.id}`)).toEqual([{amount:'50.00'}]);\n     |                                                                                                    ^\n  27 | });\n  28 | test('lost receipt response can be retried without recording a second check',async({page,prefix})=>{\n  29 |  const c=await createCustomer(page,prefix);await receiveForm(page,c);\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js:26:100"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:05:41.914Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489142017_4bbec3"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/mistakes-H8-Receive-paymen-b68e3-riting-and-retry-posts-once/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/mistakes-H8-Receive-paymen-b68e3-riting-and-retry-posts-once/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/mistakes-H8-Receive-paymen-b68e3-riting-and-retry-posts-once/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/mistakes-H8-Receive-paymen-b68e3-riting-and-retry-posts-once/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/mistakes-H8.spec.js",
+                    "column": 100,
+                    "line": 26
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "825749760443d1366d73-0a432e4b0866857ecf90",
+          "file": "mistakes-H8.spec.js",
+          "line": 17,
+          "column": 43
+        },
+        {
+          "title": "lost receipt response can be retried without recording a second check",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489145302_5121a9"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2545,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:05:45.192Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489145302_5121a9"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-42932f5e27d1f21ef07b",
+          "file": "mistakes-H8.spec.js",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "receipt correction controls wait for open invoices and a read error can be retried safely",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489147847_77c393"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2238,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:05:47.840Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489147847_77c393"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-67ec84bbb604adefed91",
+          "file": "mistakes-H8.spec.js",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "credit-memos handles server and network read errors without stale actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489150090_9e4db0"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2505,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:05:50.083Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489150090_9e4db0"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-9d01b1eab6dd72ec45dd",
+          "file": "mistakes-H8.spec.js",
+          "line": 45,
+          "column": 46
+        },
+        {
+          "title": "refunds handles server and network read errors without stale actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489152599_07321c"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2182,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:05:52.593Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489152599_07321c"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-27623d367eabefe8b49b",
+          "file": "mistakes-H8.spec.js",
+          "line": 45,
+          "column": 46
+        },
+        {
+          "title": "two tabs cannot finalize the same reviewed credit memo twice; back and refresh preserve the issued original",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489154788_f55c3f"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9007,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "(node:640) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)\nversions published after the first week of January 2027\nwill require node >=22. You are running node v20.20.2.\n\nTo continue receiving updates to AWS services, bug fixes,\nand security updates please upgrade to node >=22.\n\nMore information can be found at: https://a.co/c895JFp\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                    },
+                    {
+                      "text": "(node:640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:05:54.780Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489154788_f55c3f"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "825749760443d1366d73-db266ee5fe4969fdaf4b",
+          "file": "mistakes-H8.spec.js",
+          "line": 52,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "page-help-H8.spec.js",
+      "file": "page-help-H8.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "AR uses plain labels and keeps report history collapsed at 1280px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489163816_0a3338"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16740,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Example client', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Example client', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Example client', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Example client', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Example client', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Example client', { exact: true })\u001b[22m\n\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js:17:100",
+                    "location": {
+                      "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                      "column": 100,
+                      "line": 17
+                    },
+                    "snippet": "  15 |  await page.setViewportSize({width:1280,height:900});\n  16 |  await page.route('**/accountsReceivable/aging/**',r=>r.fulfill({json:{status:200,arAging:{customers:[{customer_id:900101,billing_entity_name:'Our tax business',business_name:'Example client company',customer_name:'Synthetic client',display_name:'Example client',total_outstanding:20,bucket_0_30:20,bucket_unknown:0,reconstructed:true}],pagination:{totalItems:1,totalPages:1}}}}));\n> 17 |  await page.goto('/receivables/aging');await expect(page.getByText('Example client',{exact:true})).toBeVisible();\n     |                                                                                                    ^\n  18 |  await capture(page,info,'ar-1280');\n  19 |  await expect(page.getByRole('columnheader',{name:'Our business',exact:true})).toBeVisible();\n  20 |  await expect(page.getByRole('columnheader',{name:'Client company',exact:true})).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                        "column": 100,
+                        "line": 17
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Example client', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Example client', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Example client', { exact: true })\u001b[22m\n\n\n  15 |  await page.setViewportSize({width:1280,height:900});\n  16 |  await page.route('**/accountsReceivable/aging/**',r=>r.fulfill({json:{status:200,arAging:{customers:[{customer_id:900101,billing_entity_name:'Our tax business',business_name:'Example client company',customer_name:'Synthetic client',display_name:'Example client',total_outstanding:20,bucket_0_30:20,bucket_unknown:0,reconstructed:true}],pagination:{totalItems:1,totalPages:1}}}}));\n> 17 |  await page.goto('/receivables/aging');await expect(page.getByText('Example client',{exact:true})).toBeVisible();\n     |                                                                                                    ^\n  18 |  await capture(page,info,'ar-1280');\n  19 |  await expect(page.getByRole('columnheader',{name:'Our business',exact:true})).toBeVisible();\n  20 |  await expect(page.getByRole('columnheader',{name:'Client company',exact:true})).toBeVisible();\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js:17:100"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:03.807Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489163816_0a3338"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-AR-uses-plain-fcd59-history-collapsed-at-1280px/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-AR-uses-plain-fcd59-history-collapsed-at-1280px/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-AR-uses-plain-fcd59-history-collapsed-at-1280px/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                    "column": 100,
+                    "line": 17
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-7b1c1d897410508c6bde",
+          "file": "page-help-H8.spec.js",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "credit memo names, status, sentence case and document numbers are clear at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489181001_b5023b"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7761,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "(node:4055) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)\nversions published after the first week of January 2027\nwill require node >=22. You are running node v20.20.2.\n\nTo continue receiving updates to AWS services, bug fixes,\nand security updates please upgrade to node >=22.\n\nMore information can be found at: https://a.co/c895JFp\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                    },
+                    {
+                      "text": "(node:4055) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:20.873Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489181001_b5023b"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "credit-memos-1280",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-credit-memo-n-a41b5-numbers-are-clear-at-1280px/attachments/credit-memos-1280-2909a7c9eb338ff288bc2ff276526786859701a4.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-423470cd90d99067f9eb",
+          "file": "page-help-H8.spec.js",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "page help covers /clients",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489188764_4bb4c5"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1956,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:28.757Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489188764_4bb4c5"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-0114b97e771991d5dfa6",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/entries",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489190725_7816d8"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1885,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:30.719Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489190725_7816d8"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-a0f91ce62a61d843cd01",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/jobs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489192615_05b8f7"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2016,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:32.608Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489192615_05b8f7"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-cdc8d1bf4635962762ea",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/review",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489194636_fbb3e5"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1900,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:34.629Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489194636_fbb3e5"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-b1252a645d688ab793b2",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/review/entities",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489196540_42b04e"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1897,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:36.534Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489196540_42b04e"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-c9394e93f3069056d617",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /work/duplicates",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489198441_c6efa6"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2015,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:38.435Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489198441_c6efa6"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-e9248c537c462bb7f0df",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/create",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489200462_49ece6"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2496,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:40.455Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489200462_49ece6"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-billing-create",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-create/attachments/help-billing-create-35ed9149130c99856f560f67fc38a85a4bae5020.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-474bfa6d081792acaa20",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/invoices",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489202963_1e9737"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17008,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog')\u001b[22m\n\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js:51:61",
+                    "location": {
+                      "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                      "column": 61,
+                      "line": 51
+                    },
+                    "snippet": "  49 |  const help=page.getByRole('button',{name:'About this page',exact:true});await expect(help).toBeVisible();\n  50 |  await help.focus();await page.keyboard.press('Enter');\n> 51 |  const dialog=page.getByRole('dialog');await expect(dialog).toBeVisible();await expect(dialog.getByRole('listitem')).toHaveCount(5);\n     |                                                             ^\n  52 |  await expect(dialog).toContainText('Who:');await expect(dialog).toContainText('Correcting mistakes:');\n  53 |  if(['/billing/create','/payments/receive','/billing/credit-memos','/receivables/write-offs','/payments/retainers','/billing/recurring','/receivables/aging','/settings/entities'].includes(entry.path)){\n  54 |   const {helpForPath}=require('../../src/help/pageHelp');const content=helpForPath(entry.path);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                        "column": 61,
+                        "line": 51
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog')\u001b[22m\n\n\n  49 |  const help=page.getByRole('button',{name:'About this page',exact:true});await expect(help).toBeVisible();\n  50 |  await help.focus();await page.keyboard.press('Enter');\n> 51 |  const dialog=page.getByRole('dialog');await expect(dialog).toBeVisible();await expect(dialog.getByRole('listitem')).toHaveCount(5);\n     |                                                             ^\n  52 |  await expect(dialog).toContainText('Who:');await expect(dialog).toContainText('Correcting mistakes:');\n  53 |  if(['/billing/create','/payments/receive','/billing/credit-memos','/receivables/write-offs','/payments/retainers','/billing/recurring','/receivables/aging','/settings/entities'].includes(entry.path)){\n  54 |   const {helpForPath}=require('../../src/help/pageHelp');const content=helpForPath(entry.path);\n    at /Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js:51:61"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:06:42.956Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489202963_1e9737"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-invoices/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-invoices/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-invoices/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-invoices/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/tests/page-help-H8.spec.js",
+                    "column": 61,
+                    "line": 51
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-990df8a385230296e84b",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/quotes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489220502_5e4460"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2027,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:00.368Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489220502_5e4460"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-78682dc934827cb6ca2c",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/recurring",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489222532_29c2ce"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2387,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:02.525Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489222532_29c2ce"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-billing-recurring",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-recurring/attachments/help-billing-recurring-44b72a083a93e63ad1ec3bcbfb94a233ab344691.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-6c05580fbedc42b9984f",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /billing/credit-memos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489224924_361e9a"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2209,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:04.916Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489224924_361e9a"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-billing-credit-memos",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-billing-credit-memos/attachments/help-billing-credit-memos-4fadc15cce3bf4d7f5dde0029ee818e3fabe4bb4.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-44307787d4aab09e3091",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/receive",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489227137_b88ea1"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2248,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:07.130Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489227137_b88ea1"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-payments-receive",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-receive/attachments/help-payments-receive-fcff346e81a2fc2389e1ce3787b1e6b8b0d3dbf3.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-f6e6e96631f58ce0a2d9",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/receipts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489229390_ae6a61"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1860,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:09.383Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489229390_ae6a61"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-d0cf8e4a06011206d3ab",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/imports",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489231255_79cb72"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1908,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:11.248Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489231255_79cb72"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-a2f1ba7b9916910355b7",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/credits",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489233168_683aa9"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1894,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:13.161Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489233168_683aa9"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-6e62823646a6691f2794",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/retainers",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489235066_4e0562"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2131,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:15.059Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489235066_4e0562"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-payments-retainers",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-payments-retainers/attachments/help-payments-retainers-20f87368fda050dccd6ea7699076283ad838a608.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-cd36d9103262116a2366",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/refunds",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489237204_6b24a4"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1911,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:17.196Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489237204_6b24a4"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-b94680120e06f74b1afd",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /payments/transfers",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489239120_f44b63"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1942,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:19.113Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489239120_f44b63"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-c49974ba7c4285356459",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /receivables/aging",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489241066_784dbc"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2282,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:21.059Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489241066_784dbc"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-receivables-aging",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-receivables-aging/attachments/help-receivables-aging-100968a830bf9113c85b97568e3fb2da9cac3210.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-9db56519df49010b079b",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /receivables/write-offs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489243352_237afd"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2137,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:23.347Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489243352_237afd"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-receivables-write-offs",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-receivables-write-offs/attachments/help-receivables-write-offs-821cad6893e7aa7c922514198424322ff7ececc6.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-4e096bad9bea5aadbbc5",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/billing-performance",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489245494_eb7f2d"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2091,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:25.489Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489245494_eb7f2d"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-9fa8720e9805c1992658",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/client-rates",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489247590_a49abe"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1940,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:27.584Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489247590_a49abe"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-22d9d467744418925327",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/time-allocation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489249535_4a2ecb"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1907,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:29.529Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489249535_4a2ecb"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-b7843107eca4d72572ce",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/wip-aging",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489251447_c332ad"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1911,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:31.440Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489251447_c332ad"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-ec6eb9e922b38021b99f",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/job-budgets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489253363_1b5e23"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1901,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:33.357Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489253363_1b5e23"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-48026dd3e6b9346a930a",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/tax-capacity",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489255269_80b349"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1876,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:35.263Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489255269_80b349"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-73ad7c79d84e7a5bcb50",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /reports/account-audit",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489257150_a33b88"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1964,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:37.144Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489257150_a33b88"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-3e5e11c99d7e3bd5a0a1",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /time-tracking/upload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489259119_0f27d6"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1938,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:39.113Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489259119_0f27d6"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-37ebdf1e19f386bc0628",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /time-tracking/history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489261062_a5c805"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1903,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:41.056Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489261062_a5c805"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-4d7c6ce4429ac6434fdc",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /time-tracking/trackingAdministration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489262971_ace588"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1957,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:42.965Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489262971_ace588"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-5f82189cf7131e10516a",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/entities",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489264937_cdf5fa"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2114,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:44.929Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489264937_cdf5fa"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-settings-entities",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-page-help-covers-settings-entities/attachments/help-settings-entities-a5595048bf84b6fd5c6aef833123aa68a328cc29.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-fe4edbc16162607253a0",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/account",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489267055_4e3655"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1958,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:47.049Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489267055_4e3655"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-7de3e9f311cc0b27be2b",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/users",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489269017_68a796"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1943,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:49.011Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489269017_68a796"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-adeb93197b8eaf071655",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/automations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489270965_aa7a3e"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1930,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:50.959Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489270965_aa7a3e"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-5c253c510e91ee945f8f",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/job-categories",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489272900_2ba8a5"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1908,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:52.894Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489272900_2ba8a5"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-e069e40218c6f1842479",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/job-types",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489274814_3586d0"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1890,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:54.807Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489274814_3586d0"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-c629e352ea745b240f88",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/work-descriptions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489276707_bc0e00"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1923,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:56.701Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489276707_bc0e00"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-d3aa04652dec36e78703",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/tracker-template",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489278635_79d73d"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1917,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:07:58.629Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489278635_79d73d"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-dd04bd946e53f4e6310a",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "page help covers /settings/tracker",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489280563_e84d53"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1908,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:08:00.554Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489280563_e84d53"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-af5950d48b4bbf277793",
+          "file": "page-help-H8.spec.js",
+          "line": 47,
+          "column": 54
+        },
+        {
+          "title": "every client tab has its own help and Audit Record explains immutable evidence",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489282475_d3e535"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9450,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:08:02.468Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489282475_d3e535"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-audit-record",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-every-client--b20c0-explains-immutable-evidence/attachments/help-audit-record-55741bf6e43c986f23f2deddecacea13377b0d31.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-294c05f0bab78c43f19b",
+          "file": "page-help-H8.spec.js",
+          "line": 60,
+          "column": 1
+        },
+        {
+          "title": "invoice help explains void and rebill without unlocking the original",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [
+                {
+                  "type": "sandbox-data",
+                  "description": "E2E_1790489291930_9bd417"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7959,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "(node:8154) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)\nversions published after the first week of January 2027\nwill require node >=22. You are running node v20.20.2.\n\nTo continue receiving updates to AWS services, bug fixes,\nand security updates please upgrade to node >=22.\n\nMore information can be found at: https://a.co/c895JFp\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                    },
+                    {
+                      "text": "(node:8154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-09-27T06:08:11.924Z",
+                  "annotations": [
+                    {
+                      "type": "sandbox-data",
+                      "description": "E2E_1790489291930_9bd417"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "help-void-and-rebill",
+                      "contentType": "image/png",
+                      "path": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/test-results/page-help-H8-invoice-help--8ceb8-hout-unlocking-the-original/attachments/help-void-and-rebill-183fdff9d88627133e841f34e3134e84793d9446.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "af24788ebbf0c256bc37-6a5d205f0d7bf5ae7864",
+          "file": "page-help-H8.spec.js",
+          "line": 72,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-27T06:05:37.654Z",
+    "duration": 162255.96000000002,
+    "expected": 46,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

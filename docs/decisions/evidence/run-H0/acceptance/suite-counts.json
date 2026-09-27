@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-09-26T08:05:22.164139+00:00",
+  "command_count": 89,
+  "all_exit_codes_zero": true,
+  "unit": {
+    "passing": 1145
+  },
+  "integration": {
+    "files": 81,
+    "passing": 2760
+  },
+  "scenarios": {
+    "passing": 1603
+  },
+  "cleanroom": {
+    "passing": 18
+  },
+  "lambda": {
+    "passing": 17
+  },
+  "frontend_jest": {
+    "tests": 264,
+    "suites": 49,
+    "skipped": 0
+  },
+  "frontend_build": "passed",
+  "playwright": {
+    "passed": 114,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "pending": 0,
+    "report_errors": 0
+  },
+  "drift": {
+    "customers": 320,
+    "engine_audit_mismatches": 0,
+    "ar_mismatches": 0,
+    "max_abs_engine_audit_diff": "0",
+    "max_abs_ar_diff": "0",
+    "source_sha256": "6aae889e7df1c58e5d61edfa7f857a37fa412742a02b5a8b4573b53afe67d6c8",
+    "source": "/tmp/drift.json",
+    "read_only": true
+  },
+  "failures": 0,
+  "skipped": 0,
+  "pending": 0,
+  "overlap_note": "Scenario and clean-room commands rerun integration specs; do not add their counts as unique tests."
+}

@@ -1,0 +1,26 @@
+{
+  "pdf": "oracle-report.pdf",
+  "pages": 3,
+  "render_command": "/opt/homebrew/bin/pdftoppm -scale-to 1400 -png",
+  "checked": [
+    "all 3 rendered pages visually inspected",
+    "USD, period, effective and knowledge cutoffs visible",
+    "primary totals match hand oracle",
+    "business totals agree",
+    "definition text wraps without clipping",
+    "page numbers 1/3 through 3/3"
+  ],
+  "result": "pass",
+  "ui": {
+    "artifact": "billing-performance.png",
+    "result": "report-body-pass",
+    "checked": [
+      "report title and business/date/cutoff controls are visible",
+      "cohort amounts match the browser oracle",
+      "cost basis and estimated/unknown counts are explicit",
+      "worked-for and billed-by tables are legible",
+      "detailed work grid retains horizontal scrolling for additional columns"
+    ],
+    "shared_shell_followup": "Global header title overlaps expanded sidebar; recorded in integrated design section 7 for H6 navigation layout."
+  }
+}

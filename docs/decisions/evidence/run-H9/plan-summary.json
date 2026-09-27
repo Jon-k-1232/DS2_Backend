@@ -1,0 +1,571 @@
+{
+  "clientJobs": [
+    {
+      "executionMs": 8.336,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_account_customer_idx",
+        "customers_pkey"
+      ],
+      "scans": [
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 119,
+          "removed": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "customer_jobs",
+          "rows": 20595,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 25,
+          "removed": 0
+        }
+      ]
+    },
+    {
+      "executionMs": 9.612,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_account_customer_idx",
+        "customers_pkey"
+      ],
+      "scans": [
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 119,
+          "removed": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "customer_jobs",
+          "rows": 20595,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 25,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "selectiveClientJobs": [
+    {
+      "executionMs": 0.199,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_account_customer_idx",
+        "customers_pkey"
+      ],
+      "scans": [
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 119,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_jobs",
+          "rows": 397,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 25,
+          "removed": 0
+        }
+      ]
+    },
+    {
+      "executionMs": 0.26,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_account_customer_idx",
+        "customers_pkey"
+      ],
+      "scans": [
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 119,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_jobs",
+          "rows": 397,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 25,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "businessClientJobs": [
+    {
+      "executionMs": 8.391,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_account_customer_idx",
+        "customers_pkey"
+      ],
+      "scans": [
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 119,
+          "removed": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "customer_jobs",
+          "rows": 20595,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 25,
+          "removed": 0
+        }
+      ]
+    },
+    {
+      "executionMs": 9.737,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_account_customer_idx",
+        "customers_pkey"
+      ],
+      "scans": [
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 119,
+          "removed": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "customer_jobs",
+          "rows": 20595,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 25,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "businessCurrentCycleJobs": [
+    {
+      "executionMs": 16.288,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_pkey",
+        "customers_pkey"
+      ],
+      "scans": [
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 114,
+          "removed": 5
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_jobs",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "billing_entity_resolutions",
+          "rows": 0,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "billing_entity_reviews",
+          "rows": 20146,
+          "removed": 982
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "legacy_financial_entity_attributions",
+          "rows": 9453,
+          "removed": 16300
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "customer_transactions",
+          "rows": 8044,
+          "removed": 11482
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "legacy_billing_scopes",
+          "rows": 19526,
+          "removed": 14128
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 4,
+          "removed": 21
+        }
+      ]
+    },
+    {
+      "executionMs": 25.497,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_pkey",
+        "customers_pkey",
+        "idx_customer_transactions_customer"
+      ],
+      "scans": [
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 114,
+          "removed": 5
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_jobs",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "billing_entity_resolutions",
+          "rows": 0,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "billing_entity_reviews",
+          "rows": 20146,
+          "removed": 982
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "legacy_financial_entity_attributions",
+          "rows": 18906,
+          "removed": 32601
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "customer_transactions",
+          "rows": 16087,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "legacy_billing_scopes",
+          "rows": 39052,
+          "removed": 28255
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 4,
+          "removed": 21
+        }
+      ]
+    }
+  ],
+  "businessJobsRegister": [
+    {
+      "executionMs": 14.644,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_account_family_idx"
+      ],
+      "scans": [
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 119,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "customers",
+          "rows": 378,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_jobs",
+          "rows": 49555,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 25,
+          "removed": 0
+        }
+      ]
+    },
+    {
+      "executionMs": 16.376,
+      "indexes": [
+        "customer_job_categories_pkey",
+        "customer_jobs_account_family_idx"
+      ],
+      "scans": [
+        {
+          "type": "Seq Scan",
+          "relation": "customer_job_types",
+          "rows": 119,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "customers",
+          "rows": 378,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_jobs",
+          "rows": 49555,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customer_job_categories",
+          "rows": 25,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "clientSearch": [
+    {
+      "executionMs": 0.034,
+      "indexes": [
+        "customers_account_directory_idx"
+      ],
+      "scans": [
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 50,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "businessRetainers": [
+    {
+      "executionMs": 0.123,
+      "indexes": [
+        "customers_pkey"
+      ],
+      "scans": [
+        {
+          "type": "Index Only Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "customer_retainers_and_prepayments",
+          "rows": 3,
+          "removed": 5
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "users",
+          "rows": 33,
+          "removed": 0
+        }
+      ]
+    },
+    {
+      "executionMs": 0.231,
+      "indexes": [
+        "customers_pkey"
+      ],
+      "scans": [
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "customer_retainers_and_prepayments",
+          "rows": 3,
+          "removed": 5
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "users",
+          "rows": 33,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "businessClientInvoices": [
+    {
+      "executionMs": 1.287,
+      "indexes": [
+        "customer_invoices_pkey",
+        "idx_customer_invoices_customer_date"
+      ],
+      "scans": [
+        {
+          "type": "Index Scan",
+          "relation": "customer_invoices",
+          "rows": 0,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "billing_cutover_allocations",
+          "rows": 0,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "billing_cutover_allocations",
+          "rows": 0,
+          "removed": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "customer_invoices",
+          "rows": 68,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "businessClientPayments": [
+    {
+      "executionMs": 0.759,
+      "indexes": [
+        "customers_pkey",
+        "idx_customer_payments_customer"
+      ],
+      "scans": [
+        {
+          "type": "Seq Scan",
+          "relation": "client_credit_lots",
+          "rows": 0,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "ar_applications",
+          "rows": 0,
+          "removed": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "users",
+          "rows": 18,
+          "removed": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "customers",
+          "rows": 1,
+          "removed": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "customer_payments",
+          "rows": 33,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "businessClientRetainers": [
+    {
+      "executionMs": 0.174,
+      "indexes": [],
+      "scans": [
+        {
+          "type": "Seq Scan",
+          "relation": "customer_retainers_and_prepayments",
+          "rows": 2,
+          "removed": 6
+        }
+      ]
+    }
+  ]
+}

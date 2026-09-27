@@ -1,5 +1,9 @@
 # Pending payments and the payment-image pipeline
 
+**H6 navigation:** Payments & Credits → Payment imports: `/payments/imports`. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
+
+**H8 list readiness:** New payments, Processed and All payments distinguish loading, failed reads and genuinely empty results. Failed reads show **Reload payments** and remove stale rows/actions; switching month or page invalidates the prior request so an older response cannot replace the selection. Empty lists explain how to find earlier payments or upload a file. **Name on payment** is the extracted text; **Matched client** is the matched DS2 client. These presentation/read changes do not post cash or alter approval/delete routes. Jest and `payment-imports-H8.spec.js` cover all three errors/reloads, empty labels and the processed-month race; browser cases compare account audit state before and after.
+
 ## Owner decision update — 2026-09-25
 
 Atomic approval uses the shared payment core. Referencing a sent invoice for a **new receipt** creates a fresh balance snapshot, preserving the original statement; it cannot insert/edit a receipt into the frozen statement itself. SQL guards refuse a direct locked link with HTTP 409 and roll back approval/payment state. Later issuance locks the new receipt. Tests inject payment failure and verify the pending row remains unprocessed. [Sent contract](../invoicing/invoices.md).
@@ -13,7 +17,7 @@ An uploaded payment file is extracted into `customer_payments_processed` for hum
 
 | UI | Route/files and behavior |
 | --- | --- |
-| Pending payments | `/transactions/pendingPayments`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:29`; `../DS2_Frontend/src/Pages/Transactions/PendingPayments/PendingPaymentsPage.js:15`. Tabs are New, Processed, All, Upload. |
+| Pending payments | `/payments/imports`; `../DS2_Frontend/src/Routes/GroupedRoutes/TransactionRoutes/TransactionsRoutes.js:29`; `../DS2_Frontend/src/Pages/Transactions/PendingPayments/PendingPaymentsPage.js:15`. Tabs are New, Processed, All, Upload. |
 | Queue tabs | `../DS2_Frontend/src/Pages/Transactions/PendingPayments/tabs/NewPaymentsTab.js:25`, `../DS2_Frontend/src/Pages/Transactions/PendingPayments/tabs/ProcessedPaymentsTab.js:37`, `../DS2_Frontend/src/Pages/Transactions/PendingPayments/tabs/AllPaymentsTab.js:24`. Grid pages are zero-based in React and sent as `page+1`, size 20 initially. Processed offers the current month and prior 23 months and filters by payment date. (`../DS2_Frontend/src/Pages/Transactions/PendingPayments/tabs/ProcessedPaymentsTab.js:11`.) |
 | Review | `../DS2_Frontend/src/Pages/Transactions/PendingPayments/components/ReviewPaymentDialog.js:33`. Prefills matched customer, absolute amount, extracted date or today, method or `Check`, and invoice text. Loads customer profile and attempts invoice-number/ID matching against open invoices. |
 | Upload/delete | `../DS2_Frontend/src/Pages/Transactions/PendingPayments/tabs/UploadTab.js:9`. Client checks PDF/10 MB, uploads, refreshes file list/counts, and disables file deletion when `has_processed` is true. |
@@ -254,7 +258,7 @@ The original review read the existing tests and used fake-dependency checks. Rem
 
 F5 and F6 are fixed by atomic imports and verified archival. F16–F18 are fixed and verified by `review-pending-files.integration.spec.js` (7 tests); [F36](../_review/findings.md#f36) is fixed by canonical upload extensions. The UI's upload list cannot show genuinely zero-row processing/error files because its API groups existing queue rows. Its `payment_count===0` processing/error display therefore has no source row under this query. The advertised processing time is UI copy, not a completion guarantee. No reliable end-to-end retry/reconciliation mechanism for every failed/zero-row file is established by this pipeline. (`src/endpoints/pendingPayments/pendingPayments-service.js:150`, `../DS2_Frontend/src/Pages/Transactions/PendingPayments/tabs/UploadTab.js:87`, `../DS2_Lambdas/Process_Payment_Images/pipeline.py:264`.)
 
-The review dialog requests the first 1,000 customers, while shared server pagination caps the result at 500. It does not page the rest in that call. It also cannot approve hold-only or excess-split cases through its present form, although the atomic backend can. (`../DS2_Frontend/src/Pages/Transactions/PendingPayments/components/ReviewPaymentDialog.js:33`, `src/utils/pagination.js:4`, `../DS2_Frontend/src/Pages/Transactions/PendingPayments/components/ReviewPaymentDialog.js:102`.)
+The review dialog now uses the shared customer picker: compact local identities through 1,000 active clients, then bounded server type-ahead with exact selected-ID hydration. Its former first-500 visibility limit is removed. Invoice selection requests only the selected client's invoice history. The existing form still cannot approve hold-only or excess-split cases, although the atomic backend can. (`../DS2_Frontend/src/Pages/Transactions/PendingPayments/components/ReviewPaymentDialog.js`, [H9 loading contract](../platform/performance.md).)
 
 File naming is the only ownership/archive association here; no exact immutable S3 object/version is persisted by upload. Same-name replacement, batch dedup and LLM/fuzzy extraction are not proof that the bank deposit total equals posted cash. Reconciliation and retention policy are **not determined from the code**. (`src/endpoints/pendingPayments/pendingPayments-router.js:278`, `src/endpoints/pendingPayments/pendingPayments-service.js:184`, `../DS2_Lambdas/Process_Payment_Images/pipeline.py:74`.)
 
@@ -278,3 +282,23 @@ Migration026 captures changes to this feature's audited customer/financial recor
 ### Response after a committed queue action
 
 Approval, item deletion and file deletion remain successful if refreshing the response counts or ledger lists fails after commit. The API returns `status: 200`, `committed: true` and a reload warning instructing the operator not to submit the change again. Failures before commit retain their refusal response and roll back queue and financial rows. Pass 3 proves these distinctions in `path-matrix-06-pending-payments.integration.spec.js`.
+
+## H1 business scope (2026-09-26)
+
+Imported pending rows may remain unassigned while awaiting review. Approval requires an explicit active business before atomic payment posting, and invoice choices use that business. The first assignment of an unprocessed import is permitted; a later financial document cannot silently switch entities. Existing receipts are not automatically distributed across companies. Multi-invoice received-payment allocation remains H2.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+Payment-image approval continues through its existing guarded single-payment/retainer core. H2 synchronizes its debt reductions with original obligations once derived, while retaining import provenance and retry rules. The multi-invoice Receive payment workflow is the primary manual entry path; this run does not change the image-review request schema. Do not combine imported cash with receipt allocation totals when H5 reporting is implemented.
+
+## H9 loading update
+
+ReviewPaymentDialog reuses the compact/remote customer lookup instead of requesting the first1000 detailed customers. Its pending selection remains client-specific and visible during a failed lookup.
+
+See [bounded loading and save responses](../platform/performance.md) for the current wire contract and [H9 results](../decisions/2026-09-26-run-H9-results.md) for full regression evidence. These details supersede older full-list/grid response descriptions in this guide. Committed refresh warnings still mean saved: reload, do not resubmit.
+
+
+H9 also applies the profile projection to active payment record editors and pending-payment review (`section=invoices`). Editors hydrate their exact selected job and retainer separately. Retainer deletion uses `section=payments` to check the complete client payment history, including links outside any grid page, without fetching jobs or work. Retainer credit transfer uses `section=retainers`; all business balances remain available for choosing the source. These projections retain the existing manager/admin read guards, selected-business behavior and failure recovery. The actual client profile still loads its full per-client history/tree views.

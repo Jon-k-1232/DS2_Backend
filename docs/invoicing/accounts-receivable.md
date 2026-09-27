@@ -1,148 +1,52 @@
-# Accounts receivable
+# Accounts receivable and true aging
 
-## Owner decision update — 2026-09-25
+**H6 navigation:** Receivables → Accounts receivable: `/receivables/aging`. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
 
-Issued parent balances now remain original evidence. AR continues resolving current chains using the latest child (timestamp then ID), including zero closing snapshots and positive reversal snapshots. Do not sum immutable historical parent balances. AR remains billed debt only; Create Invoice and Audit may also contain unbilled work. The owner scenario suite verifies agreement after each correction/roll-forward. [Contract](invoices.md).
+H2 replaces statement-age buckets with remaining original obligations. Rolling statements still carry balances forward, but a newer statement never resets the debt's age. The UI is `/receivables/aging` with alias `/receivables/aging`. It supports business/search/age filters, sorting, paging, effective date, recorded cutoff and CSV export. Page totals cover the displayed page.
 
+## API and access
 
-## 1. Purpose and UI
+Authenticated manager/admin billing access, with URL account matching the session. GET `/accountsReceivable/aging/:accountID/:userID` returns `{arAging:{customers,entityTotals,pagination,searchTerm,asOf,recordedThrough},status:200}`. GET the same path plus `/export` returns CSV. Both use the same report service and filters. Invalid dates/cutoffs or pagination return400; missing login401; role/tenant403; database failure500. Every report is read-only.
 
-Accounts Receivable shows current issued-statement balances, statement-age buckets and an estimated oldest unpaid charge date. It excludes unbilled work from AR dollars. Route `/invoices/accountsReceivable` renders `../DS2_Frontend/src/Pages/AccountsReceivable/AccountsReceivablePage.js:81`. It has customer search, age filters, sort, pagination and CSV export. Displayed page totals sum only the loaded page. Sources: `../DS2_Frontend/src/Routes/GroupedRoutes/InvoiceRoutes/InvoiceRoutes.js:35`, `../DS2_Frontend/src/Pages/AccountsReceivable/AccountsReceivablePage.js:102`, `../DS2_Frontend/src/Pages/AccountsReceivable/AccountsReceivablePage.js:171`.
-
-## 2. Access rules
-
-Authentication and backend manager/admin/super admin/owner are required. accountID must be an integer matching session account_id through enforceAccountId. No self-or-privileged userID check is registered; the report is account-wide. Frontend manager gating includes owner ([F37](../_review/findings.md#f37)). Sources: `src/app.js:169`, `src/endpoints/accountsReceivable/accounts-receivable-router.js:5`, `src/endpoints/auth/jwt-auth.js:94`, `src/endpoints/auth/account-scope.js:7`, `../DS2_Frontend/src/Routes/ManagerAndAdminProtectedAccess.js:9`.
-
-## 3. API reference
-
-Unexpected database failure in the role middleware can return HTTP 500 through the global handler. Source: `src/endpoints/auth/jwt-auth.js:77`, `src/app.js:178`.
-
-### GET /accountsReceivable/aging/:accountID/:userID
-
-| Item | Contract |
+| Query | Contract |
 |---|---|
-| Method | GET |
-| Path | `/accountsReceivable/aging/:accountID/:userID` |
-| Path | Required accountID/userID; account scoped, userID not used as a row filter. |
-| Pagination | Optional page=1, limit=50; parseInt values, reject NaN/<1, cap limit at 500. offset=(page-1)×limit. Numeric prefixes/fractions are accepted by parseInt. |
-| Filters/sort | Optional search, filter, sort, direction; rules below. |
-| Success | HTTP 200 {arAging:{customers,pagination,searchTerm},message,status:200}. pagination={page,limit,totalItems,totalPages}. |
-| Errors | HTTP 401 missing/invalid/expired/unresolvable login; 403 role/account mismatch; 429 general API limit; 400 Invalid pagination; 500 other query failures. Errors carry message/status except middleware-specific envelopes. |
-| Evidence | `src/endpoints/accountsReceivable/accounts-receivable-router.js:73`, `src/utils/pagination.js:4`, `src/app.js:100`. |
+| `entityId` | One same-account business, or all businesses. No cross-business netting. |
+| `asOf` | Valid YYYY-MM-DD effective date, default Phoenix today; no future report date. |
+| `recordedThrough` | UTC timestamp with Z, default database clock. Restricts what was recorded by that instant. Retain both returned cutoffs to reproduce the report. |
+| `page,limit` | Defaults1/50; existing pagination validation/cap500. CSV uses first10,000 matched rows. |
+| `search` | Case-insensitive substring of business/customer/display name or client ID. |
+| `filter` | `30,60,90,over_90,unknown` selects clients with positive remaining obligations in that bucket. |
+| `sort,direction` | Names, business, bucket amounts, issued/unapplied credit, signed billed balance, payment/work indicators and age/date fields; directionasc/desc. Stable client/business tie-breaks; null ages last. |
 
-### GET /accountsReceivable/aging/:accountID/:userID/export
+## Money and dates
 
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/accountsReceivable/aging/:accountID/:userID/export` |
-| Inputs | Same search/filter/sort/direction. page and limit are not used. |
-| Limit | First 10,000 matched rows at offset 0; not truly unbounded despite the full-dataset comment. |
-| Success | HTTP 200 text/csv attachment accounts_receivable_YYYYMMDD_HHmmss.csv. Server-local timestamp names the file. |
-| Errors | HTTP 401/403/429 as above; HTTP 500 query/CSV errors with message/status. No pagination 400 since request pagination is ignored. |
-| Evidence | `src/endpoints/accountsReceivable/accounts-receivable-router.js:121`. |
+Each obligation retains its original invoice date, newly issued net charge amount and current carrying statement. Age is whole calendar days from original obligation date to `asOf`:0–30,31–60,61–90,over90. Unknown legacy dates have a separate bucket. Applications and exact reversals are filtered by both effective date and recorded timestamp. Not-yet-effective charges are excluded.
 
-| Query field | Rules |
-|---|---|
-| search | Optional string, trimmed in service; nonstring becomes ''. Matches LOWER business_name/customer_name/display_name LIKE %term%, or exact customer ID text. %/_ act as wildcards. |
-| filter | '30' means statement age <=30; '60' means 31..60; '90' means 61..90; 'over_90' means >90. Invalid value means no age filter. |
-| sort | business_name, customer_name, display_name, bucket_0_30, bucket_31_60, bucket_61_90, bucket_over_90, total_outstanding, last_payment_date, has_work_since_last_payment, oldest_days, statement_date, oldest_open_charge_date, is_customer_active. Invalid means default order. |
-| direction | Case-insensitive 'asc', else desc. Default order ignores this and uses oldest_days DESC, total_outstanding DESC, customer_id ASC. Custom orders tie-break by customer_id ASC; configured nullable fields use NULLS LAST. |
-| Other filters | No active-only switch and no public exclude-ID parameter. The service accepts exclusions internally for the analytics year-end packet. |
-| Evidence | `src/endpoints/accountsReceivable/accounts-receivable-router.js:12`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:48`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:133`. |
+`total_outstanding = gross remaining obligations - available issued statement credit`. Held receipt credit is separate: it has not reduced billed debt yet. Negative billed credit shows **Credit — no payment due**, and remains outside positive debt buckets. `oldest_days` and `oldest_open_charge_days` now both describe the oldest unpaid original obligation. Last-statement metadata is displayed separately and does not set the buckets. Unbilled work remains outside AR; raw next-statementN also includes eligible work and pending adjustments.
 
-Customer response fields: customer_id, display_name, business_name, customer_name, is_commercial_customer, is_customer_active, total_outstanding, four bucket amounts, oldest_days, most_recent_invoice_date, statement_date, statement_count, oldest_open_charge_date/days, last_payment_date/amount and has_work_since_last_payment. Money/count output fields are explicitly Number-converted; missing last payment remains null. Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:203`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:266`.
+The response exposes `bucket_0_30,bucket_31_60,bucket_61_90,bucket_over_90,bucket_unknown,gross_obligations,statement_credit,unapplied_credit,total_outstanding,aging_basis,reconstructed`, business/client keys and original-date fields. Legacy reconstruction is explicitly labeled. The CSV carries identical money, business, cutoffs and basis, uses RFC4180 escaping and formula-injection protection, and labels age **Days Since Oldest Obligation**.
 
-## 4. Data model
+Aging data comes from `payments/receipt-ledger.js` and `accountsReceivable/obligation-aging.js`. Before a scope's derivation, retained legacy sources supply an explicitly estimated reconstruction. After derivation, immutable obligations/applications/credit events supply it directly. Original balance-forward chain queries still supply statement/payment/work metadata and independent reconciliation. The engine, Account Audit and AR retain zero billed-balance drift.
 
-| Table | Columns read |
-|---|---|
-| customer_invoices | account/customer IDs, invoice ID/parent, invoice_date, created_at, remaining_balance_on_invoice. Paid flag, due_date and original charges do not decide AR bucket totals. |
-| customers | Account and names, active/commercial flags. Inactive customers with any signed nonzero billed balance remain included. |
-| customer_transactions | Account/customer, ID/date, billable flag, invoice link, positive total_transaction for oldest-open-charge estimate; billable flag/date for work-since-payment. |
-| customer_payments | Account/customer, payment_date, payment_id, signed payment_amount; latest amount displayed as ABS. |
-| Evidence | `src/endpoints/accountsReceivable/accounts-receivable-service.js:80`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:167`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:194`. |
-
-No write-off or retainer table is read directly. Their effect reaches AR only through stored invoice balances. No data or notes markers are written by these routes. Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:80`.
-
-## 5. Read logic
-
-1. current_chains selects account-owned **NULL-parent** invoices. Compute MAX(invoice_date) over customer; keep every parent on that latest date.
-2. For each root, LATERAL-select its account-owned newest child by created_at DESC, invoice ID DESC; use child remaining if present, otherwise parent remaining.
-3. Group customer/date. Sum signed remaining, count those roots and keep every nonzero customer balance.
-4. Compute statement age/buckets. Join account-owned customers, estimated oldest open charge and latest payment; apply search/age filters.
-5. Sort and limit/offset. A separate count query repeats balance/customer/filter logic. Data and count run concurrently without a shared snapshot.
-
-Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:80`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:233`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:243`.
-
-This intentionally drops earlier rolled-forward parent dates even when old rows retain stale balances. Same-date duplicate roots are added together. Negative chain balances offset positive chains; a negative total is shown as Credit — no payment due. Self-parent legacy invoice rows are not roots here, although the billing marker helper recognizes them. Sources: `src/endpoints/accountsReceivable/accounts-receivable-service.js:94`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:111`, `src/endpoints/invoice/invoice-service.js:183`.
-
-Latest payment uses DISTINCT ON customer and payment_date DESC, payment_id DESC. It does not exclude unlinked payments, retainer draws or positive NSF/reversal rows. Therefore “last payment” means the most recent payment-table event, not necessarily the last receipt of cash. Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:194`.
-
-Work since payment is EXISTS any account/customer billable transaction strictly after that payment_date, with no invoice-link or positive-amount requirement. If there is no payment, any billable transaction qualifies. Same-day work does not qualify as after. Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:225`.
-
-## 6. Calculations
-
-### Statement age
-
-days_old = EXTRACT(DAY FROM (NOW() - statement_date))::int using the database clock/timezone. Entire customer AR goes into exactly one bucket:
-
-| Age | Bucket |
-|---|---|
-| <=30, including negative/future statement ages | bucket_0_30 |
-| 31..60 inclusive | bucket_31_60 |
-| 61..90 inclusive | bucket_61_90 |
-| >90 | bucket_over_90 |
-
-This ages from statement date, not due date or original service date. oldest_days is that same latest-statement age. Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:108`.
-
-Example: a 100-day-old $400 balance rolled onto a statement 10 days ago is $400 in 0–30, even if its unpaid underlying charge remains 100 days old. Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:106`.
-
-### Oldest open charge
-
-Read **billed, billable, positive** transactions. For each customer, order transaction_date DESC, transaction_id DESC; calculate the total of strictly newer charges. A charge remains within the unpaid tail when newer_charge_sum < current total_outstanding. Take MIN(transaction_date) over qualifying rows. This models credits paying oldest charges first, without actually allocating individual payments/write-offs. Source: `src/endpoints/accountsReceivable/accounts-receivable-service.js:167`.
-
-Example: billed charges Jan $100, Feb $200, Mar $300; outstanding $350. March qualifies (newer=0), February qualifies (newer=$300), January does not (newer=$500). Oldest open date is February; $50 of its charge is notionally unpaid. At outstanding $300, February no longer qualifies because 300 < 300 is false. The oldest date is March.
-
-If stored positive billed charges total less than AR, the oldest available charge is only a lower-bound estimate. No billed charge history gives null. oldest_open_charge_days uses database NOW()-that date, independent of statement buckets. Sources: `src/endpoints/accountsReceivable/accounts-receivable-service.js:167`, `src/endpoints/accountsReceivable/accounts-receivable-service.js:219`.
-
-### CSV
-
-CSV exports ID, three names, four buckets, total owed, most recent invoice date/days, last payment date/absolute amount, work-since flag, oldest open charge date/days and active flag. Currency is fixed to two decimals; dates are YYYY-MM-DD; booleans Yes/No. It does not add a totals row. Quoting doubles quotes and protects formula-leading text; valid signed numeric strings remain numeric. Sources: `src/endpoints/accountsReceivable/accounts-receivable-router.js:43`, `src/endpoints/analytics/csv-util.js:25`.
-
-## 7. Create, edit and delete
-
-Both routes are read-only and generate CSV in memory. No database transaction writes, audit record, S3 object or notification is created. Payments/write-offs/billing/cascade edits change stored invoice balances elsewhere, and the next read reflects them. Source: `src/endpoints/accountsReceivable/accounts-receivable-router.js:73`.
-
-## 8. Invariants and tests
-
-| Existing spec | Assertions |
-|---|---|
-| test/integration/analytics.integration.spec.js | Latest-date/same-day chain sums, inactive customers, FIFO date estimate, exclusions and AR/engine/audit comparisons. |
-| test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js | HTTP access/scope, invalid pagination, search, row fields, CSV formula escaping. |
-| test/integration/cascade-edit-recompute.integration.spec.js | AR follows billed financial deltas alongside engine/audit. |
-| test/endpoints/analytics/csv-util.spec.js | Shared CSV safety and formatting. |
-
-The original documentation pass inspected tests; owner run 2 executed the full local suites. See [run 2 results](../decisions/2026-09-25-run-2-results.md). The oldest-charge calculation is an estimate, not a stored payment-allocation ledger.
-
-## 9. Known limitations and open decisions
-
-FINAL_REPORT explicitly separates statement aging from FIFO oldest-open-charge estimates and leaves true charge aging as a product/accountant decision. Duplicate statements and old mirror errors still require reviewed remediation. Credit balances cannot reduce another chain in this report. Sources: `scripts/review-2026-09/FINAL_REPORT.md:47`, `scripts/review-2026-09/FINAL_REPORT.md:50`, `scripts/review-2026-09/FINAL_REPORT.md:56`, `scripts/review-2026-09/FINAL_REPORT.md:61`.
-
-The report's migration/cutover and environment settings are rollout requirements. Whether they have been applied to production is **not determined from the code**. Source: `scripts/review-2026-09/FINAL_REPORT.md:67`.
-
-Coverage: **2 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
+See [receipt/credit rules](../ledger/receipts-and-obligations.md), [H2 hand-computed ages](../scenarios/H2-receipts-and-aging.md) and [results](../decisions/2026-09-26-run-H2-results.md). Historical scenario assertions that treated all carried debt as current were replaced with signed-balance conservation plus explicit original-date boundary and two-rollover oracles.
 
 
-## Owner run 2 — retainers and duplicate review
+## H3 update — 2026-09-26
 
-Retainer refund/adjustment events affect held credit, not billed debt. AR therefore remains unchanged by either event or duplicate flag/dismissal. Duplicate removal follows current invoice snapshot rules; AR, invoice outstanding and Audit outstanding reconcile on the new surviving chain. Engine/Audit additionally price unbilled work, as before. Run 2 money-path oracles assert both components explicitly.
+Credit memos apply to original obligations without resetting their dates. Voiding removes the corrected original new charges and creates a replacement obligation at its issue date. Receipt refunds reduce held funds only; issued-credit refunds move negative B toward zero. Existing historical effective/recorded cutoffs still apply.
 
-## Run 3 credit balances
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
 
-AR now includes negative billed balances and signed statement-age buckets, with a Balance / credit column and Credit — no payment due label. These ages are statement ages, not an assertion that the customer owes overdue money. The CSV retains signed numbers. This is the same billed component used by Create Invoice and Account Audit; unbilled work is still separate. Scenario15 verifies−50→−30→0→61 and a bounced credit receipt crossing into debt; scenario16 verifies the combined lifecycle.
+## H4 recurring fees
 
+Prepared recurring Charges enter unbilled work by business; finalized fees use the existing H2 obligation/rolling statement rules. No new aging algorithm or debt reset is introduced. The Create Invoice preparation step and reasoned skips are documented in [recurring billing](../work/recurring-billing.md).
 
-## Owner decision 6 — hard Audit Record
+## H10 reporting projection
 
-Migration026 captures changes to this feature's audited customer/financial records through database triggers, including indirect writes, imports and deletes, with session actor/name, source, reason, request correlation and field-level before/after evidence. Rollbacks leave no events. The client profile **Audit Record** tab (Admin/Super Admin only) is separate from AI Audit and provides deterministic rolling balances, history, verified immutable PDF creation and exact reopening. See [the audit ledger contract](../platform/audit-ledger.md) for table coverage, API errors, historical reconstruction and integrity limits. Draft invoices remain editable and write nothing to the ledger; **finalize means sent and locked**. Existing narrow exception and retainer/duplicate rules remain in force.
+AR reads derivations, original obligations, applications, carriers and credits in batches per business within its existing repeatable-read snapshot. Unconverted empty clients use batched legacy sources; nonempty legacy chains retain the existing absorption/inconsistency validation. Effective-date and recorded-through boundaries, original ages, FIFO reconstruction, negative issued credit and held receipt credit are unchanged.
+
+The projection does not compute mutation fingerprints that AR never returns. Receive payment and correction commands still use the original full fingerprint reader, including all financial tables. Audit remains independently calculated from raw ledger rows; AR does not take its answer from the invoice engine. All clients/businesses at current and historical cutoffs have exact ordered-report equivalence. [H10 evidence](../decisions/2026-09-26-run-H10-results.md).
+
+## H8 presentation
+
+The columns **Our business** and **Client company** distinguish issuer and client. The saved-through input is under the initially collapsed **Advanced: reproduce an earlier report** control, labeled **Include records saved through**; it still submits the exact `recordedThrough` timestamp with the report and export. A small **Estimated** badge identifies the client/business row whose historical balances were reconstructed. It does not imply that a known-age amount belongs in Unknown age. Its tooltip explains the distinction. Zero page totals use normal text. The table scrolls horizontally within its container to preserve readable headers and amounts at 1280px. Filters with no matches explain how to recover. A failed report cannot be exported as though its data were current.

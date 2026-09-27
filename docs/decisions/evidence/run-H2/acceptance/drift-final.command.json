@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "scripts/drift-check.js",
+    "/tmp/drift.json"
+  ],
+  "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+  "environment": {
+    "DS2_ENV_FILE": ".env.local",
+    "DATABASE_NAME": "ds2_local",
+    "PGOPTIONS": "-c default_transaction_read_only=on"
+  },
+  "exit": 0,
+  "seconds": 32.31,
+  "log": "drift-final.log"
+}

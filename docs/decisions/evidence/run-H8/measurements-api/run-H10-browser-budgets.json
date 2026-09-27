@@ -1,0 +1,272 @@
+[
+  {
+    "name": "create",
+    "route": "/billing/create",
+    "budget": 1000,
+    "measurement": "Navigation from a loaded workspace; one warmup and three samples, real account 1 GETs. Preparation uses the read-only due preview.",
+    "samples": [
+      {
+        "firstRowsMs": 930,
+        "allReadyMs": 936,
+        "warmup": true
+      },
+      {
+        "firstRowsMs": 854,
+        "allReadyMs": 860,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 864,
+        "allReadyMs": 869,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 779,
+        "allReadyMs": 790,
+        "warmup": false
+      }
+    ],
+    "firstRowsMedianMs": 854,
+    "allReadyMedianMs": 860
+  },
+  {
+    "name": "ar",
+    "route": "/receivables/aging",
+    "budget": 1000,
+    "measurement": "Navigation from a loaded workspace; one warmup and three samples, real account 1 GETs. Preparation uses the read-only due preview.",
+    "samples": [
+      {
+        "firstRowsMs": 571,
+        "allReadyMs": 571,
+        "warmup": true
+      },
+      {
+        "firstRowsMs": 444,
+        "allReadyMs": 444,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 437,
+        "allReadyMs": 437,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 443,
+        "allReadyMs": 443,
+        "warmup": false
+      }
+    ],
+    "firstRowsMedianMs": 443,
+    "allReadyMedianMs": 443
+  },
+  {
+    "name": "audit",
+    "route": "/reports/account-audit",
+    "budget": 1500,
+    "measurement": "Navigation from a loaded workspace; one warmup and three samples, real account 1 GETs. Preparation uses the read-only due preview.",
+    "samples": [
+      {
+        "firstRowsMs": 213,
+        "allReadyMs": 213,
+        "warmup": true
+      },
+      {
+        "firstRowsMs": 141,
+        "allReadyMs": 141,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 127,
+        "allReadyMs": 127,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 125,
+        "allReadyMs": 125,
+        "warmup": false
+      }
+    ],
+    "firstRowsMedianMs": 127,
+    "allReadyMedianMs": 127
+  },
+  {
+    "name": "billingPerformance",
+    "route": "/reports/billing-performance",
+    "budget": 2000,
+    "measurement": "Navigation from a loaded workspace; one warmup and three samples, real account 1 GETs. Preparation uses the read-only due preview.",
+    "samples": [
+      {
+        "firstRowsMs": 1127,
+        "allReadyMs": 1127,
+        "warmup": true
+      },
+      {
+        "firstRowsMs": 967,
+        "allReadyMs": 967,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 969,
+        "allReadyMs": 969,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 949,
+        "allReadyMs": 949,
+        "warmup": false
+      }
+    ],
+    "firstRowsMedianMs": 967,
+    "allReadyMedianMs": 967
+  },
+  {
+    "name": "clientRates",
+    "route": "/reports/client-rates",
+    "budget": 2000,
+    "measurement": "Navigation from a loaded workspace; one warmup and three samples, real account 1 GETs. Preparation uses the read-only due preview.",
+    "samples": [
+      {
+        "firstRowsMs": 1002,
+        "allReadyMs": 1002,
+        "warmup": true
+      },
+      {
+        "firstRowsMs": 876,
+        "allReadyMs": 876,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 888,
+        "allReadyMs": 888,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 890,
+        "allReadyMs": 890,
+        "warmup": false
+      }
+    ],
+    "firstRowsMedianMs": 888,
+    "allReadyMedianMs": 888
+  },
+  {
+    "name": "timeAllocation",
+    "route": "/reports/time-allocation",
+    "budget": 2000,
+    "measurement": "Navigation from a loaded workspace; one warmup and three samples, real account 1 GETs. Preparation uses the read-only due preview.",
+    "samples": [
+      {
+        "firstRowsMs": 1002,
+        "allReadyMs": 1002,
+        "warmup": true
+      },
+      {
+        "firstRowsMs": 890,
+        "allReadyMs": 890,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 886,
+        "allReadyMs": 886,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 871,
+        "allReadyMs": 871,
+        "warmup": false
+      }
+    ],
+    "firstRowsMedianMs": 886,
+    "allReadyMedianMs": 886
+  },
+  {
+    "name": "wipAging",
+    "route": "/reports/wip-aging",
+    "budget": 2000,
+    "measurement": "Navigation from a loaded workspace; one warmup and three samples, real account 1 GETs. Preparation uses the read-only due preview.",
+    "samples": [
+      {
+        "firstRowsMs": 937,
+        "allReadyMs": 937,
+        "warmup": true
+      },
+      {
+        "firstRowsMs": 815,
+        "allReadyMs": 815,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 840,
+        "allReadyMs": 840,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 829,
+        "allReadyMs": 829,
+        "warmup": false
+      }
+    ],
+    "firstRowsMedianMs": 829,
+    "allReadyMedianMs": 829
+  },
+  {
+    "name": "jobBudgets",
+    "route": "/reports/job-budgets",
+    "budget": 2000,
+    "measurement": "Navigation from a loaded workspace; one warmup and three samples, real account 1 GETs. Preparation uses the read-only due preview.",
+    "samples": [
+      {
+        "firstRowsMs": 867,
+        "allReadyMs": 867,
+        "warmup": true
+      },
+      {
+        "firstRowsMs": 844,
+        "allReadyMs": 844,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 799,
+        "allReadyMs": 799,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 816,
+        "allReadyMs": 816,
+        "warmup": false
+      }
+    ],
+    "firstRowsMedianMs": 816,
+    "allReadyMedianMs": 816
+  },
+  {
+    "name": "taxSeasonCapacity",
+    "route": "/reports/tax-capacity",
+    "budget": 2000,
+    "measurement": "Navigation from a loaded workspace; one warmup and three samples, real account 1 GETs. Preparation uses the read-only due preview.",
+    "samples": [
+      {
+        "firstRowsMs": 888,
+        "allReadyMs": 888,
+        "warmup": true
+      },
+      {
+        "firstRowsMs": 823,
+        "allReadyMs": 823,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 829,
+        "allReadyMs": 829,
+        "warmup": false
+      },
+      {
+        "firstRowsMs": 810,
+        "allReadyMs": 810,
+        "warmup": false
+      }
+    ],
+    "firstRowsMedianMs": 823,
+    "allReadyMedianMs": 823
+  }
+]

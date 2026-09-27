@@ -1,281 +1,128 @@
 # Analytics
 
-## Owner decision update — 2026-09-25
+**H6 navigation:** Reports groups billing performance, client rates, time allocation, WIP/unbilled, job budgets, tax capacity and Account audit; all retain Super Admin access. [Route/permission and bookmark rules](../platform/workspace-navigation.md).
 
-Parent statement values now remain as issued rather than receiving post-issue mirror updates. Billed/current outstanding analytics must retain their existing latest-child queries; historical statement totals and current collectible balance have distinct meanings. No quarter-hour or pricing change was introduced. [Ledger contract](../ledger/ledger-conventions.md).
-
+H5 implements definition version **2**. “Billed” now means newly issued statement charges, with corrections; work entered is its own measure. Margins use preserved labor-cost evidence. This supersedes the transaction-sum/current-rate definitions retained in earlier assessment and run reports. [Integrated design](../decisions/2026-09-26-owner-requests-2.md#6-h5--reporting-and-historical-labor-cost), [hand oracles](../scenarios/H5-honest-analytics.md), [H5 results](../decisions/2026-09-26-run-H5-results.md).
 
 ## 1. Purpose and UI
 
-Analytics compares client rates, staff time allocation, unbilled work, job budgets and tax-season hours. UI routes/pages:
+| Screen | Route | Measures |
+|---|---|---|
+| Billing Performance | `/reports/billing-performance`; compatibility `/reports/billing-performance` | Work, WIP, billed, applied receipts, cash, corrections, realizations, cohort margin, business totals and provenance |
+| Client Rates | `/reports/client-rates` | Issued cohort hours/rates, work entered, realization, estimated/unknown cost and margins |
+| Time Allocation | `/reports/time-allocation` | Actual service hours and standard work value, separately labeled net issued amounts, raw tracker categories |
+| WIP / Unbilled | `/reports/wip-aging` | Eligible unissued work at cutoff, held/unresolved work and future work separately |
+| Job Budgets | `/reports/job-budgets` | Budget consumption by billable work entered through cutoff, including WIP |
+| Tax Season Capacity | `/reports/tax-capacity` | January 1–April 15 hours, current/prior year, including inactive staff |
 
-| Route | Page |
-|---|---|
-| /analytics/clientRates | ../DS2_Frontend/src/Pages/Analytics/ClientRatesPage.js |
-| /analytics/timeAllocation | ../DS2_Frontend/src/Pages/Analytics/TimeAllocationPage.js |
-| /analytics/wipAging | ../DS2_Frontend/src/Pages/Analytics/WipAgingPage.js |
-| /analytics/jobBudgets | ../DS2_Frontend/src/Pages/Analytics/JobBudgetsPage.js |
-| /analytics/taxSeasonCapacity | ../DS2_Frontend/src/Pages/Analytics/TaxSeasonCapacityPage.js |
+All six screens support all businesses or one business, including inactive businesses. Work filters mean **worked for**; revenue/cash filters mean **billed by**. Billing Performance displays both in its attribution grid. The other five pages explain their basis and link to that detail. H6 retains the wider navigation/legacy redirects.
 
-Source: `../DS2_Frontend/src/Routes/GroupedRoutes/AnalyticsRoutes/AnalyticsRoutes.js:21`. API calls: `../DS2_Frontend/src/Services/ApiCalls/AnalyticsCalls.js:31`.
+The shared customer exclusion picker is keyed by account (`ds2_analytics_exclude_ACCOUNT`). It never imports the old global key or another account's choice. Stored choices, including an explicit empty array, win over the server defaults. Defaults identify the firm's internal customers; server reporting applies only requested exclusions. Failed option loading uses that account's stored selection or none. Account changes block reporting until that account's options resolve. Screens suppress obsolete request results and retain controls after recoverable errors.
 
-The shared exclusion picker uses sessionStorage key ds2_analytics_exclude, stored selection first and server-recommended defaults on first load. It is not account-keyed. Failed option loading leaves stored selection or no exclusions. Server queries do not automatically apply those defaults; the UI sends exclude IDs. Source: `../DS2_Frontend/src/Pages/Analytics/useExcludedCustomers.js:6`, `../DS2_Frontend/src/Pages/Analytics/useExcludedCustomers.js:39`.
+## 2. Access and writes
 
-## 2. Access rules
+Every analytics route, export and rate-agreement write requires authenticated **super admin**, matched case-insensitively against the current database role. The URL account must match the session account, including for super admins. `userID` is a compatibility path parameter, not a grant of authority. Ordinary admin/manager/employee roles receive 403. No analytics permission expansion or approval workflow was introduced.
 
-All /analytics endpoints require authenticated **super admin**, including CSV/ZIP exports and rate-agreement writes. The current database role is used. enforceAccountId requires the URL account to match session account_id even for super admin. No self-or-privileged userID check is installed. Sources: `src/app.js:170`, `src/endpoints/analytics/analytics-router.js:1`, `src/endpoints/auth/jwt-auth.js:91`, `src/endpoints/auth/account-scope.js:7`.
-
-Rate-agreement writes validate and lock the selected customer in the verified account. Creator comes from req.user.user_id; edits preserve the original creator. Fixed [F32](../_review/findings.md#f32), tested by `review-rate-agreements.integration.spec.js`.
+The only analytics mutation remains the customer/year rate agreement. It verifies and locks the owned customer and records the authenticated actor. Reports and CSV/PDF/ZIP downloads are read-only; they neither save financial records nor contact object storage or email. Transaction employee changes elsewhere require a reason and are audited; already-issued work remains locked. Admin-only financial corrections are governed by [H3](../ledger/invoice-corrections.md).
 
 ## 3. API reference
 
-Unexpected database failure in the role middleware can return HTTP 500 through the global handler. Source: `src/endpoints/auth/jwt-auth.js:77`, `src/app.js:178`.
+All paths begin `/analytics`; `A=:accountID`, `U=:userID`.
 
-Shared middleware failures: HTTP 401 missing/invalid/expired/unresolvable login; 403 wrong role/account; 429 general 300/minute limiter; malformed JSON 400 and JSON >1 MB 413. Sources: `src/app.js:70`, `src/app.js:100`, `src/app.js:170`.
+| Method | Path | Response / behavior |
+|---|---|---|
+| GET | `/billingPerformance/A/U` | `{status:200,billingPerformance:{version:2,period,definitions,totals,byEntity,unattributed_legacy_work,cohorts,attribution,work,events}}` |
+| GET | `/billingPerformance/A/U/export` | CSV by default; `format=pdf` for PDF. Other formats 400. |
+| GET | `/clientRates/A/U` | `{clientRates:{version:2,definitions,clients,years,firm},status:200}`; `yearsBack=1..15`, default 6 |
+| GET | `/clientRates/A/U/export` | Customer/year CSV, including net issued, cohort hours, work entered, margin, cost basis and unknown-cost count |
+| GET | `/timeAllocation/A/U` | `{timeAllocation:{version:2,definitions,year,availableYears,summary,byWorkDescription,byCustomer,monthly,trackerByCategory},status:200}` |
+| GET | `/timeAllocation/A/U/export` | Matching sections; top 20 customers by actual hours |
+| GET | `/wipAging/A/U` | `{wipAging:[customer due/future/held amounts, hours, aging buckets],status:200}` |
+| GET | `/jobBudgets/A/U` | `{jobBudgets:[root job budget,actual,work_entered_value,wip,remaining,consumed_pct,is_complete],status:200}` |
+| GET | `/taxSeasonCapacity/A/U` | `{taxSeasonCapacity:{version:2,year,current,prior,basis},status:200}`; stable user IDs and activity labels |
+| GET | `/yearEndPacket/A/U` | ZIP described below; default previous year |
+| GET | `/exclusions/A/U` | Active customers plus inactive default-exclusion matches, and default IDs |
+| POST | `/rateAgreement/A/U` | `{customerId,year,agreedRate,notes}`; returns saved agreement; no invoice repricing |
 
-Except for exports, route-caught validation/query errors use **HTTP 200 with body status:500**, not HTTP 500. CSV/ZIP failures use HTTP 500 when headers have not already been sent. Sources: `src/endpoints/analytics/analytics-router.js:146`, `src/endpoints/analytics/analytics-router.js:251`.
+Report query inputs: `entityId` positive ID or `all`/omitted for aggregate; `exclude` comma-separated customer IDs; `year` integer 1900–2100; optional ISO `start`, `end`, `asOf` date and `recordedThrough` UTC timestamp. `start>end`, invalid calendar dates/cutoffs, malformed entity/year or invalid yearsBack fail 400. Missing/foreign business is 404, wrong session account 403, no login 401, unexpected database/export failure 500. Empty periods/businesses are successful zero reports with null denominator-based rates. No locked/stale/double-submit states exist for these reads.
 
-Common exclude query is optional comma-separated positive integer IDs. Invalid elements are discarded; service also discards IDs >=2147483647. There is no paging or user-configurable sorting on these endpoints. year is Number(value) or server current year, except the packet defaults to the prior year; no strict integer/range validator is provided. yearsBack is Number(value) or 6, clamped to 1..15 without rounding to an integer. Sources: `src/endpoints/analytics/analytics-router.js:14`, `src/endpoints/analytics/analytics-service.js:26`, `src/endpoints/analytics/analytics-service.js:51`, `src/endpoints/analytics/analytics-service.js:220`.
+Billing Performance defaults to the requested/current calendar year, with As of the earlier of its end or today. Time Allocation and Capacity default to selected year-end; Time Allocation opens the prior year and Capacity opens the current year. WIP defaults to the billing calendar's today; job budgets are cumulative through As of. Client Rates uses a multi-year window ending in `year`; standalone UI defaults to the current year. WIP/budgets expose As of and Recorded through in their screens. Billing Performance exposes all dates. Historical service/issue/application distinctions remain in report definitions and exports.
 
-### GET /analytics/clientRates/:accountID/:userID
+The existing rate-agreement POST retains its legacy JSON status envelope. It validates positive integer customer, year 2000–2100, positive finite two-decimal rate at most 99,999,999.99 and same-account customer ownership. Upsert preserves original creator/time; omission of notes clears them. It has no delete/history endpoint and makes no billing or cash change.
 
-| Item | Contract |
+The customer-exclusion help tooltip is informational and does not capture pointer events, so an open hint cannot block customer options. The selection stays scoped to the current account across all analytics pages.
+
+## 4. Definitions and reconciliation
+
+Amounts allocate in integer cents. `total_billed` is a compatibility alias for **net_billed**, a deliberate response change in v2. Use `work_entered_value` for the old work-value concept; it includes separately identified billable and nonbillable work.
+
+| Measure | Definition |
 |---|---|
-| Method | GET |
-| Path | `/analytics/clientRates/:accountID/:userID` |
-| Inputs | Required scoped accountID, userID placeholder; optional yearsBack and exclude. |
-| Success | HTTP 200 {clientRates:{clients,years,firm},message,status:200}; full shapes below. |
-| Errors | Shared middleware errors; query/invalid date-window failures HTTP 200/body status:500. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:146`. |
-
-### GET /analytics/clientRates/:accountID/:userID/export
-
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/analytics/clientRates/:accountID/:userID/export` |
-| Inputs | Same yearsBack/exclude; no paging. |
-| Success | HTTP 200 text/csv, attachment client_rates_YYYYMMDD_HHmmss.csv. |
-| Errors | Shared middleware errors; HTTP 500 query/CSV failure. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:159`. |
-
-### GET /analytics/timeAllocation/:accountID/:userID
-
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/analytics/timeAllocation/:accountID/:userID` |
-| Inputs | Optional year, exclude. |
-| Success | HTTP 200 {timeAllocation:{year,availableYears,summary,byWorkDescription,byCustomer,monthly,trackerByCategory},message,status:200}. |
-| Errors | Shared middleware errors; invalid year/query failure HTTP 200/body status:500. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:174`. |
-
-### GET /analytics/timeAllocation/:accountID/:userID/export
-
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/analytics/timeAllocation/:accountID/:userID/export` |
-| Inputs | Optional year, exclude. |
-| Success | HTTP 200 text/csv, attachment time_allocation_YEAR_YYYYMMDD_HHmmss.csv. |
-| Errors | Shared middleware errors; HTTP 500 query/CSV failure. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:186`. |
-
-### POST /analytics/rateAgreement/:accountID/:userID
-
-| Item | Contract |
-|---|---|
-| Method | POST |
-| Path | `/analytics/rateAgreement/:accountID/:userID` |
-| Body | Required customerId, year, agreedRate; optional notes. customerId must number-convert to an integer in 1..2147483647 and belong to the account; year must be an integer in 2000..2100; agreedRate must be finite, positive, at most 99999999.99 and have at most two decimal places. Notes remain optional text. Invalid input uses the existing HTTP 200/body status500 error envelope. |
-| Success | HTTP 200 {agreement:<stored row>,message,status:200}. Upserts account/customer/year key. |
-| Errors | Shared middleware errors; failed validation, invalid foreign key, SQL conversion/overflow/other write errors return HTTP 200/body status:500. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:199`, `src/endpoints/analytics/analytics-service.js:351`. |
-
-### GET /analytics/wipAging/:accountID/:userID
-
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/analytics/wipAging/:accountID/:userID` |
-| Inputs | Optional exclude; year not consumed. Current snapshot only. |
-| Success | HTTP 200 {wipAging:[customer rows],message,status:200}; row fields below. |
-| Errors | Shared middleware errors; query failure HTTP 200/body status:500. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:224`. |
-
-### GET /analytics/jobBudgets/:accountID/:userID
-
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/analytics/jobBudgets/:accountID/:userID` |
-| Inputs | Optional exclude; no year/status/page filter. |
-| Success | HTTP 200 {jobBudgets:[{customer_job_id,customer_id,customer_name,job_description,budget,actual,consumed_pct,remaining,is_complete}],message,status:200}. |
-| Errors | Shared middleware errors; query failure HTTP 200/body status:500. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:237`, `src/endpoints/analytics/analytics-service.js:460`. |
-
-### GET /analytics/yearEndPacket/:accountID/:userID
-
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/analytics/yearEndPacket/:accountID/:userID` |
-| Inputs | Optional year defaults previous server year; optional exclude. |
-| Success | HTTP 200 application/zip attachment year_end_packet_YEAR.zip; four CSV members listed below. |
-| Errors | Shared middleware errors; HTTP 500 on query/archive errors before headers. After streaming starts, an archive failure cannot become a clean JSON response. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:251`. |
-
-### GET /analytics/taxSeasonCapacity/:accountID/:userID
-
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/analytics/taxSeasonCapacity/:accountID/:userID` |
-| Inputs | Optional year defaults current server year; exclude. |
-| Success | HTTP 200 {taxSeasonCapacity:{year,current:[{user_id,employee,week,hours}],prior:[...]},message,status:200}. |
-| Errors | Shared middleware errors; invalid year/query failure HTTP 200/body status:500. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:290`, `src/endpoints/analytics/analytics-service.js:481`. |
+| Work entered | Posted work's standard value and actual hours by service date. Charges never invent hours. Unprocessed held tracker work is separate; source and posted copy count once. |
+| WIP | Eligible billable work not represented by an issued document at As of. Future, incomplete/jobless and unresolved work are separate. Invoice links alone do not prove issuance. |
+| Gross billed | Billable new charge components on unique issued parent documents by statement issue date. Drafts, balance forward and child copies contribute zero new revenue. |
+| Net billed | Gross less prebill concessions, less effective credit memos/voided new charge components, plus memo reversals/replacement issues once. Bad debt is a separate measure. |
+| Collected | Net receipt-backed applications by effective date, including later use of held cash and receipt-backed retainer draws. Reversals are negative. Noncash memo/retainer adjustments are separate. |
+| Cash | Manual receipt headers, original standalone payment sources and original retainer deposits count once. Derived headers, allocations and transfers are not extra cash. Reversals and cash returned are separate. |
+| Credits/corrections | Bad-debt write-offs, prebill concessions, memos, voids, noncash applications, held receipt and statement credit, retainer use and refunds retain explicit source kinds. |
+| Billing realization | Issued cohort net charges through cutoff / standard value of that same supporting work. No positive standard denominator → null/N/A. |
+| Collection realization | Net receipt-backed applications to the selected issue cohort / cohort net billed after bad-debt write-offs. No positive collectible denominator → null/N/A. Period cash divided by period bills is not used. |
+| Margin | Cohort net billed less supporting actual-hours labor at stored cost rates. Unknown supporting cost makes labor total/margin null; known labor, estimated counts/amounts and unknown affected value remain visible. |
 
-### GET /analytics/exclusions/:accountID/:userID
+A cohort is statements issued in the selected period, with corrections and applications through As of. Period net billed can therefore differ from cohort net billed when this period corrects an earlier bill. Billing Performance labels both. Void/rebill reuses original work identity; labor and hours belong once to the surviving replacement cohort. Recurring covered effort is matched to its client/business service period. Fee allocation uses proportional standard value and does not count both the fee and covered standard value as denominators.
 
-| Item | Contract |
-|---|---|
-| Method | GET |
-| Path | `/analytics/exclusions/:accountID/:userID` |
-| Inputs | No query/body consumed. |
-| Success | HTTP 200 {exclusions:{customers:[{customer_id,display_name}],defaultExcludedIds},message,status:200}. |
-| Errors | Shared middleware errors; query failure HTTP 200/body status:500. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:303`. |
+Legacy compatibility payments count as collections only with an exact issued-invoice link or a documented new-subledger application. Unlinked cash remains cash, not fabricated collection. Retainer funding is consumed oldest funding event first; restored draws preserve their original cash/noncash mix; transfers preserve that mix and create no cash. These are source-derived reporting rules, not ledger rewrites.
 
-## 4. Data model
+## 5. Cost and business provenance
 
-| Table | Fields/use |
-|---|---|
-| customer_transactions | Account/customer/employee/job/work-description/invoice IDs, transaction_date/type, quantity, total_transaction, billable flag. 'Time' comparison is case-insensitive; null/other types are non-time charges. |
-| users | Current cost_rate for labor estimates; display_name for capacity. Historical cost rates are not stored/reconstructed by these queries. |
-| customers | IDs, display_name, commercial/active flags. Most reports include inactive customers with qualifying activity. |
-| customer_writeoffs | ABS(writeoff_amount), writeoff_date/customer/account for rate-report adjustments. Negative credit storage becomes a positive deduction. |
-| customer_rate_agreements | Account/customer/year unique key; NUMERIC(10,2) agreed_rate, notes, created_at, created_by_user_id. Only analytics write. |
-| customer_general_work_descriptions | Labels for time allocation. |
-| timesheet_entries | date, duration in minutes, category and deleted flag for raw tracker comparison. |
-| customer_jobs/customer_job_types | Root job budget, complete flag, parent relationship and description; stored current_job_total is not used for analytics actuals. |
-| customer_invoices/customer_payments | AR service reads for the packet, described in [accounts-receivable.md](accounts-receivable.md). |
-| Evidence | `src/endpoints/analytics/analytics-service.js:17`, `src/endpoints/analytics/analytics-service.js:55`, `src/endpoints/analytics/analytics-service.js:220`, `src/endpoints/analytics/analytics-service.js:429`, `migrations/schema-snapshot-2026-09-22.sql:692`. |
+Migration `045.work_cost_snapshots.sql` adds rate, source (`recorded|estimated|unknown`), capture timestamp, actual minutes/duration source, billing-rate and standard-value snapshots to transactions and tracker rows, and a unique source tracker link. New tracker capture resolves the named/matched employee; the uploader does not determine labor cost. Manual work uses logged-for staff. Migration046 completes review corrections: actual manual minutes are captured when provided; held-review, manual-move and AI-rerun corrections update audited source minutes before posting, and a known-employee change requires a reason and captures that selected staff rate. Ordinary approval copies source cost/minutes; changing staff rates cannot rewrite prior work. Quantity-only hours are explicitly estimated even when the cost rate was recorded.
 
-No analytics marker is stored in notes. A rate agreement is an analytic comparison value; it does not set an employee billing rate or re-price customer work. Source: `src/endpoints/analytics/analytics-service.js:351`.
+A duration edit retains the captured rate. Changing a transaction's employee before issue requires `costChangeReason` (1–2000 characters), captures the chosen employee's rate, and records the actor/reason. Issued rows and original payloads remain immutable. Missing cost is never silently represented as reliable zero. Charge-only rows have no labor cost requirement.
 
-## 5. Read logic
+Historical source rows are untouched. `legacy_work_cost_estimates` captures the migration-time known rate once, explicitly estimated; unavailable rate is unknown. The sidecar has insert audit capture and update/delete/truncate guards, and appears in Audit Record. Original tracker links are accepted only when existing training provenance resolves uniquely; no matching by coincident names/dates/amounts is invented.
 
-### Client rates
+H2's immutable `legacy_billing_scopes.reporting_entity_id/reporting_basis` supplies historical worked-for attribution. Unique tracker entity gets `legacy attribution: tracker entity`; absent/ambiguous source gets `unattributed legacy work`. Revenue remains with the issued document's billed-by business; the allocation detail shows both. Original default-business B/U/P, held credit, statements and AR are unchanged. Aggregate work equals attributed business work plus the explicit unattributed remainder.
 
-startYear=currentYear-clamp(yearsBack,1,15)+1. Read account billable transactions dated >= January 1 startYear, excluding requested customers; **no invoice-link requirement and no upper date bound**. Group customer and transaction calendar year. Left join logged-for employee for current cost_rate. Aggregate write-offs separately by their own calendar year, then left join to transaction-bearing customer/year rows; a write-off-only year does not produce a row. Join customer labels and order display_name then year. Fetch account agreements year>=startYear concurrently. Source: `src/endpoints/analytics/analytics-service.js:51`.
+## 6. Historical cutoff and exports
 
-Thus fields named time_billed, charges_billed, total_billed and realization describe **billable recorded work**, including unbilled work. They are not receipt-based realization or issued-invoice revenue. Future-dated rows may appear in a client's years map beyond the returned startYear..currentYear column list. Source: `src/endpoints/analytics/analytics-service.js:70`.
+`recordedThrough` is an explicit knowledge boundary. Mutable audited source tables rewind from their first change after that boundary; later insertions disappear and deleted/edited records use prior audited values. Immutable effective events and issuance evidence obey the same knowledge cutoff. Work uses service date; bills use statement issue date; corrections/applications use effective date. Pre-audit changes cannot be reconstructed and legacy cost/attribution remains labeled; no report claims otherwise. WIP includes then-unissued work even if it was invoiced later.
 
-### Time allocation
+Standalone Billing Performance CSV includes totals, all business totals, unattributed work, issued cohorts, worked-for/billed-by allocations, work cost provenance and effective events. PDF contains matching headline/business totals, dates, definitions and estimate/unknown labels; detailed rows are in the companion CSV. Exports use the displayed knowledge cutoff. CSV formula-leading text is escaped while signed numeric values remain numeric.
 
-Six account-scoped queries run concurrently, not in a repeatable-read snapshot:
+The year-end ZIP contains:
 
-| View | Query/order |
-|---|---|
-| Summary | All transactions in inclusive Jan 1..Dec 31; time hours split by billable, all billable dollars and all entry count. |
-| byWorkDescription | Inner join work description; group by description text, order hours DESC then billed_amount DESC. Missing lookup rows disappear. |
-| byCustomer | Inner join customers; group by customer_id plus display_name, order hours DESC then ID, LIMIT 20. Return customer_id; equal names remain distinct. |
-| monthly | Group month number, order ascending; absent months are not filled with zeros. |
-| trackerByCategory | Nondeleted tracker entries in year, processed or held; category trimmed with '(uncategorized)' fallback; duration/60 rounded to cents; order hours DESC. **Customer exclusions do not apply to this raw tracker query.** |
-| availableYears | Distinct transaction years after customer exclusions, descending, then discard values beyond server current year+1 from the picker. Direct year queries still reach them. |
+- `client_rates_YEAR.csv`, six-year window ending in the requested year;
+- `time_allocation_YEAR.csv`;
+- `wip_unbilled_aging.csv` and `accounts_receivable_aging.csv` at the requested As of;
+- `billing_performance_YEAR.csv` and `.pdf`;
+- `reporting_basis.json` with v2 definitions, business and both cutoffs.
 
-Source: `src/endpoints/analytics/analytics-service.js:220`, `src/endpoints/analytics/analytics-service.js:308`. There is no employee breakdown in this time-allocation response; the separate capacity report has one.
+Reporting components use one repeatable-read snapshot. AR deliberately uses its independent reconciliation service with the same effective/knowledge cutoffs; it does not call the analytics total function. AR export is capped at 10,000 rows. ZIP failures before streaming return an error with attachment headers removed; errors after streaming terminate the response rather than presenting a complete download. No export writes ledger or storage records.
 
-### WIP
+## 7. Tests and operational boundary
 
-Read account transactions with invoice ID NULL, inner customer join, exclude requested IDs. Due work is billable and date<=server billing calendar date (America/Phoenix by default); future work is billable and date>billingDate. Group customer, including inactive customers. Keep rows whose due amount sum>0 or future count>0. Sort oldest due date ASC NULLS LAST, customer ID ASC. No job join: WIP can include jobless work that invoice creation drops. Source: `src/endpoints/analytics/analytics-service.js:377`.
+[H5 hand oracles](../scenarios/H5-honest-analytics.md) and `scenario-H5-analytics`, `path-matrix-H5-analytics`, `migration-H5`, reporting-model and existing analytics/identity/path-matrix specs establish definitions, refusal atomicity, cost capture, attribution and export parity. Every changed analytics screen has Jest and real-server Playwright coverage, including empty/inactive business filters and invalid/failed requests. Existing coverage is updated to assert unissued work is not billed, rather than removed. See [H5 results](../decisions/2026-09-26-run-H5-results.md) for exact acceptance counts and limitations.
 
-### Job budgets
+Source owners: `src/endpoints/analytics/{analytics-router,analytics-service,reporting-model,reporting-export}.js`; `src/endpoints/transactions/sharedTransactionFunctions.js`; migrations045/046; the six frontend analytics pages. **12 owned endpoint contracts**. No interest, banking, online-payment, collections, period-close or approval feature is added.
 
-Read account NULL-parent jobs with agreed_job_amount>0, join customer and left job type. LATERAL-sum billable transactions on the root or its **direct children**, account scoped, regardless of date or invoice link. No completed-job filter; no stored current_job_total use. Sort customer display_name then job description. Source: `src/endpoints/analytics/analytics-service.js:429`.
+The final browser pass exposed and repaired transaction-editor initialization before shared reference lists arrived. The form waits for those lists, retains in-progress edits on later list refreshes, validates required selections and permits only one in-flight save. Jest covers delayed loading and repeat submit; Playwright covers actual employee reassignment and saved cost.
 
-### Capacity and exclusions
+## H7 lineage and cohort corrections
 
-Capacity compares inclusive Jan 1..Apr 15 for requested year and prior year. Join logged-for users, group by **user_id, employee display_name and ISO week number**, sum Time quantities, regardless of billable/invoice status. Order name, ID, week. Return user_id and keep same-name employees distinct. Frontend grouping uses user_id across years and displays name (#ID). Source: `src/endpoints/analytics/analytics-service.js:481`.
+A void/rebill can release a legacy pending payment or retainer draw into a statement-credit lot. Reporting follows its immutable `rebill/<void>/application/<id>` source through later applications/reversals and repeated replacements. It preserves the original cash/noncash ratio; retainer use also follows this lineage. Cumulative cent allocation and compensating reversals preserve fractional-cent conservation. Pure memo credit remains noncash, and release/reapplication creates no new cash receipt.
 
-Exclusion options are active account customers plus inactive customers matching default display-name ILIKE patterns: LTDFH%, James F%Kimmel%Associate%, Kimmel Financial Partner%, Jim Kimmel Insurance Agenc%. Order options by display_name; default IDs come from those patterns across all account customers. Source: `src/endpoints/analytics/analytics-service.js:36`, `src/endpoints/analytics/analytics-service.js:509`.
+Fixed/recurring fee measures describe source fees supporting the surviving issue cohort. They use the same single ownership as effort/cost; a voided source and its replacement cannot each add the source fee. Actual replacement revenue still comes from the issued replacement charges. The combined oracle has 585 gross issues, 380 net billed, 290 collected, 350 gross cash, 30 returned, 40 retainer use, 125 recurring source fee, 52 labor and 328 margin. Impossible UTC clock/calendar components and unsupported year zero now return 400 across reports, credits and AR; valid year-one/leap-day timestamps and microseconds remain unchanged. [H7 oracle](../scenarios/H7-combined-lifecycle.md), [PASS5](../scenarios/RESULTS-PASS5.md).
 
-## 6. Calculations
+## H9 evening deposit date correction
 
-### Client-year and firm metrics
+Explicit payment, receipt and correction dates retain their existing meaning. Retainer roots have a recorded timestamp instead of a separate deposit date; analytics converts that UTC instant to the configured billing calendar (Phoenix by default). For example, a deposit at January1 02:00 UTC belongs to December31 in Phoenix, while 07:00 UTC belongs to January1. Date-only legacy evidence is preserved as a date. UTC recorded-through boundaries remain unchanged. This fixes missing same-day gross cash after 17:00 Phoenix without changing balances, source rows or issued documents. The H7 combined lifecycle still expects $350 gross cash; H9 adds year-end boundary tests.
 
-round2 uses Math.round((Number(n)+Number.EPSILON)*100)/100. Time quantities are stored hours, not newly rounded six-minute units. For each customer/year:
+## H10 reporting performance
 
-1. hours = rounded sum of billable Time quantity.
-2. time_billed = rounded billable Time total; charges_billed = other/null-type billable total; total_billed = both.
-3. labor_cost = rounded sum of Time quantity × employee's **current** cost_rate, missing cost=0.
-4. writeoffs = rounded sum ABS(writeoff_amount) in that calendar year.
-5. effective_rate = round2(time_billed/hours) when hours>0, else null.
-6. margin = round2(total_billed-writeoffs-labor_cost).
-7. realization_pct = round2((total_billed-writeoffs)/total_billed×100), and margin_pct = round2(margin/total_billed×100), only when total_billed>0.
-8. agreed_rate comes from that customer/year agreement; rate_variance=effective_rate-agreed_rate, rounded, else null.
+The model encodes selected evidence-sidecar/job columns with `row_to_json`, retaining the original JSON numeric/date types and every input used by reporting. Mutable financial sources and their historical audit rewind remain complete. Work is grouped by document once; Client Rates indexes the already-read rows by customer for its year comparisons. These indexes live only inside that request's prepared snapshot; there is no application or cross-request cache.
 
-Sources: `src/endpoints/analytics/analytics-service.js:55`, `src/endpoints/analytics/analytics-service.js:121`.
+The year-end packet loads one reporting snapshot, then applies each worksheet's original period options to that prepared data. It retains the independent AR reconciliation and the same cutoffs. Definitions, CSV/PDF content, cost provenance, financial events and all six public response shapes remain identical. Ordered reports are compared byte-for-byte against frozen pre-H10 readers for each account-1 business, all businesses and synthetic corrections/receipts/recurring activity. [H10 budgets and results](../decisions/2026-09-26-run-H10-results.md).
 
-Example: 10 billable time hours/$1,500, $200 fixed charges, $100 write-offs and $50/hour current labor cost => effective rate $150; labor $500; margin $1,100; realization 94.12%; margin 64.71%. A $140 agreement yields $10 variance. The calculation does not read actual payments.
+## H8 report controls
 
-Firm yearly rate statistics include only clients with at least 1 time hour and a nonnull rate. Average is unweighted across client rates; median sorts them, taking center or rounded mean of two centers. Percentile=round(number of rates strictly lower/sample count×100). Equal rates tie; maximum need not be 100. Source: `src/endpoints/analytics/analytics-service.js:148`.
-
-Year-over-year growth compares last full year against its prior year for clients with truthy rates and prior>0, without the one-hour threshold. Median growth defaults 0 if none. For an even number of growth ratios, the shared median rounds the ratio to two decimals **before multiplying by 100**. Client yoy_pct is round2((last-prior)/prior×100). suggested_rate=round2(last full-year rate×(1+firm median growth)); no last rate yields null. Source: `src/endpoints/analytics/analytics-service.js:173`.
-
-clientRates includes each client's IDs/name/active/commercial, years map with those metrics plus entries and optional firm_percentile; last_full_year_rate/current_year_rate/yoy_pct/suggested_rate; years array; firm.years with clients/median_rate/avg_rate, median_yoy_pct, last_full_year and formula text. Agreement notes are fetched but not returned in the yearly metrics. Source: `src/endpoints/analytics/analytics-service.js:102`, `src/endpoints/analytics/analytics-service.js:202`.
-
-### Time, WIP and budgets
-
-Time summary includes total_hours, billable_hours, nonbillable_hours, billed_amount, entries and billable_pct=100×billable_hours/total_hours, rounded or null. Non-time charge quantities never become hours, but billable charge dollars enter billed_amount. Raw tracker duration/60 is not ingestion's ceil(minutes/6) billing quantity, so the views can legitimately differ. Source: `src/endpoints/analytics/analytics-service.js:229`, `src/endpoints/analytics/analytics-service.js:304`.
-
-WIP uses transaction age: dates today through today-30 inclusive; older than 30 through 60; older than 60 through 90; older than 90. Future amounts/counts are separate and do not enter due buckets, hours, entries or oldest_date. Output includes customer_id/name/is_active, unbilled_amount/hours, entries, oldest_date, days_old, four buckets and future_dated_count/amount. days_old and buckets both use the server billing calendar date. Source: `src/endpoints/analytics/analytics-service.js:377`.
-
-Job budget=round2(agreed amount); actual=round2(billable family charges); consumed_pct=round2(actual/budget×100); remaining=round2(budget-actual). No cap at 100% and no flooring remaining at zero. Example $1,000 budget and $1,200 billable work => 120%, -$200 remaining. Source: `src/endpoints/analytics/analytics-service.js:460`.
-
-### CSV and packet contents
-
-| Export | Columns/sections |
-|---|---|
-| Client rates | Customer; each returned year Hours, Billed (total), Rate, Agreed, Margin; Last Full-Year Rate, YoY %, Suggested Rate. Other JSON metrics are omitted. |
-| Time allocation | Summary; by work description with entries; top 20 customer IDs and names; monthly; raw tracker categories including held/unprocessed entries. No full-customer or employee table. |
-| Packet WIP | Customer, due dollars/hours/count, oldest date/days, four buckets, future count/amount. |
-| Packet AR | Customer, four buckets, total owed, latest invoice date, last payment date, oldest open charge date/days, active flag. Fewer columns than standalone AR CSV. |
-| Evidence | `src/endpoints/analytics/analytics-router.js:27`, `src/endpoints/analytics/analytics-router.js:54`, `src/endpoints/analytics/analytics-router.js:80`, `src/endpoints/analytics/analytics-router.js:108`. |
-
-The year-end ZIP has client_rates_YEAR.csv, time_allocation_YEAR.csv, wip_unbilled_aging.csv and accounts_receivable_aging.csv. Only time allocation is selected-year-specific. Client rates always uses the latest six-year window; WIP and AR are **current**, not year-end historical snapshots. AR is limited to 10,000 rows. Reads run concurrently without a shared snapshot. Source: `src/endpoints/analytics/analytics-router.js:255`.
-
-CSV cells handle null/undefined as empty, booleans literally, Date as ISO, finite numbers unchanged, nonfinite numbers empty. Formula-leading text (=,+,-,@,tab,CR) gets an apostrophe unless a valid numeric string. Comma/quote/newline cells are quoted and quotes doubled; rows join with LF. Source: `src/endpoints/analytics/csv-util.js:25`.
-
-## 7. Create, edit and delete
-
-rateAgreement locks and verifies the owned customer, then INSERTs account/customer/year/rate/notes and authenticated session user ID in the same transaction. ON CONFLICT(account_id,customer_id,agreement_year) updates rate and notes only, preserving original creator/created_at. Missing/falsy notes becomes null, so resaving without notes clears them. The lock and upsert commit together; there is no invoice update, transaction repricing, S3 write or notification. No agreement delete/history API exists. Source: `src/endpoints/analytics/analytics-service.js:351`.
-
-Customer and user foreign keys are independent, not composite with account_id. The route validates customer tenancy under the shared customer lock and derives the creator from req.user instead of the URL (fixed [F32](../_review/findings.md#f32)). Source: `src/endpoints/analytics/analytics-router.js:203`, `migrations/schema-snapshot-2026-09-22.sql:2026`.
-
-All other endpoints read data and stream CSV/ZIP in memory. They do not save exports, audits or year-end snapshots. Editing already-billed work elsewhere changes historical analytics on the next read; changing employee cost_rate also changes old labor-cost/margin calculations. Source: `src/endpoints/analytics/analytics-service.js:66`, `src/endpoints/analytics/analytics-router.js:270`.
-
-## 8. Invariants and tests
-
-| Existing spec | Assertions |
-|---|---|
-| test/integration/analytics.integration.spec.js | Case-insensitive Time, effective rates, exclusions, future WIP separation, billable job-family budgets, AR/FIFO and cross-view behavior. |
-| test/integration/coverage-invoices-audit-ar-analytics.integration.spec.js | All ten HTTP contracts, super-admin/account access, rate validation/upsert, CSV/ZIP response types. |
-| test/endpoints/analytics/csv-util.spec.js | Formula injection, signed numeric preservation, quoting and dates. |
-
-The original review did not execute tests or exports. Executed local remediation checks are recorded in the [F8–F22 log](../_review/fixes-F8-F22.md). `review-rate-agreements.integration.spec.js` now verifies body customer tenancy and authenticated creator attribution (fixed [F32](../_review/findings.md#f32)); `review-analytics-identities.integration.spec.js` and the frontend capacity regression verify F35. See the [F23–F39 log](../_review/fixes-F23-F39.md).
-
-## 9. Known limitations and open decisions
-
-Labels “billed,” “realization” and margin are transaction-based metrics with current labor costs; they do not measure cash receipts or preserve historic cost snapshots. The year-end packet mixes periods, and customer/employee reports preserve stable IDs through grouping, CSV and UI (fixed [F35](../_review/findings.md#f35)); [F14](../_review/findings.md#f14) records the fixed future-work mismatch: WIP, preview, audit current balance and finalization now share the billing calendar date. The accountant's intended revenue/cost methodology beyond the implemented formulas is **not determined from the code**. Sources: `src/endpoints/analytics/analytics-service.js:55`, `src/endpoints/analytics/analytics-service.js:256`, `src/endpoints/analytics/analytics-service.js:487`, `src/endpoints/analytics/analytics-router.js:255`.
-
-FINAL_REPORT section 3 calls for review of stale WIP, internal customers and stale job totals. Internal exclusion picker defaults are not a replacement for INTERNAL_CUSTOMER_IDS billability enforcement. Section 6 covers that setting and the migration/deployment sequence. Production rollout completion is **not determined from the code**. Sources: `scripts/review-2026-09/FINAL_REPORT.md:52`, `scripts/review-2026-09/FINAL_REPORT.md:54`, `scripts/review-2026-09/FINAL_REPORT.md:67`.
-
-Coverage: **10 owned endpoint contracts**. See the [endpoint index](../README.md#endpoint-index) and [consolidated findings](../_review/findings.md).
-
-## Owner run 3
-
-Billed-hour/dollar reports sum stored quantities/amounts. Raw tracker category hours remain SUM(duration)/60, rounded for display; that measures actual recorded time, including held entries. Scenario17 verifies239 raw minutes =3.98 displayed hours versus4.4 billed hours/$605 per boundary set. See the [owner decisions](../decisions/2026-09-24-owner-decisions.md) and [combined scenario](../scenarios/16-owner-combined.md).
-
-Pass 3 checks ZIP failures before and after streaming. Before headers are sent, generation failure returns JSON 500 with attachment headers removed. After streaming starts, the response is terminated rather than hanging or presenting a partial ZIP as complete. Report export never changes ledger rows. See `path-matrix-08-reports.integration.spec.js`.
+Billing performance, WIP and Job budgets keep historical saved-through filtering under **Advanced: reproduce an earlier report**. The field is labeled **Include records saved through** and still sends the exact optional `recordedThrough` timestamp. The billing report uses **Work and cost details** for its provenance table. Definitions, calculations, date bases and export behavior are unchanged. Each report's shared help explains the distinction between work, issued revenue, applied receipts and cash.

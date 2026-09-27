@@ -27,3 +27,6 @@ Story: Scenario Payments starts with 300 work and statement 00001 = (0,300,0,0,0
 Extra spent-excess control: issue 100, receive 150 with split, fund 20 work from excess. R=-30, N=B=0 because charge/payment offset. Reversing/deleting original split receipt is refused until the use is undone. Manual retainer draw control uses 100 held against 80 billed: draw 30 leaves debt50/held70; edit draw→40 leaves40/60; delete restores80/100. No-invoice receipt without hold is refused; with hold it is banked separately (R group).
 
 The spent-excess control has the same documented pending-payment diagnostic as R: exactly one unlinked payment totaling20, severity low, until its next statement. This does not indicate a balance mismatch.
+
+
+H2 aging update: current billed balance remains the same signed B oracle, but carried debt keeps its original obligation age. Old helpers that assumed all B was current now assert bucket conservation; dedicated [H2 oracles](H2-receipts-and-aging.md) independently assert each original-age bucket, both cutoffs, two rollovers, receipt credit and full reversal. No monetary or refusal coverage was removed.

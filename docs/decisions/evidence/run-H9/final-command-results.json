@@ -1,0 +1,184 @@
+[
+  {
+    "step": "unit",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "--recursive",
+      "--exclude",
+      "test/integration/**",
+      "test"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 90.39,
+    "mocha_passing": 1232,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "ordinary-integrations",
+    "command": [
+      "python3",
+      "/tmp/h9-regression.py"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {},
+    "exit": 0,
+    "seconds": 128.37,
+    "mocha_passing": 1144,
+    "mocha_failing": 0,
+    "mocha_pending": 0,
+    "files": 41
+  },
+  {
+    "step": "scenarios",
+    "command": [
+      "npm",
+      "run",
+      "-s",
+      "test:scenarios"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {},
+    "exit": 0,
+    "seconds": 505.32,
+    "mocha_passing": 2324,
+    "mocha_failing": 0,
+    "mocha_pending": 0,
+    "files": 58
+  },
+  {
+    "step": "cleanroom",
+    "command": [
+      "npm",
+      "run",
+      "-s",
+      "test:cleanroom"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {},
+    "exit": 0,
+    "seconds": 9.4,
+    "mocha_passing": 18,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "lambda",
+    "command": [
+      "python3",
+      "-m",
+      "pytest",
+      "-q",
+      "tests"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Lambdas/Process_Payment_Images",
+    "environment": {},
+    "exit": 0,
+    "seconds": 1.08,
+    "mocha_passing": 0,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "frontend-jest",
+    "command": [
+      "node_modules/.bin/react-scripts",
+      "test",
+      "--watchAll=false"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend",
+    "environment": {
+      "CI": "true"
+    },
+    "exit": 0,
+    "seconds": 16.3,
+    "mocha_passing": 0,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend",
+    "environment": {
+      "CI": "true",
+      "NODE_OPTIONS": "--max-old-space-size=8192"
+    },
+    "exit": 0,
+    "seconds": 9.75,
+    "mocha_passing": 0,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "playwright",
+    "command": [
+      "npx",
+      "playwright",
+      "test",
+      "--workers=1"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e",
+    "environment": {
+      "NODE_OPTIONS": "--max-old-space-size=8192",
+      "PLAYWRIGHT_BROWSERS_PATH": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend/e2e/.browsers",
+      "PW_TEST_CONNECT_WS_ENDPOINT": "ws://127.0.0.1:3334/"
+    },
+    "exit": 0,
+    "seconds": 1212.36,
+    "mocha_passing": 0,
+    "mocha_failing": 0,
+    "mocha_pending": 0,
+    "stats": {
+      "startTime": "2026-09-27T04:00:32.444Z",
+      "duration": 1211738.168,
+      "expected": 269,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  {
+    "step": "drift",
+    "command": [
+      "node",
+      "scripts/drift-check.js",
+      "/tmp/drift.json"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local",
+      "DATABASE_NAME": "ds2_local",
+      "PGOPTIONS": "-c default_transaction_read_only=on"
+    },
+    "exit": 0,
+    "seconds": 38.71,
+    "mocha_passing": 0,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "protected-data",
+    "command": [
+      "node",
+      "docs/decisions/evidence/run-H9/verify-protected.js"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {},
+    "exit": 0,
+    "seconds": 15.34,
+    "mocha_passing": 0,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  }
+]

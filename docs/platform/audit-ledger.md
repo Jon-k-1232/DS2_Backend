@@ -1,5 +1,7 @@
 # Audit Record: deterministic customer history
 
+**H6 navigation:** Clients → Audit Record: `/clients/:customerId/auditRecord`, next to AI Audit with its distinct existing role guard. Financial/audit behavior is unchanged. [Route/permission and bookmark rules](workspace-navigation.md).
+
 Owner decision 6 is implemented separately from the existing AI Audit reconciliation. No model supplies this record, its balances, attribution, verification or PDF. The client profile's **Audit Record** tab is available to **Admin and Super Admin only**. Managers, legacy Owners and ordinary users cannot see the tab or call its API. `AuditRecordProtectedAccess.js` documents the guard; the backend independently checks the role and account. Super Admin never bypasses tenant scope.
 
 Draft invoices remain editable and write nothing to the ledger. **Finalize means sent and locked.** The existing narrow bounced-check exception permits a compensating reversal, not edits to the original issued evidence.
@@ -87,3 +89,33 @@ These controls do not prevent a database owner/superuser from disabling triggers
 ## Verification
 
 `test/scripts/migration-026.spec.js` covers rerun preservation, trigger capture, actor-name snapshots, rollback/concurrency, forbidden edits and tampering with the trigger disabled only in disposable ds2_clean. `scenario-lifecycle-18-audit-record` (32 cases) covers hand-calculated work/retainer/write-off/payment/finalize/reversal/duplicate balances, every API role/tenant/validation/not-found/failure branch, stored hashes, PDF content, immutable metadata and identical reopening. Shared HTTP/scenario helpers verify captured event actors across existing route suites. Frontend Jest covers permission, profile-tab placement, Phoenix time, changes, filters, pagination, printing/reopening, verification failures and stale customer responses. Run 5 added database-to-presentation/PDF completeness checks, no-JSON/no-table-name assertions, a six-page client limit, both print types, source descriptors, archive corruption/identity/anchor failures and unchanged-data assertions. Run 6 replaces only the one-client-line-per-change assertion with exact individual/summary coverage, checks the sample's 11 + 15 + 2 archived copies, retains full evidence itemization, and adds issuance/revision/reconstruction/unknown-kind/noncontiguous-number and plain-verification tests. Full counts and every-page visual review are in [run 6 results](../decisions/2026-09-25-run-6-results.md); [run 5 results](../decisions/2026-09-25-run-5-results.md) remain historical evidence.
+
+## H1 business scope (2026-09-26)
+
+Every H1 entity, alias, sequence, attribution, review/resolution, opening position/allocation/link, transfer and financial request write uses capture/integrity triggers. Human mutations carry the session actor and reason; migration/system sources are explicit. `audit_events.entity` still means record kind; `billing_entity_id` is the business dimension. Audit Record always verifies the complete account chain, then filters presentation by business while retaining company-setting events and transfer counterparts. Saved print records retain their entity scope; all original before/after payloads remain exact.
+
+[Business entity contracts and rules](../platform/billing-entities.md) and [H1 results](../decisions/2026-09-26-run-H1-results.md) supersede earlier account-wide scope descriptions.
+
+
+## H2 update — 2026-09-26
+
+Migrations037–041 audit every amendment, legacy scope, derivation, obligation, receipt, application, credit lot/event, receipt event and carrier insertion; all new evidence tables forbid update/delete/truncate. Statement membership includes six subledger financial record types. Client history labels these records in plain language, keeps their source links, and prevents receipt/application evidence from being counted again as ordinary cash. Current/replayed balance output includes held credit available and proposed statement balance. Corrected legacy scopes take precedence over old H1 tracker billing attribution. Automations retain system source and reason; full account hash verification is unchanged.
+
+
+## H3 update — 2026-09-26
+
+Migration042 adds capture, immutable update/delete/truncate guards and ownership guards for credit_memos, credit_memo_lines, credit_memo_reversals, invoice_voids, rebill_links, client_refunds and correction_postings. Session actor/reason is retained. Audit Record replay includes these tables; corrections and money returned have human labels. No account-1 backfill is performed.
+
+[Correction contracts](../ledger/invoice-corrections.md) and [H3 results](../decisions/2026-09-26-run-H3-results.md).
+
+## H4 recurring evidence
+
+Migration043 attaches capture, ownership and truncate guards to `recurring_plan_cutovers`, `recurring_charge_occurrences` and `recurring_occurrence_events`. Cutovers/events are immutable; occurrence snapshots/identity are fixed and generated state/version changes are guarded. All three are included in readable Audit Record labels and replay; issued occurrences/events join frozen statement membership. Automatic generation is system-attributed with `automation/recurring/{prepare,finalize,catch-up,scheduler}`. Human plan/edit/skip decisions carry the session actor and reason. The migration source is `migration/043.recurring_billing`; it records eight unchanged-fee plans and cutover evidence, never an invented fee. See [recurring billing](../work/recurring-billing.md).
+
+## H5 cost evidence
+
+`legacy_work_cost_estimates` is captured by the append-only ledger and registered in Audit Record as “Historical labor cost estimate.” Migration estimates carry system actor, `migration/045.work_cost_snapshots` source and an explicit estimate reason. New transaction/tracker provenance is part of the existing source-row audit payload. Reasoned employee reassignment records the session actor and decision reason; later staff-rate changes do not rewrite captured cost. [H5 reporting rules](../invoicing/analytics.md).
+
+## H10 read optimization and lock boundary
+
+Account-wide reporting uses two joined views under `billing_reads`. The query context selects them only for nonlocking scoped reads. `FOR UPDATE`, `FOR NO KEY UPDATE`, `FOR SHARE` and `FOR KEY SHARE` retain the original single-base-table scoped views; writes always resolve to public. Actor, reason/source, correlation, account-chain advisory locks and every audit trigger are unchanged.048/049 change no financial/audit rows. Physical row-contention tests and the full lifecycle regression verify that batching did not weaken locks or capture. See [H10 results](../decisions/2026-09-26-run-H10-results.md).

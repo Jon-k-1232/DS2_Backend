@@ -1,0 +1,10 @@
+{
+  "finding": "The API fixture used UTC calendar date after UTC midnight instead of the displayed Phoenix business date. The backend correctly refused a future receipt before the stale-screen assertion.",
+  "fixture_date": "2026-09-27",
+  "displayed_business_date": "2026-09-26",
+  "response": {
+    "status": 400,
+    "message": "The date cannot be in the future."
+  },
+  "fix": "Use the Payment date input value for the concurrent operator request; retain every stale/no-write/refreshed-balance assertion."
+}

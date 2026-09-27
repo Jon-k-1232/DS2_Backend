@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Create invoices",
+    "route": "/billing/create",
+    "interactiveMs": 2632,
+    "blobBytes": 93746515,
+    "calls": [
+      {
+        "url": "/notifications/1/21/unread-count",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/initialData/initialBlob/1/21",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "name": "Enter time",
+    "route": "/work/entries?entry=time",
+    "interactiveMs": 2792,
+    "blobBytes": 93746515,
+    "calls": [
+      {
+        "url": "/notifications/1/21/unread-count",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/transactions/getTransactions/1/21",
+        "status": 200
+      },
+      {
+        "url": "/transactions/getTransactions/1/21",
+        "status": 200
+      },
+      {
+        "url": "/initialData/initialBlob/1/21",
+        "status": 200
+      },
+      {
+        "url": "/transactions/getTransactions/1/21",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "name": "Receive payment",
+    "route": "/payments/receive",
+    "interactiveMs": 2608,
+    "blobBytes": 93746515,
+    "calls": [
+      {
+        "url": "/notifications/1/21/unread-count",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      },
+      {
+        "url": "/initialData/initialBlob/1/21",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "name": "Jobs",
+    "route": "/work/jobs",
+    "interactiveMs": 2757,
+    "blobBytes": 93746515,
+    "calls": [
+      {
+        "url": "/notifications/1/21/unread-count",
+        "status": 200
+      },
+      {
+        "url": "/initialData/initialBlob/1/21",
+        "status": 200
+      },
+      {
+        "url": "/billing-entities",
+        "status": 200
+      }
+    ]
+  }
+]

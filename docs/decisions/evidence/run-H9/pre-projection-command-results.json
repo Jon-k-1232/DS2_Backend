@@ -1,0 +1,123 @@
+[
+  {
+    "step": "unit",
+    "command": [
+      "node_modules/.bin/mocha",
+      "--require",
+      "test/setup.js",
+      "--recursive",
+      "--exclude",
+      "test/integration/**",
+      "test"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {
+      "DS2_ENV_FILE": ".env.local"
+    },
+    "exit": 0,
+    "seconds": 90.54,
+    "mocha_passing": 1232,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "ordinary-integrations",
+    "command": [
+      "python3",
+      "/tmp/h9-regression.py"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {},
+    "exit": 0,
+    "seconds": 125.44,
+    "mocha_passing": 1143,
+    "mocha_failing": 0,
+    "mocha_pending": 0,
+    "files": 41
+  },
+  {
+    "step": "scenarios",
+    "command": [
+      "npm",
+      "run",
+      "-s",
+      "test:scenarios"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {},
+    "exit": 0,
+    "seconds": 525.21,
+    "mocha_passing": 2301,
+    "mocha_failing": 0,
+    "mocha_pending": 0,
+    "files": 58
+  },
+  {
+    "step": "cleanroom",
+    "command": [
+      "npm",
+      "run",
+      "-s",
+      "test:cleanroom"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Backend",
+    "environment": {},
+    "exit": 0,
+    "seconds": 9.45,
+    "mocha_passing": 18,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "lambda",
+    "command": [
+      "python3",
+      "-m",
+      "pytest",
+      "-q",
+      "tests"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Lambdas/Process_Payment_Images",
+    "environment": {},
+    "exit": 0,
+    "seconds": 1.07,
+    "mocha_passing": 0,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "frontend-jest",
+    "command": [
+      "node_modules/.bin/react-scripts",
+      "test",
+      "--watchAll=false"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend",
+    "environment": {
+      "CI": "true"
+    },
+    "exit": 0,
+    "seconds": 17.19,
+    "mocha_passing": 0,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  },
+  {
+    "step": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "cwd": "/Users/jonkimmel/Desktop/Code/JKA_stuff/DS2/DS2_Frontend",
+    "environment": {
+      "CI": "true",
+      "NODE_OPTIONS": "--max-old-space-size=8192"
+    },
+    "exit": 0,
+    "seconds": 9.65,
+    "mocha_passing": 0,
+    "mocha_failing": 0,
+    "mocha_pending": 0
+  }
+]

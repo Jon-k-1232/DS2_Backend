@@ -16,3 +16,6 @@ Story: work $100; statement 00001 = (0,100,0,0,0,100); receipt $40 creates a $60
 | C06b unissued work quantity1→1.2, then total override110 | Accepted; 120 then110; family updates; no invoice |
 
 Retainer-backed and internal/nonbillable controls remain. `cascade-edit-recompute.integration.spec.js` retains detailed unissued-chain delta/negative-balance/fault coverage. Scenario F now injects an actual failure in an **unissued** cascade write; a sent rejection is not counted as reaching an injected downstream failure. Each refusal checks unchanged database state and the three hand-computed balances.
+
+
+H2 aging update: current billed balance remains the same signed B oracle, but carried debt keeps its original obligation age. Old helpers that assumed all B was current now assert bucket conservation; dedicated [H2 oracles](H2-receipts-and-aging.md) independently assert each original-age bucket, both cutoffs, two rollovers, receipt credit and full reversal. No monetary or refusal coverage was removed.

@@ -1,5 +1,17 @@
 # DS2 industry-standard assessment: accounts receivable and time & billing
 
+H5 implementation update (2026-09-26): [analytics v2](../invoicing/analytics.md) now separates work/WIP, issued billing, applied receipts, cash and corrections, with captured labor cost and immutable labeled historical estimates. Entity reporting distinguishes worked-for from billed-by; the year-end packet uses requested cutoffs. [H5 results](../decisions/2026-09-26-run-H5-results.md) contains local acceptance evidence. The assessment body below remains the historical review, not a description of current H5 reporting.
+
+H4 implementation update (2026-09-26): the recurring gap below is now addressed locally by [periodic charge preparation, cutover and editable pending fees](../work/recurring-billing.md). The assessment body remains the historical read-only findings; it is not evidence of the current H4 behavior. Owner exclusions (approvals/period close, collections and online payment) remain in force. [H4 results](../decisions/2026-09-26-run-H4-results.md).
+
+
+**Follow-up, 2026-09-26:** H0 implements the email and scheduler switches with suppression/outbox and local regression; see [H0 results](../decisions/2026-09-26-run-H0-results.md). The [owner's integrated round-two design](../decisions/2026-09-26-owner-requests-2.md) governs which other recommendations will be built. This assessment below remains the dated pre-H0 evidence, not a current claim that the sender lacks a guard. Bank/QuickBooks connections, online payments, collections, period close/approvals and new interest behavior are outside the owner's approved scope.
+
+
+**H1 follow-up, 2026-09-26:** Business entities, separate statements/letterheads/numbering, per-business balances and filters, exact tracker mapping/review, preserved legacy routing and admin-only credit transfers are implemented locally. See [H1 results](../decisions/2026-09-26-run-H1-results.md) and the [cutover report](../decisions/evidence/run-H1/account1-cutover-report.json). Historical unresolved work remains held for assignment; original financial rows are unchanged. True aging/receipt allocation and analytics definition changes remain H2/H5 work. This dated assessment is not a current claim that DS2 lacks a business dimension.
+
+**H2 follow-up, 2026-09-26:** The H1 legacy split/hold is superseded: original B/U/P and held funds stay together in the default business, with zero per-client drift and zero legacy hold. Original-obligation aging, one-receipt FIFO applications, held credit/automatic use, whole-receipt bounce, receipt duplicate review, and admin-only receipt corrections/transfers are implemented locally. See [H2 results](../decisions/2026-09-26-run-H2-results.md) for tests, immutable derivation evidence and the explicit compatibility boundary for old entry/import interfaces. Analytics/cost-rate corrections remain H5; other correction features/permission retrofits remain H3. The dated findings below are preserved as the original assessment.
+
 Prepared for Jon Kimmel • 25 September 2026 • Read-only assessment
 
 ## 1. Executive summary

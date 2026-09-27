@@ -1,0 +1,95 @@
+{
+  "basis": "Explicit inventory of files edited or added during H7; no Git used",
+  "backend_runtime": 6,
+  "test_files": 9,
+  "frontend_changes": 4,
+  "migration_changes": 0,
+  "files": [
+    {
+      "path": "src/utils/ledgerAction.js",
+      "sha256": "591e9b1bfadd30af506dee4279cc71fb20321739bd26e9266f7cade0196126b1"
+    },
+    {
+      "path": "src/endpoints/payments/receipt-values.js",
+      "sha256": "67b829834a5e85946015fa558fed4b120f2dbfd9621ba294c0e8fce9f77079a5"
+    },
+    {
+      "path": "src/endpoints/payments/receipts-service.js",
+      "sha256": "13bd459b8aa2bff334971782a95cdb0d37b6348ed1560a691720aff2500aeb10"
+    },
+    {
+      "path": "src/endpoints/corrections/corrections-service.js",
+      "sha256": "05fc2ce7bf635ec1b06b7d239d57886b6627dffc76f1f8c4b3eec5872fb29d50"
+    },
+    {
+      "path": "src/endpoints/corrections/void-rebill.js",
+      "sha256": "9b061a78f23fb10d79e5f77066564b0dc4075bb36d562f85f328102f37ed4279"
+    },
+    {
+      "path": "src/endpoints/analytics/reporting-model.js",
+      "sha256": "33aed59ca5bc00c1d668880397d5da55ba80cc9c18873a8cb84042d47ebf1b58"
+    },
+    {
+      "path": "test/endpoints/analytics/reporting-model.spec.js",
+      "sha256": "e552d80ae518f4b90731bfe47d267f6ca00eaa60df70341af383c26abb502af8"
+    },
+    {
+      "path": "test/integration/_round2-routes.js",
+      "sha256": "b3dfc29e9413c0e6ebca8eadf00fceb374d288da6ec113d7c205bb8284014778"
+    },
+    {
+      "path": "test/integration/path-matrix-H7-boundaries.integration.spec.js",
+      "sha256": "2d94d1cb101b3f18f72f7a241db045264b3394e0fd941e33b7ef7fce1e091674"
+    },
+    {
+      "path": "test/integration/path-matrix-H7-receipt-transitions.integration.spec.js",
+      "sha256": "9222a2b030b2e4870e4557302cb67aa59fc6eef11ea109f79187bd0a110c204f"
+    },
+    {
+      "path": "test/integration/path-matrix-H7-round2-guards.integration.spec.js",
+      "sha256": "6db64da2c7005428526e0082ec8d3808024e99d5706ffc2d6d062a9270caa3b8"
+    },
+    {
+      "path": "test/integration/scenario-H7-combined.integration.spec.js",
+      "sha256": "fe13a776cbcc937ed06df25d60a56c4b4631cc9495d19ba45cef87ec4df89dcb"
+    },
+    {
+      "path": "../DS2_Frontend/src/Pages/Customer/CustomerForms/AddCustomer/NewCustomer.js",
+      "sha256": "1ed8957f43bb07cd7dd294ff30f5cbd963d0875120882a24cd214d66c4eb0b7c"
+    },
+    {
+      "path": "../DS2_Frontend/src/Pages/Customer/CustomerForms/AddCustomer/NewCustomer.test.js",
+      "sha256": "0690928473b1654dd8a3a56394678c3b9a7ff9bb5bcd8ca7efc74b730fdee43e"
+    },
+    {
+      "path": "../DS2_Frontend/e2e/tests/customers.spec.js",
+      "sha256": "7d6fc6b1dd3b7893923b983aee5d3269e2e1f47303eb1a4c9d7f70bcba6af9df"
+    },
+    {
+      "path": "../DS2_Frontend/e2e/tests/receive-payment.spec.js",
+      "sha256": "0afbd12243bef436192cb09e1b778cc037cca9691f886e8cef8b1197f0852b6c"
+    }
+  ],
+  "frontend_runtime": 1,
+  "documentation_paths": [
+    "README.md",
+    "docs/README.md",
+    "docs/scenarios/README.md",
+    "docs/scenarios/path-matrix.md",
+    "docs/scenarios/round2-path-matrix.md",
+    "docs/scenarios/H7-combined-lifecycle.md",
+    "docs/scenarios/H5-honest-analytics.md",
+    "docs/decisions/2026-09-26-owner-requests-2.md",
+    "docs/ledger/receipts-and-obligations.md",
+    "docs/ledger/invoice-corrections.md",
+    "docs/invoicing/analytics.md",
+    "docs/platform/operations.md",
+    "docs/scenarios/RESULTS-PASS5.md",
+    "docs/decisions/2026-09-26-run-H7-results.md",
+    "test/COVERAGE_MATRIX.md",
+    "docs/work/customers.md",
+    "docs/scenarios/ui-mistakes.md",
+    "scripts/review-2026-09/FINAL_REPORT.md",
+    "../MEMORY.md"
+  ]
+}
